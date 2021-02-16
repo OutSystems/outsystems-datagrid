@@ -1,0 +1,896 @@
+:root {
+    /* Data grid background */
+    --datagrid-background: var(--color-neutral-0);
+
+    /* Data grid Buttons */
+    --datagrid-button-padding: 7px;
+
+    /* Data grid Columns */
+    --datagrid-columns-border-color: #CCCDD0;
+    --datagrid-columns-border-top: 10px solid var(--datagrid-columns-border-color);
+    --datagrid-columns-subgroup-border-top: 5px solid var(--datagrid-columns-border-color);
+
+    /* Data grid outer borders */
+    --datagrid-border: 1px solid rgba(0, 0, 0, 0.2);
+    --datagrid-border-radius: 4px;
+    --datagrid-border-primary: 1px solid var(--color-primary);
+    --datagrid-border-neutral: 1px solid var(--color-neutral-5);
+
+    /* Data grid text color */
+    --datagrid-color: black;
+
+    /* Data grid header cell customization */
+    --datagrid-header-cell-background: var(--color-neutral-0);
+    --datagrid-header-cell-color: var(--color-neutral-9);
+    --datagrid-header-cell-font-weight: var(--font-semi-bold);
+    --datagrid-header-cell-margin-top: 4px;
+    --datagrid-header-cell-padding-bottom: 16px;
+
+    /* Data grid cells */
+    --datagrid-cell-background: var(--color-neutral-0);
+    --datagrid-cell-background-alt: var(--color-neutral-1);
+    --datagrid-cell-border-right: 1px solid rgba(0, 0, 0, 0.2);
+    --datagrid-cell-border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    --datagrid-cell-color: var(--color-neutral-9);
+    --datagrid-cell-padding: 4px 24px 3px 24px;
+
+    /* Select and multi select of cells */
+    --datagrid-cell-selected-background: var(--color-primary-selected);
+    --datagrid-cell-selected-color: var(--datagrid-color);
+    --datagrid-cell-multiselected-background: var(--color-primary-selected);
+    --datagrid-cell-multiselected-color: var(--datagrid-color);
+
+    /* Data grid ColumnPicker */
+    --datagrid-column-picker-box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    --datagrid-column-picker-padding: 7px;
+    --datagrid-column-picker-item-hover-background: rgba(0,0,0,.05);
+
+    /* Data grid Filter */
+    --datagrid-filter-width: 250px;
+    --datagrid-filter-padding: 20px;
+    --datagrid-filter-font-size: var(--font-size-xs);
+    --datagrid-filter-input-font-size: var(--font-size-s);
+    --datagrid-filter-margin: 4px;
+    --datagrid-filter-list-item-padding: 4px;
+    --datagrid-filter-input-padding: 10px 10px 10px 16px;
+    --datagrid-filter-input-size: 16px;
+
+    /* Data grid GroupPanel */
+    --datagrid-grouppanel-border: 1px dashed var(--color-neutral-5);
+    --datagrid-grouppanel-color: var(--color-neutral-8);
+    --datagrid-grouppanel-font-size: var(--font-size-h4);
+    --datagrid-grouppanel-font-weight: var(--font-regular);
+    --datagrid-grouppanel-min-height: 72px;
+
+    /* Data grid Contextual Menu */
+    --datagrid-menu-option-padding: 10px 15px; 
+
+    /* Data grid Pagination */
+    --datagrid-pagination-button-background: var(--color-neutral-0);
+    --datagrid-pagination-button-border: 1px solid var(--color-neutral-5);
+    --datagrid-pagination-button-border-radius: var(--border-radius-soft);
+    --datagrid-pagination-button-height: var(--space-l);
+    --datagrid-pagination-button-margin-left: var(--space-s);
+    --datagrid-pagination-button-width: var(--space-l);
+    --datagrid-pagination-ellipsis-color: var(--color-neutral-8);
+    --datagrid-pagination-ellipsis-margin-left: var(--space-s);
+    --datagrid-pagination-margin-top: var(--space-m);
+    --datagrid-pagination-records-color: var(--color-neutral-7);
+    --datagrid-pagination-selected-page-color: var(--color-primary);
+    --datagrid-pagination-selected-page-border: 1px solid var(--color-primary);
+  
+    /* Data grid Sort */
+    --datagrid-sort-icon-color: var(--color-primary);
+    --datagrid-sort-index-color: var(--color-neutral-9);
+    --datagrid-sort-index-font-weight: var(--font-semi-bold);
+    --datagrid-sort-index-font-size: var(--font-size-s);
+}
+
+/**** OUTSYSTEMSUI OVERRIDES ****/
+.wj-dropdown-panel [type="checkbox"]:not(.checkbox),
+.datagrid-container [type="checkbox"]:not(.checkbox),
+.column-picker [type="checkbox"]:not(.checkbox) {
+    appearance: checkbox;
+    -moz-appearance: checkbox;
+    -webkit-appearance: checkbox;
+}  
+
+.wj-dropdown-panel [type="radio"]:not(.radio),
+.datagrid-container [type="radio"]:not(.radio),
+.column-picker [type="radio"]:not(.radio) {
+    appearance: radio;
+    -moz-appearance: radio;
+    -webkit-appearance: radio;
+} 
+
+/**** WIJMO STYLE CLASSES ****/
+
+.wj-content {
+    border: var(--datagrid-border);
+}
+
+.wj-control {
+    background: var(--datagrid-background);
+    color: var(--datagrid-color);
+}
+
+.wj-cell.wj-header {
+    background: var(--datagrid-header-cell-background);
+    color: var(--datagrid-header-cell-color);
+    font-weight: var(--datagrid-header-cell-font-weight);
+}
+
+.wj-cell.wj-header.wj-sort-asc, .wj-cell.wj-header.wj-sort-desc {
+    color: var(--color-primary);
+}
+
+.wj-header {
+    background: var(--datagrid-header-cell-background);
+    color: var(--datagrid-header-cell-color);
+    font-weight: var(--datagrid-header-cell-font-weight);
+}
+
+.wj-cell {
+    background: var(--datagrid-cell-background);
+    border-bottom: var(--datagrid-cell-border-bottom);
+    border-right: var(--datagrid-cell-border-right);
+    color: var(--datagrid-cell-color);
+    padding: 14px 8px 0px 8px;
+}
+
+.wj-flexgrid .wj-grid-editor {
+    height: auto;
+}
+
+.wj-colheaders > .wj-row > .wj-cell::before,
+.wj-flexgrid .wj-colheaders .wj-header.wj-colgroup.wj-cell::before {
+    content: '';
+    display: block;
+    margin: 0 auto calc(var(--datagrid-header-cell-padding-bottom) * -1);
+    min-height: 100%;
+}  
+
+.wj-colheaders > .wj-row > .wj-cell,
+.wj-flexgrid .wj-colheaders .wj-header.wj-colgroup.wj-cell {
+    display: block;
+    padding-bottom: var(--datagrid-header-cell-padding-bottom);
+}  
+
+.wj-cell.wj-header.wj-colgroup .wj-elem-collapse{
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+
+.wj-cell.wj-header.wj-colgroup .wj-elem-collapse .wj-glyph-plus,
+.wj-cell.wj-header.wj-colgroup .wj-elem-collapse .wj-glyph-plus:after,
+.wj-cell.wj-header.wj-colgroup .wj-elem-collapse .wj-glyph-minus,
+.wj-cell.wj-header.wj-colgroup .wj-elem-collapse .wj-glyph-minus:after{
+    border: none;
+    height: 14px;
+    position: relative;
+    top: 2px;
+    width: 14px;
+}
+
+.wj-cell.wj-header.wj-colgroup .wj-elem-collapse .wj-glyph-plus{
+    background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0IiB2aWV3Qm94PSIwIDAgMTQuNCAxNC40IiB3aWR0aD0iMTQuNCIgaGVpZ2h0PSIxNC40Ij48ZGVmcz48cGF0aCBkPSJNMTEuNTcgNy4zOUMxMS41NyA3LjQ5IDExLjU0IDcuNTYgMTEuNDggNy42MkMxMS40MiA3LjY4IDExLjM0IDcuNzEgMTEuMjUgNy43MUMxMS4wMSA3LjcxIDkuODQgNy43MSA3LjcxIDcuNzFDNy43MSA5Ljg0IDcuNzEgMTEuMDEgNy43MSAxMS4yNUM3LjcxIDExLjM0IDcuNjggMTEuNDIgNy42MiAxMS40OEM3LjU2IDExLjU0IDcuNDkgMTEuNTcgNy4zOSAxMS41N0M3LjMzIDExLjU3IDYuODEgMTEuNTcgNi43NSAxMS41N0M2LjY2IDExLjU3IDYuNTggMTEuNTQgNi41MiAxMS40OEM2LjQ2IDExLjQyIDYuNDMgMTEuMzQgNi40MyAxMS4yNUM2LjQzIDExLjAxIDYuNDMgOS44NCA2LjQzIDcuNzFDNC4zMSA3LjcxIDMuMTMgNy43MSAyLjg5IDcuNzFDMi44IDcuNzEgMi43MiA3LjY4IDIuNjYgNy42MkMyLjYgNy41NiAyLjU3IDcuNDkgMi41NyA3LjM5QzIuNTcgNy4zMyAyLjU3IDYuODEgMi41NyA2Ljc1QzIuNTcgNi42NiAyLjYgNi41OCAyLjY2IDYuNTJDMi43MiA2LjQ2IDIuOCA2LjQzIDIuODkgNi40M0MzLjEzIDYuNDMgNC4zMSA2LjQzIDYuNDMgNi40M0M2LjQzIDQuMzEgNi40MyAzLjEzIDYuNDMgMi44OUM2LjQzIDIuOCA2LjQ2IDIuNzIgNi41MiAyLjY2QzYuNTggMi42IDYuNjYgMi41NyA2Ljc1IDIuNTdDNi44MSAyLjU3IDcuMzMgMi41NyA3LjM5IDIuNTdDNy40OSAyLjU3IDcuNTYgMi42IDcuNjIgMi42NkM3LjY4IDIuNzIgNy43MSAyLjggNy43MSAyLjg5QzcuNzEgMy4xMyA3LjcxIDQuMzEgNy43MSA2LjQzQzkuODQgNi40MyAxMS4wMSA2LjQzIDExLjI1IDYuNDNDMTEuMzQgNi40MyAxMS40MiA2LjQ2IDExLjQ4IDYuNTJDMTEuNTQgNi41OCAxMS41NyA2LjY2IDExLjU3IDYuNzVDMTEuNTcgNi44OCAxMS41NyA3LjMzIDExLjU3IDcuMzlaTTEyLjg2IDIuODlDMTIuODYgMi40NSAxMi43IDIuMDcgMTIuMzkgMS43NkMxMi4wNyAxLjQ0IDExLjY5IDEuMjkgMTEuMjUgMS4yOUMxMC40MSAxLjI5IDMuNzMgMS4yOSAyLjg5IDEuMjlDMi40NSAxLjI5IDIuMDcgMS40NCAxLjc2IDEuNzZDMS40NCAyLjA3IDEuMjkgMi40NSAxLjI5IDIuODlDMS4yOSAzLjczIDEuMjkgMTAuNDEgMS4yOSAxMS4yNUMxLjI5IDExLjY5IDEuNDQgMTIuMDcgMS43NiAxMi4zOUMyLjA3IDEyLjcgMi40NSAxMi44NiAyLjg5IDEyLjg2QzMuNzMgMTIuODYgMTAuNDEgMTIuODYgMTEuMjUgMTIuODZDMTEuNjkgMTIuODYgMTIuMDcgMTIuNyAxMi4zOSAxMi4zOUMxMi43IDEyLjA3IDEyLjg2IDExLjY5IDEyLjg2IDExLjI1QzEyLjg2IDkuNTggMTIuODYgMy43MyAxMi44NiAyLjg5Wk0xNC4xNCAxMS4yNUMxNC4xNCAxMi4wNSAxMy44NiAxMi43MyAxMy4yOSAxMy4yOUMxMi43MyAxMy44NiAxMi4wNSAxNC4xNCAxMS4yNSAxNC4xNEMxMC40MSAxNC4xNCAzLjczIDE0LjE0IDIuODkgMTQuMTRDMi4xIDE0LjE0IDEuNDEgMTMuODYgMC44NSAxMy4yOUMwLjI4IDEyLjczIDAgMTIuMDUgMCAxMS4yNUMwIDEwLjQxIDAgMy43MyAwIDIuODlDMCAyLjEgMC4yOCAxLjQxIDAuODUgMC44NUMxLjQxIDAuMjggMi4xIDAgMi44OSAwQzMuNzMgMCAxMC40MSAwIDExLjI1IDBDMTIuMDUgMCAxMi43MyAwLjI4IDEzLjI5IDAuODVDMTMuODYgMS40MSAxNC4xNCAyLjEgMTQuMTQgMi44OUMxNC4xNCA0LjU2IDE0LjE0IDEwLjQxIDE0LjE0IDExLjI1WiIgaWQ9ImVmcWIxYXQxQyI+PC9wYXRoPjwvZGVmcz48Zz48Zz48Zz48dXNlIHhsaW5rOmhyZWY9IiNlZnFiMWF0MUMiIG9wYWNpdHk9IjEiIGZpbGw9IiMxMDEyMTMiIGZpbGwtb3BhY2l0eT0iMSI+PC91c2U+PGc+PHVzZSB4bGluazpocmVmPSIjZWZxYjFhdDFDIiBvcGFjaXR5PSIxIiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMCI+PC91c2U+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPg==') center center no-repeat;
+}
+
+.wj-cell.wj-header.wj-colgroup .wj-elem-collapse .wj-glyph-minus{
+    background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0IiB2aWV3Qm94PSIwIDAgMTQuNCAxNC40IiB3aWR0aD0iMTQuNCIgaGVpZ2h0PSIxNC40Ij48ZGVmcz48cGF0aCBkPSJNMTEuNTcgNy4zOUMxMS41NyA3LjQ5IDExLjU0IDcuNTYgMTEuNDggNy42MkMxMS40MiA3LjY4IDExLjM0IDcuNzEgMTEuMjUgNy43MUMxMC40MSA3LjcxIDMuNzMgNy43MSAyLjg5IDcuNzFDMi44IDcuNzEgMi43MiA3LjY4IDIuNjYgNy42MkMyLjYgNy41NiAyLjU3IDcuNDkgMi41NyA3LjM5QzIuNTcgNy4zMyAyLjU3IDYuODEgMi41NyA2Ljc1QzIuNTcgNi42NiAyLjYgNi41OCAyLjY2IDYuNTJDMi43MiA2LjQ2IDIuOCA2LjQzIDIuODkgNi40M0MzLjczIDYuNDMgMTAuNDEgNi40MyAxMS4yNSA2LjQzQzExLjM0IDYuNDMgMTEuNDIgNi40NiAxMS40OCA2LjUyQzExLjU0IDYuNTggMTEuNTcgNi42NiAxMS41NyA2Ljc1QzExLjU3IDYuODggMTEuNTcgNy4zMyAxMS41NyA3LjM5Wk0xMi44NiAyLjg5QzEyLjg2IDIuNDUgMTIuNyAyLjA3IDEyLjM5IDEuNzZDMTIuMDcgMS40NCAxMS42OSAxLjI5IDExLjI1IDEuMjlDMTAuNDEgMS4yOSAzLjczIDEuMjkgMi44OSAxLjI5QzIuNDUgMS4yOSAyLjA3IDEuNDQgMS43NiAxLjc2QzEuNDQgMi4wNyAxLjI5IDIuNDUgMS4yOSAyLjg5QzEuMjkgMy43MyAxLjI5IDEwLjQxIDEuMjkgMTEuMjVDMS4yOSAxMS42OSAxLjQ0IDEyLjA3IDEuNzYgMTIuMzlDMi4wNyAxMi43IDIuNDUgMTIuODYgMi44OSAxMi44NkMzLjczIDEyLjg2IDEwLjQxIDEyLjg2IDExLjI1IDEyLjg2QzExLjY5IDEyLjg2IDEyLjA3IDEyLjcgMTIuMzkgMTIuMzlDMTIuNyAxMi4wNyAxMi44NiAxMS42OSAxMi44NiAxMS4yNUMxMi44NiA5LjU4IDEyLjg2IDMuNzMgMTIuODYgMi44OVpNMTQuMTQgMTEuMjVDMTQuMTQgMTIuMDUgMTMuODYgMTIuNzMgMTMuMjkgMTMuMjlDMTIuNzMgMTMuODYgMTIuMDUgMTQuMTQgMTEuMjUgMTQuMTRDMTAuNDEgMTQuMTQgMy43MyAxNC4xNCAyLjg5IDE0LjE0QzIuMSAxNC4xNCAxLjQxIDEzLjg2IDAuODUgMTMuMjlDMC4yOCAxMi43MyAwIDEyLjA1IDAgMTEuMjVDMCAxMC40MSAwIDMuNzMgMCAyLjg5QzAgMi4xIDAuMjggMS40MSAwLjg1IDAuODVDMS40MSAwLjI4IDIuMSAwIDIuODkgMEMzLjczIDAgMTAuNDEgMCAxMS4yNSAwQzEyLjA1IDAgMTIuNzMgMC4yOCAxMy4yOSAwLjg1QzEzLjg2IDEuNDEgMTQuMTQgMi4xIDE0LjE0IDIuODlDMTQuMTQgNC41NiAxNC4xNCAxMC40MSAxNC4xNCAxMS4yNVoiIGlkPSJjS3Rzdjg2ZFQiPjwvcGF0aD48L2RlZnM+PGc+PGc+PGc+PHVzZSB4bGluazpocmVmPSIjY0t0c3Y4NmRUIiBvcGFjaXR5PSIxIiBmaWxsPSIjMTAxMjEzIiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2NLdHN2ODZkVCIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PC9nPjwvZz48L3N2Zz4=') center center no-repeat;
+}
+
+.wj-cells .wj-cell.wj-state-selected {
+    background: var(--datagrid-cell-selected-background);
+    color: var(--datagrid-cell-selected-color);
+}
+
+.wj-state-selected {
+    background: var(--datagrid-cell-selected-background);
+    color: var(--datagrid-cell-selected-color);
+}
+
+.wj-cells .wj-cell.wj-state-multi-selected {
+    background: var(--datagrid-cell-multiselected-background);
+    color: var(--datagrid-cell-multiselected-color);
+}
+
+.wj-cell.wj-header.wj-state-multi-selected {
+    background: linear-gradient(var(--color-primary-selected), var(--color-primary-selected)),
+                linear-gradient(var(--datagrid-header-cell-background), var(--datagrid-header-cell-background));
+  }
+
+.wj-flexgrid .wj-colheaders .wj-header.wj-state-multi-selected {
+    border-bottom: var(--datagrid-cell-border-bottom);
+}
+
+.wj-flexgrid .wj-rowheaders .wj-header.wj-state-multi-selected {
+    border-right: var(--datagrid-cell-border-right);
+}
+
+.wj-cell.wj-state-active.wj-state-selected {
+    background: var(--color-neutral-0);
+    box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+
+.wj-cells .wj-cell[aria-selected="true"]:not(.wj-state-multi-selected) {
+    box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+
+.wj-cell.wj-alt {
+    background: var(--datagrid-cell-background-alt);
+}
+
+.wj-cells .wj-cell[aria-readonly="true"]:not(.wj-group) *:not(.wj-cell-maker) {
+    pointer-events: none;
+}
+
+.wj-cell.dirty-mark:before {
+    border: 5px solid transparent;
+    border-left-color: var(--color-neutral-8);
+    border-top-color: var(--color-neutral-8);;
+    content: "";
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+.wj-flexgrid .wj-colheaders .wj-header .wj-sort-index {
+    color: var(--datagrid-sort-index-color);
+    font-size: var(--datagrid-sort-index-font-size);
+    font-weight: var(--datagrid-sort-index-font-weight);
+}
+
+.wj-flexgrid .wj-colheaders .wj-header .wj-glyph-up, 
+.wj-flexgrid .wj-colheaders .wj-header .wj-glyph-down {
+    color: var(--datagrid-sort-icon-color);
+    font-size: 10px;
+    position: relative;
+    top:-1px;
+}
+
+.wj-flexgrid .wj-colheaders .wj-header .wj-glyph-up {
+    top:-2px;
+}
+
+.datagrid-container .wj-cell.wj-header .wj-elem-filter .wj-glyph-filter {
+    display: none;
+}
+
+.datagrid-container .wj-cell.wj-header .wj-elem-filter {
+    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTEiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMSAxMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik05Ljk5NTY4IDAuNDYxMUMxMC4wNzE2IDAuNjQ0MTM2IDEwLjA0MDMgMC44MDAzODYgOS45MDE5MyAwLjkyOTg1Mkw2LjYwMDU5IDQuMjMxMTlWOS4xOTk5NUM2LjYwMDU5IDkuMzg3NDUgNi41MTM1MyA5LjUxOTE1IDYuMzM5NDMgOS41OTUwNEM2LjI4MTM5IDkuNjE3MzYgNi4yMjU1OSA5LjYyODUyIDYuMTcyMDEgOS42Mjg1MkM2LjA1MTQ4IDkuNjI4NTIgNS45NTEwMyA5LjU4NjExIDUuODcwNjggOS41MDEyOUw0LjE1NjM5IDcuNzg3MDFDNC4wNzE1NyA3LjcwMjE5IDQuMDI5MTYgNy42MDE3NCA0LjAyOTE2IDcuNDg1NjdWNC4yMzEyTDAuNzI3ODE4IDAuOTI5ODY0QzAuNTg5NDI1IDAuODAwNCAwLjU1ODE3NSAwLjY0NDE0OSAwLjYzNDA2OCAwLjQ2MTExMkMwLjcwOTk2MSAwLjI4NzAwNSAwLjg0MTY1NyAwLjE5OTk1MSAxLjAyOTE2IDAuMTk5OTUxSDkuNjAwNkM5Ljc4ODEgMC4xOTk5NTEgOS45MTk4IDAuMjg3MDA1IDkuOTk1NjkgMC40NjExMTJMOS45OTU2OCAwLjQ2MTFaIiBmaWxsPSIjMTAxMjEzIi8+Cjwvc3ZnPgo=')  bottom right no-repeat;
+    height: 15px;
+    margin-top: 0px;
+    opacity: 0.3;
+    padding: 0;
+}
+
+.datagrid-container .wj-cell.wj-header.wj-filter-on .wj-elem-filter{
+    opacity: 0.9;
+}
+
+.wj-grouppanel,
+.datagrid-grouppanel {
+    border: var(--datagrid-grouppanel-border);
+    border-bottom: 0;
+    border-radius: var(--datagrid-border-radius) var(--datagrid-border-radius) 0 0;
+    color: var(--datagrid-grouppanel-color);
+    min-height: var(--datagrid-grouppanel-min-height);
+}
+
+.datagrid-grouppanel:after{
+    -servicestudio-content: "ⓘ You will be able to drag and drop columns in this container.";
+    -servicestudio-font-size: 15px;
+    -servicestudio-position: relative;
+    -servicestudio-padding: 20px;
+    -servicestudio-top: 25px;
+}
+
+.wj-grouppanel > div > *:first-child{
+    padding: 10px;
+}
+
+.wj-grouppanel .wj-groupmarker{
+    margin-top: 5px;
+}
+
+.wj-grouppanel .wj-groupmarker .wj-remove{
+    font-size: var(--datagrid-grouppanel-font-size);
+    font-weight: var(--datagrid-grouppanel-font-weight);
+    line-height: 0;
+    position: relative;
+    top: 2px;
+}
+
+.wj-listbox.column-picker {
+    box-shadow: var(--datagrid-column-picker-box-shadow);
+    max-height: 50%;
+    padding: var(--datagrid-column-picker-padding);
+}
+
+.wj-listbox.column-picker .wj-listbox-item > label {
+    display: block;
+    margin: 0 0 3px 0;
+}
+
+.wj-listbox.column-picker .wj-listbox-item.wj-state-selected
+{
+    background: var(--color-primary-selected);
+}
+
+.wj-listbox.column-picker .wj-listbox-item:hover {
+    background: var(--datagrid-column-picker-item-hover-background);
+}
+
+/**** DATAGRID STYLE CLASSES ****/
+
+* {
+    -servicestudio-box-sizing: border-box;
+}
+
+.datagrid-container {
+    height: 100%;
+    width: 100%;
+    -servicestudio-height: 100% !important;
+    -servicestudio-position: relative;
+}
+
+.datagrid-autogenerate {
+    border-radius: 0 0 var(--datagrid-border-radius) var(--datagrid-border-radius);
+    height: 100%;
+    position: relative;
+    
+    -servicestudio-background-image: url('data:image/png;base64,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');
+    -servicestudio-background-repeat: repeat-x top left;
+}
+
+.datagrid-autogenerate-runtime {
+    border-radius: 0 0 var(--datagrid-border-radius) var(--datagrid-border-radius);
+    -servicestudio-display: none!important;
+}
+
+/**** PAGINATION STYLE CLASSES ****/
+
+.datagrid-pagination {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--datagrid-pagination-margin-top);
+}
+
+.datagrid-pagination-records {
+    align-self: center;
+    color: var(--datagrid-pagination-records-color);
+    display: flex;
+}
+
+.datagrid-pagination-controller {
+    display: flex;
+}
+
+.datagrid-pagination-button {
+    align-items: center;
+    background: var(--datagrid-pagination-button-background);
+    border: var(--datagrid-pagination-button-border);
+    border-radius: var(--datagrid-pagination-button-border-radius);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    height: var(--datagrid-pagination-button-height);
+    margin-left: var(--datagrid-pagination-button-margin-left);
+    width: var(--datagrid-pagination-button-width);
+
+    -servicestudio-background: var(--datagrid-pagination-button-background);
+    -servicestudio-border: var(--datagrid-pagination-button-border);
+    -servicestudio-border-radius: var(--datagrid-pagination-button-border-radius);
+    -servicestudio-height: 32px;
+    -servicestudio-margin-left: var(--datagrid-pagination-button-margin-left);
+    -servicestudio-width: 32px;
+}
+
+.datagrid-pagination-selected-page {
+    border: var(--datagrid-pagination-selected-page-border);
+    color: var(--datagrid-pagination-selected-page-color);
+}
+
+.datagrid-pagination-ellipsis {
+    align-self: flex-end;
+    color: var(--datagrid-pagination-ellipsis-color);
+    margin-left: var(--datagrid-pagination-ellipsis-margin-left);
+}
+
+.datagrid-pagination-button-list {
+    -servicestudio-align-items: flex-start;
+    -servicestudio-display: flex;
+    -servicestudio-flex-direction: row;
+    -servicestudio-padding: 0px;
+}
+
+
+/**** SEARCH BLOCK STYLE CLASSES ****/
+
+.datagrid-search{
+    align-items: stretch;
+    display: flex;
+}
+
+.datagrid-search .input-search {
+    width: 100%;
+}
+
+.datagrid-search input[data-input] {
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    margin: 0;
+    width: 100%;
+
+    -servicestudio-width: 96%;
+}
+
+.datagrid-search .btn {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    margin: 0;
+    min-width: 30px;
+    width: 4%;
+}
+
+/***** COLUMNPICKER STYLE *****/
+.column-picker-icon {  
+    cursor: pointer;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    margin-top: var(--datagrid-header-cell-margin-top);
+}
+.column-picker-icon:before {
+    content: "\f0c9";
+}
+
+/****** FILTER STYLE ********/
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor {
+    font-size: var(--datagrid-filter-font-size);
+    padding: var(--datagrid-filter-padding);
+    width: var(--datagrid-filter-width);
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor label {
+    display: inline-block;
+    font-size: inherit;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-combobox {
+    border: var(--datagrid-border-primary);
+    font-size: var(--datagrid-filter-input-font-size);
+    margin-bottom: var(--datagrid-filter-margin);
+    margin-top: var(--datagrid-filter-margin);
+    transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-combobox:not(.wj-state-focus):not(.wj-state-focused) {
+    border: var(--datagrid-border-neutral); /* when the input is not focused, uses the normal border */
+    transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-control .wj-input-group .wj-form-control {
+    padding: var(--datagrid-filter-input-padding);
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-control .wj-input-group button span{
+    margin-top: 5px;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-combobox .wj-input-group-btn .wj-glyph-down {
+    display: none; /* removes the | from the top of the filter options */
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-combobox .wj-input-group-btn .wj-btn {
+    background: none; /* removes the default background from the dropdown button ▽ */
+    border: none; /* removes the default border from the dropdown button ▽ */
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-combobox .wj-input-group-btn .wj-btn:after {
+    /* replaces the default button from dropdown - collapsed */
+    border: var(--border-size-m) solid var(--color-neutral-7);
+    border-right: var(--border-size-none) !important;
+    border-top: var(--border-size-none) !important;
+    bottom: 0;
+    box-sizing: border-box;
+    content: '';
+    height: 8px;
+    left: auto;
+    pointer-events: none;
+    position: absolute;
+    right: 16px;
+    top: 15px;
+    transform: rotate(-45deg) translateY(0) translateX(0);
+    -webkit-transform: rotate(-45deg) translateY(0) translateX(0);
+    transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+    width: 8px;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-combobox:not(.wj-state-collapsed) .wj-input-group-btn .wj-btn:after {
+    /* replaces the default button from dropdown - expanded */
+    border: var(--border-size-m) solid var(--color-primary);
+    right: 16px;
+    top: 17px;
+    transform: rotate(135deg) translateY(0) translateX(0);
+    -webkit-transform: rotate(135deg) translateY(0) translateX(0);
+    transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-listbox{
+    display: block;
+    max-width: 100%;
+    overflow: auto;
+    width: 100%;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-listbox label input {
+    margin-bottom: 0px;
+    margin-top: var(--datagrid-filter-margin);
+    position: relative;
+    top: var(--datagrid-filter-margin);
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-listbox .wj-listbox-item {
+    padding: var(--datagrid-filter-list-item-padding);
+    white-space: nowrap;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-listbox .wj-listbox-item:hover,
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-listbox .wj-listbox-item.wj-state-selected {
+    background-color:transparent;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor label input[type="checkbox"],
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor label input[type="radio"] {
+    height: var(--datagrid-filter-input-size);
+    margin-right: var(--datagrid-filter-margin);
+    width: var(--datagrid-filter-input-size);
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor span:not(.wj-glyph-up):not(.wj-glyph-down):not(.wj-input-group-btn) {
+    position: relative;
+    top: -3px;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div > label > input {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div > .wj-btn:not(.wj-btn-default) {
+    background-color: var(--color-neutral-0);
+    border: var(--datagrid-border-primary);
+    box-sizing: content-box;
+    color: var(--color-primary);
+    font-size: var(--datagrid-filter-font-size);
+    font-weight: var(--font-regular);
+    line-height: 18px;
+    padding: var(--datagrid-button-padding) 0px;
+    text-align: center;
+    width: 100%;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div > .wj-btn:first-child {
+    /* Button Apply */
+    background-color: var(--color-primary);
+    color: var(--color-neutral-0);
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div > .wj-btn:hover {
+    filter: brightness(0.8);
+    -webkit-filter: brightness(0.8);
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor > div > div:last-child {
+    display: flex;
+    justify-content: center;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-valuefilter-editor {
+    margin-top: -6px;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-filtertype {
+    color: transparent;
+    display: flex;
+    flex-wrap: nowrap;
+    font-size: 10px;
+    justify-content:center;
+    margin-top: 5px;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-filtertype > * {
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    color: var(--datagrid-color) !important;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-filtertype > *:hover {
+    border-bottom: 2px solid var(--color-neutral-5);
+    text-decoration: none;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-filtertype .wj-state-disabled {
+    border-bottom: 2px solid var(--color-primary);
+    color: var(--datagrid-color);
+    opacity: 1;
+    width: 100%;
+}
+
+/***** PLACEHOLDERS STYLE *****/
+
+.datagrid-empty,
+.datagrid-loading {
+    align-items: center;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+
+    -servicestudio-align-items: start;
+    -servicestudio-flex-wrap: wrap;
+    -servicestudio-height: 20% !important;
+    -servicestudio-width: 100% !important;
+}
+
+.datagrid-empty:before,
+.datagrid-loading:before {
+    -servicestudio-background-color: #ccc;
+    -servicestudio-color: #333;
+    -servicestudio-font-size: 15px;
+    -servicestudio-padding: 10px;
+    -servicestudio-width: 100%;
+}
+
+.datagrid-loading {
+    background-color: rgba(239, 239, 239, 0.533);
+    -servicestudio-top: 60%;
+}
+
+.datagrid-loading:before{
+    -servicestudio-content: 'ⓘ The message below will be displayed while the grid loads for the end-user. You can click it to edit.';
+}
+
+.datagrid-empty{
+    top: 50%;
+    height: 50%;
+    transform: translateY(-50%);
+
+    -servicestudio-bottom: 0% !important;
+    -servicestudio-background-color: rgba(239, 239, 239, 0.533);
+    -servicestudio-top: 80% !important;
+    -servicestudio-transform: none;
+}
+
+.datagrid-empty:before{
+    -servicestudio-content: 'ⓘ The message below will be displayed when there\'s no data in the end-user grid. You can click it to edit.';
+}
+
+.datagrid-autogenerate-ss {
+    display: none;
+    -servicestudio-display: block;
+    -servicestudio-min-height: 150px /*to remove*/;
+}
+
+.datagrid-autogenerate-runtime {
+    -servicestudio-display: none!important;
+}
+
+/***** COLUMNS STYLE *****/
+
+.datagrid-column {
+    background-color: white;
+    border-right: var(--datagrid-cell-border-right);
+    border-bottom: var(--datagrid-cell-border-bottom);
+    display: inline-block;
+    font-size: 14px;
+    min-height: 100px;
+    min-width: 200px;
+    position: relative;
+    vertical-align: top;
+    width: 25%;
+}   
+
+.datagrid-column:first-of-type {
+    border-left: var(--datagrid-cell-border-right);
+}
+
+.datagrid-column .datagrid-column-header{
+    background-color: #F1F2F4;
+    border-bottom: 1px solid #E0E2E4;
+    border-top: var(--datagrid-columns-border-top);
+    color: var(--datagrid-header-cell-color);
+    display: flex;
+    font-weight: var(--datagrid-header-cell-font-weight);
+    padding: 7px 24px 7px;
+    position: relative;
+    width: 100%;
+    word-break: break-all; 
+}
+
+.datagrid-column .datagrid-column-content{
+    word-break: break-all; 
+}
+
+.datagrid-column-header span{
+    max-width: 50%;
+}
+
+.datagrid-column-group {
+    width: auto;
+}
+
+.datagrid-column-group .datagrid-column:not(.datagrid-column-group) {
+    width: 0px;
+}
+
+.datagrid-column.datagrid-column-group > .datagrid-column-header {
+    justify-content: center;
+}
+
+.datagrid-column.datagrid-column-group .datagrid-column > .datagrid-column-header{
+    border-top: var(--datagrid-columns-subgroup-border-top);
+}
+
+.datagrid-column.datagrid-column-group .datagrid-column-content.datagrid-column-content-group {
+    min-height: 74px;
+    min-width: 200px;
+    -servicestudio-padding-right: 10px;
+}
+
+.datagrid-column-content:not(.datagrid-column-content-group) > div {
+    background-color: var(--datagrid-cell-background);
+    color: var(--datagrid-cell-color);
+    padding: 9px 24px 9px;
+}
+
+.datagrid-column-content > :nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.datagrid-column-param {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.datagrid-column-param.notroot {
+    -servicestudio-display: none !important;
+}
+
+.datagrid-column-param .notused {
+    color: #aaa;
+}
+
+.datagrid-column:not(.datagrid-column-group) .datagrid-label,
+.datagrid-column.datagrid-column-group > .datagrid-label{
+    border-radius: 0 0 0 5px; 
+    font-size: 0.8em;
+    padding-bottom: 6px;
+    position: absolute;
+    right: 0;
+    top: 10px;
+}
+
+.datagrid-column.datagrid-column-group .datagrid-column .datagrid-label {
+    top: 5px;
+}
+
+.datagrid-column-content.datagrid-column-content-group .datagrid-column.datagrid-column-group > .datagrid-label:before {
+    content: 'Sub-';
+}
+
+/**** CONTEXT MENU CLASSES ONLY ****/
+
+.ctx-menu.wj-listbox .wj-listbox-item:not(.wj-separator) {
+    padding: var(--datagrid-menu-option-padding);
+}
+
+.datagrid-container .context-menu-placeholder {
+    -servicestudio-float: right;
+    -servicestudio-margin-bottom: 20px;
+    -servicestudio-position: relative;
+    -servicestudio-right: 0;
+    -servicestudio-width: 160px;
+    -servicestudio-z-index: 2;
+    -servicestudio-margin-top:-35px;
+}
+
+.datagrid-container .context-menu-placeholder:empty {
+    -servicestudio-background: #eee;
+    -servicestudio-height: 35px
+}
+
+.ss-context-menu-block {
+    -servicestudio-float: right;
+}
+
+.ss-context-menu-hidden,
+.ss-context-menu {
+    -servicestudio-background-color: #ccc;
+    -servicestudio-border-radius: 4px 4px 0 0;
+    -servicestudio-line-height: 25px;
+    -servicestudio-padding: 5px;
+    -servicestudio-position: absolute;
+    -servicestudio-right: 0;
+    -servicestudio-text-align: center;
+    -servicestudio-top: 0;
+    -servicestudio-vertical-align: middle;
+    -servicestudio-white-space: nowrap;
+    -servicestudio-width: 160px;
+}
+
+.ss-context-menu-hidden {
+    -servicestudio-background-color: #eee;
+    -servicestudio-color: #CCCDD0;
+    -servicestudio-padding-left: 7px;
+    -servicestudio-right: 1px;
+    -servicestudio-z-index: 1;
+    -servicestudio-top: calc(var(--datagrid-grouppanel-min-height) - 35px);
+}
+
+.context-menu {
+    background-color: #efefef;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius:  4px 0 4px 4px;
+    display: none;
+    max-width: 250px;
+    min-width: 190px;
+    -servicestudio-display: block;
+    -servicestudio-margin-top: 35px;
+}
+
+.context-menu-option {
+    padding: var(--datagrid-menu-option-padding);
+}
+
+.context-menu-submenu .context-menu-option, 
+.context-menu-submenu .context-menu-submenu {
+    padding-left: 30px; 
+}
+
+.context-menu-arrow {
+    display: none;
+    float: right;
+    font-size: 30px;
+    line-height: 14px;
+}
+
+.context-menu-separator {
+    height: 1px;
+    margin: 3px 0;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.context-menu-submenu > div:first-child > div:first-child > .context-menu-option:after{
+    -servicestudio-color:#515860;
+    -servicestudio-content: "▼";
+    -servicestudio-margin-top: -40px;
+    -servicestudio-position: absolute;
+    -servicestudio-right: 10px;
+}
+
+
+/**** HELPER CLASSES ONLY ****/
+.datagrid-label {
+    background-color: var(--datagrid-columns-border-color);
+    border-radius: 5px;
+    color: #fff;
+    padding: 2px 4px 2px;
+}

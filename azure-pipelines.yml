@@ -1,0 +1,50 @@
+trigger:
+  branches:
+    include:
+    - dev
+variables:
+  SourcesDirectory: '$(Build.SourcesDirectory)'
+  Project: 'outsystems-datagrid-reactive'
+  BuildConfiguration: 'Release'
+  Config: '--configuration=$(BuildConfiguration)'
+  TagName: 'v$(Build.BuildNumber)'
+  
+stages: 
+- stage: Build
+  displayName: 'Build'
+  jobs:
+  - job: Build
+    displayName: 'Build Job'
+    timeoutInMinutes: 8
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+
+    #Install dependencies
+    - task: Npm@1
+      displayName: 'npm install'
+      inputs:
+        workingDir: './code'
+        verbose: false
+
+    #Compile typescript files
+    - task: Npm@1
+      displayName: 'npm run build'
+      inputs:
+        workingDir: './code'
+        command: custom
+        verbose: false
+        customCommand: 'run build'
+
+    #Publish compiled file    
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: './code/dist/GridFramework.js'
+        ArtifactName: 'GridFramework.js'
+        publishLocation: 'Container'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: './code/styles/Grid.css'
+        ArtifactName: 'Grid.css'
+        publishLocation: 'Container'
