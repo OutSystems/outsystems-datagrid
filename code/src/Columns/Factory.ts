@@ -15,22 +15,42 @@ namespace Column {
                     return new CheckboxColumn(grid, columnID, configs);
                 case ColumnType.Currency:
                     return new CurrencyColumn(
-                        grid, 
+                        grid,
                         columnID,
                         configs,
                         new EditorConfigCurrency(editorConfigs)
                     );
                 case ColumnType.Date:
-                    return new DateColumn(grid, columnID, configs, editorConfigs);
+                    return new DateColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        editorConfigs
+                    );
                 case ColumnType.DateTime:
-                    return new DateTimeColumn(grid, columnID, configs, editorConfigs);
+                    return new DateTimeColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        editorConfigs
+                    );
                 case ColumnType.Dropdown:
-                    return new DropdownColumn(grid, columnID, configs, editorConfigs);
+                    return new DropdownColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        editorConfigs
+                    );
                 case ColumnType.Group:
-                    return new GroupColumn(grid, columnID, configs, editorConfigs);
+                    return new GroupColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        editorConfigs
+                    );
                 case ColumnType.Number:
                     return new NumberColumn(
-                        grid, 
+                        grid,
                         columnID,
                         configs,
                         new EditorConfigNumber(editorConfigs)

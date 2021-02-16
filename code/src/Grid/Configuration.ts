@@ -19,7 +19,6 @@ namespace Grid {
     export class FlexGridConfig
         extends AbstractConfiguration
         implements IConfigurationGrid {
-
         public allowColumnReorder: boolean;
         public allowColumnResize: boolean;
         public allowColumnSort: boolean;

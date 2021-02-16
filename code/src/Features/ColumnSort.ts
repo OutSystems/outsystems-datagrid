@@ -38,7 +38,7 @@ namespace Features {
             this._grid = grid;
             this._enabled = enabled;
         }
-        
+
         public get isGridSorted(): boolean {
             return this._grid.provider.itemsSource.sortDescriptions.length > 0;
         }
@@ -106,7 +106,9 @@ namespace Features {
             this._enabled = value;
         }
 
-        public validateAction(action: InternalEvents.Actions/*, ctx: any*/): string {
+        public validateAction(
+            action: InternalEvents.Actions /*, ctx: any*/
+        ): string {
             if (this.isGridSorted) {
                 if (action === InternalEvents.Actions.AddRow) {
                     return 'Can\'t add rows when sort mode is On!';

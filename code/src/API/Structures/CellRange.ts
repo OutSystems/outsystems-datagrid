@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace GridAPI.Structures {
     /**
      * Representation of a generic range

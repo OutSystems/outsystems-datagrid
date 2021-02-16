@@ -63,7 +63,7 @@ namespace GridAPI.ColumnManager {
         } else {
             // Try to find its reference on DOM
             const elem = Helper.GetElementByUniqueId(columnID, false);
-            
+
             // If element is found, means that the DOM was rendered
             if (elem !== undefined) {
                 //Find the closest grid
@@ -104,11 +104,7 @@ namespace GridAPI.ColumnManager {
         const grid = GetGridByColumnId(columnID);
 
         if (grid !== undefined) {
-            grid.changeColumnProperty(
-                columnID,
-                propertyName,
-                propertyValue
-            );
+            grid.changeColumnProperty(columnID, propertyName, propertyValue);
         }
     }
 

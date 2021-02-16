@@ -42,10 +42,12 @@ namespace GridAPI.GridManager.Events {
             }
         } else {
             //TODO: [RGRIDT-634] @rug Is this the best way?
-            if (grid.isReady && eventName === ExternalEvents.GridEventType.Initialized) {
+            if (
+                grid.isReady &&
+                eventName === ExternalEvents.GridEventType.Initialized
+            ) {
                 callback(grid.uniqueId, grid);
-            }
-            else {
+            } else {
                 grid.gridEvents.addHandler(eventName, callback);
             }
         }

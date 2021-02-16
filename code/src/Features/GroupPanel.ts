@@ -68,7 +68,7 @@ namespace Features {
             //this way we can easily handle the "x" to remove items from grouppanel
             this._grid.provider.itemsSource.groupDescriptions.collectionChanged.addHandler(
                 (
-                    o: wijmo.collections.ObservableArray/*,
+                    o: wijmo.collections.ObservableArray /*,
                     e: wijmo.collections.NotifyCollectionChangedEventArgs*/
                 ) => {
                     //Add and close to the Stack the global value with the last config
@@ -91,7 +91,9 @@ namespace Features {
             this._groupPanel = undefined;
         }
 
-        public validateAction(action: InternalEvents.Actions/*, ctx: any*/): string {
+        public validateAction(
+            action: InternalEvents.Actions /*, ctx: any*/
+        ): string {
             if (this.isGridGrouped) {
                 if (action === InternalEvents.Actions.AddRow) {
                     return 'Can\'t add rows when group is On!';

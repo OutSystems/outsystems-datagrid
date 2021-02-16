@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace GridAPI.Structures {
     /**
      * Representation of Row-Data, used to OS communication
@@ -12,10 +13,16 @@ namespace GridAPI.Structures {
          * Represent Row data
          * @param rowIndex Index of the Grid's row
          * @param dataItem Full data source of that row
-         * @param selected Define dataItem in a key-value pair information. Used to communicate selected cells in a row 
+         * @param selected Define dataItem in a key-value pair information. Used to communicate selected cells in a row
          */
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        constructor(grid: Grid.IGrid, rowIndex: number, dataItem: any, selected?: Array<BindingValue>) {
+        
+        constructor(
+            grid: Grid.IGrid,
+            rowIndex: number,
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+            dataItem: any,
+            selected?: Array<BindingValue>
+        ) {
             this.rowIndex = rowIndex;
             if (grid.isSingleEntity) {
                 this.dataItem = Helper.Flatten(dataItem);

@@ -48,7 +48,7 @@ namespace GridAPI.ContextMenu {
                 GridManager.Events.Subscribe(
                     gridID,
                     ExternalEvents.GridEventType.Initialized,
-                    (gridId:string, gridObj:Grid.IGrid) => {
+                    (gridId: string, gridObj: Grid.IGrid) => {
                         gridObj.features.contextMenu.addMenuItem(
                             menuItemId,
                             label,
@@ -77,7 +77,7 @@ namespace GridAPI.ContextMenu {
                 GridManager.Events.Subscribe(
                     gridID,
                     ExternalEvents.GridEventType.Initialized,
-                    (gridId:string, gridObj:Grid.IGrid) => {
+                    (gridId: string, gridObj: Grid.IGrid) => {
                         gridObj.features.contextMenu.addMenuItemSeparator(
                             menuItemId
                         );

@@ -69,7 +69,6 @@ namespace Features {
     }
 
     export class FeatureBuilder extends AbstractFactoryBuilder {
-
         public makeAutoRowNumber(): FeatureBuilder {
             this._makeItem(AutoRowNumber);
             return this;
@@ -81,9 +80,12 @@ namespace Features {
         }
 
         public makeColumnReorder(enable: boolean): FeatureBuilder {
-            this._features.columnReorder = this._makeItem(ColumnReorder, enable);
+            this._features.columnReorder = this._makeItem(
+                ColumnReorder,
+                enable
+            );
             return this;
-        }  
+        }
 
         public makeColumnResize(enable: boolean): FeatureBuilder {
             this._features.columnResize = this._makeItem(ColumnResize, enable);
@@ -95,7 +97,7 @@ namespace Features {
             this._features.contextMenu = this._makeItem(ContextMenu);
             return this;
         }
-        
+
         public makeDirtyMark(): FeatureBuilder {
             this._features.dirtyMark = this._makeItem(DirtyMark);
             return this;
@@ -117,7 +119,10 @@ namespace Features {
         }
 
         public makeGroupPanel(groupPanelId: string): FeatureBuilder {
-            this._features.groupPanel = this._makeItem(GroupPanel, groupPanelId);
+            this._features.groupPanel = this._makeItem(
+                GroupPanel,
+                groupPanelId
+            );
             return this;
         }
 
@@ -125,14 +130,21 @@ namespace Features {
             this._features.pagination = this._makeItem(Pagination, pageSize);
             return this;
         }
-        
+
         public makeRows(): FeatureBuilder {
             this._features.rows = this._makeItem(Rows);
             return this;
         }
-        
-        public makeSelection(allowRowSelector: boolean, selectionMode: number): FeatureBuilder{
-            this._features.selection = this._makeItem(Selection, allowRowSelector, selectionMode);
+
+        public makeSelection(
+            allowRowSelector: boolean,
+            selectionMode: number
+        ): FeatureBuilder {
+            this._features.selection = this._makeItem(
+                Selection,
+                allowRowSelector,
+                selectionMode
+            );
             return this;
         }
 
@@ -147,7 +159,10 @@ namespace Features {
         }
 
         public makeTabNavigation(enable: boolean): FeatureBuilder {
-            this._features.tabNavigation = this._makeItem(TabNavigation, enable);
+            this._features.tabNavigation = this._makeItem(
+                TabNavigation,
+                enable
+            );
             return this;
         }
 
