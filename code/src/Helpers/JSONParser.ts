@@ -24,7 +24,7 @@ namespace Helper {
                         Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6])
                     );
                 } else if (match(value, regex.date)) {
-                    return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+                    return new Date(+m[1], +m[2] - 1, +m[3]);
                 } else if (value === '') {
                     return undefined;
                 }
