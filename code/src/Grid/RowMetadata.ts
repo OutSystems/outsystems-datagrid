@@ -55,6 +55,7 @@ namespace Grid {
         }
 
         public clearProperty(propertyName: string): void {
+            // Iterate all rows from the grid using the sourceCollection (not just the rows from the current page - items)
             this._itemsSource.sourceCollection.forEach((p) => {
                 p[this._extraData] &&
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
