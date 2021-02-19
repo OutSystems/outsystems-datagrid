@@ -11,7 +11,7 @@ namespace GridAPI.ContextMenu {
      * @param menuItemId UniqueId of our MenuItem
      * @param lookUpDOM Search in DOM by the parent Grid
      */
-    function _getGridByMenuId(menuItemId: string, lookUpDOM = true): string {
+    export function GetGridByMenuId(menuItemId: string, lookUpDOM = true): string {
         //Try to find in DOM only if not present on Map
         if (lookUpDOM && !_menuItemsToGridId.has(menuItemId)) {
             const menuOptionElement = Helper.GetElementByUniqueId(menuItemId);
@@ -39,7 +39,7 @@ namespace GridAPI.ContextMenu {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         clickEvent: GridAPI.OSCallbacks.ContextMenu.OSClickEvent
     ): void {
-        const gridID = _getGridByMenuId(menuItemId);
+        const gridID = GetGridByMenuId(menuItemId);
 
         if (gridID !== undefined) {
             const grid = GridManager.GetGridById(gridID);
@@ -68,7 +68,7 @@ namespace GridAPI.ContextMenu {
     }
 
     export function AddSeparator(menuItemId: string): void {
-        const gridID = _getGridByMenuId(menuItemId);
+        const gridID = GetGridByMenuId(menuItemId);
 
         if (gridID !== undefined) {
             const grid = GridManager.GetGridById(gridID);
@@ -98,7 +98,7 @@ namespace GridAPI.ContextMenu {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         propertyValue: any
     ): void {
-        const gridID = _getGridByMenuId(menuItemId, false);
+        const gridID = GetGridByMenuId(menuItemId, false);
 
         if (gridID !== undefined) {
             const grid = GridManager.GetGridById(gridID);
@@ -113,7 +113,7 @@ namespace GridAPI.ContextMenu {
     }
 
     export function RemoveItem(menuItemId: string): void {
-        const gridID = _getGridByMenuId(menuItemId, false);
+        const gridID = GetGridByMenuId(menuItemId, false);
 
         if (gridID !== undefined) {
             const grid = GridManager.GetGridById(gridID, false);

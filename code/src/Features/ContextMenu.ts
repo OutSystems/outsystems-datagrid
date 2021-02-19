@@ -36,6 +36,8 @@ namespace Features {
      * Defines the interface of communication for ContextMenu feature
      */
     export interface IContextMenu {
+        contextMenuEvents: ExternalEvents.ContextMenuEventManager;
+
         /**
          * Responsable for adding menu items
          * @param menuItemId UniqueId defined on OS side
@@ -68,13 +70,16 @@ namespace Features {
          * @param menuItemId 
          */
         removeMenuItem(menuItemId: string): void;
+
     }
 
     /**
      * Representation of the ContextMenu feature
      */
     export class ContextMenu implements IBuilder, IDisposable, IContextMenu {
+        private _contextMenuEvents: ExternalEvents.ContextMenuEventManager;
         private _grid: Grid.IGridWijmo;
+        private _isOpening: boolean;
         /** Map a UniqueId to its MenuItem */
         private _menuItems: Map<string, MenuItem>;
         /** Our provider ContextMenu instance */
@@ -86,6 +91,15 @@ namespace Features {
             this._grid = grid;
             this._menuItems = new Map();
             this._rootMenuItems = [];
+            this._contextMenuEvents = new ExternalEvents.ContextMenuEventManager(this);
+        }
+
+        public get contextMenuEvents(): ExternalEvents.ContextMenuEventManager {
+            return this._contextMenuEvents;
+        }
+
+        public get isOpening(): boolean {
+            return this._isOpening;
         }
 
         /**
@@ -140,6 +154,14 @@ namespace Features {
                     command: {
                         canExecuteCommand: this._canRaiseClickEvent.bind(this),
                         executeCommand: this._raiseClickEvent.bind(this)
+                    },
+                    isDroppedDownChanging: (e) => {
+                        // The event is raised when the context menu opens or closes. 
+                        // It is easier to understand if it will open instead of analysing if the menu is dropped down.
+                        this._isOpening = !e.isDroppedDown;
+                        this._contextMenuEvents.trigger(
+                            ExternalEvents.ContextMenuEventType.Toggle
+                        );
                     }
                 }
             );
@@ -284,6 +306,10 @@ namespace Features {
                 this._sortMenuItems(a.items);
                 return a.order - b.order;
             });
+        }
+
+        public get grid(): Grid.IGrid {
+            return this._grid;
         }
 
         public addMenuItem(

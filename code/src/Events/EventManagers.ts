@@ -22,6 +22,16 @@ namespace ExternalEvents {
     }
 
     /**
+     * Events currently supported in the Context Menu element.
+     *
+     * @export
+     * @enum {number}
+     */
+    export enum ContextMenuEventType {
+        Toggle = 'Toggle'
+    }
+
+    /**
      * This class is a Manager of events. It will be used by the Grid/Columns/etc in order to support
      * the listenning of the different events supported by the parent element.
      * You can almost think of it, as the object that works underneath "document.addEventListener()" API - which will
@@ -154,6 +164,44 @@ namespace ExternalEvents {
                         this._column.grid.widgetId,
                         this._column.widgetId,
                         line
+                    );
+            }
+        }
+    }
+    export class ContextMenuEventManager extends AbstractEventsManager<
+        ContextMenuEventType,
+        string
+    > {
+        private _contextMenu: Features.ContextMenu;
+
+        constructor(contextMenu: Features.ContextMenu) {
+            super();
+            this._contextMenu = contextMenu;
+        }
+
+        protected getInstanceOfEventType(
+            eventType: ContextMenuEventType
+        ): InternalEvents.IEvent<string> {
+            let event: InternalEvents.IEvent<string>;
+
+            switch (eventType) {
+                case ContextMenuEventType.Toggle:
+                    event = new OpenContextMenu();
+                    break;
+                default:
+                    throw `The event '${eventType}' is not supported in a context menu`;
+                    break;
+            }
+            return event;
+        }
+
+        public trigger(event: ContextMenuEventType): void {
+            if (this.handlers.has(event)) {
+                this.handlers
+                    .get(event)
+                    .trigger(
+                        this._contextMenu.grid.widgetId,
+                        this._contextMenu.isOpening
                     );
             }
         }
