@@ -14,7 +14,7 @@ namespace Features {
         byActiveSelection(): void;
         /**
          * Freeze columns considering a cell position
-         * 
+         *
          * @param cell Used as reference to freeze everything up and left
          */
         bySelection(cell: GridAPI.Structures.CellRange): void;
@@ -24,7 +24,7 @@ namespace Features {
         firstColumn(): void;
         /**
          * Freeze leftmost columns
-         * 
+         *
          * @param n how many columns to freeze, if omitted active cell will be considered
          */
         leftColumns(n?: number): void;
@@ -41,7 +41,7 @@ namespace Features {
             this._grid = grid;
         }
 
-        public get isFrozen(): boolean{
+        public get isFrozen(): boolean {
             return this._grid.provider.frozenColumns !== 0;
         }
 
@@ -60,20 +60,20 @@ namespace Features {
         public firstColumn(): void {
             this.leftColumns(1);
         }
-        
+
         public leftColumns(n?: number): void {
             if (n !== undefined) {
                 this._grid.provider.frozenColumns = n;
-            }
-            else {
+            } else {
                 const activeCell = this._grid.features.selection.getActiveCell();
 
                 if (activeCell !== undefined) {
-                    this._grid.provider.frozenColumns = activeCell.leftColumnIndex + 1;
-                } 
+                    this._grid.provider.frozenColumns =
+                        activeCell.leftColumnIndex + 1;
+                }
             }
         }
-        
+
         public unfreeze(): void {
             this.leftColumns(0);
         }

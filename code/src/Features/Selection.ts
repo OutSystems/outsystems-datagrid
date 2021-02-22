@@ -8,11 +8,11 @@ namespace Features {
          * Checks if row Selectors are enabled
          */
         hasSelectors: boolean;
-        
+
         /**
          * Clear all selections
          */
-        clear() : void;
+        clear(): void;
         /**
          * Verify if a given range/cell is contained inside same of the grid selections
          * @param rng Starting row Index (top column), or provider CellRange
@@ -20,14 +20,19 @@ namespace Features {
          * @param row2 Ending row (bottm row)
          * @param col2 Ending column (right column)
          */
-        contains(rng: (unknown | number), col1?: number, row2?: number, col2?: number): boolean;
+        contains(
+            rng: unknown | number,
+            col1?: number,
+            row2?: number,
+            col2?: number
+        ): boolean;
         /**
          * Makes all grid selections have the same structure (columns)
          * @returns A array containing what is selected, ordered by
          * @example Excel/Google spreadsheet don't accepts copying data in different structures, to avoid errors we decided to transform selections, getting the left-most column, and the right-most column and apply the same structure to all the selected ranges
          */
-        equalizeSelection(): GridAPI.Structures.CellRange[]
-        
+        equalizeSelection(): GridAPI.Structures.CellRange[];
+
         /**
          * Return Grid's active cell
          */
@@ -58,7 +63,7 @@ namespace Features {
          * Returns the Data of the selected rows
          */
         getSelectedRowsData(): GridAPI.Structures.RowData[];
-    
+
         /**
          * Checks if there is a row selected on the grid
          */
@@ -94,14 +99,18 @@ namespace Features {
          * @param hasSelectors Defines if Row-Checkboxes should be created
          * @param selectionMode The current selection mode
          */
-        constructor(grid: Grid.IGridWijmo, hasSelectors = false, selectionMode = wijmo.grid.SelectionMode.MultiRange) {
+        constructor(
+            grid: Grid.IGridWijmo,
+            hasSelectors = false,
+            selectionMode = wijmo.grid.SelectionMode.MultiRange
+        ) {
             this._grid = grid;
 
             this._selectionMode = selectionMode;
             this._hasSelectors = hasSelectors;
         }
-        
-        public get hasSelectors(): boolean{
+
+        public get hasSelectors(): boolean {
             return this._hasSelectors;
         }
 
@@ -122,18 +131,22 @@ namespace Features {
 
         private _getCheckedRows(): number[] {
             return this._grid.provider.rows
-                .filter(p => p.isSelected)
-                .map(p => p.index);
+                .filter((p) => p.isSelected)
+                .map((p) => p.index);
         }
 
         /**
          * Responsable for maintain unique selections, user can't have the same range selected twice
          * @param grid Object triggering the event
-         * @param e CellRangeEventArgs, defined the current selection 
+         * @param e CellRangeEventArgs, defined the current selection
          */
-        private _selectionChanging(grid: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs) {
+        private _selectionChanging(
+            grid: wijmo.grid.FlexGrid,
+            e: wijmo.grid.CellRangeEventArgs
+        ) {
             //This method just makes sense for MultiRange
-            if (grid.selectionMode !== wijmo.grid.SelectionMode.MultiRange) return;
+            if (grid.selectionMode !== wijmo.grid.SelectionMode.MultiRange)
+                return;
             const curr = e.range;
             const selectedRanges = grid._selHdl.extendedSelection;
 
@@ -144,7 +157,7 @@ namespace Features {
                     selectedRanges.removeAt(i);
                 }
             }
-        };
+        }
 
         public build(): void {
             this._buildSelector();
@@ -152,48 +165,64 @@ namespace Features {
             //Set SelectionMode after defining Selectors, because wijmo will redefine them
             this.setState(this._selectionMode);
 
-            this._grid.provider.selectionChanging.removeHandler(this._selectionChanging);
-            this._grid.provider.selectionChanging.addHandler(this._selectionChanging);
-            this._grid.provider.copying.addHandler(this.equalizeSelection.bind(this));
+            this._grid.provider.selectionChanging.removeHandler(
+                this._selectionChanging
+            );
+            this._grid.provider.selectionChanging.addHandler(
+                this._selectionChanging
+            );
+            this._grid.provider.copying.addHandler(
+                this.equalizeSelection.bind(this)
+            );
         }
 
-        public clear() : void {
+        public clear(): void {
             //As wijmo handles the selections in different objects considering the multiple wijmo.grid.SelectionMode
-            //To simply clear all selections a lot more complex code would be here... 
+            //To simply clear all selections a lot more complex code would be here...
             //So I end up removing and re-applying the selection mode to clear things out
             this._grid.provider.selectionMode = wijmo.grid.SelectionMode.None;
             this._grid.provider.selectionMode = this._selectionMode;
         }
 
-        public contains(rng: (number | wijmo.grid.CellRange), col1?: number, row2?: number, col2?: number): boolean {
+        public contains(
+            rng: number | wijmo.grid.CellRange,
+            col1?: number,
+            row2?: number,
+            col2?: number
+        ): boolean {
             let range: wijmo.grid.CellRange;
-            
-            if (wijmo.isNumber(rng)){
-                range = new wijmo.grid.CellRange(rng, col1, row2, col2);
-            } 
-            else {
-                range = rng;
-            } 
 
-            return this.getProviderAllSelections().some(p => p.intersects(range));
+            if (wijmo.isNumber(rng)) {
+                range = new wijmo.grid.CellRange(rng, col1, row2, col2);
+            } else {
+                range = rng;
+            }
+
+            return this.getProviderAllSelections().some((p) =>
+                p.intersects(range)
+            );
         }
 
         public equalizeSelection(): GridAPI.Structures.CellRange[] {
             //This method just makes sense for MultiRange
-            if (this._grid.provider.selectionMode !== wijmo.grid.SelectionMode.MultiRange) return;
-            const grid = this._grid.provider;           //Auxiliar for grid
-            let leftCol = grid.columns.length - 1;   //Set to max-lenght to facilitate Math.min
-            let rightCol = -1;                      //Set to -1 to facilitate Math.max
+            if (
+                this._grid.provider.selectionMode !==
+                wijmo.grid.SelectionMode.MultiRange
+            )
+                return;
+            const grid = this._grid.provider; //Auxiliar for grid
+            let leftCol = grid.columns.length - 1; //Set to max-lenght to facilitate Math.min
+            let rightCol = -1; //Set to -1 to facilitate Math.max
 
             //When NO row is selected, find most left and right column looking to selectedRanges
-            this.getProviderAllSelections().forEach(p => {
+            this.getProviderAllSelections().forEach((p) => {
                 leftCol = Math.min(leftCol, p.leftCol, p.rightCol);
                 rightCol = Math.max(rightCol, p.leftCol, p.rightCol);
             });
 
             //Adjusting structure
             grid.deferUpdate(() => {
-                //Auxiliar to save combined ranges 
+                //Auxiliar to save combined ranges
                 const rangesToRemove: wijmo.grid.CellRange[] = [];
                 const activeSelection = grid._selHdl.selection;
                 const selectedRanges = grid._selHdl.extendedSelection;
@@ -201,13 +230,13 @@ namespace Features {
                 //Traverse array looking for range intersection
                 //Current selection in the first place prevent it from being deleted
                 [activeSelection, ...selectedRanges.slice()]
-                    .map(p => {
+                    .map((p) => {
                         p.setRange(p.topRow, leftCol, p.bottomRow, rightCol);
                         return p;
                     })
                     .forEach((curr, index, array) => {
                         //When marked to remove ignore
-                        if (rangesToRemove.filter(p => p === curr).length > 0)
+                        if (rangesToRemove.filter((p) => p === curr).length > 0)
                             return;
 
                         for (let i = index + 1; i < array.length; i++) {
@@ -217,7 +246,12 @@ namespace Features {
                                 const combined = curr.combine(array[i]);
 
                                 //Update current
-                                curr.setRange(combined.topRow, combined.leftCol, combined.bottomRow, combined.rightCol);
+                                curr.setRange(
+                                    combined.topRow,
+                                    combined.leftCol,
+                                    combined.bottomRow,
+                                    combined.rightCol
+                                );
 
                                 //Mark intersection to be removed
                                 rangesToRemove.push(array[i]);
@@ -226,72 +260,89 @@ namespace Features {
                     });
 
                 //Remove combined ranges
-                rangesToRemove.forEach(p => selectedRanges.remove(p));
+                rangesToRemove.forEach((p) => selectedRanges.remove(p));
             });
 
             return grid.selectedRanges
-                .sort((a, b) => a.bottomRow - b.bottomRow || a.topRow - b.topRow)
-                .map(p => CellRangeFactory.MakeFromProviderCellRange(p));
+                .sort(
+                    (a, b) => a.bottomRow - b.bottomRow || a.topRow - b.topRow
+                )
+                .map((p) => CellRangeFactory.MakeFromProviderCellRange(p));
         }
 
         public getActiveCell(): GridAPI.Structures.CellRange {
             const currSelection = this._grid.provider.selection;
 
-            if (currSelection && currSelection.isValid) 
+            if (currSelection && currSelection.isValid)
                 //currSelection has the last range selected
                 //properties row and col maintain the last cell selected or in a range, where the mouse button was released
-                return CellRangeFactory.MakeFromCoordinates(currSelection.row, currSelection.col);
-            else 
-                return undefined;
+                return CellRangeFactory.MakeFromCoordinates(
+                    currSelection.row,
+                    currSelection.col
+                );
+            else return undefined;
         }
 
         public getAllSelections(): GridAPI.Structures.CellRange[] {
-            return this.getProviderAllSelections()
-                .map(p => CellRangeFactory.MakeFromProviderCellRange(p));
+            return this.getProviderAllSelections().map((p) =>
+                CellRangeFactory.MakeFromProviderCellRange(p)
+            );
         }
 
         public getAllSelectionsData(): GridAPI.Structures.RowData[] {
             const rowColumn = new Map<number, GridAPI.Structures.RowData>();
             const rowColumnArr = [];
 
-            this.getProviderAllSelections()
-                .map(range => {
-                    const bindings = Array(range.rightCol - range.leftCol + 1)
-                        .fill(0)
-                        .map((_, idx) => this._grid.provider.getColumn(range.leftCol + idx))
-                        .filter(p => p.isVisible)
-                        .map(p => p.binding);
+            this.getProviderAllSelections().map((range) => {
+                const bindings = Array(range.rightCol - range.leftCol + 1)
+                    .fill(0)
+                    .map((_, idx) =>
+                        this._grid.provider.getColumn(range.leftCol + idx)
+                    )
+                    .filter((p) => p.isVisible)
+                    .map((p) => p.binding);
 
-                    Array(range.bottomRow - range.topRow + 1)
-                        .fill(0)
-                        .map((_, idx) => range.topRow + idx)
-                        .map(rowIndex => {
-                            let curr = rowColumn.get(rowIndex);
+                Array(range.bottomRow - range.topRow + 1)
+                    .fill(0)
+                    .map((_, idx) => range.topRow + idx)
+                    .map((rowIndex) => {
+                        let curr = rowColumn.get(rowIndex);
 
-                            if (!curr) {
-                                curr = new GridAPI.Structures.RowData(this._grid, rowIndex, this._grid.provider.rows[rowIndex].dataItem);
-
-                                rowColumnArr.push(curr);
-                                rowColumn.set(rowIndex, curr);
-                            }
-
-                            curr.selected.push(
-                                ...bindings.map(binding =>
-                                    new GridAPI.Structures.BindingValue(binding, this._grid.provider.getCellData(rowIndex, binding, false))
-                                )
+                        if (!curr) {
+                            curr = new GridAPI.Structures.RowData(
+                                this._grid,
+                                rowIndex,
+                                this._grid.provider.rows[rowIndex].dataItem
                             );
-                        });
-                });
+
+                            rowColumnArr.push(curr);
+                            rowColumn.set(rowIndex, curr);
+                        }
+
+                        curr.selected.push(
+                            ...bindings.map(
+                                (binding) =>
+                                    new GridAPI.Structures.BindingValue(
+                                        binding,
+                                        this._grid.provider.getCellData(
+                                            rowIndex,
+                                            binding,
+                                            false
+                                        )
+                                    )
+                            )
+                        );
+                    });
+            });
 
             rowColumn.clear();
             return rowColumnArr;
-
-        };
+        }
 
         public getProviderAllSelections(): wijmo.grid.CellRange[] {
             const ranges: wijmo.grid.CellRange[] = [];
             const maxCol = this._grid.provider.columns.length - 1;
-            //// wijmo.grid.SelectionMode.ListBox, Row and RowRange not supported yet, 
+            //// wijmo.grid.SelectionMode.ListBox, Row and RowRange not supported yet,
             //// there is a conflict with wijmo.grid.selector.Selector
             // if (this._grid.grid.selectionMode === wijmo.grid.SelectionMode.ListBox
             //     || this._grid.grid.selectionMode === wijmo.grid.SelectionMode.Row
@@ -300,11 +351,13 @@ namespace Features {
             //         .map(p => new wijmo.grid.CellRange(p.index, 0, p.index, maxCol));
             // }
             // else {
-            ranges.push(...this._grid.provider.selectedRanges.filter(p => p.isValid));
+            ranges.push(
+                ...this._grid.provider.selectedRanges.filter((p) => p.isValid)
+            );
             // }
             return this._getCheckedRows()
-                .map(p => new wijmo.grid.CellRange(p, 0, p, maxCol))
-                .filter(p => {
+                .map((p) => new wijmo.grid.CellRange(p, 0, p, maxCol))
+                .filter((p) => {
                     for (let i = 0; i < ranges.length; i++) {
                         if (ranges[i].contains(p)) return false;
                     }
@@ -318,8 +371,8 @@ namespace Features {
             const maxCol = this._grid.provider.columns.length - 1;
 
             this.getProviderAllSelections()
-                .filter(p => p.leftCol === 0 && p.rightCol === maxCol)
-                .map(range => {
+                .filter((p) => p.leftCol === 0 && p.rightCol === maxCol)
+                .map((range) => {
                     rows.push(
                         ...Array(range.bottomRow - range.topRow + 1)
                             .fill(0)
@@ -334,17 +387,25 @@ namespace Features {
             return this.getSelectedRows().length;
         }
 
-        public getSelectedRowsCountByCellRange(): number{
+        public getSelectedRowsCountByCellRange(): number {
             //Runs the equalize to garantee that the same row is not selected more than once
             this.equalizeSelection();
-            return this.getAllSelections()
-                        .reduce((acc,sel) => acc + (sel.bottomRowIndex - sel.topRowIndex + 1), 0);
+            return this.getAllSelections().reduce(
+                (acc, sel) => acc + (sel.bottomRowIndex - sel.topRowIndex + 1),
+                0
+            );
         }
 
         public getSelectedRowsData(): GridAPI.Structures.RowData[] {
-            return this.getSelectedRows()
-                .map(rowIndex => new GridAPI.Structures.RowData(this._grid, rowIndex, this._grid.provider.rows[rowIndex].dataItem));
-        };
+            return this.getSelectedRows().map(
+                (rowIndex) =>
+                    new GridAPI.Structures.RowData(
+                        this._grid,
+                        rowIndex,
+                        this._grid.provider.rows[rowIndex].dataItem
+                    )
+            );
+        }
 
         public hasSelectedRows(): boolean {
             return this.getSelectedRows().length > 0;
@@ -356,16 +417,23 @@ namespace Features {
 
         // eslint-disable-next-line @typescript-eslint/no-inferrable-types
         public selectAndFocusFirstCell(rowIndex: number = 0): void {
-            this._grid.provider.select(new wijmo.grid.CellRange(rowIndex, 0, rowIndex, 0), true);
+            this._grid.provider.select(
+                new wijmo.grid.CellRange(rowIndex, 0, rowIndex, 0),
+                true
+            );
         }
 
         public setState(value: wijmo.grid.SelectionMode): void {
-            // wijmo.grid.SelectionMode.ListBox, Row and RowRange not supported yet, 
+            // wijmo.grid.SelectionMode.ListBox, Row and RowRange not supported yet,
             // there is a conflict with wijmo.grid.selector.Selector
-            if (value === wijmo.grid.SelectionMode.ListBox
-                || value === wijmo.grid.SelectionMode.Row
-                || value === wijmo.grid.SelectionMode.RowRange) {
-                throw new Error(`Selection Feature - Unsupported selectionMode '${value}'!`);
+            if (
+                value === wijmo.grid.SelectionMode.ListBox ||
+                value === wijmo.grid.SelectionMode.Row ||
+                value === wijmo.grid.SelectionMode.RowRange
+            ) {
+                throw new Error(
+                    `Selection Feature - Unsupported selectionMode '${value}'!`
+                );
             }
             this._selectionMode = value;
             this._grid.provider.selectionMode = value;

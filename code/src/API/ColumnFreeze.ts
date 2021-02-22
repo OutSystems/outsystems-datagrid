@@ -5,7 +5,7 @@ namespace GridAPI.ColumnFreeze {
      * @param gridID The grid where the action will be performed
      * @param n Number of columns to freeze, when omitted the active cell will be used, and everything to its left will be freeze
      */
-    export function Freeze(gridID: string, n?: number ): void {
+    export function Freeze(gridID: string, n?: number): void {
         if (!Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 

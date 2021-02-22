@@ -21,14 +21,13 @@ namespace Features {
         startAction(action: unknown);
     }
 
-    export interface IProviderUndoStack extends IUndoStack{
+    export interface IProviderUndoStack extends IUndoStack {
         closeAction<T>(T);
         pushAction(action: wijmo.undo.UndoableAction);
         startAction(action: wijmo.undo.UndoableAction);
     }
 
-    export class UndoStack
-        implements IProviderUndoStack, IBuilder {
+    export class UndoStack implements IProviderUndoStack, IBuilder {
         private _grid: Grid.IGridWijmo;
         private _undoStack: wijmo.undo.UndoStack;
 
@@ -40,7 +39,7 @@ namespace Features {
             this._undoStack = new wijmo.undo.UndoStack(
                 Helper.GetElementByWidgetId(this._grid.widgetId),
                 {
-                    maxActions: 50,
+                    maxActions: 50
                 }
             );
         }
