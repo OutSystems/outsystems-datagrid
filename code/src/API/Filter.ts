@@ -37,8 +37,7 @@ namespace GridAPI.Filter {
         };
 
         if (grid.features.selection.hasValidSelection() === false) {
-            //TODO: [RGRIDT-622] replace with still not existing at the moment grid.hasResults();
-            if (grid.provider.collectionView.itemCount > 0) {
+            if (grid.hasResults()) {
                 grid.features.selection.selectAndFocusFirstCell();
             }
         }

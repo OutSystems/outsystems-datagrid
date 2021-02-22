@@ -75,7 +75,7 @@ namespace Grid {
             this._columns = new Map<string, Column.IColumn>();
             this._configs = configs;
             this._addedRows = new InternalEvents.AddNewRowEvent();
-            this._gridEvents = new ExternalEvents.GridEventsManager();
+            this._gridEvents = new ExternalEvents.GridEventsManager(this);
             this._isReady = false;
             this._validatingAction = new InternalEvents.ValidatingAction();
 
