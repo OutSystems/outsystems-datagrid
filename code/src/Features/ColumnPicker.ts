@@ -122,10 +122,14 @@ namespace Features {
             picker.setAttribute('id', 'theColumnPicker');
             picker.classList.add('column-picker');
 
-            span.classList.add('column-picker-icon', 'glyphicon', 'glyphicon-cog');
-            
+            span.classList.add(
+                'column-picker-icon',
+                'glyphicon',
+                'glyphicon-cog'
+            );
+
             theGrid.hostElement.appendChild(picker);
-            
+
             theGrid.formatItem.addHandler(
                 (s: wijmo.grid.FlexGrid, e: wijmo.grid.FormatItemEventArgs) => {
                     if (
@@ -168,7 +172,7 @@ namespace Features {
 
             const host = this._theColumnPicker.hostElement;
             const ref = theGrid.hostElement.querySelector('.wj-topleft');
-            
+
             span.onclick = (e: MouseEvent) => {
                 if (!host.offsetHeight) {
                     this._theColumnPicker.itemsSource = theGrid.columns.filter(
