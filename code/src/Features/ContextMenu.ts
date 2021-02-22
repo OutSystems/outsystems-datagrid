@@ -98,14 +98,6 @@ namespace Features {
             this._contextMenuEvents = new ExternalEvents.ContextMenuEventManager(this);
         }
 
-        public get contextMenuEvents(): ExternalEvents.ContextMenuEventManager {
-            return this._contextMenuEvents;
-        }
-
-        public get isOpening(): boolean {
-            return this._isOpening;
-        }
-
         /**
          * Adds a MenuItem to the the Mapper and ContextMenu.itemsSource
          * @param menuItem Instance of the new MenuItem just before insertion
@@ -311,7 +303,14 @@ namespace Features {
                 return a.order - b.order;
             });
         }
+        public get contextMenuEvents(): ExternalEvents.ContextMenuEventManager {
+            return this._contextMenuEvents;
+        }
 
+        public get isOpening(): boolean {
+            return this._isOpening;
+        }
+        
         public get grid(): Grid.IGrid {
             return this._grid;
         }
