@@ -2,7 +2,7 @@
 namespace Helper {
     // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any
     export function JSONParser(data: string): any {
-        //regex expressions should be described here
+        //regex expressions for date and datetime should be described here
         const regex = {
             datetime: /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z?$/, //yyyy-MM-ddThh:mm:ssZ
             date: /^(\d{4})-(\d{2})-(\d{2})$/ //yyyy-MM-dd
@@ -24,7 +24,7 @@ namespace Helper {
                         Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6])
                     );
                 } else if (match(value, regex.date)) {
-                    return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+                    return new Date(+m[1], +m[2] - 1, +m[3]);
                 } else if (value === '') {
                     return undefined;
                 }
