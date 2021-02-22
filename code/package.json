@@ -11,12 +11,6 @@
     "prettier": "prettier --config ./.prettierrc --write \"**/*.+(js|ts|json|css|md)\""
   },
   "author": "OutSystems R&D",
-  "prettier": {
-    "trailingComma": "none",
-    "tabWidth": 4,
-    "semi": true,
-    "singleQuote": true
-  },
   "dependencies": {
     "@types/lodash": "^4.14.156",
     "typescript": "^4.1.3"
