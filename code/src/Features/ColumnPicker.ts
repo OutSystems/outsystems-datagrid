@@ -55,30 +55,50 @@ namespace Features {
     class CustomMergeManager extends wijmo.grid.MergeManager {
         private _grid: Grid.IGrid;
         private _topLeftPanel: wijmo.grid.GridPanel;
-        
+
         constructor(grid: Grid.IGrid) {
             super(grid.provider);
             this._grid = grid;
             this._topLeftPanel = grid.provider.topLeftCells;
-        } 
+        }
 
-        public getMergedRange(panel, rowIndex: number, colIndex: number, clip = true) : wijmo.grid.CellRange {
+        public getMergedRange(
+            panel,
+            rowIndex: number,
+            colIndex: number,
+            clip = true
+        ): wijmo.grid.CellRange {
             //Customized just for the topLeftCells
-            if (this._topLeftPanel === panel){
+            if (this._topLeftPanel === panel) {
                 const lastRowIndex = panel.rows.length - 1;
 
                 //Without selectors merge it all!
                 if (!this._grid.features.selection.hasSelectors) {
-                    return new wijmo.grid.CellRange(0, 0, lastRowIndex, panel.columns.length - 1);
+                    return new wijmo.grid.CellRange(
+                        0,
+                        0,
+                        lastRowIndex,
+                        panel.columns.length - 1
+                    );
                 }
                 //With Selectors and in the last row
                 else if (rowIndex !== lastRowIndex) {
                     //Ignore the last row, the select-all checkbox will be created here
-                    return new wijmo.grid.CellRange(0, 0, lastRowIndex - 1, panel.columns.length - 1);
+                    return new wijmo.grid.CellRange(
+                        0,
+                        0,
+                        lastRowIndex - 1,
+                        panel.columns.length - 1
+                    );
                 }
                 //Otherwise just call the original one
                 else {
-                    return super.getMergedRange(panel, rowIndex, colIndex, clip);
+                    return super.getMergedRange(
+                        panel,
+                        rowIndex,
+                        colIndex,
+                        clip
+                    );
                 }
             } else {
                 return super.getMergedRange(panel, rowIndex, colIndex, clip);
@@ -108,8 +128,12 @@ namespace Features {
             
             theGrid.formatItem.addHandler(
                 (s: wijmo.grid.FlexGrid, e: wijmo.grid.FormatItemEventArgs) => {
-                    if (e.panel === s.topLeftCells && e.row === 0 && e.col === 0) {
-                        e.cell.appendChild(span);                        
+                    if (
+                        e.panel === s.topLeftCells &&
+                        e.row === 0 &&
+                        e.col === 0
+                    ) {
+                        e.cell.appendChild(span);
                     }
                 }
             );
@@ -166,7 +190,9 @@ namespace Features {
         }
 
         public build(): void {
-            this._grid.provider.mergeManager = new CustomMergeManager(this._grid);
+            this._grid.provider.mergeManager = new CustomMergeManager(
+                this._grid
+            );
             this._makeColumnPicker();
         }
 

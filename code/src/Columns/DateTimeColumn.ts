@@ -4,7 +4,12 @@ namespace Column {
         ColumnConfig,
         EditorConfigDate
     > {
-        constructor(grid: Grid.IGrid, columnID: string, configs: JSON, editorConfig: JSON) {
+        constructor(
+            grid: Grid.IGrid,
+            columnID: string,
+            configs: JSON,
+            editorConfig: JSON
+        ) {
             super(
                 grid,
                 columnID,
@@ -16,12 +21,12 @@ namespace Column {
         public get columnType(): ColumnType {
             return ColumnType.DateTime;
         }
-        
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public get editorProviderType(): any {
             return wijmo.input.InputDateTime;
         }
-        
+
         public get providerType(): wijmo.DataType {
             return wijmo.DataType.Date;
         }

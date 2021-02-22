@@ -8,19 +8,25 @@ namespace Column {
          * Add a new child column
          * @param column new child to be added
          */
-        addChild(column: IColumn) : void;
+        addChild(column: IColumn): void;
         /**
          * Remove a column from the ColumnGroup
          * @param column child to be removed
          */
-        removeChild(column: IColumn) : void;
+        removeChild(column: IColumn): void;
     }
 
-    export class GroupColumn extends AbstractProviderColumn<ColumnConfigGroup>
+    export class GroupColumn
+        extends AbstractProviderColumn<ColumnConfigGroup>
         implements IColumnGroup {
         private _columns: IColumn[];
 
-        constructor(grid: Grid.IGrid, columnID: string, configs: JSON, specific: JSON) {
+        constructor(
+            grid: Grid.IGrid,
+            columnID: string,
+            configs: JSON,
+            specific: JSON
+        ) {
             super(grid, columnID, new ColumnConfigGroup(configs, specific));
             this._columns = [];
         }
@@ -42,7 +48,7 @@ namespace Column {
             //         }
             //     }
             // }
-    
+
             // return undefined;
         }
 
@@ -54,9 +60,9 @@ namespace Column {
             return wijmo.DataType.Object;
         }
 
-        private _getCollapsedToBinding(columnId: string) : string {
+        private _getCollapsedToBinding(columnId: string): string {
             if (columnId === undefined || columnId === '') return undefined;
-            
+
             const col = GridAPI.ColumnManager.GetColumnById(columnId);
             let hasError = false;
 
@@ -73,31 +79,34 @@ namespace Column {
                 else {
                     return this._getCollapsedToBinding(col.uniqueId);
                 }
-            }
-            else {
+            } else {
                 hasError = true;
             }
-    
+
             //To avoid breaking the page, just send an alert-message through console
             if (hasError) {
-                console.error(`The columns specified on collapseTo property isn't available on group ${this.config.header}`);
+                console.error(
+                    `The columns specified on collapseTo property isn't available on group ${this.config.header}`
+                );
 
                 //No collapseTo
                 return undefined;
             }
         }
 
-        public addChild(column: IColumn) : void {
+        public addChild(column: IColumn): void {
             if (this._columns.indexOf(column) === -1) {
                 this._columns.push(column);
             }
         }
 
-        public applyConfigs() : void {
+        public applyConfigs(): void {
             super.applyConfigs();
 
-            if (this.config.collapseTo){
-                this.provider.collapseTo = this._getCollapsedToBinding(this.config.collapseTo);
+            if (this.config.collapseTo) {
+                this.provider.collapseTo = this._getCollapsedToBinding(
+                    this.config.collapseTo
+                );
             }
 
             //When there isn't a reference for collapseTo, makes the group always expanded
@@ -106,11 +115,11 @@ namespace Column {
             }
         }
 
-        public dispose() :void {
-            const providerGrid : wijmo.grid.FlexGrid = this.grid.provider;
-            
+        public dispose(): void {
+            const providerGrid: wijmo.grid.FlexGrid = this.grid.provider;
+
             providerGrid.deferUpdate(() => {
-                //Dispose internal columns 
+                //Dispose internal columns
                 while (this._columns.length > 0) {
                     //Remove and dispose the child
                     this._columns.pop().dispose();
@@ -121,13 +130,15 @@ namespace Column {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig() : any { 
+        public getProviderConfig(): any {
             const providerConfig = super.getProviderConfig();
 
-            if (this.config.collapseTo !== undefined){
-                providerConfig.collapseTo = this._getCollapsedToBinding(this.config.collapseTo);
+            if (this.config.collapseTo !== undefined) {
+                providerConfig.collapseTo = this._getCollapsedToBinding(
+                    this.config.collapseTo
+                );
             }
-            
+
             //When there isn't a reference for collapseTo, makes the group always expanded
             if (providerConfig.collapseTo === undefined) {
                 providerConfig.isCollapsed = false;
@@ -137,13 +148,13 @@ namespace Column {
                 //Sort based on index position
                 .sort((a, b) => a.indexPosition() - b.indexPosition())
                 //Return provider config
-                .map(p => p.getProviderConfig());
+                .map((p) => p.getProviderConfig());
 
             return providerConfig;
         }
 
-        public removeChild(column: IColumn) : void {
-            _.remove(this._columns, p => p === column);
+        public removeChild(column: IColumn): void {
+            _.remove(this._columns, (p) => p === column);
         }
     }
 }
