@@ -6,7 +6,7 @@ namespace Features {
 
             this._oldState = s.filterDefinition;
         }
-        
+
         // apply a saved cell value (state)
         public applyState(state: string): void {
             this.target.filterDefinition = state;
@@ -48,7 +48,7 @@ namespace Features {
             );
             this._filter.filterChanging.addHandler(
                 (
-                    s: wijmo.grid.filter.FlexGridFilter,
+                    s: wijmo.grid.filter.FlexGridFilter
                     //e: wijmo.grid.CellRangeEventArgs
                 ) => {
                     this._grid.features.undoStack.startAction(
@@ -56,11 +56,10 @@ namespace Features {
                     );
                 }
             );
-            this._filter.filterChanged.addHandler(
-                (
-                    //s: wijmo.grid.filter.FlexGridFilter,
-                    //e: wijmo.grid.CellRangeEventArgs
-                ) => {
+            this._filter.filterChanged.addHandler(() =>
+                //s: wijmo.grid.filter.FlexGridFilter,
+                //e: wijmo.grid.CellRangeEventArgs
+                {
                     this._grid.features.undoStack.closeAction(
                         ColumnFilterAction
                     );
@@ -95,10 +94,12 @@ namespace Features {
             this._enabled = value;
         }
 
-        public validateAction(action: InternalEvents.Actions/*, ctx: any*/): string {
+        public validateAction(
+            action: InternalEvents.Actions /*, ctx: any*/
+        ): string {
             if (this.isGridFiltered) {
                 if (action === InternalEvents.Actions.AddRow) {
-                    return 'Can\'t add rows when filter is On!';
+                    return "Can't add rows when filter is On!";
                 }
             }
         }

@@ -66,7 +66,7 @@ namespace Grid {
         private _uniqueId: string;
         private _validatingAction: InternalEvents.ValidatingAction;
         private _widgetId: string;
-        
+
         protected _features: Features.CommmonFeatures;
         protected _provider: W;
 
@@ -118,13 +118,13 @@ namespace Grid {
             return this._provider;
         }
 
-        public get features(): Features.CommmonFeatures{
+        public get features(): Features.CommmonFeatures {
             return this._features;
         }
 
         protected finishBuild(): void {
             this._isReady = true;
-            
+
             this.gridEvents.trigger(
                 ExternalEvents.GridEventType.Initialized,
                 this
@@ -157,7 +157,9 @@ namespace Grid {
         public hasColumnsDefined(): boolean {
             const widget = Helper.GetElementByUniqueId(this.uniqueId);
             const gridElement = widget.closest(Helper.Constants.gridTag);
-            const columns = gridElement.querySelectorAll(Helper.Constants.columnCss);
+            const columns = gridElement.querySelectorAll(
+                Helper.Constants.columnCss
+            );
 
             return columns.length > 0;
         }
@@ -168,10 +170,14 @@ namespace Grid {
 
                 col.dispose();
                 this._columns.delete(columnID);
-                
-                console.log(`Remove column '${columnID}': '${col.config.header}'`);
-            }else {
-                console.error(`removeColumn - Column id:${columnID} doesn't exist`);
+
+                console.log(
+                    `Remove column '${columnID}': '${col.config.header}'`
+                );
+            } else {
+                console.error(
+                    `removeColumn - Column id:${columnID} doesn't exist`
+                );
             }
         }
 
@@ -199,7 +205,7 @@ namespace Grid {
         public abstract clearAllChanges(): void;
 
         public abstract getChangesMade(): changesDone;
-        
+
         public abstract getData(): JSON[];
 
         public abstract hasResults(): boolean;

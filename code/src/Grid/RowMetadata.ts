@@ -64,7 +64,7 @@ namespace Grid {
                     );
             });
         }
-        
+
         public clearPropertyByRow(row: number, propertyName: string): void {
             this.hasOwnProperty(row, propertyName) &&
                 this._getRowMetadata(row).delete(propertyName);
@@ -77,7 +77,8 @@ namespace Grid {
 
         public hasOwnProperty(row: number, property: string): boolean {
             return (
-                this._hasMetadata(row) && this._getRowMetadata(row).has(property)
+                this._hasMetadata(row) &&
+                this._getRowMetadata(row).has(property)
             );
         }
 

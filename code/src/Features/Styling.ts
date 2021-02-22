@@ -7,7 +7,7 @@ namespace Features {
     export class Styling implements IStyling, IBuilder {
         private _grid: Grid.IGridWijmo;
         private _rowHeight: number;
-        
+
         constructor(grid: Grid.IGridWijmo, rowHeight: number) {
             this._grid = grid;
             this._rowHeight = rowHeight;
