@@ -97,15 +97,19 @@ namespace Features {
         private _makeColumnPicker(): void {
             const theGrid = this._grid.provider;
             const picker = document.createElement('div');
+            const span = document.createElement('span');
+
             picker.setAttribute('id', 'theColumnPicker');
             picker.classList.add('column-picker');
-            theGrid.hostElement.appendChild(picker);
 
+            span.classList.add('column-picker-icon', 'glyphicon', 'glyphicon-cog');
+            
+            theGrid.hostElement.appendChild(picker);
+            
             theGrid.formatItem.addHandler(
                 (s: wijmo.grid.FlexGrid, e: wijmo.grid.FormatItemEventArgs) => {
                     if (e.panel === s.topLeftCells && e.row === 0 && e.col === 0) {
-                        e.cell.innerHTML =
-                            '<span class="column-picker-icon glyphicon glyphicon-cog"></span>';
+                        e.cell.appendChild(span);                        
                     }
                 }
             );
@@ -135,30 +139,30 @@ namespace Features {
                     theGrid.focus();
                 }
             });
+
             wijmo.hidePopup(this._theColumnPicker.hostElement);
 
+            const host = this._theColumnPicker.hostElement;
             const ref = theGrid.hostElement.querySelector('.wj-topleft');
+            
+            span.onclick = (e: MouseEvent) => {
+                if (!host.offsetHeight) {
+                    this._theColumnPicker.itemsSource = theGrid.columns.filter(
+                        (p) =>
+                            theGrid.itemsSource.groupDescriptions.filter(
+                                (q) => q.propertyName === p.binding
+                            ).length === 0
+                    );
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ref.addEventListener('mousedown', (e: any) => {
-                this._theColumnPicker.itemsSource = theGrid.columns.filter(
-                    (p) =>
-                        theGrid.itemsSource.groupDescriptions.filter(
-                            (q) => q.propertyName === p.binding
-                        ).length === 0
-                );
-                if (wijmo.hasClass(e.target, 'column-picker-icon')) {
-                    const host = this._theColumnPicker.hostElement;
-                    if (!host.offsetHeight) {
-                        wijmo.showPopup(host, ref, false, true, false);
-                        this._theColumnPicker.focus();
-                    } else {
-                        wijmo.hidePopup(host, true, true);
-                        theGrid.focus();
-                    }
-                    e.preventDefault();
+                    wijmo.showPopup(host, ref, false, true, false);
+                    this._theColumnPicker.focus();
+                } else {
+                    wijmo.hidePopup(host, true, true);
+                    theGrid.focus();
                 }
-            });
+
+                e.preventDefault();
+            };
         }
 
         public build(): void {
