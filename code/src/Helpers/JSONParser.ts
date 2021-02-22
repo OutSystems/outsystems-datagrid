@@ -13,6 +13,7 @@ namespace Helper {
             if (typeof value === 'string') {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 let m: any;
+
                 //helper to if statement, to make things easier to read 
                 const match = (value: string, exp: RegExp) => {
                     m = value.match(exp);
