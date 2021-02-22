@@ -31,10 +31,10 @@ namespace Helper {
             }
             return value;
         });
-    }
+    } 
 
     /**
-     * Used to send data to Outsystems, converting data OS format
+     * Used to send data to Outsystems, converting data OS format.
      * @param grid Grid to format data
      * @param data Data to format
      */
