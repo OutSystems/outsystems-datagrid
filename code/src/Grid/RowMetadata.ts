@@ -55,7 +55,8 @@ namespace Grid {
         }
 
         public clearProperty(propertyName: string): void {
-            this._itemsSource.items.forEach((p) => {
+            // Iterate all rows from the grid using the sourceCollection (not just the rows from the current page - items)
+            this._itemsSource.sourceCollection.forEach((p) => {
                 p[this._extraData] &&
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     (p[this._extraData] as Map<string, any>).delete(
