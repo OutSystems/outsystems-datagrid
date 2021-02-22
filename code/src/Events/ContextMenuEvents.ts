@@ -4,7 +4,7 @@ namespace ExternalEvents {
      * Abstract class that encapsulate the baisc logic of triggering the events with the right parameters order.
      *
      * @abstract
-     * @class AbstractColumnEvent
+     * @class AbstractContextMenuEvent
      * @extends {InternalEvents.AbstractEvent<string>}
      */
     abstract class AbstractContextMenuEvent extends InternalEvents.AbstractEvent<string> {
