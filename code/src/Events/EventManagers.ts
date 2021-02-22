@@ -129,6 +129,13 @@ namespace ExternalEvents {
         }
     }
 
+    /**
+     * Class that will be responsible for managing the events of grid columns.
+     *
+     * @export
+     * @class ColumnEventsManager
+     * @extends {AbstractEventsManager<ColumnEventType, string>}
+     */
     export class ColumnEventsManager extends AbstractEventsManager<
         ColumnEventType,
         string
@@ -155,7 +162,6 @@ namespace ExternalEvents {
             }
             return event;
         }
-
         public trigger(event: ColumnEventType, line: string): void {
             if (this.handlers.has(event)) {
                 this.handlers
@@ -168,6 +174,14 @@ namespace ExternalEvents {
             }
         }
     }
+
+    /**
+     * Class that will be responsible for managing the events of the context menu.
+     *
+     * @export
+     * @class ContextMenuEventManager
+     * @extends {AbstractEventsManager<ContextMenuEventType, string>}
+     */
     export class ContextMenuEventManager extends AbstractEventsManager<
         ContextMenuEventType,
         string
@@ -186,7 +200,7 @@ namespace ExternalEvents {
 
             switch (eventType) {
                 case ContextMenuEventType.Toggle:
-                    event = new OpenContextMenu();
+                    event = new ToggleContextMenu();
                     break;
                 default:
                     throw `The event '${eventType}' is not supported in a context menu`;

@@ -8,10 +8,10 @@ namespace ExternalEvents {
      * @extends {InternalEvents.AbstractEvent<string>}
      */
     abstract class AbstractContextMenuEvent extends InternalEvents.AbstractEvent<string> {
-        public trigger(gridID: string, isDroppedDown: boolean): void {
-            this.handlers.slice(0).forEach((h) => h(gridID, isDroppedDown));
+        public trigger(gridID: string, isOpening: boolean): void {
+            this.handlers.slice(0).forEach((h) => h(gridID, isOpening));
         }
     }
 
-    export class OpenContextMenu extends AbstractContextMenuEvent {}
+    export class ToggleContextMenu extends AbstractContextMenuEvent {}
 }

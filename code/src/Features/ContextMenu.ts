@@ -36,6 +36,9 @@ namespace Features {
      * Defines the interface of communication for ContextMenu feature
      */
     export interface IContextMenu {
+        /**
+         * Getter for the contextMenu events 
+         */
         contextMenuEvents: ExternalEvents.ContextMenuEventManager;
 
         /**
@@ -77,6 +80,7 @@ namespace Features {
      * Representation of the ContextMenu feature
      */
     export class ContextMenu implements IBuilder, IDisposable, IContextMenu {
+        /** Events from the Context Menu  */
         private _contextMenuEvents: ExternalEvents.ContextMenuEventManager;
         private _grid: Grid.IGridWijmo;
         private _isOpening: boolean;
