@@ -13,7 +13,7 @@ namespace Helper {
             if (typeof value === 'string') {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 let m: any;
-                //helper to if statement, to make things esier to read
+                //helper to if statement, to make things easier to read
                 const match = (value: string, exp: RegExp) => {
                     m = value.match(exp);
                     return m;
@@ -24,7 +24,7 @@ namespace Helper {
                         Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6])
                     );
                 } else if (match(value, regex.date)) {
-                    return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+                    return new Date(+m[1], +m[2] - 1, +m[3]);
                 } else if (value === '') {
                     return undefined;
                 }
