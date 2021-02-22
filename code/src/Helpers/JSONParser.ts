@@ -31,7 +31,7 @@ namespace Helper {
             }
             return value;
         });
-    } 
+    }
 
     /**
      * Used to send data to Outsystems, converting data OS format.
