@@ -16,7 +16,9 @@ namespace Column {
             //The supper will calculate the Min and Max and validate decimalPlaces
             super._setFormat(decimalPlaces);
 
-            this.config.format = `c${this.editorConfig.decimalPlaces} ${symbol || this.editorConfig.symbol}`;
+            this.config.format = `c${this.editorConfig.decimalPlaces} ${
+                symbol || this.editorConfig.symbol
+            }`;
             this.editorConfig.format = this.config.format;
         }
 
@@ -28,7 +30,10 @@ namespace Column {
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
                 case 'symbol':
-                    this._setFormat(this.editorConfig.decimalPlaces, propertyValue);
+                    this._setFormat(
+                        this.editorConfig.decimalPlaces,
+                        propertyValue
+                    );
                     this.applyConfigs();
                     break;
                 default:

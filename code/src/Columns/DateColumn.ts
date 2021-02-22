@@ -4,7 +4,12 @@ namespace Column {
         ColumnConfig,
         EditorConfigDate
     > {
-        constructor(grid: Grid.IGrid, columnID: string, configs: JSON, editorConfig: JSON) {
+        constructor(
+            grid: Grid.IGrid,
+            columnID: string,
+            configs: JSON,
+            editorConfig: JSON
+        ) {
             super(
                 grid,
                 columnID,

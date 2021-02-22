@@ -21,10 +21,15 @@ namespace Column {
     export class NumberColumn<
         T extends EditorConfigNumber
     > extends AbstractProviderColumnEditor<ColumnConfig, T> {
-        constructor(grid: Grid.IGrid, columnID: string, configs: JSON, editorConfig: T) {
+        constructor(
+            grid: Grid.IGrid,
+            columnID: string,
+            configs: JSON,
+            editorConfig: T
+        ) {
             super(grid, columnID, new ColumnConfig(configs), editorConfig);
         }
-    
+
         public get columnType(): ColumnType {
             return ColumnType.Number;
         }
@@ -46,8 +51,12 @@ namespace Column {
         private _setMaxValue(maxValue?: number) {
             const decimalPlaces = this.editorConfig.decimalPlaces;
             const maxPerDecPlaces = MaxNonDecimalValues[decimalPlaces];
-            maxValue = maxValue === undefined ? this.editorConfig.maxValue : maxValue;
-            this.editorConfig.maxValue = (maxValue && maxValue < maxPerDecPlaces) ? maxValue : maxPerDecPlaces;
+            maxValue =
+                maxValue === undefined ? this.editorConfig.maxValue : maxValue;
+            this.editorConfig.maxValue =
+                maxValue && maxValue < maxPerDecPlaces
+                    ? maxValue
+                    : maxPerDecPlaces;
         }
 
         /**
@@ -58,8 +67,12 @@ namespace Column {
         private _setMinValue(minValue?: number) {
             const decimalPlaces = this.editorConfig.decimalPlaces;
             const minPerDecPlaces = -MaxNonDecimalValues[decimalPlaces];
-            minValue = minValue === undefined ? this.editorConfig.minValue : minValue;
-            this.editorConfig.minValue = (minValue && minValue > minPerDecPlaces) ? minValue : minPerDecPlaces;
+            minValue =
+                minValue === undefined ? this.editorConfig.minValue : minValue;
+            this.editorConfig.minValue =
+                minValue && minValue > minPerDecPlaces
+                    ? minValue
+                    : minPerDecPlaces;
         }
 
         /**
@@ -79,7 +92,8 @@ namespace Column {
                 this.editorConfig.decimalPlaces =
                     decimalPlaces >= 0
                         ? decimalPlaces
-                        : wijmo.culture.Globalize.numberFormat.currency.decimals;
+                        : wijmo.culture.Globalize.numberFormat.currency
+                              .decimals;
             }
 
             this._setMaxValue();
@@ -91,7 +105,7 @@ namespace Column {
 
         public build(): void {
             this._setFormat(this.editorConfig.decimalPlaces);
-            
+
             super.build();
         }
 

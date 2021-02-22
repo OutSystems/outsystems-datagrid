@@ -131,7 +131,9 @@ namespace Features {
             this._grid.addedRows.addHandler(
                 this._addNewRowEndingHandler.bind(this)
             );
-            this._grid.provider.formatItem.addHandler(this._formatItems.bind(this));
+            this._grid.provider.formatItem.addHandler(
+                this._formatItems.bind(this)
+            );
         }
 
         public clear(): void {

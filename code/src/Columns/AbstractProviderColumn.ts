@@ -4,12 +4,12 @@ namespace Column {
         T extends IConfigurationColumn
     > extends AbstractColumn<T> {
         private _provider: wijmo.grid.Column;
-        
+
         public get columnEvents(): ExternalEvents.ColumnEventsManager {
             throw `The column ${this.columnType.toString()} does not support events`;
         }
 
-        public get provider() : wijmo.grid.Column {
+        public get provider(): wijmo.grid.Column {
             return this._provider;
         }
 
@@ -21,18 +21,19 @@ namespace Column {
         public applyConfigs(): void {
             if (this.isReady) {
                 wijmo.copy(this.provider, this.getProviderConfig());
-            }
-            else {
+            } else {
                 console.log('applyConfigs - Column needs to be build');
             }
         }
 
-        public build() : void {
+        public build(): void {
             super.build();
             const providerGrid: wijmo.grid.FlexGrid = this.grid.provider;
 
-            if (this.hasParentColumn){
-                const parent = this.grid.columns.get(this.parentColumnId) as Column.IColumnGroup;
+            if (this.hasParentColumn) {
+                const parent = this.grid.columns.get(
+                    this.parentColumnId
+                ) as Column.IColumnGroup;
                 parent.addChild(this);
 
                 if (parent.isReady) {
@@ -43,40 +44,48 @@ namespace Column {
                     //                  |ColA    |ColB   |ColC   |ColD   |ColE|
                     // Column indexes   |0       |1      |0      |1      |2   |
                     // Group indexes    |0               |1                   |
-
                     //Inserting in the correct position
                     // this.provider = new wijmo.grid.ColumnGroup(this.getProviderConfig(), parent.provider);
                     //const providerGrid: wijmo.grid.FlexGrid = this._grid.provider;
                     //providerGrid.columns.insert(this.config.index, this.provider);
-                }
-                else {
-                    console.error(`build - GroupColumn "${parent.config.header}" needs to be build before its childs ("${this.config.header}")`);
+                } else {
+                    console.error(
+                        `build - GroupColumn "${parent.config.header}" needs to be build before its childs ("${this.config.header}")`
+                    );
                 }
             } else {
                 //Where column will be placed
                 let indexPosition = this.indexPosition();
                 //When index -1, include the new column at the end of the grid
-                indexPosition = indexPosition === -1? providerGrid.columns.length : indexPosition;
+                indexPosition =
+                    indexPosition === -1
+                        ? providerGrid.columns.length
+                        : indexPosition;
 
                 this.provider = new wijmo.grid.Column(this.getProviderConfig());
-                
+
                 providerGrid.columns.insert(indexPosition, this.provider);
             }
         }
 
-        public dispose() : void {
+        public dispose(): void {
             super.dispose();
 
-            if (this.hasParentColumn){ 
-                const parent = this.grid.columns.get(this.parentColumnId) as Column.IColumnGroup;
+            if (this.hasParentColumn) {
+                const parent = this.grid.columns.get(
+                    this.parentColumnId
+                ) as Column.IColumnGroup;
                 parent && parent.removeChild(this);
             }
 
             //RGRIDT-574 review after solved
             //Error when the column is inside a ColumnGroup
-            !this.hasParentColumn && (this.grid.provider as wijmo.grid.FlexGrid).columns.remove(this.provider);
+            !this.hasParentColumn &&
+                (this.grid.provider as wijmo.grid.FlexGrid).columns.remove(
+                    this.provider
+                );
         }
-        
-        abstract get providerType() : wijmo.DataType;
+
+        abstract get providerType(): wijmo.DataType;
     }
 }
