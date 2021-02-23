@@ -1,3 +1,12 @@
+resources:
+  repositories:
+  - repository: OutSystems/datagrid-web-tests
+    type: git
+    name: OutSystems/datagrid-web-tests
+    ref: master
+    trigger:
+    - master
+
 trigger:
   branches:
     include:
@@ -48,4 +57,3 @@ stages:
         PathtoPublish: './code/styles/Grid.css'
         ArtifactName: 'Grid.css'
         publishLocation: 'Container'
-		
