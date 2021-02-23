@@ -14,13 +14,16 @@ namespace GridAPI.ContextMenu.Events {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         callback: Callbacks.OSGrid.Event
     ): void {
-        const gridId = GetGridByMenuId(menuItemID);        
+        const gridId = GetGridByMenuId(menuItemID);
         // We need to make sure the grid already exists and it is intialized before subscribing to any context menu event.
         GridManager.Events.Subscribe(
             gridId,
             ExternalEvents.GridEventType.Initialized,
-            (gridId:string, gridObj:Grid.IGrid) => {
-                gridObj.features.contextMenu.contextMenuEvents.addHandler(eventName, callback);
+            (gridId: string, gridObj: Grid.IGrid) => {
+                gridObj.features.contextMenu.contextMenuEvents.addHandler(
+                    eventName,
+                    callback
+                );
             }
         );
     }

@@ -37,7 +37,7 @@ namespace Features {
      */
     export interface IContextMenu {
         /**
-         * Getter for the contextMenu events 
+         * Getter for the contextMenu events
          */
         contextMenuEvents: ExternalEvents.ContextMenuEventManager;
 
@@ -79,7 +79,6 @@ namespace Features {
          * @param menuItemId
          */
         removeMenuItem(menuItemId: string): void;
-
     }
 
     /**
@@ -101,7 +100,9 @@ namespace Features {
             this._grid = grid;
             this._menuItems = new Map();
             this._rootMenuItems = [];
-            this._contextMenuEvents = new ExternalEvents.ContextMenuEventManager(this);
+            this._contextMenuEvents = new ExternalEvents.ContextMenuEventManager(
+                this
+            );
         }
 
         /**
@@ -166,7 +167,7 @@ namespace Features {
                         executeCommand: this._raiseClickEvent.bind(this)
                     },
                     isDroppedDownChanging: (e) => {
-                        // The event is raised when the context menu opens or closes. 
+                        // The event is raised when the context menu opens or closes.
                         // It is easier to understand if it will open instead of analysing if the menu is dropped down.
                         this._isOpening = !e.isDroppedDown;
                         this._contextMenuEvents.trigger(
@@ -336,7 +337,7 @@ namespace Features {
         public get isOpening(): boolean {
             return this._isOpening;
         }
-        
+
         public get grid(): Grid.IGrid {
             return this._grid;
         }

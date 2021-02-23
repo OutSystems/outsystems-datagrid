@@ -11,7 +11,10 @@ namespace GridAPI.ContextMenu {
      * @param menuItemId UniqueId of our MenuItem
      * @param lookUpDOM Search in DOM by the parent Grid
      */
-    export function GetGridByMenuId(menuItemId: string, lookUpDOM = true): string {
+    export function GetGridByMenuId(
+        menuItemId: string,
+        lookUpDOM = true
+    ): string {
         //Try to find in DOM only if not present on Map
         if (lookUpDOM && !_menuItemsToGridId.has(menuItemId)) {
             const menuOptionElement = Helper.GetElementByUniqueId(menuItemId);
