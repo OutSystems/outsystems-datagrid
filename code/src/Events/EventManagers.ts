@@ -103,6 +103,13 @@ namespace ExternalEvents {
         GridEventType,
         Grid.IGrid
     > {
+        private _grid: Grid.IGrid;
+
+        constructor(grid: Grid.IGrid) {
+            super();
+            this._grid = grid;
+        }
+
         protected getInstanceOfEventType(
             eventType: GridEventType
         ): InternalEvents.IEvent<Grid.IGrid> {
@@ -120,6 +127,19 @@ namespace ExternalEvents {
                     break;
             }
             return event;
+        }
+
+        public addHandler(
+            eventType: GridEventType,
+            handler: Callbacks.OSGrid.Event
+        ): void {
+            //if the grid is already ready, fire immediatly the event.
+            if (eventType === GridEventType.Initialized && this._grid.isReady) {
+                //make the invocation of the handler assync.
+                setTimeout(() => handler(this._grid.widgetId, this._grid), 0);
+            } else {
+                super.addHandler(eventType, handler);
+            }
         }
 
         public trigger(event: GridEventType, gridObj: Grid.IGrid): void {

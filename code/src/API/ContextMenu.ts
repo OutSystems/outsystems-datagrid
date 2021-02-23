@@ -48,7 +48,7 @@ namespace GridAPI.ContextMenu {
                 GridManager.Events.Subscribe(
                     gridID,
                     ExternalEvents.GridEventType.Initialized,
-                    (gridId:string, gridObj:Grid.IGrid) => {
+                    (gridId: string, gridObj: Grid.IGrid) => {
                         gridObj.features.contextMenu.addMenuItem(
                             menuItemId,
                             label,
@@ -77,7 +77,7 @@ namespace GridAPI.ContextMenu {
                 GridManager.Events.Subscribe(
                     gridID,
                     ExternalEvents.GridEventType.Initialized,
-                    (gridId:string, gridObj:Grid.IGrid) => {
+                    (gridId: string, gridObj: Grid.IGrid) => {
                         gridObj.features.contextMenu.addMenuItemSeparator(
                             menuItemId
                         );
@@ -85,7 +85,7 @@ namespace GridAPI.ContextMenu {
                 );
             } else {
                 //the grid was not found
-                throw 'The context menu separator is being placed in a grid that doesn\'t exist';
+                throw "The context menu separator is being placed in a grid that doesn't exist";
             }
         } else {
             throw 'The context menu separator is not placed correctly in the grid';

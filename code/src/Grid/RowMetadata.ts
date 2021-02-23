@@ -55,7 +55,8 @@ namespace Grid {
         }
 
         public clearProperty(propertyName: string): void {
-            this._itemsSource.items.forEach((p) => {
+            // Iterate all rows from the grid using the sourceCollection (not just the rows from the current page - items)
+            this._itemsSource.sourceCollection.forEach((p) => {
                 p[this._extraData] &&
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     (p[this._extraData] as Map<string, any>).delete(
@@ -63,7 +64,7 @@ namespace Grid {
                     );
             });
         }
-        
+
         public clearPropertyByRow(row: number, propertyName: string): void {
             this.hasOwnProperty(row, propertyName) &&
                 this._getRowMetadata(row).delete(propertyName);
@@ -76,7 +77,8 @@ namespace Grid {
 
         public hasOwnProperty(row: number, property: string): boolean {
             return (
-                this._hasMetadata(row) && this._getRowMetadata(row).has(property)
+                this._hasMetadata(row) &&
+                this._getRowMetadata(row).has(property)
             );
         }
 
