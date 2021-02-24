@@ -14,87 +14,78 @@ parameters:
   type: string
 
 
-stages: 
-- stage: Build
-  displayName: 'Build'
-  jobs:
-  - job: Build
-    displayName: 'Build Job'
-    timeoutInMinutes: 8
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - task: npmAuthenticate@0
-      displayName: 'Npm authenticate'
-      inputs:
-        workingFile: '.npmrc'
+steps:
+- task: npmAuthenticate@0
+  displayName: 'Npm authenticate'
+  inputs:
+    workingFile: '.npmrc'
 
-    - task: CmdLine@2
-      name: install_dep
-      displayName: 'Install dependencies using yarn'
-      inputs:
-        script: 'yarn'
-      continueOnError: true
-      
-    - task: NodeTool@0
-      displayName: 'Use Node 14.15.4'
-      inputs:
-        versionSpec: '14.15.4'
-        checkLatest: true
+- task: CmdLine@2
+  name: install_dep
+  displayName: 'Install dependencies using yarn'
+  inputs:
+    script: 'yarn'
+  continueOnError: true
+  
+- task: NodeTool@0
+  displayName: 'Use Node 14.15.4'
+  inputs:
+    versionSpec: '14.15.4'
+    checkLatest: true
 
-    - task: Npm@1
-      condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'))
-      displayName: 'Npm run all tests'
-      continueOnError: true
-      inputs:
-        command: 'custom'
-        customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} --module=${{ parameters.module }} --cucumberOpts.tagExpression=@${{ parameters.grid }}'
+- task: Npm@1
+  condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'))
+  displayName: 'Npm run all tests'
+  continueOnError: true
+  inputs:
+    command: 'custom'
+    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} --module=${{ parameters.module }} --cucumberOpts.tagExpression=@${{ parameters.grid }}'
 
-    - task: Npm@1
-      condition: ne('${{ parameters.feature}}','all')
-      displayName: 'Npm run by ${{ parameters.feature }} feature(s)'
-      continueOnError: true
-      inputs:
-        command: 'custom'
-        customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} --module=${{ parameters.module }} "--cucumberOpts.tagExpression=@${{ parameters.grid }} and @${{ parameters.feature }}"'
+- task: Npm@1
+  condition: ne('${{ parameters.feature}}','all')
+  displayName: 'Npm run by ${{ parameters.feature }} feature(s)'
+  continueOnError: true
+  inputs:
+    command: 'custom'
+    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} --module=${{ parameters.module }} "--cucumberOpts.tagExpression=@${{ parameters.grid }} and @${{ parameters.feature }}"'
 
-    - task: Npm@1
-      condition: ne('${{ parameters.priority}}','all')
-      displayName: 'Npm run by ${{ parameters.priority }} priority(ies)'
-      continueOnError: true
-      inputs:
-        command: 'custom'
-        customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} --module=${{ parameters.module }} "--cucumberOpts.tagExpression=@${{ parameters.grid }} and @priority:${{ parameters.priority }}"'
+- task: Npm@1
+  condition: ne('${{ parameters.priority}}','all')
+  displayName: 'Npm run by ${{ parameters.priority }} priority(ies)'
+  continueOnError: true
+  inputs:
+    command: 'custom'
+    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} --module=${{ parameters.module }} "--cucumberOpts.tagExpression=@${{ parameters.grid }} and @priority:${{ parameters.priority }}"'
 
-    - task: Npm@1
-      displayName: 'Generate Report'
-      timeoutInMinutes: 3
-      continueOnError: true
-      inputs:
-        command: 'custom'
-        customCommand: 'run report'
+- task: Npm@1
+  displayName: 'Generate Report'
+  timeoutInMinutes: 3
+  continueOnError: true
+  inputs:
+    command: 'custom'
+    customCommand: 'run report'
 
-    - task: Npm@1
-      displayName: 'Convert to JUnit'
-      timeoutInMinutes: 3
-      continueOnError: true
-      inputs:
-        command: 'custom'
-        customCommand: 'run convertToJUnit'
+- task: Npm@1
+  displayName: 'Convert to JUnit'
+  timeoutInMinutes: 3
+  continueOnError: true
+  inputs:
+    command: 'custom'
+    customCommand: 'run convertToJUnit'
 
-    - task: PublishTestResults@2
-      continueOnError: true
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: '**/.tmp/junit/*.xml'
-        failTaskOnFailedTests: false
-        testRunTitle: 'Publish Report'
+- task: PublishTestResults@2
+  continueOnError: true
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/.tmp/junit/*.xml'
+    failTaskOnFailedTests: false
+    testRunTitle: 'Publish Report'
 
-    - task: PublishCucumberReport@1
-      inputs:
-        jsonDir: '.tmp/json'
-        outputPath: '.tmp'
-        theme: 'bootstrap'
-        reportSuiteAsScenarios: true
-        name: 'Cucumber Report'
-        title: '${{ parameters.grid }} grid'
+- task: PublishCucumberReport@1
+  inputs:
+    jsonDir: '.tmp/json'
+    outputPath: '.tmp'
+    theme: 'bootstrap'
+    reportSuiteAsScenarios: true
+    name: 'Cucumber Report'
+    title: '${{ parameters.grid }} grid'

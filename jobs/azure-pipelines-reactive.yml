@@ -40,12 +40,21 @@ parameters:
   type: string
   default: 'GridReactive_Automation'
 
-jobs:
-- template: 'azure-pipelines-template.yml'
-  parameters:
-    grid: reactive
-    module: ${{ parameters.module }}
-    browser: ${{ parameters.browser }}
-    environment: ${{ parameters.environment }}
-    feature: ${{ parameters.feature }}
-    priority: ${{ parameters.priority }}
+stages: 
+- stage: Build
+  displayName: 'Build'
+  jobs:
+  - job: Build
+    displayName: 'Build Job'
+    timeoutInMinutes: 8
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - template: 'azure-pipelines-template.yml'
+      parameters:
+        grid: reactive
+        module: ${{ parameters.module }}
+        browser: ${{ parameters.browser }}
+        environment: ${{ parameters.environment }}
+        feature: ${{ parameters.feature }}
+        priority: ${{ parameters.priority }}
