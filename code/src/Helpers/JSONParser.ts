@@ -59,7 +59,10 @@ namespace Helper {
                     const leaf = binding.shift();
 
                     if (object[leaf] !== undefined) {
-                        object[leaf] = (object[leaf] as Date)
+                        const dt = object[leaf] as Date;
+                        object[leaf] = new Date(
+                            dt.getTime() - dt.getTimezoneOffset() * 60000
+                        )
                             .toISOString()
                             .substr(0, 10);
                     }
