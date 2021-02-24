@@ -35,50 +35,42 @@ namespace Helper {
     }
 
     /**
-     * In-Place converter. Responsable for converting data to OS format.
+     * Used to send data to Outsystems, converting data OS format
      * @param grid Grid to format data
      * @param data Data to format
      */
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    export function ToOSFormat(
-        grid: Grid.IGridWijmo,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        data: Array<any>
-    ): void {
-        //Filter columns typed as Date
+    // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any
+    export function ToOSFormat(grid: Grid.IGridWijmo, data: Array<any>): Array<any> {
+        //TODO: [RGRIDT-638] Regression 2021-02-12: Is this method the best solution
+        const dataClone = _.cloneDeep(data);
         const columns = _.toArray(grid.columns)
-            .map((pair) => pair[1] as Column.IColumn)
-            .filter((p) => p.columnType === Column.ColumnType.Date);
+            .map(pair => pair[1] as Column.IColumn)
+            .filter(p => p.columnType === Column.ColumnType.Date);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const setDeepDate = (binding: Array<string>, object: any) => {
             if (object !== undefined) {
-                //We look for the leaf property to update information
                 if (binding.length > 1) {
                     setDeepDate(binding, object[binding.shift()]);
-                } else {
-                    //Get the last value from binding
+                }
+                else {
                     const leaf = binding.shift();
 
-                    //Change its property
                     if (object[leaf] !== undefined) {
-                        //From '2020-02-24T00:00:000Z' to '2020-02-24'
-                        object[leaf] = (object[leaf] as Date)
-                            .toISOString()
-                            .substr(0, 10);
+                        object[leaf] = (object[leaf] as Date).toISOString().substr(0, 10);
                     }
                 }
             }
         };
-
-        //For each date column call setDeepDate
-        columns.forEach((col) => {
-            data.forEach((item) => {
-                //Transform string in array => Sample_Products.Date > ['Sample_Products', 'Date']
+        
+        columns.forEach(col => {
+            dataClone.forEach(item => {
                 const binding = col.config.binding.split('.');
 
                 setDeepDate(binding, item);
             });
         });
+
+        return dataClone;
     }
 }
