@@ -41,11 +41,11 @@ parameters:
   default: 'GridReactive_Automation'
 
 stages: 
-- stage: Build
-  displayName: 'Build'
+- stage: Tests
+  displayName: 'Tests'
   jobs:
-  - job: Build
-    displayName: 'Build Job'
+  - job: Tests
+    displayName: 'Tests Job'
     timeoutInMinutes: 8
     pool:
       vmImage: 'windows-latest'
