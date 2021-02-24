@@ -1,11 +1,9 @@
 resources:
   repositories:
-  - repository: datagrid-web-tests
-    type: git
-    name: OutSystems.datagrid-reactive-tests
-    ref: master
-    trigger:
-    - master
+  - repository: datagrid-reactive-tests
+    type: github
+    name: OutSystems/outsystems-datagrid-tests
+    endpoint: OutSystems  
 
 trigger:
   branches:
@@ -29,6 +27,8 @@ stages:
       vmImage: 'windows-latest'
     steps:
 
+    - checkout: self
+    - checkout: datagrid-reactive-tests 
     #Install dependencies
     - task: Npm@1
       displayName: 'npm install'
