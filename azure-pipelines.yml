@@ -62,4 +62,4 @@ stages:
         ArtifactName: 'Grid.css'
         publishLocation: 'Container'
 
-  - template: 'jobs/azure-pipelines-reactive.yml'
+- template: 'jobs/azure-pipelines-reactive.yml'
