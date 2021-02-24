@@ -2,7 +2,7 @@
 
 resources:
   repositories:
-  - repository: datagrid-reactive-tests
+  - repository: datagrid-web-tests
     type: github
     name: OutSystems/datagrid-web-tests
     endpoint: OutSystems
