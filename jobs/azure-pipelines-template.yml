@@ -18,7 +18,7 @@ steps:
 - task: npmAuthenticate@0
   displayName: 'Npm authenticate'
   inputs:
-    workingFile: '.npmrc'
+    workingFile: './outsystems-datagrid-tests/npmrc'
 
 - task: CmdLine@2
   name: install_dep
