@@ -42,7 +42,7 @@ parameters:
   default: 'GridReactive_Automation'
 
 extends:
-  template: azure-pipelines-template.yml
+  template: 'azure-pipelines-template.yml'
   parameters:
     grid: reactive
     module: ${{ parameters.module }}
