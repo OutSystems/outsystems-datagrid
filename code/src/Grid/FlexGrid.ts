@@ -43,13 +43,18 @@ namespace Grid {
                 delete tempArray[tempArray.length - 1].__osRowMetada;
             }
 
+            //TODO: [RGRIDT-665] Improve _getChangesString
+            //The code: should use our API delete tempArray[tempArray.length - 1].__osRowMetada;
+            //The code: tempArray.push(_.clone(itemsChanged[index])); is maintaining a reference to the object on datasource
+            tempArray = Helper.ToOSFormat(this, tempArray);
+
             if (this.isSingleEntity) {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer
                 //when deserializing to need to put in the JSONDeserialize in the target "List Record {ENTITY}" -> would require extra step.
                 tempArray = Helper.FlattenArray(tempArray as [JSON]);
             }
 
-            return JSON.stringify(Helper.ToOSFormat(this, tempArray));
+            return JSON.stringify(tempArray);
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
