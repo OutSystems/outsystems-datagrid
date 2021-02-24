@@ -1,11 +1,4 @@
 # File: jobs/azure-pipelines-reactive.yml
-resources:
-  repositories:
-  - repository: datagrid-reactive-tests
-    type: github
-    name: OutSystems/outsystems-datagrid-tests
-    endpoint: OutSystems  
-
 parameters:
 - name: browser
   displayName: Browser
@@ -46,6 +39,13 @@ parameters:
   displayName: Module
   type: string
   default: 'GridReactive_Automation'
+
+resources:
+  repositories:
+  - repository: datagrid-reactive-tests
+    type: github
+    name: OutSystems/outsystems-datagrid-tests
+    endpoint: OutSystems  
 
 stages: 
 - stage: Tests
