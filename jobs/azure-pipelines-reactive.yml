@@ -1,4 +1,11 @@
 # File: jobs/azure-pipelines-reactive.yml
+resources:
+  repositories:
+  - repository: datagrid-reactive-tests
+    type: github
+    name: OutSystems/outsystems-datagrid-tests
+    endpoint: OutSystems  
+
 parameters:
 - name: browser
   displayName: Browser
@@ -50,6 +57,10 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
+    #Checkout repositories
+    - checkout: self
+    - checkout: datagrid-reactive-tests 
+
     - template: 'azure-pipelines-template.yml'
       parameters:
         grid: reactive
