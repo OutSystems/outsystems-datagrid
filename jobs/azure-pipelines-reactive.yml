@@ -40,8 +40,8 @@ parameters:
   type: string
   default: 'GridReactive_Automation'
 
-extends:
-  template: 'azure-pipelines-template.yml'
+jobs:
+- template: 'azure-pipelines-template.yml'
   parameters:
     grid: reactive
     module: ${{ parameters.module }}
