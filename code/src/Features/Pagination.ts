@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Features {
-
     enum PageAction {
         FirstPage = 'FirstPage',
         Forward = 'Forward',
@@ -44,7 +43,7 @@ namespace Features {
         pageCount: number;
         pageIndex: number;
         pageSize: number;
-        rowEnd: number;        
+        rowEnd: number;
         rowStart: number;
         rowTotal: number;
 

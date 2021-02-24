@@ -73,7 +73,10 @@ namespace GridAPI {
          * @param {boolean} raiseError Will raise errors when there is no object with this uniqueId
          * @returns {*}  {Grid.IGrid} instance of the grid.
          */
-        export function GetGridById(gridID: string, raiseError = true): Grid.IGrid {
+        export function GetGridById(
+            gridID: string,
+            raiseError = true
+        ): Grid.IGrid {
             let grid: Grid.IGrid;
 
             //gridID is the UniqueId

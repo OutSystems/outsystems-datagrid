@@ -55,30 +55,50 @@ namespace Features {
     class CustomMergeManager extends wijmo.grid.MergeManager {
         private _grid: Grid.IGrid;
         private _topLeftPanel: wijmo.grid.GridPanel;
-        
+
         constructor(grid: Grid.IGrid) {
             super(grid.provider);
             this._grid = grid;
             this._topLeftPanel = grid.provider.topLeftCells;
-        } 
+        }
 
-        public getMergedRange(panel, rowIndex: number, colIndex: number, clip = true) : wijmo.grid.CellRange {
+        public getMergedRange(
+            panel,
+            rowIndex: number,
+            colIndex: number,
+            clip = true
+        ): wijmo.grid.CellRange {
             //Customized just for the topLeftCells
-            if (this._topLeftPanel === panel){
+            if (this._topLeftPanel === panel) {
                 const lastRowIndex = panel.rows.length - 1;
 
                 //Without selectors merge it all!
                 if (!this._grid.features.selection.hasSelectors) {
-                    return new wijmo.grid.CellRange(0, 0, lastRowIndex, panel.columns.length - 1);
+                    return new wijmo.grid.CellRange(
+                        0,
+                        0,
+                        lastRowIndex,
+                        panel.columns.length - 1
+                    );
                 }
                 //With Selectors and in the last row
                 else if (rowIndex !== lastRowIndex) {
                     //Ignore the last row, the select-all checkbox will be created here
-                    return new wijmo.grid.CellRange(0, 0, lastRowIndex - 1, panel.columns.length - 1);
+                    return new wijmo.grid.CellRange(
+                        0,
+                        0,
+                        lastRowIndex - 1,
+                        panel.columns.length - 1
+                    );
                 }
                 //Otherwise just call the original one
                 else {
-                    return super.getMergedRange(panel, rowIndex, colIndex, clip);
+                    return super.getMergedRange(
+                        panel,
+                        rowIndex,
+                        colIndex,
+                        clip
+                    );
                 }
             } else {
                 return super.getMergedRange(panel, rowIndex, colIndex, clip);
@@ -97,15 +117,27 @@ namespace Features {
         private _makeColumnPicker(): void {
             const theGrid = this._grid.provider;
             const picker = document.createElement('div');
+            const span = document.createElement('span');
+
             picker.setAttribute('id', 'theColumnPicker');
             picker.classList.add('column-picker');
+
+            span.classList.add(
+                'column-picker-icon',
+                'glyphicon',
+                'glyphicon-cog'
+            );
+
             theGrid.hostElement.appendChild(picker);
 
             theGrid.formatItem.addHandler(
                 (s: wijmo.grid.FlexGrid, e: wijmo.grid.FormatItemEventArgs) => {
-                    if (e.panel === s.topLeftCells && e.row === 0 && e.col === 0) {
-                        e.cell.innerHTML =
-                            '<span class="column-picker-icon glyphicon glyphicon-cog"></span>';
+                    if (
+                        e.panel === s.topLeftCells &&
+                        e.row === 0 &&
+                        e.col === 0
+                    ) {
+                        e.cell.appendChild(span);
                     }
                 }
             );
@@ -135,34 +167,36 @@ namespace Features {
                     theGrid.focus();
                 }
             });
+
             wijmo.hidePopup(this._theColumnPicker.hostElement);
 
+            const host = this._theColumnPicker.hostElement;
             const ref = theGrid.hostElement.querySelector('.wj-topleft');
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ref.addEventListener('mousedown', (e: any) => {
-                this._theColumnPicker.itemsSource = theGrid.columns.filter(
-                    (p) =>
-                        theGrid.itemsSource.groupDescriptions.filter(
-                            (q) => q.propertyName === p.binding
-                        ).length === 0
-                );
-                if (wijmo.hasClass(e.target, 'column-picker-icon')) {
-                    const host = this._theColumnPicker.hostElement;
-                    if (!host.offsetHeight) {
-                        wijmo.showPopup(host, ref, false, true, false);
-                        this._theColumnPicker.focus();
-                    } else {
-                        wijmo.hidePopup(host, true, true);
-                        theGrid.focus();
-                    }
-                    e.preventDefault();
+            span.onclick = (e: MouseEvent) => {
+                if (!host.offsetHeight) {
+                    this._theColumnPicker.itemsSource = theGrid.columns.filter(
+                        (p) =>
+                            theGrid.itemsSource.groupDescriptions.filter(
+                                (q) => q.propertyName === p.binding
+                            ).length === 0
+                    );
+
+                    wijmo.showPopup(host, ref, false, true, false);
+                    this._theColumnPicker.focus();
+                } else {
+                    wijmo.hidePopup(host, true, true);
+                    theGrid.focus();
                 }
-            });
+
+                e.preventDefault();
+            };
         }
 
         public build(): void {
-            this._grid.provider.mergeManager = new CustomMergeManager(this._grid);
+            this._grid.provider.mergeManager = new CustomMergeManager(
+                this._grid
+            );
             this._makeColumnPicker();
         }
 

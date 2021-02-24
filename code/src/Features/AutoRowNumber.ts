@@ -24,7 +24,7 @@ namespace Features {
                 }
             );
         }
-        
+
         public setState(value: boolean): void {
             this._enabled = value;
         }

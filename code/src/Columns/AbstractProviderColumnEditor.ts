@@ -15,8 +15,13 @@ namespace Column {
         implements IColumnCustom {
         private _editor: wijmo.Control;
         private _editorConfigs: K;
-        
-        constructor(grid: Grid.IGrid, columnID: string, configs: T, editorConfigs: K) {
+
+        constructor(
+            grid: Grid.IGrid,
+            columnID: string,
+            configs: T,
+            editorConfigs: K
+        ) {
             super(grid, columnID, configs);
             this._editorConfigs = editorConfigs;
         }
@@ -30,17 +35,19 @@ namespace Column {
             return this._editor;
         }
 
-        public applyConfigs() : void {
+        public applyConfigs(): void {
             if (this.isReady) {
                 const providerConfig = this.getProviderConfig();
                 delete providerConfig.editor;
-                
+
                 wijmo.copy(this.provider, providerConfig);
-                wijmo.copy(this._editor, this._editorConfigs.getProviderConfig());
-            }
-            else {
+                wijmo.copy(
+                    this._editor,
+                    this._editorConfigs.getProviderConfig()
+                );
+            } else {
                 console.log('applyConfigs - Column needs to be build');
-            }            
+            }
         }
 
         public build(): void {
@@ -56,9 +63,9 @@ namespace Column {
             this._editor = this._editor
                 ? this._editor
                 : new wijmoControl(
-                    document.createElement('div'),
-                    this._editorConfigs.getProviderConfig()
-                );
+                      document.createElement('div'),
+                      this._editorConfigs.getProviderConfig()
+                  );
 
             //Save the editor on config =D
             this.config.editor = this._editor;
@@ -71,7 +78,7 @@ namespace Column {
             //Verify the property is available on EditorConfigs
             if (this.editorConfig.hasOwnProperty(propertyName)) {
                 this.editorConfig[propertyName] = propertyValue;
-                
+
                 if (this.isReady) {
                     this.applyConfigs();
                 }
