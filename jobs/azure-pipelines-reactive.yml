@@ -40,13 +40,6 @@ parameters:
   type: string
   default: 'GridReactive_Automation'
 
-resources:
-  repositories:
-  - repository: datagrid-reactive-tests
-    type: github
-    name: OutSystems/outsystems-datagrid-tests
-    endpoint: OutSystems  
-
 stages: 
 - stage: Tests
   displayName: 'Tests'
