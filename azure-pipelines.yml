@@ -60,4 +60,4 @@ stages:
         ArtifactName: 'Grid.css'
         publishLocation: 'Container'
 
-  - template: './outsystems-datagrid-reactive/jobs/azure-pipelines-reactive.yml' # Template reference
+  - template: 'jobs/azure-pipelines-reactive.yml'
