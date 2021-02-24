@@ -52,7 +52,7 @@ stages:
     steps:
     #Checkout repositories
     - checkout: self
-    - checkout: datagrid-reactive-tests 
+    - checkout: datagrid-web-tests 
 
     - template: 'azure-pipelines-template.yml'
       parameters:
