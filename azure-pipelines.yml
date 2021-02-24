@@ -1,3 +1,5 @@
+# File: azure-pipelines.yml
+
 resources:
   repositories:
   - repository: datagrid-reactive-tests
@@ -58,4 +60,4 @@ stages:
         ArtifactName: 'Grid.css'
         publishLocation: 'Container'
 
-  - template: './outsystems-datagrid-reactive/jobs/azure-pipelines-reactive.yml'
+  - template: './outsystems-datagrid-reactive/jobs/azure-pipelines-reactive.yml' # Template reference
