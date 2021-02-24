@@ -1,6 +1,6 @@
 resources:
   repositories:
-  - repository: OutSystems/datagrid-web-tests
+  - repository: datagrid-web-tests
     type: git
     name: OutSystems.datagrid-reactive-tests
     ref: master
