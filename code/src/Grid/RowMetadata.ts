@@ -1,13 +1,50 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Grid {
+    /**
+     * Exposed methods to manipulate RowMetadata
+     */
     export interface IRowMetadata {
-        clear(): void;
+        /**
+         * Responsable for cleanning metadata information
+         * @param dataItem object to clear metadata, if ignored the whole sourceCollection will be cleaned
+         */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        clear(dataItem?: any): void;
+        /**
+         * Responsable for cleanning metadata information for a given row
+         * @param row Index row reference, works only in the current page
+         */
         clearByRow(row: number): void;
+        /**
+         * Responsable for cleanning metadata information for a given property
+         * @param propertyName Metadata property to be clear
+         */
         clearProperty(propertyName: string): void;
+        /**
+         * Responsable for cleanning metadata information for a given row and property
+         * @param row Index row reference, works only in the current page
+         * @param propertyName Metadata property to be clear
+         */
         clearPropertyByRow(row: number, propertyName: string): void;
+        /**
+         * Responsable for retriving metadata information for a given row and property
+         * @param row Index row reference, works only in the current page
+         * @param propertyName Metadata property
+         */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getMetadata(row: number, propertyName: string): any;
+        /**
+         * Verify the presence of metadata information for a given row and property
+         * @param row Index row reference, works only in the current page
+         * @param property Metadata property
+         */
         hasOwnProperty(row: number, property: string): boolean;
+        /**
+         * Stores RowMetadata information for a given row and property
+         * @param row Index row reference, works only in the current page
+         * @param propertyName Metadata property
+         * @param propertyValue Value to be stored
+         */
         setMetadata(
             row: number,
             propertyName: string,
@@ -46,8 +83,15 @@ namespace Grid {
             );
         }
 
-        public clear(): void {
-            this._itemsSource.items.forEach((p) => delete p[this._extraData]);
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public clear(dataItem?: any): void {
+            if (dataItem) {
+                delete dataItem[this._extraData];
+            } else {
+                this._itemsSource.sourceCollection.forEach(
+                    (p) => delete p[this._extraData]
+                );
+            }
         }
 
         public clearByRow(row: number): void {
