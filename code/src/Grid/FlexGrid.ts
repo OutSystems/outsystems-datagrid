@@ -43,9 +43,6 @@ namespace Grid {
                 delete tempArray[tempArray.length - 1].__osRowMetada;
             }
 
-            //TODO: [RGRIDT-665] Improve _getChangesString
-            //The code: should use our API delete tempArray[tempArray.length - 1].__osRowMetada;
-            //The code: tempArray.push(_.clone(itemsChanged[index])); is maintaining a reference to the object on datasource
             tempArray = Helper.ToOSFormat(this, tempArray);
 
             if (this.isSingleEntity) {
