@@ -25,7 +25,7 @@ steps:
   name: test
   displayName: 'testing dir'
   inputs:
-    workingDir: ${Agent.BuildDirectory}/s/datagrid-web-tests/
+    workingDirectory: './datagrid-web-tests/'
     script: 'dir'
   continueOnError: false
 
@@ -33,7 +33,7 @@ steps:
   name: install_dep
   displayName: 'Install dependencies using yarn'
   inputs:
-    workingDir: ${Agent.BuildDirectory}/s/datagrid-web-tests/
+    workingDirectory: './datagrid-web-tests/'
     script: 'yarn install'
   continueOnError: false
   
