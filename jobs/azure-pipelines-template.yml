@@ -25,7 +25,7 @@ steps:
   name: install_dep
   displayName: 'Install dependencies using yarn'
   inputs:
-    workingDir: './s/datagrid-web-tests/'
+    workingDir: '.${Agent.BuildDirectory}/s/datagrid-web-tests/'
     script: 'yarn install'
   continueOnError: true
   
