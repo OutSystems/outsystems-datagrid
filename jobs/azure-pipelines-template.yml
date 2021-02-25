@@ -25,6 +25,7 @@ steps:
   name: install_dep
   displayName: 'Install dependencies using yarn'
   inputs:
+    workingDir: './datagrid-web-tests'
     script: 'yarn'
   continueOnError: true
   
