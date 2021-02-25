@@ -53,11 +53,18 @@ namespace GridAPI.Filter {
      * @param {string} searchedValue
      * @returns {*}  {void}
      */
-    export function Search(gridID: string, searchedValue: string): void {
+    export function Search(
+        gridID: string,
+        searchedValue: string,
+        allowSearchHiddenColumns: boolean
+    ): void {
         if (!Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
-        const bindings = grid.provider.columns.map((col) => {
-            if (col.visible) return col.binding;
+        const bindings = grid.provider.columns.map((col: wijmo.grid.Column) => {
+            // If allowSearchHiddenColumns input parameter is set to True, then return all columns
+            // Otherwise, return only the columns that are visible
+            if (allowSearchHiddenColumns === true || col.visible === true)
+                return col.binding;
         });
 
         // If the searchedValue is "Pink", trying to match will return :"pink
@@ -66,7 +73,9 @@ namespace GridAPI.Filter {
             'i'
         );
 
+        // always move to first page when a search is done
         grid.features.pagination.moveToFirstPage();
+
         // Filter the collectionView
         grid.provider.collectionView.filter = function (dataItemStr) {
             const dataItemMatchArray: RegExpMatchArray = JSON.stringify(
