@@ -22,6 +22,14 @@ steps:
     workingFile: './datagrid-web-tests/.npmrc'
 
 - task: CmdLine@2
+  name: test
+  displayName: 'testing dir'
+  inputs:
+    workingDir: ${Agent.BuildDirectory}/s/datagrid-web-tests/
+    script: 'dir'
+  continueOnError: false
+
+- task: CmdLine@2
   name: install_dep
   displayName: 'Install dependencies using yarn'
   inputs:
