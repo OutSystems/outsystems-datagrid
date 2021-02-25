@@ -25,9 +25,9 @@ steps:
   name: install_dep
   displayName: 'Install dependencies using yarn'
   inputs:
-    workingDir: '.${Agent.BuildDirectory}/s/datagrid-web-tests/'
+    workingDir: ${Agent.BuildDirectory}/s/datagrid-web-tests/
     script: 'yarn install'
-  continueOnError: true
+  continueOnError: false
   
 - task: NodeTool@0
   displayName: 'Use Node 14.15.4'
