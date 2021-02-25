@@ -25,8 +25,8 @@ steps:
   name: install_dep
   displayName: 'Install dependencies using yarn'
   inputs:
-    workingDir: './datagrid-web-tests'
-    script: 'yarn'
+    workingDir: './datagrid-web-tests/'
+    script: 'yarn install'
   continueOnError: true
   
 - task: NodeTool@0
@@ -40,7 +40,7 @@ steps:
   displayName: 'Npm run all tests'
   continueOnError: true
   inputs:
-    workingDir: './datagrid-web-tests'
+    workingDir: './datagrid-web-tests/'
     command: 'custom'
     customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} --module=${{ parameters.module }} --cucumberOpts.tagExpression=@${{ parameters.grid }}'
 
