@@ -15,6 +15,7 @@ parameters:
 
 
 steps:
+- script: echo ${{ parameters.module }}
 - task: npmAuthenticate@0
   displayName: 'Npm authenticate'
   inputs:
