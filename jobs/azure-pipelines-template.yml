@@ -34,7 +34,7 @@ steps:
   displayName: 'testing branch name'
   inputs:
     workingDirectory: './datagrid-web-tests/'
-    script: echo $(Build.SourceBranchName)
+    script: echo ${{replace(variables[$(Build.SourceBranchName)], '-', '')}}
   continueOnError: false
 
 - task: CmdLine@2
