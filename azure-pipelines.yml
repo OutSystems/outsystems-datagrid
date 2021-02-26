@@ -35,13 +35,7 @@ stages:
     - checkout: self
     - checkout: datagrid-web-tests
 
-    - task: CmdLine@2
-      name: test2aa
-      displayName: 'iejgepigj'
-      inputs:
-        workingDirectory: './datagrid-web-tests/'
-        script: input="my string foo"; echo ${input/foo/bar}
-      continueOnError: false
+    - script: input="my string foo";\n echo ${input/foo/bar}
 
     - task: CmdLine@2
       name: test2a
