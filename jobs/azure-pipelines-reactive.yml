@@ -46,7 +46,6 @@ stages:
   jobs:
   - job: Tests
     displayName: 'Tests Job'
-    timeoutInMinutes: 8
     pool:
       vmImage: 'windows-latest'
     steps:
