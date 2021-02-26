@@ -64,4 +64,4 @@ stages:
 
 - template: 'jobs/azure-pipelines-reactive.yml'
   parameters:
-    module:  ${{replace(variables[$(Build.SourceBranchName)], '-', '')}}
+    module: ${{replace(variables[$(Build.SourceBranchName)], '-', '')}}
