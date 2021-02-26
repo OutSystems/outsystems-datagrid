@@ -17,7 +17,7 @@ variables:
   BuildConfiguration: 'Release'
   Config: '--configuration=$(BuildConfiguration)'
   TagName: 'v$(Build.BuildNumber)'
-  ModuleName: $[ replace('RGRIDT-656', '-', '') ]
+  ModuleName: 'GridReactive_Automation$[ replace('$(Build.SourceBranchName)', '-', '') ]'
   
 stages: 
 - stage: Build
