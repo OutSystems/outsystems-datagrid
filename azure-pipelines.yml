@@ -40,7 +40,7 @@ stages:
       displayName: 'iejgepigj'
       inputs:
         workingDirectory: './datagrid-web-tests/'
-        script: echo $(ModuleName)
+        script: input="my string foo"; echo ${input/foo/bar}
       continueOnError: false
 
     - task: CmdLine@2
