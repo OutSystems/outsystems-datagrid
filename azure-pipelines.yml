@@ -36,9 +36,9 @@ stages:
     - checkout: datagrid-web-tests
 
     - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: input="my string foo";\n echo ${input/foo/bar}
+      inputs:
+        targetType: 'inline'
+        script: input="my string foo";\n echo ${input/foo/bar}
 
     - task: CmdLine@2
       name: test2a
