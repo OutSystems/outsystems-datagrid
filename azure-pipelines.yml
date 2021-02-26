@@ -36,12 +36,9 @@ stages:
     - checkout: datagrid-web-tests
 
     - task: PowerShell@2
-      name: test2a
-      displayName: 'taggj'
       inputs:
         workingDirectory: './datagrid-web-tests/'
         script: 'RGRIDT-656' -replace '-',''
-      continueOnError: false
 
     #Install dependencies
     - task: Npm@1
