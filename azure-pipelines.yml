@@ -17,7 +17,7 @@ variables:
   BuildConfiguration: 'Release'
   Config: '--configuration=$(BuildConfiguration)'
   TagName: 'v$(Build.BuildNumber)'
-  ModuleName: '${{replace(variables[$(Build.SourceBranchName)], '-', '')}}'
+  ModuleName: ${{ replace(variables[$(Build.SourceBranchName)], '-', '') }}
   
 stages: 
 - stage: Build
