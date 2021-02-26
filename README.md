@@ -44,7 +44,7 @@ We highly recommend the usage of the following tools:
 6. Compile and fix errors and warnings (in Visual Code terminal: `npm run build`)
 7. Check if the code format is following our conventions (in Visual Code terminal: `npm run lint`)
 7.1 Some of the conventions can be fixed automatically by lint (in Visual Code terminal: `npm run lintfix`)
-7.2 Although the script above execute the prettier conventions, you may want to run it oover all project files (in Visual Code terminal: `npm run prettier`)
+7.2 Although the script above execute the prettier conventions, you may want to run it over all project files (in Visual Code terminal: `npm run prettier`)
 8. Fix all errors & warnings! :)
 9. Create a PR, describing what was the (mis)behavior, what you changed and please provide a sample 
 
