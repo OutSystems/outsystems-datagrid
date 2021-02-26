@@ -39,7 +39,7 @@ stages:
       inputs:
         targetType: inline
         workingDirectory: './datagrid-web-tests/'
-        script: 'RGRIDT-656' -replace '-',''
+        script: $BranchName -replace '-',''
 
     #Install dependencies
     - task: Npm@1
