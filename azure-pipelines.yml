@@ -36,20 +36,20 @@ stages:
     - checkout: datagrid-web-tests
 
     - task: CmdLine@2
-    name: test2aa
-    displayName: 'iejgepigj'
-    inputs:
-      workingDirectory: './datagrid-web-tests/'
-      script: echo $ModuleName
-    continueOnError: false
+      name: test2aa
+      displayName: 'iejgepigj'
+      inputs:
+        workingDirectory: './datagrid-web-tests/'
+        script: echo $ModuleName
+      continueOnError: false
 
     - task: CmdLine@2
-    name: test2a
-    displayName: 'taggj'
-    inputs:
-      workingDirectory: './datagrid-web-tests/'
-      script: echo $TagName
-    continueOnError: false
+      name: test2a
+      displayName: 'taggj'
+      inputs:
+        workingDirectory: './datagrid-web-tests/'
+        script: echo $TagName
+      continueOnError: false
 
     #Install dependencies
     - task: Npm@1
