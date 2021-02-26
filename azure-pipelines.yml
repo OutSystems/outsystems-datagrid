@@ -17,6 +17,7 @@ variables:
   BuildConfiguration: 'Release'
   Config: '--configuration=$(BuildConfiguration)'
   TagName: 'v$(Build.BuildNumber)'
+  ModuleName: '${{replace(variables[$(Build.SourceBranchName)], '-', '')}}'
   
 stages: 
 - stage: Build
@@ -64,4 +65,4 @@ stages:
 
 - template: 'jobs/azure-pipelines-reactive.yml'
   parameters:
-    module: ${{replace(variables[$(Build.SourceBranchName)], '-', '')}}
+    module: $ModuleName
