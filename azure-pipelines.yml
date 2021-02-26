@@ -17,7 +17,7 @@ variables:
   BuildConfiguration: 'Release'
   Config: '--configuration=$(BuildConfiguration)'
   TagName: 'v$(Build.BuildNumber)'
-  ModuleName: $[ replace(RGRIDT-656, '-', '') ]
+  ModuleName: $[ replace('RGRIDT-656', '-', '') ]
   
 stages: 
 - stage: Build
