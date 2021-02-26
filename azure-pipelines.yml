@@ -33,7 +33,15 @@ stages:
 
     #Checkout repositories
     - checkout: self
-    - checkout: datagrid-web-tests 
+    - checkout: datagrid-web-tests
+
+    - task: CmdLine@2
+    name: test2
+    displayName: 'testing branch'
+    inputs:
+      workingDirectory: './datagrid-web-tests/'
+      script: echo $ModuleName
+    continueOnError: false
 
     #Install dependencies
     - task: Npm@1
