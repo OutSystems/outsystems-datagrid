@@ -35,17 +35,12 @@ stages:
     - checkout: self
     - checkout: datagrid-web-tests
 
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: input="my string foo";\n echo ${input/foo/bar}
-
-    - task: CmdLine@2
+    - task: PowerShell@2
       name: test2a
       displayName: 'taggj'
       inputs:
         workingDirectory: './datagrid-web-tests/'
-        script: echo $(TagName)
+        script: 'RGRIDT-656' -replace '-',''
       continueOnError: false
 
     #Install dependencies
