@@ -22,11 +22,19 @@ steps:
     workingFile: './datagrid-web-tests/.npmrc'
 
 - task: CmdLine@2
-  name: test
-  displayName: 'testing dir'
+  name: test2
+  displayName: 'testing branch'
   inputs:
     workingDirectory: './datagrid-web-tests/'
-    script: 'dir'
+    script: echo $(Build.SourceBranch)
+  continueOnError: false
+
+- task: CmdLine@2
+  name: test
+  displayName: 'testing branch name'
+  inputs:
+    workingDirectory: './datagrid-web-tests/'
+    script: echo $(Build.SourceBranchName)
   continueOnError: false
 
 - task: CmdLine@2
