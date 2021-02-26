@@ -43,6 +43,7 @@ We highly recommend the usage of the following tools:
 5. **Document your code** (with the extension "Document This", start typing `/**` and the extension will give you a good starting point
 6. Compile and fix errors and warnings (in Visual Code terminal: `npm run build`)
 7. Check if the code format is following our conventions (in Visual Code terminal: `npm run lint`)
+7.1 Some of the conventions can be fixed automatically by lint (in Visual Code terminal: `npm run lintfix`)
 8. Fix all errors & warnings! :)
 9. Create a PR, describing what was the (mis)behavior, what you changed and please provide a sample 
 
