@@ -40,7 +40,7 @@ stages:
       displayName: 'iejgepigj'
       inputs:
         workingDirectory: './datagrid-web-tests/'
-        script: echo $ModuleName
+        script: echo $(ModuleName)
       continueOnError: false
 
     - task: CmdLine@2
@@ -48,7 +48,7 @@ stages:
       displayName: 'taggj'
       inputs:
         workingDirectory: './datagrid-web-tests/'
-        script: echo $TagName
+        script: echo $(TagName)
       continueOnError: false
 
     #Install dependencies
