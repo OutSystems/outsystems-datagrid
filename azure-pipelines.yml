@@ -37,9 +37,8 @@ stages:
 
     - task: PowerShell@2
       inputs:
-        targetType: inline
-        workingDirectory: './datagrid-web-tests/'
-        script: Write-Host "##vso[task.setvariable variable=sauce;]" "$(BranchName) -replace '-',''"
+        filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
+        workingDirectory: ./outsystems-datagrid-reactive/
 
     - task: PowerShell@2
       inputs:
