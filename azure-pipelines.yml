@@ -46,7 +46,7 @@ stages:
       inputs:
         targetType: inline
         workingDirectory: './datagrid-web-tests/'
-        script: Write-Host "Non-secrets automatically mapped in, sauce is $env:SAUCE"
+        script: Write-Host "Non-secrets automatically mapped in, sauce is $env:branch"
 
     #Install dependencies
     - task: Npm@1
@@ -79,4 +79,4 @@ stages:
 
 - template: 'jobs/azure-pipelines-reactive.yml'
   parameters:
-    module: $ModuleName
+    module: $env:branch
