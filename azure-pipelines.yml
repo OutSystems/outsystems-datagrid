@@ -39,6 +39,8 @@ stages:
       inputs:
         filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
         workingDirectory: ./outsystems-datagrid-reactive/
+        arguments:
+          -branch $(BranchName)
 
     - task: PowerShell@2
       inputs:
