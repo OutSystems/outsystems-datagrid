@@ -55,6 +55,7 @@ We highly recommend the usage of the following tools:
 
 ### How to do a Hotfix?
   * A new branch from **master** should be created.
+  * The branch name should be prefixed with “**hotfix-**” (e.g. *hotfix-broken-col-css*)
   * When the fix is completed and tested, **2 Pull Requests** should be created:
     * to master, in order to release a new version ASAP.
     * to dev, in order to assure that all future versions will benefit from this fix.
