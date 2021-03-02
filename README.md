@@ -73,7 +73,7 @@ To be accepted, a Pull Request needs to:
       * A link to a sample page showing the fixed behavior or the new feature
       * What was happening?
       * What was done?
-      * Tests steps
+      * Tests stepsadasda
       * Screenshots
       * Checklist
 
