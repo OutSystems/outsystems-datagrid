@@ -62,7 +62,7 @@ steps:
   inputs:
     targetType: inline
     workingDirectory: './datagrid-web-tests/'
-    script: Write-Host "Non-secrets automatically mapped in, sauce is $env:branch"
+    script: Write-Host "Non-secrets automatically mapped in, sauce is $env:branch.Trim()"
 
 - task: Npm@1
   condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'))
