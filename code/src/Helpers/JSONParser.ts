@@ -2,8 +2,8 @@
 namespace Helper {
     /**
      * Responsable for parsing string fields to its correct data type
-     * 
-     * @param data A string of the JSON data object 
+     *
+     * @param data A string of the JSON data object
      * @example OS Date fields is send as strings, and we should parse it to Date, the is done for Datetime fields.
      */
     // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any

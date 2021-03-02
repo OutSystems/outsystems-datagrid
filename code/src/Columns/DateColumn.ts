@@ -3,7 +3,7 @@ namespace Column {
     /**
      * Representation of OS Date Column
      * Responsable to instantiate the custom editor (calendar) and all the features of a Date column
-     * 
+     *
      * OS Date format don't consider GMT, and so this Column class. Multiple users in different locations of the Globe, will have the same information on Grid.
      * If GMT need to be consider, use the DateTimeColumn.
      */
