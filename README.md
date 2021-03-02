@@ -48,6 +48,40 @@ We highly recommend the usage of the following tools:
 8. Fix all errors & warnings! :)
 9. Create a PR, describing what was the (mis)behavior, what you changed and please provide a sample 
 
+### How to add new feature?
+  * A new branch from **dev** should be created.
+  * If possible the branch should be kept updated with the dev branch.
+  * If possible unnecessary commit messages should be omitted.
+
+### How to do a Hotfix?
+  * A new branch from **master** should be created.
+  * When the fix is completed and tested, **2 Pull Requests** should be created:
+    * to master, in order to release a new version ASAP.
+    * to dev, in order to assure that all future versions will benefit from this fix.
+
+### How to do a Pull Request?
+After completing your changes, and testing, please proceed with submitting a Pull Request.
+
+To be accepted, a Pull Request needs to:
+
+1. **Fulfill the following requirements**
+    * Needs to compile without errors
+    * Needs to follow the code style rules (without warnings and errors)
+    * Needs to be approved by 2 team members (owners of the repo)
+    * The Pull Request template, should be filled up by the Pull Requestor:
+      * Provide a short description
+      * A link to a sample page showing the fixed behavior or the new feature
+      * What was happening?
+      * What was done?
+      * Tests steps
+      * Screenshots
+      * Checklist
+
+2. **Follow best practices**
+    * The submitted code should be well documented (e.g. comments).
+    * Avoid changes outside the scope of the issue in hands.
+    * Avoid exposing sensible information of any kind (e.g. internal server link, process, etc).
+
 ## Useful Links
 * Download latest version in [OutSystems forge](https://www.outsystems.com/forge/component-versions/9764)
 * Test the latest changes in the [sample app](https://www.outsystems.com/forge/component-overview/9765/data-grid-sample-reactive)
