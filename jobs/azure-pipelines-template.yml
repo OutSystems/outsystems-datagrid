@@ -13,7 +13,6 @@ parameters:
 - name: grid
   type: string
 
-
 steps:
 - script: echo ${{ parameters.module }}
 - task: npmAuthenticate@0
@@ -21,19 +20,19 @@ steps:
   inputs:
     workingFile: './datagrid-web-tests/.npmrc'
 
-# - task: CmdLine@2
-#   name: install_dep
-#   displayName: 'Install dependencies using yarn'
-#   inputs:
-#     workingDirectory: './datagrid-web-tests/'
-#     script: 'yarn install'
-#   continueOnError: false
+- task: CmdLine@2
+  name: install_dep
+  displayName: 'Install dependencies using yarn'
+  inputs:
+    workingDirectory: './datagrid-web-tests/'
+    script: 'yarn install'
+  continueOnError: false
   
-# - task: NodeTool@0
-#   displayName: 'Use Node 14.15.4'
-#   inputs:
-#     versionSpec: '14.15.4'
-#     checkLatest: true
+- task: NodeTool@0
+  displayName: 'Use Node 14.15.4'
+  inputs:
+    versionSpec: '14.15.4'
+    checkLatest: true
 
 - task: PowerShell@2
   inputs:
@@ -41,12 +40,6 @@ steps:
     workingDirectory: ./outsystems-datagrid-reactive/
     arguments:
       -branch $(BranchName)
-
-- task: PowerShell@2
-  inputs:
-    targetType: inline
-    workingDirectory: './datagrid-web-tests/'
-    script: Write-Host "Non-secrets automatically mapped in, sauce is" $env:branch.Trim()
 
 - task: Npm@1
   condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'))
