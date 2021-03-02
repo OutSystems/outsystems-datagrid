@@ -73,6 +73,7 @@ steps:
   timeoutInMinutes: 3
   continueOnError: true
   inputs:
+    workingDir: './datagrid-web-tests'
     command: 'custom'
     customCommand: 'run report'
 
@@ -81,12 +82,14 @@ steps:
   timeoutInMinutes: 3
   continueOnError: true
   inputs:
+    workingDir: './datagrid-web-tests'
     command: 'custom'
     customCommand: 'run convertToJUnit'
 
 - task: PublishTestResults@2
   continueOnError: true
   inputs:
+    workingDir: './datagrid-web-tests'
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/.tmp/junit/*.xml'
     failTaskOnFailedTests: false
