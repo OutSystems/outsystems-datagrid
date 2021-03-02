@@ -62,7 +62,7 @@ steps:
   inputs:
     targetType: inline
     workingDirectory: './datagrid-web-tests/'
-    script: Write-Host "Non-secrets automatically mapped in, sauce is $env:branch.Trim()"
+    script: Write-Host "Non-secrets automatically mapped in, sauce is" $env:branch.Trim()
 
 - task: Npm@1
   condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'))
@@ -71,7 +71,7 @@ steps:
   inputs:
     workingDir: './datagrid-web-tests/'
     command: 'custom'
-    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} "--module=$(branch)" --cucumberOpts.tagExpression=@${{ parameters.grid }}'
+    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} "--module=$(branch).Trim()" --cucumberOpts.tagExpression=@${{ parameters.grid }}'
 
 - task: Npm@1
   condition: ne('${{ parameters.feature}}','all')
@@ -80,7 +80,7 @@ steps:
   inputs:
     workingDir: './datagrid-web-tests'
     command: 'custom'
-    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} "--module=$(branch)" --cucumberOpts.tagExpression=@${{ parameters.grid }} and @${{ parameters.feature }}"'
+    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} "--module=$(branch).Trim()" --cucumberOpts.tagExpression=@${{ parameters.grid }} and @${{ parameters.feature }}"'
 
 - task: Npm@1
   condition: ne('${{ parameters.priority}}','all')
@@ -89,7 +89,7 @@ steps:
   inputs:
     workingDir: './datagrid-web-tests'
     command: 'custom'
-    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} "--module=$(branch)" --cucumberOpts.tagExpression=@${{ parameters.grid }} and @priority:${{ parameters.priority }}"'
+    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }} "--module=$(branch).Trim()" --cucumberOpts.tagExpression=@${{ parameters.grid }} and @priority:${{ parameters.priority }}"'
 
 - task: Npm@1
   displayName: 'Generate Report'
