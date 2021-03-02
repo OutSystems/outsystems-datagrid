@@ -97,7 +97,7 @@ steps:
 
 - task: PublishCucumberReport@1
   inputs:
-    jsonDir: '.tmp/json'
+    jsonDir: '${Agent.BuildDirectory}/tmp/json'
     outputPath: '.tmp'
     theme: 'bootstrap'
     reportSuiteAsScenarios: true
