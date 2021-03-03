@@ -44,11 +44,6 @@ interface IProviderConfig<T> {
  */
 interface IConfiguration {
     /**
-     * Represents the identifier created on OS and used as reference to find objects on screen
-     */
-    uniqueId: string;
-
-    /**
      * Method responsable for the translation of configuration from OS to Provider
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,6 +55,10 @@ interface IConfiguration {
  * Defines the basic structure for grid objects
  */
 interface IConfigurationGrid extends IConfiguration {
+    /**
+     * Represents the identifier created on OS and used as reference to find objects on screen
+     */
+    uniqueId: string;
 }
 
 /**
@@ -83,7 +82,7 @@ interface IConfigurationColumn extends IConfiguration {
     editor: any;
     /** The format used to print data on screen.
      * This property is used only for data visualization.
-     * @example Date fields can be DD/MM/YYYY 
+     * @example Date fields can be DD/MM/YYYY
      */
     format: string;
     /** Id reference for the internal GenericColumn widget */
@@ -92,6 +91,10 @@ interface IConfigurationColumn extends IConfiguration {
     header: string;
     /** Defines when the column can or not be empty */
     required: boolean;
+    /**
+     * Represents the identifier created on OS and used as reference to find objects on screen
+     */
+    uniqueId: string;
 }
 
 /**
@@ -100,7 +103,7 @@ interface IConfigurationColumn extends IConfiguration {
 interface IConfigurationColumnEditor extends IConfiguration {
     /** The format used to print data on screen.
      * This property is used only for data visualization.
-     * @example Date fields can be DD/MM/YYYY 
+     * @example Date fields can be DD/MM/YYYY
      */
     format: string;
     /** Defines when the column can or not be empty */

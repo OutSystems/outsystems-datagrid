@@ -223,7 +223,8 @@ namespace Column {
          */
         public mask: string;
 
-        public getProviderConfig() {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public getProviderConfig(): any {
             const config = super.getProviderConfig();
 
             //Mask and format can't have different values
