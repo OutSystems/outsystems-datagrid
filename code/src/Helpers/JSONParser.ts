@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Helper {
     /**
-     * Responsable for parsing string fields to its correct data type
+     * Responsible for parsing string fields to its correct data type
      *
      * @param data A string of the JSON data object
      * @example OS Date fields is send as strings, and we should parse it to Date, the is done for Datetime fields.
