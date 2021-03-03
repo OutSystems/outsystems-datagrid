@@ -17,7 +17,7 @@ variables:
   BuildConfiguration: 'Release'
   Config: '--configuration=$(BuildConfiguration)'
   TagName: 'v$(Build.BuildNumber)'
-  BranchName: $(Build.SourceBranchName)
+  BranchName: $(System.PullRequest.SourceBranch)
   
 stages: 
 - stage: Build
