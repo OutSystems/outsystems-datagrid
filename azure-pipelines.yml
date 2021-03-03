@@ -25,8 +25,8 @@ stages:
   jobs:
   - job: Bar
     steps:
-    - script: echo $(BranchName)
-    condition: eq('$(BranchName)', 'RGRIDT-656')
+    - script: echo $(System.PullRequest.SourceBranch)
+    condition: eq('$(System.PullRequest.SourceBranch)', 'RGRIDT-656')
   
   - job: Build
     displayName: 'Build Job'
