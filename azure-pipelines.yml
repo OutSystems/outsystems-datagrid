@@ -26,7 +26,7 @@ stages:
   - job: Bar
     steps:
     - script: echo $(System.PullRequest.SourceBranch)
-    condition: ne(variables['System.PullRequest.SourceBranch'], 'RGRIDT-656')
+    condition: ne(variables['System.PullRequest.SourceBranch'], 'dev')
   
   - job: Build
     displayName: 'Build Job'
