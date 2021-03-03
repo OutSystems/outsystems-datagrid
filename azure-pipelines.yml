@@ -18,7 +18,6 @@ variables:
   Config: '--configuration=$(BuildConfiguration)'
   TagName: 'v$(Build.BuildNumber)'
   BranchName: $(Build.SourceBranchName)
-  ModuleName: $[ replace(variables['BranchName'], '-', '') ]
   
 stages: 
 - stage: Build
