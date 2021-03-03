@@ -24,9 +24,9 @@ stages:
   displayName: 'Build'
   jobs:
   - job: Bar
-  condition: ne(variables['BranchName'], 'RGRIDT-656') #map doThing and check the value
-  steps:
-  - script: echo "Branch is not RGRIDT-656"
+    condition: ne(variables['BranchName'], 'RGRIDT-656') #map doThing and check the value
+    steps:
+    - script: echo "Branch is not RGRIDT-656"
   
   - job: Build
     displayName: 'Build Job'
