@@ -70,7 +70,7 @@ namespace Helper {
 
                     if (object[leaf] !== undefined) {
                         const dt = object[leaf] as Date;
-                        //Considering that OS Date field do not consider GMT
+                        //Considering that OS Date field does not consider GMT
                         //DataGrid also won't consider it for Date Columns
                         //As the Grid needs a Date Object, before sending back to OS, we have to parse it to string
                         //The code below substract the timezone so the user have a date in format 'YYY-MM-DDT00:00:000Z'
