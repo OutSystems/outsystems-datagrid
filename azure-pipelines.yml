@@ -23,12 +23,14 @@ stages:
 - stage: Build
   displayName: 'Build'
   jobs:
-  - job: Bar
+  - job: SourceBranch
     steps:
     - script: echo $(System.PullRequest.SourceBranch)
     condition: ne(variables['System.PullRequest.SourceBranch'], 'dev')
-
+  - job: BranchName
+    steps:
     - script: echo $(BranchName)
+
     
   - job: Build
     displayName: 'Build Job'
