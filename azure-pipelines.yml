@@ -62,8 +62,8 @@ stages:
         PathtoPublish: './outsystems-datagrid-reactive/code/styles/Grid.css'
         ArtifactName: 'Grid.css'
         publishLocation: 'Container'
-
-- template: 'jobs/azure-pipelines-reactive.yml'
-  condition: ne(variables['Build.SourceBranch'], 'refs/heads/dev'))
-  parameters:
-    module: $env:branch
+    
+- ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/dev')) }}:
+  - template: 'jobs/azure-pipelines-reactive.yml'
+    parameters:
+      module: $env:branch
