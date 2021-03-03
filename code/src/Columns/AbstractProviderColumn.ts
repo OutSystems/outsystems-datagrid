@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Column {
     /**
-     * An extension of AbstractColumn, used to handle with the grid's provider
+     * An extension of AbstractColumn, used to handle the grid's provider
      */
     export abstract class AbstractProviderColumn<
         T extends IConfigurationColumn
