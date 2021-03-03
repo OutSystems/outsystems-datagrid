@@ -11,7 +11,7 @@ namespace Column {
         editorProvider: any;
         /**
          * Holds the reference to the provider editor's type
-         * Used during the intantiation of the column to create the editor Provider
+         * Used during the instantiation of the column to create the editor Provider
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         editorProviderType: any;
