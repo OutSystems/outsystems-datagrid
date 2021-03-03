@@ -23,6 +23,11 @@ stages:
 - stage: Build
   displayName: 'Build'
   jobs:
+  - job: Bar
+  condition: ne(variables['BranchName'], 'RGRIDT-656') #map doThing and check the value
+  steps:
+  - script: echo "Branch is not RGRIDT-656"
+  
   - job: Build
     displayName: 'Build Job'
     timeoutInMinutes: 8
@@ -33,9 +38,6 @@ stages:
     #Checkout repositories
     - checkout: self
     - checkout: datagrid-web-tests
-
-    - script: echo branchName is blank
-    condition: ne(variables['BranchName'], 'RGRIDT-656')
 
     #Install dependencies
     - task: Npm@1
