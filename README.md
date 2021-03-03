@@ -48,17 +48,10 @@ We highly recommend the usage of the following tools:
 8. Fix all errors & warnings! :)
 9. Create a PR, describing what was the (mis)behavior, what you changed and please provide a sample 
 
-### How to add new feature?
-  * A new branch from **dev** should be created.
-  * If possible the branch should be kept updated with the dev branch.
-  * If possible unnecessary commit messages should be omitted.
-
-### How to do a Hotfix?
+### How to add new feature/fix?
   * A new branch from **master** should be created.
-  * The branch name should be prefixed with “**hotfix-**” (e.g. *hotfix-broken-col-css*)
-  * When the fix is completed and tested, **2 Pull Requests** should be created:
-    * to master, in order to release a new version ASAP.
-    * to dev, in order to assure that all future versions will benefit from this fix.
+  * If possible the branch should be kept updated with the master branch.
+  * If possible unnecessary commit messages should be omitted.
 
 ### How to do a Pull Request?
 After completing your changes, and testing, please proceed with submitting a Pull Request.
