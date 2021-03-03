@@ -68,7 +68,7 @@ stages:
         ArtifactName: 'Grid.css'
         publishLocation: 'Container'
     
-# - ${{ if ne(variables['BranchName'], 'RGRIDT-656') }}:
-#   - template: 'jobs/azure-pipelines-reactive.yml'
-#     parameters:
-#       module: $env:branch
+- ${{ if ne(variables['System.PullRequest.SourceBranch'], 'RGRIDT-656') }}:
+  - template: 'jobs/azure-pipelines-reactive.yml'
+    parameters:
+      module: $env:branch
