@@ -42,6 +42,7 @@ parameters:
 
 stages: 
 - stage: Tests
+  condition: ne(variables['System.PullRequest.SourceBranch'], 'RGRIDT-656')
   displayName: 'Tests'
   jobs:
   - job: Tests
@@ -49,7 +50,6 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
-    condition: ne(variables['System.PullRequest.SourceBranch'], 'RGRIDT-656')
     #Checkout repositories
     - checkout: self
     - checkout: datagrid-web-tests 
