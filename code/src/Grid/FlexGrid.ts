@@ -32,10 +32,14 @@ namespace Grid {
             let tempArray = [];
 
             for (let index = 0; index < itemsChanged.length; ++index) {
-                tempArray.push(_.clone(itemsChanged[index]));
                 //let's remove our metadata from the information that we'll sent back
-                delete tempArray[tempArray.length - 1].__osRowMetada;
+                this.rowMetadata.clear(itemsChanged[index]);
+
+                tempArray.push(_.cloneDeep(itemsChanged[index]));
             }
+
+            //In-place convert data to Outsystems Format
+            Helper.ToOSFormat(this, tempArray);
 
             if (this.isSingleEntity) {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer
@@ -43,7 +47,7 @@ namespace Grid {
                 tempArray = Helper.FlattenArray(tempArray as [JSON]);
             }
 
-            return JSON.stringify(Helper.ToOSFormat(this, tempArray));
+            return JSON.stringify(tempArray);
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
