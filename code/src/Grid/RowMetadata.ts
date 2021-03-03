@@ -5,29 +5,29 @@ namespace Grid {
      */
     export interface IRowMetadata {
         /**
-         * Responsable for cleanning metadata information
+         * Responsable for cleaning metadata information
          * @param dataItem object to clear metadata, if ignored the whole sourceCollection will be cleaned
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         clear(dataItem?: any): void;
         /**
-         * Responsable for cleanning metadata information for a given row
+         * Responsable for cleaning metadata information for a given row
          * @param row Index row reference, works only in the current page
          */
         clearByRow(row: number): void;
         /**
-         * Responsable for cleanning metadata information for a given property
+         * Responsable for cleaning metadata information for a given property
          * @param propertyName Metadata property to be clear
          */
         clearProperty(propertyName: string): void;
         /**
-         * Responsable for cleanning metadata information for a given row and property
+         * Responsable for cleaning metadata information for a given row and property
          * @param row Index row reference, works only in the current page
          * @param propertyName Metadata property to be clear
          */
         clearPropertyByRow(row: number, propertyName: string): void;
         /**
-         * Responsable for retriving metadata information for a given row and property
+         * Responsable for retrieving metadata information for a given row and property
          * @param row Index row reference, works only in the current page
          * @param propertyName Metadata property
          */
