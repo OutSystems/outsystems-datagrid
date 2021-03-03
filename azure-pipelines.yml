@@ -34,6 +34,9 @@ stages:
     - checkout: self
     - checkout: datagrid-web-tests
 
+    - script: echo branchName is blank
+    condition: ne(variables['BranchName'], 'RGRIDT-656')
+
     #Install dependencies
     - task: Npm@1
       displayName: 'npm install'
@@ -63,7 +66,7 @@ stages:
         ArtifactName: 'Grid.css'
         publishLocation: 'Container'
     
-- ${{ if ne(variables['BranchName'], 'RGRIDT-656') }}:
-  - template: 'jobs/azure-pipelines-reactive.yml'
-    parameters:
-      module: $env:branch
+# - ${{ if ne(variables['BranchName'], 'RGRIDT-656') }}:
+#   - template: 'jobs/azure-pipelines-reactive.yml'
+#     parameters:
+#       module: $env:branch
