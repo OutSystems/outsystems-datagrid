@@ -54,6 +54,7 @@ stages:
     - checkout: datagrid-web-tests 
 
     - template: 'azure-pipelines-template.yml'
+    condition: ne(variables['System.PullRequest.SourceBranch'], 'RGRIDT-656')
       parameters:
         grid: reactive
         module: ${{ parameters.module }}
