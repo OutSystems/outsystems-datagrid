@@ -26,7 +26,7 @@ stages:
   - job: Bar
     steps:
     - script: echo $(BranchName)
-    condition: ne('$(BranchName)', 'RGRIDT-656') #map doThing and check the value
+    condition: eq('$(BranchName)', 'RGRIDT-656')
   
   - job: Build
     displayName: 'Build Job'
