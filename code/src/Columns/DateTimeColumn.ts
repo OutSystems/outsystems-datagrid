@@ -2,7 +2,7 @@
 namespace Column {
     /**
      * Representation of OS Datetime Column
-     * Responsable to instantiate the custom editor (calendar and time dropdown) and all the features of a Datetime column
+     * Responsible to instantiate the custom editor (calendar and time dropdown) and all the features of a Datetime column
      *
      * This object can handle GMT configurations. Multiple users in different locations of the Globe, will have its information based GMT of local machine.
      */
