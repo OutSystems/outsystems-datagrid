@@ -44,9 +44,8 @@ namespace Helper {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: Array<any>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ): Array<any> {
+    ): void {
         //TODO: [RGRIDT-638] Regression 2021-02-12: Is this method the best solution
-        const dataClone = _.cloneDeep(data);
         const columns = _.toArray(grid.columns)
             .map((pair) => pair[1] as Column.IColumn)
             .filter((p) => p.columnType === Column.ColumnType.Date);
@@ -60,7 +59,10 @@ namespace Helper {
                     const leaf = binding.shift();
 
                     if (object[leaf] !== undefined) {
-                        object[leaf] = (object[leaf] as Date)
+                        const dt = object[leaf] as Date;
+                        object[leaf] = new Date(
+                            dt.getTime() - dt.getTimezoneOffset() * 60000
+                        )
                             .toISOString()
                             .substr(0, 10);
                     }
@@ -69,13 +71,11 @@ namespace Helper {
         };
 
         columns.forEach((col) => {
-            dataClone.forEach((item) => {
+            data.forEach((item) => {
                 const binding = col.config.binding.split('.');
 
                 setDeepDate(binding, item);
             });
         });
-
-        return dataClone;
     }
 }
