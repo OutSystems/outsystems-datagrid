@@ -25,11 +25,10 @@ stages:
   jobs:
   - job: SourceBranch
     steps:
-    - script: echo $(System.PullRequest.SourceBranch)
-    condition: ne(variables['System.PullRequest.SourceBranch'], 'dev')
+    - script: echo variables['System.PullRequest.SourceBranch']
   - job: BranchName
     steps:
-    - script: echo $(BranchName)
+    - script: echo variables['BranchName']
 
     
   - job: Build
