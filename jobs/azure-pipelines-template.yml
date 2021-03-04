@@ -50,7 +50,7 @@ steps:
           fi 
 
 - task: Npm@1
-  condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'), eq(variables['skip'], 'true'))
+  condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'), ne(variables['skip'], 'true'))
   displayName: 'Npm run all tests'
   continueOnError: true
   inputs:
