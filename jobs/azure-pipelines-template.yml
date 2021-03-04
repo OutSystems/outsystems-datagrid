@@ -42,13 +42,15 @@ steps:
 
 - bash: |
           status=$(curl -s --head -w %{http_code} https://pp-datagridteam-dev.outsystemsenterprise.com/GridReactive_Automation$(branch)/ -o /dev/null)
+          echo $status
           if [[ $status = 404 ]]
           then
-            echo "##vso[task.setvariable variable=branch;]"
+            echo "##vso[task.setvariable variable=skip;]'true'"
+            echo $(skip)
           fi 
 
 - task: Npm@1
-  condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'))
+  condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'), eq(variables['skip'], 'true'))
   displayName: 'Npm run all tests'
   continueOnError: true
   inputs:
