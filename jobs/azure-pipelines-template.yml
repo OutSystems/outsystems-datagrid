@@ -29,7 +29,7 @@ steps:
   
 - task: NodeTool@0
   displayName: 'Use Node 14.15.4'
-  inputs:
+  inputs: 
     versionSpec: '14.15.4'
     checkLatest: true
 
@@ -39,6 +39,13 @@ steps:
     workingDirectory: ./outsystems-datagrid-reactive/
     arguments:
       -branch $(SourceBranchName)
+
+- bash: |
+          status=$(curl -s --head -w %{http_code} https://pp-datagridteam-dev.outsystemsenterprise.com/GridReactive_Automation$(branch)/GridConfigs -o /dev/null)
+          if [[ $status = 404 ]]
+          then
+            echo "##vso[task.setvariable variable=branch;]"
+          fi 
 
 - task: Npm@1
   condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'))
