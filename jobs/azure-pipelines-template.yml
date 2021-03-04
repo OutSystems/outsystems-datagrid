@@ -38,7 +38,7 @@ steps:
     filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
     workingDirectory: ./outsystems-datagrid-reactive/
     arguments:
-      -branch "RGRIDT-667"
+      -branch "RGRIDT-656"
 
 - bash: |
           status=$(curl -s --head -w %{http_code} https://pp-datagridteam-dev.outsystemsenterprise.com/GridReactive_Automation$(branch)/GridConfigs -o /dev/null)
