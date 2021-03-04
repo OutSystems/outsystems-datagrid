@@ -2,6 +2,9 @@
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Column {
+    /**
+     * Defines the generic properties for a Column
+     */
     export class ColumnConfig
         extends AbstractConfiguration
         implements IConfigurationColumn {
@@ -58,16 +61,19 @@ namespace Column {
         }
     }
 
+    /**
+     * Abstract class for columns with Custom Editors
+     */
     export abstract class AbstractEditorConfig
         extends AbstractConfiguration
         implements IConfigurationColumnEditor {
         public format: string;
         public required: boolean;
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        abstract getProviderConfig(): any;
     }
 
+    /**
+     * Defines the configuration for Date and Datetime custom editors
+     */
     export class EditorConfigDate extends AbstractEditorConfig {
         public max: Date;
         public min: Date;
@@ -93,6 +99,9 @@ namespace Column {
         }
     }
 
+    /**
+     * Defines the configuration for Numeric custom editors
+     */
     export class EditorConfigNumber extends AbstractEditorConfig {
         public decimalPlaces: number;
         public maxValue?: number;
@@ -131,10 +140,16 @@ namespace Column {
         }
     }
 
+    /**
+     * Defines the configuration for Currency custom editors
+     */
     export class EditorConfigCurrency extends EditorConfigNumber {
         public symbol: string;
     }
 
+    /**
+     * Defines the configuration for Dropdown custom editors
+     */
     export class ColumnConfigDropdown extends ColumnConfig {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public dataMap: any;
@@ -160,6 +175,9 @@ namespace Column {
         }
     }
 
+    /**
+     * Defines the configuration for Group Columns
+     */
     export class ColumnConfigGroup
         extends AbstractConfiguration
         implements IConfigurationColumn {
@@ -193,6 +211,29 @@ namespace Column {
                 collapseTo: this.collapseTo,
                 align: this.align
             };
+        }
+    }
+
+    /**
+     * Defines the configuration for Text Columns
+     */
+    export class ColumnConfigText extends ColumnConfig {
+        /** The mask applied to the input box during edition
+         * This can't conflict with format property
+         */
+        public mask: string;
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public getProviderConfig(): any {
+            const config = super.getProviderConfig();
+
+            //Mask and format can't have different values
+            //Assuming a mask was defined, it should override format
+            if (this.mask && this.mask !== this.format) {
+                delete config.format;
+            }
+
+            return config;
         }
     }
 }

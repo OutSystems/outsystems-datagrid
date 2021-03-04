@@ -1,0 +1,104 @@
+# File: jobs/azure-pipelines-template.yml
+parameters:
+- name: browser
+  type: string
+- name: module
+  type: string
+- name: environment
+  type: string
+- name: feature
+  type: string
+- name: priority
+  type: string
+- name: grid
+  type: string
+
+steps:
+- task: npmAuthenticate@0
+  displayName: 'Npm authenticate'
+  inputs:
+    workingFile: './datagrid-web-tests/.npmrc'
+
+- task: CmdLine@2
+  name: install_dep
+  displayName: 'Install dependencies using yarn'
+  inputs:
+    workingDirectory: './datagrid-web-tests/'
+    script: 'yarn install'
+  continueOnError: false
+  
+- task: NodeTool@0
+  displayName: 'Use Node 14.15.4'
+  inputs:
+    versionSpec: '14.15.4'
+    checkLatest: true
+
+- task: PowerShell@2
+  inputs:
+    filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
+    workingDirectory: ./outsystems-datagrid-reactive/
+    arguments:
+      -branch $(SourceBranchName)
+
+- task: Npm@1
+  condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'))
+  displayName: 'Npm run all tests'
+  continueOnError: true
+  inputs:
+    workingDir: './datagrid-web-tests/'
+    command: 'custom'
+    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  --cucumberOpts.tagExpression=@${{ parameters.grid }}'
+
+- task: Npm@1
+  condition: ne('${{ parameters.feature}}','all')
+  displayName: 'Npm run by ${{ parameters.feature }} feature(s)'
+  continueOnError: true
+  inputs:
+    workingDir: './datagrid-web-tests'
+    command: 'custom'
+    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  --cucumberOpts.tagExpression=@${{ parameters.grid }} and @${{ parameters.feature }}"'
+
+- task: Npm@1
+  condition: ne('${{ parameters.priority}}','all')
+  displayName: 'Npm run by ${{ parameters.priority }} priority(ies)'
+  continueOnError: true
+  inputs:
+    workingDir: './datagrid-web-tests'
+    command: 'custom'
+    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  --cucumberOpts.tagExpression=@${{ parameters.grid }} and @priority:${{ parameters.priority }}"'
+
+- task: Npm@1
+  displayName: 'Generate Report'
+  timeoutInMinutes: 3
+  continueOnError: true
+  inputs:
+    workingDir: './datagrid-web-tests'
+    command: 'custom'
+    customCommand: 'run report'
+
+- task: Npm@1
+  displayName: 'Convert to JUnit'
+  timeoutInMinutes: 3
+  continueOnError: true
+  inputs:
+    workingDir: './datagrid-web-tests'
+    command: 'custom'
+    customCommand: 'run convertToJUnit'
+
+- task: PublishTestResults@2
+  continueOnError: true
+  inputs:
+    workingDir: './datagrid-web-tests'
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/.tmp/junit/*.xml'
+    failTaskOnFailedTests: false
+    testRunTitle: 'Publish Report'
+
+- task: PublishCucumberReport@1
+  inputs:
+    jsonDir: '${Agent.BuildDirectory}/tmp/json'
+    outputPath: '.tmp'
+    theme: 'bootstrap'
+    reportSuiteAsScenarios: true
+    name: 'Cucumber Report'
+    title: '${{ parameters.grid }} grid'
