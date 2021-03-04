@@ -41,11 +41,11 @@ steps:
       -branch "RGRIDT-656"
 
 - bash: |
-          status=$(curl -s --head -w %{http_code} https://pp-datagridteam-dev.outsystemsenterprise.com/GridReactive_Automation$(branch)/ -o /dev/null)
+          status=$(curl -s --head -w %{http_code} https://pp-datagridteam-dev.outsystemsenterprise.com/$(branch)/ -o /dev/null)
           echo $status
           if [[ $status = 404 ]]
           then
-            echo "##vso[task.setvariable variable=skip;]'true'"
+            echo "##vso[task.setvariable variable=skip;]true"
             echo $(skip)
           fi 
 
