@@ -39,10 +39,14 @@ parameters:
   displayName: Module
   type: string
   default: 'GridReactive_Automation'
+- name: currentBranch
+  type: string
+- name: sourceBranch
+  type: string
 
 stages: 
 - stage: Tests
-  condition: and(ne($(System.PullRequest.SourceBranch), 'RGRIDT-656'), ne($(Build.SourceBranchName), 'RGRIDT-656'))
+  condition: and(ne('${{ parameters.currentBranch }}', 'RGRIDT-656'), ne('${{ parameters.sourceBranch }}', 'RGRIDT-656'))
   displayName: 'Tests'
   jobs:
   - job: Tests
