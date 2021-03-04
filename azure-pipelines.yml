@@ -25,10 +25,10 @@ stages:
   jobs:
   - job: SourceBranch
     steps:
-    - script: echo variables['System.PullRequest.SourceBranch']
+    - script: echo "variables"['System.PullRequest.SourceBranch']"
   - job: BranchName
     steps:
-    - script: echo variables['BranchName']
+    - script: "echo variables['BranchName']"
 
     
   - job: Build
