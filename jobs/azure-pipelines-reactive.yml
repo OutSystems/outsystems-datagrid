@@ -46,7 +46,7 @@ parameters:
 
 stages: 
 - stage: Tests
-  condition: ne('${{ parameters.currentBranch }}', 'RGRIDT-656')
+  condition: ne(variables['Build.SourceBranchName'], 'RGRIDT-656')
   displayName: 'Tests'
   jobs:
   - job: Tests
