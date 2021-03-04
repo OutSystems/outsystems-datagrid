@@ -38,7 +38,7 @@ steps:
     filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
     workingDirectory: ./outsystems-datagrid-reactive/
     arguments:
-      -branch $(BranchName)
+      -branch $(SourceBranchName)
 
 - task: Npm@1
   condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'))

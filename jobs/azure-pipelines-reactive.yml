@@ -46,7 +46,7 @@ parameters:
 
 stages: 
 - stage: Tests
-  condition: and(ne('${{ parameters.currentBranch }}', 'RGRIDT-656'), ne('${{ parameters.sourceBranch }}', 'RGRIDT-656'))
+  condition: ne('${{ parameters.currentBranch }}', 'RGRIDT-656')
   displayName: 'Tests'
   jobs:
   - job: Tests
