@@ -38,8 +38,9 @@ steps:
     filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
     workingDirectory: ./outsystems-datagrid-reactive/
     arguments:
-      -branch "RGRIDT-667"
+      -branch $(SourceBranchName)
 
+#Ping sample test page
 - bash: |
           status=$(curl -s --head -w %{http_code} https://pp-datagridteam-dev.outsystemsenterprise.com/$(branch)/ -o /dev/null)
           echo $status
@@ -49,6 +50,7 @@ steps:
             echo $(skip)
           fi 
 
+#Run tests if sample was pinged
 - task: Npm@1
   condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'), ne(variables['skip'], 'true'))
   displayName: 'Npm run all tests'

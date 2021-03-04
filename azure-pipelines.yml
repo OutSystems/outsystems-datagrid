@@ -24,13 +24,6 @@ stages:
 - stage: Build
   displayName: 'Build'
   jobs:
-  - job: SourceBranch
-    steps:
-    - script: echo $(CurrentBranchName)
-  - job: BranchName
-    steps:
-    - script: echo $(SourceBranchName)
-
   - job: Build
     displayName: 'Build Job'
     timeoutInMinutes: 8
@@ -70,7 +63,8 @@ stages:
         PathtoPublish: './outsystems-datagrid-reactive/code/styles/Grid.css'
         ArtifactName: 'Grid.css'
         publishLocation: 'Container'
-    
+
+#Run test pipeline
 - template: 'jobs/azure-pipelines-reactive.yml'
   parameters:
     currentBranch: $(CurrentBranchName)
