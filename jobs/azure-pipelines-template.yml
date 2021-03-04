@@ -41,7 +41,7 @@ steps:
       -branch "RGRIDT-656"
 
 - bash: |
-          status=$(curl -s --head -w %{http_code} https://pp-datagridteam-dev.outsystemsenterprise.com/GridReactive_Automation$(branch)/GridConfigs -o /dev/null)
+          status=$(curl -s --head -w %{http_code} https://pp-datagridteam-dev.outsystemsenterprise.com/GridReactive_Automation$(branch)/ -o /dev/null)
           if [[ $status = 404 ]]
           then
             echo "##vso[task.setvariable variable=branch;]"
