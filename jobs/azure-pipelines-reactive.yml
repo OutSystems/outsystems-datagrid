@@ -42,7 +42,7 @@ parameters:
 
 stages: 
 - stage: Tests
-  condition: and(ne(variables['BranchName'], 'dev'), ne(variables['System.PullRequest.SourceBranch'], 'dev'))
+  condition: and(ne($(System.PullRequest.SourceBranch), 'RGRIDT-656'), ne($(Build.SourceBranchName), 'RGRIDT-656'))
   displayName: 'Tests'
   jobs:
   - job: Tests
