@@ -24,6 +24,13 @@ stages:
 - stage: Build
   displayName: 'Build'
   jobs:
+  - job: SourceBranch
+    steps:
+    - script: echo $(CurrentBranchName)
+  - job: BranchName
+    steps:
+    - script: echo $(SourceBranchName)
+
   - job: Build
     displayName: 'Build Job'
     timeoutInMinutes: 8
