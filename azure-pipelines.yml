@@ -17,12 +17,20 @@ variables:
   BuildConfiguration: 'Release'
   Config: '--configuration=$(BuildConfiguration)'
   TagName: 'v$(Build.BuildNumber)'
-  BranchName: $(System.PullRequest.SourceBranch)
+  CurrentBranchName: $(Build.SourceBranchName)
+  SourceBranchName: $(System.PullRequest.SourceBranch)
   
 stages: 
 - stage: Build
   displayName: 'Build'
   jobs:
+  - job: SourceBranch
+    steps:
+    - script: echo $(CurrentBranchName)
+  - job: BranchName
+    steps:
+    - script: echo $(SourceBranchName)
+
   - job: Build
     displayName: 'Build Job'
     timeoutInMinutes: 8
@@ -65,4 +73,5 @@ stages:
     
 - template: 'jobs/azure-pipelines-reactive.yml'
   parameters:
-    module: $env:branch
+    currentBranch: $(CurrentBranchName)
+    sourceBranch: $(SourceBranchName)
