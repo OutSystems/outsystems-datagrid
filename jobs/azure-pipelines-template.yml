@@ -29,7 +29,7 @@ steps:
   
 - task: NodeTool@0
   displayName: 'Use Node 14.15.4'
-  inputs:
+  inputs: 
     versionSpec: '14.15.4'
     checkLatest: true
 
@@ -40,8 +40,19 @@ steps:
     arguments:
       -branch $(SourceBranchName)
 
+#Ping sample test page
+- bash: |
+          status=$(curl -s --head -w %{http_code} https://pp-datagridteam-dev.outsystemsenterprise.com/$(branch)/ -o /dev/null)
+          echo $status
+          if [[ $status = 404 ]]
+          then
+            echo "##vso[task.setvariable variable=skip;]true"
+            echo $(skip)
+          fi 
+
+#Run tests if sample was pinged
 - task: Npm@1
-  condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'))
+  condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'), ne(variables['skip'], 'true'))
   displayName: 'Npm run all tests'
   continueOnError: true
   inputs:
