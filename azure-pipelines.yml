@@ -31,7 +31,6 @@ stages:
     steps:
     - script: echo $(SourceBranchName)
 
-    
   - job: Build
     displayName: 'Build Job'
     timeoutInMinutes: 8
