@@ -39,10 +39,15 @@ parameters:
   displayName: Module
   type: string
   default: 'GridReactive_Automation'
+- name: currentBranch
+  type: string
+- name: sourceBranch
+  type: string
 
 stages: 
 - stage: Tests
-  condition: and(ne(variables['BranchName'], 'dev'), ne(variables['System.PullRequest.SourceBranch'], 'dev'))
+  #Only run tests if not in dev branch
+  condition: ne(variables['Build.SourceBranchName'], 'dev')
   displayName: 'Tests'
   jobs:
   - job: Tests
