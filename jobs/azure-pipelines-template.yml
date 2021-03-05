@@ -58,7 +58,7 @@ steps:
 
 #Run tests if sample was pinged
 - task: Npm@1
-  condition: and(succeeded(), eq('${{ parameters.feature }}','all'), eq('${{ parameters.priority }}','all'), ne(variables['skip'], 'true'))
+  condition: and(succeeded(), eq(variables['features'],''), eq('${{ parameters.priority }}','all'), ne(variables['skip'], 'true'))
   displayName: 'Npm run all tests'
   continueOnError: true
   inputs:
@@ -67,8 +67,8 @@ steps:
     customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  --cucumberOpts.tagExpression=@${{ parameters.grid }}'
 
 - task: Npm@1
-  condition: ne('${{ parameters.feature}}','all')
-  displayName: 'Npm run by ${{ parameters.feature }} feature(s)'
+  condition: ne(variables['features'],'')
+  displayName: 'Npm run by $(features) feature(s)'
   continueOnError: true
   inputs:
     workingDir: './datagrid-web-tests'
