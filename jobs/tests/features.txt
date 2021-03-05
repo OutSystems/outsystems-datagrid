@@ -1,1 +1,1 @@
-@filter and @sort
+@filter or @sort
