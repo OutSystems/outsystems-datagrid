@@ -46,6 +46,7 @@ parameters:
 
 stages: 
 - stage: Tests
+  #Only run tests if not in dev branch
   condition: ne(variables['Build.SourceBranchName'], 'dev')
   displayName: 'Tests'
   jobs:

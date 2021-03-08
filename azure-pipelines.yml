@@ -70,7 +70,8 @@ stages:
         PathtoPublish: './outsystems-datagrid-reactive/code/styles/Grid.css'
         ArtifactName: 'Grid.css'
         publishLocation: 'Container'
-    
+
+#Run test pipeline
 - template: 'jobs/azure-pipelines-reactive.yml'
   parameters:
     currentBranch: $(CurrentBranchName)

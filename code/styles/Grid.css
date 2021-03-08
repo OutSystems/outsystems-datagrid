@@ -35,9 +35,10 @@
     --datagrid-cell-padding: 4px 24px 3px 24px;
 
     /* Select and multi select of cells */
-    --datagrid-cell-selected-background: var(--color-primary-selected);
+    --datagrid-cell-selected-background: linear-gradient(var(--color-primary-selected), var(--color-primary-selected)),
+                                         linear-gradient(var(--datagrid-header-cell-background), var(--datagrid-header-cell-background));
     --datagrid-cell-selected-color: var(--datagrid-color);
-    --datagrid-cell-multiselected-background: var(--color-primary-selected);
+    --datagrid-cell-multiselected-background: var(--datagrid-cell-selected-background);
     --datagrid-cell-multiselected-color: var(--datagrid-color);
 
     /* Data grid ColumnPicker */
@@ -224,6 +225,13 @@
 
 .wj-cells .wj-cell[aria-selected="true"]:not(.wj-state-multi-selected) {
     box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+
+.wj-frozen.wj-frozen-col.wj-state-active.wj-state-selected,
+.wj-frozen.wj-frozen-col,
+.wj-header.wj-state-multi-selected.wj-frozen-col,
+.wj-header.wj-frozen-col{
+    filter: drop-shadow(10px 1px 5px rgba(1,1,1,0.08));
 }
 
 .wj-cell.wj-alt {
