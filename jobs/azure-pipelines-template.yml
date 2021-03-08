@@ -61,7 +61,6 @@ steps:
 - task: Npm@1
   condition: and(succeeded(), eq(variables['features'],''), eq('${{ parameters.priority }}','all'), ne(variables['skip'], 'true'))
   displayName: 'Npm run all tests'
-  continueOnError: true
   inputs:
     workingDir: './datagrid-web-tests/'
     command: 'custom'
@@ -71,7 +70,6 @@ steps:
 - task: Npm@1
   condition: ne(variables['features'],'')
   displayName: 'Npm run by $(features) feature(s)'
-  continueOnError: true
   inputs:
     workingDir: './datagrid-web-tests'
     command: 'custom'
