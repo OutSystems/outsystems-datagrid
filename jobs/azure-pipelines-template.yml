@@ -33,12 +33,13 @@ steps:
     versionSpec: '14.15.4'
     checkLatest: true
 
+#Format branch name
 - task: PowerShell@2
   inputs:
     filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
     workingDirectory: ./outsystems-datagrid-reactive/
     arguments:
-      -branch "RGRIDT-656"
+      -branch $(SourceBranchName)
 
 #Ping sample test page
 - bash: |
@@ -66,6 +67,7 @@ steps:
     command: 'custom'
     customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  --cucumberOpts.tagExpression=@${{ parameters.grid }}'
 
+#Run tests on specific features
 - task: Npm@1
   condition: ne(variables['features'],'')
   displayName: 'Npm run by $(features) feature(s)'
@@ -74,15 +76,6 @@ steps:
     workingDir: './datagrid-web-tests'
     command: 'custom'
     customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  "--cucumberOpts.tagExpression=$(features)"'
-
-- task: Npm@1
-  condition: ne('${{ parameters.priority}}','all')
-  displayName: 'Npm run by ${{ parameters.priority }} priority(ies)'
-  continueOnError: true
-  inputs:
-    workingDir: './datagrid-web-tests'
-    command: 'custom'
-    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  --cucumberOpts.tagExpression=@${{ parameters.grid }} and @priority:${{ parameters.priority }}"'
 
 - task: Npm@1
   displayName: 'Generate Report'
