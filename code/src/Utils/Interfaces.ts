@@ -34,7 +34,14 @@ interface IValidation {
     validateAction(action: InternalEvents.Actions, ctx: any): string;
 }
 
+/**
+ * Used to configure a feature. For example turnning on and off
+ */
 interface IProviderConfig<T> {
+    /**
+     * Set the Feature state
+     * @param value The new state state of a feature
+     */
     setState(value: T): void;
 }
 
@@ -119,4 +126,20 @@ interface IConfigurationColumnEditor extends IConfiguration {
 interface ISerializable {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     serialize(): any;
+}
+
+/**
+ * Interface for saving and loaging grid view
+ */
+interface IView {
+    /**
+     * Get the current view
+     */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+    getViewConfig(): any;
+    /**
+     * Load the given view
+     * @param view A JSON representing a previous saved visualization
+     */
+    setViewConfig(view: any): void;
 }

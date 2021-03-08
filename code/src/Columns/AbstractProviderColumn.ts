@@ -87,5 +87,10 @@ namespace Column {
         }
 
         abstract get providerType(): wijmo.DataType;
+
+        public refreshConfig(): void {~
+            //TODO: Como faremos o de para wijmo => outsystems
+            wijmo.copy(this.config, this._provider);
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace Column {
      * Representantion of a Grid's Column
      */
     export interface IColumn extends IDisposable, ISearchById, IBuilder {
+        refreshConfig(): void;
         columnEvents: ExternalEvents.ColumnEventsManager;
         /** Internal ColumnType */
         columnType: ColumnType;
@@ -96,6 +97,7 @@ namespace Column {
             this._uniqueId = columnID;
             this._configs = configs;
         }
+        public abstract refreshConfig(): void;
 
         public get config(): T {
             return this._configs;

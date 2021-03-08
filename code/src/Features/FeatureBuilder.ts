@@ -19,6 +19,7 @@ namespace Features {
         public rows: IRows;
         public selection: ISelection;
         public sort: IColumnSort;
+        public view: IView;
         public styling: IStyling;
         public tabNavigation: ITabNavigation;
         public undoStack: IUndoStack;
@@ -93,7 +94,7 @@ namespace Features {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public makeContextMenu(): any {
+        public makeContextMenu(): FeatureBuilder {
             this._features.contextMenu = this._makeItem(ContextMenu);
             return this;
         }
@@ -150,6 +151,11 @@ namespace Features {
 
         public makeSort(enable: boolean): FeatureBuilder {
             this._features.sort = this._makeItem(ColumnSort, enable);
+            return this;
+        }
+
+        public makeState(): FeatureBuilder {
+            this._features.view = this._makeItem(View);
             return this;
         }
 

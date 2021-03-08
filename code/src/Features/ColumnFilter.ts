@@ -23,7 +23,8 @@ namespace Features {
     export interface IColumnFilter
         extends IBuilder,
             IValidation,
-            IProviderConfig<boolean> {
+            IProviderConfig<boolean>,
+            IView {
         isGridFiltered: boolean;
     }
 
@@ -36,6 +37,14 @@ namespace Features {
         constructor(grid: Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
+        }
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewConfig(): any {
+            return this._filter.filterDefinition;
+        }
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewConfig(state: any): void {
+            this._filter.filterDefinition = state.filterDefinition;
         }
 
         public get isGridFiltered(): boolean {
