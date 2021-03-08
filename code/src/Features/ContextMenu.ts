@@ -5,7 +5,7 @@ namespace Features {
      */
     class MenuItem {
         /** The method executed by the MenuItem  */
-        public clickEvent: GridAPI.OSCallbacks.ContextMenu.OSClickEvent;
+        public clickEvent: Callbacks.ContextMenu.OSClickEvent;
         /** Used to indicate if a menuItem can be executed */
         public isActive: boolean;
         /** The list of sub-menu-items */
@@ -52,7 +52,7 @@ namespace Features {
             menuItemId: string,
             label: string,
             isActive: boolean,
-            clickEvent: GridAPI.OSCallbacks.ContextMenu.OSClickEvent
+            clickEvent: Callbacks.ContextMenu.OSClickEvent
         );
 
         /**
@@ -346,7 +346,7 @@ namespace Features {
             menuItemId: string,
             label: string,
             isActive: boolean,
-            executeCommand: GridAPI.OSCallbacks.ContextMenu.OSClickEvent
+            executeCommand: Callbacks.ContextMenu.OSClickEvent
         ): void {
             const menuItem = new MenuItem(menuItemId);
 

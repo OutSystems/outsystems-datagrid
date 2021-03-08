@@ -12,7 +12,7 @@ namespace GridAPI.ContextMenu.Events {
         menuItemID: string,
         eventName: ExternalEvents.ContextMenuEventType,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        callback: OSCallbacks.ContextMenu.Toggle
+        callback: Callbacks.ContextMenu.Toggle
     ): void {
         const gridId = GetGridByMenuId(menuItemID);
         // We need to make sure the grid already exists and it is intialized before subscribing to any context menu event.
