@@ -130,7 +130,7 @@ namespace Grid {
 
             this._fBuilder
                 .makeDirtyMark()
-                //.makeFilter(this.config.allowFiltering)
+                .makeFilter(this.config.allowFiltering)
                 .makeFreezePanes()
                 .makeContextMenu()
                 .makeRows()
