@@ -316,6 +316,29 @@ namespace Grid {
                         this.features.rows.setNewItem(
                             this._parseNewItem(infojson.metadata)
                         );
+                        // Check if the binding from the custom columns exist on the metadata from the original data source.
+                        this.columns.forEach((column) => {
+                            const bindingMatches = column.config.binding.match(
+                                /[^.]*/g
+                            );
+                            let metadata = infojson.metadata;
+                            bindingMatches.forEach((keyword) => {
+                                // Matching results might be empty strings. We don't want to verify them.
+                                if (keyword !== '') {
+                                    // Check if the matching keyword is a property from metadata
+                                    if (
+                                        metadata &&
+                                        !metadata.hasOwnProperty(keyword)
+                                    ) {
+                                        throw `The binding ${
+                                            column.config.binding
+                                        } doesn't match any valid column from the data you specified. ${'\n'} Expected format: "EntityName.FieldName". ${'\n'} For example: "Product_Sample.Name"`;
+                                    }
+                                    // If keyword is a property from metadata then use metadata[keyword] as the new metadata and iterate to the next keyword.
+                                    metadata = metadata[keyword];
+                                }
+                            });
+                        });
                     } else {
                         // If it hasn't meta info, then we need to get the first data.
                         // Mandatory: Needs to have data (1 row at least)
