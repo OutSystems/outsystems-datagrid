@@ -31,6 +31,13 @@ namespace Column {
         public wordWrap: boolean;
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        constructor(config: any) {
+            // Remove any {} or [] that exist on the binding. In order to accept any format "{EntityName}.[FieldName]" or "EntityName.FieldName"
+            config.binding = config.binding.replaceAll(/[{}[\]]+/g, '');
+            super(config);
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public getProviderConfig(): any {
             // eslint-disable-next-line prefer-const
             let provider = {
