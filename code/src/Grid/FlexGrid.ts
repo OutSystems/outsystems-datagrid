@@ -318,6 +318,7 @@ namespace Grid {
                         );
                         // Check if the binding from the custom columns exist on the metadata from the original data source.
                         this.columns.forEach((column) => {
+                            if (column.config.validateBinding === false) return;
                             const bindingMatches = column.config.binding.match(
                                 /[^.]*/g
                             );
