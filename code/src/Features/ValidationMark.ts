@@ -322,7 +322,11 @@ namespace Features {
             // Sets the errorMessage map by matching the binding of the columns with the error that indicates the error of the validation to be shown when this one is not valid.
             this.getMetadata(rowNumber).errorMessage.set(
                 column.binding,
-                errorMessage
+                // If the error message is empty we want to return the message -> Invalid [Column Name]
+                // Make sure all the end of lines from the error that comes from OS are replaced with <br>
+                errorMessage !== ''
+                    ? errorMessage.replace(/\n/g, '<br>')
+                    : 'Invalid ' + column.header
             );
 
             // Makes sure the grid gets refreshed after validation

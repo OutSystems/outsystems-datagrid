@@ -24,8 +24,7 @@ namespace GridAPI.Cells {
             rowIndex,
             columnID,
             isValid,
-            // Make sure all the end of lines from the error that comes from OS are replaced with <br>
-            errorMessage.replace(/\n/g, '<br>')
+            errorMessage
         );
     }
 }
