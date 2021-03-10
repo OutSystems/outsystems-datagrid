@@ -39,7 +39,7 @@ steps:
     filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
     workingDirectory: ./outsystems-datagrid-reactive/
     arguments:
-      -branch $(SourceBranchName)
+      -branch "RGRIDT-656"
 
 #Ping sample test page
 - bash: |
@@ -104,8 +104,8 @@ steps:
 
 - task: PublishCucumberReport@1
   inputs:
-    jsonDir: '${Agent.BuildDirectory}/tmp/json'
-    outputPath: '.tmp'
+    jsonDir: './datagrid-web-tests/.tmp/json'
+    outputPath: './datagrid-web-tests/.tmp'
     theme: 'bootstrap'
     reportSuiteAsScenarios: true
     name: 'Cucumber Report'
