@@ -19,6 +19,9 @@
     /* Data grid text color */
     --datagrid-color: black;
 
+    /* Data grid marks */
+    --datagrid-invalidmark-color: red;
+
     /* Data grid header cell customization */
     --datagrid-header-cell-background: var(--color-neutral-0);
     --datagrid-header-cell-color: var(--color-neutral-9);
@@ -234,8 +237,13 @@
     filter: drop-shadow(10px 1px 5px rgba(1,1,1,0.08));
 }
 
+.wj-cell.wj-state-invalid.wj-header.wj-alt:not(.wj-state-multi-selected),
 .wj-cell.wj-alt {
     background: var(--datagrid-cell-background-alt);
+}
+
+.wj-cell.wj-state-invalid.wj-header:not(.wj-state-multi-selected){
+    background: var(--datagrid-cell-background);
 }
 
 .wj-cells .wj-cell[aria-readonly="true"]:not(.wj-group) *:not(.wj-cell-maker) {
@@ -254,17 +262,25 @@
 
 .wj-cell.wj-state-invalid:before {
     border: 5px solid transparent;
-    border-left-color: red;
-    border-top-color: red;
+    border-left-color: var(--datagrid-invalidmark-color);
+    border-top-color: var(--datagrid-invalidmark-color);
     content: "";
     left: 0;
     position: absolute;
     top: 0;
 }
 
+.wj-cell.wj-state-invalid.wj-header{
+    border: none;
+    border-bottom: var(--datagrid-cell-border-bottom);
+    border-right: var(--datagrid-cell-border-right);
+    color: var(--datagrid-invalidmark-color);
+}
+
 .wj-cell.wj-state-invalid:not(.wj-header):after{
     border: 0px;
 }
+
 
 .wj-flexgrid .wj-colheaders .wj-header .wj-sort-index {
     color: var(--datagrid-sort-index-color);
@@ -927,7 +943,7 @@
 
 /* Tooltip class */
 .errorValidation{
-    background:red;
+    background: var(--datagrid-invalidmark-color);
     color: white;
     position: absolute;
 }
