@@ -14,6 +14,8 @@ namespace Column {
         config: IConfigurationColumn;
         /** Returns the grid instance where the column is placed */
         grid: Grid.IGrid;
+        /** Verifies if this column has associated events */
+        hasEvents: boolean;
         /** Verifies if this column is contained inside another */
         hasParentColumn: boolean;
         /** Indicates when the Column is available */
@@ -83,8 +85,10 @@ namespace Column {
         private _widgetId: string;
         /** Indicates if the component was built */
         protected _built: boolean;
-
+        /** External events associated to the column */
         protected _columnEvents: ExternalEvents.ColumnEventsManager;
+        /** Verifies if the column has associated events */
+        abstract hasEvents: boolean;
 
         /**
          * @param grid Grid where the column is located

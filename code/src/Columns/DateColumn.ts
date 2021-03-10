@@ -23,6 +23,12 @@ namespace Column {
                 new ColumnConfig(configs),
                 new EditorConfigDate(editorConfig)
             );
+            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+        }
+
+        /** Returns all the events associated to the column */
+        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+            return this._columnEvents;
         }
 
         public get columnType(): ColumnType {

@@ -10,6 +10,7 @@ namespace Column {
             editorConfig: EditorConfigCurrency
         ) {
             super(grid, columnID, configs, editorConfig);
+            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
         }
 
         protected _setFormat(decimalPlaces: number, symbol?: string): void {
@@ -20,6 +21,11 @@ namespace Column {
                 symbol || this.editorConfig.symbol
             }`;
             this.editorConfig.format = this.config.format;
+        }
+
+        /** Returns all the events associated to the column */
+        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+            return this._columnEvents;
         }
 
         public get columnType(): ColumnType {

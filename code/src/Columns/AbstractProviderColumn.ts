@@ -12,6 +12,11 @@ namespace Column {
             throw `The column ${this.columnType.toString()} does not support events`;
         }
 
+        /** Checks if the column has associated events */
+        public get hasEvents(): boolean {
+            return this.columnEvents !== undefined;
+        }
+
         public get provider(): wijmo.grid.Column {
             return this._provider;
         }
