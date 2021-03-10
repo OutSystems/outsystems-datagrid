@@ -32,12 +32,14 @@ namespace Grid {
             let tempArray = [];
 
             for (let index = 0; index < itemsChanged.length; ++index) {
-                tempArray.push(_.clone(itemsChanged[index]));
                 //let's remove our metadata from the information that we'll sent back
-                delete tempArray[tempArray.length - 1].__osRowMetada;
+                this.rowMetadata.clear(itemsChanged[index]);
+
+                tempArray.push(_.cloneDeep(itemsChanged[index]));
             }
 
-            tempArray = Helper.ToOSFormat(this, tempArray);
+            //In-place convert data to Outsystems Format
+            Helper.ToOSFormat(this, tempArray);
 
             if (this.isSingleEntity) {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer

@@ -5,7 +5,7 @@ namespace Features {
      */
     class MenuItem {
         /** The method executed by the MenuItem  */
-        public clickEvent: GridAPI.OSCallbacks.ContextMenu.OSClickEvent;
+        public clickEvent: Callbacks.ContextMenu.OSClickEvent;
         /** Used to indicate if a menuItem can be executed */
         public isActive: boolean;
         /** The list of sub-menu-items */
@@ -37,6 +37,11 @@ namespace Features {
      */
     export interface IContextMenu {
         /**
+         * Getter for the contextMenu events
+         */
+        contextMenuEvents: ExternalEvents.ContextMenuEventManager;
+
+        /**
          * Responsable for adding menu items
          * @param menuItemId UniqueId defined on OS side
          * @param label Label presented on menu
@@ -47,7 +52,7 @@ namespace Features {
             menuItemId: string,
             label: string,
             isActive: boolean,
-            clickEvent: GridAPI.OSCallbacks.ContextMenu.OSClickEvent
+            clickEvent: Callbacks.ContextMenu.OSClickEvent
         );
 
         /**
@@ -80,7 +85,10 @@ namespace Features {
      * Representation of the ContextMenu feature
      */
     export class ContextMenu implements IBuilder, IDisposable, IContextMenu {
+        /** Events from the Context Menu  */
+        private _contextMenuEvents: ExternalEvents.ContextMenuEventManager;
         private _grid: Grid.IGridWijmo;
+        private _isOpening: boolean;
         /** Map a UniqueId to its MenuItem */
         private _menuItems: Map<string, MenuItem>;
         /** Our provider ContextMenu instance */
@@ -92,6 +100,9 @@ namespace Features {
             this._grid = grid;
             this._menuItems = new Map();
             this._rootMenuItems = [];
+            this._contextMenuEvents = new ExternalEvents.ContextMenuEventManager(
+                this
+            );
         }
 
         /**
@@ -154,6 +165,14 @@ namespace Features {
                     command: {
                         canExecuteCommand: this._canRaiseClickEvent.bind(this),
                         executeCommand: this._raiseClickEvent.bind(this)
+                    },
+                    isDroppedDownChanging: (e) => {
+                        // The event is raised when the context menu opens or closes.
+                        // It is easier to understand if it will open instead of analysing if the menu is dropped down.
+                        this._isOpening = !e.isDroppedDown;
+                        this._contextMenuEvents.trigger(
+                            ExternalEvents.ContextMenuEventType.Toggle
+                        );
                     }
                 }
             );
@@ -311,12 +330,23 @@ namespace Features {
                 return a.order - b.order;
             });
         }
+        public get contextMenuEvents(): ExternalEvents.ContextMenuEventManager {
+            return this._contextMenuEvents;
+        }
+
+        public get isOpening(): boolean {
+            return this._isOpening;
+        }
+
+        public get grid(): Grid.IGrid {
+            return this._grid;
+        }
 
         public addMenuItem(
             menuItemId: string,
             label: string,
             isActive: boolean,
-            executeCommand: GridAPI.OSCallbacks.ContextMenu.OSClickEvent
+            executeCommand: Callbacks.ContextMenu.OSClickEvent
         ): void {
             const menuItem = new MenuItem(menuItemId);
 

@@ -1,3 +1,12 @@
+# File: azure-pipelines.yml
+
+resources:
+  repositories:
+  - repository: datagrid-web-tests
+    type: github
+    name: OutSystems/datagrid-web-tests
+    endpoint: OutSystems
+
 trigger:
   branches:
     include:
@@ -8,11 +17,20 @@ variables:
   BuildConfiguration: 'Release'
   Config: '--configuration=$(BuildConfiguration)'
   TagName: 'v$(Build.BuildNumber)'
+  CurrentBranchName: $(Build.SourceBranchName)
+  SourceBranchName: $(System.PullRequest.SourceBranch)
   
 stages: 
 - stage: Build
   displayName: 'Build'
   jobs:
+  - job: SourceBranch
+    steps:
+    - script: echo $(CurrentBranchName)
+  - job: BranchName
+    steps:
+    - script: echo $(SourceBranchName)
+
   - job: Build
     displayName: 'Build Job'
     timeoutInMinutes: 8
@@ -20,18 +38,22 @@ stages:
       vmImage: 'windows-latest'
     steps:
 
+    #Checkout repositories
+    - checkout: self
+    - checkout: datagrid-web-tests
+
     #Install dependencies
     - task: Npm@1
       displayName: 'npm install'
       inputs:
-        workingDir: './code'
+        workingDir: './outsystems-datagrid-reactive/code'
         verbose: false
 
     #Compile typescript files
     - task: Npm@1
       displayName: 'npm run build'
       inputs:
-        workingDir: './code'
+        workingDir: './outsystems-datagrid-reactive/code'
         command: custom
         verbose: false
         customCommand: 'run build'
@@ -39,12 +61,19 @@ stages:
     #Publish compiled file    
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: './code/dist/GridFramework.js'
+        PathtoPublish: './outsystems-datagrid-reactive/code/dist/GridFramework.js'
         ArtifactName: 'GridFramework.js'
         publishLocation: 'Container'
 
+    #Publish css file
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: './code/styles/Grid.css'
+        PathtoPublish: './outsystems-datagrid-reactive/code/styles/Grid.css'
         ArtifactName: 'Grid.css'
         publishLocation: 'Container'
+
+#Run test pipeline
+- template: 'jobs/azure-pipelines-reactive.yml'
+  parameters:
+    currentBranch: $(CurrentBranchName)
+    sourceBranch: $(SourceBranchName)

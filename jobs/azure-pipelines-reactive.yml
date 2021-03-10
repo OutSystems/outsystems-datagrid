@@ -1,0 +1,69 @@
+# File: jobs/azure-pipelines-reactive.yml
+parameters:
+- name: browser
+  displayName: Browser
+  type: string
+  default: chrome
+  values:
+  - chrome
+  - safari
+  - edge
+  - firefox
+  - chrome, safari, edge, firefox
+- name: environment
+  displayName: Environment
+  type: string
+  default: dev
+  values:
+  - qa
+  - dev
+- name: feature
+  displayName: Feature
+  type: string
+  default: all
+  values:
+  - all
+  - pagination
+  - sort
+  - filter
+- name: priority
+  displayName: Priority
+  type: string
+  default: all
+  values:
+  - all
+  - high
+  - medium
+  - low
+- name: module
+  displayName: Module
+  type: string
+  default: 'GridReactive_Automation'
+- name: currentBranch
+  type: string
+- name: sourceBranch
+  type: string
+
+stages: 
+- stage: Tests
+  #Only run tests if not in dev branch
+  condition: ne(variables['Build.SourceBranchName'], 'dev')
+  displayName: 'Tests'
+  jobs:
+  - job: Tests
+    displayName: 'Tests Job'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    #Checkout repositories
+    - checkout: self
+    - checkout: datagrid-web-tests 
+
+    - template: 'azure-pipelines-template.yml'
+      parameters:
+        grid: reactive
+        module: ${{ parameters.module }}
+        browser: ${{ parameters.browser }}
+        environment: ${{ parameters.environment }}
+        feature: ${{ parameters.feature }}
+        priority: ${{ parameters.priority }}
