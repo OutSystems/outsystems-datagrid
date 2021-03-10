@@ -1,5 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace GridAPI {
+    /**
+     * API used for saving and load View definitions
+     */
     export namespace View {
         /**
          * Get the current view of a given grid

@@ -81,11 +81,6 @@ namespace Grid {
 
             console.log(`Constructor grid '${this.uniqueId}'`);
         }
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public abstract getViewConfig(): any;
-
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public abstract setViewConfig(state: any): void;
 
         public get validatingAction(): InternalEvents.ValidatingAction {
             return this._validatingAction;
@@ -215,6 +210,9 @@ namespace Grid {
 
         public abstract getData(): JSON[];
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public abstract getViewConfig(): any;
+
         public abstract hasResults(): boolean;
 
         public abstract setCellError(
@@ -225,5 +223,8 @@ namespace Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public abstract setData(data: any): boolean;
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public abstract setViewConfig(state: any): void;
     }
 }

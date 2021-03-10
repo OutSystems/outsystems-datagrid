@@ -5,16 +5,6 @@ namespace Grid {
     export class FlexGrid
         extends AbstractGrid<wijmo.grid.FlexGrid, FlexGridConfig>
         implements IGridWijmo {
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public getViewConfig(): any {
-            this._features.view.getViewConfig();
-        }
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public setViewConfig(state: any): void {
-            if (this.isReady) {
-                this._features.view.setViewConfig(state);
-            }
-        }
         private _fBuilder: Features.FeatureBuilder;
         private _lineIsSingleEntity = false;
         private _rowMetadata: RowMetadata;
@@ -273,6 +263,11 @@ namespace Grid {
             return this.provider.itemsSource.sourceCollection;
         }
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewConfig(): any {
+            this._features.view.getViewConfig();
+        }
+
         public hasResults(): boolean {
             return this._provider.collectionView.isEmpty === false;
         }
@@ -341,6 +336,13 @@ namespace Grid {
             }
 
             return false;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewConfig(state: any): void {
+            if (this.isReady) {
+                this._features.view.setViewConfig(state);
+            }
         }
     }
 }

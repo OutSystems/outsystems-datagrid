@@ -19,10 +19,10 @@ namespace Features {
         public rows: IRows;
         public selection: ISelection;
         public sort: IColumnSort;
-        public view: IView;
         public styling: IStyling;
         public tabNavigation: ITabNavigation;
         public undoStack: IUndoStack;
+        public view: IView;
     }
 
     export abstract class AbstractFactoryBuilder

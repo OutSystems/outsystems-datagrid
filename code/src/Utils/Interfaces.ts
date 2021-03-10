@@ -102,6 +102,13 @@ interface IConfigurationColumn extends IConfiguration {
      * Represents the identifier created on OS and used as reference to find objects on screen
      */
     uniqueId: string;
+
+    /**
+     * Refresh config
+     * @param providerConfig The config based on provider, used to update our internal config
+     */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+    updateConfig(providerConfig: any): void;
 }
 
 /**
@@ -141,5 +148,6 @@ interface IView {
      * Load the given view
      * @param view A JSON representing a previous saved visualization
      */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     setViewConfig(view: any): void;
 }

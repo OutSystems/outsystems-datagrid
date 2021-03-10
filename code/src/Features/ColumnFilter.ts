@@ -38,14 +38,6 @@ namespace Features {
             this._grid = grid;
             this._enabled = enabled;
         }
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public getViewConfig(): any {
-            return this._filter.filterDefinition;
-        }
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public setViewConfig(state: any): void {
-            this._filter.filterDefinition = state.filterDefinition;
-        }
 
         public get isGridFiltered(): boolean {
             return JSON.parse(this._filter.filterDefinition).filters.length > 0;
@@ -95,12 +87,22 @@ namespace Features {
             this._filter = undefined;
         }
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewConfig(): any {
+            return this._filter.filterDefinition;
+        }
+
         public setState(value: boolean): void {
             this._filter.defaultFilterType = value
                 ? wijmo.grid.filter.FilterType.Both
                 : wijmo.grid.filter.FilterType.None;
             this._filter.showSortButtons = false;
             this._enabled = value;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewConfig(state: any): void {
+            this._filter.filterDefinition = state.filterDefinition;
         }
 
         public validateAction(

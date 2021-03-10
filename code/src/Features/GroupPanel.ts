@@ -53,29 +53,6 @@ namespace Features {
             this._grid = grid;
             this._panelId = panelId;
         }
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public getViewConfig(): any {
-            return this._grid.provider.itemsSource.groupDescriptions.map(
-                (gd) => {
-                    return { property: gd.propertyName };
-                }
-            );
-        }
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public setViewConfig(state: any): void {
-            const source = this._grid.provider.itemsSource;
-            source.deferUpdate(function () {
-                source.groupDescriptions.clear();
-
-                state.groupDescriptions.forEach((element) => {
-                    source.groupDescriptions.push(
-                        new wijmo.collections.PropertyGroupDescription(
-                            element.property
-                        )
-                    );
-                });
-            });
-        }
 
         public build(): void {
             this._groupPanel = new wijmo.grid.grouppanel.GroupPanel(
@@ -112,6 +89,31 @@ namespace Features {
         public dispose(): void {
             this._groupPanel.dispose();
             this._groupPanel = undefined;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewConfig(): any {
+            return this._grid.provider.itemsSource.groupDescriptions.map(
+                (gd) => {
+                    return { property: gd.propertyName };
+                }
+            );
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewConfig(state: any): void {
+            const source = this._grid.provider.itemsSource;
+            source.deferUpdate(function () {
+                source.groupDescriptions.clear();
+
+                state.groupDescriptions.forEach((element) => {
+                    source.groupDescriptions.push(
+                        new wijmo.collections.PropertyGroupDescription(
+                            element.property
+                        )
+                    );
+                });
+            });
         }
 
         public validateAction(

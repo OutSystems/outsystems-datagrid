@@ -41,33 +41,6 @@ namespace Features {
             this._grid = grid;
             this._enabled = enabled;
         }
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public getViewConfig(): any {
-            return this._grid.provider.itemsSource.sortDescriptions.map(
-                (sortDesc) => {
-                    return {
-                        property: sortDesc.property,
-                        ascending: sortDesc.ascending
-                    };
-                }
-            );
-        }
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public setViewConfig(state: any): void {
-            const source = this._grid.provider.itemsSource;
-            source.deferUpdate(function () {
-                source.sortDescriptions.clear();
-                for (let i = 0; i < state.sortDescriptions.length; i++) {
-                    const sortDesc = state.sortDescriptions[i];
-                    source.sortDescriptions.push(
-                        new wijmo.collections.SortDescription(
-                            sortDesc.property,
-                            sortDesc.ascending
-                        )
-                    );
-                }
-            });
-        }
 
         public get isGridSorted(): boolean {
             return this._grid.provider.itemsSource.sortDescriptions.length > 0;
@@ -129,11 +102,40 @@ namespace Features {
             this.setState(this._enabled);
         }
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewConfig(): any {
+            return this._grid.provider.itemsSource.sortDescriptions.map(
+                (sortDesc) => {
+                    return {
+                        property: sortDesc.property,
+                        ascending: sortDesc.ascending
+                    };
+                }
+            );
+        }
+
         public setState(value: boolean): void {
             this._grid.provider.allowSorting = value
                 ? wijmo.grid.AllowSorting.MultiColumn
                 : wijmo.grid.AllowSorting.None;
             this._enabled = value;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewConfig(state: any): void {
+            const source = this._grid.provider.itemsSource;
+            source.deferUpdate(function () {
+                source.sortDescriptions.clear();
+                for (let i = 0; i < state.sortDescriptions.length; i++) {
+                    const sortDesc = state.sortDescriptions[i];
+                    source.sortDescriptions.push(
+                        new wijmo.collections.SortDescription(
+                            sortDesc.property,
+                            sortDesc.ascending
+                        )
+                    );
+                }
+            });
         }
 
         public validateAction(
