@@ -105,7 +105,7 @@ steps:
 - task: PublishCucumberReport@1
   inputs:
     jsonDir: '/_temp/json'
-    outputPath: '.tmp'
+    outputPath: '/_temp'
     theme: 'bootstrap'
     reportSuiteAsScenarios: true
     name: 'Cucumber Report'
