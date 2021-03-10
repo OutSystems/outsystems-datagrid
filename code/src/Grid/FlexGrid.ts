@@ -146,6 +146,7 @@ namespace Grid {
                 .makeAutoRowNumber()
                 .makeStyling(this.config.rowHeight)
                 .makeUndoStack()
+                .makeValidationMark()
                 .makeSelection(
                     this.config.allowRowSelector,
                     this.config.selectionMode
@@ -214,6 +215,7 @@ namespace Grid {
             if (this.isReady) {
                 this.provider.itemsSource.clearChanges();
                 this.features.dirtyMark.clear();
+                this.features.validationMark.clear();
             }
         }
         public dispose(): void {

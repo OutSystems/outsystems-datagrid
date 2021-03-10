@@ -22,6 +22,7 @@ namespace Features {
         public styling: IStyling;
         public tabNavigation: ITabNavigation;
         public undoStack: IUndoStack;
+        public validationMark: IValidationMark;
     }
 
     export abstract class AbstractFactoryBuilder
@@ -173,6 +174,11 @@ namespace Features {
 
         public makeUndoStack(): FeatureBuilder {
             this._features.undoStack = this._makeItem(UndoStack);
+            return this;
+        }
+
+        public makeValidationMark(): FeatureBuilder {
+            this._features.validationMark = this._makeItem(ValidationMark);
             return this;
         }
     }
