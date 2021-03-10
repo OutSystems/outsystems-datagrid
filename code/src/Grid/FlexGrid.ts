@@ -265,7 +265,7 @@ namespace Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public getViewLayout(): any {
-            this._features.view.getViewLayout();
+            return this._features.view.getViewLayout();
         }
 
         public hasResults(): boolean {

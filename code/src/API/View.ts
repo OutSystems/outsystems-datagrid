@@ -5,7 +5,7 @@ namespace GridAPI {
      */
     export namespace View {
         /**
-         * Get the current view of a given grid
+         * Get the current layout of a given grid
          * @param gridID Grid ID
          * @returns A JSON representing the current grid configuration
          */
@@ -18,7 +18,7 @@ namespace GridAPI {
         }
 
         /**
-         * Load the given configuration to the Grid
+         * Load a predefined layout on a given grid
          * @param gridID Grid ID
          * @param config A JSON representing a previous saved visualization
          */

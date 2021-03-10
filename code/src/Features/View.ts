@@ -1,5 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Features {
+    /**
+     * Defines the Save and Load layout feature
+     */
     export class View implements IBuilder, IView {
         private _grid: Grid.IGridWijmo;
 
@@ -9,14 +12,14 @@ namespace Features {
 
         /**
          * Internal method used to apply configurations to columns
-         * @param columnLayout The provider config received used to load view
+         * @param state The provider config received used to load view
          */
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        private _reloadColumns(columnLayout: any) {
-            const state = JSON.parse(columnLayout);
+        private _reloadColumns(state: any) {
+            const config = JSON.parse(state.columns);
             let i = 0; //Used to control the appearance of saved columns
 
-            state.columns.forEach((providerConfing) => {
+            config.columns.forEach((providerConfing) => {
                 // * We build the columns based on OS configuration, than we load the configurations for the available columns
                 //   This should avoid errors like, a binding isn't present on the grid, or the developer have to remove some column (for securety maybe)
                 // * Different from the web version, new columns (inserted by the developer after the user "SaveConfig") will now appear on the grid, as rightmost columns
@@ -48,16 +51,17 @@ namespace Features {
                 sortDescriptions: this._grid.features.sort.getViewLayout()
             };
 
-            return state;
+            return JSON.stringify(state);
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public setViewLayout(state: any): void {
+            let config = JSON.parse(state);
             this._grid.provider.deferUpdate(() => {
-                this._reloadColumns(state);
-                this._grid.features.filter.setViewLayout(state);
-                this._grid.features.groupPanel.setViewLayout(state);
-                this._grid.features.sort.setViewLayout(state);
+                this._reloadColumns(config);
+                this._grid.features.filter.setViewLayout(config);
+                this._grid.features.groupPanel.setViewLayout(config);
+                this._grid.features.sort.setViewLayout(config);
             });
         }
     }

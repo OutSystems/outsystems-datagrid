@@ -140,12 +140,12 @@ interface ISerializable {
  */
 interface IView {
     /**
-     * Get the current view
+     * Get the current layout
      */
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     getViewLayout(): any;
     /**
-     * Load the given view
+     * Load a predefined layout
      * @param view A JSON representing a previous saved visualization
      */
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
