@@ -264,8 +264,8 @@ namespace Grid {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public getViewConfig(): any {
-            this._features.view.getViewConfig();
+        public getViewLayout(): any {
+            this._features.view.getViewLayout();
         }
 
         public hasResults(): boolean {
@@ -339,9 +339,9 @@ namespace Grid {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public setViewConfig(state: any): void {
+        public setViewLayout(state: any): void {
             if (this.isReady) {
-                this._features.view.setViewConfig(state);
+                this._features.view.setViewLayout(state);
             }
         }
     }

@@ -40,24 +40,24 @@ namespace Features {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public getViewConfig(): any {
+        public getViewLayout(): any {
             const state = {
                 columns: this._grid.provider.columnLayout,
-                filterDefinition: this._grid.features.filter.getViewConfig(),
-                groupDescriptions: this._grid.features.groupPanel.getViewConfig(),
-                sortDescriptions: this._grid.features.sort.getViewConfig()
+                filterDefinition: this._grid.features.filter.getViewLayout(),
+                groupDescriptions: this._grid.features.groupPanel.getViewLayout(),
+                sortDescriptions: this._grid.features.sort.getViewLayout()
             };
 
             return state;
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public setViewConfig(state: any): void {
+        public setViewLayout(state: any): void {
             this._grid.provider.deferUpdate(() => {
                 this._reloadColumns(state);
-                this._grid.features.filter.setViewConfig(state);
-                this._grid.features.groupPanel.setViewConfig(state);
-                this._grid.features.sort.setViewConfig(state);
+                this._grid.features.filter.setViewLayout(state);
+                this._grid.features.groupPanel.setViewLayout(state);
+                this._grid.features.sort.setViewLayout(state);
             });
         }
     }

@@ -211,7 +211,7 @@ namespace Grid {
         public abstract getData(): JSON[];
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public abstract getViewConfig(): any;
+        public abstract getViewLayout(): any;
 
         public abstract hasResults(): boolean;
 
@@ -225,6 +225,6 @@ namespace Grid {
         public abstract setData(data: any): boolean;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public abstract setViewConfig(state: any): void;
+        public abstract setViewLayout(state: any): void;
     }
 }

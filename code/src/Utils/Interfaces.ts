@@ -143,11 +143,11 @@ interface IView {
      * Get the current view
      */
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-    getViewConfig(): any;
+    getViewLayout(): any;
     /**
      * Load the given view
      * @param view A JSON representing a previous saved visualization
      */
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-    setViewConfig(view: any): void;
+    setViewLayout(view: any): void;
 }

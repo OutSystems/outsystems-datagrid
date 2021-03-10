@@ -103,7 +103,7 @@ namespace Features {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public getViewConfig(): any {
+        public getViewLayout(): any {
             return this._grid.provider.itemsSource.sortDescriptions.map(
                 (sortDesc) => {
                     return {
@@ -122,7 +122,7 @@ namespace Features {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public setViewConfig(state: any): void {
+        public setViewLayout(state: any): void {
             const source = this._grid.provider.itemsSource;
             source.deferUpdate(function () {
                 source.sortDescriptions.clear();
