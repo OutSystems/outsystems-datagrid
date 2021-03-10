@@ -170,7 +170,7 @@ namespace Features {
             newValue: any
         ) {
             if (this._bindToColumn.has(binding)) {
-                const columnX = this._bindToColumn.get(binding);
+                const column = this._bindToColumn.get(binding);
 
                 // In the future we might want to add the validation for the IsMandatory and this might be useful
                 // if (columnX.config.isMandatory && !newValue) {
@@ -184,14 +184,14 @@ namespace Features {
                 //     );
                 // } else
                 if (
-                    columnX.hasEvents &&
-                    columnX.columnEvents.handlers.has(
+                    column.hasEvents &&
+                    column.columnEvents.handlers.has(
                         ExternalEvents.ColumnEventType.OnCellValueChange
                     )
                 ) {
-                    columnX.columnEvents.trigger(
+                    column.columnEvents.trigger(
                         ExternalEvents.ColumnEventType.OnCellValueChange,
-                        this._convertToFormat(columnX, newValue),
+                        this._convertToFormat(column, newValue),
                         rowNumber
                     );
                 }
