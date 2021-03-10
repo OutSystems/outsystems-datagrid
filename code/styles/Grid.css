@@ -252,6 +252,20 @@
     top: 0;
 }
 
+.wj-cell.wj-state-invalid:before {
+    border: 5px solid transparent;
+    border-left-color: red;
+    border-top-color: red;
+    content: "";
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+.wj-cell.wj-state-invalid:not(.wj-header):after{
+    border: 0px;
+}
+
 .wj-flexgrid .wj-colheaders .wj-header .wj-sort-index {
     color: var(--datagrid-sort-index-color);
     font-size: var(--datagrid-sort-index-font-size);
@@ -909,4 +923,11 @@
     border-radius: 5px;
     color: #fff;
     padding: 2px 4px 2px;
+}
+
+/* Tooltip class */
+.errorValidation{
+    background:red;
+    color: white;
+    position: absolute;
 }
