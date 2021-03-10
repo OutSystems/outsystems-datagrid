@@ -56,7 +56,7 @@ namespace Features {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public setViewLayout(state: any): void {
-            let config = JSON.parse(state);
+            const config = JSON.parse(state);
             this._grid.provider.deferUpdate(() => {
                 this._reloadColumns(config);
                 this._grid.features.filter.setViewLayout(config);
