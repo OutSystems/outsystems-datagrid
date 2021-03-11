@@ -43,7 +43,7 @@ steps:
 
 #Ping sample test page
 - bash: |
-          status=$(curl -s --head -w %{http_code} https://pp-datagridteam-dev.outsystemsenterprise.com/$(branch)/ -o /dev/null)
+          status=$(curl -s --head -w %{http_code} $(ENV_URL)/$(branch)/ -o /dev/null)
           echo $status
           if [[ $status = 404 ]]
           then
@@ -104,8 +104,8 @@ steps:
 
 - task: PublishCucumberReport@1
   inputs:
-    jsonDir: '${Agent.BuildDirectory}/tmp/json'
-    outputPath: '.tmp'
+    jsonDir: './datagrid-web-tests/.tmp/json'
+    outputPath: './datagrid-web-tests/.tmp'
     theme: 'bootstrap'
     reportSuiteAsScenarios: true
     name: 'Cucumber Report'
