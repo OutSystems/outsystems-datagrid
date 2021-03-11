@@ -128,33 +128,9 @@ namespace Grid {
         public buildFeatures(): void {
             this._fBuilder = new Features.FeatureBuilder(this);
 
-            this._fBuilder
-                .makeDirtyMark()
-                .makeFilter(this.config.allowFiltering)
-                .makeFreezePanes()
-                .makeContextMenu()
-                .makeRows()
-                .makeExport()
-                .makeGroupPanel(this.config.groupPanelId)
-                .makeColumnPicker()
-                .makeToolTip()
-                .makePagination(this.config.rowsPerPage)
-                .makeSort(this.config.allowColumnSort)
-                .makeColumnReorder(this.config.allowColumnReorder)
-                .makeColumnResize(this.config.allowColumnResize)
-                .makeTabNavigation(this.config.allowKeyTabNavigation)
-                .makeAutoRowNumber()
-                .makeStyling(this.config.rowHeight)
-                .makeUndoStack()
-                .makeValidationMark()
-                .makeState()
-                .makeSelection(
-                    this.config.allowRowSelector,
-                    this.config.selectionMode
-                )
-                .build();
-
             this._features = this._fBuilder.features;
+
+            this._fBuilder.build();
         }
 
         public changeColumnProperty(
