@@ -42,6 +42,10 @@ namespace Column {
          * @returns -1 for no relation
          */
         indexPosition(): number;
+        /**
+         * Refresh a column object, re-applying its configuration
+         */
+        refresh(): void;
     }
 
     /**
@@ -243,6 +247,10 @@ namespace Column {
             )
                 .map((p) => p.parentNode)
                 .indexOf(thisColumn);
+        }
+
+        public refresh(): void {
+            this.applyConfigs();
         }
 
         abstract get columnEvents(): ExternalEvents.ColumnEventsManager;

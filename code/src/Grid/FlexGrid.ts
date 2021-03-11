@@ -147,6 +147,7 @@ namespace Grid {
                 .makeStyling(this.config.rowHeight)
                 .makeUndoStack()
                 .makeValidationMark()
+                .makeState()
                 .makeSelection(
                     this.config.allowRowSelector,
                     this.config.selectionMode
@@ -266,6 +267,11 @@ namespace Grid {
             return this.provider.itemsSource.sourceCollection;
         }
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewLayout(): any {
+            return this._features.view.getViewLayout();
+        }
+
         public hasResults(): boolean {
             return this._provider.collectionView.isEmpty === false;
         }
@@ -334,6 +340,13 @@ namespace Grid {
             }
 
             return false;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewLayout(state: any): void {
+            if (this.isReady) {
+                this._features.view.setViewLayout(state);
+            }
         }
     }
 }
