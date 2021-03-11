@@ -27,8 +27,8 @@ namespace Features {
 
     export abstract class AbstractFactoryBuilder
         implements IFeatures, IBuilder {
-        private _grid: Grid.IGrid;
         protected _features: CommmonFeatures;
+        protected _grid: Grid.IGrid;
         public _featureList: IBuilder[];
 
         constructor(grid: Grid.IGrid) {
@@ -70,17 +70,17 @@ namespace Features {
     }
 
     export class FeatureBuilder extends AbstractFactoryBuilder {
-        public makeAutoRowNumber(): FeatureBuilder {
+        private _makeAutoRowNumber(): FeatureBuilder {
             this._makeItem(AutoRowNumber);
             return this;
         }
 
-        public makeColumnPicker(): FeatureBuilder {
+        private _makeColumnPicker(): FeatureBuilder {
             this._makeItem(ColumnPicker);
             return this;
         }
 
-        public makeColumnReorder(enable: boolean): FeatureBuilder {
+        private _makeColumnReorder(enable: boolean): FeatureBuilder {
             this._features.columnReorder = this._makeItem(
                 ColumnReorder,
                 enable
@@ -88,38 +88,37 @@ namespace Features {
             return this;
         }
 
-        public makeColumnResize(enable: boolean): FeatureBuilder {
+        private _makeColumnResize(enable: boolean): FeatureBuilder {
             this._features.columnResize = this._makeItem(ColumnResize, enable);
             return this;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public makeContextMenu(): FeatureBuilder {
+        private _makeContextMenu(): FeatureBuilder {
             this._features.contextMenu = this._makeItem(ContextMenu);
             return this;
         }
 
-        public makeDirtyMark(): FeatureBuilder {
+        private _makeDirtyMark(): FeatureBuilder {
             this._features.dirtyMark = this._makeItem(DirtyMark);
             return this;
         }
 
-        public makeExport(): FeatureBuilder {
+        private _makeExport(): FeatureBuilder {
             this._features.export = this._makeItem(Export);
             return this;
         }
 
-        public makeFilter(enable: boolean): FeatureBuilder {
+        private _makeFilter(enable: boolean): FeatureBuilder {
             this._features.filter = this._makeItem(ColumnFilter, enable);
             return this;
         }
 
-        public makeFreezePanes(): FeatureBuilder {
+        private _makeFreezePanes(): FeatureBuilder {
             this._features.columnFreeze = this._makeItem(ColumnFreeze);
             return this;
         }
 
-        public makeGroupPanel(groupPanelId: string): FeatureBuilder {
+        private _makeGroupPanel(groupPanelId: string): FeatureBuilder {
             this._features.groupPanel = this._makeItem(
                 GroupPanel,
                 groupPanelId
@@ -127,17 +126,17 @@ namespace Features {
             return this;
         }
 
-        public makePagination(pageSize: number): FeatureBuilder {
+        private _makePagination(pageSize: number): FeatureBuilder {
             this._features.pagination = this._makeItem(Pagination, pageSize);
             return this;
         }
 
-        public makeRows(): FeatureBuilder {
+        private _makeRows(): FeatureBuilder {
             this._features.rows = this._makeItem(Rows);
             return this;
         }
 
-        public makeSelection(
+        private _makeSelection(
             allowRowSelector: boolean,
             selectionMode: number
         ): FeatureBuilder {
@@ -149,22 +148,22 @@ namespace Features {
             return this;
         }
 
-        public makeSort(enable: boolean): FeatureBuilder {
+        private _makeSort(enable: boolean): FeatureBuilder {
             this._features.sort = this._makeItem(ColumnSort, enable);
             return this;
         }
 
-        public makeState(): FeatureBuilder {
+        private _makeState(): FeatureBuilder {
             this._features.view = this._makeItem(View);
             return this;
         }
 
-        public makeStyling(rowHeight: number): FeatureBuilder {
+        private _makeStyling(rowHeight: number): FeatureBuilder {
             this._features.styling = this._makeItem(Styling, rowHeight);
             return this;
         }
 
-        public makeTabNavigation(enable: boolean): FeatureBuilder {
+        private _makeTabNavigation(enable: boolean): FeatureBuilder {
             this._features.tabNavigation = this._makeItem(
                 TabNavigation,
                 enable
@@ -172,14 +171,40 @@ namespace Features {
             return this;
         }
 
-        public makeToolTip(): FeatureBuilder {
+        private _makeToolTip(): FeatureBuilder {
             this._makeItem(ToolTip);
             return this;
         }
 
-        public makeUndoStack(): FeatureBuilder {
+        private _makeUndoStack(): FeatureBuilder {
             this._features.undoStack = this._makeItem(UndoStack);
             return this;
+        }
+
+        public build(): void {
+            const config = this._grid.config as Grid.FlexGridConfig;
+
+            this._makeDirtyMark()
+                ._makeFilter(config.allowFiltering)
+                ._makeFreezePanes()
+                ._makeContextMenu()
+                ._makeRows()
+                ._makeExport()
+                ._makeGroupPanel(config.groupPanelId)
+                ._makeColumnPicker()
+                ._makeToolTip()
+                ._makePagination(config.rowsPerPage)
+                ._makeSort(config.allowColumnSort)
+                ._makeColumnReorder(config.allowColumnReorder)
+                ._makeColumnResize(config.allowColumnResize)
+                ._makeTabNavigation(config.allowKeyTabNavigation)
+                ._makeAutoRowNumber()
+                ._makeStyling(config.rowHeight)
+                ._makeUndoStack()
+                ._makeSelection(config.allowRowSelector, config.selectionMode)
+                ._makeState();
+
+            super.build();
         }
     }
 }
