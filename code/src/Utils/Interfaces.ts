@@ -103,15 +103,15 @@ interface IConfigurationColumn extends IConfiguration {
      */
     uniqueId: string;
     /**
+     * If validateBinding is set to False then the binding specified by the user should not be validated. Mostly used by Action column with FixedText (e.g. binding: $Text)
+     */
+    validateBinding: boolean;
+    /**
      * Refresh config
      * @param providerConfig The config based on provider, used to update our internal config
      */
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     updateConfig(providerConfig: any): void;
-    /**
-     * If validateBinding is set to False then the binding specified by the user should not be validated. Mostly used by Action column with FixedText (e.g. binding: $Text)
-     */
-    validateBinding: boolean;
 }
 
 /**
