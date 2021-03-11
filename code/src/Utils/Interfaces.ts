@@ -102,7 +102,10 @@ interface IConfigurationColumn extends IConfiguration {
      * Represents the identifier created on OS and used as reference to find objects on screen
      */
     uniqueId: string;
-
+    /**
+     * If validateBinding is set to False then the binding specified by the user should not be validated. Mostly used by Action column with FixedText (e.g. binding: $Text)
+     */
+    validateBinding: boolean;
     /**
      * Refresh config
      * @param providerConfig The config based on provider, used to update our internal config

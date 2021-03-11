@@ -26,9 +26,17 @@ namespace Column {
         public multiLine: boolean;
         public required: boolean;
         public uniqueId: string;
+        public validateBinding: boolean;
         public visible: boolean;
         public width: number;
         public wordWrap: boolean;
+
+        // eslint-disable-next-line
+        constructor(config: any) {
+            // Remove any {} or [] that exist on the binding. In order to accept any format "{EntityName}.[FieldName]" or "EntityName.FieldName"
+            config.binding = config.binding.replaceAll(/[{}[\]]+/g, '');
+            super(config);
+        }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public getProviderConfig(): any {
@@ -201,6 +209,7 @@ namespace Column {
         public isCollapsed: boolean;
         public required: boolean;
         public uniqueId: string;
+        public validateBinding: boolean;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(config: any, extra: any) {
