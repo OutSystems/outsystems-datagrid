@@ -34,7 +34,14 @@ interface IValidation {
     validateAction(action: InternalEvents.Actions, ctx: any): string;
 }
 
+/**
+ * Used to configure a feature. For example turnning on and off
+ */
 interface IProviderConfig<T> {
+    /**
+     * Set the Feature state
+     * @param value The new state state of a feature
+     */
     setState(value: T): void;
 }
 
@@ -96,6 +103,12 @@ interface IConfigurationColumn extends IConfiguration {
      */
     uniqueId: string;
     /**
+     * Refresh config
+     * @param providerConfig The config based on provider, used to update our internal config
+     */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+    updateConfig(providerConfig: any): void;
+    /**
      * If validateBinding is set to False then the binding specified by the user should not be validated. Mostly used by Action column with FixedText (e.g. binding: $Text)
      */
     validateBinding: boolean;
@@ -123,4 +136,21 @@ interface IConfigurationColumnEditor extends IConfiguration {
 interface ISerializable {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     serialize(): any;
+}
+
+/**
+ * Interface for saving and loaging grid view
+ */
+interface IView {
+    /**
+     * Get the current layout
+     */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+    getViewLayout(): any;
+    /**
+     * Load a predefined layout
+     * @param view A JSON representing a previous saved visualization
+     */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+    setViewLayout(view: any): void;
 }

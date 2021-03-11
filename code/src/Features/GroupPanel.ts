@@ -38,7 +38,7 @@ namespace Features {
         }
     }
 
-    export interface IGroupPanel extends IValidation {
+    export interface IGroupPanel extends IValidation, IView {
         isGridGrouped: boolean;
     }
 
@@ -89,6 +89,31 @@ namespace Features {
         public dispose(): void {
             this._groupPanel.dispose();
             this._groupPanel = undefined;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewLayout(): any {
+            return this._grid.provider.itemsSource.groupDescriptions.map(
+                (gd) => {
+                    return { property: gd.propertyName };
+                }
+            );
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewLayout(state: any): void {
+            const source = this._grid.provider.itemsSource;
+            source.deferUpdate(function () {
+                source.groupDescriptions.clear();
+
+                state.groupDescriptions.forEach((element) => {
+                    source.groupDescriptions.push(
+                        new wijmo.collections.PropertyGroupDescription(
+                            element.property
+                        )
+                    );
+                });
+            });
         }
 
         public validateAction(

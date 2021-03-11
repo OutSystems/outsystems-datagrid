@@ -23,7 +23,8 @@ namespace Features {
     export interface IColumnFilter
         extends IBuilder,
             IValidation,
-            IProviderConfig<boolean> {
+            IProviderConfig<boolean>,
+            IView {
         isGridFiltered: boolean;
     }
 
@@ -86,12 +87,22 @@ namespace Features {
             this._filter = undefined;
         }
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewLayout(): any {
+            return this._filter.filterDefinition;
+        }
+
         public setState(value: boolean): void {
             this._filter.defaultFilterType = value
                 ? wijmo.grid.filter.FilterType.Both
                 : wijmo.grid.filter.FilterType.None;
             this._filter.showSortButtons = false;
             this._enabled = value;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewLayout(state: any): void {
+            this._filter.filterDefinition = state.filterDefinition;
         }
 
         public validateAction(

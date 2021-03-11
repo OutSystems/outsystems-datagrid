@@ -128,31 +128,9 @@ namespace Grid {
         public buildFeatures(): void {
             this._fBuilder = new Features.FeatureBuilder(this);
 
-            this._fBuilder
-                .makeDirtyMark()
-                .makeFilter(this.config.allowFiltering)
-                .makeFreezePanes()
-                .makeContextMenu()
-                .makeRows()
-                .makeExport()
-                .makeGroupPanel(this.config.groupPanelId)
-                .makeColumnPicker()
-                .makeToolTip()
-                .makePagination(this.config.rowsPerPage)
-                .makeSort(this.config.allowColumnSort)
-                .makeColumnReorder(this.config.allowColumnReorder)
-                .makeColumnResize(this.config.allowColumnResize)
-                .makeTabNavigation(this.config.allowKeyTabNavigation)
-                .makeAutoRowNumber()
-                .makeStyling(this.config.rowHeight)
-                .makeUndoStack()
-                .makeSelection(
-                    this.config.allowRowSelector,
-                    this.config.selectionMode
-                )
-                .build();
-
             this._features = this._fBuilder.features;
+
+            this._fBuilder.build();
         }
 
         public changeColumnProperty(
@@ -264,6 +242,11 @@ namespace Grid {
             return this.provider.itemsSource.sourceCollection;
         }
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewLayout(): any {
+            return this._features.view.getViewLayout();
+        }
+
         public hasResults(): boolean {
             return this._provider.collectionView.isEmpty === false;
         }
@@ -354,6 +337,13 @@ namespace Grid {
             }
 
             return false;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewLayout(state: any): void {
+            if (this.isReady) {
+                this._features.view.setViewLayout(state);
+            }
         }
     }
 }
