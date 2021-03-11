@@ -59,6 +59,12 @@ namespace Column {
 
             return provider;
         }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public updateConfig(providerConfig: any): void {
+            this.visible = providerConfig.visible;
+            this.width = providerConfig.width;
+        }
     }
 
     /**
@@ -211,6 +217,13 @@ namespace Column {
                 collapseTo: this.collapseTo,
                 align: this.align
             };
+        }
+
+        // eslint-disable-next-line
+        public updateConfig(providerConfig: any): void {
+            // Unused method, ColumnGroup is not yet defined
+            // this.visible = providerConfig.visible;
+            // this.width = providerConfig.width;
         }
     }
 

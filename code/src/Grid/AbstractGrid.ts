@@ -13,7 +13,7 @@ namespace Grid {
         TransposedGrid = 'TransposedGrid'
     }
 
-    export interface IGrid extends IBuilder, IDisposable, ISearchById {
+    export interface IGrid extends IBuilder, IDisposable, ISearchById, IView {
         addedRows: InternalEvents.AddNewRowEvent;
         autoGenerate: boolean;
         columns: Map<string, Column.IColumn>; //Column.IColumn[];
@@ -133,6 +133,7 @@ namespace Grid {
 
         public addColumn(col: Column.IColumn): void {
             console.log(`Add column '${col.uniqueId}': '${col.config.header}'`);
+            this._columns.set(col.config.binding, col);
             this._columns.set(col.uniqueId, col);
         }
 
@@ -170,6 +171,7 @@ namespace Grid {
 
                 col.dispose();
                 this._columns.delete(columnID);
+                this._columns.delete(col.config.binding);
 
                 console.log(
                     `Remove column '${columnID}': '${col.config.header}'`
@@ -208,6 +210,9 @@ namespace Grid {
 
         public abstract getData(): JSON[];
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public abstract getViewLayout(): any;
+
         public abstract hasResults(): boolean;
 
         public abstract setCellError(
@@ -218,5 +223,8 @@ namespace Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public abstract setData(data: any): boolean;
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public abstract setViewLayout(state: any): void;
     }
 }
