@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Features {
-    export interface IColumnSort extends IValidation, IProviderConfig<boolean> {
+    export interface IColumnSort
+        extends IValidation,
+            IProviderConfig<boolean>,
+            IView {
         isGridSorted: boolean;
     }
 
@@ -99,11 +102,40 @@ namespace Features {
             this.setState(this._enabled);
         }
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewLayout(): any {
+            return this._grid.provider.itemsSource.sortDescriptions.map(
+                (sortDesc) => {
+                    return {
+                        property: sortDesc.property,
+                        ascending: sortDesc.ascending
+                    };
+                }
+            );
+        }
+
         public setState(value: boolean): void {
             this._grid.provider.allowSorting = value
                 ? wijmo.grid.AllowSorting.MultiColumn
                 : wijmo.grid.AllowSorting.None;
             this._enabled = value;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewLayout(state: any): void {
+            const source = this._grid.provider.itemsSource;
+            source.deferUpdate(function () {
+                source.sortDescriptions.clear();
+                for (let i = 0; i < state.sortDescriptions.length; i++) {
+                    const sortDesc = state.sortDescriptions[i];
+                    source.sortDescriptions.push(
+                        new wijmo.collections.SortDescription(
+                            sortDesc.property,
+                            sortDesc.ascending
+                        )
+                    );
+                }
+            });
         }
 
         public validateAction(
