@@ -26,11 +26,14 @@ namespace ExternalEvents {
             gridID: string,
             rowNumber: number,
             columnID: string,
+            oldValue: string,
             newValue: string
         ): void {
             this.handlers
                 .slice(0)
-                .forEach((h) => h(gridID, rowNumber, columnID, newValue));
+                .forEach((h) =>
+                    h(gridID, rowNumber, columnID, oldValue, newValue)
+                );
         }
     }
 }

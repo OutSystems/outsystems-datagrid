@@ -2,10 +2,10 @@
 namespace Features {
     export interface IValidationMark {
         clear(): void;
-        errorMessage(row: number, binding: string): string;
-        isInvalid(row: number, binding: string): boolean;
-        validate(
-            row: number,
+        errorMessage(rowNumber: number, binding: string): string;
+        isInvalid(rowNumber: number, binding: string): boolean;
+        setStatus(
+            rowNumber: number,
             columnID: string,
             isValid: boolean,
             errorMessage: string
@@ -24,7 +24,6 @@ namespace Features {
     }
 
     export class ValidationMark implements IValidationMark, IBuilder {
-        private _bindToColumn: Map<string, Column.IColumn>;
         private _grid: Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
@@ -34,44 +33,50 @@ namespace Features {
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
-            this._bindToColumn = new Map<string, Column.IColumn>();
         }
 
         /**
-         * Handler for the addNewRows.
+         * Future Implementation -> Handler for the addNewRows.
          * @param rowNumber Number of the row that has been added to the grid.
          */
         // private _addNewRowEndingHandler(rowNumber: number): void {
         //     this._bindToColumn.forEach((columnX) => {
-        //         this._x(rowNumber, columnX.provider.binding, undefined);
+        //         this.__triggerEventsFromColumn(rowNumber, columnX.provider.binding, undefined);
         //     });
         // }
 
         /**
-         * Handler for the CellEditEnding.
+         * Handler for the CellEditEnded.
          */
-        private _cellEditEndingHandler(
+        private _cellEditHandler(
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
             const binding = s.getColumn(e.col).binding;
             const newValue = s.getCellData(e.row, e.col, false);
-            this._triggerEventsFromColumn(e.row, binding, newValue);
+            // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
+            const oldValue = this._grid.features.dirtyMark.getOldValue(
+                e.row,
+                binding
+            );
+            this._triggerEventsFromColumn(e.row, binding, oldValue, newValue);
         }
 
         /** Helper to convert the formats of Date and DateTime columns to the format of OS */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _convertToFormat(column: Column.IColumn, value: any) {
-            if (value === undefined) return;
             switch (column.columnType) {
+                case Column.ColumnType.Number:
+                case Column.ColumnType.Currency:
+                    return parseFloat(value ?? 0);
                 case Column.ColumnType.Date:
-                    // Formats the date into an ISOString and then returns a substring to have the format 'YYY-MM-DD'.
-                    return Helper.ToOSDate(value);
+                    return Helper.ToOSDate(value ?? new Date(1900, 0, 1));
                 case Column.ColumnType.DateTime:
-                    // Formats the date into an ISOString and then returns it with the format 'YYY-MM-DDT00:00:000Z'.
-                    return Helper.ToOSDatetime(value);
+                    return Helper.ToOSDatetime(value ?? new Date(1900, 0, 1));
+                case Column.ColumnType.Checkbox:
+                    return value ?? false;
                 default:
-                    return value;
+                    return value ?? '';
             }
         }
 
@@ -150,9 +155,14 @@ namespace Features {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const action: any = e.action;
             const binding = this._grid.provider.getColumn(action.col).binding;
+            const oldValue = this._grid.features.dirtyMark.getOldValue(
+                action.row,
+                binding
+            );
             this._triggerEventsFromColumn(
                 action.row,
                 binding,
+                oldValue,
                 action._newState
             );
         }
@@ -161,16 +171,19 @@ namespace Features {
          * Triggers the events of OnCellValueChange associated to a specific column in OS
          * @param rowNumber Number of the row to trigger the events
          * @param binding Binding of the column that contains the associated events
-         * @param newValue New value of the cell after its value has changed.
+         * @param oldValue Value of the cell before its value has changed (Old)
+         * @param newValue Value of the cell after its value has changed (New)
          */
         private _triggerEventsFromColumn(
             rowNumber: number,
             binding: string,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            oldValue: any,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newValue: any
         ) {
-            if (this._bindToColumn.has(binding)) {
-                const column = this._bindToColumn.get(binding);
+            if (this._grid.columns.has(binding)) {
+                const column = this._grid.columns.get(binding);
 
                 // In the future we might want to add the validation for the IsMandatory and this might be useful
                 // if (columnX.config.isMandatory && !newValue) {
@@ -192,6 +205,7 @@ namespace Features {
                     column.columnEvents.trigger(
                         ExternalEvents.ColumnEventType.OnCellValueChange,
                         this._convertToFormat(column, newValue),
+                        this._convertToFormat(column, oldValue),
                         rowNumber
                     );
                 }
@@ -208,31 +222,32 @@ namespace Features {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const action: any = e.action;
             const binding = this._grid.provider.getColumn(action.col).binding;
+            const oldValue = this._grid.features.dirtyMark.getOldValue(
+                action.row,
+                binding
+            );
             this._triggerEventsFromColumn(
                 action.row,
                 binding,
+                oldValue,
                 action._oldState
             );
         }
 
         public build(): void {
-            this._grid.columns.forEach((column) => {
-                this._bindToColumn.set(column.config.binding, column);
-            });
             this._grid.provider.cellEditEnded.addHandler(
-                this._cellEditEndingHandler.bind(this)
+                this._cellEditHandler.bind(this)
             );
             this._grid.provider.pastedCell.addHandler(
-                this._cellEditEndingHandler.bind(this)
+                this._cellEditHandler.bind(this)
             );
-            setTimeout(() => {
-                this._grid.features.undoStack.stack.undoingAction.addHandler(
-                    this._undoingActionHandler.bind(this)
-                );
-                this._grid.features.undoStack.stack.redoingAction.addHandler(
-                    this._redoingActionHandler.bind(this)
-                );
-            }, 1000);
+            this._grid.features.undoStack.stack.undoingAction.addHandler(
+                this._undoingActionHandler.bind(this)
+            );
+            this._grid.features.undoStack.stack.redoingAction.addHandler(
+                this._redoingActionHandler.bind(this)
+            );
+            // Future Implementation -> adding new rows will trigger this event
             // this._grid.addedRows.addHandler(
             //     this._addNewRowEndingHandler.bind(this)
             // );
@@ -301,13 +316,13 @@ namespace Features {
         }
 
         /**
-         * Used to validate a cell by setting its metadata with a state that indicates if it is valid or not.
+         * Used to validate a cell by defining its metadata with a state that indicates if it is valid or not.
          * @param rowNumber Number of the row in which the action of validation should be triggered.
          * @param columnWidgetID ID of the Column block in which the action of validation should be triggered.
          * @param isValid Boolean that indicates whether the cell value meets a validation or data type rule. True, if the value conforms to the rule. False, otherwise.
          * @param errorMessage Message to be shown to the user when the value introduced is not valid.
          */
-        public validate(
+        public setStatus(
             rowNumber: number,
             columnWidgetID: string,
             isValid: boolean,

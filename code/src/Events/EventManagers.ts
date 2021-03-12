@@ -196,6 +196,7 @@ namespace ExternalEvents {
         public trigger(
             eventType: ColumnEventType,
             value: string,
+            oldValue?: string,
             rowNumber?: number
         ): void {
             if (this.handlers.has(eventType)) {
@@ -214,7 +215,8 @@ namespace ExternalEvents {
                             this._column.grid.widgetId, // ID of Grid block where the cell value has changed.
                             rowNumber, // Number of the row in which the cell value has changed.
                             this._column.widgetId, // ID of the Column block in which the cell value has changed.
-                            value // New value of the cell after its value has changed.
+                            oldValue, // Value of the cell before its value has changed (Old)
+                            value // Value of the cell after its value has changed (New)
                         );
                         break;
                     default:
