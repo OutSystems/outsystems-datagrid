@@ -32,7 +32,7 @@ namespace Column {
         public build(): void {
             if (this._built) return;
             super.build();
-            
+
             const providerGrid: wijmo.grid.FlexGrid = this.grid.provider;
 
             if (this.hasParentColumn) {
