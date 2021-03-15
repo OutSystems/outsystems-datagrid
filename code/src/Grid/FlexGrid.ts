@@ -192,6 +192,7 @@ namespace Grid {
             if (this.isReady) {
                 this.provider.itemsSource.clearChanges();
                 this.features.dirtyMark.clear();
+                this.features.validationMark.clear();
             }
         }
         public dispose(): void {

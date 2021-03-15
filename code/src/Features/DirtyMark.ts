@@ -2,6 +2,8 @@
 namespace Features {
     export interface IDirtyMark {
         clear(): void;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        getOldValue(rowNumber: number, binding: string): any;
         // clearByRow(row: number): void;
     }
 
@@ -30,7 +32,8 @@ namespace Features {
         private _addNewRowEndingHandler(rowIndex: number): void {
             this.getMetadata(rowIndex).isNew = true;
         }
-        private _cellEditEndingHandler(
+
+        private _cellEditHandler(
             grid: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
@@ -42,7 +45,7 @@ namespace Features {
             ) {
                 this.getMetadata(e.row).originalValues.set(
                     binding,
-                    grid.getCellData(e.row, e.col, true)
+                    grid.getCellData(e.row, e.col, false)
                 );
             }
         }
@@ -72,20 +75,33 @@ namespace Features {
         }
 
         private _isDirtyCell(row: number, col: number): boolean {
-            const s = this._grid.provider;
-
+            const grid = this._grid.provider;
             if (this.hasMetadata(row)) {
-                const binding = s.getColumn(col).binding;
-                const currValue = s.getCellData(row, col, true);
+                const binding = grid.getColumn(col).binding;
+                const cellValue = grid.getCellData(row, col, false);
                 const metadata = this.getMetadata(row);
 
-                return (
-                    metadata.isNew ||
-                    (metadata.originalValues.has(binding) &&
-                        metadata.originalValues.get(binding) !== currValue)
-                );
-            }
+                //If the cell isNew we want to have the dirty mark
+                if (metadata.isNew) return true;
 
+                if (metadata.originalValues.has(binding)) {
+                    const originalValue = metadata.originalValues.get(binding);
+
+                    //If the original value and new value are null and undefined we don't want to have dirty mark.
+                    if (originalValue === undefined) {
+                        return (
+                            originalValue !== cellValue && cellValue !== null
+                        );
+                    } else {
+                        //If the cellValue and the originalValue are different we want to add the dirty mark.
+                        //Even when converted to String because after edition the cells from the Dropdown Columns will have the value in string format and before edition the value of those same cells can be integers (number identifiers).
+                        return (
+                            originalValue !== cellValue &&
+                            originalValue.toString() !== cellValue
+                        );
+                    }
+                }
+            }
             return false;
         }
 
@@ -94,20 +110,41 @@ namespace Features {
                 const metadata = this.getMetadata(row);
                 let notDirtyCells = 0;
 
-                //Couldn't trigger the editEnded on UndoStack, so we need to validate all the row's columns to verify if something have changed
                 for (const k of metadata.originalValues.keys()) {
-                    //If original equals to cellValue
-                    if (
-                        this._grid.provider.getCellData(row, k, true) ===
-                        metadata.originalValues.get(k)
-                    )
-                        //Add 1 to the the equals
-                        notDirtyCells++;
-                    //One not equal is false and the mark should be shown
-                    else break;
+                    const cellValue = this._grid.provider.getCellData(
+                        row,
+                        k,
+                        false
+                    );
+                    const originalValue = metadata.originalValues.get(k);
+
+                    //If the original value and new value are null and undefined we don't want to have dirty mark on the cell
+                    if (originalValue === undefined) {
+                        if (originalValue === cellValue || cellValue === null) {
+                            //Add 1 to the notDirtyCells
+                            notDirtyCells++;
+                        } else {
+                            //If the cell is dirty then the row must be dirty
+                            break;
+                        }
+                    } else if (originalValue !== undefined) {
+                        //If the cellValue and the originalValue are equal the cell is not dirty.
+                        //Even when converted to String because after edition the cells from the Dropdown Columns will have the value in string format and before edition the value of those same cells can be integers (number identifiers).
+                        if (
+                            originalValue === cellValue ||
+                            originalValue.toString() === cellValue
+                        ) {
+                            //Add 1 to the notDirtyCells
+                            notDirtyCells++;
+                        } else {
+                            //If the cell is dirty then the row must be dirty
+                            break;
+                        }
+                    }
                 }
 
-                //If Total changes - equals > 0 there is some dirty register on the row
+                //If the row isNew we want to have the dirty mark
+                //Or, if Total changes - equals > 0 there is at least one dirty cell on the row so we also want to have a dirty mark
                 return (
                     metadata.isNew ||
                     metadata.originalValues.size - notDirtyCells > 0
@@ -122,11 +159,13 @@ namespace Features {
         }
 
         public build(): void {
-            this._grid.provider.cellEditEnding.addHandler(
-                this._cellEditEndingHandler.bind(this)
+            // Responsible for saving the original values before edition of any cell.
+            // Essencial for saving the value in case the content of the cell is deleted with keyboard events (del, backspace)
+            this._grid.provider.beginningEdit.addHandler(
+                this._cellEditHandler.bind(this)
             );
             this._grid.provider.pastingCell.addHandler(
-                this._cellEditEndingHandler.bind(this)
+                this._cellEditHandler.bind(this)
             );
             this._grid.addedRows.addHandler(
                 this._addNewRowEndingHandler.bind(this)
@@ -158,6 +197,23 @@ namespace Features {
                 row,
                 this._internalLabel
             ) as DirtyMarksInfo;
+        }
+
+        /**
+         * Gets the old value by looking for the rowNumber and binding to return the original value of the cell.
+         * @param rowNumber Number of the row to search for the original value of the cell it belongs to.
+         * @param binding Binding of the column to complement the search.
+         * @returns Value of the cell before its edition.
+         */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public getOldValue(rowNumber: number, binding: string): any {
+            if (this.hasMetadata(rowNumber)) {
+                return this._metadata
+                    .getMetadata(rowNumber, this._internalLabel)
+                    .originalValues.get(binding);
+            }
+            // If there is no metadata we want to return undefined
+            return undefined;
         }
 
         public hasMetadata(row: number): boolean {

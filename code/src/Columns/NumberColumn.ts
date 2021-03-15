@@ -28,6 +28,12 @@ namespace Column {
             editorConfig: T
         ) {
             super(grid, columnID, new ColumnConfig(configs), editorConfig);
+            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+        }
+
+        /** Returns all the events associated to the column */
+        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+            return this._columnEvents;
         }
 
         public get columnType(): ColumnType {

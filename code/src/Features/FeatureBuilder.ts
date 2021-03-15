@@ -22,6 +22,7 @@ namespace Features {
         public styling: IStyling;
         public tabNavigation: ITabNavigation;
         public undoStack: IUndoStack;
+        public validationMark: IValidationMark;
         public view: IView;
     }
 
@@ -181,6 +182,11 @@ namespace Features {
             return this;
         }
 
+        private _makeValidationMark(): FeatureBuilder {
+            this._features.validationMark = this._makeItem(ValidationMark);
+            return this;
+        }
+
         public build(): void {
             const config = this._grid.config as Grid.FlexGridConfig;
 
@@ -201,6 +207,7 @@ namespace Features {
                 ._makeAutoRowNumber()
                 ._makeStyling(config.rowHeight)
                 ._makeUndoStack()
+                ._makeValidationMark()
                 ._makeSelection(config.allowRowSelector, config.selectionMode)
                 ._makeState();
 
