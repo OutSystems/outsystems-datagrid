@@ -29,7 +29,7 @@ namespace GridAPI.Cells {
     }
 
     /**
-     * Responsible for running the actions responsible for row validation per each column.
+     * Responsible for running the actions that are in charge of the validation per each column.
      * Those actions might be included in the OnCellValueChange handler or in case the isMandatory column configuration is set.
      *
      * @param {string} gridID ID of the Grid.
