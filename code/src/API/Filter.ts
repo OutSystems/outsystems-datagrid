@@ -45,4 +45,33 @@ namespace GridAPI.Filter {
         grid.gridEvents.trigger(ExternalEvents.GridEventType.SearchEnded, grid);
         //TODO: [RGRIDT-621] Give feedback if grid is not found
     }
+
+    /**
+     * Function that activates filter of a given column
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @param {string} columnID ID of the column that will have filter activated.
+     * @returns {*}  {void}
+     */
+    export function ActivateFilter(gridID: string, columnID: string): void {
+        if (!Helper.IsGridReady(gridID)) return;
+        const grid = GridManager.GetGridById(gridID);
+
+        grid.features.filter.activate(columnID);
+    }
+
+    /**
+     * Function that deactivates filter of a given column
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @param {string} columnID ID of the column that will have filter deactivated.
+     * @returns {*}  {void}
+     */
+    export function DeactivateFilter(gridID: string, columnID: string): void {
+        if (!Helper.IsGridReady(gridID)) return;
+        const grid = GridManager.GetGridById(gridID);
+        grid.features.filter.deactivate(columnID);
+    }
 }

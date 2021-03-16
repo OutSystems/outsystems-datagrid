@@ -26,6 +26,8 @@ namespace Features {
             IProviderConfig<boolean>,
             IView {
         isGridFiltered: boolean;
+        activate(colum: string): void;
+        deactivate(colum: string): void;
     }
 
     // export class Builder extends Validation implements IBuilder {
@@ -41,6 +43,10 @@ namespace Features {
 
         public get isGridFiltered(): boolean {
             return JSON.parse(this._filter.filterDefinition).filters.length > 0;
+        }
+        public activate(column: string): void {
+            this._filter.getColumnFilter(column).filterType =
+                wijmo.grid.filter.FilterType.Both;
         }
 
         public build(): void {
@@ -83,6 +89,10 @@ namespace Features {
             this.setState(this._enabled);
         }
 
+        public deactivate(column: string): void {
+            this._filter.getColumnFilter(column).filterType =
+                wijmo.grid.filter.FilterType.None;
+        }
         public dispose(): void {
             this._filter = undefined;
         }
