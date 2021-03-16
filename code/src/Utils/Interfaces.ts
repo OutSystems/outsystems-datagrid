@@ -87,6 +87,7 @@ interface IConfigurationColumn extends IConfiguration {
      * A reference to the class used to instantiate the editor */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     editor: any;
+    errorMessage: string;
     /** The format used to print data on screen.
      * This property is used only for data visualization.
      * @example Date fields can be DD/MM/YYYY
@@ -96,6 +97,7 @@ interface IConfigurationColumn extends IConfiguration {
     genericColumnId: string;
     /** The header of a column */
     header: string;
+    isMandatory: boolean;
     /** Defines when the column can or not be empty */
     required: boolean;
     /**
