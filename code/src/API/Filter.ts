@@ -62,6 +62,20 @@ namespace GridAPI.Filter {
     }
 
     /**
+     * Function that clears filter of a given column
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @param {string} columnID ID of the column that will have filter cleared.
+     * @returns {*}  {void}
+     */
+    export function ClearFilter(gridID: string, columnID: string): void {
+        if (!Helper.IsGridReady(gridID)) return;
+        const grid = GridManager.GetGridById(gridID);
+
+        grid.features.filter.clear(columnID);
+    }
+    /**
      * Function that deactivates filter of a given column
      *
      * @export

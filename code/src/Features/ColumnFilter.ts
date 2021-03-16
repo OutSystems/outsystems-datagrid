@@ -27,6 +27,7 @@ namespace Features {
             IView {
         isGridFiltered: boolean;
         activate(colum: string): void;
+        clear(colum: string): void;
         deactivate(colum: string): void;
     }
 
@@ -87,6 +88,11 @@ namespace Features {
             wijmo.culture.FlexGridFilter.dateOperators = dateOperators;
 
             this.setState(this._enabled);
+        }
+
+        public clear(column: string): void {
+            this._filter.getColumnFilter(column).clear();
+            this._grid.provider.collectionView.refresh();
         }
 
         public deactivate(column: string): void {
