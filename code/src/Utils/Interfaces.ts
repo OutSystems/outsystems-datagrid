@@ -87,6 +87,7 @@ interface IConfigurationColumn extends IConfiguration {
      * A reference to the class used to instantiate the editor */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     editor: any;
+    /** Message that will be displayed when column is mandatory and cell has error*/
     errorMessage: string;
     /** The format used to print data on screen.
      * This property is used only for data visualization.
@@ -97,6 +98,7 @@ interface IConfigurationColumn extends IConfiguration {
     genericColumnId: string;
     /** The header of a column */
     header: string;
+    /** Wether or not column is mandatory*/
     isMandatory: boolean;
     /** Defines when the column can or not be empty */
     required: boolean;
