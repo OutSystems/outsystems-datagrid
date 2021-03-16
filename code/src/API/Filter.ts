@@ -54,7 +54,7 @@ namespace GridAPI.Filter {
      * @param {string} columnID ID of the column that will have filter activated.
      * @returns {*}  {void}
      */
-    export function ActivateFilter(gridID: string, columnID: string): void {
+    export function Activate(gridID: string, columnID: string): void {
         if (!Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
@@ -69,7 +69,7 @@ namespace GridAPI.Filter {
      * @param {string} columnID ID of the column that will have filter cleared.
      * @returns {*}  {void}
      */
-    export function ClearFilter(gridID: string, columnID: string): void {
+    export function Clear(gridID: string, columnID: string): void {
         if (!Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
@@ -83,7 +83,7 @@ namespace GridAPI.Filter {
      * @param {string} columnID ID of the column that will have filter deactivated.
      * @returns {*}  {void}
      */
-    export function DeactivateFilter(gridID: string, columnID: string): void {
+    export function Deactivate(gridID: string, columnID: string): void {
         if (!Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
         grid.features.filter.deactivate(columnID);
