@@ -218,17 +218,17 @@ namespace Features {
         ) {
             if (this._grid.columns.has(binding)) {
                 const column = this._grid.columns.get(binding);
-
-                if (column.config.isMandatory && !newValue) {
+                if (column.config.isMandatory) {
                     // Apply invalid mark because the cell is mandatory and the new value is empty
                     GridAPI.Cells.SetValidationStatus(
                         this._grid.uniqueId,
                         rowNumber,
                         column.widgetId,
-                        false,
+                        !!newValue,
                         column.config.errorMessage
                     );
-                } else if (
+                }
+                if (
                     column.hasEvents &&
                     column.columnEvents.handlers.has(
                         ExternalEvents.ColumnEventType.OnCellValueChange
