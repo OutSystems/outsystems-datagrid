@@ -15,6 +15,10 @@ namespace InternalEvents {
             this._handlers.push(handler);
         }
 
+        public hasHandlers(): boolean {
+            return this._handlers.length > 0;
+        }
+
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public removeHandler(handler: Callbacks.Generic) {
             const index = this._handlers.findIndex((hd) => {

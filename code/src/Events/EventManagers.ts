@@ -66,6 +66,15 @@ namespace ExternalEvents {
             }
         }
 
+        public hasHandlers(eventType: ET): boolean {
+            let returnValue = false;
+            if (this._handlers.has(eventType)) {
+                const event = this._handlers.get(eventType);
+                returnValue = event.hasHandlers();
+            }
+            return returnValue;
+        }
+
         public removeHandler(eventType: ET, handler: Callbacks.Generic): void {
             if (this._handlers.has(eventType)) {
                 const event = this._handlers.get(eventType);

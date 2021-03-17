@@ -43,6 +43,11 @@ namespace Features {
         private _filterChangedHandler(s: wijmo.grid.filter.FlexGridFilter) {
             this._grid.features.undoStack.closeAction(ColumnFilterAction);
 
+            if (
+                this._grid.gridEvents.hasHandlers(
+                    ExternalEvents.GridEventType.OnFilterChange
+                )
+            ) {
                 this._grid.gridEvents.trigger(
                     ExternalEvents.GridEventType.OnFilterChange,
                     this._grid,
@@ -52,6 +57,7 @@ namespace Features {
                         )
                     )
                 );
+            }
         }
 
         private _filterChangingHandler(s: wijmo.grid.filter.FlexGridFilter) {
