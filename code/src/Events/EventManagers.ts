@@ -8,7 +8,7 @@ namespace ExternalEvents {
      */
     export enum GridEventType {
         Initialized = 'Initialized',
-        OnFilterChange = 'OnFilterChange',
+        OnFiltersChange = 'OnFiltersChange',
         SearchEnded = 'SearchEnded'
     }
 
@@ -131,8 +131,8 @@ namespace ExternalEvents {
                 case GridEventType.Initialized:
                     event = new GridInitializedEvent();
                     break;
-                case GridEventType.OnFilterChange:
-                    event = new GridOnFilterChangeEvent();
+                case GridEventType.OnFiltersChange:
+                    event = new GridOnFiltersChangeEvent();
                     break;
                 case GridEventType.SearchEnded:
                     event = new GridSearchEndEvent();

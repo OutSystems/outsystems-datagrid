@@ -27,10 +27,10 @@ namespace ExternalEvents {
      * Class that represents the Filter Change event.
      *
      * @export
-     * @class GridOnFilterChangeEvent
+     * @class GridOnFiltersChangeEvent
      * @extends {AbstractGridEvent}
      */
-    export class GridOnFilterChangeEvent extends AbstractGridEvent {
+    export class GridOnFiltersChangeEvent extends AbstractGridEvent {
         public trigger(
             gridObj: Grid.IGrid,
             gridID: string,
