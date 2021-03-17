@@ -8,6 +8,7 @@ namespace ExternalEvents {
      */
     export enum GridEventType {
         Initialized = 'Initialized',
+        OnFilterChange = 'OnFilterChange',
         SearchEnded = 'SearchEnded'
     }
 
@@ -72,7 +73,8 @@ namespace ExternalEvents {
             }
         }
 
-        public trigger(eventType: ET, data?: D): void {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/explicit-module-boundary-types
+        public trigger(eventType: ET, data?: D, ...args): void {
             if (this._handlers.has(eventType)) {
                 this._handlers.get(eventType).trigger(data);
             }
@@ -120,6 +122,9 @@ namespace ExternalEvents {
                 case GridEventType.Initialized:
                     event = new GridInitializedEvent();
                     break;
+                case GridEventType.OnFilterChange:
+                    event = new GridOnFilterChangeEvent();
+                    break;
                 case GridEventType.SearchEnded:
                     event = new GridSearchEndEvent();
                     break;
@@ -143,9 +148,16 @@ namespace ExternalEvents {
             }
         }
 
-        public trigger(event: GridEventType, gridObj: Grid.IGrid): void {
+        public trigger(
+            event: GridEventType,
+            gridObj: Grid.IGrid,
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+            ...args
+        ): void {
             if (this.handlers.has(event)) {
-                this.handlers.get(event).trigger(gridObj, gridObj.widgetId);
+                this.handlers
+                    .get(event)
+                    .trigger(gridObj, gridObj.widgetId, ...args);
             }
         }
     }

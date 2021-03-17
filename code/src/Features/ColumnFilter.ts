@@ -38,6 +38,22 @@ namespace Features {
             this._grid = grid;
             this._enabled = enabled;
         }
+        //s: wijmo.grid.filter.FlexGridFilter,
+        //e: wijmo.grid.CellRangeEventArgs
+        private _filterChangedHandler(s: wijmo.grid.filter.FlexGridFilter) {
+            this._grid.features.undoStack.closeAction(ColumnFilterAction);
+
+                this._grid.gridEvents.trigger(
+                    ExternalEvents.GridEventType.OnFilterChange,
+                    this._grid,
+                    JSON.stringify(
+                        ActiveFilterFactory.MakeFromActiveFilters(
+                            s.filterDefinition
+                        )
+                    )
+                );
+        }
+
 
         public get isGridFiltered(): boolean {
             return JSON.parse(this._filter.filterDefinition).filters.length > 0;
@@ -57,14 +73,9 @@ namespace Features {
                     );
                 }
             );
-            this._filter.filterChanged.addHandler(() =>
-                //s: wijmo.grid.filter.FlexGridFilter,
-                //e: wijmo.grid.CellRangeEventArgs
-                {
-                    this._grid.features.undoStack.closeAction(
-                        ColumnFilterAction
-                    );
-                }
+
+            this._filter.filterChanged.addHandler(
+                this._filterChangedHandler.bind(this)
             );
 
             this._grid.validatingAction.addHandler(

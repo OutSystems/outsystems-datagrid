@@ -9,7 +9,8 @@ namespace ExternalEvents {
      * @extends {AbstractEvent<Grid.IGrid>}
      */
     abstract class AbstractGridEvent extends InternalEvents.AbstractEvent<Grid.IGrid> {
-        public trigger(gridObj: Grid.IGrid, gridID: string): void {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        public trigger(gridObj: Grid.IGrid, gridID: string, ...args): void {
             this.handlers.slice(0).forEach((h) => h(gridID, gridObj));
         }
     }
@@ -21,6 +22,25 @@ namespace ExternalEvents {
      * @extends {AbstractEvent<Grid.IGrid>}
      */
     export class GridInitializedEvent extends AbstractGridEvent {}
+
+    /**
+     * Class that represents the Filter Change event.
+     *
+     * @export
+     * @class GridOnFilterChangeEvent
+     * @extends {AbstractGridEvent}
+     */
+    export class GridOnFilterChangeEvent extends AbstractGridEvent {
+        public trigger(
+            gridObj: Grid.IGrid,
+            gridID: string,
+            serializedActiveFilters: string
+        ): void {
+            this.handlers
+                .slice(0)
+                .forEach((h) => h(gridID, gridObj, serializedActiveFilters));
+        }
+    }
 
     /**
      * Class that represents the SearchEnd event.
