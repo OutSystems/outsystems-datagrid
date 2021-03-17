@@ -26,9 +26,9 @@ namespace Features {
             IProviderConfig<boolean>,
             IView {
         isGridFiltered: boolean;
-        activate(colum: string): void;
-        clear(colum: string): void;
-        deactivate(colum: string): void;
+        activate(columID: string): void;
+        clear(columID: string): void;
+        deactivate(columID: string): void;
     }
 
     // export class Builder extends Validation implements IBuilder {
@@ -45,8 +45,10 @@ namespace Features {
         public get isGridFiltered(): boolean {
             return JSON.parse(this._filter.filterDefinition).filters.length > 0;
         }
-        public activate(column: string): void {
-            this._filter.getColumnFilter(column).filterType =
+        public activate(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).filterType =
                 wijmo.grid.filter.FilterType.Both;
         }
 
@@ -90,13 +92,17 @@ namespace Features {
             this.setState(this._enabled);
         }
 
-        public clear(column: string): void {
-            this._filter.getColumnFilter(column).clear();
+        public clear(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).clear();
             this._grid.provider.collectionView.refresh();
         }
 
-        public deactivate(column: string): void {
-            this._filter.getColumnFilter(column).filterType =
+        public deactivate(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).filterType =
                 wijmo.grid.filter.FilterType.None;
         }
         public dispose(): void {
