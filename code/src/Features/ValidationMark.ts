@@ -219,12 +219,20 @@ namespace Features {
             if (this._grid.columns.has(binding)) {
                 const column = this._grid.columns.get(binding);
                 if (column.config.isMandatory) {
+                    let isValid = true;
+                    if (
+                        newValue === '' ||
+                        newValue === undefined ||
+                        newValue === null
+                    ) {
+                        isValid = false;
+                    }
                     // Sets cell as valid or invalid depending on the newValue
                     GridAPI.Cells.SetValidationStatus(
                         this._grid.uniqueId,
                         rowNumber,
                         column.widgetId,
-                        !!newValue,
+                        isValid,
                         column.config.errorMessage
                     );
                 }
