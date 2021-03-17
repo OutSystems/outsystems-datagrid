@@ -46,7 +46,7 @@ namespace InternalEvents {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public removeHandler(handler: Callbacks.Generic): void {
             const index = this._handlers.findIndex((hd) => {
-                hd === handler;
+                return hd === handler;
             });
 
             if (index !== -1) {
