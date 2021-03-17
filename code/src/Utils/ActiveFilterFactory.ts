@@ -24,6 +24,7 @@ namespace ActiveFilterFactory {
     const startOperatorId = 600;
 
     export function MakeFromActiveFilters(
+        grid: Grid.IGrid,
         serializedActiveFilters: string
     ): GridAPI.Structures.ActiveFilter[] {
         const wijmoActiveFilters: WijmoActiveFilters = JSON.parse(
@@ -32,11 +33,13 @@ namespace ActiveFilterFactory {
         const activeFilters = [];
         let activeFilter: GridAPI.Structures.ActiveFilter;
         let filterCondition: GridAPI.Structures.FilterCondition;
+        let column: Column.IColumn;
 
         wijmoActiveFilters.filters.forEach((filter) => {
             activeFilter = new GridAPI.Structures.ActiveFilter();
             activeFilter.binding = filter.binding;
-            activeFilter.columnId = '<unknown>';
+            column = grid.columns.get(activeFilter.binding);
+            activeFilter.columnId = (column && column.widgetId) || '';
             activeFilter.filterTypeId = filter.type;
 
             switch (activeFilter.filterTypeId) {

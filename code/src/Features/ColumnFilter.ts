@@ -38,8 +38,7 @@ namespace Features {
             this._grid = grid;
             this._enabled = enabled;
         }
-        //s: wijmo.grid.filter.FlexGridFilter,
-        //e: wijmo.grid.CellRangeEventArgs
+
         private _filterChangedHandler(s: wijmo.grid.filter.FlexGridFilter) {
             this._grid.features.undoStack.closeAction(ColumnFilterAction);
 
@@ -53,6 +52,7 @@ namespace Features {
                     this._grid,
                     JSON.stringify(
                         ActiveFilterFactory.MakeFromActiveFilters(
+                            this._grid,
                             s.filterDefinition
                         )
                     )
