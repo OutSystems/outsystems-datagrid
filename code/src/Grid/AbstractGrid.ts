@@ -42,9 +42,9 @@ namespace Grid {
         changeProperty(propertyName: string, propertyValue: any): void;
         clearAllChanges(): void;
         getChangesMade(): changesDone;
+        /** Get the column on the grid by giving a columnID or a binding. */
         getColumn(key: string): Column.IColumn;
         getData(): JSON[];
-        hasColumn(key: string): boolean;
         /**
          * Look to DOM trying to find if some column was defined for this Grid
          */
@@ -126,16 +126,6 @@ namespace Grid {
             return this._features;
         }
 
-        private _getColumn(key: string): Column.IColumn {
-            if (this._columns.has(key)) {
-                return this._columns.get(key);
-            } else {
-                return _.toArray(this.columns)
-                    .map((p) => p[1])
-                    .find((p) => p && p.equalsToID(key));
-            }
-        }
-
         protected finishBuild(): void {
             this._isReady = true;
 
@@ -174,16 +164,13 @@ namespace Grid {
          * @returns Column with the same columnID or binding.
          */
         public getColumn(key: string): Column.IColumn {
-            return this._getColumn(key);
-        }
-
-        /**
-         * Checks if there is a column on the grid by giving a columnID or a binding.
-         * @param key key can be a ColumnID or a binding of a column
-         * @returns Boolean indicating if there is a column with the same columnID or binding.
-         */
-        public hasColumn(key: string): boolean {
-            return this._getColumn(key) !== undefined;
+            if (this._columns.has(key)) {
+                return this._columns.get(key);
+            } else {
+                return _.toArray(this.columns)
+                    .map((p) => p[1])
+                    .find((p) => p && p.equalsToID(key));
+            }
         }
 
         public hasColumnsDefined(): boolean {
