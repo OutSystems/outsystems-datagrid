@@ -44,11 +44,11 @@ namespace Features {
 
             if (
                 this._grid.gridEvents.hasHandlers(
-                    ExternalEvents.GridEventType.OnFilterChange
+                    ExternalEvents.GridEventType.OnFiltersChange
                 )
             ) {
                 this._grid.gridEvents.trigger(
-                    ExternalEvents.GridEventType.OnFilterChange,
+                    ExternalEvents.GridEventType.OnFiltersChange,
                     this._grid,
                     JSON.stringify(
                         ActiveFilterFactory.MakeFromActiveFilters(
