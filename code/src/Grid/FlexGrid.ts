@@ -32,9 +32,6 @@ namespace Grid {
             let tempArray = [];
 
             for (let index = 0; index < itemsChanged.length; ++index) {
-                //let's remove our metadata from the information that we'll sent back
-                this.rowMetadata.clear(itemsChanged[index]);
-
                 tempArray.push(_.cloneDeep(itemsChanged[index]));
             }
 
@@ -209,7 +206,9 @@ namespace Grid {
                 hasChanges: false,
                 addedLinesJSON: undefined,
                 editedLinesJSON: undefined,
-                removedLinesJSON: undefined
+                removedLinesJSON: undefined,
+                hasInvalidLines: false,
+                invalidLinesJSON: undefined
             };
 
             if (this.isReady) {
@@ -233,6 +232,13 @@ namespace Grid {
                     changes.hasChanges = true;
                     changes.removedLinesJSON = this._getChangesString(
                         itemsSource.itemsRemoved
+                    );
+                }
+
+                if (this._features.validationMark.invalidRows.length > 0) {
+                    changes.hasInvalidLines = true;
+                    changes.invalidLinesJSON = this._getChangesString(
+                        this._features.validationMark.invalidRows
                     );
                 }
             }

@@ -1,6 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Features {
     export interface IValidationMark {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        invalidRows: Array<any>;
         clear(): void;
         errorMessage(rowNumber: number, binding: string): string;
         isInvalid(rowNumber: number, binding: string): boolean;
@@ -28,12 +30,17 @@ namespace Features {
         private _grid: Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
+        /** Array containing all invalid rows */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        private _invalidRows: Array<any>;
         /** Exposed methods to manipulate RowMetadata */
         private _metadata: Grid.IRowMetadata;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            this._invalidRows = new Array<any>();
         }
 
         /**
@@ -155,6 +162,10 @@ namespace Features {
         ): void {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const action: any = e.action;
+
+            // we only want to redo on GridEditAction
+            if (action.dataItem === undefined) return;
+
             const binding = this._grid.provider.getColumn(action.col).binding;
             const oldValue = this._grid.features.dirtyMark.getOldValue(
                 action.row,
@@ -166,6 +177,28 @@ namespace Features {
                 oldValue,
                 action._newState
             );
+        }
+
+        /**
+         * Set invalid rows
+         * @param rowNumber Number of the row to trigger the events
+         * @param isValid Wether or not row is valid
+         */
+        private _setInvalidRows(rowNumber: number, isValid: boolean): void {
+            const dataItem = this._grid.provider.rows[rowNumber].dataItem;
+
+            if (this._invalidRows.indexOf(dataItem) === -1) {
+                if (isValid === false) {
+                    this._invalidRows.push(dataItem);
+                }
+            } else {
+                if (isValid === true) {
+                    this._invalidRows.splice(
+                        this._invalidRows.indexOf(dataItem),
+                        1
+                    );
+                }
+            }
         }
 
         /**
@@ -222,6 +255,10 @@ namespace Features {
         ): void {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const action: any = e.action;
+
+            // we only want to undo on GridEditAction
+            if (action.dataItem === undefined) return;
+
             const binding = this._grid.provider.getColumn(action.col).binding;
             const oldValue = this._grid.features.dirtyMark.getOldValue(
                 action.row,
@@ -233,6 +270,11 @@ namespace Features {
                 oldValue,
                 action._oldState
             );
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public get invalidRows(): Array<any> {
+            return this._invalidRows;
         }
 
         public build(): void {
@@ -344,6 +386,8 @@ namespace Features {
                     ? errorMessage.replace(/\n/g, '<br>')
                     : 'Invalid ' + column.header
             );
+
+            this._setInvalidRows(rowNumber, isValid);
 
             // Makes sure the grid gets refreshed after validation
             this._grid.provider.invalidate();
