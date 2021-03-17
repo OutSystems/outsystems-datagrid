@@ -54,6 +54,11 @@ namespace Features {
                 );
         }
 
+        private _filterChangingHandler(s: wijmo.grid.filter.FlexGridFilter) {
+            this._grid.features.undoStack.startAction(
+                new ColumnFilterAction(s)
+            );
+        }
 
         public get isGridFiltered(): boolean {
             return JSON.parse(this._filter.filterDefinition).filters.length > 0;
@@ -64,14 +69,7 @@ namespace Features {
                 this._grid.provider
             );
             this._filter.filterChanging.addHandler(
-                (
-                    s: wijmo.grid.filter.FlexGridFilter
-                    //e: wijmo.grid.CellRangeEventArgs
-                ) => {
-                    this._grid.features.undoStack.startAction(
-                        new ColumnFilterAction(s)
-                    );
-                }
+                this._filterChangingHandler.bind(this)
             );
 
             this._filter.filterChanged.addHandler(
