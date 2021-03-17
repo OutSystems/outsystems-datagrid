@@ -8,8 +8,9 @@ namespace ExternalEvents {
      * @extends {InternalEvents.AbstractEvent<string>}
      */
     abstract class AbstractColumnEvent extends InternalEvents.AbstractEvent<string> {
-        public trigger(gridID: string, columnID: string, line: string): void {
-            this.handlers.slice(0).forEach((h) => h(gridID, columnID, line));
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public trigger(gridID: string, columnID: string, ...args: any): void {
+            this.handlers.slice(0).forEach((h) => h(gridID, columnID, ...args));
         }
     }
 
@@ -19,13 +20,13 @@ namespace ExternalEvents {
      * Class that encapsulates the basic logic of triggering the event with the right parameters order right after a cell changes its value.
      *
      * @class OnCellValueChange
-     * @extends {InternalEvents.AbstractEvent<string>}
+     * @extends AbstractColumnEvent
      */
-    export class OnCellValueChange extends InternalEvents.AbstractEvent<string> {
+    export class OnCellValueChange extends AbstractColumnEvent {
         public trigger(
             gridID: string,
-            rowNumber: number,
             columnID: string,
+            rowNumber: number,
             oldValue: string,
             newValue: string
         ): void {
