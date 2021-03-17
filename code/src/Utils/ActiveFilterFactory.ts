@@ -53,6 +53,7 @@ namespace ActiveFilterFactory {
                         }
                     }
                     if (filter.condition2.operator !== null) {
+                        filterCondition.and = filter.and;
                         filterCondition.operatorTypeId =
                             startOperatorId + filter.condition2.operator;
                         filterCondition.value = filter.condition2.value;
