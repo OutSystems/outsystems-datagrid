@@ -7,7 +7,7 @@ namespace Features {
         /** The method executed by the MenuItem  */
         public clickEvent: Callbacks.ContextMenu.OSClickEvent;
         /** Used to indicate if a menuItem can be executed */
-        public isActive: boolean;
+        public enabled: boolean;
         /** The list of sub-menu-items */
         public items: MenuItem[] = [];
         /** The label or display name on the context menu */
@@ -45,15 +45,15 @@ namespace Features {
          * Responsable for adding menu items
          * @param menuItemId UniqueId defined on OS side
          * @param label Label presented on menu
-         * @param isActive Flag used to enable the menu item
+         * @param enabled Flag used to enable the menu item
          * @param clickEvent Function executed by the menu item
          */
         addMenuItem(
             menuItemId: string,
             label: string,
-            isActive: boolean,
+            enabled: boolean,
             clickEvent: Callbacks.ContextMenu.OSClickEvent
-        );
+        ): void;
 
         /**
          * Responsable for adding a line separator on context menu
@@ -184,7 +184,7 @@ namespace Features {
          */
         private _canRaiseClickEvent(menuItemId: string): boolean {
             const menuItem = this._menuItems.get(menuItemId);
-            return menuItem && menuItem.isActive;
+            return menuItem && menuItem.enabled;
         }
 
         /**
@@ -345,13 +345,13 @@ namespace Features {
         public addMenuItem(
             menuItemId: string,
             label: string,
-            isActive: boolean,
+            enabled: boolean,
             executeCommand: Callbacks.ContextMenu.OSClickEvent
         ): void {
             const menuItem = new MenuItem(menuItemId);
 
             menuItem.label = label;
-            menuItem.isActive = isActive;
+            menuItem.enabled = enabled;
             menuItem.clickEvent = executeCommand;
 
             this._addMenuItem(menuItem);
