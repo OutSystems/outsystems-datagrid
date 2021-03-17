@@ -219,7 +219,7 @@ namespace Features {
             if (this._grid.columns.has(binding)) {
                 const column = this._grid.columns.get(binding);
                 if (column.config.isMandatory) {
-                    // Apply invalid mark because the cell is mandatory and the new value is empty
+                    // Sets cell as valid or invalid depending on the newValue
                     GridAPI.Cells.SetValidationStatus(
                         this._grid.uniqueId,
                         rowNumber,
