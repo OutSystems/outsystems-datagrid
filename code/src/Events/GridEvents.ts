@@ -38,7 +38,12 @@ namespace ExternalEvents {
         ): void {
             this.handlers
                 .slice(0)
-                .forEach((h) => h(gridID, gridObj, serializedActiveFilters));
+                .forEach((h) =>
+                    setTimeout(
+                        () => h(gridID, gridObj, serializedActiveFilters),
+                        0
+                    )
+                );
         }
     }
 
