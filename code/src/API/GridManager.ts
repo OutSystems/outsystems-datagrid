@@ -110,6 +110,24 @@ namespace GridAPI {
         }
 
         /**
+         * Function that obtains all the changed lines (added, edited, removed) by the user.
+         *
+         * @export
+         * @param {string} gridID ID of the Grid where the change will occur.
+         * @returns {*}  {string} Changed lines in JSON format.
+         */
+        export function GetChangesInGrid(gridID: string): string {
+            const grid = GridManager.GetGridById(gridID);
+            let output = '';
+
+            if (grid !== undefined) {
+                output = JSON.stringify(grid.getChangesMade());
+            }
+
+            return output;
+        }
+
+        /**
          * Function that initializes the provider grid in the page.
          * The current provider grid is wijmo.
          * @export
@@ -126,6 +144,20 @@ namespace GridAPI {
             output = setDataInGrid(grid, data);
 
             return output;
+        }
+
+        /**
+         * Function that will mark all changes as saved.
+         *
+         * @export
+         * @param {string} gridID ID of the Grid where the change will occur.
+         */
+        export function MarkChangesAsSaved(gridID: string): void {
+            const grid = GridManager.GetGridById(gridID);
+
+            if (grid !== undefined) {
+                grid.clearAllChanges();
+            }
         }
 
         /**
@@ -211,76 +243,6 @@ namespace GridAPI {
                 .replace('13', 'dd')
                 .replace('10', 'MM')
                 .replace('1900', 'yyyy');
-        }
-
-        /**
-         * Function that obtains all the changed lines (added, edited, removed) by the user.
-         *
-         * @export
-         * @param {string} gridID ID of the Grid where the change will occur.
-         * @returns {*}  {string} Changed lines in JSON format.
-         */
-        export function GetChangesInGrid(gridID: string): string {
-            const grid = GetGridById(gridID);
-            let output = '';
-
-            if (grid !== undefined) {
-                output = JSON.stringify(grid.getChangesMade());
-            }
-
-            return output;
-        }
-
-        /**
-         * Function that will add new rows to the grid
-         *
-         * @export
-         * @param {string} gridID ID of the Grid where the change will occur.
-         * @returns {*}  {string} Resulting code and message in JSON format
-         */
-        export function AddRows(gridID: string): string {
-            const grid = GetGridById(gridID);
-            let output = '';
-
-            if (grid !== undefined) {
-                output = JSON.stringify(grid.features.rows.addNewRows());
-            }
-
-            return output;
-        }
-
-        /**
-         * Function that will remove the selected rows from the grid.
-         *
-         * @export
-         * @param {string} gridID ID of the Grid where the change will occur.
-         * @returns {*}  {string} Resulting code and message in JSON format
-         */
-        export function RemoveRows(gridID: string): string {
-            const grid = GetGridById(gridID);
-            let output = '';
-
-            if (grid !== undefined) {
-                output = JSON.stringify(
-                    grid.features.rows.removeSelectedRows()
-                );
-            }
-
-            return output;
-        }
-
-        /**
-         * Function that will mark all changes as saved.
-         *
-         * @export
-         * @param {string} gridID ID of the Grid where the change will occur.
-         */
-        export function MarkChangesAsSaved(gridID: string): void {
-            const grid = GetGridById(gridID);
-
-            if (grid !== undefined) {
-                grid.clearAllChanges();
-            }
         }
     }
 }

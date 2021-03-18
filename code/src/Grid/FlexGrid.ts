@@ -136,14 +136,7 @@ namespace Grid {
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             propertyValue: any
         ): void {
-            let column = this.columns.get(columnID);
-
-            if (!column) {
-                //Try to search using other Ids
-                column = _.toArray(this.columns)
-                    .map((p) => p[1])
-                    .find((p) => p && p.equalsToID(columnID));
-            }
+            const column = this.getColumn(columnID);
 
             if (!column) {
                 console.log(
