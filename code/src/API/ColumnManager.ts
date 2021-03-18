@@ -120,7 +120,9 @@ namespace GridAPI.ColumnManager {
         grid && grid.removeColumn(columnID);
         columnMap.delete(columnID);
         columnArr.splice(
-            columnArr.findIndex((p) => p && p.equalsToID(columnID)),
+            columnArr.findIndex((p) => {
+                return p && p.equalsToID(columnID);
+            }),
             1
         );
     }

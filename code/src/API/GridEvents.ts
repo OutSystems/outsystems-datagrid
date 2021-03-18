@@ -60,4 +60,30 @@ namespace GridAPI.GridManager.Events {
             _pendingEvents.delete(gridID);
         }
     }
+
+    export function Unsubscribe(
+        gridID: string,
+        eventName: ExternalEvents.GridEventType,
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        callback: Callbacks.OSGrid.Event
+    ): void {
+        const grid = GetGridById(gridID);
+        if (grid !== undefined) {
+            grid.gridEvents.removeHandler(eventName, callback);
+        } else {
+            if (_pendingEvents.has(gridID)) {
+                const index = _pendingEvents
+                    .get(gridID)
+                    .findIndex((element) => {
+                        return (
+                            element.event === eventName &&
+                            element.cb === callback
+                        );
+                    });
+                if (index !== -1) {
+                    _pendingEvents.get(gridID).splice(index, 1);
+                }
+            }
+        }
+    }
 }
