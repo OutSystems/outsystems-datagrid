@@ -8,6 +8,7 @@ namespace ExternalEvents {
      */
     export enum GridEventType {
         Initialized = 'Initialized',
+        OnFiltersChange = 'OnFiltersChange',
         SearchEnded = 'SearchEnded'
     }
 
@@ -65,6 +66,15 @@ namespace ExternalEvents {
             }
         }
 
+        public hasHandlers(eventType: ET): boolean {
+            let returnValue = false;
+            if (this._handlers.has(eventType)) {
+                const event = this._handlers.get(eventType);
+                returnValue = event.hasHandlers();
+            }
+            return returnValue;
+        }
+
         public removeHandler(eventType: ET, handler: Callbacks.Generic): void {
             if (this._handlers.has(eventType)) {
                 const event = this._handlers.get(eventType);
@@ -72,7 +82,8 @@ namespace ExternalEvents {
             }
         }
 
-        public trigger(eventType: ET, data?: D): void {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/explicit-module-boundary-types
+        public trigger(eventType: ET, data?: D, ...args): void {
             if (this._handlers.has(eventType)) {
                 this._handlers.get(eventType).trigger(data);
             }
@@ -120,6 +131,9 @@ namespace ExternalEvents {
                 case GridEventType.Initialized:
                     event = new GridInitializedEvent();
                     break;
+                case GridEventType.OnFiltersChange:
+                    event = new GridOnFiltersChangeEvent();
+                    break;
                 case GridEventType.SearchEnded:
                     event = new GridSearchEndEvent();
                     break;
@@ -143,9 +157,16 @@ namespace ExternalEvents {
             }
         }
 
-        public trigger(event: GridEventType, gridObj: Grid.IGrid): void {
+        public trigger(
+            event: GridEventType,
+            gridObj: Grid.IGrid,
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+            ...args
+        ): void {
             if (this.handlers.has(event)) {
-                this.handlers.get(event).trigger(gridObj, gridObj.widgetId);
+                this.handlers
+                    .get(event)
+                    .trigger(gridObj, gridObj.widgetId, ...args);
             }
         }
     }

@@ -26,6 +26,9 @@ namespace Features {
             IProviderConfig<boolean>,
             IView {
         isGridFiltered: boolean;
+        activate(columID: string): void;
+        clear(columID: string): void;
+        deactivate(columID: string): void;
     }
 
     // export class Builder extends Validation implements IBuilder {
@@ -39,8 +42,39 @@ namespace Features {
             this._enabled = enabled;
         }
 
+        private _filterChangedHandler(s: wijmo.grid.filter.FlexGridFilter) {
+            this._grid.features.undoStack.closeAction(ColumnFilterAction);
+
+            if (
+                this._grid.gridEvents.hasHandlers(
+                    ExternalEvents.GridEventType.OnFiltersChange
+                )
+            ) {
+                this._grid.gridEvents.trigger(
+                    ExternalEvents.GridEventType.OnFiltersChange,
+                    this._grid,
+                    ActiveFilterFactory.MakeFromActiveFilters(
+                        this._grid,
+                        s.filterDefinition
+                    )
+                );
+            }
+        }
+
+        private _filterChangingHandler(s: wijmo.grid.filter.FlexGridFilter) {
+            this._grid.features.undoStack.startAction(
+                new ColumnFilterAction(s)
+            );
+        }
+
         public get isGridFiltered(): boolean {
             return JSON.parse(this._filter.filterDefinition).filters.length > 0;
+        }
+        public activate(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).filterType =
+                wijmo.grid.filter.FilterType.Both;
         }
 
         public build(): void {
@@ -48,23 +82,11 @@ namespace Features {
                 this._grid.provider
             );
             this._filter.filterChanging.addHandler(
-                (
-                    s: wijmo.grid.filter.FlexGridFilter
-                    //e: wijmo.grid.CellRangeEventArgs
-                ) => {
-                    this._grid.features.undoStack.startAction(
-                        new ColumnFilterAction(s)
-                    );
-                }
+                this._filterChangingHandler.bind(this)
             );
-            this._filter.filterChanged.addHandler(() =>
-                //s: wijmo.grid.filter.FlexGridFilter,
-                //e: wijmo.grid.CellRangeEventArgs
-                {
-                    this._grid.features.undoStack.closeAction(
-                        ColumnFilterAction
-                    );
-                }
+
+            this._filter.filterChanged.addHandler(
+                this._filterChangedHandler.bind(this)
             );
 
             this._grid.validatingAction.addHandler(
@@ -83,6 +105,19 @@ namespace Features {
             this.setState(this._enabled);
         }
 
+        public clear(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).clear();
+            this._grid.provider.collectionView.refresh();
+        }
+
+        public deactivate(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).filterType =
+                wijmo.grid.filter.FilterType.None;
+        }
         public dispose(): void {
             this._filter = undefined;
         }
