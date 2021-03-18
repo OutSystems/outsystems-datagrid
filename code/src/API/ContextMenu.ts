@@ -29,16 +29,16 @@ namespace GridAPI.ContextMenu {
     }
 
     /**
-     * Responsable for adding menu items
+     * Responsible for adding menu items
      * @param menuItemId UniqueId defined on OS side
      * @param label Label presented on menu
-     * @param isActive Flag used to enable the menu item
+     * @param enabled Flag used to enable the menu item
      * @param clickEvent Function executed by the menu item
      */
     export function AddItem(
         menuItemId: string,
         label: string,
-        isActive: boolean,
+        enabled: boolean,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         clickEvent: Callbacks.ContextMenu.OSClickEvent
     ): void {
@@ -55,7 +55,7 @@ namespace GridAPI.ContextMenu {
                         gridObj.features.contextMenu.addMenuItem(
                             menuItemId,
                             label,
-                            isActive,
+                            enabled,
                             clickEvent
                         );
                     }
