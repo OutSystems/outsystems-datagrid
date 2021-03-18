@@ -83,7 +83,7 @@ namespace GridAPI.Rows {
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
-            grid.features.rows.clearClasses(rowNumber);
+            grid.features.rows.removeAllClasses(rowNumber);
         }
     }
 

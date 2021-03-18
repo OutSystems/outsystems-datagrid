@@ -21,7 +21,7 @@ namespace Features {
         /**
          * Clear all classes from a specific row.
          */
-        clearClasses(rowNumber: number): void;
+        removeAllClasses(rowNumber: number): void;
         /**
          * Remove a single class from a specific row.
          */
@@ -36,7 +36,7 @@ namespace Features {
         setNewItem(item: unknown): void;
     }
 
-    class CssClass {
+    class CssClassInfo {
         /**
          * Contains all CSS classes from a specific row.
          */
@@ -45,6 +45,31 @@ namespace Features {
         constructor() {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             this.cssClass = new Array<string>();
+        }
+
+        /** Add class to the cssClass array */
+        public addClass(cssClass: string): void {
+            // If the className is not on the array of classes from the row, than push it to the array.
+            if (this.hasCssClass(cssClass) === false) {
+                this.cssClass.push(cssClass);
+            }
+        }
+
+        /** Checks if class exists in the cssClass array */
+        public hasCssClass(cssClass: string): boolean {
+            return this.cssClass.indexOf(cssClass) !== -1;
+        }
+
+        /** Remove all classes from the cssClass array */
+        public removeAllClasses(): void {
+            this.cssClass = [];
+        }
+
+        /** Remove a single class from the cssClass array */
+        public removeClass(cssClass: string): void {
+            if (this.hasCssClass(cssClass)) {
+                this.cssClass.splice(this.cssClass.indexOf(cssClass), 1);
+            }
         }
     }
 
@@ -89,6 +114,7 @@ namespace Features {
     export class Rows implements IBuilder, IRows {
         private _grid: Grid.IGridWijmo;
 
+        /** This is going to be used as a label for the css classes saved on the metadata of the Row */
         private readonly _internalLabel = '__cssClass';
 
         private _metadata: Grid.IRowMetadata;
@@ -172,12 +198,8 @@ namespace Features {
          * @param className CSS class to add to the row.
          */
         public addClass(rowNumber: number, className: string): void {
-            if (
-                this.getMetadata(rowNumber).cssClass.indexOf(className) === -1
-            ) {
-                // If the className is not on the array of classes from the row, than push it to the array.
-                this.getMetadata(rowNumber).cssClass.push(className);
-            }
+            this.getMetadata(rowNumber).addClass(className);
+            this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
         /**
@@ -264,31 +286,22 @@ namespace Features {
         }
 
         /**
-         * Clear all CSS classes from a specific row on the grid.
-         * @param rowNumber Number of the row in which the class is going to be removed.
-         */
-        public clearClasses(rowNumber: number): void {
-            this.getMetadata(rowNumber).cssClass = [];
-            this._grid.provider.invalidate(); //Mark to be refreshed
-        }
-
-        /**
          * Gets the metadata associated to the cssClasses for a specific row.
          * @param rowNumber Number of the row to check if there is any metadata associated to the cssClasses.
          * @returns CssClass of the row specified.
          */
-        public getMetadata(row: number): CssClass {
+        public getMetadata(row: number): CssClassInfo {
             if (!this.hasMetadata(row))
                 this._metadata.setMetadata(
                     row,
                     this._internalLabel,
-                    new CssClass()
+                    new CssClassInfo()
                 );
 
             return this._metadata.getMetadata(
                 row,
                 this._internalLabel
-            ) as CssClass;
+            ) as CssClassInfo;
         }
 
         /**
@@ -301,19 +314,22 @@ namespace Features {
         }
 
         /**
+         * Remove all CSS classes from a specific row on the grid.
+         * @param rowNumber Number of the row in which the class is going to be removed.
+         */
+        public removeAllClasses(rowNumber: number): void {
+            this.getMetadata(rowNumber).removeAllClasses();
+            this._grid.provider.invalidate(); //Mark to be refreshed
+        }
+
+        /**
          * Remove a CSS class from a specific row on the grid.
          * @param rowNumber Number of the row in which all CSS classes are going to be removed.
          * @param className CSS class to remove from the row.
          */
         public removeClass(rowNumber: number, className: string): void {
-            if (
-                this.getMetadata(rowNumber).cssClass.indexOf(className) !== -1
-            ) {
-                this.getMetadata(rowNumber).cssClass.splice(
-                    this.getMetadata(rowNumber).cssClass.indexOf(className),
-                    1
-                );
-            }
+            this.getMetadata(rowNumber).removeClass(className);
+            this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
         /**
