@@ -34,8 +34,9 @@ namespace ExternalEvents {
         public trigger(
             gridObj: Grid.IGrid,
             gridID: string,
-            serializedActiveFilters: string
+            activeFilters: Array<GridAPI.Structures.ActiveFilter>
         ): void {
+            const serializedActiveFilters = JSON.stringify(activeFilters);
             this.handlers
                 .slice(0)
                 .forEach((h) =>

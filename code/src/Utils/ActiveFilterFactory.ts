@@ -53,7 +53,7 @@ namespace ActiveFilterFactory {
     export function MakeFromActiveFilters(
         grid: Grid.IGrid,
         serializedActiveFilters: string
-    ): GridAPI.Structures.ActiveFilter[] {
+    ): Array<GridAPI.Structures.ActiveFilter> {
         const wijmoActiveFilters: WijmoActiveFilters = JSON.parse(
             serializedActiveFilters
         );

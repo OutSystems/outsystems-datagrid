@@ -50,11 +50,9 @@ namespace Features {
                 this._grid.gridEvents.trigger(
                     ExternalEvents.GridEventType.OnFiltersChange,
                     this._grid,
-                    JSON.stringify(
-                        ActiveFilterFactory.MakeFromActiveFilters(
-                            this._grid,
-                            s.filterDefinition
-                        )
+                    ActiveFilterFactory.MakeFromActiveFilters(
+                        this._grid,
+                        s.filterDefinition
                     )
                 );
             }
