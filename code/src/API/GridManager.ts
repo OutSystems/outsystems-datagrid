@@ -110,6 +110,24 @@ namespace GridAPI {
         }
 
         /**
+         * Function that obtains all the changed lines (added, edited, removed) by the user.
+         *
+         * @export
+         * @param {string} gridID ID of the Grid where the change will occur.
+         * @returns {*}  {string} Changed lines in JSON format.
+         */
+        export function GetChangesInGrid(gridID: string): string {
+            const grid = GridManager.GetGridById(gridID);
+            let output = '';
+
+            if (grid !== undefined) {
+                output = JSON.stringify(grid.getChangesMade());
+            }
+
+            return output;
+        }
+
+        /**
          * Function that initializes the provider grid in the page.
          * The current provider grid is wijmo.
          * @export
@@ -126,6 +144,20 @@ namespace GridAPI {
             output = setDataInGrid(grid, data);
 
             return output;
+        }
+
+        /**
+         * Function that will mark all changes as saved.
+         *
+         * @export
+         * @param {string} gridID ID of the Grid where the change will occur.
+         */
+        export function MarkChangesAsSaved(gridID: string): void {
+            const grid = GridManager.GetGridById(gridID);
+
+            if (grid !== undefined) {
+                grid.clearAllChanges();
+            }
         }
 
         /**
