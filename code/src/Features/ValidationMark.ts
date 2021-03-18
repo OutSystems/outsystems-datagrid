@@ -218,18 +218,24 @@ namespace Features {
         ) {
             if (this._grid.columns.has(binding)) {
                 const column = this._grid.columns.get(binding);
-
-                // In the future we might want to add the validation for the IsMandatory and this might be useful
-                // if (columnX.config.isMandatory && !newValue) {
-                //     // Apply invalid mark because the cell is mandatory and the new value is empty
-                //     GridAPI.Cells.SetCellValidation(
-                //         this._grid.uniqueId,
-                //         rowNumber,
-                //         columnX.widgetId,
-                //         false,
-                //         columnX.config.errorMessage
-                //     );
-                // } else
+                if (column.config.isMandatory) {
+                    let isValid = true;
+                    if (
+                        newValue === '' ||
+                        newValue === undefined ||
+                        newValue === null
+                    ) {
+                        isValid = false;
+                    }
+                    // Sets cell as valid or invalid depending on the newValue
+                    GridAPI.Cells.SetValidationStatus(
+                        this._grid.uniqueId,
+                        rowNumber,
+                        column.widgetId,
+                        isValid,
+                        column.config.errorMessage
+                    );
+                }
                 if (
                     column.hasEvents &&
                     column.columnEvents.handlers.has(
