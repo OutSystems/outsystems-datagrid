@@ -5,6 +5,7 @@ namespace Features {
             IProviderConfig<boolean>,
             IView {
         isGridSorted: boolean;
+        clear(): void;
     }
 
     class ColumnSortAction extends wijmo.undo.UndoableAction {
@@ -101,7 +102,9 @@ namespace Features {
 
             this.setState(this._enabled);
         }
-
+        public clear(): void {
+            this._grid.provider.collectionView.sortDescriptions.clear();
+        }
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public getViewLayout(): any {
             return this._grid.provider.itemsSource.sortDescriptions.map(

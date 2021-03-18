@@ -26,6 +26,9 @@ namespace Features {
             IProviderConfig<boolean>,
             IView {
         isGridFiltered: boolean;
+        activate(columID: string): void;
+        clear(columID: string): void;
+        deactivate(columID: string): void;
     }
 
     // export class Builder extends Validation implements IBuilder {
@@ -67,6 +70,12 @@ namespace Features {
         public get isGridFiltered(): boolean {
             return JSON.parse(this._filter.filterDefinition).filters.length > 0;
         }
+        public activate(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).filterType =
+                wijmo.grid.filter.FilterType.Both;
+        }
 
         public build(): void {
             this._filter = new wijmo.grid.filter.FlexGridFilter(
@@ -96,6 +105,19 @@ namespace Features {
             this.setState(this._enabled);
         }
 
+        public clear(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).clear();
+            this._grid.provider.collectionView.refresh();
+        }
+
+        public deactivate(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).filterType =
+                wijmo.grid.filter.FilterType.None;
+        }
         public dispose(): void {
             this._filter = undefined;
         }
