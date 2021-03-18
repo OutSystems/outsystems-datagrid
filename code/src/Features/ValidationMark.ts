@@ -389,12 +389,7 @@ namespace Features {
             // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
             this._setInvalidRows(
                 rowNumber,
-                isValid &&
-                    !(
-                        [
-                            ...this.getMetadata(rowNumber).validation.values()
-                        ].indexOf(false) !== -1
-                    )
+                isValid && !this._isInvalidRow(rowNumber)
             );
 
             // Makes sure the grid gets refreshed after validation
