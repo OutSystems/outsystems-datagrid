@@ -20,9 +20,11 @@ namespace Column {
         public dataType: any;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public editor: any;
+        public errorMessage: string;
         public format: string;
         public genericColumnId: string;
         public header: string;
+        public isMandatory: boolean;
         public multiLine: boolean;
         public required: boolean;
         public uniqueId: string;
@@ -203,10 +205,12 @@ namespace Column {
         public dataType: any;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public editor: any;
+        public errorMessage: string;
         public format: string;
         public genericColumnId: string;
         public header: string;
         public isCollapsed: boolean;
+        public isMandatory: boolean;
         public required: boolean;
         public uniqueId: string;
         public validateBinding: boolean;

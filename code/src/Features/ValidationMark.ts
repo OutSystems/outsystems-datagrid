@@ -12,6 +12,7 @@ namespace Features {
             isValid: boolean,
             errorMessage: string
         ): void;
+        validateRow(rowNumber: number): void;
         // clearByRow(row: number): void;
     }
 
@@ -217,18 +218,24 @@ namespace Features {
         ) {
             if (this._grid.columns.has(binding)) {
                 const column = this._grid.columns.get(binding);
-
-                // In the future we might want to add the validation for the IsMandatory and this might be useful
-                // if (columnX.config.isMandatory && !newValue) {
-                //     // Apply invalid mark because the cell is mandatory and the new value is empty
-                //     GridAPI.Cells.SetCellValidation(
-                //         this._grid.uniqueId,
-                //         rowNumber,
-                //         columnX.widgetId,
-                //         false,
-                //         columnX.config.errorMessage
-                //     );
-                // } else
+                if (column.config.isMandatory) {
+                    let isValid = true;
+                    if (
+                        newValue === '' ||
+                        newValue === undefined ||
+                        newValue === null
+                    ) {
+                        isValid = false;
+                    }
+                    // Sets cell as valid or invalid depending on the newValue
+                    GridAPI.Cells.SetValidationStatus(
+                        this._grid.uniqueId,
+                        rowNumber,
+                        column.widgetId,
+                        isValid,
+                        column.config.errorMessage
+                    );
+                }
                 if (
                     column.hasEvents &&
                     column.columnEvents.handlers.has(
@@ -399,6 +406,30 @@ namespace Features {
 
             // Makes sure the grid gets refreshed after validation
             this._grid.provider.invalidate();
+        }
+
+        /**
+         * Used to run the actions responsible for row validation per column.
+         * Those actions might be included in the OnCellValueChange handler or in case the isMandatory column configuration is set.
+         * @param {number} rowNumber Index of the row that contains the cells to be validated.
+         */
+        public validateRow(rowNumber: number): void {
+            // Triggers the validation method per column
+            this._grid.columns.forEach((column: Column.IColumn) => {
+                // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
+                const currValue = this._grid.provider.getCellData(
+                    rowNumber,
+                    column.provider.index,
+                    false
+                );
+                // Triggers the events of OnCellValueChange associated to a specific column in OS
+                this._triggerEventsFromColumn(
+                    rowNumber,
+                    column.provider.binding,
+                    currValue,
+                    currValue
+                );
+            });
         }
     }
 }
