@@ -31,7 +31,7 @@ namespace InternalEvents {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public trigger(data: Actions, ctx: any): string[] {
+        public trigger(data: Actions, ctx: any): Array<string> {
             return this._handlers
                 .slice(0)
                 .map((h) => h(data, ctx))

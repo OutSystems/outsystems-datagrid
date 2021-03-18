@@ -3,13 +3,13 @@ namespace GridAPI.Structures {
     export class ActiveFilter {
         public binding: string;
         public columnId: string;
-        public filterConditions: FilterCondition[];
-        public filterShowValues: string[];
+        public filterConditions: Array<FilterCondition>;
+        public filterShowValues: Array<string>;
         public filterTypeId: string;
 
         constructor() {
-            this.filterConditions = [];
-            this.filterShowValues = [];
+            this.filterConditions = new Array<FilterCondition>();
+            this.filterShowValues = new Array<string>();
         }
     }
 
