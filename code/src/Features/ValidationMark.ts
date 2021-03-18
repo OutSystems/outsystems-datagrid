@@ -393,7 +393,11 @@ namespace Features {
                     : 'Invalid ' + column.header
             );
 
-            this._setInvalidRows(rowNumber, isValid);
+            // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
+            this._setInvalidRows(
+                rowNumber,
+                isValid && !this._isInvalidRow(rowNumber)
+            );
 
             // Makes sure the grid gets refreshed after validation
             this._grid.provider.invalidate();
