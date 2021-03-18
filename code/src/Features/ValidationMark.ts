@@ -386,6 +386,7 @@ namespace Features {
                     : 'Invalid ' + column.header
             );
 
+            // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
             this._setInvalidRows(
                 rowNumber,
                 isValid &&
