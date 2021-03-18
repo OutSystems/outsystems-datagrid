@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace ActiveFilterFactory {
-    /* 
-    The type below is a mapper of the serialized object sent by wijmo to facilitate our usage of it, while mapping to OutSystems structure.
-    */
+    /**
+     * The type below is a mapper of the serialized object sent by wijmo to facilitate our usage of it, while mapping to OutSystems structure.
+     */
     type WijmoActiveFilters = {
         filters: [
             {
@@ -18,6 +18,21 @@ namespace ActiveFilterFactory {
             }
         ];
     };
+    /**
+     * The type below represents the wijmo filter condition. This way we can isolate and use it separately.
+     */
+    type WijmoFilterCondition = {
+        operator: number;
+        value: string;
+    };
+
+    /**
+     * Function that creates a condition for for the filter to send to OutSystems.
+     *
+     * @param {WijmoFilterCondition} condition
+     * @param {boolean} filterAnd
+     * @returns {*}  {GridAPI.Structures.FilterCondition}
+     */
     function _createCondition(
         condition: WijmoFilterCondition,
         filterAnd: boolean
@@ -32,6 +47,16 @@ namespace ActiveFilterFactory {
     /**
      * Function that matches the wijmo Operator with the OutSystems string code.
      *
+     *    wijmo.grid.filter.Operator.BW = 'BW'
+     *    wijmo.grid.filter.Operator.CT = 'CT'
+     *    wijmo.grid.filter.Operator.EQ = 'EQ'
+     *    wijmo.grid.filter.Operator.EW = 'EW'
+     *    wijmo.grid.filter.Operator.GE = 'GE'
+     *    wijmo.grid.filter.Operator.GT = 'GT'
+     *    wijmo.grid.filter.Operator.LE = 'LE'
+     *    wijmo.grid.filter.Operator.LT = 'LT'
+     *    wijmo.grid.filter.Operator.NC = 'NC'
+     *    wijmo.grid.filter.Operator.NE = 'NE'
      * @param {wijmo.grid.filter.Operator} operator
      * @returns {*}  {string}
      */
@@ -69,6 +94,7 @@ namespace ActiveFilterFactory {
 
             switch (activeFilter.filterTypeId) {
                 case 'condition':
+                    //Currently wijmo only supports 2 filter operators per column. However our code already sends back a list of filter operators.
                     if (filter.condition1.operator !== null) {
                         activeFilter.filterConditions.push(
                             _createCondition(filter.condition1, filter.and)
@@ -81,6 +107,8 @@ namespace ActiveFilterFactory {
                     }
                     break;
                 case 'value':
+                    //Here we will get the array coming from wijmo [{value1: true, value2: true, ...]
+                    //Then we'll get only the keys [value1, value2, ...], and concatenate these to our empty array.
                     activeFilter.filterShowValues = activeFilter.filterShowValues.concat(
                         Object.keys(filter.showValues)
                     );
