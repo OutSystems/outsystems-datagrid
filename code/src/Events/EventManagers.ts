@@ -234,8 +234,8 @@ namespace ExternalEvents {
                     case ColumnEventType.OnCellValueChange:
                         handlerEvent.trigger(
                             this._column.grid.widgetId, // ID of Grid block where the cell value has changed.
-                            rowNumber, // Number of the row in which the cell value has changed.
                             this._column.widgetId, // ID of the Column block in which the cell value has changed.
+                            rowNumber, // Number of the row in which the cell value has changed.
                             oldValue, // Value of the cell before its value has changed (Old)
                             value // Value of the cell after its value has changed (New)
                         );

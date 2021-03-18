@@ -216,9 +216,8 @@ namespace Features {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newValue: any
         ) {
-            if (this._grid.columns.has(binding)) {
-                const column = this._grid.columns.get(binding);
-
+            const column = this._grid.getColumn(binding);
+            if (column !== undefined) {
                 // In the future we might want to add the validation for the IsMandatory and this might be useful
                 // if (columnX.config.isMandatory && !newValue) {
                 //     // Apply invalid mark because the cell is mandatory and the new value is empty

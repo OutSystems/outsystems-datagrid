@@ -42,6 +42,8 @@ namespace Grid {
         changeProperty(propertyName: string, propertyValue: any): void;
         clearAllChanges(): void;
         getChangesMade(): changesDone;
+        /** Get the column on the grid by giving a columnID or a binding. */
+        getColumn(key: string): Column.IColumn;
         getData(): JSON[];
         /**
          * Look to DOM trying to find if some column was defined for this Grid
@@ -135,7 +137,6 @@ namespace Grid {
 
         public addColumn(col: Column.IColumn): void {
             console.log(`Add column '${col.uniqueId}': '${col.config.header}'`);
-            this._columns.set(col.config.binding, col);
             this._columns.set(col.uniqueId, col);
         }
 
@@ -155,6 +156,21 @@ namespace Grid {
 
         public equalsToID(gridID: string): boolean {
             return gridID === this._uniqueId || gridID === this._widgetId;
+        }
+
+        /**
+         * Get the column on the grid by giving a columnID or a binding.
+         * @param key key can be a columnID or a binding of a column
+         * @returns Column with the same columnID or binding.
+         */
+        public getColumn(key: string): Column.IColumn {
+            if (this._columns.has(key)) {
+                return this._columns.get(key);
+            } else {
+                return _.toArray(this.columns)
+                    .map((p) => p[1])
+                    .find((p) => p && p.equalsToID(key));
+            }
         }
 
         public hasColumnsDefined(): boolean {
