@@ -216,8 +216,8 @@ namespace Features {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newValue: any
         ) {
-            if (this._grid.columns.has(binding)) {
-                const column = this._grid.columns.get(binding);
+            const column = this._grid.getColumn(binding);
+            if (column !== undefined) {
                 if (column.config.isMandatory) {
                     let isValid = true;
                     if (
