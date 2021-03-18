@@ -42,6 +42,31 @@ namespace Features {
             this._enabled = enabled;
         }
 
+        private _filterChangedHandler(s: wijmo.grid.filter.FlexGridFilter) {
+            this._grid.features.undoStack.closeAction(ColumnFilterAction);
+
+            if (
+                this._grid.gridEvents.hasHandlers(
+                    ExternalEvents.GridEventType.OnFiltersChange
+                )
+            ) {
+                this._grid.gridEvents.trigger(
+                    ExternalEvents.GridEventType.OnFiltersChange,
+                    this._grid,
+                    ActiveFilterFactory.MakeFromActiveFilters(
+                        this._grid,
+                        s.filterDefinition
+                    )
+                );
+            }
+        }
+
+        private _filterChangingHandler(s: wijmo.grid.filter.FlexGridFilter) {
+            this._grid.features.undoStack.startAction(
+                new ColumnFilterAction(s)
+            );
+        }
+
         public get isGridFiltered(): boolean {
             return JSON.parse(this._filter.filterDefinition).filters.length > 0;
         }
@@ -57,23 +82,11 @@ namespace Features {
                 this._grid.provider
             );
             this._filter.filterChanging.addHandler(
-                (
-                    s: wijmo.grid.filter.FlexGridFilter
-                    //e: wijmo.grid.CellRangeEventArgs
-                ) => {
-                    this._grid.features.undoStack.startAction(
-                        new ColumnFilterAction(s)
-                    );
-                }
+                this._filterChangingHandler.bind(this)
             );
-            this._filter.filterChanged.addHandler(() =>
-                //s: wijmo.grid.filter.FlexGridFilter,
-                //e: wijmo.grid.CellRangeEventArgs
-                {
-                    this._grid.features.undoStack.closeAction(
-                        ColumnFilterAction
-                    );
-                }
+
+            this._filter.filterChanged.addHandler(
+                this._filterChangedHandler.bind(this)
             );
 
             this._grid.validatingAction.addHandler(

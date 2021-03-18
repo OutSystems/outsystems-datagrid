@@ -11,6 +11,7 @@ namespace InternalEvents {
     export interface IEvent<D> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         addHandler(handler: Callbacks.Generic, ...args);
+        hasHandlers(): boolean;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         removeHandler(handler: Callbacks.Generic);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,10 +39,14 @@ namespace InternalEvents {
             this._handlers.push(handler);
         }
 
+        public hasHandlers(): boolean {
+            return this._handlers.length > 0;
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public removeHandler(handler: Callbacks.Generic): void {
             const index = this._handlers.findIndex((hd) => {
-                hd === handler;
+                return hd === handler;
             });
 
             if (index !== -1) {
