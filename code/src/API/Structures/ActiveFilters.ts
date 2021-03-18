@@ -15,7 +15,7 @@ namespace GridAPI.Structures {
 
     export class FilterCondition {
         public and: boolean;
-        public operatorTypeId: number;
+        public operatorTypeId: string;
         public value: string;
     }
 }

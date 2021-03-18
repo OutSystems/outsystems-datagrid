@@ -77,7 +77,7 @@ namespace GridAPI.GridManager.Events {
                     .findIndex((element) => {
                         return (
                             element.event === eventName &&
-                            element.cb == callback
+                            element.cb === callback
                         );
                     });
                 if (index !== -1) {
