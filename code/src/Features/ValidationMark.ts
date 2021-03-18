@@ -386,7 +386,15 @@ namespace Features {
                     : 'Invalid ' + column.header
             );
 
-            this._setInvalidRows(rowNumber, isValid);
+            this._setInvalidRows(
+                rowNumber,
+                isValid &&
+                    !(
+                        [
+                            ...this.getMetadata(rowNumber).validation.values()
+                        ].indexOf(false) !== -1
+                    )
+            );
 
             // Makes sure the grid gets refreshed after validation
             this._grid.provider.invalidate();
