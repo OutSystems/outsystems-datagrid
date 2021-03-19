@@ -14,32 +14,13 @@ parameters:
   type: string
 
 steps:
-- task: npmAuthenticate@0
-  displayName: 'Npm authenticate'
-  inputs:
-    workingFile: './datagrid-web-tests/.npmrc'
-
-- task: CmdLine@2
-  name: install_dep
-  displayName: 'Install dependencies using yarn'
-  inputs:
-    workingDirectory: './datagrid-web-tests/'
-    script: 'yarn install'
-  continueOnError: false
-  
-- task: NodeTool@0
-  displayName: 'Use Node 14.15.4'
-  inputs: 
-    versionSpec: '14.15.4'
-    checkLatest: true
-
 #Format branch name
 - task: PowerShell@2
   inputs:
     filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
     workingDirectory: ./outsystems-datagrid-reactive/
     arguments:
-      -branch $(SourceBranchName)
+      -branch 'RGRIDT-707'
 
 #Ping sample test page
 - bash: |
@@ -50,6 +31,27 @@ steps:
             echo "##vso[task.setvariable variable=skip;]true"
             echo $(skip)
           fi
+
+- task: npmAuthenticate@0
+  displayName: 'Npm authenticate'
+  inputs:
+    workingFile: './datagrid-web-tests/.npmrc'
+
+- task: CmdLine@2
+  name: install_dep
+  condition: ne(variables['skip'], 'true')
+  displayName: 'Install dependencies using yarn'
+  inputs:
+    workingDirectory: './datagrid-web-tests/'
+    script: 'yarn install'
+  continueOnError: false
+  
+- task: NodeTool@0
+  condition: ne(variables['skip'], 'true')
+  displayName: 'Use Node 14.15.4'
+  inputs: 
+    versionSpec: '14.15.4'
+    checkLatest: true
 
 #Retrieve test features
 - bash: |
@@ -76,6 +78,7 @@ steps:
     customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  "--cucumberOpts.tagExpression=$(features)"'
 
 - task: Npm@1
+  condition: ne(variables['skip'], 'true')
   displayName: 'Generate Report'
   timeoutInMinutes: 3
   continueOnError: true
@@ -85,6 +88,7 @@ steps:
     customCommand: 'run report'
 
 - task: Npm@1
+  condition: ne(variables['skip'], 'true')
   displayName: 'Convert to JUnit'
   timeoutInMinutes: 3
   continueOnError: true
@@ -94,6 +98,7 @@ steps:
     customCommand: 'run convertToJUnit'
 
 - task: PublishTestResults@2
+  condition: ne(variables['skip'], 'true')
   continueOnError: true
   inputs:
     workingDir: './datagrid-web-tests'
@@ -103,6 +108,7 @@ steps:
     testRunTitle: 'Publish Report'
 
 - task: PublishCucumberReport@1
+  condition: ne(variables['skip'], 'true')
   inputs:
     jsonDir: './datagrid-web-tests/.tmp/json'
     outputPath: './datagrid-web-tests/.tmp'
