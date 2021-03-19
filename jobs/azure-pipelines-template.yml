@@ -20,7 +20,7 @@ steps:
     filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
     workingDirectory: ./outsystems-datagrid-reactive/
     arguments:
-      -branch 'RGRIDT-707'
+      -branch 'RGRIDT-709'
 
 #Ping sample test page
 - bash: |
