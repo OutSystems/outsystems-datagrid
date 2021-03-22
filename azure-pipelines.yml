@@ -40,7 +40,7 @@ stages:
 
     #Checkout repositories
     - checkout: self
-    - checkout: datagrid-web-tests
+    - checkout: datagrid-reactive-tests
 
     #Install dependencies
     - task: Npm@1
