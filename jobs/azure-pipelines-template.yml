@@ -35,14 +35,14 @@ steps:
 - task: npmAuthenticate@0
   displayName: 'Npm authenticate'
   inputs:
-    workingFile: './datagrid-web-tests/.npmrc'
+    workingFile: './datagrid-reactive-tests/.npmrc'
 
 - task: CmdLine@2
   name: install_dep
   condition: ne(variables['skip'], 'true')
   displayName: 'Install dependencies using yarn'
   inputs:
-    workingDirectory: './datagrid-web-tests/'
+    workingDirectory: './datagrid-reactive-tests/'
     script: 'yarn install'
   continueOnError: false
   
@@ -64,7 +64,7 @@ steps:
   condition: and(succeeded(), eq(variables['features'],''), eq('${{ parameters.priority }}','all'), ne(variables['skip'], 'true'))
   displayName: 'Npm run all tests'
   inputs:
-    workingDir: './datagrid-web-tests/'
+    workingDir: './datagrid-reactive-tests/'
     command: 'custom'
     customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  --cucumberOpts.tagExpression=@${{ parameters.grid }}'
 
@@ -73,7 +73,7 @@ steps:
   condition: ne(variables['features'],'')
   displayName: 'Npm run by $(features) feature(s)'
   inputs:
-    workingDir: './datagrid-web-tests'
+    workingDir: './datagrid-reactive-tests'
     command: 'custom'
     customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  "--cucumberOpts.tagExpression=$(features)"'
 
@@ -83,7 +83,7 @@ steps:
   timeoutInMinutes: 3
   continueOnError: true
   inputs:
-    workingDir: './datagrid-web-tests'
+    workingDir: './datagrid-reactive-tests'
     command: 'custom'
     customCommand: 'run report'
 
@@ -93,7 +93,7 @@ steps:
   timeoutInMinutes: 3
   continueOnError: true
   inputs:
-    workingDir: './datagrid-web-tests'
+    workingDir: './datagrid-reactive-tests'
     command: 'custom'
     customCommand: 'run convertToJUnit'
 
@@ -101,7 +101,7 @@ steps:
   condition: ne(variables['skip'], 'true')
   continueOnError: true
   inputs:
-    workingDir: './datagrid-web-tests'
+    workingDir: './datagrid-reactive-tests'
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/.tmp/junit/*.xml'
     failTaskOnFailedTests: false
@@ -110,8 +110,8 @@ steps:
 - task: PublishCucumberReport@1
   condition: ne(variables['skip'], 'true')
   inputs:
-    jsonDir: './datagrid-web-tests/.tmp/json'
-    outputPath: './datagrid-web-tests/.tmp'
+    jsonDir: './datagrid-reactive-tests/.tmp/json'
+    outputPath: './datagrid-reactive-tests/.tmp'
     theme: 'bootstrap'
     reportSuiteAsScenarios: true
     name: 'Cucumber Report'
