@@ -38,7 +38,7 @@ namespace Features {
         }
     }
 
-    export interface IGroupPanel extends IValidation {
+    export interface IGroupPanel extends IValidation, IView {
         isGridGrouped: boolean;
     }
 
@@ -68,7 +68,7 @@ namespace Features {
             //this way we can easily handle the "x" to remove items from grouppanel
             this._grid.provider.itemsSource.groupDescriptions.collectionChanged.addHandler(
                 (
-                    o: wijmo.collections.ObservableArray/*,
+                    o: wijmo.collections.ObservableArray /*,
                     e: wijmo.collections.NotifyCollectionChangedEventArgs*/
                 ) => {
                     //Add and close to the Stack the global value with the last config
@@ -91,10 +91,37 @@ namespace Features {
             this._groupPanel = undefined;
         }
 
-        public validateAction(action: InternalEvents.Actions/*, ctx: any*/): string {
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewLayout(): any {
+            return this._grid.provider.itemsSource.groupDescriptions.map(
+                (gd) => {
+                    return { property: gd.propertyName };
+                }
+            );
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewLayout(state: any): void {
+            const source = this._grid.provider.itemsSource;
+            source.deferUpdate(function () {
+                source.groupDescriptions.clear();
+
+                state.groupDescriptions.forEach((element) => {
+                    source.groupDescriptions.push(
+                        new wijmo.collections.PropertyGroupDescription(
+                            element.property
+                        )
+                    );
+                });
+            });
+        }
+
+        public validateAction(
+            action: InternalEvents.Actions /*, ctx: any*/
+        ): string {
             if (this.isGridGrouped) {
                 if (action === InternalEvents.Actions.AddRow) {
-                    return 'Can\'t add rows when group is On!';
+                    return "Can't add rows when group is On!";
                 }
             }
         }

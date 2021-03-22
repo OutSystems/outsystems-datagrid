@@ -4,6 +4,7 @@ namespace Features {
      * Exposed methods for UndoStack feature
      */
     export interface IUndoStack {
+        stack: wijmo.undo.UndoStack;
         /**
          * Close a pending action, has to be call after the startAction and after the desired changed
          * @param T  Type of the Pending action, used to verify if the pending action waiting to be closed has the same type
@@ -19,16 +20,18 @@ namespace Features {
          * @param action Instance of an action
          */
         startAction(action: unknown);
+        /**
+         * Getter for the undoStack
+         */
     }
 
-    export interface IProviderUndoStack extends IUndoStack{
+    export interface IProviderUndoStack extends IUndoStack {
         closeAction<T>(T);
         pushAction(action: wijmo.undo.UndoableAction);
         startAction(action: wijmo.undo.UndoableAction);
     }
 
-    export class UndoStack
-        implements IProviderUndoStack, IBuilder {
+    export class UndoStack implements IProviderUndoStack, IBuilder {
         private _grid: Grid.IGridWijmo;
         private _undoStack: wijmo.undo.UndoStack;
 
@@ -36,11 +39,15 @@ namespace Features {
             this._grid = grid;
         }
 
+        public get stack(): wijmo.undo.UndoStack {
+            return this._undoStack;
+        }
+
         public build(): void {
             this._undoStack = new wijmo.undo.UndoStack(
                 Helper.GetElementByWidgetId(this._grid.widgetId),
                 {
-                    maxActions: 50,
+                    maxActions: 50
                 }
             );
         }

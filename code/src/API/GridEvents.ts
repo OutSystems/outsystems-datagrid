@@ -41,13 +41,7 @@ namespace GridAPI.GridManager.Events {
                 ]);
             }
         } else {
-            //TODO: [RGRIDT-634] @rug Is this the best way?
-            if (grid.isReady && eventName === ExternalEvents.GridEventType.Initialized) {
-                callback(grid.uniqueId, grid);
-            }
-            else {
-                grid.gridEvents.addHandler(eventName, callback);
-            }
+            grid.gridEvents.addHandler(eventName, callback);
         }
     }
 
@@ -64,6 +58,32 @@ namespace GridAPI.GridManager.Events {
                 grid.gridEvents.addHandler(obj.event, obj.cb);
             });
             _pendingEvents.delete(gridID);
+        }
+    }
+
+    export function Unsubscribe(
+        gridID: string,
+        eventName: ExternalEvents.GridEventType,
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        callback: Callbacks.OSGrid.Event
+    ): void {
+        const grid = GetGridById(gridID, false);
+        if (grid !== undefined) {
+            grid.gridEvents.removeHandler(eventName, callback);
+        } else {
+            if (_pendingEvents.has(gridID)) {
+                const index = _pendingEvents
+                    .get(gridID)
+                    .findIndex((element) => {
+                        return (
+                            element.event === eventName &&
+                            element.cb === callback
+                        );
+                    });
+                if (index !== -1) {
+                    _pendingEvents.get(gridID).splice(index, 1);
+                }
+            }
         }
     }
 }

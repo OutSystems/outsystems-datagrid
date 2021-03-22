@@ -6,7 +6,7 @@ namespace Features {
 
             this._oldState = s.filterDefinition;
         }
-        
+
         // apply a saved cell value (state)
         public applyState(state: string): void {
             this.target.filterDefinition = state;
@@ -23,8 +23,12 @@ namespace Features {
     export interface IColumnFilter
         extends IBuilder,
             IValidation,
-            IProviderConfig<boolean> {
+            IProviderConfig<boolean>,
+            IView {
         isGridFiltered: boolean;
+        activate(columID: string): void;
+        clear(columID: string): void;
+        deactivate(columID: string): void;
     }
 
     // export class Builder extends Validation implements IBuilder {
@@ -38,8 +42,39 @@ namespace Features {
             this._enabled = enabled;
         }
 
+        private _filterChangedHandler(s: wijmo.grid.filter.FlexGridFilter) {
+            this._grid.features.undoStack.closeAction(ColumnFilterAction);
+
+            if (
+                this._grid.gridEvents.hasHandlers(
+                    ExternalEvents.GridEventType.OnFiltersChange
+                )
+            ) {
+                this._grid.gridEvents.trigger(
+                    ExternalEvents.GridEventType.OnFiltersChange,
+                    this._grid,
+                    ActiveFilterFactory.MakeFromActiveFilters(
+                        this._grid,
+                        s.filterDefinition
+                    )
+                );
+            }
+        }
+
+        private _filterChangingHandler(s: wijmo.grid.filter.FlexGridFilter) {
+            this._grid.features.undoStack.startAction(
+                new ColumnFilterAction(s)
+            );
+        }
+
         public get isGridFiltered(): boolean {
             return JSON.parse(this._filter.filterDefinition).filters.length > 0;
+        }
+        public activate(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).filterType =
+                wijmo.grid.filter.FilterType.Both;
         }
 
         public build(): void {
@@ -47,24 +82,11 @@ namespace Features {
                 this._grid.provider
             );
             this._filter.filterChanging.addHandler(
-                (
-                    s: wijmo.grid.filter.FlexGridFilter,
-                    //e: wijmo.grid.CellRangeEventArgs
-                ) => {
-                    this._grid.features.undoStack.startAction(
-                        new ColumnFilterAction(s)
-                    );
-                }
+                this._filterChangingHandler.bind(this)
             );
+
             this._filter.filterChanged.addHandler(
-                (
-                    //s: wijmo.grid.filter.FlexGridFilter,
-                    //e: wijmo.grid.CellRangeEventArgs
-                ) => {
-                    this._grid.features.undoStack.closeAction(
-                        ColumnFilterAction
-                    );
-                }
+                this._filterChangedHandler.bind(this)
             );
 
             this._grid.validatingAction.addHandler(
@@ -83,8 +105,26 @@ namespace Features {
             this.setState(this._enabled);
         }
 
+        public clear(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).clear();
+            this._grid.provider.collectionView.refresh();
+        }
+
+        public deactivate(columID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columID);
+
+            this._filter.getColumnFilter(column.provider).filterType =
+                wijmo.grid.filter.FilterType.None;
+        }
         public dispose(): void {
             this._filter = undefined;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewLayout(): any {
+            return this._filter.filterDefinition;
         }
 
         public setState(value: boolean): void {
@@ -95,10 +135,17 @@ namespace Features {
             this._enabled = value;
         }
 
-        public validateAction(action: InternalEvents.Actions/*, ctx: any*/): string {
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewLayout(state: any): void {
+            this._filter.filterDefinition = state.filterDefinition;
+        }
+
+        public validateAction(
+            action: InternalEvents.Actions /*, ctx: any*/
+        ): string {
             if (this.isGridFiltered) {
                 if (action === InternalEvents.Actions.AddRow) {
-                    return 'Can\'t add rows when filter is On!';
+                    return "Can't add rows when filter is On!";
                 }
             }
         }

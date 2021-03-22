@@ -4,6 +4,8 @@ namespace Grid {
         addedLinesJSON: string;
         editedLinesJSON: string;
         hasChanges: boolean;
+        hasInvalidLines: boolean;
+        invalidLinesJSON: string;
         removedLinesJSON: string;
     };
 
@@ -13,7 +15,7 @@ namespace Grid {
         TransposedGrid = 'TransposedGrid'
     }
 
-    export interface IGrid extends IBuilder, IDisposable, ISearchById {
+    export interface IGrid extends IBuilder, IDisposable, ISearchById, IView {
         addedRows: InternalEvents.AddNewRowEvent;
         autoGenerate: boolean;
         columns: Map<string, Column.IColumn>; //Column.IColumn[];
@@ -40,6 +42,8 @@ namespace Grid {
         changeProperty(propertyName: string, propertyValue: any): void;
         clearAllChanges(): void;
         getChangesMade(): changesDone;
+        /** Get the column on the grid by giving a columnID or a binding. */
+        getColumn(key: string): Column.IColumn;
         getData(): JSON[];
         /**
          * Look to DOM trying to find if some column was defined for this Grid
@@ -66,7 +70,7 @@ namespace Grid {
         private _uniqueId: string;
         private _validatingAction: InternalEvents.ValidatingAction;
         private _widgetId: string;
-        
+
         protected _features: Features.CommmonFeatures;
         protected _provider: W;
 
@@ -75,7 +79,7 @@ namespace Grid {
             this._columns = new Map<string, Column.IColumn>();
             this._configs = configs;
             this._addedRows = new InternalEvents.AddNewRowEvent();
-            this._gridEvents = new ExternalEvents.GridEventsManager();
+            this._gridEvents = new ExternalEvents.GridEventsManager(this);
             this._isReady = false;
             this._validatingAction = new InternalEvents.ValidatingAction();
 
@@ -118,13 +122,13 @@ namespace Grid {
             return this._provider;
         }
 
-        public get features(): Features.CommmonFeatures{
+        public get features(): Features.CommmonFeatures {
             return this._features;
         }
 
         protected finishBuild(): void {
             this._isReady = true;
-            
+
             this.gridEvents.trigger(
                 ExternalEvents.GridEventType.Initialized,
                 this
@@ -154,10 +158,27 @@ namespace Grid {
             return gridID === this._uniqueId || gridID === this._widgetId;
         }
 
+        /**
+         * Get the column on the grid by giving a columnID or a binding.
+         * @param key key can be a columnID or a binding of a column
+         * @returns Column with the same columnID or binding.
+         */
+        public getColumn(key: string): Column.IColumn {
+            if (this._columns.has(key)) {
+                return this._columns.get(key);
+            } else {
+                return _.toArray(this.columns)
+                    .map((p) => p[1])
+                    .find((p) => p && p.equalsToID(key));
+            }
+        }
+
         public hasColumnsDefined(): boolean {
             const widget = Helper.GetElementByUniqueId(this.uniqueId);
             const gridElement = widget.closest(Helper.Constants.gridTag);
-            const columns = gridElement.querySelectorAll(Helper.Constants.columnCss);
+            const columns = gridElement.querySelectorAll(
+                Helper.Constants.columnCss
+            );
 
             return columns.length > 0;
         }
@@ -168,10 +189,15 @@ namespace Grid {
 
                 col.dispose();
                 this._columns.delete(columnID);
-                
-                console.log(`Remove column '${columnID}': '${col.config.header}'`);
-            }else {
-                console.error(`removeColumn - Column id:${columnID} doesn't exist`);
+                this._columns.delete(col.config.binding);
+
+                console.log(
+                    `Remove column '${columnID}': '${col.config.header}'`
+                );
+            } else {
+                console.error(
+                    `removeColumn - Column id:${columnID} doesn't exist`
+                );
             }
         }
 
@@ -199,8 +225,11 @@ namespace Grid {
         public abstract clearAllChanges(): void;
 
         public abstract getChangesMade(): changesDone;
-        
+
         public abstract getData(): JSON[];
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public abstract getViewLayout(): any;
 
         public abstract hasResults(): boolean;
 
@@ -212,5 +241,8 @@ namespace Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public abstract setData(data: any): boolean;
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public abstract setViewLayout(state: any): void;
     }
 }

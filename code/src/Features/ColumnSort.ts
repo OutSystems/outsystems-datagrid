@@ -1,7 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Features {
-    export interface IColumnSort extends IValidation, IProviderConfig<boolean> {
+    export interface IColumnSort
+        extends IValidation,
+            IProviderConfig<boolean>,
+            IView {
         isGridSorted: boolean;
+        clear(): void;
     }
 
     class ColumnSortAction extends wijmo.undo.UndoableAction {
@@ -38,7 +42,7 @@ namespace Features {
             this._grid = grid;
             this._enabled = enabled;
         }
-        
+
         public get isGridSorted(): boolean {
             return this._grid.provider.itemsSource.sortDescriptions.length > 0;
         }
@@ -98,6 +102,20 @@ namespace Features {
 
             this.setState(this._enabled);
         }
+        public clear(): void {
+            this._grid.provider.collectionView.sortDescriptions.clear();
+        }
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewLayout(): any {
+            return this._grid.provider.itemsSource.sortDescriptions.map(
+                (sortDesc) => {
+                    return {
+                        property: sortDesc.property,
+                        ascending: sortDesc.ascending
+                    };
+                }
+            );
+        }
 
         public setState(value: boolean): void {
             this._grid.provider.allowSorting = value
@@ -106,10 +124,29 @@ namespace Features {
             this._enabled = value;
         }
 
-        public validateAction(action: InternalEvents.Actions/*, ctx: any*/): string {
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewLayout(state: any): void {
+            const source = this._grid.provider.itemsSource;
+            source.deferUpdate(function () {
+                source.sortDescriptions.clear();
+                for (let i = 0; i < state.sortDescriptions.length; i++) {
+                    const sortDesc = state.sortDescriptions[i];
+                    source.sortDescriptions.push(
+                        new wijmo.collections.SortDescription(
+                            sortDesc.property,
+                            sortDesc.ascending
+                        )
+                    );
+                }
+            });
+        }
+
+        public validateAction(
+            action: InternalEvents.Actions /*, ctx: any*/
+        ): string {
             if (this.isGridSorted) {
                 if (action === InternalEvents.Actions.AddRow) {
-                    return 'Can\'t add rows when sort mode is On!';
+                    return "Can't add rows when sort mode is On!";
                 }
             }
         }

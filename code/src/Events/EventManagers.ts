@@ -8,6 +8,7 @@ namespace ExternalEvents {
      */
     export enum GridEventType {
         Initialized = 'Initialized',
+        OnFiltersChange = 'OnFiltersChange',
         SearchEnded = 'SearchEnded'
     }
 
@@ -18,7 +19,18 @@ namespace ExternalEvents {
      * @enum {number}
      */
     export enum ColumnEventType {
-        ActionClick = 'ActionClick'
+        ActionClick = 'ActionClick',
+        OnCellValueChange = 'OnCellValueChange'
+    }
+
+    /**
+     * Events currently supported in the Context Menu element.
+     *
+     * @export
+     * @enum {number}
+     */
+    export enum ContextMenuEventType {
+        Toggle = 'Toggle'
     }
 
     /**
@@ -54,6 +66,15 @@ namespace ExternalEvents {
             }
         }
 
+        public hasHandlers(eventType: ET): boolean {
+            let returnValue = false;
+            if (this._handlers.has(eventType)) {
+                const event = this._handlers.get(eventType);
+                returnValue = event.hasHandlers();
+            }
+            return returnValue;
+        }
+
         public removeHandler(eventType: ET, handler: Callbacks.Generic): void {
             if (this._handlers.has(eventType)) {
                 const event = this._handlers.get(eventType);
@@ -61,7 +82,8 @@ namespace ExternalEvents {
             }
         }
 
-        public trigger(eventType: ET, data?: D): void {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/explicit-module-boundary-types
+        public trigger(eventType: ET, data?: D, ...args): void {
             if (this._handlers.has(eventType)) {
                 this._handlers.get(eventType).trigger(data);
             }
@@ -93,6 +115,13 @@ namespace ExternalEvents {
         GridEventType,
         Grid.IGrid
     > {
+        private _grid: Grid.IGrid;
+
+        constructor(grid: Grid.IGrid) {
+            super();
+            this._grid = grid;
+        }
+
         protected getInstanceOfEventType(
             eventType: GridEventType
         ): InternalEvents.IEvent<Grid.IGrid> {
@@ -101,6 +130,9 @@ namespace ExternalEvents {
             switch (eventType) {
                 case GridEventType.Initialized:
                     event = new GridInitializedEvent();
+                    break;
+                case GridEventType.OnFiltersChange:
+                    event = new GridOnFiltersChangeEvent();
                     break;
                 case GridEventType.SearchEnded:
                     event = new GridSearchEndEvent();
@@ -112,13 +144,40 @@ namespace ExternalEvents {
             return event;
         }
 
-        public trigger(event: GridEventType, gridObj: Grid.IGrid): void {
+        public addHandler(
+            eventType: GridEventType,
+            handler: Callbacks.OSGrid.Event
+        ): void {
+            //if the grid is already ready, fire immediatly the event.
+            if (eventType === GridEventType.Initialized && this._grid.isReady) {
+                //make the invocation of the handler assync.
+                setTimeout(() => handler(this._grid.widgetId, this._grid), 0);
+            } else {
+                super.addHandler(eventType, handler);
+            }
+        }
+
+        public trigger(
+            event: GridEventType,
+            gridObj: Grid.IGrid,
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+            ...args
+        ): void {
             if (this.handlers.has(event)) {
-                this.handlers.get(event).trigger(gridObj, gridObj.widgetId);
+                this.handlers
+                    .get(event)
+                    .trigger(gridObj, gridObj.widgetId, ...args);
             }
         }
     }
 
+    /**
+     * Class that will be responsible for managing the events of grid columns.
+     *
+     * @export
+     * @class ColumnEventsManager
+     * @extends {AbstractEventsManager<ColumnEventType, string>}
+     */
     export class ColumnEventsManager extends AbstractEventsManager<
         ColumnEventType,
         string
@@ -139,6 +198,9 @@ namespace ExternalEvents {
                 case ColumnEventType.ActionClick:
                     event = new ActionColumnClick();
                     break;
+                case ColumnEventType.OnCellValueChange:
+                    event = new OnCellValueChange();
+                    break;
                 default:
                     throw `The event '${eventType}' is not supported in a column`;
                     break;
@@ -146,14 +208,87 @@ namespace ExternalEvents {
             return event;
         }
 
-        public trigger(event: ColumnEventType, line: string): void {
+        /**
+         * Trigger the specific events depending on the event type specified
+         * @param eventType Type of the event currently supported in the Column element.
+         * @param value Value to be passed to OS in the type of a string.
+         * @param rowNumber (Optional) Number of the row in which the event ocurrs.
+         */
+        public trigger(
+            eventType: ColumnEventType,
+            value: string,
+            oldValue?: string,
+            rowNumber?: number
+        ): void {
+            if (this.handlers.has(eventType)) {
+                const handlerEvent = this.handlers.get(eventType);
+
+                switch (eventType) {
+                    case ColumnEventType.ActionClick:
+                        handlerEvent.trigger(
+                            this._column.grid.widgetId, // ID of Grid block that was clicked.
+                            this._column.widgetId, // ID of Action Column block that was clicked.
+                            value // In this case the value is the JSON Serialization of the line in which the action column that clicked is located.
+                        );
+                        break;
+                    case ColumnEventType.OnCellValueChange:
+                        handlerEvent.trigger(
+                            this._column.grid.widgetId, // ID of Grid block where the cell value has changed.
+                            this._column.widgetId, // ID of the Column block in which the cell value has changed.
+                            rowNumber, // Number of the row in which the cell value has changed.
+                            oldValue, // Value of the cell before its value has changed (Old)
+                            value // Value of the cell after its value has changed (New)
+                        );
+                        break;
+                    default:
+                        throw `The event '${eventType}' is not supported in a column`;
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Class that will be responsible for managing the events of the context menu.
+     *
+     * @export
+     * @class ContextMenuEventManager
+     * @extends {AbstractEventsManager<ContextMenuEventType, string>}
+     */
+    export class ContextMenuEventManager extends AbstractEventsManager<
+        ContextMenuEventType,
+        string
+    > {
+        private _contextMenu: Features.ContextMenu;
+
+        constructor(contextMenu: Features.ContextMenu) {
+            super();
+            this._contextMenu = contextMenu;
+        }
+
+        protected getInstanceOfEventType(
+            eventType: ContextMenuEventType
+        ): InternalEvents.IEvent<string> {
+            let event: InternalEvents.IEvent<string>;
+
+            switch (eventType) {
+                case ContextMenuEventType.Toggle:
+                    event = new ToggleContextMenu();
+                    break;
+                default:
+                    throw `The event '${eventType}' is not supported in a context menu`;
+                    break;
+            }
+            return event;
+        }
+
+        public trigger(event: ContextMenuEventType): void {
             if (this.handlers.has(event)) {
                 this.handlers
                     .get(event)
                     .trigger(
-                        this._column.grid.widgetId,
-                        this._column.widgetId,
-                        line
+                        this._contextMenu.grid.widgetId,
+                        this._contextMenu.isOpening
                     );
             }
         }

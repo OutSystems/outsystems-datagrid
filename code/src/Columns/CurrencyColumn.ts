@@ -10,14 +10,22 @@ namespace Column {
             editorConfig: EditorConfigCurrency
         ) {
             super(grid, columnID, configs, editorConfig);
+            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
         }
 
         protected _setFormat(decimalPlaces: number, symbol?: string): void {
             //The supper will calculate the Min and Max and validate decimalPlaces
             super._setFormat(decimalPlaces);
 
-            this.config.format = `c${this.editorConfig.decimalPlaces} ${symbol || this.editorConfig.symbol}`;
+            this.config.format = `c${this.editorConfig.decimalPlaces} ${
+                symbol || this.editorConfig.symbol
+            }`;
             this.editorConfig.format = this.config.format;
+        }
+
+        /** Returns all the events associated to the column */
+        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+            return this._columnEvents;
         }
 
         public get columnType(): ColumnType {
@@ -28,7 +36,10 @@ namespace Column {
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
                 case 'symbol':
-                    this._setFormat(this.editorConfig.decimalPlaces, propertyValue);
+                    this._setFormat(
+                        this.editorConfig.decimalPlaces,
+                        propertyValue
+                    );
                     this.applyConfigs();
                     break;
                 default:

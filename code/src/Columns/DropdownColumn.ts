@@ -1,13 +1,24 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Column {
     export class DropdownColumn extends AbstractProviderColumn<ColumnConfigDropdown> {
-        constructor(grid: Grid.IGrid, columnID: string, configs: JSON, extraConfig: JSON) {
-            super(grid, columnID, new ColumnConfigDropdown(configs, extraConfig));
-            this.config.dataMap = new wijmo.grid.DataMap(
-                [],
-                'key',
-                'text'
+        constructor(
+            grid: Grid.IGrid,
+            columnID: string,
+            configs: JSON,
+            extraConfig: JSON
+        ) {
+            super(
+                grid,
+                columnID,
+                new ColumnConfigDropdown(configs, extraConfig)
             );
+            this.config.dataMap = new wijmo.grid.DataMap([], 'key', 'text');
+            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+        }
+
+        /** Returns all the events associated to the column */
+        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+            return this._columnEvents;
         }
 
         public get columnType(): ColumnType {
@@ -24,14 +35,14 @@ namespace Column {
                 delete providerConfig.dataMap;
 
                 wijmo.copy(this.provider, providerConfig);
-            }
-            else {
+            } else {
                 console.log('applyConfigs - Column needs to be build');
             }
         }
 
         public build(): void {
-            (this.config.dataMap as wijmo.grid.DataMap).collectionView.sourceCollection = this.config.dropdownOptions;
+            (this.config
+                .dataMap as wijmo.grid.DataMap).collectionView.sourceCollection = this.config.dropdownOptions;
             this.config.dataMapEditor = wijmo.grid.DataMapEditor.DropDownList;
 
             super.build();

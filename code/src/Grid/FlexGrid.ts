@@ -1,15 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Grid {
-    export interface IGridWijmo
-        extends IGridGeneric<
-            wijmo.grid.FlexGrid
-        > {}
+    export interface IGridWijmo extends IGridGeneric<wijmo.grid.FlexGrid> {}
 
     export class FlexGrid
-        extends AbstractGrid<
-            wijmo.grid.FlexGrid,
-            FlexGridConfig
-        >
+        extends AbstractGrid<wijmo.grid.FlexGrid, FlexGridConfig>
         implements IGridWijmo {
         private _fBuilder: Features.FeatureBuilder;
         private _lineIsSingleEntity = false;
@@ -30,7 +24,7 @@ namespace Grid {
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
         private _buildColumns(): void {
-            this.columns.forEach(col => col.build());
+            this.columns.forEach((col) => col.build());
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,12 +32,11 @@ namespace Grid {
             let tempArray = [];
 
             for (let index = 0; index < itemsChanged.length; ++index) {
-                tempArray.push(_.clone(itemsChanged[index]));
-                //let's remove our metadata from the information that we'll sent back
-                delete tempArray[tempArray.length - 1].__osRowMetada;
+                tempArray.push(_.cloneDeep(itemsChanged[index]));
             }
 
-            tempArray = Helper.ToOSFormat(this, tempArray);
+            //In-place convert data to Outsystems Format
+            Helper.ToOSFormat(this, tempArray);
 
             if (this.isSingleEntity) {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer
@@ -68,23 +61,21 @@ namespace Grid {
 
         /**
          * Parse JSON and get the structure of the new item.
-         * @param json 
+         * @param json
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        private _parseNewItem(json: JSON): any{
+        private _parseNewItem(json: JSON): any {
             const parsedNewItem = _.cloneDeep(json);
-            const converter = object => {
-                Object.keys(object).forEach(key => {
-                    if (typeof object[key] === 'object') 
-                        converter(object[key]);
-                    else 
-                        object[key] = undefined;
+            const converter = (object) => {
+                Object.keys(object).forEach((key) => {
+                    if (typeof object[key] === 'object') converter(object[key]);
+                    else object[key] = undefined;
                 });
             };
-    
+
             converter(parsedNewItem);
-    
-            return parsedNewItem; 
+
+            return parsedNewItem;
         }
 
         public get autoGenerate(): boolean {
@@ -94,7 +85,7 @@ namespace Grid {
         public set autoGenerate(value: boolean) {
             this.provider.autoGenerateColumns = value;
         }
-        
+
         //TODO: [RGRIDT-635] refactor this code.
         public get isSingleEntity(): boolean {
             return this._lineIsSingleEntity;
@@ -107,7 +98,7 @@ namespace Grid {
         public addColumn(col: Column.IColumn): void {
             super.addColumn(col);
 
-            if (this.isReady){
+            if (this.isReady) {
                 //OS takes a while to set the WidgetId
                 setTimeout(() => {
                     col.build();
@@ -134,28 +125,9 @@ namespace Grid {
         public buildFeatures(): void {
             this._fBuilder = new Features.FeatureBuilder(this);
 
-            this._fBuilder
-                .makeDirtyMark()
-                .makeFilter(this.config.allowFiltering)
-                .makeFreezePanes()
-                .makeContextMenu()
-                .makeRows()
-                .makeExport()
-                .makeGroupPanel(this.config.groupPanelId)
-                .makeColumnPicker()
-                .makeToolTip()
-                .makePagination(this.config.rowsPerPage)
-                .makeSort(this.config.allowColumnSort)
-                .makeColumnReorder(this.config.allowColumnReorder)
-                .makeColumnResize(this.config.allowColumnResize)
-                .makeTabNavigation(this.config.allowKeyTabNavigation)
-                .makeAutoRowNumber()
-                .makeStyling(this.config.rowHeight)
-                .makeUndoStack()
-                .makeSelection(this.config.allowRowSelector, this.config.selectionMode)
-                .build();
-
             this._features = this._fBuilder.features;
+
+            this._fBuilder.build();
         }
 
         public changeColumnProperty(
@@ -164,21 +136,13 @@ namespace Grid {
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             propertyValue: any
         ): void {
-            let column = this.columns.get(columnID);
-
-            if (!column) {
-                //Try to search using other Ids
-                column = _.toArray(this.columns)
-                    .map(p => p[1])
-                    .find((p) => p && p.equalsToID(columnID));
-            }
+            const column = this.getColumn(columnID);
 
             if (!column) {
                 console.log(
                     `changeColumnProperty - column id:${columnID} not found. \nAutogenerated colums won't work here!`
                 );
-            }
-            else {
+            } else {
                 column.changeProperty(propertyName, propertyValue);
             }
         }
@@ -218,6 +182,7 @@ namespace Grid {
             if (this.isReady) {
                 this.provider.itemsSource.clearChanges();
                 this.features.dirtyMark.clear();
+                this.features.validationMark.clear();
             }
         }
         public dispose(): void {
@@ -234,7 +199,9 @@ namespace Grid {
                 hasChanges: false,
                 addedLinesJSON: undefined,
                 editedLinesJSON: undefined,
-                removedLinesJSON: undefined
+                removedLinesJSON: undefined,
+                hasInvalidLines: false,
+                invalidLinesJSON: undefined
             };
 
             if (this.isReady) {
@@ -260,12 +227,24 @@ namespace Grid {
                         itemsSource.itemsRemoved
                     );
                 }
+
+                if (this._features.validationMark.invalidRows.length > 0) {
+                    changes.hasInvalidLines = true;
+                    changes.invalidLinesJSON = this._getChangesString(
+                        this._features.validationMark.invalidRows
+                    );
+                }
             }
             return changes;
         }
 
         public getData(): JSON[] {
             return this.provider.itemsSource.sourceCollection;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getViewLayout(): any {
+            return this._features.view.getViewLayout();
         }
 
         public hasResults(): boolean {
@@ -301,7 +280,9 @@ namespace Grid {
                         if (generated.length > 0) {
                             this._addColumns(generated);
                         }
-                        this.features.rows.setNewItem(this._parseNewItem(infojson.metadata));                        
+                        this.features.rows.setNewItem(
+                            this._parseNewItem(infojson.metadata)
+                        );
                     } else {
                         //if the grid is read-only, then we'll flatten the array and use wijmo generator
                         if (this.provider.isReadOnly) {
@@ -313,23 +294,56 @@ namespace Grid {
                             );
                         }
                     }
-                }else{
+                } else {
                     if (hasMetainfo) {
-                        this.features.rows.setNewItem(this._parseNewItem(infojson.metadata));        
-                    }else{
+                        this.features.rows.setNewItem(
+                            this._parseNewItem(infojson.metadata)
+                        );
+                        // Check if the binding from the custom columns exist on the metadata from the original data source.
+                        this.columns.forEach((column) => {
+                            if (column.config.validateBinding === false) return;
+                            // Split the binding of the column by every dot. (e.g Sample_product.Name -> ['Sample_Product', 'Name'])
+                            const bindingMatches = column.config.binding.split(
+                                '.'
+                            );
+                            let metadata = infojson.metadata;
+                            bindingMatches.forEach((keyword) => {
+                                // Check if the matching keyword is a property from metadata
+                                if (
+                                    metadata &&
+                                    !metadata.hasOwnProperty(keyword)
+                                ) {
+                                    throw `The binding ${
+                                        column.config.binding
+                                    } doesn't match any valid column from the data you specified. ${'\n'} Expected format: "EntityName.FieldName". ${'\n'} For example: "Product_Sample.Name"`;
+                                }
+                                // If keyword is a property from metadata then use metadata[keyword] as the new metadata and iterate to the next keyword.
+                                metadata = metadata[keyword];
+                            });
+                        });
+                    } else {
                         // If it hasn't meta info, then we need to get the first data.
                         // Mandatory: Needs to have data (1 row at least)
-                        if(infojson.length > 0){
-                            this.features.rows.setNewItem(this._parseNewItem(infojson[0]));  
+                        if (infojson.length > 0) {
+                            this.features.rows.setNewItem(
+                                this._parseNewItem(infojson[0])
+                            );
                         }
                     }
                 }
-                
+
                 this.provider.itemsSource.sourceCollection = gridData;
                 return true;
             }
 
             return false;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewLayout(state: any): void {
+            if (this.isReady) {
+                this._features.view.setViewLayout(state);
+            }
         }
     }
 }

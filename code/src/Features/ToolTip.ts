@@ -24,18 +24,33 @@ namespace Features {
                     'wj-state-invalid'
                 );
 
-                if (!isInvalid && _currTarget.querySelector('div.dg-cell')) {
+                if (_currTarget.querySelector('div.dg-cell')) {
                     _currTarget = _currTarget.querySelector('div.dg-cell');
                 }
 
-                if (
-                    _currTarget.scrollWidth > _currTarget.clientWidth &&
-                    !isInvalid &&
-                    _currTarget.innerText !== undefined &&
-                    _currTarget.innerText !== ''
-                ) {
-                    //JS asserts the previous declaration as true when they are equal
-                    this._toolTip.show(_currTarget, _currTarget.innerText); // show tooltip if text is overflow/hidden
+                //Make sure to apply the correct tooltipClass
+                this._toolTipClass(isInvalid);
+
+                //If the cell is valid
+                if (isInvalid === false) {
+                    if (
+                        _currTarget.scrollWidth > _currTarget.clientWidth &&
+                        _currTarget.innerText !== undefined &&
+                        _currTarget.innerText !== ''
+                    ) {
+                        //JS asserts the previous declaration as true when they are equal
+                        this._toolTip.show(_currTarget, _currTarget.innerText); // show tooltip if text is overflow/hidden
+                    }
+                }
+                //Otherwise (If the cell is invalid)
+                else {
+                    this._toolTip.show(
+                        _currTarget,
+                        this._grid.features.validationMark.errorMessage(
+                            ht.row,
+                            ht.getColumn().binding
+                        )
+                    );
                 }
             } else if (ht.cellType === wijmo.grid.CellType.ColumnHeader) {
                 if (
@@ -43,6 +58,8 @@ namespace Features {
                     _currTarget.innerText !== undefined &&
                     _currTarget.innerText !== ''
                 ) {
+                    //Make sure to reset the cssClass for the tooltip
+                    this._toolTipClass(false);
                     this._toolTip.setTooltip(
                         _currTarget,
                         _currTarget.innerText
@@ -61,6 +78,11 @@ namespace Features {
 
             cell.removeEventListener('mouseout', this._eventMouseOut);
             cell.addEventListener('mouseout', this._eventMouseOut);
+        }
+
+        private _toolTipClass(isInvalid: boolean): void {
+            if (isInvalid === true) this._toolTip.cssClass = 'errorValidation';
+            else this._toolTip.cssClass = '';
         }
 
         public build(): void {

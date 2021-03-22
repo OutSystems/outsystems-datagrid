@@ -3,6 +3,12 @@ namespace Column {
     export class CheckboxColumn extends AbstractProviderColumn<ColumnConfig> {
         constructor(grid: Grid.IGrid, columnID: string, configs: JSON) {
             super(grid, columnID, new ColumnConfig(configs));
+            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+        }
+
+        /** Returns all the events associated to the column */
+        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+            return this._columnEvents;
         }
 
         public get columnType(): ColumnType {

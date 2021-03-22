@@ -41,7 +41,9 @@ namespace Features {
             this._grid.features.pagination.changePageSize(0);
         }
 
-        public build(): void {return;}
+        public build(): void {
+            return;
+        }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public exportFormatItem(args: any): void {
