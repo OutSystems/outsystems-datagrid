@@ -77,8 +77,8 @@ namespace Helper {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): void {
         //TODO: [RGRIDT-638] Regression 2021-02-12: Is this method the best solution
-        const columns = _.toArray(grid.columns)
-            .map((pair) => pair[1] as Column.IColumn)
+        const columns = grid
+            .getColumns()
             .filter((p) => p.columnType === Column.ColumnType.Date);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

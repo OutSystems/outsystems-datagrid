@@ -18,7 +18,6 @@ namespace Grid {
     export interface IGrid extends IBuilder, IDisposable, ISearchById, IView {
         addedRows: InternalEvents.AddNewRowEvent;
         autoGenerate: boolean;
-        columns: Map<string, Column.IColumn>; //Column.IColumn[];
         config: IConfigurationGrid;
         features: Features.CommmonFeatures;
         gridEvents: ExternalEvents.GridEventsManager;
@@ -42,9 +41,22 @@ namespace Grid {
         changeProperty(propertyName: string, propertyValue: any): void;
         clearAllChanges(): void;
         getChangesMade(): changesDone;
-        /** Get the column on the grid by giving a columnID or a binding. */
+        /**
+         * Get the column on the grid by giving a columnID or a binding.
+         * @param key key can be the uniqueId or a binding of a column
+         * @returns Column with the same columnID or binding.
+         */
         getColumn(key: string): Column.IColumn;
+        /** Return an array containing all grid's column
+         * @returns Array of grid's columns
+         */
+        getColumns(): Column.IColumn[];
         getData(): JSON[];
+        /**
+         * Verifies grid has the given Column
+         * @param key key can be the uniqueId or a binding of a column
+         */
+        hasColumn(key: string): boolean;
         /**
          * Look to DOM trying to find if some column was defined for this Grid
          */
@@ -64,6 +76,7 @@ namespace Grid {
         implements IGridGeneric<W> {
         private _addedRows: InternalEvents.AddNewRowEvent;
         private _columns: Map<string, Column.IColumn>;
+        private _columnsSet: Set<Column.IColumn>;
         private _configs: Z;
         private _gridEvents: ExternalEvents.GridEventsManager;
         private _isReady: boolean;
@@ -77,6 +90,7 @@ namespace Grid {
         constructor(uniqueId: string, configs: Z) {
             this._uniqueId = uniqueId;
             this._columns = new Map<string, Column.IColumn>();
+            this._columnsSet = new Set<Column.IColumn>();
             this._configs = configs;
             this._addedRows = new InternalEvents.AddNewRowEvent();
             this._gridEvents = new ExternalEvents.GridEventsManager(this);
@@ -100,10 +114,6 @@ namespace Grid {
 
         public get widgetId(): string {
             return this._widgetId;
-        }
-
-        public get columns(): Map<string, Column.IColumn> {
-            return this._columns;
         }
 
         public get isReady(): boolean {
@@ -137,7 +147,9 @@ namespace Grid {
 
         public addColumn(col: Column.IColumn): void {
             console.log(`Add column '${col.uniqueId}': '${col.config.header}'`);
+            this._columns.set(col.config.binding, col);
             this._columns.set(col.uniqueId, col);
+            this._columnsSet.add(col);
         }
 
         public build(): void {
@@ -158,19 +170,20 @@ namespace Grid {
             return gridID === this._uniqueId || gridID === this._widgetId;
         }
 
-        /**
-         * Get the column on the grid by giving a columnID or a binding.
-         * @param key key can be a columnID or a binding of a column
-         * @returns Column with the same columnID or binding.
-         */
         public getColumn(key: string): Column.IColumn {
             if (this._columns.has(key)) {
                 return this._columns.get(key);
             } else {
-                return _.toArray(this.columns)
-                    .map((p) => p[1])
-                    .find((p) => p && p.equalsToID(key));
+                return this.getColumns().find((p) => p && p.equalsToID(key));
             }
+        }
+
+        public getColumns(): Column.IColumn[] {
+            return Array.from(this._columnsSet);
+        }
+
+        public hasColumn(key: string): boolean {
+            return this._columns.has(key);
         }
 
         public hasColumnsDefined(): boolean {
@@ -190,6 +203,7 @@ namespace Grid {
                 col.dispose();
                 this._columns.delete(columnID);
                 this._columns.delete(col.config.binding);
+                this._columnsSet.delete(col);
 
                 console.log(
                     `Remove column '${columnID}': '${col.config.header}'`
