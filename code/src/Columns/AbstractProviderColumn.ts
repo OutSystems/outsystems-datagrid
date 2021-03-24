@@ -41,7 +41,7 @@ namespace Column {
             const providerGrid: wijmo.grid.FlexGrid = this.grid.provider;
 
             if (this.hasParentColumn) {
-                const parent = this.grid.columns.get(
+                const parent = this.grid.getColumn(
                     this.parentColumnId
                 ) as Column.IColumnGroup;
                 parent.addChild(this);
@@ -82,7 +82,7 @@ namespace Column {
             super.dispose();
 
             if (this.hasParentColumn) {
-                const parent = this.grid.columns.get(
+                const parent = this.grid.getColumn(
                     this.parentColumnId
                 ) as Column.IColumnGroup;
                 parent && parent.removeChild(this);
