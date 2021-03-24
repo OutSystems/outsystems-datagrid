@@ -23,8 +23,8 @@ namespace Features {
                 // * We build the columns based on OS configuration, than we load the configurations for the available columns
                 //   This should avoid errors like, a binding isn't present on the grid, or the developer have to remove some column (for securety maybe)
                 // * Different from the web version, new columns (inserted by the developer after the user "SaveConfig") will now appear on the grid, as rightmost columns
-                if (this._grid.columns.has(providerConfing.binding)) {
-                    const col = this._grid.columns.get(providerConfing.binding);
+                if (this._grid.hasColumn(providerConfing.binding)) {
+                    const col = this._grid.getColumn(providerConfing.binding);
                     const position = col.provider.index;
 
                     //Update the config based on columnsLayout

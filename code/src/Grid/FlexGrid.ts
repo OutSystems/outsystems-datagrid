@@ -16,7 +16,7 @@ namespace Grid {
 
         private _addColumns(cols: Column.IColumn[]): void {
             cols.forEach((col) => {
-                this.columns.set(col.config.binding, col);
+                super.addColumn(col);
             });
 
             this._buildColumns();
@@ -24,7 +24,7 @@ namespace Grid {
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
         private _buildColumns(): void {
-            this.columns.forEach((col) => col.build());
+            this.getColumns().forEach((col) => col.build());
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -300,7 +300,7 @@ namespace Grid {
                             this._parseNewItem(infojson.metadata)
                         );
                         // Check if the binding from the custom columns exist on the metadata from the original data source.
-                        this.columns.forEach((column) => {
+                        this.getColumns().forEach((column) => {
                             if (column.config.validateBinding === false) return;
                             // Split the binding of the column by every dot. (e.g Sample_product.Name -> ['Sample_Product', 'Name'])
                             const bindingMatches = column.config.binding.split(
