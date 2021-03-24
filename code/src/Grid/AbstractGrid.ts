@@ -90,6 +90,7 @@ namespace Grid {
         constructor(uniqueId: string, configs: Z) {
             this._uniqueId = uniqueId;
             this._columns = new Map<string, Column.IColumn>();
+            this._columnsSet = new Set<Column.IColumn>();
             this._configs = configs;
             this._addedRows = new InternalEvents.AddNewRowEvent();
             this._gridEvents = new ExternalEvents.GridEventsManager(this);
