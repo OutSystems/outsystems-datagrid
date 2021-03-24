@@ -14,25 +14,6 @@ parameters:
   type: string
 
 steps:
-- task: npmAuthenticate@0
-  displayName: 'Npm authenticate'
-  inputs:
-    workingFile: './datagrid-web-tests/.npmrc'
-
-- task: CmdLine@2
-  name: install_dep
-  displayName: 'Install dependencies using yarn'
-  inputs:
-    workingDirectory: './datagrid-web-tests/'
-    script: 'yarn install'
-  continueOnError: false
-  
-- task: NodeTool@0
-  displayName: 'Use Node 14.15.4'
-  inputs: 
-    versionSpec: '14.15.4'
-    checkLatest: true
-
 #Format branch name
 - task: PowerShell@2
   inputs:
@@ -42,6 +23,7 @@ steps:
       -branch $(SourceBranchName)
 
 #Ping sample test page
+#Sets skip variable as true if sample doesnt exist.
 - bash: |
           status=$(curl -s --head -w %{http_code} $(ENV_URL)/$(branch)/ -o /dev/null)
           echo $status
@@ -50,6 +32,31 @@ steps:
             echo "##vso[task.setvariable variable=skip;]true"
             echo $(skip)
           fi
+
+#Only run task if skip is not true
+- task: npmAuthenticate@0
+  condition: ne(variables['skip'], 'true')
+  displayName: 'Npm authenticate'
+  inputs:
+    workingFile: './datagrid-reactive-tests/.npmrc'
+
+#Only run task if skip is not true
+- task: CmdLine@2
+  name: install_dep
+  condition: ne(variables['skip'], 'true')
+  displayName: 'Install dependencies using yarn'
+  inputs:
+    workingDirectory: './datagrid-reactive-tests/'
+    script: 'yarn install'
+  continueOnError: false
+  
+#Only run task if skip is not true
+- task: NodeTool@0
+  condition: ne(variables['skip'], 'true')
+  displayName: 'Use Node 14.15.4'
+  inputs: 
+    versionSpec: '14.15.4'
+    checkLatest: true
 
 #Retrieve test features
 - bash: |
@@ -62,7 +69,7 @@ steps:
   condition: and(succeeded(), eq(variables['features'],''), eq('${{ parameters.priority }}','all'), ne(variables['skip'], 'true'))
   displayName: 'Npm run all tests'
   inputs:
-    workingDir: './datagrid-web-tests/'
+    workingDir: './datagrid-reactive-tests/'
     command: 'custom'
     customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  --cucumberOpts.tagExpression=@${{ parameters.grid }}'
 
@@ -71,41 +78,49 @@ steps:
   condition: ne(variables['features'],'')
   displayName: 'Npm run by $(features) feature(s)'
   inputs:
-    workingDir: './datagrid-web-tests'
+    workingDir: './datagrid-reactive-tests'
     command: 'custom'
     customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  "--cucumberOpts.tagExpression=$(features)"'
 
+#Only run task if skip is not true
 - task: Npm@1
+  condition: ne(variables['skip'], 'true')
   displayName: 'Generate Report'
   timeoutInMinutes: 3
   continueOnError: true
   inputs:
-    workingDir: './datagrid-web-tests'
+    workingDir: './datagrid-reactive-tests'
     command: 'custom'
     customCommand: 'run report'
 
+#Only run task if skip is not true
 - task: Npm@1
+  condition: ne(variables['skip'], 'true')
   displayName: 'Convert to JUnit'
   timeoutInMinutes: 3
   continueOnError: true
   inputs:
-    workingDir: './datagrid-web-tests'
+    workingDir: './datagrid-reactive-tests'
     command: 'custom'
     customCommand: 'run convertToJUnit'
 
+#Only run task if skip is not true
 - task: PublishTestResults@2
+  condition: ne(variables['skip'], 'true')
   continueOnError: true
   inputs:
-    workingDir: './datagrid-web-tests'
+    workingDir: './datagrid-reactive-tests'
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/.tmp/junit/*.xml'
     failTaskOnFailedTests: false
     testRunTitle: 'Publish Report'
 
+#Only run task if skip is not true
 - task: PublishCucumberReport@1
+  condition: ne(variables['skip'], 'true')
   inputs:
-    jsonDir: './datagrid-web-tests/.tmp/json'
-    outputPath: './datagrid-web-tests/.tmp'
+    jsonDir: './datagrid-reactive-tests/.tmp/json'
+    outputPath: './datagrid-reactive-tests/.tmp'
     theme: 'bootstrap'
     reportSuiteAsScenarios: true
     name: 'Cucumber Report'
