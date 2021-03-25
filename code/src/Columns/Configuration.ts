@@ -59,7 +59,7 @@ namespace Column {
                 multiLine: this.multiLine,
                 dataType: this.dataType,
                 editor: this.editor,
-                width: this.width > 0 ? this.width : undefined // when the column's width is not set, the default value should be managed by wijmo
+                width: this.width > 0 ? this.width : null // when the column's width is not set, the default value should be managed by wijmo
             };
 
             //Cleanning undefined properties
