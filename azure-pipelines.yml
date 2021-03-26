@@ -2,9 +2,9 @@
 
 resources:
   repositories:
-  - repository: datagrid-web-tests
+  - repository: datagrid-reactive-tests
     type: github
-    name: OutSystems/datagrid-web-tests
+    name: OutSystems/datagrid-reactive-tests
     endpoint: OutSystems
 
 trigger:
@@ -40,7 +40,7 @@ stages:
 
     #Checkout repositories
     - checkout: self
-    - checkout: datagrid-web-tests
+    - checkout: datagrid-reactive-tests
 
     #Install dependencies
     - task: Npm@1
