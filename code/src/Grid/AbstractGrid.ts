@@ -183,6 +183,9 @@ namespace Grid {
         }
 
         public hasColumn(key: string): boolean {
+            //This method is accessing the map directly, O(1) constant time complexity
+            //Image that this can be used inside a formatItems
+            //Avoid traversing the array here, otherwise we can have a performance degradation
             return this._columns.has(key);
         }
 
