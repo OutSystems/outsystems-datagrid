@@ -38,10 +38,6 @@ namespace Features {
         }
     }
 
-    export interface IGroupPanel extends IValidation, IView {
-        isGridGrouped: boolean;
-    }
-
     // export class Builder extends Validation implements IBuilder {
     export class GroupPanel implements IGroupPanel, IBuilder, IDisposable {
         private _currGroupDescription: Array<wijmo.collections.PropertyGroupDescription>;
