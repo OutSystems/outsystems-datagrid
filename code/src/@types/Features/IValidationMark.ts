@@ -14,4 +14,5 @@ namespace Features {
         ): void;
         validateRow(rowNumber: number): void;
         // clearByRow(row: number): void;
-    }}
+    }
+}

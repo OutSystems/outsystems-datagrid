@@ -11,4 +11,5 @@ namespace ExternalEvents {
         public trigger(gridID: string, columnID: string, ...args: any): void {
             this.handlers.slice(0).forEach((h) => h(gridID, columnID, ...args));
         }
-    }}
+    }
+}

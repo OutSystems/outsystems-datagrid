@@ -5,4 +5,5 @@ namespace Features {
         Forward = 'Forward',
         LastPage = 'LastPage',
         Previous = 'Previous'
-    }}
+    }
+}

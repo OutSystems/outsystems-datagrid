@@ -2,7 +2,7 @@
  * Used to translate configurations from OS to Provider
  * Defines the basic structure for all config objects
  */
- interface IConfiguration {
+interface IConfiguration {
     /**
      * Method responsible for the translation of configuration from OS to Provider
      */

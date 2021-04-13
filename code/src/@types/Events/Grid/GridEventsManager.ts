@@ -65,4 +65,5 @@ namespace ExternalEvents {
                     .trigger(gridObj, gridObj.widgetId, ...args);
             }
         }
-    }}
+    }
+}

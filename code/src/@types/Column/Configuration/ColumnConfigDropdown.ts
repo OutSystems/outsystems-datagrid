@@ -25,4 +25,5 @@ namespace Column {
 
             return provider;
         }
-    }}
+    }
+}

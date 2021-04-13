@@ -9,4 +9,5 @@ namespace ExternalEvents {
     export enum ColumnEventType {
         ActionClick = 'ActionClick',
         OnCellValueChange = 'OnCellValueChange'
-    }}
+    }
+}

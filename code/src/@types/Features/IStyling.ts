@@ -2,4 +2,5 @@
 namespace Features {
     export interface IStyling {
         changeRowHeight(rowHeight: number): void;
-    }}
+    }
+}

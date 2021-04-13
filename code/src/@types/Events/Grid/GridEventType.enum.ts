@@ -10,4 +10,5 @@ namespace ExternalEvents {
         Initialized = 'Initialized',
         OnFiltersChange = 'OnFiltersChange',
         SearchEnded = 'SearchEnded'
-    }}
+    }
+}

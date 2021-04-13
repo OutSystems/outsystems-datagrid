@@ -1,4 +1,3 @@
-
 /// <reference path="./EditorConfigNumber.ts" />
 
 namespace Column {
@@ -7,4 +6,5 @@ namespace Column {
      */
     export class EditorConfigCurrency extends EditorConfigNumber {
         public symbol: string;
-    }}
+    }
+}

@@ -1,7 +1,7 @@
 /**
  * Interface for saving and loaging grid view
  */
- interface IView {
+interface IView {
     /**
      * Get the current layout
      */

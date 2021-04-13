@@ -1,7 +1,7 @@
 /**
  * Defines the interface for objects with multiple DOM identifiers
  */
- interface ISearchById {
+interface ISearchById {
     /**
      * Validates if object matched with the given id
      */

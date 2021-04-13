@@ -15,4 +15,5 @@ namespace InternalEvents {
         removeHandler(handler: Callbacks.Generic);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         trigger(data: D, ...args): any;
-    }}
+    }
+}

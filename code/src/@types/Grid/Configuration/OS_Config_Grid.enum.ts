@@ -14,4 +14,5 @@ namespace Grid {
         rowsPerPage,
         selectionMode,
         validateEdits
-    }}
+    }
+}

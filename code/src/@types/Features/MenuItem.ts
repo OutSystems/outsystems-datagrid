@@ -30,4 +30,5 @@ namespace Features {
         constructor(uniqueId) {
             this.uniqueId = uniqueId;
         }
-    }   }
+    }
+}

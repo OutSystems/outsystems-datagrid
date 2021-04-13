@@ -46,5 +46,5 @@ namespace Column {
             // this.visible = providerConfig.visible;
             // this.width = providerConfig.width;
         }
-    }}
-    
+    }
+}

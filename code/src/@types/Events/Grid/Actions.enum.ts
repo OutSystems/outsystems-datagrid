@@ -2,4 +2,5 @@
 namespace InternalEvents {
     export enum Actions {
         AddRow
-    }}
+    }
+}

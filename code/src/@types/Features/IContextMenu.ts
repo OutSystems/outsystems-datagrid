@@ -47,4 +47,5 @@ namespace Features {
          * @param menuItemId
          */
         removeMenuItem(menuItemId: string): void;
-    }}
+    }
+}

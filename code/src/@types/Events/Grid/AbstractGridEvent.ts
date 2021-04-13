@@ -13,4 +13,5 @@ namespace ExternalEvents {
         public trigger(gridObj: Grid.IGrid, gridID: string, ...args): void {
             this.handlers.slice(0).forEach((h) => h(gridID, gridObj));
         }
-    }}
+    }
+}

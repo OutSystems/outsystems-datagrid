@@ -1,8 +1,8 @@
-namespace Features{
+namespace Features {
     /**
      * Interface for freezing columns
      */
-     export interface IColumnFreeze {
+    export interface IColumnFreeze {
         /**
          * Indicates when there is some column freezed
          */
@@ -31,4 +31,5 @@ namespace Features{
          * Unfreeze panes
          */
         unfreeze(): void;
-    }}
+    }
+}

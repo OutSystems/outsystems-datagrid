@@ -23,4 +23,5 @@ namespace Features {
         /**
          * Getter for the undoStack
          */
-    }}
+    }
+}

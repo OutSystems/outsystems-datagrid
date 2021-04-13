@@ -2,7 +2,7 @@ namespace Column {
     /**
      * Representation of a ColumnGroup
      */
-     export interface IColumnGroup extends IColumn {
+    export interface IColumnGroup extends IColumn {
         /**
          * Add a new child column
          * @param column new child to be added
@@ -13,4 +13,5 @@ namespace Column {
          * @param column child to be removed
          */
         removeChild(column: IColumn): void;
-    }}
+    }
+}

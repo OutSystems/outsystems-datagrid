@@ -51,4 +51,5 @@ namespace Grid {
         setCellError(binding: string, row: number, message: string);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setData(data: any): boolean;
-    }}
+    }
+}

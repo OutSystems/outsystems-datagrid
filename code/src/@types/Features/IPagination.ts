@@ -1,4 +1,4 @@
-namespace Features{
+namespace Features {
     export interface IPagination {
         pageCount: number;
         pageIndex: number;
@@ -17,4 +17,5 @@ namespace Features{
         moveToPage(n: number): boolean;
         moveToPreviousPage(): boolean;
         registerLabel(label: PageLabel, phId: string): void;
-    }}
+    }
+}

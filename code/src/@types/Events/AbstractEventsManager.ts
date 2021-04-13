@@ -69,4 +69,5 @@ namespace ExternalEvents {
         protected abstract getInstanceOfEventType(
             eventType: ET
         ): InternalEvents.IEvent<D>;
-    }}
+    }
+}

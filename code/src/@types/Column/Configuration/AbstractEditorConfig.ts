@@ -2,7 +2,6 @@
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Column {
-
     /**
      * Abstract class for columns with Custom Editors
      */

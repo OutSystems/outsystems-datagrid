@@ -4,7 +4,7 @@
  *
  * @example GridAPI.Selection.getAllSelectionsDataSource
  */
- interface ISerializable {
+interface ISerializable {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     serialize(): any;
 }

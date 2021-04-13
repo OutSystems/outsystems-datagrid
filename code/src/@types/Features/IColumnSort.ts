@@ -5,4 +5,5 @@ namespace Features {
             IView {
         isGridSorted: boolean;
         clear(): void;
-    }}
+    }
+}

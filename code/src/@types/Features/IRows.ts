@@ -32,4 +32,5 @@ namespace Features {
          * Set the private newItem to be used when a new row is added.
          */
         setNewItem(item: unknown): void;
-    }}
+    }
+}

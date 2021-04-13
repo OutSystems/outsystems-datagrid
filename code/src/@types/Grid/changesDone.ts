@@ -7,4 +7,5 @@ namespace Grid {
         hasInvalidLines: boolean;
         invalidLinesJSON: string;
         removedLinesJSON: string;
-    }}
+    };
+}

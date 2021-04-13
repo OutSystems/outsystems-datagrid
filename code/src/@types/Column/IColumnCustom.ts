@@ -1,10 +1,10 @@
-namespace Column{
+namespace Column {
     /**
      * An extension of IColumn, used to specify custom editors
      *
      * @example Date and Datetime columns has a custom editor which is calendar
      */
-     export interface IColumnCustom extends IColumn {
+    export interface IColumnCustom extends IColumn {
         /** Holds the custom editor used to manipulate columns data */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         editorProvider: any;

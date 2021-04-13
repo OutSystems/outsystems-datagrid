@@ -8,4 +8,5 @@ namespace ExternalEvents {
      */
     export enum ContextMenuEventType {
         Toggle = 'Toggle'
-    }}
+    }
+}
