@@ -24,6 +24,7 @@ namespace Helper {
     export function SetLanguage(language: string, url: string): void {
         const regex = new RegExp('culture.(.*)(?=.min)');
         const transposedLanguage = transposeLanguageFormat(language);
+
         url = url.replace(url.match(regex)[1], transposedLanguage);
 
         fetch(url, { method: 'HEAD' }).then(function (response) {
