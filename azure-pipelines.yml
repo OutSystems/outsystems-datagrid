@@ -90,7 +90,7 @@ stages:
     - powershell: |
               # Write your PowerShell commands here.
               
-              $moduleName="DataGridReactive_"+"$(Build.PullRequest.SourceBranch)"-replace '-', ''
+              $moduleName="DataGridReactive_"+"$(System.PullRequest.SourceBranch)"-replace '-', ''
               Write-Host "##vso[task.setvariable variable=module;]$moduleName"
    
     #Publish css file
