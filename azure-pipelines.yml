@@ -102,11 +102,11 @@ stages:
                         import requests
                         import base64 
                         
-                        gridFrameworkJs = open("./GridFramework.js", "rb").read()
+                        gridFrameworkJs = open("./outsystems-datagrid-reactive/code/dist/GridFramework.js", "rb").read()
                         encoded = base64.standard_b64encode(gridFrameworkJs)
                         gridFrameworkJs_file = encoded.decode('utf-8')
                         
-                        gridCSS = open("./Grid.css", "rb").read()
+                        gridCSS = open("./outsystems-datagrid-reactive/code/styles/Grid.css", "rb").read()
                         encoded = base64.standard_b64encode(gridCSS)
                         gridCSS_file = encoded.decode('utf-8')
                                 
