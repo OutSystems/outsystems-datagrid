@@ -147,7 +147,7 @@ namespace Grid {
 
         public clearAllChanges(): void {
             if (this.isReady) {
-                this.provider.itemsSource.clearChanges();
+                this.dataSource.clear();
                 this.features.dirtyMark.clear();
                 this.features.validationMark.clear();
             }
@@ -168,16 +168,10 @@ namespace Grid {
 
             if (this._features.validationMark.invalidRows.length > 0) {
                 changes.hasInvalidLines = true;
-                // changes.invalidLinesJSON = this._getChangesString(
-                //     this._features.validationMark.invalidRows
-                // );
+                changes.invalidLinesJSON = this.dataSource.toOSFormat(this._features.validationMark.invalidRows);
             }
 
             return changes;
-        }
-
-        public getData(): JSON[] {
-            return this.provider.itemsSource.sourceCollection;
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
@@ -187,68 +181,6 @@ namespace Grid {
 
         public setCellError(/*binding: string, row: number, message: string*/): void {
             throw new Error('Method not implemented.');
-        }
-
-        private _autoGenCol(): void {
-            //let's auto generate the columns
-            if (this.dataSource.hasMetadata) {
-                //if we have meta information about the columns, let's NOT use wijmo generator
-                this.autoGenerate = false;
-                const generated = Column.Generator.ColumnGenerator(
-                    this,
-                    this.dataSource.getMetadata(),
-                    this.config.allowEdit
-                );
-
-                this._addColumns(generated);
-            } else {
-                //if the grid is read-only, then we'll flatten the array and use wijmo generator
-                if (this.provider.isReadOnly) {
-                    this.dataSource.flatten();
-                } else {
-                    //if the grid is marked as editable, and is to be auto generated, we do not support (because of the save)
-                    throw new Error(
-                        'You cannot use JSONSerialize and make the grid editable. Please use ArrangeData action for this scenario.'
-                    );
-                }
-            }
-        }
-
-        private _validateBindings(): void {
-            if (this.dataSource.hasMetadata) {
-                this.getColumns().forEach((column) => {
-                    if (column.config.validateBinding === false) return;
-                    // Split the binding of the column by every dot. (e.g Sample_product.Name -> ['Sample_Product', 'Name'])
-                    const bindingMatches = column.config.binding.split('.');
-                    let metadata = this.dataSource.getMetadata();
-                    bindingMatches.forEach((keyword) => {
-                        // Check if the matching keyword is a property from metadata
-                        if (metadata && !metadata.hasOwnProperty(keyword)) {
-                            throw `The binding ${
-                                column.config.binding
-                            } doesn't match any valid column from the data you specified. ${'\n'} Expected format: "EntityName.FieldName". ${'\n'} For example: "Product_Sample.Name"`;
-                        }
-                        // If keyword is a property from metadata then use metadata[keyword] as the new metadata and iterate to the next keyword.
-                        metadata = metadata[keyword];
-                    });
-                });
-            }
-        }
-
-        public setData(data: string): boolean {
-            this.dataSource.setData(data);
-
-            if (this.isReady) {
-                if (!this.hasColumnsDefined()) {
-                    this._autoGenCol();
-                } else {
-                    this._validateBindings();
-                }
-
-                return true;
-            }
-
-            return false;
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any

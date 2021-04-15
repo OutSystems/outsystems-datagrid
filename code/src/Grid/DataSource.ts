@@ -129,6 +129,10 @@ namespace DS {
          */
         addRow(position?: number, data?: JSON[]);
         /**
+         * Clear all changes in the datasource
+         */
+        clear(): void;
+        /**
          * Filter the datasource by the given value
          * @param searchedValue the value used as filter
          */
@@ -267,6 +271,8 @@ namespace DS {
 
         public abstract build(): void;
 
+        public abstract clear(): void;
+
         public abstract filter(info: string): void;
 
         public abstract getChanges<T extends ChangesDone>(c: new () => T): T;
@@ -283,6 +289,10 @@ namespace DS {
         public build(): void {
             this._provider = new wijmo.collections.CollectionView();
             this._provider.trackChanges = true;
+        }
+
+        public clear(): void {
+            this._provider.clearChanges();
         }
 
         public filter(searchedValue: string): void {
