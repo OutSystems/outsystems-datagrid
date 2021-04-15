@@ -99,42 +99,42 @@ stages:
       inputs:
         scriptSource: inline
         script: |
-        import requests
-        import base64 
-        
-        gridFrameworkJs = open("./GridFramework.js/GridFramework.js", "rb").read()
-        encoded = base64.standard_b64encode(gridFrameworkJs)
-        gridFrameworkJs_file = encoded.decode('utf-8')
-        
-        gridCSS = open("./Grid.css/Grid.css", "rb").read()
-        encoded = base64.standard_b64encode(gridCSS)
-        gridCSS_file = encoded.decode('utf-8')
-                
-        url = "$(updaterUrl)"
-        
-        data = [
-          {
-            "ModuleName": "$(module)",
-            "Block": "Gridframework",
-            "File": gridFrameworkJs_file,
-            "IsCSS": False
-          },
-          {
-            "ModuleName": "$(module)",
-            "Block": "Grid",
-            "File": gridCSS_file ,
-            "IsCSS": True
-          }
-        ]
-        
-        headers = {
-          'Authorization': "$(auth)",
-          'Content-Type': 'application/json'
-        }
-        
-        response = requests.request("POST", url, headers=headers, json = data)
-        
-        print(response.text.encode('utf8'))
+              import requests
+              import base64 
+              
+              gridFrameworkJs = open("./GridFramework.js/GridFramework.js", "rb").read()
+              encoded = base64.standard_b64encode(gridFrameworkJs)
+              gridFrameworkJs_file = encoded.decode('utf-8')
+              
+              gridCSS = open("./Grid.css/Grid.css", "rb").read()
+              encoded = base64.standard_b64encode(gridCSS)
+              gridCSS_file = encoded.decode('utf-8')
+                      
+              url = "$(updaterUrl)"
+              
+              data = [
+                {
+                  "ModuleName": "$(module)",
+                  "Block": "Gridframework",
+                  "File": gridFrameworkJs_file,
+                  "IsCSS": False
+                },
+                {
+                  "ModuleName": "$(module)",
+                  "Block": "Grid",
+                  "File": gridCSS_file ,
+                  "IsCSS": True
+                }
+              ]
+              
+              headers = {
+                'Authorization': "$(auth)",
+                'Content-Type': 'application/json'
+              }
+              
+              response = requests.request("POST", url, headers=headers, json = data)
+              
+              print(response.text.encode('utf8'))
         
         workingDirectory: '$(System.DefaultWorkingDirectory)/_OutSystems.outsystems-datagrid-reactive'
 
