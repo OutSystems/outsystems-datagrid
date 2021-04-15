@@ -82,16 +82,16 @@ stages:
 
     #Compile typescript files
     - script: |
-      cd _OutSystems.outsystems-datagrid-reactive
-      pip install requests
-      pip install pybase64
+              cd _OutSystems.outsystems-datagrid-reactive
+              pip install requests
+              pip install pybase64
 
     #Publish compiled file    
     - powershell: |
-      # Write your PowerShell commands here.
-      
-      $moduleName="DataGridReactive_"+"$(Build.PullRequest.SourceBranch)"-replace '-', ''
-      Write-Host "##vso[task.setvariable variable=module;]$moduleName"
+              # Write your PowerShell commands here.
+              
+              $moduleName="DataGridReactive_"+"$(Build.PullRequest.SourceBranch)"-replace '-', ''
+              Write-Host "##vso[task.setvariable variable=module;]$moduleName"
    
     #Publish css file
     - task: PythonScript@0
