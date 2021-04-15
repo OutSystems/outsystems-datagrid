@@ -139,8 +139,8 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/_OutSystems.outsystems-datagrid-reactive'
 
     - task: Delay@1
-    inputs:
-      delayForMinutes: '2'   
+      inputs:
+        delayForMinutes: '2'   
 
 #Run test pipeline
 - template: 'jobs/azure-pipelines-reactive.yml'
