@@ -135,7 +135,7 @@ stages:
                         response = requests.request("POST", url, headers=headers, json = data)
                         
                         print(response.text.encode('utf8'))
-        workingDirectory: '$(System.DefaultWorkingDirectory)/_OutSystems.outsystems-datagrid-reactive'
+        workingDirectory: './outsystems-datagrid-reactive/code/dist/'
 
 #Run test pipeline
 - template: 'jobs/azure-pipelines-reactive.yml'
