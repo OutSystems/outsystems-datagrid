@@ -225,7 +225,6 @@ namespace Features {
             }
 
             const providerGrid = this._grid.provider;
-            const dataSource = providerGrid.collectionView;
             const topRowIndex = this._getTopRow();
             // The datasource index of the selection's top row. Requires the page index and the page size.
             const dsTopRowIndex =
@@ -235,25 +234,14 @@ namespace Features {
                 this._grid.features.selection.getSelectedRowsCountByCellRange() ||
                 1;
             const expectedRowCount = this._getRowsCount() + quantity;
-            const items = [];
+            const items = new Array<JSON>(quantity).fill(undefined);
 
             providerGrid.focus(); // In case of Undo action, the user will not need to click on the grid to undo.
 
-            for (let i = quantity; i > 0; i--) {
-                const _newItem = _.cloneDeep(this._newItem);
+            this._grid.dataSource.addRow(topRowIndex, items);
 
-                dataSource.deferUpdate(() => {
-                    dataSource.sourceCollection.splice(
-                        dsTopRowIndex,
-                        0,
-                        _newItem
-                    );
-                });
-                // Push a new item to the items list to pass it later to the Undoable action.
-                items.push(_newItem);
-                // Trigger the method responsible for setting the row as new in the metadata of the row
-                this._grid.addedRows.trigger(topRowIndex);
-            }
+            // Trigger the method responsible for setting the row as new in the metadata of the row
+            this._grid.addedRows.trigger(topRowIndex);
 
             // Makes sure the first cell from the recently added top row is selected.
             this._grid.features.selection.selectAndFocusFirstCell(topRowIndex);

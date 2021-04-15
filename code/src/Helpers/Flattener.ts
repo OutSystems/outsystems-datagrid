@@ -22,13 +22,4 @@ namespace Helper {
         });
         return transformedObj;
     }
-
-    export function FlattenArray(dataArray: [JSON]): JSON[] {
-        const returnDataArray = [];
-        dataArray.forEach((item) => {
-            returnDataArray.push(Flatten(item));
-        });
-
-        return returnDataArray;
-    }
 }

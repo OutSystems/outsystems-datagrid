@@ -1,14 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Grid {
-    export type changesDone = {
-        addedLinesJSON: string;
-        editedLinesJSON: string;
-        hasChanges: boolean;
-        hasInvalidLines: boolean;
-        invalidLinesJSON: string;
-        removedLinesJSON: string;
-    };
-
     export enum GridType {
         FlexGrid = 'FlexGrid',
         PivotGrid = 'PivotGrid',
@@ -19,6 +10,7 @@ namespace Grid {
         addedRows: InternalEvents.AddNewRowEvent;
         autoGenerate: boolean;
         config: IConfigurationGrid;
+        dataSource: DS.IDataSource;
         features: Features.CommmonFeatures;
         gridEvents: ExternalEvents.GridEventsManager;
         isReady: boolean;
@@ -40,7 +32,7 @@ namespace Grid {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         changeProperty(propertyName: string, propertyValue: any): void;
         clearAllChanges(): void;
-        getChangesMade(): changesDone;
+        getChangesMade(): DS.ChangesDone;
         /**
          * Get the column on the grid by giving a columnID or a binding.
          * @param key key can be the uniqueId or a binding of a column
@@ -78,6 +70,7 @@ namespace Grid {
         private _columns: Map<string, Column.IColumn>;
         private _columnsSet: Set<Column.IColumn>;
         private _configs: Z;
+        private _dataSource: DS.IDataSource;
         private _gridEvents: ExternalEvents.GridEventsManager;
         private _isReady: boolean;
         private _uniqueId: string;
@@ -87,11 +80,12 @@ namespace Grid {
         protected _features: Features.CommmonFeatures;
         protected _provider: W;
 
-        constructor(uniqueId: string, configs: Z) {
+        constructor(uniqueId: string, configs: Z, dataSource: DS.IDataSource) {
             this._uniqueId = uniqueId;
             this._columns = new Map<string, Column.IColumn>();
             this._columnsSet = new Set<Column.IColumn>();
             this._configs = configs;
+            this._dataSource = dataSource;
             this._addedRows = new InternalEvents.AddNewRowEvent();
             this._gridEvents = new ExternalEvents.GridEventsManager(this);
             this._isReady = false;
@@ -108,6 +102,10 @@ namespace Grid {
             return this._addedRows;
         }
 
+        public get dataSource(): DS.IDataSource {
+            return this._dataSource;
+        }
+
         public get uniqueId(): string {
             return this._uniqueId;
         }
@@ -118,6 +116,10 @@ namespace Grid {
 
         public get isReady(): boolean {
             return this._isReady;
+        }
+
+        public get isSingleEntity(): boolean {
+            return this.dataSource.isSingleEntity;
         }
 
         public get gridEvents(): ExternalEvents.GridEventsManager {
@@ -199,6 +201,10 @@ namespace Grid {
             return columns.length > 0;
         }
 
+        public hasResults(): boolean {
+            return this.dataSource.hasResults();
+        }
+
         public removeColumn(columnID: string): void {
             if (this._columns.has(columnID)) {
                 const col = this._columns.get(columnID);
@@ -222,8 +228,6 @@ namespace Grid {
 
         public abstract get autoGenerate(): boolean;
 
-        public abstract get isSingleEntity(): boolean;
-
         public abstract buildFeatures(): void;
 
         public abstract changeColumnProperty(
@@ -241,14 +245,12 @@ namespace Grid {
 
         public abstract clearAllChanges(): void;
 
-        public abstract getChangesMade(): changesDone;
+        public abstract getChangesMade(): DS.ChangesDone;
 
         public abstract getData(): JSON[];
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public abstract getViewLayout(): any;
-
-        public abstract hasResults(): boolean;
 
         public abstract setCellError(
             binding: string,

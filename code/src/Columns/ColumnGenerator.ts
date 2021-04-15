@@ -85,24 +85,10 @@ namespace Column {
         export function ColumnGenerator(
             grid: Grid.IGrid,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-            columnsConfigs: any,
+            metadata: any,
             allowEdit: boolean
         ): IColumn[] {
-            let columns: IColumn[] = [];
-            if (HasMetadata(columnsConfigs)) {
-                columns = _columnGeneratorInternal(
-                    grid,
-                    columnsConfigs.metadata,
-                    '',
-                    allowEdit
-                );
-            }
-            return columns;
-        }
-
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        export function HasMetadata(columnsConfigs: any): boolean {
-            return columnsConfigs.metadata !== undefined;
+            return _columnGeneratorInternal(grid, metadata, '', allowEdit);
         }
     }
 }

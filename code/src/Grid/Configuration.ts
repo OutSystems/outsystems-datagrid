@@ -30,7 +30,6 @@ namespace Grid {
         public autoGenerateColumns: boolean;
         public groupPanelId: string;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public itemsSource: any;
         public rowHeight: number;
         public rowsPerPage: number;
         public selectionMode: number;
@@ -49,7 +48,6 @@ namespace Grid {
                 autoGenerateColumns: this.autoGenerateColumns,
                 isReadOnly: this.allowEdit === false,
                 validateEdits: this.validateEdits,
-                itemsSource: this.itemsSource,
                 showSelectedHeaders: 'All' // highlight row/column header
             };
 

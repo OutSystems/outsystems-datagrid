@@ -27,14 +27,8 @@ namespace GridAPI.Filter {
     export function Search(gridID: string, searchedValue: string): void {
         if (!Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
-        const rx = new RegExp(searchedValue, 'i');
 
-        // always move to first page when a search is done
-        grid.features.pagination.moveToFirstPage();
-
-        grid.provider.collectionView.filter = function (x) {
-            return !searchedValue || JSON.stringify(x).match(rx) !== null;
-        };
+        grid.dataSource.filter(searchedValue);
 
         if (grid.features.selection.hasValidSelection() === false) {
             if (grid.hasResults()) {

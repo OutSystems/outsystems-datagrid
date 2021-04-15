@@ -3,6 +3,7 @@ namespace GridAPI.Structures {
      * Representation of Row-Data, used to OS communication
      */
     export class RowData implements ISerializable {
+        private _grid: Grid.IGrid;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public dataItem: any;
         public rowIndex: number;
@@ -16,13 +17,8 @@ namespace GridAPI.Structures {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         constructor(grid: Grid.IGrid, rowIndex: number, dataItem: any, selected?: Array<BindingValue>) {
+            this._grid = grid;
             this.rowIndex = rowIndex;
-            if (grid.isSingleEntity) {
-                this.dataItem = Helper.Flatten(dataItem);
-            } else {
-                this.dataItem = dataItem;
-            }
-
             this.selected = selected || new Array<BindingValue>();
         }
 
@@ -30,7 +26,7 @@ namespace GridAPI.Structures {
         public serialize(): any {
             return {
                 ...this,
-                dataItem: JSON.stringify(this.dataItem)
+                dataItem: this._grid.dataSource.toOSFormat(this.dataItem)
             };
         }
     }
