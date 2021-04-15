@@ -183,7 +183,6 @@ namespace DS {
         protected _convertions: Map<string, Set<string>>;
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         protected _ds: Array<any>;
-        protected _isSingleEntity: boolean;
         protected _metadata: JSON;
 
         constructor() {
@@ -199,7 +198,7 @@ namespace DS {
             //In-place convert data to Outsystems Format
             ToOSFormat(this._convertions, tempArray);
 
-            if (this._isSingleEntity) {
+            if (this.isSingleEntity) {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer
                 //when deserializing to need to put in the JSONDeserialize in the target "List Record {ENTITY}" -> would require extra step.
                 tempArray = FlattenArray(tempArray);
@@ -208,20 +207,35 @@ namespace DS {
             return JSON.stringify(tempArray);
         }
 
+        /**
+         * Parse JSON and get the structure of the new item.
+         * @param json
+         */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        protected _parseNewItem(): any {
+            const parsedNewItem = _.cloneDeep(this._metadata);
+            const converter = (object) => {
+                Object.keys(object).forEach((key) => {
+                    if (typeof object[key] === 'object') converter(object[key]);
+                    else object[key] = undefined;
+                });
+            };
+
+            converter(parsedNewItem);
+
+            return parsedNewItem;
+        }
+
         public get hasMetadata(): boolean {
             return !!this._metadata;
         }
 
         public get isSingleEntity(): boolean {
-            return Object.keys(this._ds[0]).length === 1;
+            return Object.keys(this._ds[0] || {}).length <= 1;
         }
 
         public addRow(position?: number, data?: JSON[]) {
-            data.forEach(
-                (value) => (value = value ? value : _.cloneDeep(this._metadata))
-            );
-
-            this._ds.splice(position, 0, data);
+            this._ds.splice(position, 0, ...data);
         }
 
         public flatten(): void {
@@ -261,8 +275,6 @@ namespace DS {
             } else {
                 this._ds.push(...dataJson);
             }
-
-            this._isSingleEntity = Object.keys(this._ds[0]).length === 1;
         }
 
         public toOSFormat(dataItem: any): any {
@@ -285,6 +297,11 @@ namespace DS {
 
     export class ProviderDataSource extends AbstractDataSource {
         private _provider: wijmo.collections.CollectionView;
+
+        public addRow(position?: number, data?: JSON[]) {
+            super.addRow(position, data);
+            this._provider.refresh();
+        }
 
         public build(): void {
             this._provider = new wijmo.collections.CollectionView();

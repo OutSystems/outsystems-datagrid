@@ -159,6 +159,8 @@ namespace Grid {
             this._widgetId = Helper.GetElementByUniqueId(this.uniqueId).closest(
                 Helper.Constants.gridTag
             ).id;
+
+            this.dataSource.build();
         }
 
         public dispose(): void {
@@ -297,7 +299,7 @@ namespace Grid {
                 generated.forEach(p => this.addColumn(p));
             } else {
                 //if the grid is read-only, then we'll flatten the array and use wijmo generator
-                if (this.config.allowEdit) {
+                if (!this.config.allowEdit) {
                     this.dataSource.flatten();
                 } else {
                     //if the grid is marked as editable, and is to be auto generated, we do not support (because of the save)
@@ -318,9 +320,7 @@ namespace Grid {
                     bindingMatches.forEach((keyword) => {
                         // Check if the matching keyword is a property from metadata
                         if (metadata && !metadata.hasOwnProperty(keyword)) {
-                            throw `The binding ${
-                                column.config.binding
-                            } doesn't match any valid column from the data you specified. ${'\n'} Expected format: "EntityName.FieldName". ${'\n'} For example: "Product_Sample.Name"`;
+                            throw `The binding "${column.config.binding}" doesn't match any valid column from the data you specified. ${'\n'} Expected format: "EntityName.FieldName". ${'\n'} For example: "Product_Sample.Name"`;
                         }
                         // If keyword is a property from metadata then use metadata[keyword] as the new metadata and iterate to the next keyword.
                         metadata = metadata[keyword];

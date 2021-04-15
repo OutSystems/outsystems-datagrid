@@ -24,13 +24,13 @@ namespace Grid {
             );
         }
 
-        private _addColumns(cols: Column.IColumn[]): void {
-            cols.forEach((col) => {
-                super.addColumn(col);
-            });
+        // private _addColumns(cols: Column.IColumn[]): void {
+        //     cols.forEach((col) => {
+        //         super.addColumn(col);
+        //     });
 
-            // this._buildColumns();
-        }
+        //     // this._buildColumns();
+        // }
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
         private _buildColumns(): void {
@@ -76,10 +76,8 @@ namespace Grid {
                 Helper.GetElementByUniqueId(this.uniqueId),
                 this._getProviderConfig()
             );
-            this._rowMetadata = new RowMetadata(this._provider);
-
-            this.dataSource.build();
             this._provider.itemsSource = this.dataSource.getProviderDataSource();
+            this._rowMetadata = new RowMetadata(this._provider);
 
             this.buildFeatures();
 

@@ -30,10 +30,6 @@ namespace Features {
          * Remove the rows that are selected.
          */
         removeSelectedRows(): void;
-        /**
-         * Set the private newItem to be used when a new row is added.
-         */
-        setNewItem(item: unknown): void;
     }
 
     class CssClassInfo {
@@ -118,10 +114,6 @@ namespace Features {
         private readonly _internalLabel = '__cssClass';
 
         private _metadata: Grid.IRowMetadata;
-
-        // newItem will be set during grid's setData
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        private _newItem: any;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
@@ -216,14 +208,6 @@ namespace Features {
                 };
             }
 
-            if (!this._newItem) {
-                return {
-                    code: 400,
-                    message:
-                        "If you use auto generated columns and JSONSerialize, you can't add new rows. Also, if you are using columns, JSONSerialize and the grid has no data, you can't add new rows."
-                };
-            }
-
             const providerGrid = this._grid.provider;
             const topRowIndex = this._getTopRow();
             // The datasource index of the selection's top row. Requires the page index and the page size.
@@ -234,7 +218,7 @@ namespace Features {
                 this._grid.features.selection.getSelectedRowsCountByCellRange() ||
                 1;
             const expectedRowCount = this._getRowsCount() + quantity;
-            const items = new Array<JSON>(quantity).fill(undefined);
+            const items = new Array<any>(quantity).fill(_.cloneDeep({}));
 
             providerGrid.focus(); // In case of Undo action, the user will not need to click on the grid to undo.
 
@@ -375,14 +359,6 @@ namespace Features {
             } else {
                 return { code: 400, message: 'Error' };
             }
-        }
-
-        /**
-         * Set the new item that is going to be used as a default for the new row's dataItem.
-         * @param item Item that is going to be used as a default.
-         */
-        public setNewItem(item: unknown): void {
-            this._newItem = item;
         }
     }
 }
