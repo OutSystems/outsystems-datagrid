@@ -65,6 +65,85 @@ stages:
         ArtifactName: 'Grid.css'
         publishLocation: 'Container'
 
+- stage: Deploy
+  displayName: 'Deploy'
+  jobs:
+  - job: Deploy
+    displayName: 'Deploy Job'
+    timeoutInMinutes: 20
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    #Install dependencies
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.8'
+      inputs:
+        versionSpec: 3.8
+
+    #Compile typescript files
+    - script: |
+      cd _OutSystems.outsystems-datagrid-reactive
+      
+      pip install requests
+      pip install pybase64
+      displayName: 'Command Line Script'
+
+    #Publish compiled file    
+    - powershell: |
+      $moduleName="DataGridReactive_"+"$(Build.PullRequest.SourceBranch)"-replace '-', ''
+      Write-Host "##vso[task.setvariable variable=module;]$moduleName"
+      
+      displayName: 'PowerShell Script'
+
+    #Publish css file
+    - task: PythonScript@0
+      displayName: 'Run a Python script'
+      inputs:
+        scriptSource: inline
+        script: |
+        import requests
+        import base64 
+        
+        gridFrameworkJs = open("./GridFramework.js/GridFramework.js", "rb").read()
+        encoded = base64.standard_b64encode(gridFrameworkJs)
+        gridFrameworkJs_file = encoded.decode('utf-8')
+        
+        gridCSS = open("./Grid.css/Grid.css", "rb").read()
+        encoded = base64.standard_b64encode(gridCSS)
+        gridCSS_file = encoded.decode('utf-8')
+                
+        url = "$(updaterUrl)"
+        
+        data = [
+          {
+            "ModuleName": "$(module)",
+            "Block": "Gridframework",
+            "File": gridFrameworkJs_file,
+            "IsCSS": False
+          },
+          {
+            "ModuleName": "$(module)",
+            "Block": "Grid",
+            "File": gridCSS_file ,
+            "IsCSS": True
+          }
+        ]
+        
+        headers = {
+          'Authorization': "$(auth)",
+          'Content-Type': 'application/json'
+        }
+        
+        response = requests.request("POST", url, headers=headers, json = data)
+        
+        print(response.text.encode('utf8'))
+        
+        workingDirectory: '$(System.DefaultWorkingDirectory)/_OutSystems.outsystems-datagrid-reactive'
+
+    - task: Delay@1
+    inputs:
+      delayForMinutes: '2'   
+
 #Run test pipeline
 - template: 'jobs/azure-pipelines-reactive.yml'
   parameters:
