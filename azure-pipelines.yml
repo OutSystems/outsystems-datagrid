@@ -99,7 +99,7 @@ stages:
       inputs:
         scriptSource: 'inline'
         script: |
-          import requests
+                        import requests
                         import base64 
                         
                         gridFrameworkJs = open("./GridFramework.js/GridFramework.js", "rb").read()
