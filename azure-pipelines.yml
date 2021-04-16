@@ -96,6 +96,7 @@ stages:
           #Publish css file
           - task: PythonScript@0
             inputs:
+              workingDirectory: './outsystems-datagrid-reactive/code'
               scriptSource: 'inline'
               script: |
                 import os
