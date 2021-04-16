@@ -1,21 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Features {
-    enum PageAction {
-        FirstPage = 'FirstPage',
-        Forward = 'Forward',
-        LastPage = 'LastPage',
-        Previous = 'Previous'
-    }
-
-    export enum PageLabel {
-        PageCount = 'PageCount',
-        PageIndex = 'PageIndex',
-        PageSize = 'PageSize',
-        RowEnd = 'RowEnd',
-        RowStart = 'RowStart',
-        RowTotal = 'RowTotal'
-    }
-
     class PaginationAction extends wijmo.undo.UndoableAction {
         private _grid: wijmo.grid.FlexGrid;
 
@@ -37,26 +21,6 @@ namespace Features {
             this._newState = this._grid.itemsSource.pageIndex;
             return this._newState !== this._oldState;
         }
-    }
-
-    export interface IPagination {
-        pageCount: number;
-        pageIndex: number;
-        pageSize: number;
-        rowEnd: number;
-        rowStart: number;
-        rowTotal: number;
-
-        changePageSize(n: number): void;
-        createPageButtons(phId: string, qtde: number): void;
-        executeAction(action: PageAction): boolean;
-        getValueByLabel(label: PageLabel): number;
-        moveToFirstPage(): boolean;
-        moveToLastPage(): boolean;
-        moveToNextPage(): boolean;
-        moveToPage(n: number): boolean;
-        moveToPreviousPage(): boolean;
-        registerLabel(label: PageLabel, phId: string): void;
     }
 
     export class Pagination implements IPagination, IBuilder, IDisposable {

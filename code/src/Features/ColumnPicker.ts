@@ -57,7 +57,7 @@ namespace Features {
         private _topLeftPanel: wijmo.grid.GridPanel;
 
         constructor(grid: Grid.IGrid) {
-            super(grid.provider);
+            super();
             this._grid = grid;
             this._topLeftPanel = grid.provider.topLeftCells;
         }

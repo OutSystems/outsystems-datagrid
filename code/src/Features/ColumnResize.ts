@@ -1,7 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Features {
-    export interface IColumnResize extends IProviderConfig<boolean> {}
-
     export class ColumnResize implements IColumnResize, IBuilder {
         private _enabled: boolean;
         private _grid: Grid.IGridWijmo;
