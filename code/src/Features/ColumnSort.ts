@@ -1,13 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Features {
-    export interface IColumnSort
-        extends IValidation,
-            IProviderConfig<boolean>,
-            IView {
-        isGridSorted: boolean;
-        clear(): void;
-    }
-
     class ColumnSortAction extends wijmo.undo.UndoableAction {
         constructor(s: wijmo.grid.FlexGrid) {
             super(s);

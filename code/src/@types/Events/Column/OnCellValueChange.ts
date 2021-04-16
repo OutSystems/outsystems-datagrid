@@ -1,22 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace ExternalEvents {
     /**
-     * Abstract class that encapsulates the basic logic of triggering the events with the right parameters order.
-     *
-     * @abstract
-     * @class AbstractColumnEvent
-     * @extends {InternalEvents.AbstractEvent<string>}
-     */
-    abstract class AbstractColumnEvent extends InternalEvents.AbstractEvent<string> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public trigger(gridID: string, columnID: string, ...args: any): void {
-            this.handlers.slice(0).forEach((h) => h(gridID, columnID, ...args));
-        }
-    }
-
-    export class ActionColumnClick extends AbstractColumnEvent {}
-
-    /**
      * Class that encapsulates the basic logic of triggering the event with the right parameters order right after a cell changes its value.
      *
      * @class OnCellValueChange

@@ -1,9 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Features {
-    export interface IStyling {
-        changeRowHeight(rowHeight: number): void;
-    }
-
     export class Styling implements IStyling, IBuilder {
         private _grid: Grid.IGridWijmo;
         private _rowHeight: number;
