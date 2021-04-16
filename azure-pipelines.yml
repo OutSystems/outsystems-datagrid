@@ -73,6 +73,16 @@ stages:
         pool:
           vmImage: 'windows-latest'
         steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: 'GridFramework.js'
+            path: $(Build.SourcesDirectory)/bin
+
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: 'Grid.css'
+            path: $(Build.SourcesDirectory)/bin
+
           #Install dependencies
           - task: UsePythonVersion@0
             displayName: 'Use Python 3.8'
@@ -81,15 +91,11 @@ stages:
               addToPath: true
 
           #Compile typescript files
-          - script: |
-              cd _OutSystems.outsystems-datagrid-reactive
-              pip install requests
-              pip install pybase64
+          - script: python -m pip install --upgrade pip requests pybase64
+            displayName: 'Install tools'
 
           #Publish compiled file
           - powershell: |
-              # Write your PowerShell commands here.
-
               $moduleName="DataGridReactive_"+"$(System.PullRequest.SourceBranch)"-replace '-', ''
               Write-Host "##vso[task.setvariable variable=module;]$moduleName"
 
@@ -101,6 +107,7 @@ stages:
               script: |
                 import os
                 cwd = os.getcwd()
+                print('hello world')
                 print(cwd)
 
   #Run test pipeline
