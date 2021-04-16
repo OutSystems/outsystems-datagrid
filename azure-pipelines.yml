@@ -78,6 +78,7 @@ stages:
             artifact: 'GridFramework.js'
             path: $(Build.SourcesDirectory)/bin
 
+        # Download artifact
         - task: DownloadPipelineArtifact@2
           inputs:
             artifact: 'Grid.css'
