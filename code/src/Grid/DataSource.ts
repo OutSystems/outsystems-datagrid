@@ -136,7 +136,7 @@ namespace DS {
          * Filter the datasource by the given value
          * @param searchedValue the value used as filter
          */
-        filter(searchedValue: string): void;
+        search(searchedValue: string): void;
         /**
          * Used to flatten the datasource
          */
@@ -285,7 +285,7 @@ namespace DS {
 
         public abstract clear(): void;
 
-        public abstract filter(info: string): void;
+        public abstract search(info: string): void;
 
         public abstract getChanges<T extends ChangesDone>(c: new () => T): T;
 
@@ -312,7 +312,7 @@ namespace DS {
             this._provider.clearChanges();
         }
 
-        public filter(searchedValue: string): void {
+        public search(searchedValue: string): void {
             const rx = new RegExp(searchedValue, 'i');
 
             // always move to first page when a search is done

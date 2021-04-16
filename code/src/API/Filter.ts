@@ -28,7 +28,8 @@ namespace GridAPI.Filter {
         if (!Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
-        grid.dataSource.filter(searchedValue);
+        //The method below can be removed after the implementation of wijmo.grid.search
+        grid.dataSource.search(searchedValue);
 
         if (grid.features.selection.hasValidSelection() === false) {
             if (grid.hasResults()) {
