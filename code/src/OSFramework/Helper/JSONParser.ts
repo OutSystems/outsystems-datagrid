@@ -71,7 +71,7 @@ namespace Helper {
      */
     // eslint-disable-next-line @typescript-eslint/naming-convention
     export function ToOSFormat(
-        grid: Grid.IGridWijmo,
+        grid: Grid.IGrid,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: Array<any>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
