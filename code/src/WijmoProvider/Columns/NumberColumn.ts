@@ -29,7 +29,6 @@ namespace Column {
         ) {
             super(grid, columnID, new ColumnConfig(configs), editorConfig);
             this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
-            console.log('hey!!!');
         }
 
         /** Returns all the events associated to the column */
