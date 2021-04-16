@@ -1,24 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Features {
-    export interface IDirtyMark {
-        clear(): void;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        getOldValue(rowNumber: number, binding: string): any;
-        // clearByRow(row: number): void;
-    }
-
-    class DirtyMarksInfo {
-        public isDirtyRow: boolean;
-        public isNew: boolean;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public originalValues: Map<string, any>;
-
-        constructor() {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            this.originalValues = new Map<string, any>();
-        }
-    }
-
     export class DirtyMark implements IDirtyMark, IBuilder {
         private _grid: Grid.IGridWijmo;
         private readonly _internalLabel = '__dirtyMarkFeature';
