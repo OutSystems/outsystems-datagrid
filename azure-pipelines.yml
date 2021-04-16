@@ -2,15 +2,15 @@
 
 resources:
   repositories:
-  - repository: datagrid-reactive-tests
-    type: github
-    name: OutSystems/datagrid-reactive-tests
-    endpoint: OutSystems
+    - repository: datagrid-reactive-tests
+      type: github
+      name: OutSystems/datagrid-reactive-tests
+      endpoint: OutSystems
 
 trigger:
   branches:
     include:
-    - dev
+      - dev
 variables:
   SourcesDirectory: '$(Build.SourcesDirectory)'
   Project: 'outsystems-datagrid-reactive'
@@ -19,127 +19,91 @@ variables:
   TagName: 'v$(Build.BuildNumber)'
   CurrentBranchName: $(Build.SourceBranchName)
   SourceBranchName: $(System.PullRequest.SourceBranch)
-  
-stages: 
-- stage: Build
-  displayName: 'Build'
-  jobs:
-  - job: Build
-    displayName: 'Build Job'
-    timeoutInMinutes: 8
-    pool:
-      vmImage: 'windows-latest'
-    steps:
 
-    #Checkout repositories
-    - checkout: self
-    - checkout: datagrid-reactive-tests
+stages:
+  - stage: Build
+    displayName: 'Build'
+    jobs:
+      - job: Build
+        displayName: 'Build Job'
+        timeoutInMinutes: 8
+        pool:
+          vmImage: 'windows-latest'
+        steps:
+          #Checkout repositories
+          - checkout: self
+          - checkout: datagrid-reactive-tests
 
-    #Install dependencies
-    - task: Npm@1
-      displayName: 'npm install'
-      inputs:
-        workingDir: './outsystems-datagrid-reactive/code'
-        verbose: false
+          #Install dependencies
+          - task: Npm@1
+            displayName: 'npm install'
+            inputs:
+              workingDir: './outsystems-datagrid-reactive/code'
+              verbose: false
 
-    #Compile typescript files
-    - task: Npm@1
-      displayName: 'npm run build'
-      inputs:
-        workingDir: './outsystems-datagrid-reactive/code'
-        command: custom
-        verbose: false
-        customCommand: 'run build'
+          #Compile typescript files
+          - task: Npm@1
+            displayName: 'npm run build'
+            inputs:
+              workingDir: './outsystems-datagrid-reactive/code'
+              command: custom
+              verbose: false
+              customCommand: 'run build'
 
-    #Publish compiled file    
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: './outsystems-datagrid-reactive/code/dist/GridFramework.js'
-        ArtifactName: 'GridFramework.js'
-        publishLocation: 'Container'
+          #Publish compiled file
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: './outsystems-datagrid-reactive/code/dist/GridFramework.js'
+              ArtifactName: 'GridFramework.js'
+              publishLocation: 'Container'
 
-    #Publish css file
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: './outsystems-datagrid-reactive/code/styles/Grid.css'
-        ArtifactName: 'Grid.css'
-        publishLocation: 'Container'
+          #Publish css file
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: './outsystems-datagrid-reactive/code/styles/Grid.css'
+              ArtifactName: 'Grid.css'
+              publishLocation: 'Container'
 
-- stage: Deploy
-  displayName: 'Deploy'
-  jobs:
-  - job: Deploy
-    displayName: 'Deploy Job'
-    timeoutInMinutes: 20
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    #Install dependencies
-    - task: UsePythonVersion@0
-      displayName: 'Use Python 3.8'
-      inputs:
-        versionSpec: 3.8
-        addToPath: true
+  - stage: Deploy
+    displayName: 'Deploy'
+    jobs:
+      - job: Deploy
+        displayName: 'Deploy Job'
+        timeoutInMinutes: 20
+        pool:
+          vmImage: 'windows-latest'
+        steps:
+          #Install dependencies
+          - task: UsePythonVersion@0
+            displayName: 'Use Python 3.8'
+            inputs:
+              versionSpec: 3.8
+              addToPath: true
 
-    #Compile typescript files
-    - script: |
+          #Compile typescript files
+          - script: |
               cd _OutSystems.outsystems-datagrid-reactive
               pip install requests
               pip install pybase64
 
-    #Publish compiled file    
-    - powershell: |
+          #Publish compiled file
+          - powershell: |
               # Write your PowerShell commands here.
-              
+
               $moduleName="DataGridReactive_"+"$(System.PullRequest.SourceBranch)"-replace '-', ''
               Write-Host "##vso[task.setvariable variable=module;]$moduleName"
-   
-    #Publish css file
-    - task: PythonScript@0
-      inputs:
-        workingDirectory: '/outsystems-datagrid-reactive/code/'
-        scriptSource: 'inline'
-        script: |
-                        import requests
-                        import base64 
-                        
-                        gridFrameworkJs = open("/dist/GridFramework.js", "rb").read()
-                        encoded = base64.standard_b64encode(gridFrameworkJs)
-                        gridFrameworkJs_file = encoded.decode('utf-8')
-                        
-                        gridCSS = open("/styles/Grid.css", "rb").read()
-                        encoded = base64.standard_b64encode(gridCSS)
-                        gridCSS_file = encoded.decode('utf-8')
-                                
-                        url = "$(updaterUrl)"
-                        
-                        data = [
-                          {
-                            "ModuleName": "$(module)",
-                            "Block": "Gridframework",
-                            "File": gridFrameworkJs_file,
-                            "IsCSS": False
-                          },
-                          {
-                            "ModuleName": "$(module)",
-                            "Block": "Grid",
-                            "File": gridCSS_file ,
-                            "IsCSS": True
-                          }
-                        ]
-                        
-                        headers = {
-                          'Authorization': "$(auth)",
-                          'Content-Type': 'application/json'
-                        }
-                        
-                        response = requests.request("POST", url, headers=headers, json = data)
-                        
-                        print(response.text.encode('utf8'))
 
+          #Publish css file
+          - task: PythonScript@0
+            inputs:
+              scriptSource: 'inline'
+              script: |
+                import os
+                cwd = os.getcwd()
+                print(cwd)
 
-#Run test pipeline
-- template: 'jobs/azure-pipelines-reactive.yml'
-  parameters:
-    currentBranch: $(CurrentBranchName)
-    sourceBranch: $(SourceBranchName)
+  #Run test pipeline
+  - template: 'jobs/azure-pipelines-reactive.yml'
+    parameters:
+      currentBranch: $(CurrentBranchName)
+      sourceBranch: $(SourceBranchName)
