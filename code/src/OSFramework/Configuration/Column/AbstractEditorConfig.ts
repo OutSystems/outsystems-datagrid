@@ -1,4 +1,4 @@
-/// <reference path="../../AbstractConfiguration.ts" />
+/// <reference path="../AbstractConfiguration.ts" />
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Column {
