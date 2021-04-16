@@ -97,16 +97,17 @@ stages:
     #Publish css file
     - task: PythonScript@0
       inputs:
+        workingDirectory: './outsystems-datagrid-reactive/code'
         scriptSource: 'inline'
         script: |
                         import requests
                         import base64 
                         
-                        gridFrameworkJs = open("./outsystems-datagrid-reactive/code/dist/GridFramework.js", "rb").read()
+                        gridFrameworkJs = open("/dist/GridFramework.js", "rb").read()
                         encoded = base64.standard_b64encode(gridFrameworkJs)
                         gridFrameworkJs_file = encoded.decode('utf-8')
                         
-                        gridCSS = open("./outsystems-datagrid-reactive/code/styles/Grid.css", "rb").read()
+                        gridCSS = open("/styles/Grid.css", "rb").read()
                         encoded = base64.standard_b64encode(gridCSS)
                         gridCSS_file = encoded.decode('utf-8')
                                 
