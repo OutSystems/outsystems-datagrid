@@ -12,10 +12,4 @@ namespace GridAPI.Structures {
             this.filterShowValues = new Array<string>();
         }
     }
-
-    export class FilterCondition {
-        public and: boolean;
-        public operatorTypeId: string;
-        public value: string;
-    }
 }
