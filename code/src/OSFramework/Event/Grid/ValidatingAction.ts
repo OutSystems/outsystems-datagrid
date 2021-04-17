@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace InternalEvents {
+namespace InternalEvents.Grid {
     export class ValidatingAction implements IEvent<Actions> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _handlers: Callbacks.Generic[] = [];
