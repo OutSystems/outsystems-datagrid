@@ -2,9 +2,9 @@
 namespace WijmoProvider.Feature {
     export class AutoRowNumber implements IBuilder, IProviderConfig<boolean> {
         private _enabled: boolean; //Indicates where the feature is activate or not
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: OSFramework.Grid.IGridWijmo;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled = true) {
+        constructor(grid: OSFramework.Grid.IGridWijmo, enabled = true) {
             this._grid = grid;
             this._enabled = enabled;
         }

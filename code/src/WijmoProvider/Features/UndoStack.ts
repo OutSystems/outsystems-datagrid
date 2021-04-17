@@ -7,10 +7,10 @@ namespace WijmoProvider.Feature {
     }
 
     export class UndoStack implements IProviderUndoStack, IBuilder {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: OSFramework.Grid.IGridWijmo;
         private _undoStack: wijmo.undo.UndoStack;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: OSFramework.Grid.IGridWijmo) {
             this._grid = grid;
         }
 

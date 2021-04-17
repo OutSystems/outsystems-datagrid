@@ -2,7 +2,7 @@
 namespace WijmoProvider.Column {
     export class DropdownColumn extends AbstractProviderColumn<ColumnConfigDropdown> {
         constructor(
-            grid: WijmoProvider.Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
             extraConfig: JSON

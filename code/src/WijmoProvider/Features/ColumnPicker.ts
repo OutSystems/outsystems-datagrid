@@ -53,10 +53,10 @@ namespace WijmoProvider.Feature {
      * Used to merge topLeftCells
      */
     class CustomMergeManager extends wijmo.grid.MergeManager {
-        private _grid: WijmoProvider.Grid.IGrid;
+        private _grid: OSFramework.Grid.IGrid;
         private _topLeftPanel: wijmo.grid.GridPanel;
 
-        constructor(grid: WijmoProvider.Grid.IGrid) {
+        constructor(grid: OSFramework.Grid.IGrid) {
             super();
             this._grid = grid;
             this._topLeftPanel = grid.provider.topLeftCells;
@@ -107,10 +107,10 @@ namespace WijmoProvider.Feature {
     }
 
     export class ColumnPicker implements IBuilder, IDisposable {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: OSFramework.Grid.IGridWijmo;
         private _theColumnPicker: wijmo.input.ListBox;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: OSFramework.Grid.IGridWijmo) {
             this._grid = grid;
         }
 

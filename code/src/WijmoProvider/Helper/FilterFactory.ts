@@ -71,12 +71,12 @@ namespace WijmoProvider.Helper.FilterFactory {
      * Function that will transform the structure received from the provider, into the OutSystems structure format.
      *
      * @export
-     * @param {WijmoProvider.Grid.IGrid} grid
+     * @param {OSFramework.Grid.IGrid} grid
      * @param {string} serializedActiveFilters
      * @returns {*}  {GridAPI.Structures.ActiveFilter[]}
      */
     export function MakeFromActiveFilters(
-        grid: WijmoProvider.Grid.IGrid,
+        grid: OSFramework.Grid.IGrid,
         serializedActiveFilters: string
     ): Array<GridAPI.Structures.ActiveFilter> {
         const wijmoActiveFilters: WijmoActiveFilters = JSON.parse(

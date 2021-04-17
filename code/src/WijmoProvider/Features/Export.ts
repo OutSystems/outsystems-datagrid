@@ -2,10 +2,10 @@
 namespace WijmoProvider.Feature {
     export class Export implements IExport, IBuilder {
         private _curPage: number;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: OSFramework.Grid.IGridWijmo;
         private _pageSize: number;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: OSFramework.Grid.IGridWijmo) {
             this._grid = grid;
         }
 

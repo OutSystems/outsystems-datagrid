@@ -22,7 +22,7 @@ namespace WijmoProvider.Column {
         T extends EditorConfigNumber
     > extends AbstractProviderColumnEditor<ColumnConfig, T> {
         constructor(
-            grid: WijmoProvider.Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
             editorConfig: T

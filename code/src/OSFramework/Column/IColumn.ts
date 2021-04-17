@@ -2,12 +2,12 @@ namespace OSFramework.Column {
     /**
      * Representantion of a Grid's Column
      */
-    export interface IColumn extends IDisposable, ISearchById, IBuilder {
-        columnEvents: OSFramework.Event.ColumnEventsManager;
+    export interface IColumn extends Interface.IDisposable, Interface.ISearchById, Interface.IBuilder {
+        columnEvents: Event.ColumnEventsManager;
         /** Internal ColumnType */
-        columnType: ColumnType;
+        columnType: Enum.ColumnType;
         /** The config used to build the column */
-        config: IConfigurationColumn;
+        config: Configuration.IConfigurationColumn;
         /** Returns the grid instance where the column is placed */
         grid: OSFramework.Grid.IGrid;
         /** Verifies if this column has associated events */

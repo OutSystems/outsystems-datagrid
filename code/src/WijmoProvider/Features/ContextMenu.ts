@@ -6,7 +6,7 @@ namespace WijmoProvider.Feature {
     export class ContextMenu implements IBuilder, IDisposable, IContextMenu {
         /** Events from the Context Menu  */
         private _contextMenuEvents: OSFramework.Event.ContextMenuEventManager;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: OSFramework.Grid.IGridWijmo;
         private _isOpening: boolean;
         /** Map a UniqueId to its MenuItem */
         private _menuItems: Map<string, MenuItem>;
@@ -15,7 +15,7 @@ namespace WijmoProvider.Feature {
         /** Only the root MenuItems to be shown on Input.Menu */
         private _rootMenuItems: MenuItem[];
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: OSFramework.Grid.IGridWijmo) {
             this._grid = grid;
             this._menuItems = new Map();
             this._rootMenuItems = [];
@@ -257,7 +257,7 @@ namespace WijmoProvider.Feature {
             return this._isOpening;
         }
 
-        public get grid(): WijmoProvider.Grid.IGrid {
+        public get grid(): OSFramework.Grid.IGrid {
             return this._grid;
         }
 

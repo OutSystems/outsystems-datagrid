@@ -6,7 +6,7 @@ namespace WijmoProvider.Column {
         private _columns: IColumn[];
 
         constructor(
-            grid: WijmoProvider.Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
             specific: JSON

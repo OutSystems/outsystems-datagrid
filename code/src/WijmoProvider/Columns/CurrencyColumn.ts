@@ -4,7 +4,7 @@
 namespace WijmoProvider.Column {
     export class CurrencyColumn extends NumberColumn<EditorConfigCurrency> {
         constructor(
-            grid: WijmoProvider.Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
             editorConfig: EditorConfigCurrency

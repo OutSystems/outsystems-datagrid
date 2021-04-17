@@ -6,16 +6,16 @@ namespace WijmoProvider.Column {
      * @example Date and Datetime columns has a custom editor which is calendar
      */
     export abstract class AbstractProviderColumnEditor<
-            T extends IConfigurationColumn,
-            K extends IConfigurationColumnEditor
+            T extends OSFramework.Configuration.IConfigurationColumn,
+            K extends OSFramework.Configuration.IConfigurationColumnEditor
         >
         extends AbstractProviderColumn<T>
-        implements IColumnCustom {
+        implements OSFramework.Column.IColumnCustom {
         private _editor: wijmo.Control;
         private _editorConfigs: K;
 
         constructor(
-            grid: WijmoProvider.Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: T,
             editorConfigs: K

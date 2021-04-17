@@ -1,6 +1,6 @@
 namespace WijmoProvider.Column {
     function _columnGeneratorInternal(
-        grid: WijmoProvider.Grid.IGrid,
+        grid: OSFramework.Grid.IGrid,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         metadata: any,
         parentRecord = '',
@@ -83,7 +83,7 @@ namespace WijmoProvider.Column {
 
     export namespace Generator {
         export function ColumnGenerator(
-            grid: WijmoProvider.Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             columnsConfigs: any,
             allowEdit: boolean

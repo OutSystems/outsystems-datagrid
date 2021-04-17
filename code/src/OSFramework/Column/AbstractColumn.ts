@@ -9,7 +9,7 @@ namespace OSFramework.Column {
      * @template T Base configuration type
      * @abstract
      */
-    export abstract class AbstractColumn<T extends IConfigurationColumn>
+    export abstract class AbstractColumn<T extends Configuration.IConfigurationColumn>
         implements IColumn {
         /** Configuration reference */
         private _configs: T;
@@ -189,9 +189,9 @@ namespace OSFramework.Column {
             this.applyConfigs();
         }
 
-        abstract get columnEvents(): OSFramework.Event.ColumnEventsManager;
+        abstract get columnEvents(): Event.ColumnEventsManager;
 
-        abstract get columnType(): ColumnType;
+        abstract get columnType(): Enum.ColumnType;
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         abstract get provider(): any;

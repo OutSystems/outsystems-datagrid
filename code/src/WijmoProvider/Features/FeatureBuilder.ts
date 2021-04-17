@@ -29,10 +29,10 @@ namespace WijmoProvider.Feature {
     export abstract class AbstractFactoryBuilder
         implements IFeatures, IBuilder {
         protected _features: CommmonFeatures;
-        protected _grid: WijmoProvider.Grid.IGrid;
+        protected _grid: OSFramework.Grid.IGrid;
         public _featureList: IBuilder[];
 
-        constructor(grid: WijmoProvider.Grid.IGrid) {
+        constructor(grid: OSFramework.Grid.IGrid) {
             this._grid = grid;
             this._featureList = [];
             this._features = new CommmonFeatures();

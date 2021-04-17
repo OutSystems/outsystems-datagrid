@@ -8,7 +8,7 @@ namespace WijmoProvider.Feature {
     }
 
     export class Selection implements IProviderSelection, IBuilder {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: OSFramework.Grid.IGridWijmo;
         private _hasSelectors: boolean;
         private _selectionMode: wijmo.grid.SelectionMode;
 
@@ -19,7 +19,7 @@ namespace WijmoProvider.Feature {
          * @param selectionMode The current selection mode
          */
         constructor(
-            grid: WijmoProvider.Grid.IGridWijmo,
+            grid: OSFramework.Grid.IGridWijmo,
             hasSelectors = false,
             selectionMode = wijmo.grid.SelectionMode.MultiRange
         ) {

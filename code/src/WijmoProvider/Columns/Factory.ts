@@ -2,7 +2,7 @@
 namespace WijmoProvider.Column {
     export namespace ColumnFactory {
         export function MakeColumn(
-            grid: WijmoProvider.Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             type: ColumnType,
             columnID: string,
             configs: JSON,

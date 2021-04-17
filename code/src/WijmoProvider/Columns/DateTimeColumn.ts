@@ -11,7 +11,7 @@ namespace WijmoProvider.Column {
         EditorConfigDate
     > {
         constructor(
-            grid: WijmoProvider.Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
             editorConfig: JSON
