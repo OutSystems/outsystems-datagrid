@@ -38,14 +38,14 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    // export class Builder extends Validation implements IBuilder {
-    export class GroupPanel implements IGroupPanel, IBuilder, IDisposable {
+    // export class Builder extends Validation implements OSFramework.Interface.IBuilder {
+    export class GroupPanel implements IGroupPanel, OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable {
         private _currGroupDescription: Array<wijmo.collections.PropertyGroupDescription>;
-        private _grid: OSFramework.Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _groupPanel: wijmo.grid.grouppanel.GroupPanel;
         private _panelId: string;
 
-        constructor(grid: OSFramework.Grid.IGridWijmo, panelId: string) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo, panelId: string) {
             this._grid = grid;
             this._panelId = panelId;
         }

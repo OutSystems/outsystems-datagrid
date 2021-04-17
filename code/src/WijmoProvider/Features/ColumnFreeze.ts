@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    export class ColumnFreeze implements IColumnFreeze, IBuilder {
-        private _grid: OSFramework.Grid.IGridWijmo;
+    export class ColumnFreeze implements OSFramework.Feature.IColumnFreeze, OSFramework.Interface.IBuilder {
+        private _grid: WijmoProvider.Grid.IGridWijmo;
 
-        constructor(grid: OSFramework.Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
         }
 

@@ -27,10 +27,10 @@ namespace WijmoProvider.Feature {
     }
 
     export abstract class AbstractFactoryBuilder
-        implements IFeatures, IBuilder {
+        implements IFeatures, OSFramework.Interface.IBuilder {
         protected _features: CommmonFeatures;
         protected _grid: OSFramework.Grid.IGrid;
-        public _featureList: IBuilder[];
+        public _featureList: OSFramework.Interface.IBuilder[];
 
         constructor(grid: OSFramework.Grid.IGrid) {
             this._grid = grid;
@@ -39,11 +39,11 @@ namespace WijmoProvider.Feature {
         }
 
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any
-        private _instanceOfIDisposable(object: any): object is IDisposable {
+        private _instanceOfOSFramework.Interface.IDisposable(object: any): object is OSFramework.Interface.IDisposable {
             return 'dispose' in object;
         }
 
-        protected _makeItem<T extends IBuilder>(
+        protected _makeItem<T extends OSFramework.Interface.IBuilder>(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             c: new (...args: any) => T,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -64,7 +64,7 @@ namespace WijmoProvider.Feature {
 
         public dispose(): void {
             this._featureList.forEach((p) => {
-                this._instanceOfIDisposable(p) && (p as IDisposable).dispose();
+                this._instanceOfOSFramework.Interface.IDisposable(p) && (p as OSFramework.Interface.IDisposable).dispose();
                 p = undefined;
             });
         }

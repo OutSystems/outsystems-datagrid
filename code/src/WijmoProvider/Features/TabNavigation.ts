@@ -1,10 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    export class TabNavigation implements ITabNavigation, IBuilder {
+    export class TabNavigation implements ITabNavigation, OSFramework.Interface.IBuilder {
         private _enabled: boolean;
-        private _grid: OSFramework.Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
 
-        constructor(grid: OSFramework.Grid.IGridWijmo, enabled: boolean) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
         }

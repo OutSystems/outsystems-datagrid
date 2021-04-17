@@ -77,8 +77,8 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    export class Rows implements IBuilder, IRows {
-        private _grid: OSFramework.Grid.IGridWijmo;
+    export class Rows implements OSFramework.Interface.IBuilder, IRows {
+        private _grid: WijmoProvider.Grid.IGridWijmo;
 
         /** This is going to be used as a label for the css classes saved on the metadata of the Row */
         private readonly _internalLabel = '__cssClass';
@@ -89,7 +89,7 @@ namespace WijmoProvider.Feature {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _newItem: any;
 
-        constructor(grid: OSFramework.Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
         }

@@ -20,13 +20,13 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    // export class Builder extends Validation implements IBuilder {
-    export class ColumnFilter implements IColumnFilter, IBuilder, IDisposable {
+    // export class Builder extends Validation implements OSFramework.Interface.IBuilder {
+    export class ColumnFilter implements IColumnFilter, OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable {
         private _enabled: boolean;
         private _filter: wijmo.grid.filter.FlexGridFilter;
-        private _grid: OSFramework.Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
 
-        constructor(grid: OSFramework.Grid.IGridWijmo, enabled: boolean) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
         }

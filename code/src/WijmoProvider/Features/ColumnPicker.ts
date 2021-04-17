@@ -106,11 +106,11 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    export class ColumnPicker implements IBuilder, IDisposable {
-        private _grid: OSFramework.Grid.IGridWijmo;
+    export class ColumnPicker implements OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable {
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _theColumnPicker: wijmo.input.ListBox;
 
-        constructor(grid: OSFramework.Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
         }
 

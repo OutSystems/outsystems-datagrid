@@ -1,14 +1,14 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    export class ToolTip implements IBuilder, IDisposable {
+    export class ToolTip implements OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _eventMouseEnter: any;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _eventMouseOut: any;
-        private _grid: OSFramework.Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _toolTip: wijmo.Tooltip;
 
-        constructor(grid: OSFramework.Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
             this._toolTip = new wijmo.Tooltip();
             this._eventMouseEnter = this._onMouseEnter.bind(this);
