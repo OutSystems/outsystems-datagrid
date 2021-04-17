@@ -36,11 +36,11 @@ namespace WijmoProvider.Feature {
 
             if (
                 this._grid.gridEvents.hasHandlers(
-                    ExternalEvents.GridEventType.OnFiltersChange
+                    OSFramework.Event.GridEventType.OnFiltersChange
                 )
             ) {
                 this._grid.gridEvents.trigger(
-                    ExternalEvents.GridEventType.OnFiltersChange,
+                    OSFramework.Event.GridEventType.OnFiltersChange,
                     this._grid,
                     WijmoProvider.Helper.FilterFactory.MakeFromActiveFilters(
                         this._grid,

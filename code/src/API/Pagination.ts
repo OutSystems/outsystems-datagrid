@@ -33,7 +33,7 @@ namespace GridAPI.Pagination {
     ): void {
         GridManager.Events.Subscribe(
             gridID,
-            ExternalEvents.GridEventType.Initialized,
+            OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.createPageButtons(
                     phID,
@@ -127,7 +127,7 @@ namespace GridAPI.Pagination {
     ): void {
         GridManager.Events.Subscribe(
             gridID,
-            ExternalEvents.GridEventType.Initialized,
+            OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.PageIndex,
@@ -147,7 +147,7 @@ namespace GridAPI.Pagination {
     export function RegisterPageCountLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            ExternalEvents.GridEventType.Initialized,
+            OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.PageCount,
@@ -167,7 +167,7 @@ namespace GridAPI.Pagination {
     export function RegisterPageSizeLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            ExternalEvents.GridEventType.Initialized,
+            OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.PageSize,
@@ -187,7 +187,7 @@ namespace GridAPI.Pagination {
     export function RegisterRowEndLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            ExternalEvents.GridEventType.Initialized,
+            OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.RowEnd,
@@ -207,7 +207,7 @@ namespace GridAPI.Pagination {
     export function RegisterRowStartLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            ExternalEvents.GridEventType.Initialized,
+            OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.RowStart,
@@ -227,7 +227,7 @@ namespace GridAPI.Pagination {
     export function RegisterRowTotalLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            ExternalEvents.GridEventType.Initialized,
+            OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.RowTotal,

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ExternalEvents {
+namespace OSFramework.Event {
     /**
      *Class that represents the Filter Change event.
      *

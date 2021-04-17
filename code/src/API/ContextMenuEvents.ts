@@ -5,12 +5,12 @@ namespace GridAPI.ContextMenu.Events {
      *
      * @export
      * @param {string} menuItemID menu item in which to attach to an event.
-     * @param {ExternalEvents.ContextMenuEventType} eventName event to which attach to.
+     * @param {OSFramework.Event.ContextMenuEventType} eventName event to which attach to.
      * @param {OSCallbacks.ContextMenu.Toggle} callback to be invoked qhen the event occurs.
      */
     export function Subscribe(
         menuItemID: string,
-        eventName: ExternalEvents.ContextMenuEventType,
+        eventName: OSFramework.Event.ContextMenuEventType,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         callback: Callbacks.ContextMenu.Toggle
     ): void {
@@ -18,7 +18,7 @@ namespace GridAPI.ContextMenu.Events {
         // We need to make sure the grid already exists and it is intialized before subscribing to any context menu event.
         GridManager.Events.Subscribe(
             gridId,
-            ExternalEvents.GridEventType.Initialized,
+            OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.contextMenu.contextMenuEvents.addHandler(
                     eventName,

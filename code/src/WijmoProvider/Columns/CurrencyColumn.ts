@@ -10,7 +10,7 @@ namespace WijmoProvider.Column {
             editorConfig: EditorConfigCurrency
         ) {
             super(grid, columnID, configs, editorConfig);
-            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.ColumnEventsManager(this);
         }
 
         protected _setFormat(decimalPlaces: number, symbol?: string): void {
@@ -24,7 +24,7 @@ namespace WijmoProvider.Column {
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.ColumnEventsManager {
             return this._columnEvents;
         }
 

@@ -8,7 +8,7 @@ namespace WijmoProvider.Column {
     > extends AbstractColumn<T> {
         private _provider: wijmo.grid.Column;
 
-        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.ColumnEventsManager {
             throw `The column ${this.columnType.toString()} does not support events`;
         }
 

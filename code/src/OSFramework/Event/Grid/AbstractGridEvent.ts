@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ExternalEvents {
+namespace OSFramework.Event {
     /**
      * Class that will make sure that the trigger invokes the handlers
      * with the correct parameters.

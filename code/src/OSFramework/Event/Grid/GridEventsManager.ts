@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ExternalEvents {
+namespace OSFramework.Event {
     /**
      * Class that will be responsible for managing the events of the grid.
      *

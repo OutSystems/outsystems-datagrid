@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ExternalEvents {
+namespace OSFramework.Event.Feature {
     /**
      * Class that encapsulate the basic logic of triggering the event of opening/closing the context menu with the right parameters order.
      *

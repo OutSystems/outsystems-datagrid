@@ -5,7 +5,7 @@ namespace OSFramework.Grid {
         autoGenerate: boolean;
         config: IConfigurationGrid;
         features: Features.CommmonFeatures;
-        gridEvents: ExternalEvents.GridEventsManager;
+        gridEvents: OSFramework.Event.GridEventsManager;
         isReady: boolean;
         isSingleEntity: boolean;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

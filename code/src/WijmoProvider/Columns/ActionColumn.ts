@@ -3,11 +3,11 @@ namespace WijmoProvider.Column {
     export class ActionColumn extends AbstractProviderColumn<ColumnConfig> {
         constructor(grid: WijmoProvider.Grid.IGrid, columnID: string, configs: JSON) {
             super(grid, columnID, new ColumnConfig(configs));
-            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.ColumnEventsManager(this);
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.ColumnEventsManager {
             return this._columnEvents;
         }
 
@@ -33,7 +33,7 @@ namespace WijmoProvider.Column {
                         : undefined,
                 click: (e, ctx) => {
                     this._columnEvents.trigger(
-                        ExternalEvents.ColumnEventType.ActionClick,
+                        OSFramework.Event.ColumnEventType.ActionClick,
                         JSON.stringify(
                             //TODO: [RGRIDT-637] refactor this code.
                             this.grid.isSingleEntity

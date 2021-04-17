@@ -5,7 +5,7 @@ namespace WijmoProvider.Feature {
      */
     export class ContextMenu implements IBuilder, IDisposable, IContextMenu {
         /** Events from the Context Menu  */
-        private _contextMenuEvents: ExternalEvents.ContextMenuEventManager;
+        private _contextMenuEvents: OSFramework.Event.ContextMenuEventManager;
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _isOpening: boolean;
         /** Map a UniqueId to its MenuItem */
@@ -19,7 +19,7 @@ namespace WijmoProvider.Feature {
             this._grid = grid;
             this._menuItems = new Map();
             this._rootMenuItems = [];
-            this._contextMenuEvents = new ExternalEvents.ContextMenuEventManager(
+            this._contextMenuEvents = new OSFramework.Event.ContextMenuEventManager(
                 this
             );
         }
@@ -90,7 +90,7 @@ namespace WijmoProvider.Feature {
                         // It is easier to understand if it will open instead of analysing if the menu is dropped down.
                         this._isOpening = !e.isDroppedDown;
                         this._contextMenuEvents.trigger(
-                            ExternalEvents.ContextMenuEventType.Toggle
+                            OSFramework.Event.ContextMenuEventType.Toggle
                         );
                     }
                 }
@@ -249,7 +249,7 @@ namespace WijmoProvider.Feature {
                 return a.order - b.order;
             });
         }
-        public get contextMenuEvents(): ExternalEvents.ContextMenuEventManager {
+        public get contextMenuEvents(): OSFramework.Event.ContextMenuEventManager {
             return this._contextMenuEvents;
         }
 

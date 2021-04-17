@@ -6,7 +6,7 @@ namespace OSFramework.Grid {
         private _columns: Map<string, OSFramework.Column.IColumn>;
         private _columnsSet: Set<OSFramework.Column.IColumn>;
         private _configs: Z;
-        private _gridEvents: ExternalEvents.GridEventsManager;
+        private _gridEvents: OSFramework.Event.GridEventsManager;
         private _isReady: boolean;
         private _uniqueId: string;
         private _validatingAction: InternalEvents.ValidatingAction;
@@ -21,7 +21,7 @@ namespace OSFramework.Grid {
             this._columnsSet = new Set<OSFramework.Column.IColumn>();
             this._configs = configs;
             this._addedRows = new InternalEvents.AddNewRowEvent();
-            this._gridEvents = new ExternalEvents.GridEventsManager(this);
+            this._gridEvents = new OSFramework.Event.GridEventsManager(this);
             this._isReady = false;
             this._validatingAction = new InternalEvents.ValidatingAction();
 
@@ -48,7 +48,7 @@ namespace OSFramework.Grid {
             return this._isReady;
         }
 
-        public get gridEvents(): ExternalEvents.GridEventsManager {
+        public get gridEvents(): OSFramework.Event.GridEventsManager {
             return this._gridEvents;
         }
 
@@ -68,7 +68,7 @@ namespace OSFramework.Grid {
             this._isReady = true;
 
             this.gridEvents.trigger(
-                ExternalEvents.GridEventType.Initialized,
+                OSFramework.Event.GridEventType.Initialized,
                 this
             );
         }

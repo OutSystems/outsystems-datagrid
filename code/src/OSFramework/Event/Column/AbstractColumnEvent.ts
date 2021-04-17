@@ -1,4 +1,4 @@
-namespace ExternalEvents {
+namespace OSFramework.Event.Column {
     /**
      * Abstract class that encapsulates the basic logic of triggering the events with the right parameters order.
      *

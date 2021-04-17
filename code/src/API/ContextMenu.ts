@@ -50,7 +50,7 @@ namespace GridAPI.ContextMenu {
             if (grid !== undefined) {
                 GridManager.Events.Subscribe(
                     gridID,
-                    ExternalEvents.GridEventType.Initialized,
+                    OSFramework.Event.GridEventType.Initialized,
                     (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                         gridObj.features.contextMenu.addMenuItem(
                             menuItemId,
@@ -79,7 +79,7 @@ namespace GridAPI.ContextMenu {
             if (grid !== undefined) {
                 GridManager.Events.Subscribe(
                     gridID,
-                    ExternalEvents.GridEventType.Initialized,
+                    OSFramework.Event.GridEventType.Initialized,
                     (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                         gridObj.features.contextMenu.addMenuItemSeparator(
                             menuItemId

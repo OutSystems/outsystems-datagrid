@@ -213,11 +213,11 @@ namespace WijmoProvider.Feature {
                 if (
                     column.hasEvents &&
                     column.columnEvents.handlers.has(
-                        ExternalEvents.ColumnEventType.OnCellValueChange
+                        OSFramework.Event.ColumnEventType.OnCellValueChange
                     )
                 ) {
                     column.columnEvents.trigger(
-                        ExternalEvents.ColumnEventType.OnCellValueChange,
+                        OSFramework.Event.ColumnEventType.OnCellValueChange,
                         this._convertToFormat(column, newValue),
                         this._convertToFormat(column, oldValue),
                         rowNumber

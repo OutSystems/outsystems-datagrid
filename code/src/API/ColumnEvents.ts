@@ -10,7 +10,7 @@ namespace GridAPI.ColumnManager.Events {
      */
     export function Subscribe(
         columnID: string,
-        eventName: ExternalEvents.ColumnEventType,
+        eventName: OSFramework.Event.ColumnEventType,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         callback: Callbacks.OSColumn.ClickEvent
     ): void {

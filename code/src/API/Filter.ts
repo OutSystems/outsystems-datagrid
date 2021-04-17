@@ -42,7 +42,7 @@ namespace GridAPI.Filter {
             }
         }
 
-        grid.gridEvents.trigger(ExternalEvents.GridEventType.SearchEnded, grid);
+        grid.gridEvents.trigger(OSFramework.Event.GridEventType.SearchEnded, grid);
         //TODO: [RGRIDT-621] Give feedback if grid is not found
     }
 

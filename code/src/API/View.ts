@@ -26,7 +26,7 @@ namespace GridAPI {
         export function SetViewLayout(gridID: string, config: any): void {
             GridManager.Events.Subscribe(
                 gridID,
-                ExternalEvents.GridEventType.Initialized,
+                OSFramework.Event.GridEventType.Initialized,
                 (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                     gridObj.setViewLayout(config);
                 }

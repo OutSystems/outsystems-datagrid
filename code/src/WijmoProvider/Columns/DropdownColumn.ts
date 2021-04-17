@@ -13,11 +13,11 @@ namespace WijmoProvider.Column {
                 new ColumnConfigDropdown(configs, extraConfig)
             );
             this.config.dataMap = new wijmo.grid.DataMap([], 'key', 'text');
-            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.ColumnEventsManager(this);
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.ColumnEventsManager {
             return this._columnEvents;
         }
 

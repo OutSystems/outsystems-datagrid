@@ -26,7 +26,7 @@ namespace OSFramework.Column {
         /** Indicates if the component was built */
         protected _built: boolean;
         /** External events associated to the column */
-        protected _columnEvents: ExternalEvents.ColumnEventsManager;
+        protected _columnEvents: OSFramework.Event.ColumnEventsManager;
         /** Verifies if the column has associated events */
         abstract hasEvents: boolean;
 
@@ -189,7 +189,7 @@ namespace OSFramework.Column {
             this.applyConfigs();
         }
 
-        abstract get columnEvents(): ExternalEvents.ColumnEventsManager;
+        abstract get columnEvents(): OSFramework.Event.ColumnEventsManager;
 
         abstract get columnType(): ColumnType;
 

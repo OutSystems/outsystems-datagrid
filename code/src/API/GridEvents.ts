@@ -4,11 +4,11 @@ namespace GridAPI.GridManager.Events {
     const _pendingEvents: Map<
         string,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { cb: any; event: ExternalEvents.GridEventType }[]
+        { cb: any; event: OSFramework.Event.GridEventType }[]
     > = new Map<
         string,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        { cb: any; event: ExternalEvents.GridEventType }[]
+        { cb: any; event: OSFramework.Event.GridEventType }[]
     >();
 
     /**
@@ -16,12 +16,12 @@ namespace GridAPI.GridManager.Events {
      *
      * @export
      * @param {string} gridID grid in which to attach to an event.
-     * @param {ExternalEvents.GridEventType} eventName event to which attach to.
+     * @param {OSFramework.Event.GridEventType} eventName event to which attach to.
      * @param {Callbacks.OSGrid.Event} callback to be invoked qhen the event occurs.
      */
     export function Subscribe(
         gridID: string,
-        eventName: ExternalEvents.GridEventType,
+        eventName: OSFramework.Event.GridEventType,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         callback: Callbacks.OSGrid.Event
     ): void {
@@ -63,7 +63,7 @@ namespace GridAPI.GridManager.Events {
 
     export function Unsubscribe(
         gridID: string,
-        eventName: ExternalEvents.GridEventType,
+        eventName: OSFramework.Event.GridEventType,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         callback: Callbacks.OSGrid.Event
     ): void {

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ExternalEvents {
+namespace OSFramework.Event {
     /**
      * This class is a Manager of events. It will be used by the Grid/Columns/etc in order to support
      * the listenning of the different events supported by the parent element.

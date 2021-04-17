@@ -7,7 +7,7 @@ namespace Features {
         /**
          * Getter for the contextMenu events
          */
-        contextMenuEvents: ExternalEvents.ContextMenuEventManager;
+        contextMenuEvents: OSFramework.Event.ContextMenuEventManager;
 
         /**
          * Responsable for adding menu items
