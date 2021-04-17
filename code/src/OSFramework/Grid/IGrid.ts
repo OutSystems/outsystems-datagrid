@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Grid {
     export interface IGrid extends IBuilder, IDisposable, ISearchById, IView {
-        addedRows: InternalEvents.AddNewRowEvent;
+        addedRows: OSFramework.Event.AddNewRowEvent;
         autoGenerate: boolean;
         config: IConfigurationGrid;
         features: Features.CommmonFeatures;
@@ -12,7 +12,7 @@ namespace OSFramework.Grid {
         provider: any;
         rowMetadata: IRowMetadata;
         uniqueId: string;
-        validatingAction: InternalEvents.ValidatingAction;
+        validatingAction: OSFramework.Event.ValidatingAction;
         widgetId: string;
 
         addColumn(col: OSFramework.Column.IColumn);

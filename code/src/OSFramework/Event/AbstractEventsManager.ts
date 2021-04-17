@@ -13,13 +13,13 @@ namespace OSFramework.Event {
      * @template D  this will the type of Data to be passed, by default to the handlers.
      */
     export abstract class AbstractEventsManager<ET, D> {
-        private _handlers: Map<ET, InternalEvents.IEvent<D>>;
+        private _handlers: Map<ET, OSFramework.Event.IEvent<D>>;
 
         constructor() {
-            this._handlers = new Map<ET, InternalEvents.IEvent<D>>();
+            this._handlers = new Map<ET, OSFramework.Event.IEvent<D>>();
         }
 
-        public get handlers(): Map<ET, InternalEvents.IEvent<D>> {
+        public get handlers(): Map<ET, OSFramework.Event.IEvent<D>> {
             return this._handlers;
         }
 
@@ -68,6 +68,6 @@ namespace OSFramework.Event {
          */
         protected abstract getInstanceOfEventType(
             eventType: ET
-        ): InternalEvents.IEvent<D>;
+        ): OSFramework.Event.IEvent<D>;
     }
 }

@@ -1,4 +1,4 @@
-namespace InternalEvents {
+namespace OSFramework.Event {
     /**
      * This interface is the base to all events. All events (both internal or external)
      * need to implement it.

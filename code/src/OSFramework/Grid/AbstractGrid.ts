@@ -2,14 +2,14 @@
 namespace OSFramework.Grid {
     export abstract class AbstractGrid<W, Z extends IConfigurationGrid>
         implements IGridGeneric<W> {
-        private _addedRows: InternalEvents.AddNewRowEvent;
+        private _addedRows: OSFramework.Event.AddNewRowEvent;
         private _columns: Map<string, OSFramework.Column.IColumn>;
         private _columnsSet: Set<OSFramework.Column.IColumn>;
         private _configs: Z;
         private _gridEvents: OSFramework.Event.GridEventsManager;
         private _isReady: boolean;
         private _uniqueId: string;
-        private _validatingAction: InternalEvents.ValidatingAction;
+        private _validatingAction: OSFramework.Event.ValidatingAction;
         private _widgetId: string;
 
         protected _features: Features.CommmonFeatures;
@@ -20,19 +20,19 @@ namespace OSFramework.Grid {
             this._columns = new Map<string, OSFramework.Column.IColumn>();
             this._columnsSet = new Set<OSFramework.Column.IColumn>();
             this._configs = configs;
-            this._addedRows = new InternalEvents.AddNewRowEvent();
+            this._addedRows = new OSFramework.Event.AddNewRowEvent();
             this._gridEvents = new OSFramework.Event.GridEventsManager(this);
             this._isReady = false;
-            this._validatingAction = new InternalEvents.ValidatingAction();
+            this._validatingAction = new OSFramework.Event.ValidatingAction();
 
             console.log(`Constructor grid '${this.uniqueId}'`);
         }
 
-        public get validatingAction(): InternalEvents.ValidatingAction {
+        public get validatingAction(): OSFramework.Event.ValidatingAction {
             return this._validatingAction;
         }
 
-        public get addedRows(): InternalEvents.AddNewRowEvent {
+        public get addedRows(): OSFramework.Event.AddNewRowEvent {
             return this._addedRows;
         }
 

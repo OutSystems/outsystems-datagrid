@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace InternalEvents {
+namespace OSFramework.Event {
     /**
      * Abstract class that will be responsible for the basic behaviours of a link, namely storing the callbacks.
      *

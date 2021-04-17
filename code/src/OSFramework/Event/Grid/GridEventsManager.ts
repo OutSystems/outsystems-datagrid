@@ -20,8 +20,8 @@ namespace OSFramework.Event.Grid {
 
         protected getInstanceOfEventType(
             eventType: GridEventType
-        ): InternalEvents.IEvent<OSFramework.Grid.IGrid> {
-            let event: InternalEvents.IEvent<OSFramework.Grid.IGrid>;
+        ): OSFramework.Event.IEvent<OSFramework.Grid.IGrid> {
+            let event: OSFramework.Event.IEvent<OSFramework.Grid.IGrid>;
 
             switch (eventType) {
                 case GridEventType.Initialized:

@@ -5,7 +5,7 @@ namespace GridAPI.ColumnManager.Events {
      *
      * @export
      * @param {string} columnID column in which to attach to an event.
-     * @param {InternalEvents.ColumnEventType} eventName event to which attach to.
+     * @param {OSFramework.Event.ColumnEventType} eventName event to which attach to.
      * @param {Callbacks.OSColumn.ClickEvent} callback to be invoked qhen the event occurs.
      */
     export function Subscribe(
