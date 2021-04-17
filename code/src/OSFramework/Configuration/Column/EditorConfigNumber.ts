@@ -1,4 +1,4 @@
-namespace Column {
+namespace OSFramework.Column {
     /**
      * Defines the configuration for Numeric custom editors
      */

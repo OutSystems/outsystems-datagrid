@@ -10,7 +10,7 @@ namespace GridAPI {
          */
         export function SetLanguage(language: string, url: string): void {
             if (language !== '') {
-                Helper.SetLanguage(language, url);
+                OSFramework.Helper.SetLanguage(language, url);
             }
         }
     }

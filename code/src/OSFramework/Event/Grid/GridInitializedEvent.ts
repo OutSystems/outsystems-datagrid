@@ -4,7 +4,7 @@ namespace ExternalEvents {
      * Class that represents the the Initialized event.
      *
      * @class GridInitializedEvent
-     * @extends {AbstractEvent<Grid.IGrid>}
+     * @extends {AbstractEvent<OSFramework.Grid.IGrid>}
      */
     export class GridInitializedEvent extends AbstractGridEvent {}
 }

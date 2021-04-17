@@ -11,7 +11,7 @@ namespace GridAPI.Filter {
      * @returns {*}  {boolean} true if there are visible results.
      */
     export function HasResults(gridID: string): boolean {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
         return grid.hasResults();
     }
@@ -25,7 +25,7 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Search(gridID: string, searchedValue: string): void {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
         const rx = new RegExp(searchedValue, 'i');
 
@@ -55,7 +55,7 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Activate(gridID: string, columnID: string): void {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.filter.activate(columnID);
@@ -70,7 +70,7 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Clear(gridID: string, columnID: string): void {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.filter.clear(columnID);
@@ -84,7 +84,7 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Deactivate(gridID: string, columnID: string): void {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
         grid.features.filter.deactivate(columnID);
     }

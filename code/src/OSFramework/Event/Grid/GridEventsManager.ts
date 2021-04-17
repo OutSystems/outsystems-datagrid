@@ -5,23 +5,23 @@ namespace ExternalEvents {
      *
      * @export
      * @class GridEventsManager
-     * @extends {AbstractEventsManager<GridEventType, Grid.IGrid>}
+     * @extends {AbstractEventsManager<GridEventType, OSFramework.Grid.IGrid>}
      */
     export class GridEventsManager extends AbstractEventsManager<
         GridEventType,
-        Grid.IGrid
+        OSFramework.Grid.IGrid
     > {
-        private _grid: Grid.IGrid;
+        private _grid: OSFramework.Grid.IGrid;
 
-        constructor(grid: Grid.IGrid) {
+        constructor(grid: OSFramework.Grid.IGrid) {
             super();
             this._grid = grid;
         }
 
         protected getInstanceOfEventType(
             eventType: GridEventType
-        ): InternalEvents.IEvent<Grid.IGrid> {
-            let event: InternalEvents.IEvent<Grid.IGrid>;
+        ): InternalEvents.IEvent<OSFramework.Grid.IGrid> {
+            let event: InternalEvents.IEvent<OSFramework.Grid.IGrid>;
 
             switch (eventType) {
                 case GridEventType.Initialized:
@@ -55,7 +55,7 @@ namespace ExternalEvents {
 
         public trigger(
             event: GridEventType,
-            gridObj: Grid.IGrid,
+            gridObj: OSFramework.Grid.IGrid,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
             ...args
         ): void {

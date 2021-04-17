@@ -1,10 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Grid {
+namespace OSFramework.Grid {
     export abstract class AbstractGrid<W, Z extends IConfigurationGrid>
         implements IGridGeneric<W> {
         private _addedRows: InternalEvents.AddNewRowEvent;
-        private _columns: Map<string, Column.IColumn>;
-        private _columnsSet: Set<Column.IColumn>;
+        private _columns: Map<string, OSFramework.Column.IColumn>;
+        private _columnsSet: Set<OSFramework.Column.IColumn>;
         private _configs: Z;
         private _gridEvents: ExternalEvents.GridEventsManager;
         private _isReady: boolean;
@@ -17,8 +17,8 @@ namespace Grid {
 
         constructor(uniqueId: string, configs: Z) {
             this._uniqueId = uniqueId;
-            this._columns = new Map<string, Column.IColumn>();
-            this._columnsSet = new Set<Column.IColumn>();
+            this._columns = new Map<string, OSFramework.Column.IColumn>();
+            this._columnsSet = new Set<OSFramework.Column.IColumn>();
             this._configs = configs;
             this._addedRows = new InternalEvents.AddNewRowEvent();
             this._gridEvents = new ExternalEvents.GridEventsManager(this);
@@ -73,7 +73,7 @@ namespace Grid {
             );
         }
 
-        public addColumn(col: Column.IColumn): void {
+        public addColumn(col: OSFramework.Column.IColumn): void {
             console.log(`Add column '${col.uniqueId}': '${col.config.header}'`);
             this._columns.set(col.config.binding, col);
             this._columns.set(col.uniqueId, col);
@@ -82,14 +82,14 @@ namespace Grid {
 
         public build(): void {
             //RGRIDT-372 - let's get the ID of the parent element, which will be used by the developer
-            this._widgetId = Helper.GetElementByUniqueId(this.uniqueId).closest(
-                Helper.Constants.gridTag
+            this._widgetId = OSFramework.Helper.GetElementByUniqueId(this.uniqueId).closest(
+                OSFramework.Helper.Constants.gridTag
             ).id;
         }
 
         public dispose(): void {
             this._isReady = false;
-            this._columns.forEach((col: Column.IColumn, columnID: string) => {
+            this._columns.forEach((col: OSFramework.Column.IColumn, columnID: string) => {
                 this.removeColumn(columnID);
             });
         }
@@ -98,7 +98,7 @@ namespace Grid {
             return gridID === this._uniqueId || gridID === this._widgetId;
         }
 
-        public getColumn(key: string): Column.IColumn {
+        public getColumn(key: string): OSFramework.Column.IColumn {
             if (this._columns.has(key)) {
                 return this._columns.get(key);
             } else {
@@ -106,7 +106,7 @@ namespace Grid {
             }
         }
 
-        public getColumns(): Column.IColumn[] {
+        public getColumns(): OSFramework.Column.IColumn[] {
             return Array.from(this._columnsSet);
         }
 
@@ -118,10 +118,10 @@ namespace Grid {
         }
 
         public hasColumnsDefined(): boolean {
-            const widget = Helper.GetElementByUniqueId(this.uniqueId);
-            const gridElement = widget.closest(Helper.Constants.gridTag);
+            const widget = OSFramework.Helper.GetElementByUniqueId(this.uniqueId);
+            const gridElement = widget.closest(OSFramework.Helper.Constants.gridTag);
             const columns = gridElement.querySelectorAll(
-                Helper.Constants.columnCss
+                OSFramework.Helper.Constants.columnCss
             );
 
             return columns.length > 0;

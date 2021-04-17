@@ -6,11 +6,11 @@ namespace ExternalEvents {
      *
      * @abstract
      * @class AbstractGridEvent
-     * @extends {AbstractEvent<Grid.IGrid>}
+     * @extends {AbstractEvent<OSFramework.Grid.IGrid>}
      */
-    export abstract class AbstractGridEvent extends InternalEvents.AbstractEvent<Grid.IGrid> {
+    export abstract class AbstractGridEvent extends InternalEvents.AbstractEvent<OSFramework.Grid.IGrid> {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        public trigger(gridObj: Grid.IGrid, gridID: string, ...args): void {
+        public trigger(gridObj: OSFramework.Grid.IGrid, gridID: string, ...args): void {
             this.handlers.slice(0).forEach((h) => h(gridID, gridObj));
         }
     }

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Helper {
+namespace OSFramework.Helper {
     export function GenerateHashCode(str: string): number {
         let hash = 0;
         let i = 0;

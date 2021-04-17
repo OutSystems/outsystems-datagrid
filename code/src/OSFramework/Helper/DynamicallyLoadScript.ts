@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Helper {
+namespace OSFramework.Helper {
     export function DynamicallyLoadScript(
         url: string,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,4 +1,4 @@
-namespace Column {
+namespace OSFramework.Column {
     /**
      * Representantion of a Grid's Column
      */
@@ -9,7 +9,7 @@ namespace Column {
         /** The config used to build the column */
         config: IConfigurationColumn;
         /** Returns the grid instance where the column is placed */
-        grid: Grid.IGrid;
+        grid: OSFramework.Grid.IGrid;
         /** Verifies if this column has associated events */
         hasEvents: boolean;
         /** Verifies if this column is contained inside another */

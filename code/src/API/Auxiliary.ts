@@ -9,6 +9,6 @@ namespace GridAPI.Auxiliary {
      * @returns hashcode to the str
      */
     export function GetHashCode(str: string): number {
-        return Helper.GenerateHashCode(str);
+        return OSFramework.Helper.GenerateHashCode(str);
     }
 }

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Grid {
+namespace OSFramework.Grid {
     export interface IGrid extends IBuilder, IDisposable, ISearchById, IView {
         addedRows: InternalEvents.AddNewRowEvent;
         autoGenerate: boolean;
@@ -15,7 +15,7 @@ namespace Grid {
         validatingAction: InternalEvents.ValidatingAction;
         widgetId: string;
 
-        addColumn(col: Column.IColumn);
+        addColumn(col: OSFramework.Column.IColumn);
         changeColumnProperty(
             columnID: string,
             propertyName: string,
@@ -31,11 +31,11 @@ namespace Grid {
          * @param key key can be the uniqueId or a binding of a column
          * @returns Column with the same columnID or binding.
          */
-        getColumn(key: string): Column.IColumn;
+        getColumn(key: string): OSFramework.Column.IColumn;
         /** Return an array containing all grid's column
          * @returns Array of grid's columns
          */
-        getColumns(): Column.IColumn[];
+        getColumns(): OSFramework.Column.IColumn[];
         getData(): JSON[];
         /**
          * Verifies grid has the given Column

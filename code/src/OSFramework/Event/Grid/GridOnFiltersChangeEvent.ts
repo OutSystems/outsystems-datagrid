@@ -16,7 +16,7 @@ namespace ExternalEvents {
          * @param activeFilters list of currently active filters
          */
         public trigger(
-            gridObj: Grid.IGrid,
+            gridObj: OSFramework.Grid.IGrid,
             gridID: string,
             activeFilters: Array<GridAPI.Structures.ActiveFilter>
         ): void {

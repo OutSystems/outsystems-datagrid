@@ -11,7 +11,7 @@ namespace GridAPI.Sort {
      * @returns {*}  {void}
      */
     export function Clear(gridID: string): void {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.sort.clear();

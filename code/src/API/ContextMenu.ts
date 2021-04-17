@@ -17,8 +17,8 @@ namespace GridAPI.ContextMenu {
     ): string {
         //Try to find in DOM only if not present on Map
         if (lookUpDOM && !_menuItemsToGridId.has(menuItemId)) {
-            const menuOptionElement = Helper.GetElementByUniqueId(menuItemId);
-            const grid = Helper.GetClosestGrid(menuOptionElement);
+            const menuOptionElement = OSFramework.Helper.GetElementByUniqueId(menuItemId);
+            const grid = OSFramework.Helper.GetClosestGrid(menuOptionElement);
 
             if (grid) {
                 _menuItemsToGridId.set(menuItemId, grid.uniqueId);
@@ -51,7 +51,7 @@ namespace GridAPI.ContextMenu {
                 GridManager.Events.Subscribe(
                     gridID,
                     ExternalEvents.GridEventType.Initialized,
-                    (gridId: string, gridObj: Grid.IGrid) => {
+                    (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                         gridObj.features.contextMenu.addMenuItem(
                             menuItemId,
                             label,
@@ -80,7 +80,7 @@ namespace GridAPI.ContextMenu {
                 GridManager.Events.Subscribe(
                     gridID,
                     ExternalEvents.GridEventType.Initialized,
-                    (gridId: string, gridObj: Grid.IGrid) => {
+                    (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                         gridObj.features.contextMenu.addMenuItemSeparator(
                             menuItemId
                         );

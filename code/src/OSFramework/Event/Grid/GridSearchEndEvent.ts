@@ -4,7 +4,7 @@ namespace ExternalEvents {
      * Class that represents the SearchEnd event.
      *
      * @class GridSearchEndEvent
-     * @extends {AbstractEvent<Grid.IGrid>}
+     * @extends {AbstractEvent<OSFramework.Grid.IGrid>}
      */
     export class GridSearchEndEvent extends AbstractGridEvent {}
 }

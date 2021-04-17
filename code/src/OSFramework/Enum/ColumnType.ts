@@ -1,4 +1,4 @@
-namespace Column {
+namespace OSFramework.Column {
     /**
      * Internal type definition
      */

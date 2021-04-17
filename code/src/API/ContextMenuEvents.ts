@@ -19,7 +19,7 @@ namespace GridAPI.ContextMenu.Events {
         GridManager.Events.Subscribe(
             gridId,
             ExternalEvents.GridEventType.Initialized,
-            (gridId: string, gridObj: Grid.IGrid) => {
+            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.contextMenu.contextMenuEvents.addHandler(
                     eventName,
                     callback

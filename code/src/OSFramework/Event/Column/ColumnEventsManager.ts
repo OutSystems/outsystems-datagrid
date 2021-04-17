@@ -11,9 +11,9 @@ namespace ExternalEvents {
         ColumnEventType,
         string
     > {
-        private _column: Column.IColumn;
+        private _column: OSFramework.Column.IColumn;
 
-        constructor(column: Column.IColumn) {
+        constructor(column: OSFramework.Column.IColumn) {
             super();
             this._column = column;
         }

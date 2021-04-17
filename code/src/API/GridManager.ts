@@ -12,17 +12,17 @@ namespace GridAPI {
      *  Namespace that contains functions responsible for interactions with the grid.
      */
     export namespace GridManager {
-        const gridMap = new Map<string, Grid.IGrid>(); //grid.uniqueId -> Grid obj
-        let activeGrid: Grid.IGrid = undefined;
+        const gridMap = new Map<string, OSFramework.Grid.IGrid>(); //grid.uniqueId -> Grid obj
+        let activeGrid: OSFramework.Grid.IGrid = undefined;
 
         /**
          * Function that will change the data source in the respective grid.
          *
-         * @param {Grid.IGrid} grid Grid where the change will occur.
+         * @param {OSFramework.Grid.IGrid} grid Grid where the change will occur.
          * @param {string} data Data to be set in the data grid in JSON format. If the action ArrangeData is used, metadata will also be present and used to generate the columns of the grid.
          * @returns {*}  {boolean} true if the data was changed in the grid.
          */
-        function setDataInGrid(grid: Grid.IGrid, data: string): boolean {
+        function setDataInGrid(grid: OSFramework.Grid.IGrid, data: string): boolean {
             let output = false;
             if (grid !== undefined) {
                 if (grid.isReady && data !== '' && data !== '{}') {
@@ -44,9 +44,9 @@ namespace GridAPI {
         export function CreateGrid(
             gridID: string,
             configs: string
-        ): Grid.IGrid {
-            const _grid = Grid.GridFactory.MakeGrid(
-                Grid.GridType.FlexGrid,
+        ): OSFramework.Grid.IGrid {
+            const _grid = OSFramework.Grid.GridFactory.MakeGrid(
+                OSFramework.Grid.GridType.FlexGrid,
                 gridID,
                 JSON.parse(configs)
             );
@@ -76,8 +76,8 @@ namespace GridAPI {
         export function GetGridById(
             gridID: string,
             raiseError = true
-        ): Grid.IGrid {
-            let grid: Grid.IGrid;
+        ): OSFramework.Grid.IGrid {
+            let grid: OSFramework.Grid.IGrid;
 
             //gridID is the UniqueId
             if (gridMap.has(gridID)) {
@@ -105,7 +105,7 @@ namespace GridAPI {
          * @export
          * @returns {*}  {Grid.IGrid} instance of the active grid.
          */
-        export function GetActiveGrid(): Grid.IGrid {
+        export function GetActiveGrid(): OSFramework.Grid.IGrid {
             return activeGrid;
         }
 

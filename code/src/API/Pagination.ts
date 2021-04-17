@@ -12,7 +12,7 @@ namespace GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function ChangePageSize(gridID: string, n: number): void {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.changePageSize(n);
@@ -34,7 +34,7 @@ namespace GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             ExternalEvents.GridEventType.Initialized,
-            (gridId: string, gridObj: Grid.IGrid) => {
+            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.createPageButtons(
                     phID,
                     buttonQuantity
@@ -51,7 +51,7 @@ namespace GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToFirstPage(gridID: string): void {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToFirstPage();
@@ -65,7 +65,7 @@ namespace GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToLastPage(gridID: string): void {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToLastPage();
@@ -79,7 +79,7 @@ namespace GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToNextPage(gridID: string): void {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToNextPage();
@@ -94,7 +94,7 @@ namespace GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToPage(gridID: string, n: number): void {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToPage(n);
@@ -108,7 +108,7 @@ namespace GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToPreviousPage(gridID: string): void {
-        if (!Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToPreviousPage();
@@ -128,7 +128,7 @@ namespace GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             ExternalEvents.GridEventType.Initialized,
-            (gridId: string, gridObj: Grid.IGrid) => {
+            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.PageIndex,
                     phID
@@ -148,7 +148,7 @@ namespace GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             ExternalEvents.GridEventType.Initialized,
-            (gridId: string, gridObj: Grid.IGrid) => {
+            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.PageCount,
                     phID
@@ -168,7 +168,7 @@ namespace GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             ExternalEvents.GridEventType.Initialized,
-            (gridId: string, gridObj: Grid.IGrid) => {
+            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.PageSize,
                     phID
@@ -188,7 +188,7 @@ namespace GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             ExternalEvents.GridEventType.Initialized,
-            (gridId: string, gridObj: Grid.IGrid) => {
+            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.RowEnd,
                     phID
@@ -208,7 +208,7 @@ namespace GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             ExternalEvents.GridEventType.Initialized,
-            (gridId: string, gridObj: Grid.IGrid) => {
+            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.RowStart,
                     phID
@@ -228,7 +228,7 @@ namespace GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             ExternalEvents.GridEventType.Initialized,
-            (gridId: string, gridObj: Grid.IGrid) => {
+            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
                     Features.PageLabel.RowTotal,
                     phID

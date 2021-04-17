@@ -16,14 +16,14 @@ namespace GridAPI.Structures {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         constructor(
-            grid: Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             rowIndex: number,
             dataItem: any,
             selected?: Array<BindingValue>
         ) {
             this.rowIndex = rowIndex;
             if (grid.isSingleEntity) {
-                this.dataItem = Helper.Flatten(dataItem);
+                this.dataItem = OSFramework.Helper.Flatten(dataItem);
             } else {
                 this.dataItem = dataItem;
             }

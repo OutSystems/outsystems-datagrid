@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Helper {
+namespace OSFramework.Helper {
     export function GetElementByWidgetId(widgetId: string): HTMLElement {
         const obj = document.getElementById(widgetId);
 

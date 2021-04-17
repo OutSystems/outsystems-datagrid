@@ -37,10 +37,10 @@ namespace Callbacks {
         /**
          * This is the callback signature for events triggerend by the grid.
          * @param {string} gridID which grid triggered the event
-         * @param {Grid.IGrid} gridObj object of the grid which triggered the event
+         * @param {OSFramework.Grid.IGrid} gridObj object of the grid which triggered the event
          */
         export type Event = {
-            (gridID: string, gridObj: Grid.IGrid): void;
+            (gridID: string, gridObj: OSFramework.Grid.IGrid): void;
         };
     }
 }
