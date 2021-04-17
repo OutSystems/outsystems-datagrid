@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     class ColumnFilterAction extends wijmo.undo.UndoableAction {
         constructor(s: wijmo.grid.filter.FlexGridFilter) {
             super(s);
@@ -24,9 +24,9 @@ namespace Features {
     export class ColumnFilter implements IColumnFilter, IBuilder, IDisposable {
         private _enabled: boolean;
         private _filter: wijmo.grid.filter.FlexGridFilter;
-        private _grid: Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
 
-        constructor(grid: Grid.IGridWijmo, enabled: boolean) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
         }
@@ -42,7 +42,7 @@ namespace Features {
                 this._grid.gridEvents.trigger(
                     ExternalEvents.GridEventType.OnFiltersChange,
                     this._grid,
-                    ActiveFilterFactory.MakeFromActiveFilters(
+                    WijmoProvider.Helper.FilterFactory.MakeFromActiveFilters(
                         this._grid,
                         s.filterDefinition
                     )

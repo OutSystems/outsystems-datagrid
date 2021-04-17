@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     /**
      * Defines limites (positive and negative) based on decimal places
      */
@@ -22,7 +22,7 @@ namespace Column {
         T extends EditorConfigNumber
     > extends AbstractProviderColumnEditor<ColumnConfig, T> {
         constructor(
-            grid: Grid.IGrid,
+            grid: WijmoProvider.Grid.IGrid,
             columnID: string,
             configs: JSON,
             editorConfig: T

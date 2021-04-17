@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     /**
      * An extension of AbstractColumn, used to handle the grid's provider
      */
@@ -43,7 +43,7 @@ namespace Column {
             if (this.hasParentColumn) {
                 const parent = this.grid.getColumn(
                     this.parentColumnId
-                ) as Column.IColumnGroup;
+                ) as WijmoProvider.Column.IColumnGroup;
                 parent.addChild(this);
 
                 if (parent.isReady) {
@@ -84,7 +84,7 @@ namespace Column {
             if (this.hasParentColumn) {
                 const parent = this.grid.getColumn(
                     this.parentColumnId
-                ) as Column.IColumnGroup;
+                ) as WijmoProvider.Column.IColumnGroup;
                 parent && parent.removeChild(this);
             }
 

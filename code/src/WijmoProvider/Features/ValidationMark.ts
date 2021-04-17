@@ -1,16 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     export class ValidationMark implements IValidationMark, IBuilder {
-        private _grid: Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
         /** Array containing all invalid rows */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _invalidRows: Array<any>;
         /** Exposed methods to manipulate RowMetadata */
-        private _metadata: Grid.IRowMetadata;
+        private _metadata: WijmoProvider.Grid.IRowMetadata;
 
-        constructor(grid: Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,16 +46,16 @@ namespace Features {
 
         /** Helper to convert the formats of Date and DateTime columns to the format of OS */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        private _convertToFormat(column: Column.IColumn, value: any) {
+        private _convertToFormat(column: WijmoProvider.Column.IColumn, value: any) {
             switch (column.columnType) {
-                case Column.ColumnType.Number:
-                case Column.ColumnType.Currency:
+                case WijmoProvider.Column.ColumnType.Number:
+                case WijmoProvider.Column.ColumnType.Currency:
                     return parseFloat(value ?? 0);
-                case Column.ColumnType.Date:
+                case WijmoProvider.Column.ColumnType.Date:
                     return Helper.ToOSDate(value ?? new Date(1900, 0, 1));
-                case Column.ColumnType.DateTime:
+                case WijmoProvider.Column.ColumnType.DateTime:
                     return Helper.ToOSDatetime(value ?? new Date(1900, 0, 1));
-                case Column.ColumnType.Checkbox:
+                case WijmoProvider.Column.ColumnType.Checkbox:
                     return value ?? false;
                 default:
                     return value ?? '';
@@ -384,7 +384,7 @@ namespace Features {
          */
         public validateRow(rowNumber: number): void {
             // Triggers the validation method per column
-            this._grid.getColumns().forEach((column: Column.IColumn) => {
+            this._grid.getColumns().forEach((column: WijmoProvider.Column.IColumn) => {
                 // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
                 const currValue = this._grid.provider.getCellData(
                     rowNumber,

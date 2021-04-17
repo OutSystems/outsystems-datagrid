@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Grid {
+namespace WijmoProvider.Grid {
     export class FlexGrid
         extends AbstractGrid<wijmo.grid.FlexGrid, FlexGridConfig>
         implements IGridWijmo {
-        private _fBuilder: Features.FeatureBuilder;
+        private _fBuilder: WijmoProvider.Feature.FeatureBuilder;
         private _lineIsSingleEntity = false;
         private _rowMetadata: RowMetadata;
 
@@ -12,7 +12,7 @@ namespace Grid {
             super(gridID, new FlexGridConfig(configs));
         }
 
-        private _addColumns(cols: Column.IColumn[]): void {
+        private _addColumns(cols: WijmoProvider.Column.IColumn[]): void {
             cols.forEach((col) => {
                 super.addColumn(col);
             });
@@ -93,7 +93,7 @@ namespace Grid {
             return this._rowMetadata;
         }
 
-        public addColumn(col: Column.IColumn): void {
+        public addColumn(col: WijmoProvider.Column.IColumn): void {
             super.addColumn(col);
 
             if (this.isReady) {
@@ -121,7 +121,7 @@ namespace Grid {
         }
 
         public buildFeatures(): void {
-            this._fBuilder = new Features.FeatureBuilder(this);
+            this._fBuilder = new WijmoProvider.Feature.FeatureBuilder(this);
 
             this._features = this._fBuilder.features;
 
@@ -256,7 +256,7 @@ namespace Grid {
         public setData(data: string): boolean {
             // Use with a Date reviver to restore date fields
             const infojson = Helper.JSONParser(data);
-            const hasMetainfo = Column.Generator.HasMetadata(infojson);
+            const hasMetainfo = WijmoProvider.Column.Generator.HasMetadata(infojson);
             let gridData = hasMetainfo ? infojson.data : infojson;
 
             if (this.isReady) {
@@ -270,7 +270,7 @@ namespace Grid {
                     if (hasMetainfo) {
                         //if we have meta information about the columns, let's NOT use wijmo generator
                         this.autoGenerate = false;
-                        const generated = Column.Generator.ColumnGenerator(
+                        const generated = WijmoProvider.Column.Generator.ColumnGenerator(
                             this,
                             infojson,
                             this.config.allowEdit

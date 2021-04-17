@@ -1,10 +1,10 @@
 /// <reference path="./NumberColumn.ts" />
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     export class CurrencyColumn extends NumberColumn<EditorConfigCurrency> {
         constructor(
-            grid: Grid.IGrid,
+            grid: WijmoProvider.Grid.IGrid,
             columnID: string,
             configs: JSON,
             editorConfig: EditorConfigCurrency

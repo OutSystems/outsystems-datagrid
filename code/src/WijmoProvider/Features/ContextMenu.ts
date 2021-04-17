@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     /**
      * Representation of the ContextMenu feature
      */
     export class ContextMenu implements IBuilder, IDisposable, IContextMenu {
         /** Events from the Context Menu  */
         private _contextMenuEvents: ExternalEvents.ContextMenuEventManager;
-        private _grid: Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _isOpening: boolean;
         /** Map a UniqueId to its MenuItem */
         private _menuItems: Map<string, MenuItem>;
@@ -15,7 +15,7 @@ namespace Features {
         /** Only the root MenuItems to be shown on Input.Menu */
         private _rootMenuItems: MenuItem[];
 
-        constructor(grid: Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
             this._menuItems = new Map();
             this._rootMenuItems = [];
@@ -257,7 +257,7 @@ namespace Features {
             return this._isOpening;
         }
 
-        public get grid(): Grid.IGrid {
+        public get grid(): WijmoProvider.Grid.IGrid {
             return this._grid;
         }
 

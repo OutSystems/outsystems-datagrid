@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     /**
      * Representation of OS Date Column
      * Responsible to instantiate the custom editor (calendar) and all the features of a Date column
@@ -12,7 +12,7 @@ namespace Column {
         EditorConfigDate
     > {
         constructor(
-            grid: Grid.IGrid,
+            grid: WijmoProvider.Grid.IGrid,
             columnID: string,
             configs: JSON,
             editorConfig: JSON

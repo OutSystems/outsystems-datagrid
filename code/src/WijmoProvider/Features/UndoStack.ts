@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     export interface IProviderUndoStack extends IUndoStack {
         closeAction<T>(T);
         pushAction(action: wijmo.undo.UndoableAction);
@@ -7,10 +7,10 @@ namespace Features {
     }
 
     export class UndoStack implements IProviderUndoStack, IBuilder {
-        private _grid: Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _undoStack: wijmo.undo.UndoStack;
 
-        constructor(grid: Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
         }
 

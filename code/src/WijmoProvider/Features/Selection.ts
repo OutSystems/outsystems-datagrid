@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     /**
      * Define non-generic methods containing provider code
      */
@@ -8,7 +8,7 @@ namespace Features {
     }
 
     export class Selection implements IProviderSelection, IBuilder {
-        private _grid: Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _hasSelectors: boolean;
         private _selectionMode: wijmo.grid.SelectionMode;
 
@@ -19,7 +19,7 @@ namespace Features {
          * @param selectionMode The current selection mode
          */
         constructor(
-            grid: Grid.IGridWijmo,
+            grid: WijmoProvider.Grid.IGridWijmo,
             hasSelectors = false,
             selectionMode = wijmo.grid.SelectionMode.MultiRange
         ) {
@@ -186,7 +186,7 @@ namespace Features {
                 .sort(
                     (a, b) => a.bottomRow - b.bottomRow || a.topRow - b.topRow
                 )
-                .map((p) => CellRangeFactory.MakeFromProviderCellRange(p));
+                .map((p) => WijmoProvier.Helper.CellRangeFactory.MakeFromProviderCellRange(p));
         }
 
         public getActiveCell(): GridAPI.Structures.CellRange {
@@ -195,7 +195,7 @@ namespace Features {
             if (currSelection && currSelection.isValid)
                 //currSelection has the last range selected
                 //properties row and col maintain the last cell selected or in a range, where the mouse button was released
-                return CellRangeFactory.MakeFromCoordinates(
+                return WijmoProvier.Helper.CellRangeFactory.MakeFromCoordinates(
                     currSelection.row,
                     currSelection.col
                 );
@@ -204,7 +204,7 @@ namespace Features {
 
         public getAllSelections(): GridAPI.Structures.CellRange[] {
             return this.getProviderAllSelections().map((p) =>
-                CellRangeFactory.MakeFromProviderCellRange(p)
+                WijmoProvier.Helper.CellRangeFactory.MakeFromProviderCellRange(p)
             );
         }
 

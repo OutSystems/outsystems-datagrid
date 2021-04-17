@@ -2,7 +2,7 @@
  * Internal class used to build a Provider range into a CellRange
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace CellRangeFactory {
+namespace WijmoProvier.Helper.CellRangeFactory {
     export function MakeFromProviderCellRange(
         cellRange: wijmo.grid.CellRange
     ): GridAPI.Structures.CellRange {

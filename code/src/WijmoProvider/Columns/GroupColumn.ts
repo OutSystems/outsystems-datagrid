@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     export class GroupColumn
         extends AbstractProviderColumn<ColumnConfigGroup>
         implements IColumnGroup {
         private _columns: IColumn[];
 
         constructor(
-            grid: Grid.IGrid,
+            grid: WijmoProvider.Grid.IGrid,
             columnID: string,
             configs: JSON,
             specific: JSON

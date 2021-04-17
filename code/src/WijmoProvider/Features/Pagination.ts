@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     class PaginationAction extends wijmo.undo.UndoableAction {
         private _grid: wijmo.grid.FlexGrid;
 
@@ -24,13 +24,13 @@ namespace Features {
     }
 
     export class Pagination implements IPagination, IBuilder, IDisposable {
-        private _grid: Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _pageSize: number;
         private _phId: string;
         private _qtdeButtons: number;
         private _view: wijmo.collections.CollectionView;
 
-        constructor(grid: Grid.IGridWijmo, pageSize: number) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo, pageSize: number) {
             this._grid = grid;
             this._view = grid.provider.itemsSource;
             this._pageSize = pageSize;

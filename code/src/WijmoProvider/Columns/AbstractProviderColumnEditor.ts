@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     /**
      * Abstraction implemented by all columns that has a custom Editor
      *
@@ -15,7 +15,7 @@ namespace Column {
         private _editorConfigs: K;
 
         constructor(
-            grid: Grid.IGrid,
+            grid: WijmoProvider.Grid.IGrid,
             columnID: string,
             configs: T,
             editorConfigs: K

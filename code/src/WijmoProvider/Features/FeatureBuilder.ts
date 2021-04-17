@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     export interface IFeatures {
         features: CommmonFeatures;
         dispose();
@@ -29,10 +29,10 @@ namespace Features {
     export abstract class AbstractFactoryBuilder
         implements IFeatures, IBuilder {
         protected _features: CommmonFeatures;
-        protected _grid: Grid.IGrid;
+        protected _grid: WijmoProvider.Grid.IGrid;
         public _featureList: IBuilder[];
 
-        constructor(grid: Grid.IGrid) {
+        constructor(grid: WijmoProvider.Grid.IGrid) {
             this._grid = grid;
             this._featureList = [];
             this._features = new CommmonFeatures();
@@ -188,7 +188,7 @@ namespace Features {
         }
 
         public build(): void {
-            const config = this._grid.config as Grid.FlexGridConfig;
+            const config = this._grid.config as WijmoProvider.Grid.FlexGridConfig;
 
             this._makeDirtyMark()
                 ._makeFilter(config.allowFiltering)

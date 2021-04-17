@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Grid {
+namespace WijmoProvider.Grid {
     export namespace GridFactory {
         export function MakeGrid(
             type: GridType,

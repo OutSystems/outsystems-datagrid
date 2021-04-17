@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     export namespace ColumnFactory {
         export function MakeColumn(
-            grid: Grid.IGrid,
+            grid: WijmoProvider.Grid.IGrid,
             type: ColumnType,
             columnID: string,
             configs: JSON,

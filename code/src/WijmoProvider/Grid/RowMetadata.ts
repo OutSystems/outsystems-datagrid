@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Grid {
+namespace WijmoProvider.Grid {
     export class RowMetadata implements IRowMetadata {
         private readonly _extraData = '__osRowMetada';
         private _grid: wijmo.grid.FlexGrid;

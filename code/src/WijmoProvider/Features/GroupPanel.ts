@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     class GroupPanelAction extends wijmo.undo.UndoableAction {
         private _grid: wijmo.grid.FlexGrid;
 
@@ -41,11 +41,11 @@ namespace Features {
     // export class Builder extends Validation implements IBuilder {
     export class GroupPanel implements IGroupPanel, IBuilder, IDisposable {
         private _currGroupDescription: Array<wijmo.collections.PropertyGroupDescription>;
-        private _grid: Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _groupPanel: wijmo.grid.grouppanel.GroupPanel;
         private _panelId: string;
 
-        constructor(grid: Grid.IGridWijmo, panelId: string) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo, panelId: string) {
             this._grid = grid;
             this._panelId = panelId;
         }

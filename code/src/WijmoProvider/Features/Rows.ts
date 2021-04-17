@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     type _ErrorMessage = { code: number; message: string };
 
     class CssClassInfo {
@@ -78,18 +78,18 @@ namespace Features {
     }
 
     export class Rows implements IBuilder, IRows {
-        private _grid: Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
 
         /** This is going to be used as a label for the css classes saved on the metadata of the Row */
         private readonly _internalLabel = '__cssClass';
 
-        private _metadata: Grid.IRowMetadata;
+        private _metadata: WijmoProvider.Grid.IRowMetadata;
 
         // newItem will be set during grid's setData
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _newItem: any;
 
-        constructor(grid: Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
         }
