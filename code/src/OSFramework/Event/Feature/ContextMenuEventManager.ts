@@ -11,9 +11,9 @@ namespace OSFramework.Event.Feature {
         ContextMenuEventType,
         string
     > {
-        private _contextMenu: OSFramework.Feature.ContextMenu;
+        private _contextMenu: OSFramework.Feature.IContextMenu;
 
-        constructor(contextMenu: OSFramework.Feature.ContextMenu) {
+        constructor(contextMenu: OSFramework.Feature.IContextMenu) {
             super();
             this._contextMenu = contextMenu;
         }

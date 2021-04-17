@@ -2,7 +2,7 @@ namespace OSFramework.Feature {
     /**
      * Exposed methods of a selection feature
      */
-    export interface ISelection extends IProviderConfig<number> {
+    export interface ISelection extends OSFramework.Interface.IProviderConfig<number> {
         /**
          * Checks if row Selectors are enabled
          */

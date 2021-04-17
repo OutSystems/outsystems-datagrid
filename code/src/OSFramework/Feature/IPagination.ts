@@ -9,13 +9,13 @@ namespace OSFramework.Feature {
 
         changePageSize(n: number): void;
         createPageButtons(phId: string, qtde: number): void;
-        executeAction(action: PageAction): boolean;
-        getValueByLabel(label: PageLabel): number;
+        executeAction(action: OSFramework.Enum.PageAction): boolean;
+        getValueByLabel(label: OSFramework.Enum.PageLabel): number;
         moveToFirstPage(): boolean;
         moveToLastPage(): boolean;
         moveToNextPage(): boolean;
         moveToPage(n: number): boolean;
         moveToPreviousPage(): boolean;
-        registerLabel(label: PageLabel, phId: string): void;
+        registerLabel(label: OSFramework.Enum.PageLabel, phId: string): void;
     }
 }
