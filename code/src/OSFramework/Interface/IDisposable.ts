@@ -1,9 +1,11 @@
-/**
- * Defines the interface for disposable objects
- */
-interface IDisposable {
+namespace OSFramework.Interface {
     /**
-     * Dispose object and free up its used resources
+     * Defines the interface for disposable objects
      */
-    dispose(): void;
+    export interface IDisposable {
+        /**
+         * Dispose object and free up its used resources
+         */
+        dispose(): void;
+    }
 }
