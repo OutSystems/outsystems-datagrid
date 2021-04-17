@@ -4,7 +4,7 @@ namespace OSFramework.Grid {
         addedRows: OSFramework.Event.AddNewRowEvent;
         autoGenerate: boolean;
         config: IConfigurationGrid;
-        features: Features.CommmonFeatures;
+        features: OSFramework.Feature.CommmonFeatures;
         gridEvents: OSFramework.Event.GridEventsManager;
         isReady: boolean;
         isSingleEntity: boolean;

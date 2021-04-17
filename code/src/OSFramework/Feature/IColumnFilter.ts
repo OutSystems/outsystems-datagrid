@@ -1,4 +1,4 @@
-namespace Features {
+namespace OSFramework.Feature {
     export interface IColumnFilter
         extends IBuilder,
             IValidation,

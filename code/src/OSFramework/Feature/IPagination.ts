@@ -1,4 +1,4 @@
-namespace Features {
+namespace OSFramework.Feature {
     export interface IPagination {
         pageCount: number;
         pageIndex: number;

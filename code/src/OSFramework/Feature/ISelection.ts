@@ -1,4 +1,4 @@
-namespace Features {
+namespace OSFramework.Feature {
     /**
      * Exposed methods of a selection feature
      */

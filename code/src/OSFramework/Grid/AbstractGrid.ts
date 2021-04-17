@@ -12,7 +12,7 @@ namespace OSFramework.Grid {
         private _validatingAction: OSFramework.Event.ValidatingAction;
         private _widgetId: string;
 
-        protected _features: Features.CommmonFeatures;
+        protected _features: OSFramework.Feature.CommmonFeatures;
         protected _provider: W;
 
         constructor(uniqueId: string, configs: Z) {
@@ -60,7 +60,7 @@ namespace OSFramework.Grid {
             return this._provider;
         }
 
-        public get features(): Features.CommmonFeatures {
+        public get features(): OSFramework.Feature.CommmonFeatures {
             return this._features;
         }
 

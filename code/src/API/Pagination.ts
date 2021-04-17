@@ -130,7 +130,7 @@ namespace GridAPI.Pagination {
             OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    Features.PageLabel.PageIndex,
+                    OSFramework.Feature.Auxiliar.PageLabel.PageIndex,
                     phID
                 );
             }
@@ -150,7 +150,7 @@ namespace GridAPI.Pagination {
             OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    Features.PageLabel.PageCount,
+                    OSFramework.Feature.Auxiliar.PageLabel.PageCount,
                     phID
                 );
             }
@@ -170,7 +170,7 @@ namespace GridAPI.Pagination {
             OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    Features.PageLabel.PageSize,
+                    OSFramework.Feature.Auxiliar.PageLabel.PageSize,
                     phID
                 );
             }
@@ -190,7 +190,7 @@ namespace GridAPI.Pagination {
             OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    Features.PageLabel.RowEnd,
+                    OSFramework.Feature.Auxiliar.PageLabel.RowEnd,
                     phID
                 );
             }
@@ -210,7 +210,7 @@ namespace GridAPI.Pagination {
             OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    Features.PageLabel.RowStart,
+                    OSFramework.Feature.Auxiliar.PageLabel.RowStart,
                     phID
                 );
             }
@@ -230,7 +230,7 @@ namespace GridAPI.Pagination {
             OSFramework.Event.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    Features.PageLabel.RowTotal,
+                    OSFramework.Feature.Auxiliar.PageLabel.RowTotal,
                     phID
                 );
             }

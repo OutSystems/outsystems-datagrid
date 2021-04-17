@@ -1,4 +1,4 @@
-namespace Features {
+namespace OSFramework.Feature {
     /**
      * Interface for freezing columns
      */
