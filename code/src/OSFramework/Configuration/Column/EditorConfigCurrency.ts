@@ -1,6 +1,6 @@
 /// <reference path="./EditorConfigNumber.ts" />
 
-namespace OSFramework.Column {
+namespace OSFramework.Configuration.Column {
     /**
      * Defines the configuration for Currency custom editors
      */

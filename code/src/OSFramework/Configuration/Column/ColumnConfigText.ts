@@ -1,4 +1,4 @@
-namespace OSFramework.Column {
+namespace OSFramework.Configuration.Column {
     /**
      * Defines the configuration for Text Columns
      */
