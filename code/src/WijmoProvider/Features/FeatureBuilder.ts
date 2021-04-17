@@ -7,23 +7,23 @@ namespace WijmoProvider.Feature {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     export class CommmonFeatures {
-        public columnFreeze: OSFramework.Column.IColumnFreeze;
-        public columnReorder: OSFramework.Column.IColumnReorder;
-        public columnResize: OSFramework.Column.IColumnResize;
-        public contextMenu: IContextMenu;
-        public dirtyMark: IDirtyMark;
-        public export: IExport;
-        public filter: OSFramework.Column.IColumnFilter;
-        public groupPanel: IGroupPanel;
-        public pagination: IPagination;
-        public rows: IRows;
-        public selection: ISelection;
-        public sort: OSFramework.Column.IColumnSort;
-        public styling: IStyling;
-        public tabNavigation: ITabNavigation;
-        public undoStack: IUndoStack;
-        public validationMark: IValidationMark;
-        public view: IView;
+        public columnFreeze: OSFramework.Feature.IColumnFreeze;
+        public columnReorder: OSFramework.Feature.IColumnReorder;
+        public columnResize: OSFramework.Feature.IColumnResize;
+        public contextMenu: OSFramework.Feature.IContextMenu;
+        public dirtyMark: OSFramework.Feature.IDirtyMark;
+        public export: OSFramework.Feature.IExport;
+        public filter: OSFramework.Feature.IColumnFilter;
+        public groupPanel: OSFramework.Feature.IGroupPanel;
+        public pagination: OSFramework.Feature.IPagination;
+        public rows: OSFramework.Feature.IRows;
+        public selection: OSFramework.Feature.ISelection;
+        public sort: OSFramework.Feature.IColumnSort;
+        public styling: OSFramework.Feature.IStyling;
+        public tabNavigation: OSFramework.Feature.ITabNavigation;
+        public undoStack: OSFramework.Feature.IUndoStack;
+        public validationMark: OSFramework.Feature.IValidationMark;
+        public view: OSFramework.Feature.IView;
     }
 
     export abstract class AbstractFactoryBuilder
@@ -39,7 +39,7 @@ namespace WijmoProvider.Feature {
         }
 
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any
-        private _instanceOfOSFramework.Interface.IDisposable(object: any): object is OSFramework.Interface.IDisposable {
+        private _instanceOfIDisposable(object: any): object is OSFramework.Interface.IDisposable {
             return 'dispose' in object;
         }
 
@@ -64,7 +64,7 @@ namespace WijmoProvider.Feature {
 
         public dispose(): void {
             this._featureList.forEach((p) => {
-                this._instanceOfOSFramework.Interface.IDisposable(p) && (p as OSFramework.Interface.IDisposable).dispose();
+                this._instanceOfIDisposable(p) && (p as OSFramework.Interface.IDisposable).dispose();
                 p = undefined;
             });
         }

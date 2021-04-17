@@ -77,7 +77,7 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    export class Rows implements OSFramework.Interface.IBuilder, IRows {
+    export class Rows implements OSFramework.Interface.IBuilder, OSFramework.Feature.IRows {
         private _grid: WijmoProvider.Grid.IGridWijmo;
 
         /** This is going to be used as a label for the css classes saved on the metadata of the Row */

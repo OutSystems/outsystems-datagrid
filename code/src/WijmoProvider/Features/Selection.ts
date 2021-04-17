@@ -3,7 +3,7 @@ namespace WijmoProvider.Feature {
     /**
      * Define non-generic methods containing provider code
      */
-    export interface IProviderSelection extends ISelection {
+    export interface IProviderSelection extends OSFramework.Feature.ISelection {
         getProviderAllSelections(): wijmo.grid.CellRange[];
     }
 

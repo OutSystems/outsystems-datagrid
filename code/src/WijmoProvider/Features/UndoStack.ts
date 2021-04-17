@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    export interface IProviderUndoStack extends IUndoStack {
+    export interface IProviderUndoStack extends OSFramework.Feature.IUndoStack {
         closeAction<T>(T);
         pushAction(action: wijmo.undo.UndoableAction);
         startAction(action: wijmo.undo.UndoableAction);

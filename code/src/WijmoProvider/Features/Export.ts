@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    export class Export implements IExport, OSFramework.Interface.IBuilder {
+    export class Export implements OSFramework.Feature.IExport, OSFramework.Interface.IBuilder {
         private _curPage: number;
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _pageSize: number;

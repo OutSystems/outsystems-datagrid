@@ -23,7 +23,7 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    export class Pagination implements IPagination, OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable {
+    export class Pagination implements OSFramework.Feature.IPagination, OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _pageSize: number;
         private _phId: string;

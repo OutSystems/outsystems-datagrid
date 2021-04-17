@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    export class ValidationMark implements IValidationMark, OSFramework.Interface.IBuilder {
+    export class ValidationMark implements OSFramework.Feature.IValidationMark, OSFramework.Interface.IBuilder {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
@@ -8,7 +8,7 @@ namespace WijmoProvider.Feature {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _invalidRows: Array<any>;
         /** Exposed methods to manipulate RowMetadata */
-        private _metadata: WijmoProvider.Grid.IRowMetadata;
+        private _metadata: OSFramework.Interface.IRowMetadata;
 
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
