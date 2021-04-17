@@ -29,7 +29,7 @@ namespace GridAPI.ColumnManager {
         const jsonEditorConfigs = JSON.parse(editorConfig);
 
         if (grid !== undefined) {
-            column = OSFramework.Column.ColumnFactory.MakeColumn(
+            column = WijmoProvider.Column.ColumnFactory.MakeColumn(
                 grid,
                 type,
                 columnID,

@@ -113,21 +113,21 @@ namespace WijmoProvider.Feature {
         private _defineMenuItemOrder(menuItemId: string): number {
             let itemPosition = -1;
             let allItemElems: HTMLCollection;
-            const menuItemElem = Helper.GetElementByUniqueId(menuItemId);
+            const menuItemElem = OSFramework.Helper.GetElementByUniqueId(menuItemId);
             const menuItem = this._menuItems.get(menuItemId);
 
             //When its a root element
             if (menuItem.isRootItem) {
                 //Find the placeholder where the menu items are dragged into
                 allItemElems = menuItemElem.closest(
-                    Helper.Constants.contextMenuCss
+                    OSFramework.Helper.Constants.contextMenuCss
                 ).children;
             }
             //When its a sub-menu-item
             else {
                 //Find its parent placeholder
                 allItemElems = menuItemElem.closest(
-                    Helper.Constants.contextSubMenuCss
+                    OSFramework.Helper.Constants.contextSubMenuCss
                 ).children;
             }
 
@@ -174,20 +174,20 @@ namespace WijmoProvider.Feature {
          */
         private _getMenuParentId(menuItemId: string): string {
             let parentID: string = undefined;
-            const menuItem = Helper.GetElementByUniqueId(menuItemId);
+            const menuItem = OSFramework.Helper.GetElementByUniqueId(menuItemId);
             const menuParentSubMenu = menuItem.closest(
-                Helper.Constants.contextSubMenuCss
+                OSFramework.Helper.Constants.contextSubMenuCss
             );
 
             if (
                 menuParentSubMenu &&
                 menuParentSubMenu.parentNode.querySelector(
-                    Helper.Constants.contextMenuItemUniqueIdCss
+                    OSFramework.Helper.Constants.contextMenuItemUniqueIdCss
                 )
             ) {
                 parentID = menuParentSubMenu.parentNode
-                    .querySelector(Helper.Constants.contextMenuItemUniqueIdCss)
-                    .getAttribute(Helper.Constants.uniqueIdAttribute);
+                    .querySelector(OSFramework.Helper.Constants.contextMenuItemUniqueIdCss)
+                    .getAttribute(OSFramework.Helper.Constants.uniqueIdAttribute);
             }
 
             return parentID;

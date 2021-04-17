@@ -53,7 +53,7 @@ namespace WijmoProvider.Column {
                         grid,
                         columnID,
                         configs,
-                        new EditorConfigNumber(editorConfigs)
+                        new OSFramework.Configuration.Column.EditorConfigNumber(editorConfigs)
                     );
                 case OSFramework.Enum.ColumnType.Text:
                     return new TextColumn(grid, columnID, configs);

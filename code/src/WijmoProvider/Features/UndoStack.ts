@@ -20,7 +20,7 @@ namespace WijmoProvider.Feature {
 
         public build(): void {
             this._undoStack = new wijmo.undo.UndoStack(
-                Helper.GetElementByWidgetId(this._grid.widgetId),
+                OSFramework.Helper.GetElementByWidgetId(this._grid.widgetId),
                 {
                     maxActions: 50
                 }

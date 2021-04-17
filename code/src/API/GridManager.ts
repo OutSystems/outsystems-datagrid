@@ -45,8 +45,8 @@ namespace GridAPI {
             gridID: string,
             configs: string
         ): OSFramework.Grid.IGrid {
-            const _grid = OSFramework.Grid.GridFactory.MakeGrid(
-                OSFramework.Grid.GridType.FlexGrid,
+            const _grid = WijmoProvider.Grid.GridFactory.MakeGrid(
+                OSFramework.Enum.GridType.FlexGrid,
                 gridID,
                 JSON.parse(configs)
             );

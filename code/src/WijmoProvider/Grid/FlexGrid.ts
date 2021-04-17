@@ -108,7 +108,7 @@ namespace WijmoProvider.Grid {
             super.build();
 
             this._provider = new wijmo.grid.FlexGrid(
-                Helper.GetElementByUniqueId(this.uniqueId),
+                OSFramework.Helper.GetElementByUniqueId(this.uniqueId),
                 this._getProviderConfig()
             );
             this._rowMetadata = new RowMetadata(this._provider);

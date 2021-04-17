@@ -1,21 +1,21 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Grid {
-    export interface IGrid extends IBuilder, IDisposable, ISearchById, IView {
-        addedRows: OSFramework.Event.AddNewRowEvent;
+    export interface IGrid extends Interface.IBuilder, Interface.IDisposable, Interface.ISearchById, Feature.IView {
+        addedRows: Event.Grid.AddNewRowEvent;
         autoGenerate: boolean;
-        config: IConfigurationGrid;
-        features: OSFramework.Feature.CommmonFeatures;
-        gridEvents: OSFramework.Event.GridEventsManager;
+        config: Configuration.IConfigurationGrid;
+        features: Feature.CommmonFeatures;
+        gridEvents: Event.Grid.GridEventsManager;
         isReady: boolean;
         isSingleEntity: boolean;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         provider: any;
-        rowMetadata: IRowMetadata;
+        rowMetadata: Interface.IRowMetadata;
         uniqueId: string;
-        validatingAction: OSFramework.Event.ValidatingAction;
+        validatingAction: Event.Grid.ValidatingAction;
         widgetId: string;
 
-        addColumn(col: OSFramework.Column.IColumn);
+        addColumn(col: Column.IColumn);
         changeColumnProperty(
             columnID: string,
             propertyName: string,
@@ -31,11 +31,11 @@ namespace OSFramework.Grid {
          * @param key key can be the uniqueId or a binding of a column
          * @returns Column with the same columnID or binding.
          */
-        getColumn(key: string): OSFramework.Column.IColumn;
+        getColumn(key: string): Column.IColumn;
         /** Return an array containing all grid's column
          * @returns Array of grid's columns
          */
-        getColumns(): OSFramework.Column.IColumn[];
+        getColumns(): Column.IColumn[];
         getData(): JSON[];
         /**
          * Verifies grid has the given Column

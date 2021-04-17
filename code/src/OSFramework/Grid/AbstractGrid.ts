@@ -1,15 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Grid {
-    export abstract class AbstractGrid<W, Z extends IConfigurationGrid>
+    export abstract class AbstractGrid<W, Z extends Configuration.IConfigurationGrid>
         implements IGridGeneric<W> {
-        private _addedRows: OSFramework.Event.AddNewRowEvent;
+        private _addedRows: OSFramework.Event.Grid.AddNewRowEvent;
         private _columns: Map<string, OSFramework.Column.IColumn>;
         private _columnsSet: Set<OSFramework.Column.IColumn>;
         private _configs: Z;
-        private _gridEvents: OSFramework.Event.GridEventsManager;
+        private _gridEvents: OSFramework.Event.Grid.GridEventsManager;
         private _isReady: boolean;
         private _uniqueId: string;
-        private _validatingAction: OSFramework.Event.ValidatingAction;
+        private _validatingAction: OSFramework.Event.Grid.ValidatingAction;
         private _widgetId: string;
 
         protected _features: OSFramework.Feature.CommmonFeatures;
@@ -20,19 +20,19 @@ namespace OSFramework.Grid {
             this._columns = new Map<string, OSFramework.Column.IColumn>();
             this._columnsSet = new Set<OSFramework.Column.IColumn>();
             this._configs = configs;
-            this._addedRows = new OSFramework.Event.AddNewRowEvent();
-            this._gridEvents = new OSFramework.Event.GridEventsManager(this);
             this._isReady = false;
-            this._validatingAction = new OSFramework.Event.ValidatingAction();
+            this._addedRows = new OSFramework.Event.Grid.AddNewRowEvent();
+            this._gridEvents = new OSFramework.Event.Grid.GridEventsManager(this);
+            this._validatingAction = new OSFramework.Event.Grid.ValidatingAction();
 
             console.log(`Constructor grid '${this.uniqueId}'`);
         }
 
-        public get validatingAction(): OSFramework.Event.ValidatingAction {
+        public get validatingAction(): OSFramework.Event.Grid.ValidatingAction {
             return this._validatingAction;
         }
 
-        public get addedRows(): OSFramework.Event.AddNewRowEvent {
+        public get addedRows(): OSFramework.Event.Grid.AddNewRowEvent {
             return this._addedRows;
         }
 
@@ -48,7 +48,7 @@ namespace OSFramework.Grid {
             return this._isReady;
         }
 
-        public get gridEvents(): OSFramework.Event.GridEventsManager {
+        public get gridEvents(): OSFramework.Event.Grid.GridEventsManager {
             return this._gridEvents;
         }
 
@@ -60,7 +60,7 @@ namespace OSFramework.Grid {
             return this._provider;
         }
 
-        public get features(): OSFramework.Feature.CommmonFeatures {
+        public get features(): WijmoProvider.Feature.CommmonFeatures {
             return this._features;
         }
 
@@ -68,7 +68,7 @@ namespace OSFramework.Grid {
             this._isReady = true;
 
             this.gridEvents.trigger(
-                OSFramework.Event.GridEventType.Initialized,
+                OSFramework.Event.Grid.GridEventType.Initialized,
                 this
             );
         }
@@ -146,7 +146,7 @@ namespace OSFramework.Grid {
             }
         }
 
-        public abstract get rowMetadata(): IRowMetadata;
+        public abstract get rowMetadata(): Interface.IRowMetadata;
 
         public abstract get autoGenerate(): boolean;
 

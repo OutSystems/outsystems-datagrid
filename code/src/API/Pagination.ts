@@ -33,7 +33,7 @@ namespace GridAPI.Pagination {
     ): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.GridEventType.Initialized,
+            OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.createPageButtons(
                     phID,
@@ -127,10 +127,10 @@ namespace GridAPI.Pagination {
     ): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.GridEventType.Initialized,
+            OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Feature.Auxiliar.PageLabel.PageIndex,
+                    OSFramework.Enum.PageLabel.PageIndex,
                     phID
                 );
             }
@@ -147,10 +147,10 @@ namespace GridAPI.Pagination {
     export function RegisterPageCountLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.GridEventType.Initialized,
+            OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Feature.Auxiliar.PageLabel.PageCount,
+                    OSFramework.Enum.PageLabel.PageCount,
                     phID
                 );
             }
@@ -167,10 +167,10 @@ namespace GridAPI.Pagination {
     export function RegisterPageSizeLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.GridEventType.Initialized,
+            OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Feature.Auxiliar.PageLabel.PageSize,
+                    OSFramework.Enum.PageLabel.PageSize,
                     phID
                 );
             }
@@ -187,10 +187,10 @@ namespace GridAPI.Pagination {
     export function RegisterRowEndLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.GridEventType.Initialized,
+            OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Feature.Auxiliar.PageLabel.RowEnd,
+                    OSFramework.Enum.PageLabel.RowEnd,
                     phID
                 );
             }
@@ -207,10 +207,10 @@ namespace GridAPI.Pagination {
     export function RegisterRowStartLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.GridEventType.Initialized,
+            OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Feature.Auxiliar.PageLabel.RowStart,
+                    OSFramework.Enum.PageLabel.RowStart,
                     phID
                 );
             }
@@ -227,10 +227,10 @@ namespace GridAPI.Pagination {
     export function RegisterRowTotalLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.GridEventType.Initialized,
+            OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Feature.Auxiliar.PageLabel.RowTotal,
+                    OSFramework.Enum.PageLabel.RowTotal,
                     phID
                 );
             }

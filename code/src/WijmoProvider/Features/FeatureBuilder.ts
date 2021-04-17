@@ -188,7 +188,7 @@ namespace WijmoProvider.Feature {
         }
 
         public build(): void {
-            const config = this._grid.config as WijmoProvider.Grid.FlexGridConfig;
+            const config = this._grid.config as OSFramework.Configuration.Grid.FlexGridConfig;
 
             this._makeDirtyMark()
                 ._makeFilter(config.allowFiltering)

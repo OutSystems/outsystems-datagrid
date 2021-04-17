@@ -52,7 +52,7 @@ namespace WijmoProvider.Feature {
 
         public build(): void {
             this._groupPanel = new wijmo.grid.grouppanel.GroupPanel(
-                Helper.GetElementByUniqueId(this._panelId)
+                OSFramework.Helper.GetElementByUniqueId(this._panelId)
             );
             this._groupPanel.grid = this._grid.provider;
             this._groupPanel.maxGroups = -1;

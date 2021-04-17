@@ -2,7 +2,7 @@ namespace GridAPI.Structures {
     /**
      * Representation of Row-Data, used to OS communication
      */
-    export class RowData implements ISerializable {
+    export class RowData implements OSFramework.Interface.ISerializable {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public dataItem: any;
         public rowIndex: number;
