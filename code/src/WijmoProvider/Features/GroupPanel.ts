@@ -39,7 +39,7 @@ namespace WijmoProvider.Feature {
     }
 
     // export class Builder extends Validation implements OSFramework.Interface.IBuilder {
-    export class GroupPanel implements IGroupPanel, OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable {
+    export class GroupPanel implements OSFramework.Feature.IGroupPanel, OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable {
         private _currGroupDescription: Array<wijmo.collections.PropertyGroupDescription>;
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _groupPanel: wijmo.grid.grouppanel.GroupPanel;

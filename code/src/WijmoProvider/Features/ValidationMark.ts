@@ -46,16 +46,16 @@ namespace WijmoProvider.Feature {
 
         /** Helper to convert the formats of Date and DateTime columns to the format of OS */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        private _convertToFormat(column: WijmoProvider.Column.IColumn, value: any) {
+        private _convertToFormat(column: OSFramework.Column.IColumn, value: any) {
             switch (column.columnType) {
-                case WijmoProvider.Column.ColumnType.Number:
-                case WijmoProvider.Column.ColumnType.Currency:
+                case OSFramework.Enum.ColumnType.Number:
+                case OSFramework.Enum.ColumnType.Currency:
                     return parseFloat(value ?? 0);
-                case WijmoProvider.Column.ColumnType.Date:
+                case OSFramework.Enum.ColumnType.Date:
                     return Helper.ToOSDate(value ?? new Date(1900, 0, 1));
-                case WijmoProvider.Column.ColumnType.DateTime:
+                case OSFramework.Enum.ColumnType.DateTime:
                     return Helper.ToOSDatetime(value ?? new Date(1900, 0, 1));
-                case WijmoProvider.Column.ColumnType.Checkbox:
+                case OSFramework.Enum.ColumnType.Checkbox:
                     return value ?? false;
                 default:
                     return value ?? '';
@@ -213,11 +213,11 @@ namespace WijmoProvider.Feature {
                 if (
                     column.hasEvents &&
                     column.columnEvents.handlers.has(
-                        OSFramework.Event.ColumnEventType.OnCellValueChange
+                        OSFramework.Event.Column.ColumnEventType.OnCellValueChange
                     )
                 ) {
                     column.columnEvents.trigger(
-                        OSFramework.Event.ColumnEventType.OnCellValueChange,
+                        OSFramework.Event.Column.ColumnEventType.OnCellValueChange,
                         this._convertToFormat(column, newValue),
                         this._convertToFormat(column, oldValue),
                         rowNumber
@@ -384,7 +384,7 @@ namespace WijmoProvider.Feature {
          */
         public validateRow(rowNumber: number): void {
             // Triggers the validation method per column
-            this._grid.getColumns().forEach((column: WijmoProvider.Column.IColumn) => {
+            this._grid.getColumns().forEach((column: OSFramework.Column.IColumn) => {
                 // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
                 const currValue = this._grid.provider.getCellData(
                     rowNumber,

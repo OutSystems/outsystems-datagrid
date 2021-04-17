@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Grid {
     export class FlexGrid
-        extends AbstractGrid<wijmo.grid.FlexGrid, FlexGridConfig>
+        extends OSFramework.Grid.AbstractGrid<wijmo.grid.FlexGrid, OSFramework.Configuration.Grid.FlexGridConfig>
         implements IGridWijmo {
         private _fBuilder: WijmoProvider.Feature.FeatureBuilder;
         private _lineIsSingleEntity = false;
@@ -9,10 +9,10 @@ namespace WijmoProvider.Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(gridID: string, configs: any) {
-            super(gridID, new FlexGridConfig(configs));
+            super(gridID, new OSFramework.Configuration.Grid.FlexGridConfig(configs));
         }
 
-        private _addColumns(cols: WijmoProvider.Column.IColumn[]): void {
+        private _addColumns(cols: OSFramework.Column.IColumn[]): void {
             cols.forEach((col) => {
                 super.addColumn(col);
             });
@@ -93,7 +93,7 @@ namespace WijmoProvider.Grid {
             return this._rowMetadata;
         }
 
-        public addColumn(col: WijmoProvider.Column.IColumn): void {
+        public addColumn(col: OSFramework.Column.IColumn): void {
             super.addColumn(col);
 
             if (this.isReady) {
@@ -147,27 +147,27 @@ namespace WijmoProvider.Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public changeProperty(propertyName: string, value: any): void {
-            const propValue = OS_Config_Grid[propertyName];
+            const propValue = OSFramework.Enum.OS_Config_Grid[propertyName];
 
             switch (propValue) {
-                case OS_Config_Grid.allowColumnSort:
+                case OSFramework.Enum.OS_Config_Grid.allowColumnSort:
                     return this.features.sort.setState(value);
-                case OS_Config_Grid.allowFiltering:
+                case OSFramework.Enum.OS_Config_Grid.allowFiltering:
                     return this.features.filter.setState(value);
-                case OS_Config_Grid.rowsPerPage:
+                case OSFramework.Enum.OS_Config_Grid.rowsPerPage:
                     return this.features.pagination.changePageSize(value);
-                case OS_Config_Grid.rowHeight:
+                case OSFramework.Enum.OS_Config_Grid.rowHeight:
                     return this.features.styling.changeRowHeight(value);
-                case OS_Config_Grid.allowColumnReorder:
+                case OSFramework.Enum.OS_Config_Grid.allowColumnReorder:
                     return this.features.columnReorder.setState(value);
-                case OS_Config_Grid.allowColumnResize:
+                case OSFramework.Enum.OS_Config_Grid.allowColumnResize:
                     return this.features.columnResize.setState(value);
-                case OS_Config_Grid.allowKeyTabNavigation:
+                case OSFramework.Enum.OS_Config_Grid.allowKeyTabNavigation:
                     return this.features.tabNavigation.setState(value);
-                case OS_Config_Grid.allowEdit:
+                case OSFramework.Enum.OS_Config_Grid.allowEdit:
                     this._provider.isReadOnly = value === false;
                     return;
-                case OS_Config_Grid.selectionMode:
+                case OSFramework.Enum.OS_Config_Grid.selectionMode:
                     this.features.selection.setState(value);
                     return;
                 default:

@@ -2,13 +2,13 @@
 namespace WijmoProvider.Grid {
     export namespace GridFactory {
         export function MakeGrid(
-            type: GridType,
+            type: OSFramework.Enum.GridType,
             gridID: string,
-            configs: IConfiguration
-        ): IGrid {
+            configs: OSFramework.Configuration.IConfiguration
+        ): OSFramework.Grid.IGrid {
             switch (type) {
-                case GridType.FlexGrid:
-                    return new FlexGrid(gridID, configs as FlexGridConfig);
+                case OSFramework.Enum.GridType.FlexGrid:
+                    return new FlexGrid(gridID, configs as OSFramework.Configuration.Grid.FlexGridConfig);
                 default:
                     throw `There is no factory for this type of grid (${type})`;
             }

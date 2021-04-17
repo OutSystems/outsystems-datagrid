@@ -172,34 +172,34 @@ namespace WijmoProvider.Feature {
             this._view = undefined;
         }
 
-        public executeAction(action: PageAction): boolean {
+        public executeAction(action: OSFramework.Enum.PageAction): boolean {
             switch (action) {
-                case PageAction.FirstPage:
+                case OSFramework.Enum.PageAction.FirstPage:
                     return this.moveToFirstPage();
-                case PageAction.Previous:
+                case OSFramework.Enum.PageAction.Previous:
                     return this.moveToPreviousPage();
-                case PageAction.Forward:
+                case OSFramework.Enum.PageAction.Forward:
                     return this.moveToNextPage();
-                case PageAction.LastPage:
+                case OSFramework.Enum.PageAction.LastPage:
                     return this.moveToLastPage();
                 default:
                     break;
             }
         }
 
-        public getValueByLabel(label: PageLabel): number {
+        public getValueByLabel(label: OSFramework.Enum.PageLabel): number {
             switch (label) {
-                case PageLabel.PageCount:
+                case OSFramework.Enum.PageLabel.PageCount:
                     return this.pageCount;
-                case PageLabel.PageIndex:
+                case OSFramework.Enum.PageLabel.PageIndex:
                     return this.pageIndex + 1;
-                case PageLabel.PageSize:
+                case OSFramework.Enum.PageLabel.PageSize:
                     return this.pageSize;
-                case PageLabel.RowEnd:
+                case OSFramework.Enum.PageLabel.RowEnd:
                     return this.rowEnd;
-                case PageLabel.RowStart:
+                case OSFramework.Enum.PageLabel.RowStart:
                     return this.rowStart;
-                case PageLabel.RowTotal:
+                case OSFramework.Enum.PageLabel.RowTotal:
                     return this.rowTotal;
                 default:
                     break;

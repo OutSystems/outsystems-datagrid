@@ -10,14 +10,14 @@ namespace GridAPI.ColumnManager {
      * Creates the column for the provider with the given configurations.
      *
      * @param {string} columnID id of the column with which actions on the column can be performed.
-     * @param {OSFramework.Column.ColumnType} type type of column to be created.
+     * @param {OSFramework.Enum.ColumnType} type type of column to be created.
      * @param {string} [configs='{}'] configurations in JSON format.
      * @param {string} [editorConfig='{}'] configurations to be used when the column is in edit mode.
      * @returns {*}  {boolean} true if the column got created.
      */
     export function CreateColumn(
         columnID: string,
-        type: OSFramework.Column.ColumnType,
+        type: OSFramework.Enum.ColumnType,
         configs = '{}',
         editorConfig = '{}'
     ): boolean {

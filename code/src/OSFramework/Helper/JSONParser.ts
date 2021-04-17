@@ -79,7 +79,7 @@ namespace OSFramework.Helper {
         //TODO: [RGRIDT-638] Regression 2021-02-12: Is this method the best solution
         const columns = grid
             .getColumns()
-            .filter((p) => p.columnType === OSFramework.Column.ColumnType.Date);
+            .filter((p) => p.columnType === OSFramework.Enum.ColumnType.Date);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const setDeepDate = (binding: Array<string>, object: any) => {
