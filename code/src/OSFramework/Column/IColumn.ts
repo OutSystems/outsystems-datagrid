@@ -3,7 +3,7 @@ namespace OSFramework.Column {
      * Representantion of a Grid's Column
      */
     export interface IColumn extends Interface.IDisposable, Interface.ISearchById, Interface.IBuilder {
-        columnEvents: Event.ColumnEventsManager;
+        columnEvents: Event.Column.ColumnEventsManager;
         /** Internal ColumnType */
         columnType: Enum.ColumnType;
         /** The config used to build the column */

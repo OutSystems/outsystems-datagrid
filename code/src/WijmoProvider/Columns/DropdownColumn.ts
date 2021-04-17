@@ -10,19 +10,19 @@ namespace WijmoProvider.Column {
             super(
                 grid,
                 columnID,
-                new ColumnConfigDropdown(configs, extraConfig)
+                new OSFramework.Configuration.Column.ColumnConfigDropdown(configs, extraConfig)
             );
             this.config.dataMap = new wijmo.grid.DataMap([], 'key', 'text');
-            this._columnEvents = new OSFramework.Event.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): OSFramework.Event.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): ColumnType {
-            return ColumnType.Dropdown;
+        public get columnType(): OSFramework.Enum.ColumnType {
+            return OSFramework.Enum.ColumnType.Dropdown;
         }
 
         public get providerType(): wijmo.DataType {

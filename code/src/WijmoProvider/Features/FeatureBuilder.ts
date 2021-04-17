@@ -7,18 +7,18 @@ namespace WijmoProvider.Feature {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     export class CommmonFeatures {
-        public columnFreeze: IColumnFreeze;
-        public columnReorder: IColumnReorder;
-        public columnResize: IColumnResize;
+        public columnFreeze: OSFramework.Column.IColumnFreeze;
+        public columnReorder: OSFramework.Column.IColumnReorder;
+        public columnResize: OSFramework.Column.IColumnResize;
         public contextMenu: IContextMenu;
         public dirtyMark: IDirtyMark;
         public export: IExport;
-        public filter: IColumnFilter;
+        public filter: OSFramework.Column.IColumnFilter;
         public groupPanel: IGroupPanel;
         public pagination: IPagination;
         public rows: IRows;
         public selection: ISelection;
-        public sort: IColumnSort;
+        public sort: OSFramework.Column.IColumnSort;
         public styling: IStyling;
         public tabNavigation: ITabNavigation;
         public undoStack: IUndoStack;

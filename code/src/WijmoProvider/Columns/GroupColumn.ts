@@ -3,7 +3,7 @@ namespace WijmoProvider.Column {
     export class GroupColumn
         extends AbstractProviderColumn<ColumnConfigGroup>
         implements IColumnGroup {
-        private _columns: IColumn[];
+        private _columns: OSFramework.Column.IColumn[];
 
         constructor(
             grid: OSFramework.Grid.IGrid,
@@ -11,11 +11,11 @@ namespace WijmoProvider.Column {
             configs: JSON,
             specific: JSON
         ) {
-            super(grid, columnID, new ColumnConfigGroup(configs, specific));
+            super(grid, columnID, new OSFramework.Configuration.Column.ColumnConfigGroup(configs, specific));
             this._columns = [];
         }
 
-        public get columnType(): ColumnType {
+        public get columnType(): OSFramework.Enum.ColumnType {
             return ColumnType.Group;
         }
 
@@ -78,7 +78,7 @@ namespace WijmoProvider.Column {
             }
         }
 
-        public addChild(column: IColumn): void {
+        public addChild(column: OSFramework.Column.IColumn): void {
             if (this._columns.indexOf(column) === -1) {
                 this._columns.push(column);
             }
@@ -137,7 +137,7 @@ namespace WijmoProvider.Column {
             return providerConfig;
         }
 
-        public removeChild(column: IColumn): void {
+        public removeChild(column: OSFramework.Column.IColumn): void {
             _.remove(this._columns, (p) => p === column);
         }
     }

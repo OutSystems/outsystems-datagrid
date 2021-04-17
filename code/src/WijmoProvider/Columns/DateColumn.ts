@@ -20,18 +20,18 @@ namespace WijmoProvider.Column {
             super(
                 grid,
                 columnID,
-                new ColumnConfig(configs),
+                new OSFramework.Configuration.Column.ColumnConfig(configs),
                 new EditorConfigDate(editorConfig)
             );
-            this._columnEvents = new OSFramework.Event.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): OSFramework.Event.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): ColumnType {
+        public get columnType(): OSFramework.Enum.ColumnType {
             return ColumnType.Date;
         }
 
