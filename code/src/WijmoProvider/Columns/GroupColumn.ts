@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Column {
     export class GroupColumn
-        extends AbstractProviderColumn<ColumnConfigGroup>
-        implements IColumnGroup {
+        extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfigGroup>
+        implements OSFramework.Column.IColumnGroup {
         private _columns: OSFramework.Column.IColumn[];
 
         constructor(
@@ -16,7 +16,7 @@ namespace WijmoProvider.Column {
         }
 
         public get columnType(): OSFramework.Enum.ColumnType {
-            return ColumnType.Group;
+            return OSFramework.Enum.ColumnType.Group;
         }
 
         public get provider(): wijmo.grid.ColumnGroup {

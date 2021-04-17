@@ -300,18 +300,18 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row to check if there is any metadata associated to the validation marks.
          * @returns ValidationMarkInfo of the row specified.
          */
-        public getMetadata(rowNumber: number): ValidationMarkInfo {
+        public getMetadata(rowNumber: number): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
             if (!this.hasMetadata(rowNumber))
                 this._metadata.setMetadata(
                     rowNumber,
                     this._internalLabel,
-                    new ValidationMarkInfo()
+                    new OSFramework.Feature.Auxiliar.ValidationMarkInfo()
                 );
 
             return this._metadata.getMetadata(
                 rowNumber,
                 this._internalLabel
-            ) as ValidationMarkInfo;
+            ) as OSFramework.Feature.Auxiliar.ValidationMarkInfo;
         }
 
         /**

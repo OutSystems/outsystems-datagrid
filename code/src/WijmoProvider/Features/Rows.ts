@@ -83,7 +83,7 @@ namespace WijmoProvider.Feature {
         /** This is going to be used as a label for the css classes saved on the metadata of the Row */
         private readonly _internalLabel = '__cssClass';
 
-        private _metadata: WijmoProvider.Grid.IRowMetadata;
+        private _metadata: OSFramework.Interface.IRowMetadata;
 
         // newItem will be set during grid's setData
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

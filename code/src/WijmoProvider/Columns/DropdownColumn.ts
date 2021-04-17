@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Column {
-    export class DropdownColumn extends AbstractProviderColumn<ColumnConfigDropdown> {
+    export class DropdownColumn extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfigDropdown> {
         constructor(
             grid: OSFramework.Grid.IGrid,
             columnID: string,

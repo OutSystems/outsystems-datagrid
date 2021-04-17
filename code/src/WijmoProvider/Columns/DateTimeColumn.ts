@@ -7,8 +7,8 @@ namespace WijmoProvider.Column {
      * This object can handle GMT configurations. Multiple users in different locations of the Globe, will have its information based GMT of local machine.
      */
     export class DateTimeColumn extends AbstractProviderColumnEditor<
-        ColumnConfig,
-        EditorConfigDate
+    OSFramework.Configuration.Column.ColumnConfig,
+    OSFramework.Configuration.Column.EditorConfigDate
     > {
         constructor(
             grid: OSFramework.Grid.IGrid,
@@ -20,7 +20,7 @@ namespace WijmoProvider.Column {
                 grid,
                 columnID,
                 new OSFramework.Configuration.Column.ColumnConfig(configs),
-                new EditorConfigDate(editorConfig)
+                new OSFramework.Configuration.Column.EditorConfigDate(editorConfig)
             );
             this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(this);
         }
@@ -31,7 +31,7 @@ namespace WijmoProvider.Column {
         }
 
         public get columnType(): OSFramework.Enum.ColumnType {
-            return ColumnType.DateTime;
+            return OSFramework.Enum.ColumnType.DateTime;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

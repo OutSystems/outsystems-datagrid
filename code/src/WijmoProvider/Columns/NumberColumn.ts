@@ -19,8 +19,8 @@ namespace WijmoProvider.Column {
     ];
 
     export class NumberColumn<
-        T extends EditorConfigNumber
-    > extends AbstractProviderColumnEditor<ColumnConfig, T> {
+        T extends OSFramework.Configuration.Column.EditorConfigNumber
+    > extends AbstractProviderColumnEditor<OSFramework.Configuration.Column.ColumnConfig, T> {
         constructor(
             grid: OSFramework.Grid.IGrid,
             columnID: string,
@@ -37,7 +37,7 @@ namespace WijmoProvider.Column {
         }
 
         public get columnType(): OSFramework.Enum.ColumnType {
-            return ColumnType.Number;
+            return OSFramework.Enum.ColumnType.Number;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -12,7 +12,7 @@ namespace WijmoProvider.Column {
         }
 
         public get columnType(): OSFramework.Enum.ColumnType {
-            return ColumnType.Text;
+            return OSFramework.Enum.ColumnType.Text;
         }
 
         public get providerType(): wijmo.DataType {

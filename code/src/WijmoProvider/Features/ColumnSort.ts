@@ -134,10 +134,10 @@ namespace WijmoProvider.Feature {
         }
 
         public validateAction(
-            action: OSFramework.Event.Actions /*, ctx: any*/
+            action: OSFramework.Event.Grid.Actions /*, ctx: any*/
         ): string {
             if (this.isGridSorted) {
-                if (action === OSFramework.Event.Actions.AddRow) {
+                if (action === OSFramework.Event.Grid.Actions.AddRow) {
                     return "Can't add rows when sort mode is On!";
                 }
             }

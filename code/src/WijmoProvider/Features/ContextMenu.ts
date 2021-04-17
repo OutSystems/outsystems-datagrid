@@ -5,21 +5,21 @@ namespace WijmoProvider.Feature {
      */
     export class ContextMenu implements OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable, OSFramework.Feature.IContextMenu {
         /** Events from the Context Menu  */
-        private _contextMenuEvents: OSFramework.Event.ContextMenuEventManager;
+        private _contextMenuEvents: OSFramework.Event.Feature.ContextMenuEventManager;
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _isOpening: boolean;
         /** Map a UniqueId to its MenuItem */
-        private _menuItems: Map<string, MenuItem>;
+        private _menuItems: Map<string, OSFramework.Feature.Auxiliar.MenuItem>;
         /** Our provider ContextMenu instance */
         private _provider: wijmo.input.Menu;
         /** Only the root MenuItems to be shown on Input.Menu */
-        private _rootMenuItems: MenuItem[];
+        private _rootMenuItems: OSFramework.Feature.Auxiliar.MenuItem[];
 
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
             this._menuItems = new Map();
             this._rootMenuItems = [];
-            this._contextMenuEvents = new OSFramework.Event.ContextMenuEventManager(
+            this._contextMenuEvents = new OSFramework.Event.Feature.ContextMenuEventManager(
                 this
             );
         }
@@ -28,7 +28,7 @@ namespace WijmoProvider.Feature {
          * Adds a MenuItem to the the Mapper and ContextMenu.itemsSource
          * @param menuItem Instance of the new MenuItem just before insertion
          */
-        private _addMenuItem(menuItem: MenuItem) {
+        private _addMenuItem(menuItem: OSFramework.Feature.Auxiliar.MenuItem) {
             //If already inserted to the Map return error message
             if (this._menuItems.has(menuItem.uniqueId)) {
                 console.log(
@@ -90,7 +90,7 @@ namespace WijmoProvider.Feature {
                         // It is easier to understand if it will open instead of analysing if the menu is dropped down.
                         this._isOpening = !e.isDroppedDown;
                         this._contextMenuEvents.trigger(
-                            OSFramework.Event.ContextMenuEventType.Toggle
+                            OSFramework.Event.Feature.ContextMenuEventType.Toggle
                         );
                     }
                 }
@@ -150,7 +150,7 @@ namespace WijmoProvider.Feature {
          * @returns A boolean indicating if the current item should be shown
          */
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        private _filterMenuItem(e: MouseEvent, item: MenuItem): boolean {
+        private _filterMenuItem(e: MouseEvent, item: OSFramework.Feature.Auxiliar.MenuItem): boolean {
             // Get info from clicked area
             const ht = this._grid.provider.hitTest(e);
             //How to filter menu options, based on the clicked area =D
@@ -243,13 +243,13 @@ namespace WijmoProvider.Feature {
          * Sort menu by its order
          * @param items list of menu items
          */
-        private _sortMenuItems(items: MenuItem[]) {
+        private _sortMenuItems(items: OSFramework.Feature.Auxiliar.MenuItem[]) {
             items.sort((a, b): number => {
                 this._sortMenuItems(a.items);
                 return a.order - b.order;
             });
         }
-        public get contextMenuEvents(): OSFramework.Event.ContextMenuEventManager {
+        public get contextMenuEvents(): OSFramework.Event.Feature.ContextMenuEventManager {
             return this._contextMenuEvents;
         }
 
@@ -267,7 +267,7 @@ namespace WijmoProvider.Feature {
             enabled: boolean,
             executeCommand: Callbacks.ContextMenu.OSClickEvent
         ): void {
-            const menuItem = new MenuItem(menuItemId);
+            const menuItem = new OSFramework.Feature.Auxiliar.MenuItem(menuItemId);
 
             menuItem.label = label;
             menuItem.enabled = enabled;
@@ -277,7 +277,7 @@ namespace WijmoProvider.Feature {
         }
 
         public addMenuItemSeparator(menuItemId: string): void {
-            const menuItem = new MenuItem(menuItemId);
+            const menuItem = new OSFramework.Feature.Auxiliar.MenuItem(menuItemId);
             menuItem.label = '-'; // this header is known by the provider, and is used to create the line separator
 
             this._addMenuItem(menuItem);

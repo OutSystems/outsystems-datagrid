@@ -89,7 +89,7 @@ namespace WijmoProvider.Grid {
             return this._lineIsSingleEntity;
         }
 
-        public get rowMetadata(): IRowMetadata {
+        public get rowMetadata(): OSFramework.Interface.IRowMetadata {
             return this._rowMetadata;
         }
 

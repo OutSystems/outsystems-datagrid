@@ -226,7 +226,7 @@ namespace WijmoProvider.Feature {
             return this._view.moveToPreviousPage();
         }
 
-        public registerLabel(label: PageLabel, phId: string): void {
+        public registerLabel(label: OSFramework.Enum.PageLabel, phId: string): void {
             this._view.collectionChanged.addHandler(() => {
                 const element = document.getElementById(phId);
 

@@ -2,12 +2,12 @@
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Column {
-    export class CurrencyColumn extends NumberColumn<EditorConfigCurrency> {
+    export class CurrencyColumn extends NumberColumn<OSFramework.Configuration.Column.EditorConfigCurrency> {
         constructor(
             grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
-            editorConfig: EditorConfigCurrency
+            editorConfig: OSFramework.Configuration.Column.EditorConfigCurrency
         ) {
             super(grid, columnID, configs, editorConfig);
             this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(this);
@@ -29,7 +29,7 @@ namespace WijmoProvider.Column {
         }
 
         public get columnType(): OSFramework.Enum.ColumnType {
-            return ColumnType.Currency;
+            return OSFramework.Enum.ColumnType.Currency;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
