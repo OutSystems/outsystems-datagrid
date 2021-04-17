@@ -1,41 +1,20 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
     export interface IFeatures {
-        features: CommmonFeatures;
+        features: OSFramework.Feature.ExposedFeatures;
         dispose();
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    export class CommmonFeatures {
-        public columnFreeze: OSFramework.Feature.IColumnFreeze;
-        public columnReorder: OSFramework.Feature.IColumnReorder;
-        public columnResize: OSFramework.Feature.IColumnResize;
-        public contextMenu: OSFramework.Feature.IContextMenu;
-        public dirtyMark: OSFramework.Feature.IDirtyMark;
-        public export: OSFramework.Feature.IExport;
-        public filter: OSFramework.Feature.IColumnFilter;
-        public groupPanel: OSFramework.Feature.IGroupPanel;
-        public pagination: OSFramework.Feature.IPagination;
-        public rows: OSFramework.Feature.IRows;
-        public selection: OSFramework.Feature.ISelection;
-        public sort: OSFramework.Feature.IColumnSort;
-        public styling: OSFramework.Feature.IStyling;
-        public tabNavigation: OSFramework.Feature.ITabNavigation;
-        public undoStack: OSFramework.Feature.IUndoStack;
-        public validationMark: OSFramework.Feature.IValidationMark;
-        public view: OSFramework.Feature.IView;
     }
 
     export abstract class AbstractFactoryBuilder
         implements IFeatures, OSFramework.Interface.IBuilder {
-        protected _features: CommmonFeatures;
+        protected _features: OSFramework.Feature.ExposedFeatures;
         protected _grid: OSFramework.Grid.IGrid;
         public _featureList: OSFramework.Interface.IBuilder[];
 
         constructor(grid: OSFramework.Grid.IGrid) {
             this._grid = grid;
             this._featureList = [];
-            this._features = new CommmonFeatures();
+            this._features = new OSFramework.Feature.ExposedFeatures();
         }
 
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any
@@ -54,7 +33,7 @@ namespace WijmoProvider.Feature {
             return o;
         }
 
-        public get features(): CommmonFeatures {
+        public get features(): OSFramework.Feature.ExposedFeatures {
             return this._features;
         }
 

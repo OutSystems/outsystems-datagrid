@@ -34,12 +34,12 @@ namespace WijmoProvider.Grid {
             }
 
             //In-place convert data to Outsystems Format
-            Helper.ToOSFormat(this, tempArray);
+            OSFramework.Helper.ToOSFormat(this, tempArray);
 
             if (this.isSingleEntity) {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer
                 //when deserializing to need to put in the JSONDeserialize in the target "List Record {ENTITY}" -> would require extra step.
-                tempArray = Helper.FlattenArray(tempArray as [JSON]);
+                tempArray = OSFramework.Helper.FlattenArray(tempArray as [JSON]);
             }
 
             return JSON.stringify(tempArray);
@@ -255,7 +255,7 @@ namespace WijmoProvider.Grid {
 
         public setData(data: string): boolean {
             // Use with a Date reviver to restore date fields
-            const infojson = Helper.JSONParser(data);
+            const infojson = OSFramework.Helper.JSONParser(data);
             const hasMetainfo = WijmoProvider.Column.Generator.HasMetadata(infojson);
             let gridData = hasMetainfo ? infojson.data : infojson;
 
@@ -284,7 +284,7 @@ namespace WijmoProvider.Grid {
                     } else {
                         //if the grid is read-only, then we'll flatten the array and use wijmo generator
                         if (this.provider.isReadOnly) {
-                            gridData = Helper.FlattenArray(gridData);
+                            gridData = OSFramework.Helper.FlattenArray(gridData);
                         } else {
                             //if the grid is marked as editable, and is to be auto generated, we do not support (because of the save)
                             throw new Error(

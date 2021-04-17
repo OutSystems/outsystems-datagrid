@@ -12,7 +12,7 @@ namespace OSFramework.Grid {
         private _validatingAction: OSFramework.Event.Grid.ValidatingAction;
         private _widgetId: string;
 
-        protected _features: OSFramework.Feature.CommmonFeatures;
+        protected _features: OSFramework.Feature.ExposedFeatures;
         protected _provider: W;
 
         constructor(uniqueId: string, configs: Z) {
@@ -60,7 +60,7 @@ namespace OSFramework.Grid {
             return this._provider;
         }
 
-        public get features(): WijmoProvider.Feature.CommmonFeatures {
+        public get features(): OSFramework.Feature.ExposedFeatures {
             return this._features;
         }
 

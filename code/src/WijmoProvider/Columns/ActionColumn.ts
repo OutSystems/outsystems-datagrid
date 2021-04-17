@@ -37,7 +37,7 @@ namespace WijmoProvider.Column {
                         JSON.stringify(
                             //TODO: [RGRIDT-637] refactor this code.
                             this.grid.isSingleEntity
-                                ? Helper.Flatten(ctx.item)
+                                ? OSFramework.Helper.Flatten(ctx.item)
                                 : ctx.item
                         )
                     );

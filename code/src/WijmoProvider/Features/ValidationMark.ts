@@ -52,9 +52,9 @@ namespace WijmoProvider.Feature {
                 case OSFramework.Enum.ColumnType.Currency:
                     return parseFloat(value ?? 0);
                 case OSFramework.Enum.ColumnType.Date:
-                    return Helper.ToOSDate(value ?? new Date(1900, 0, 1));
+                    return OSFramework.Helper.ToOSDate(value ?? new Date(1900, 0, 1));
                 case OSFramework.Enum.ColumnType.DateTime:
-                    return Helper.ToOSDatetime(value ?? new Date(1900, 0, 1));
+                    return OSFramework.Helper.ToOSDatetime(value ?? new Date(1900, 0, 1));
                 case OSFramework.Enum.ColumnType.Checkbox:
                     return value ?? false;
                 default:
