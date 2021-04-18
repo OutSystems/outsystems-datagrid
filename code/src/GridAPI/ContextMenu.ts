@@ -40,7 +40,7 @@ namespace GridAPI.ContextMenu {
         label: string,
         enabled: boolean,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        clickEvent: Callbacks.ContextMenu.OSClickEvent
+        clickEvent: GridAPI.Callbacks.ContextMenu.OSClickEvent
     ): void {
         const gridID = GetGridByMenuId(menuItemId);
 

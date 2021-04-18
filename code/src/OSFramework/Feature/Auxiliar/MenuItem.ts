@@ -5,7 +5,7 @@ namespace OSFramework.Feature.Auxiliar {
      */
     export class MenuItem {
         /** The method executed by the MenuItem  */
-        public clickEvent: Callbacks.ContextMenu.OSClickEvent;
+        public clickEvent: GridAPI.Callbacks.ContextMenu.OSClickEvent;
         /** Used to indicate if a menuItem can be executed */
         public enabled: boolean;
         /** The list of sub-menu-items */

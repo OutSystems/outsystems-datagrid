@@ -23,7 +23,7 @@ namespace OSFramework.Event {
             return this._handlers;
         }
 
-        public addHandler(eventType: ET, handler: Callbacks.Generic): void {
+        public addHandler(eventType: ET, handler: GridAPI.Callbacks.Generic): void {
             if (this._handlers.has(eventType)) {
                 this._handlers.get(eventType).addHandler(handler);
             } else {
@@ -42,7 +42,7 @@ namespace OSFramework.Event {
             return returnValue;
         }
 
-        public removeHandler(eventType: ET, handler: Callbacks.Generic): void {
+        public removeHandler(eventType: ET, handler: GridAPI.Callbacks.Generic): void {
             if (this._handlers.has(eventType)) {
                 const event = this._handlers.get(eventType);
                 event.removeHandler(handler);

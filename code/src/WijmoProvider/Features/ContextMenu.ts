@@ -265,7 +265,7 @@ namespace WijmoProvider.Feature {
             menuItemId: string,
             label: string,
             enabled: boolean,
-            executeCommand: Callbacks.ContextMenu.OSClickEvent
+            executeCommand: GridAPI.Callbacks.ContextMenu.OSClickEvent
         ): void {
             const menuItem = new OSFramework.Feature.Auxiliar.MenuItem(menuItemId);
 
