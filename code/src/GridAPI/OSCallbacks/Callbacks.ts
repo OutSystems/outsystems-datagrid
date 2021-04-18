@@ -14,33 +14,4 @@ namespace GridAPI.Callbacks {
      * @param {string} gridID enables the OutSystems code to understand which grid triggered the event
      */
     export type OSGeneric = { (gridID: string, ...args): void };
-
-    /**
-     * Namespace that contains the callbacks signatures to be passed in the column events.
-     */
-    export namespace OSColumn {
-        /**
-         * This is the callback signature for events triggerend by column action.
-         * @param {string} gridID which grid triggered the event
-         * @param {string} columnID which column triggered the event
-         * @param {string} line values present in the line
-         */
-        export type ClickEvent = {
-            (gridID: string, columnID: string, line: string): void;
-        };
-    }
-
-    /**
-     * Namespace that contains the callbacks signatures to be passed in the grid events.
-     */
-    export namespace OSGrid {
-        /**
-         * This is the callback signature for events triggerend by the grid.
-         * @param {string} gridID which grid triggered the event
-         * @param {OSFramework.Grid.IGrid} gridObj object of the grid which triggered the event
-         */
-        export type Event = {
-            (gridID: string, gridObj: OSFramework.Grid.IGrid): void;
-        };
-    }
 }
