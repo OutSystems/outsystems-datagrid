@@ -17,13 +17,13 @@ namespace GridAPI.GridManager.Events {
      * @export
      * @param {string} gridID grid in which to attach to an event.
      * @param {OSFramework.Event.Grid.GridEventType} eventName event to which attach to.
-     * @param {GridAPI.Callbacks.OSGrid.Event} callback to be invoked qhen the event occurs.
+     * @param {OSFramework.OSCallbacks.OSGrid.Event} callback to be invoked qhen the event occurs.
      */
     export function Subscribe(
         gridID: string,
         eventName: OSFramework.Event.Grid.GridEventType,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        callback: GridAPI.Callbacks.OSGrid.Event
+        callback: OSFramework.OSCallbacks.OSGrid.Event
     ): void {
         const grid = GetGridById(gridID);
         if (grid === undefined) {
@@ -65,7 +65,7 @@ namespace GridAPI.GridManager.Events {
         gridID: string,
         eventName: OSFramework.Event.Grid.GridEventType,
         // eslint-disable-next-line
-        callback: GridAPI.Callbacks.OSGrid.Event
+        callback: OSFramework.OSCallbacks.OSGrid.Event
     ): void {
         const grid = GetGridById(gridID, false);
         if (grid !== undefined) {

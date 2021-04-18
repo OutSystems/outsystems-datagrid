@@ -1,7 +1,7 @@
 /**
  * Namespace that contains the callbacks signatures to be passed in the grid events.
  */
-namespace GridAPI.Callbacks.OSGrid {
+namespace OSFramework.OSCallbacks.OSGrid {
     /**
      * This is the callback signature for events triggerend by the grid.
      * @param {string} gridID which grid triggered the event
