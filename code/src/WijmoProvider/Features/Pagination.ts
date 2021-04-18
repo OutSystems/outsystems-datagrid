@@ -23,7 +23,11 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    export class Pagination implements OSFramework.Feature.IPagination, OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable {
+    export class Pagination
+        implements
+            OSFramework.Feature.IPagination,
+            OSFramework.Interface.IBuilder,
+            OSFramework.Interface.IDisposable {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _pageSize: number;
         private _phId: string;
@@ -226,7 +230,10 @@ namespace WijmoProvider.Feature {
             return this._view.moveToPreviousPage();
         }
 
-        public registerLabel(label: OSFramework.Enum.PageLabel, phId: string): void {
+        public registerLabel(
+            label: OSFramework.Enum.PageLabel,
+            phId: string
+        ): void {
             this._view.collectionChanged.addHandler(() => {
                 const element = document.getElementById(phId);
 

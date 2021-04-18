@@ -26,7 +26,10 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    export class ColumnSort implements OSFramework.Feature.IColumnSort, OSFramework.Interface.IBuilder {
+    export class ColumnSort
+        implements
+            OSFramework.Feature.IColumnSort,
+            OSFramework.Interface.IBuilder {
         private _enabled: boolean;
         private _grid: WijmoProvider.Grid.IGridWijmo;
 

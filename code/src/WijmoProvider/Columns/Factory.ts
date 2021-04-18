@@ -18,7 +18,9 @@ namespace WijmoProvider.Column {
                         grid,
                         columnID,
                         configs,
-                        new OSFramework.Configuration.Column.EditorConfigCurrency(editorConfigs)
+                        new OSFramework.Configuration.Column.EditorConfigCurrency(
+                            editorConfigs
+                        )
                     );
                 case OSFramework.Enum.ColumnType.Date:
                     return new DateColumn(
@@ -53,7 +55,9 @@ namespace WijmoProvider.Column {
                         grid,
                         columnID,
                         configs,
-                        new OSFramework.Configuration.Column.EditorConfigNumber(editorConfigs)
+                        new OSFramework.Configuration.Column.EditorConfigNumber(
+                            editorConfigs
+                        )
                     );
                 case OSFramework.Enum.ColumnType.Text:
                     return new TextColumn(grid, columnID, configs);

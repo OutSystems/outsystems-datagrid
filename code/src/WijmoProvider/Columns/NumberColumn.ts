@@ -20,15 +20,25 @@ namespace WijmoProvider.Column {
 
     export class NumberColumn<
         T extends OSFramework.Configuration.Column.EditorConfigNumber
-    > extends AbstractProviderColumnEditor<OSFramework.Configuration.Column.ColumnConfig, T> {
+    > extends AbstractProviderColumnEditor<
+        OSFramework.Configuration.Column.ColumnConfig,
+        T
+    > {
         constructor(
             grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
             editorConfig: T
         ) {
-            super(grid, columnID, new OSFramework.Configuration.Column.ColumnConfig(configs), editorConfig);
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(this);
+            super(
+                grid,
+                columnID,
+                new OSFramework.Configuration.Column.ColumnConfig(configs),
+                editorConfig
+            );
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
+                this
+            );
         }
 
         /** Returns all the events associated to the column */

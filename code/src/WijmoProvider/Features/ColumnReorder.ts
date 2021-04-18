@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    export class ColumnReorder implements OSFramework.Feature.IColumnReorder, OSFramework.Interface.IBuilder {
+    export class ColumnReorder
+        implements
+            OSFramework.Feature.IColumnReorder,
+            OSFramework.Interface.IBuilder {
         private _enabled: boolean;
         private _grid: WijmoProvider.Grid.IGridWijmo;
 

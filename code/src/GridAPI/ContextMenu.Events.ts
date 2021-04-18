@@ -11,7 +11,7 @@ namespace GridAPI.ContextMenu.Events {
     export function Subscribe(
         menuItemID: string,
         eventName: OSFramework.Event.Feature.ContextMenuEventType,
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line
         callback: GridAPI.Callbacks.ContextMenu.Toggle
     ): void {
         const gridId = GetGridByMenuId(menuItemID);

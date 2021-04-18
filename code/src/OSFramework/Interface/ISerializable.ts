@@ -5,7 +5,7 @@ namespace OSFramework.Interface {
      *
      * @example GridAPI.Selection.getAllSelectionsDataSource
      */
-     export interface ISerializable {
+    export interface ISerializable {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         serialize(): any;
     }

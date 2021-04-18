@@ -21,7 +21,11 @@ namespace WijmoProvider.Feature {
     }
 
     // export class Builder extends Validation implements OSFramework.Interface.IBuilder {
-    export class ColumnFilter implements OSFramework.Feature.IColumnFilter, OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable {
+    export class ColumnFilter
+        implements
+            OSFramework.Feature.IColumnFilter,
+            OSFramework.Interface.IBuilder,
+            OSFramework.Interface.IDisposable {
         private _enabled: boolean;
         private _filter: wijmo.grid.filter.FlexGridFilter;
         private _grid: WijmoProvider.Grid.IGridWijmo;

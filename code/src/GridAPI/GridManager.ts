@@ -22,7 +22,10 @@ namespace GridAPI {
          * @param {string} data Data to be set in the data grid in JSON format. If the action ArrangeData is used, metadata will also be present and used to generate the columns of the grid.
          * @returns {*}  {boolean} true if the data was changed in the grid.
          */
-        function setDataInGrid(grid: OSFramework.Grid.IGrid, data: string): boolean {
+        function setDataInGrid(
+            grid: OSFramework.Grid.IGrid,
+            data: string
+        ): boolean {
             let output = false;
             if (grid !== undefined) {
                 if (grid.isReady && data !== '' && data !== '{}') {

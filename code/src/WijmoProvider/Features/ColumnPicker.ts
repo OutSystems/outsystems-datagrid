@@ -106,7 +106,10 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    export class ColumnPicker implements OSFramework.Interface.IBuilder, OSFramework.Interface.IDisposable {
+    export class ColumnPicker
+        implements
+            OSFramework.Interface.IBuilder,
+            OSFramework.Interface.IDisposable {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _theColumnPicker: wijmo.input.ListBox;
 

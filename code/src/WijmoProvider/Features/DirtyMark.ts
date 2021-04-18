@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    export class DirtyMark implements OSFramework.Feature.IDirtyMark, OSFramework.Interface.IBuilder {
+    export class DirtyMark
+        implements
+            OSFramework.Feature.IDirtyMark,
+            OSFramework.Interface.IBuilder {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private readonly _internalLabel = '__dirtyMarkFeature';
         private _metadata: OSFramework.Interface.IRowMetadata;
@@ -166,7 +169,9 @@ namespace WijmoProvider.Feature {
         //     this._grid.grid.invalidate(); //Mark to be refreshed
         // }
 
-        public getMetadata(row: number): OSFramework.Feature.Auxiliar.DirtyMarksInfo {
+        public getMetadata(
+            row: number
+        ): OSFramework.Feature.Auxiliar.DirtyMarksInfo {
             if (!this.hasMetadata(row))
                 this._metadata.setMetadata(
                     row,

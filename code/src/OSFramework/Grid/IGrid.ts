@@ -1,6 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Grid {
-    export interface IGrid extends Interface.IBuilder, Interface.IDisposable, Interface.ISearchById, Feature.IView {
+    export interface IGrid
+        extends Interface.IBuilder,
+            Interface.IDisposable,
+            Interface.ISearchById,
+            Feature.IView {
         addedRows: Event.Grid.AddNewRowEvent;
         autoGenerate: boolean;
         config: Configuration.IConfigurationGrid;

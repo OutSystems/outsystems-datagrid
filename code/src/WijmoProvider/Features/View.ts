@@ -3,7 +3,8 @@ namespace WijmoProvider.Feature {
     /**
      * Defines the Save and Load layout feature
      */
-    export class View implements OSFramework.Interface.IBuilder, OSFramework.Feature.IView {
+    export class View
+        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IView {
         private _grid: WijmoProvider.Grid.IGridWijmo;
 
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {

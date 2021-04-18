@@ -13,7 +13,7 @@ namespace OSFramework.Feature {
         isOpening: boolean;
 
         //TODO: PART4: Describe
-        grid: Grid.IGrid
+        grid: Grid.IGrid;
 
         /**
          * Responsable for adding menu items

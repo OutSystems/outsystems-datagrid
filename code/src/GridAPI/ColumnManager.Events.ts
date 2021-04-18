@@ -11,7 +11,7 @@ namespace GridAPI.ColumnManager.Events {
     export function Subscribe(
         columnID: string,
         eventName: OSFramework.Event.Column.ColumnEventType,
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line
         callback: GridAPI.Callbacks.OSColumn.ClickEvent
     ): void {
         const column = GetColumnById(columnID);

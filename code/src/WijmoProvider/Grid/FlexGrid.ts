@@ -1,7 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Grid {
     export class FlexGrid
-        extends OSFramework.Grid.AbstractGrid<wijmo.grid.FlexGrid, OSFramework.Configuration.Grid.FlexGridConfig>
+        extends OSFramework.Grid.AbstractGrid<
+            wijmo.grid.FlexGrid,
+            OSFramework.Configuration.Grid.FlexGridConfig
+        >
         implements IGridWijmo {
         private _fBuilder: WijmoProvider.Feature.FeatureBuilder;
         private _lineIsSingleEntity = false;
@@ -9,7 +12,10 @@ namespace WijmoProvider.Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(gridID: string, configs: any) {
-            super(gridID, new OSFramework.Configuration.Grid.FlexGridConfig(configs));
+            super(
+                gridID,
+                new OSFramework.Configuration.Grid.FlexGridConfig(configs)
+            );
         }
 
         private _addColumns(cols: OSFramework.Column.IColumn[]): void {
@@ -39,7 +45,9 @@ namespace WijmoProvider.Grid {
             if (this.isSingleEntity) {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer
                 //when deserializing to need to put in the JSONDeserialize in the target "List Record {ENTITY}" -> would require extra step.
-                tempArray = OSFramework.Helper.FlattenArray(tempArray as [JSON]);
+                tempArray = OSFramework.Helper.FlattenArray(
+                    tempArray as [JSON]
+                );
             }
 
             return JSON.stringify(tempArray);
@@ -256,7 +264,9 @@ namespace WijmoProvider.Grid {
         public setData(data: string): boolean {
             // Use with a Date reviver to restore date fields
             const infojson = OSFramework.Helper.JSONParser(data);
-            const hasMetainfo = WijmoProvider.Column.Generator.HasMetadata(infojson);
+            const hasMetainfo = WijmoProvider.Column.Generator.HasMetadata(
+                infojson
+            );
             let gridData = hasMetainfo ? infojson.data : infojson;
 
             if (this.isReady) {
@@ -284,7 +294,9 @@ namespace WijmoProvider.Grid {
                     } else {
                         //if the grid is read-only, then we'll flatten the array and use wijmo generator
                         if (this.provider.isReadOnly) {
-                            gridData = OSFramework.Helper.FlattenArray(gridData);
+                            gridData = OSFramework.Helper.FlattenArray(
+                                gridData
+                            );
                         } else {
                             //if the grid is marked as editable, and is to be auto generated, we do not support (because of the save)
                             throw new Error(

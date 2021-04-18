@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Grid {
-    export abstract class AbstractGrid<W, Z extends Configuration.IConfigurationGrid>
-        implements IGridGeneric<W> {
+    export abstract class AbstractGrid<
+        W,
+        Z extends Configuration.IConfigurationGrid
+    > implements IGridGeneric<W> {
         private _addedRows: OSFramework.Event.Grid.AddNewRowEvent;
         private _columns: Map<string, OSFramework.Column.IColumn>;
         private _columnsSet: Set<OSFramework.Column.IColumn>;
@@ -22,7 +24,9 @@ namespace OSFramework.Grid {
             this._configs = configs;
             this._isReady = false;
             this._addedRows = new OSFramework.Event.Grid.AddNewRowEvent();
-            this._gridEvents = new OSFramework.Event.Grid.GridEventsManager(this);
+            this._gridEvents = new OSFramework.Event.Grid.GridEventsManager(
+                this
+            );
             this._validatingAction = new OSFramework.Event.Grid.ValidatingAction();
 
             console.log(`Constructor grid '${this.uniqueId}'`);
@@ -82,16 +86,18 @@ namespace OSFramework.Grid {
 
         public build(): void {
             //RGRIDT-372 - let's get the ID of the parent element, which will be used by the developer
-            this._widgetId = OSFramework.Helper.GetElementByUniqueId(this.uniqueId).closest(
-                OSFramework.Helper.Constants.gridTag
-            ).id;
+            this._widgetId = OSFramework.Helper.GetElementByUniqueId(
+                this.uniqueId
+            ).closest(OSFramework.Helper.Constants.gridTag).id;
         }
 
         public dispose(): void {
             this._isReady = false;
-            this._columns.forEach((col: OSFramework.Column.IColumn, columnID: string) => {
-                this.removeColumn(columnID);
-            });
+            this._columns.forEach(
+                (col: OSFramework.Column.IColumn, columnID: string) => {
+                    this.removeColumn(columnID);
+                }
+            );
         }
 
         public equalsToID(gridID: string): boolean {
@@ -118,8 +124,12 @@ namespace OSFramework.Grid {
         }
 
         public hasColumnsDefined(): boolean {
-            const widget = OSFramework.Helper.GetElementByUniqueId(this.uniqueId);
-            const gridElement = widget.closest(OSFramework.Helper.Constants.gridTag);
+            const widget = OSFramework.Helper.GetElementByUniqueId(
+                this.uniqueId
+            );
+            const gridElement = widget.closest(
+                OSFramework.Helper.Constants.gridTag
+            );
             const columns = gridElement.querySelectorAll(
                 OSFramework.Helper.Constants.columnCss
             );

@@ -62,7 +62,10 @@ namespace GridAPI.ColumnManager {
             //UniqueID not found
         } else {
             // Try to find its reference on DOM
-            const elem = OSFramework.Helper.GetElementByUniqueId(columnID, false);
+            const elem = OSFramework.Helper.GetElementByUniqueId(
+                columnID,
+                false
+            );
 
             // If element is found, means that the DOM was rendered
             if (elem !== undefined) {
@@ -83,7 +86,9 @@ namespace GridAPI.ColumnManager {
      * Returns a column based on ID
      * @param columnID Column Id
      */
-    export function GetColumnById(columnID: string): OSFramework.Column.IColumn {
+    export function GetColumnById(
+        columnID: string
+    ): OSFramework.Column.IColumn {
         return columnArr.find((p) => p && p.equalsToID(columnID));
     }
 

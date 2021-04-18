@@ -7,7 +7,8 @@ namespace WijmoProvider.Feature {
         getProviderAllSelections(): wijmo.grid.CellRange[];
     }
 
-    export class Selection implements IProviderSelection, OSFramework.Interface.IBuilder {
+    export class Selection
+        implements IProviderSelection, OSFramework.Interface.IBuilder {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _hasSelectors: boolean;
         private _selectionMode: wijmo.grid.SelectionMode;
@@ -186,7 +187,11 @@ namespace WijmoProvider.Feature {
                 .sort(
                     (a, b) => a.bottomRow - b.bottomRow || a.topRow - b.topRow
                 )
-                .map((p) => WijmoProvier.Helper.CellRangeFactory.MakeFromProviderCellRange(p));
+                .map((p) =>
+                    WijmoProvider.Helper.CellRangeFactory.MakeFromProviderCellRange(
+                        p
+                    )
+                );
         }
 
         public getActiveCell(): OSFramework.OSStructure.CellRange {
@@ -195,7 +200,7 @@ namespace WijmoProvider.Feature {
             if (currSelection && currSelection.isValid)
                 //currSelection has the last range selected
                 //properties row and col maintain the last cell selected or in a range, where the mouse button was released
-                return WijmoProvier.Helper.CellRangeFactory.MakeFromCoordinates(
+                return WijmoProvider.Helper.CellRangeFactory.MakeFromCoordinates(
                     currSelection.row,
                     currSelection.col
                 );
@@ -204,12 +209,17 @@ namespace WijmoProvider.Feature {
 
         public getAllSelections(): OSFramework.OSStructure.CellRange[] {
             return this.getProviderAllSelections().map((p) =>
-                WijmoProvier.Helper.CellRangeFactory.MakeFromProviderCellRange(p)
+                WijmoProvider.Helper.CellRangeFactory.MakeFromProviderCellRange(
+                    p
+                )
             );
         }
 
         public getAllSelectionsData(): OSFramework.OSStructure.RowData[] {
-            const rowColumn = new Map<number, OSFramework.OSStructure.RowData>();
+            const rowColumn = new Map<
+                number,
+                OSFramework.OSStructure.RowData
+            >();
             const rowColumnArr = [];
 
             this.getProviderAllSelections().map((range) => {

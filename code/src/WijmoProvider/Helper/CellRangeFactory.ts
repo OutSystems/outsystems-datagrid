@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvier.Helper.CellRangeFactory {
+namespace WijmoProvider.Helper.CellRangeFactory {
     /**
      * Internal class used to build a Provider range into a CellRange
      */

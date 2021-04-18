@@ -64,7 +64,7 @@ namespace GridAPI.GridManager.Events {
     export function Unsubscribe(
         gridID: string,
         eventName: OSFramework.Event.Grid.GridEventType,
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line
         callback: GridAPI.Callbacks.OSGrid.Event
     ): void {
         const grid = GetGridById(gridID, false);

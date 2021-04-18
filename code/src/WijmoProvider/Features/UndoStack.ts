@@ -6,7 +6,8 @@ namespace WijmoProvider.Feature {
         startAction(action: wijmo.undo.UndoableAction);
     }
 
-    export class UndoStack implements IProviderUndoStack, OSFramework.Interface.IBuilder {
+    export class UndoStack
+        implements IProviderUndoStack, OSFramework.Interface.IBuilder {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _undoStack: wijmo.undo.UndoStack;
 

@@ -8,7 +8,10 @@ namespace WijmoProvider.Grid {
         ): OSFramework.Grid.IGrid {
             switch (type) {
                 case OSFramework.Enum.GridType.FlexGrid:
-                    return new FlexGrid(gridID, configs as OSFramework.Configuration.Grid.FlexGridConfig);
+                    return new FlexGrid(
+                        gridID,
+                        configs as OSFramework.Configuration.Grid.FlexGridConfig
+                    );
                 default:
                     throw `There is no factory for this type of grid (${type})`;
             }

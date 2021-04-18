@@ -3,7 +3,7 @@ namespace OSFramework.Configuration {
      * Used to translate configurations from OS to Provider
      * Defines the basic structure for all config objects
      */
-     export interface IConfiguration {
+    export interface IConfiguration {
         /**
          * Method responsible for the translation of configuration from OS to Provider
          */

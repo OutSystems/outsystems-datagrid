@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    export class ColumnResize implements OSFramework.Feature.IColumnResize, OSFramework.Interface.IBuilder {
+    export class ColumnResize
+        implements
+            OSFramework.Feature.IColumnResize,
+            OSFramework.Interface.IBuilder {
         private _enabled: boolean;
         private _grid: WijmoProvider.Grid.IGridWijmo;
 

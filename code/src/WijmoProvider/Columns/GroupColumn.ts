@@ -11,7 +11,14 @@ namespace WijmoProvider.Column {
             configs: JSON,
             specific: JSON
         ) {
-            super(grid, columnID, new OSFramework.Configuration.Column.ColumnConfigGroup(configs, specific));
+            super(
+                grid,
+                columnID,
+                new OSFramework.Configuration.Column.ColumnConfigGroup(
+                    configs,
+                    specific
+                )
+            );
             this._columns = [];
         }
 

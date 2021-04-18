@@ -10,10 +10,15 @@ namespace WijmoProvider.Column {
             super(
                 grid,
                 columnID,
-                new OSFramework.Configuration.Column.ColumnConfigDropdown(configs, extraConfig)
+                new OSFramework.Configuration.Column.ColumnConfigDropdown(
+                    configs,
+                    extraConfig
+                )
             );
             this.config.dataMap = new wijmo.grid.DataMap([], 'key', 'text');
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
+                this
+            );
         }
 
         /** Returns all the events associated to the column */

@@ -8,8 +8,8 @@ namespace WijmoProvider.Column {
      * If GMT need to be consider, use the DateTimeColumn.
      */
     export class DateColumn extends AbstractProviderColumnEditor<
-    OSFramework.Configuration.Column.ColumnConfig,
-    OSFramework.Configuration.Column.EditorConfigDate
+        OSFramework.Configuration.Column.ColumnConfig,
+        OSFramework.Configuration.Column.EditorConfigDate
     > {
         constructor(
             grid: OSFramework.Grid.IGrid,
@@ -21,9 +21,13 @@ namespace WijmoProvider.Column {
                 grid,
                 columnID,
                 new OSFramework.Configuration.Column.ColumnConfig(configs),
-                new OSFramework.Configuration.Column.EditorConfigDate(editorConfig)
+                new OSFramework.Configuration.Column.EditorConfigDate(
+                    editorConfig
+                )
             );
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
+                this
+            );
         }
 
         /** Returns all the events associated to the column */

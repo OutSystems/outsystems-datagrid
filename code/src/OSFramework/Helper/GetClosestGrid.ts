@@ -4,7 +4,9 @@ namespace OSFramework.Helper {
      * Returns the closest IGrid based on an element
      * @param elem Element used as reference or its uniqueId
      */
-    export function GetClosestGrid(elem: Element | string): OSFramework.Grid.IGrid {
+    export function GetClosestGrid(
+        elem: Element | string
+    ): OSFramework.Grid.IGrid {
         let child: Element;
 
         if (typeof elem === 'string' || elem instanceof String)

@@ -18,7 +18,9 @@ namespace WijmoProvider.Feature {
         }
 
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any
-        private _instanceOfIDisposable(object: any): object is OSFramework.Interface.IDisposable {
+        private _instanceOfIDisposable(
+            object: any
+        ): object is OSFramework.Interface.IDisposable {
             return 'dispose' in object;
         }
 
@@ -43,7 +45,8 @@ namespace WijmoProvider.Feature {
 
         public dispose(): void {
             this._featureList.forEach((p) => {
-                this._instanceOfIDisposable(p) && (p as OSFramework.Interface.IDisposable).dispose();
+                this._instanceOfIDisposable(p) &&
+                    (p as OSFramework.Interface.IDisposable).dispose();
                 p = undefined;
             });
         }
@@ -167,7 +170,8 @@ namespace WijmoProvider.Feature {
         }
 
         public build(): void {
-            const config = this._grid.config as OSFramework.Configuration.Grid.FlexGridConfig;
+            const config = this._grid
+                .config as OSFramework.Configuration.Grid.FlexGridConfig;
 
             this._makeDirtyMark()
                 ._makeFilter(config.allowFiltering)

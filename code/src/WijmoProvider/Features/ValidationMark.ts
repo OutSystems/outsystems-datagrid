@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    export class ValidationMark implements OSFramework.Feature.IValidationMark, OSFramework.Interface.IBuilder {
+    export class ValidationMark
+        implements
+            OSFramework.Feature.IValidationMark,
+            OSFramework.Interface.IBuilder {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
@@ -46,15 +49,22 @@ namespace WijmoProvider.Feature {
 
         /** Helper to convert the formats of Date and DateTime columns to the format of OS */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        private _convertToFormat(column: OSFramework.Column.IColumn, value: any) {
+        private _convertToFormat(
+            column: OSFramework.Column.IColumn,
+            value: any
+        ) {
             switch (column.columnType) {
                 case OSFramework.Enum.ColumnType.Number:
                 case OSFramework.Enum.ColumnType.Currency:
                     return parseFloat(value ?? 0);
                 case OSFramework.Enum.ColumnType.Date:
-                    return OSFramework.Helper.ToOSDate(value ?? new Date(1900, 0, 1));
+                    return OSFramework.Helper.ToOSDate(
+                        value ?? new Date(1900, 0, 1)
+                    );
                 case OSFramework.Enum.ColumnType.DateTime:
-                    return OSFramework.Helper.ToOSDatetime(value ?? new Date(1900, 0, 1));
+                    return OSFramework.Helper.ToOSDatetime(
+                        value ?? new Date(1900, 0, 1)
+                    );
                 case OSFramework.Enum.ColumnType.Checkbox:
                     return value ?? false;
                 default:
@@ -213,11 +223,13 @@ namespace WijmoProvider.Feature {
                 if (
                     column.hasEvents &&
                     column.columnEvents.handlers.has(
-                        OSFramework.Event.Column.ColumnEventType.OnCellValueChange
+                        OSFramework.Event.Column.ColumnEventType
+                            .OnCellValueChange
                     )
                 ) {
                     column.columnEvents.trigger(
-                        OSFramework.Event.Column.ColumnEventType.OnCellValueChange,
+                        OSFramework.Event.Column.ColumnEventType
+                            .OnCellValueChange,
                         this._convertToFormat(column, newValue),
                         this._convertToFormat(column, oldValue),
                         rowNumber
@@ -300,7 +312,9 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row to check if there is any metadata associated to the validation marks.
          * @returns ValidationMarkInfo of the row specified.
          */
-        public getMetadata(rowNumber: number): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
+        public getMetadata(
+            rowNumber: number
+        ): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
             if (!this.hasMetadata(rowNumber))
                 this._metadata.setMetadata(
                     rowNumber,
@@ -384,21 +398,23 @@ namespace WijmoProvider.Feature {
          */
         public validateRow(rowNumber: number): void {
             // Triggers the validation method per column
-            this._grid.getColumns().forEach((column: OSFramework.Column.IColumn) => {
-                // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
-                const currValue = this._grid.provider.getCellData(
-                    rowNumber,
-                    column.provider.index,
-                    false
-                );
-                // Triggers the events of OnCellValueChange associated to a specific column in OS
-                this._triggerEventsFromColumn(
-                    rowNumber,
-                    column.provider.binding,
-                    currValue,
-                    currValue
-                );
-            });
+            this._grid
+                .getColumns()
+                .forEach((column: OSFramework.Column.IColumn) => {
+                    // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
+                    const currValue = this._grid.provider.getCellData(
+                        rowNumber,
+                        column.provider.index,
+                        false
+                    );
+                    // Triggers the events of OnCellValueChange associated to a specific column in OS
+                    this._triggerEventsFromColumn(
+                        rowNumber,
+                        column.provider.binding,
+                        currValue,
+                        currValue
+                    );
+                });
         }
     }
 }
