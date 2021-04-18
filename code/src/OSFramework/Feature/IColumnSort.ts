@@ -1,7 +1,7 @@
-namespace OSFramework.Feature {
+namespace Features {
     export interface IColumnSort
-        extends Interface.IValidation,
-            Interface.IProviderConfig<boolean>,
+        extends IValidation,
+            IProviderConfig<boolean>,
             IView {
         isGridSorted: boolean;
         clear(): void;

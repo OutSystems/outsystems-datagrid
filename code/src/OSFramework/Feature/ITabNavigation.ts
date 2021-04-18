@@ -1,5 +1,4 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Feature {
-    export interface ITabNavigation
-        extends Interface.IProviderConfig<boolean> {}
+namespace Features {
+    export interface ITabNavigation extends IProviderConfig<boolean> {}
 }

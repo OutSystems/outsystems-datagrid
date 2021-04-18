@@ -1,11 +1,9 @@
-namespace OSFramework.Interface {
+/**
+ * Defines the interface for objects with multiple DOM identifiers
+ */
+interface ISearchById {
     /**
-     * Defines the interface for objects with multiple DOM identifiers
+     * Validates if object matched with the given id
      */
-    export interface ISearchById {
-        /**
-         * Validates if object matched with the given id
-         */
-        equalsToID(id: string): boolean;
-    }
+    equalsToID(id: string): boolean;
 }
