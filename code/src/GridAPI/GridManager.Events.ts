@@ -23,7 +23,7 @@ namespace GridAPI.GridManager.Events {
         gridID: string,
         eventName: OSFramework.Event.Grid.GridEventType,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        callback: GridAPI.Callbacks.OSGrid.Event
+        callback: OSFramework.Callbacks.OSGrid.Event
     ): void {
         const grid = GetGridById(gridID);
         if (grid === undefined) {
@@ -65,7 +65,7 @@ namespace GridAPI.GridManager.Events {
         gridID: string,
         eventName: OSFramework.Event.Grid.GridEventType,
         // eslint-disable-next-line
-        callback: GridAPI.Callbacks.OSGrid.Event
+        callback: OSFramework.Callbacks.OSGrid.Event
     ): void {
         const grid = GetGridById(gridID, false);
         if (grid !== undefined) {

@@ -6,13 +6,13 @@ namespace GridAPI.ColumnManager.Events {
      * @export
      * @param {string} columnID column in which to attach to an event.
      * @param {OSFramework.Event.Column.ColumnEventType} eventName event to which attach to.
-     * @param {GridAPI.Callbacks.OSColumn.ClickEvent} callback to be invoked qhen the event occurs.
+     * @param {OSFramework.Callbacks.OSColumn.ClickEvent} callback to be invoked qhen the event occurs.
      */
     export function Subscribe(
         columnID: string,
         eventName: OSFramework.Event.Column.ColumnEventType,
         // eslint-disable-next-line
-        callback: GridAPI.Callbacks.OSColumn.ClickEvent
+        callback: OSFramework.Callbacks.OSColumn.ClickEvent
     ): void {
         const column = GetColumnById(columnID);
         column.columnEvents.addHandler(eventName, callback);

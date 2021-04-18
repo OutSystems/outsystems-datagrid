@@ -11,13 +11,13 @@ namespace OSFramework.Event {
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     export abstract class AbstractEvent<T> implements IEvent<T> {
-        private _handlers: GridAPI.Callbacks.Generic[] = [];
+        private _handlers: OSFramework.Callbacks.Generic[] = [];
 
-        protected get handlers(): GridAPI.Callbacks.Generic[] {
+        protected get handlers(): OSFramework.Callbacks.Generic[] {
             return this._handlers;
         }
 
-        public addHandler(handler: GridAPI.Callbacks.Generic): void {
+        public addHandler(handler: OSFramework.Callbacks.Generic): void {
             this._handlers.push(handler);
         }
 
@@ -26,7 +26,7 @@ namespace OSFramework.Event {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public removeHandler(handler: GridAPI.Callbacks.Generic): void {
+        public removeHandler(handler: OSFramework.Callbacks.Generic): void {
             const index = this._handlers.findIndex((hd) => {
                 return hd === handler;
             });

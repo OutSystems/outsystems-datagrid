@@ -42,7 +42,7 @@ namespace OSFramework.Event.Grid {
 
         public addHandler(
             eventType: GridEventType,
-            handler: GridAPI.Callbacks.OSGrid.Event
+            handler: OSFramework.Callbacks.OSGrid.Event
         ): void {
             //if the grid is already ready, fire immediatly the event.
             if (eventType === GridEventType.Initialized && this._grid.isReady) {
