@@ -47,7 +47,7 @@ namespace WijmoProvider.Column {
         private _getCollapsedToBinding(columnId: string): string {
             if (columnId === undefined || columnId === '') return undefined;
 
-            const col = OSFramework.ColumnManager.GetColumnById(columnId);
+            const col = GridAPI.ColumnManager.GetColumnById(columnId);
             let hasError = false;
 
             if (col) {

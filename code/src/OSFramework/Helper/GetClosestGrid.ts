@@ -19,7 +19,7 @@ namespace OSFramework.Helper {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 .getAttribute(OSFramework.Helper.Constants.uniqueIdAttribute);
 
-            return OSFramework.GridManager.GetGridById(uniqueId);
+            return GridAPI.GridManager.GetGridById(uniqueId);
         }
 
         return null;

@@ -202,7 +202,7 @@ namespace WijmoProvider.Feature {
                         isValid = false;
                     }
                     // Sets cell as valid or invalid depending on the newValue
-                    OSFramework.Cells.SetValidationStatus(
+                    GridAPI.Cells.SetValidationStatus(
                         this._grid.uniqueId,
                         rowNumber,
                         column.widgetId,
@@ -351,7 +351,7 @@ namespace WijmoProvider.Feature {
             isValid: boolean,
             errorMessage: string
         ): void {
-            const column = OSFramework.ColumnManager.GetColumnById(columnWidgetID)
+            const column = GridAPI.ColumnManager.GetColumnById(columnWidgetID)
                 .provider;
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.

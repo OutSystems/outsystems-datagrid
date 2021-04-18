@@ -46,7 +46,7 @@ namespace WijmoProvider.Column {
 
         public build(): void {
             //Setting date format
-            this.config.format = OSFramework.dateFormat;
+            this.config.format = GridAPI.dateFormat;
 
             super.build();
         }
