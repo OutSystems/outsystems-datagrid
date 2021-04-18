@@ -169,7 +169,7 @@ namespace OSFramework.Grid {
 
         public abstract clearAllChanges(): void;
 
-        public abstract getChangesMade(): changesDone;
+        public abstract getChangesMade(): OSStructure.changesDone;
 
         public abstract getData(): JSON[];
 

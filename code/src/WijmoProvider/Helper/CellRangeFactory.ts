@@ -5,8 +5,8 @@ namespace WijmoProvier.Helper.CellRangeFactory {
      */
     export function MakeFromProviderCellRange(
         cellRange: wijmo.grid.CellRange
-    ): GridAPI.Structures.CellRange {
-        const range = new GridAPI.Structures.CellRange();
+    ): OSFramework.OSStructure.CellRange {
+        const range = new OSFramework.OSStructure.CellRange();
         range.topRowIndex = cellRange.topRow;
         range.leftColumnIndex = cellRange.leftCol;
         range.bottomRowIndex = cellRange.bottomRow;
@@ -20,8 +20,8 @@ namespace WijmoProvier.Helper.CellRangeFactory {
         leftColumn: number,
         bottomRow?: number,
         rightColumn?: number
-    ): GridAPI.Structures.CellRange {
-        const range = new GridAPI.Structures.CellRange();
+    ): OSFramework.OSStructure.CellRange {
+        const range = new OSFramework.OSStructure.CellRange();
         range.topRowIndex = topRow;
         range.leftColumnIndex = leftColumn;
         range.bottomRowIndex = bottomRow !== undefined ? bottomRow : topRow;

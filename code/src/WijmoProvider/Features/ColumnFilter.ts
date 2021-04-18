@@ -60,7 +60,7 @@ namespace WijmoProvider.Feature {
             return JSON.parse(this._filter.filterDefinition).filters.length > 0;
         }
         public activate(columID: string): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columID);
+            const column = OSFramework.ColumnManager.GetColumnById(columID);
 
             this._filter.getColumnFilter(column.provider).filterType =
                 wijmo.grid.filter.FilterType.Both;
@@ -95,14 +95,14 @@ namespace WijmoProvider.Feature {
         }
 
         public clear(columID: string): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columID);
+            const column = OSFramework.ColumnManager.GetColumnById(columID);
 
             this._filter.getColumnFilter(column.provider).clear();
             this._grid.provider.collectionView.refresh();
         }
 
         public deactivate(columID: string): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columID);
+            const column = OSFramework.ColumnManager.GetColumnById(columID);
 
             this._filter.getColumnFilter(column.provider).filterType =
                 wijmo.grid.filter.FilterType.None;

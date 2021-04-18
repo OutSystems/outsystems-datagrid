@@ -36,8 +36,8 @@ namespace WijmoProvider.Helper.FilterFactory {
     function _createCondition(
         condition: WijmoFilterCondition,
         filterAnd: boolean
-    ): GridAPI.Structures.FilterCondition {
-        const filterCondition = new GridAPI.Structures.FilterCondition();
+    ): OSFramework.OSStructure.FilterCondition {
+        const filterCondition = new OSFramework.OSStructure.FilterCondition();
         filterCondition.and = filterAnd;
         filterCondition.operatorTypeId = _getOperatorString(condition.operator);
         filterCondition.value = condition.value;
@@ -78,14 +78,14 @@ namespace WijmoProvider.Helper.FilterFactory {
     export function MakeFromActiveFilters(
         grid: OSFramework.Grid.IGrid,
         serializedActiveFilters: string
-    ): Array<GridAPI.Structures.ActiveFilter> {
+    ): Array<OSFramework.OSStructure.ActiveFilter> {
         const wijmoActiveFilters: WijmoActiveFilters = JSON.parse(
             serializedActiveFilters
         );
-        const activeFilters = new Array<GridAPI.Structures.ActiveFilter>();
+        const activeFilters = new Array<OSFramework.OSStructure.ActiveFilter>();
 
         wijmoActiveFilters.filters.forEach((filter) => {
-            const activeFilter = new GridAPI.Structures.ActiveFilter();
+            const activeFilter = new OSFramework.OSStructure.ActiveFilter();
             const column = grid.getColumn(filter.binding);
 
             activeFilter.binding = filter.binding;

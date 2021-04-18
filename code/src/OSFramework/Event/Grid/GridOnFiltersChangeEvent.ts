@@ -18,7 +18,7 @@ namespace OSFramework.Event.Grid {
         public trigger(
             gridObj: OSFramework.Grid.IGrid,
             gridID: string,
-            activeFilters: Array<GridAPI.Structures.ActiveFilter>
+            activeFilters: Array<OSFramework.OSStructure.ActiveFilter>
         ): void {
             const serializedActiveFilters = JSON.stringify(activeFilters);
             this.handlers

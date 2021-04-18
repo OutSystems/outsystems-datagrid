@@ -9,6 +9,12 @@ namespace OSFramework.Feature {
          */
         contextMenuEvents: Event.Feature.ContextMenuEventManager;
 
+        //TODO: PART4: Describe
+        isOpening: boolean;
+
+        //TODO: PART4: Describe
+        grid: Grid.IGrid
+
         /**
          * Responsable for adding menu items
          * @param menuItemId UniqueId defined on OS side

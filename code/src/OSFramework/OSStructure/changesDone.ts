@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Grid {
+namespace OSFramework.OSStructure {
     export type changesDone = {
         addedLinesJSON: string;
         editedLinesJSON: string;

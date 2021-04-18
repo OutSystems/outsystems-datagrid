@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace GridAPI.Structures {
+namespace OSFramework.OSStructure {
     export class FilterCondition {
         public and: boolean;
         public operatorTypeId: string;

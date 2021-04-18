@@ -25,7 +25,7 @@ namespace OSFramework.Grid {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         changeProperty(propertyName: string, propertyValue: any): void;
         clearAllChanges(): void;
-        getChangesMade(): changesDone;
+        getChangesMade(): OSStructure.changesDone;
         /**
          * Get the column on the grid by giving a columnID or a binding.
          * @param key key can be the uniqueId or a binding of a column

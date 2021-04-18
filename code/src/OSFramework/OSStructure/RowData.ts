@@ -1,4 +1,4 @@
-namespace GridAPI.Structures {
+namespace OSFramework.OSStructure {
     /**
      * Representation of Row-Data, used to OS communication
      */

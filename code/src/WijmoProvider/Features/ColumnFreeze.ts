@@ -19,7 +19,7 @@ namespace WijmoProvider.Feature {
             this.leftColumns();
         }
 
-        public bySelection(cell: GridAPI.Structures.CellRange): void {
+        public bySelection(cell: OSFramework.OSStructure.CellRange): void {
             this.leftColumns(cell.topRowIndex);
         }
 

@@ -2,7 +2,7 @@
 namespace OSFramework.Helper {
     export function IsGridReady(gridID: string): boolean {
         try {
-            const grid = GridAPI.GridManager.GetGridById(gridID);
+            const grid = OSFramework.GridManager.GetGridById(gridID);
             return grid.isReady;
         } catch (error) {
             return false;

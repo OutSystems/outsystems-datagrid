@@ -192,8 +192,8 @@ namespace WijmoProvider.Grid {
             this._provider = undefined;
         }
 
-        public getChangesMade(): changesDone {
-            const changes: changesDone = {
+        public getChangesMade(): OSFramework.OSStructure.changesDone {
+            const changes: OSFramework.OSStructure.changesDone = {
                 hasChanges: false,
                 addedLinesJSON: undefined,
                 editedLinesJSON: undefined,

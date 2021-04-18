@@ -122,7 +122,7 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        public equalizeSelection(): GridAPI.Structures.CellRange[] {
+        public equalizeSelection(): OSFramework.OSStructure.CellRange[] {
             //This method just makes sense for MultiRange
             if (
                 this._grid.provider.selectionMode !==
@@ -189,7 +189,7 @@ namespace WijmoProvider.Feature {
                 .map((p) => WijmoProvier.Helper.CellRangeFactory.MakeFromProviderCellRange(p));
         }
 
-        public getActiveCell(): GridAPI.Structures.CellRange {
+        public getActiveCell(): OSFramework.OSStructure.CellRange {
             const currSelection = this._grid.provider.selection;
 
             if (currSelection && currSelection.isValid)
@@ -202,14 +202,14 @@ namespace WijmoProvider.Feature {
             else return undefined;
         }
 
-        public getAllSelections(): GridAPI.Structures.CellRange[] {
+        public getAllSelections(): OSFramework.OSStructure.CellRange[] {
             return this.getProviderAllSelections().map((p) =>
                 WijmoProvier.Helper.CellRangeFactory.MakeFromProviderCellRange(p)
             );
         }
 
-        public getAllSelectionsData(): GridAPI.Structures.RowData[] {
-            const rowColumn = new Map<number, GridAPI.Structures.RowData>();
+        public getAllSelectionsData(): OSFramework.OSStructure.RowData[] {
+            const rowColumn = new Map<number, OSFramework.OSStructure.RowData>();
             const rowColumnArr = [];
 
             this.getProviderAllSelections().map((range) => {
@@ -228,7 +228,7 @@ namespace WijmoProvider.Feature {
                         let curr = rowColumn.get(rowIndex);
 
                         if (!curr) {
-                            curr = new GridAPI.Structures.RowData(
+                            curr = new OSFramework.OSStructure.RowData(
                                 this._grid,
                                 rowIndex,
                                 this._grid.provider.rows[rowIndex].dataItem
@@ -241,7 +241,7 @@ namespace WijmoProvider.Feature {
                         curr.selected.push(
                             ...bindings.map(
                                 (binding) =>
-                                    new GridAPI.Structures.BindingValue(
+                                    new OSFramework.OSStructure.BindingValue(
                                         binding,
                                         this._grid.provider.getCellData(
                                             rowIndex,
@@ -315,10 +315,10 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        public getSelectedRowsData(): GridAPI.Structures.RowData[] {
+        public getSelectedRowsData(): OSFramework.OSStructure.RowData[] {
             return this.getSelectedRows().map(
                 (rowIndex) =>
-                    new GridAPI.Structures.RowData(
+                    new OSFramework.OSStructure.RowData(
                         this._grid,
                         rowIndex,
                         this._grid.provider.rows[rowIndex].dataItem
