@@ -25,7 +25,7 @@ namespace OSFramework.Event {
 
         public addHandler(
             eventType: ET,
-            handler: OSFramework.OSCallbacks.Generic
+            handler: GridAPI.Callbacks.Generic
         ): void {
             if (this._handlers.has(eventType)) {
                 this._handlers.get(eventType).addHandler(handler);
@@ -47,7 +47,7 @@ namespace OSFramework.Event {
 
         public removeHandler(
             eventType: ET,
-            handler: OSFramework.OSCallbacks.Generic
+            handler: GridAPI.Callbacks.Generic
         ): void {
             if (this._handlers.has(eventType)) {
                 const event = this._handlers.get(eventType);

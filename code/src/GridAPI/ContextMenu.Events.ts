@@ -12,7 +12,7 @@ namespace GridAPI.ContextMenu.Events {
         menuItemID: string,
         eventName: OSFramework.Event.Feature.ContextMenuEventType,
         // eslint-disable-next-line
-        callback: OSFramework.OSCallbacks.ContextMenu.Toggle
+        callback: GridAPI.Callbacks.ContextMenu.Toggle
     ): void {
         const gridId = GetGridByMenuId(menuItemID);
         // We need to make sure the grid already exists and it is intialized before subscribing to any context menu event.

@@ -2,7 +2,7 @@
  * Defines signatures for all the callbacks related to ContextMenu
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.OSCallbacks.ContextMenu {
+namespace GridAPI.Callbacks.ContextMenu {
     /**
      * Callback signature for the MenuItem click Event
      * @param {string} gridID which grid triggered the event

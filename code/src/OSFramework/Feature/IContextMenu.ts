@@ -26,7 +26,7 @@ namespace OSFramework.Feature {
             menuItemId: string,
             label: string,
             enabled: boolean,
-            clickEvent: OSFramework.OSCallbacks.ContextMenu.OSClickEvent
+            clickEvent: GridAPI.Callbacks.ContextMenu.OSClickEvent
         ): void;
 
         /**

@@ -9,10 +9,10 @@ namespace OSFramework.Event {
      */
     export interface IEvent<D> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        addHandler(handler: OSFramework.OSCallbacks.Generic, ...args);
+        addHandler(handler: GridAPI.Callbacks.Generic, ...args);
         hasHandlers(): boolean;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        removeHandler(handler: OSFramework.OSCallbacks.Generic);
+        removeHandler(handler: GridAPI.Callbacks.Generic);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         trigger(data: D, ...args): any;
     }
