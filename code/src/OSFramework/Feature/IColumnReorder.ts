@@ -1,4 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
-    export interface IColumnReorder extends IProviderConfig<boolean> {}
+namespace OSFramework.Feature {
+    export interface IColumnReorder
+        extends Interface.IProviderConfig<boolean> {}
 }

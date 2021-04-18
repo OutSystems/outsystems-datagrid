@@ -1,10 +1,12 @@
-/**
- * Used to configure a feature. For example turnning on and off
- */
-interface IProviderConfig<T> {
+namespace OSFramework.Interface {
     /**
-     * Set the Feature state
-     * @param value The new state state of a feature
+     * Used to configure a feature. For example turnning on and off
      */
-    setState(value: T): void;
+    export interface IProviderConfig<T> {
+        /**
+         * Set the Feature state
+         * @param value The new state state of a feature
+         */
+        setState(value: T): void;
+    }
 }

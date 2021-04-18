@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
-    export interface IGroupPanel extends IValidation, IView {
+namespace OSFramework.Feature {
+    export interface IGroupPanel extends Interface.IValidation, IView {
         isGridGrouped: boolean;
     }
 }
