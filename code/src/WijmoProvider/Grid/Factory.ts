@@ -8,7 +8,6 @@ namespace WijmoProvider.Grid {
         ): OSFramework.Grid.IGrid {
             switch (type) {
                 case OSFramework.Enum.GridType.FlexGrid:
-                console.log('Yay! Im worgkin')
                     return new FlexGrid(
                         gridID,
                         configs as OSFramework.Configuration.Grid.FlexGridConfig
