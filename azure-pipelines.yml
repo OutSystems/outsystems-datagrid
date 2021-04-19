@@ -48,6 +48,7 @@ stages:
 
           #Publish compiled file
           - task: PublishBuildArtifacts@1
+            displayName: 'Publish GridFramework.js'
             inputs:
               PathtoPublish: './code/dist/GridFramework.js'
               ArtifactName: 'GridFramework.js'
@@ -55,6 +56,7 @@ stages:
 
           #Publish css file
           - task: PublishBuildArtifacts@1
+            displayName: 'Publish Grid.css'
             inputs:
               PathtoPublish: './code/styles/Grid.css'
               ArtifactName: 'Grid.css'
@@ -73,6 +75,7 @@ stages:
         steps:
           #Download artifact
           - task: DownloadBuildArtifacts@0
+            displayName: 'Download GridFramework.js'
             inputs:
               buildType: 'current'
               downloadType: 'single'
@@ -81,6 +84,7 @@ stages:
 
           #Download artifact
           - task: DownloadBuildArtifacts@0
+            displayName: 'Download Grid.css'
             inputs:
               buildType: 'current'
               downloadType: 'single'
@@ -105,6 +109,7 @@ stages:
 
           #Run Python script to publish code
           - task: PythonScript@0
+            displayName: 'Send built files to Server'
             inputs:
               scriptSource: 'inline'
               script: |
