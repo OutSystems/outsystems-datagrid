@@ -81,8 +81,8 @@ namespace WijmoProvider.Column {
         return createdColumns;
     }
 
-    export namespace Generator {
-        export function ColumnGenerator(
+    export class ColumnGenerator implements OSFramework.Column.IColumnGenerator {
+        public ColumnGenerator(
             grid: OSFramework.Grid.IGrid,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             metadata: any,

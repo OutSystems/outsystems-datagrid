@@ -15,17 +15,10 @@ namespace WijmoProvider.Grid {
             super(
                 gridID,
                 new OSFramework.Configuration.Grid.FlexGridConfig(configs),
-                new OSFramework.Grid.ProviderDataSource()
+                new WijmoProvider.Grid.ProviderDataSource(),
+                new WijmoProvider.Column.ColumnGenerator()
             );
         }
-
-        // private _addColumns(cols: Column.IColumn[]): void {
-        //     cols.forEach((col) => {
-        //         super.addColumn(col);
-        //     });
-
-        //     // this._buildColumns();
-        // }
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
         private _buildColumns(): void {

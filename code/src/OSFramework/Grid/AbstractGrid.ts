@@ -6,6 +6,7 @@ namespace OSFramework.Grid {
     > implements IGridGeneric<W> {
         private _addedRows: OSFramework.Event.Grid.AddNewRowEvent;
         private _columns: Map<string, OSFramework.Column.IColumn>;
+        private _columnsGenerator: OSFramework.Column.IColumnGenerator;
         private _columnsSet: Set<OSFramework.Column.IColumn>;
         private _configs: Z;
         private _dataSource: OSFramework.Grid.IDataSource;
@@ -21,11 +22,13 @@ namespace OSFramework.Grid {
         constructor(
             uniqueId: string,
             configs: Z,
-            dataSource: OSFramework.Grid.IDataSource
+            dataSource: OSFramework.Grid.IDataSource,
+            columnsGenerator: OSFramework.Column.IColumnGenerator
         ) {
             this._uniqueId = uniqueId;
             this._columns = new Map<string, OSFramework.Column.IColumn>();
             this._columnsSet = new Set<OSFramework.Column.IColumn>();
+            this._columnsGenerator = columnsGenerator;
             this._configs = configs;
             this._dataSource = dataSource;
             this._isReady = false;
@@ -242,7 +245,7 @@ namespace OSFramework.Grid {
                 //if we have meta information about the columns, let's NOT use wijmo generator
                 this.autoGenerate = false;
                 //TODO: Valim
-                const generated = WijmoProvider.Column.Generator.ColumnGenerator(
+                const generated = this._columnsGenerator.ColumnGenerator(
                     this,
                     this.dataSource.getMetadata(),
                     this.config.allowEdit
@@ -281,11 +284,5 @@ namespace OSFramework.Grid {
                 });
             }
         }
-
-        // public abstract get autoGenerate(): boolean;
-
-        // public set autoGenerate(value: boolean) {
-        //     this.provider.autoGenerateColumns = value;
-        // }
     }
 }

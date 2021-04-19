@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Grid {
-    export class ProviderDataSource extends AbstractDataSource {
+namespace WijmoProvider.Grid {
+    export class ProviderDataSource extends OSFramework.Grid.AbstractDataSource {
         private _provider: wijmo.collections.CollectionView;
 
         public addRow(position?: number, data?: JSON[]) {
