@@ -244,7 +244,6 @@ namespace OSFramework.Grid {
             if (this.dataSource.hasMetadata) {
                 //if we have meta information about the columns, let's NOT use wijmo generator
                 this.autoGenerate = false;
-                //TODO: Valim
                 const generated = this._columnsGenerator.ColumnGenerator(
                     this,
                     this.dataSource.getMetadata(),
