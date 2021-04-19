@@ -28,9 +28,5 @@ namespace OSFramework.Feature {
          * Remove the rows that are selected.
          */
         removeSelectedRows(): void;
-        /**
-         * Set the private newItem to be used when a new row is added.
-         */
-        setNewItem(item: unknown): void;
     }
 }

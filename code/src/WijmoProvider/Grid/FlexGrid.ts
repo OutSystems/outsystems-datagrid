@@ -157,11 +157,15 @@ namespace WijmoProvider.Grid {
 
         public getChangesMade(): OSFramework.OSStructure.GridChanges {
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-            const changes = this.dataSource.getChanges(OSFramework.OSStructure.GridChanges);
+            const changes = this.dataSource.getChanges(
+                OSFramework.OSStructure.GridChanges
+            );
 
             if (this._features.validationMark.invalidRows.length > 0) {
                 changes.hasInvalidLines = true;
-                changes.invalidLinesJSON = this.dataSource.toOSFormat(this._features.validationMark.invalidRows);
+                changes.invalidLinesJSON = this.dataSource.toOSFormat(
+                    this._features.validationMark.invalidRows
+                );
             }
 
             return changes;

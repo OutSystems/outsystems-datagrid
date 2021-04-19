@@ -18,7 +18,11 @@ namespace OSFramework.Grid {
         protected _features: OSFramework.Feature.ExposedFeatures;
         protected _provider: W;
 
-        constructor(uniqueId: string, configs: Z, dataSource: OSFramework.Grid.IDataSource) {
+        constructor(
+            uniqueId: string,
+            configs: Z,
+            dataSource: OSFramework.Grid.IDataSource
+        ) {
             this._uniqueId = uniqueId;
             this._columns = new Map<string, OSFramework.Column.IColumn>();
             this._columnsSet = new Set<OSFramework.Column.IColumn>();
@@ -96,9 +100,9 @@ namespace OSFramework.Grid {
 
         public build(): void {
             //RGRIDT-372 - let's get the ID of the parent element, which will be used by the developer
-            this._widgetId = OSFramework.Helper.GetElementByUniqueId(this.uniqueId).closest(
-                OSFramework.Helper.Constants.gridTag
-            ).id;
+            this._widgetId = OSFramework.Helper.GetElementByUniqueId(
+                this.uniqueId
+            ).closest(OSFramework.Helper.Constants.gridTag).id;
 
             this.dataSource.build();
         }
@@ -243,7 +247,7 @@ namespace OSFramework.Grid {
                     this.dataSource.getMetadata(),
                     this.config.allowEdit
                 );
-                generated.forEach(p => this.addColumn(p));
+                generated.forEach((p) => this.addColumn(p));
             } else {
                 //if the grid is read-only, then we'll flatten the array and use wijmo generator
                 if (!this.config.allowEdit) {
@@ -267,7 +271,9 @@ namespace OSFramework.Grid {
                     bindingMatches.forEach((keyword) => {
                         // Check if the matching keyword is a property from metadata
                         if (metadata && !metadata.hasOwnProperty(keyword)) {
-                            throw `The binding "${column.config.binding}" doesn't match any valid column from the data you specified. ${'\n'} Expected format: "EntityName.FieldName". ${'\n'} For example: "Product_Sample.Name"`;
+                            throw `The binding "${
+                                column.config.binding
+                            }" doesn't match any valid column from the data you specified. ${'\n'} Expected format: "EntityName.FieldName". ${'\n'} For example: "Product_Sample.Name"`;
                         }
                         // If keyword is a property from metadata then use metadata[keyword] as the new metadata and iterate to the next keyword.
                         metadata = metadata[keyword];
@@ -275,8 +281,6 @@ namespace OSFramework.Grid {
                 });
             }
         }
-
-        
 
         // public abstract get autoGenerate(): boolean;
 

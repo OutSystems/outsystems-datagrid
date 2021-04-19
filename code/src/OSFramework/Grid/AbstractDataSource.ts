@@ -1,12 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace DS {
-    export class ChangesDone {
-        public addedLinesJSON: string;
-        public editedLinesJSON: string;
-        public hasChanges: boolean;
-        public removedLinesJSON: string;
-    }
-
+namespace OSFramework.Grid {
     /**
      * Used to flatten the data array
      * @param dataArray
@@ -15,7 +8,7 @@ namespace DS {
     function FlattenArray(dataArray: JSON[]): JSON[] {
         const returnDataArray = [];
         dataArray.forEach((item) => {
-            returnDataArray.push(Helper.Flatten(item));
+            returnDataArray.push(OSFramework.Helper.Flatten(item));
         });
 
         return returnDataArray;
@@ -109,77 +102,7 @@ namespace DS {
         });
     }
 
-    /**
-     * Defines the basic interface for a DataSource
-     */
-    export interface IDataSource extends IBuilder {
-        /**
-         * Idenfity if metadata was given
-         * @description Only works during the use of ArrangeData
-         */
-        hasMetadata: boolean;
-        /**
-         * Identify if the datasource has single entity
-         */
-        isSingleEntity: boolean;
-        /**
-         * Add row to an specific position on the DataSource
-         * @param position index position (0-based)
-         * @param data The array of items to be inserted
-         */
-        addRow(position?: number, data?: JSON[]);
-        /**
-         * Clear all changes in the datasource
-         */
-        clear(): void;
-        /**
-         * Filter the datasource by the given value
-         * @param searchedValue the value used as filter
-         */
-        search(searchedValue: string): void;
-        /**
-         * Used to flatten the datasource
-         */
-        flatten(): void;
-        /**
-         * Returns the changes made on the grid
-         */
-        getChanges<T extends ChangesDone>(c: new () => T): T;
-        /**
-         * Return the full data source
-         */
-        getData(): JSON[];
-        /**
-         * Return metadata information
-         */
-        getMetadata(): JSON;
-        /**
-         * Return the provider's dataSource
-         */
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        getProviderDataSource(): any;
-        /**
-         * Indicate whether the filtered dataSource has Results to show
-         */
-        hasResults(): boolean;
-        /**
-         * Responsabem to items from the datasource
-         * @param item Can be the index position (0-based) or the dataItem of that row
-         */
-        removeRow(item: number | JSON): boolean;
-        /**
-         * Set data to be printed on the grid
-         * @param data data source in JSON stringify format
-         */
-        setData(data: string): void;
-        /**
-         * Transform dataItem to OS format
-         * @param dataItem 
-         */
-        toOSFormat(dataItem: any): any;
-    }
-
-    abstract class AbstractDataSource implements IDataSource {
+    export abstract class AbstractDataSource implements IDataSource {
         protected _convertions: Map<string, Set<string>>;
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         protected _ds: Array<any>;
@@ -287,81 +210,13 @@ namespace DS {
 
         public abstract search(info: string): void;
 
-        public abstract getChanges<T extends ChangesDone>(c: new () => T): T;
+        public abstract getChanges<
+            T extends OSFramework.OSStructure.ChangesDone
+        >(c: new () => T): T;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public abstract getProviderDataSource(): any;
 
         public abstract hasResults(): boolean;
-    }
-
-    export class ProviderDataSource extends AbstractDataSource {
-        private _provider: wijmo.collections.CollectionView;
-
-        public addRow(position?: number, data?: JSON[]) {
-            super.addRow(position, data);
-            this._provider.refresh();
-        }
-
-        public build(): void {
-            this._provider = new wijmo.collections.CollectionView();
-            this._provider.trackChanges = true;
-        }
-
-        public clear(): void {
-            this._provider.clearChanges();
-        }
-
-        public search(searchedValue: string): void {
-            const rx = new RegExp(searchedValue, 'i');
-
-            // always move to first page when a search is done
-            this._provider.moveToFirstPage();
-
-            this._provider.filter = function (x) {
-                return !searchedValue || JSON.stringify(x).match(rx) !== null;
-            };
-        }
-
-        public getChanges<T extends ChangesDone>(c: new () => T): T {
-            const changes = new c();
-            const itemsSource = this._provider;
-
-            if (itemsSource.itemsAdded.length > 0) {
-                changes.hasChanges = true;
-                changes.addedLinesJSON = this._getChangesString(
-                    itemsSource.itemsAdded
-                );
-            }
-
-            if (itemsSource.itemsEdited.length > 0) {
-                changes.hasChanges = true;
-                changes.editedLinesJSON = this._getChangesString(
-                    itemsSource.itemsEdited
-                );
-            }
-
-            if (itemsSource.itemsRemoved.length > 0) {
-                changes.hasChanges = true;
-                changes.removedLinesJSON = this._getChangesString(
-                    itemsSource.itemsRemoved
-                );
-            }
-
-            return changes;
-        }
-
-        public getProviderDataSource(): wijmo.collections.CollectionView {
-            return this._provider;
-        }
-
-        public hasResults(): boolean {
-            return this._provider.isEmpty === false;
-        }
-
-        public setData(data: string): void {
-            super.setData(data);
-            this._provider.sourceCollection = this._ds;
-        }
     }
 }

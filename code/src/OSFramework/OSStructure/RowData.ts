@@ -16,7 +16,12 @@ namespace OSFramework.OSStructure {
          * @param selected Define dataItem in a key-value pair information. Used to communicate selected cells in a row
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        constructor(grid: Grid.IGrid, rowIndex: number, dataItem: any, selected?: Array<BindingValue>) {
+        constructor(
+            grid: Grid.IGrid,
+            rowIndex: number,
+            dataItem: any,
+            selected?: Array<BindingValue>
+        ) {
             this._grid = grid;
             this.rowIndex = rowIndex;
             this.selected = selected || new Array<BindingValue>();
