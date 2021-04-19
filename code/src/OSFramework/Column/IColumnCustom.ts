@@ -1,4 +1,4 @@
-namespace Column {
+namespace OSFramework.Column {
     /**
      * An extension of IColumn, used to specify custom editors
      *

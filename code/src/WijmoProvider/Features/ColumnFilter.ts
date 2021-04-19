@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     class ColumnFilterAction extends wijmo.undo.UndoableAction {
         constructor(s: wijmo.grid.filter.FlexGridFilter) {
             super(s);
@@ -20,13 +20,17 @@ namespace Features {
         }
     }
 
-    // export class Builder extends Validation implements IBuilder {
-    export class ColumnFilter implements IColumnFilter, IBuilder, IDisposable {
+    // export class Builder extends Validation implements OSFramework.Interface.IBuilder {
+    export class ColumnFilter
+        implements
+            OSFramework.Feature.IColumnFilter,
+            OSFramework.Interface.IBuilder,
+            OSFramework.Interface.IDisposable {
         private _enabled: boolean;
         private _filter: wijmo.grid.filter.FlexGridFilter;
-        private _grid: Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
 
-        constructor(grid: Grid.IGridWijmo, enabled: boolean) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
         }
@@ -36,13 +40,13 @@ namespace Features {
 
             if (
                 this._grid.gridEvents.hasHandlers(
-                    ExternalEvents.GridEventType.OnFiltersChange
+                    OSFramework.Event.Grid.GridEventType.OnFiltersChange
                 )
             ) {
                 this._grid.gridEvents.trigger(
-                    ExternalEvents.GridEventType.OnFiltersChange,
+                    OSFramework.Event.Grid.GridEventType.OnFiltersChange,
                     this._grid,
-                    ActiveFilterFactory.MakeFromActiveFilters(
+                    WijmoProvider.Helper.FilterFactory.MakeFromActiveFilters(
                         this._grid,
                         s.filterDefinition
                     )
@@ -130,10 +134,10 @@ namespace Features {
         }
 
         public validateAction(
-            action: InternalEvents.Actions /*, ctx: any*/
+            action: OSFramework.Event.Grid.Actions /*, ctx: any*/
         ): string {
             if (this.isGridFiltered) {
-                if (action === InternalEvents.Actions.AddRow) {
+                if (action === OSFramework.Event.Grid.Actions.AddRow) {
                     return "Can't add rows when filter is On!";
                 }
             }

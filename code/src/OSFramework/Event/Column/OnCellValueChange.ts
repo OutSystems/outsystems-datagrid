@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ExternalEvents {
+namespace OSFramework.Event.Column {
     /**
      * Class that encapsulates the basic logic of triggering the event with the right parameters order right after a cell changes its value.
      *

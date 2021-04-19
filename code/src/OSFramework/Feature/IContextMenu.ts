@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace OSFramework.Feature {
     /**
      * Defines the interface of communication for ContextMenu feature
      */
@@ -7,7 +7,13 @@ namespace Features {
         /**
          * Getter for the contextMenu events
          */
-        contextMenuEvents: ExternalEvents.ContextMenuEventManager;
+        contextMenuEvents: Event.Feature.ContextMenuEventManager;
+
+        //TODO: PART4: Describe
+        isOpening: boolean;
+
+        //TODO: PART4: Describe
+        grid: Grid.IGrid;
 
         /**
          * Responsable for adding menu items
@@ -20,7 +26,7 @@ namespace Features {
             menuItemId: string,
             label: string,
             enabled: boolean,
-            clickEvent: Callbacks.ContextMenu.OSClickEvent
+            clickEvent: OSFramework.Callbacks.ContextMenu.OSClickEvent
         ): void;
 
         /**

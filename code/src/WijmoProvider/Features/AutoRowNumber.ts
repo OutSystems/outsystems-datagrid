@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
-    export class AutoRowNumber implements IBuilder, IProviderConfig<boolean> {
+namespace WijmoProvider.Feature {
+    export class AutoRowNumber
+        implements
+            OSFramework.Interface.IBuilder,
+            OSFramework.Interface.IProviderConfig<boolean> {
         private _enabled: boolean; //Indicates where the feature is activate or not
         private _grid: Grid.IGridWijmo;
 

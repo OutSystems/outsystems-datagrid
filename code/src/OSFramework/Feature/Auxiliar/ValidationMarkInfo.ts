@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace OSFramework.Feature.Auxiliar {
     export class ValidationMarkInfo {
         public errorMessage: Map<string, string>;
         public validation: Map<string, boolean>;

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     class PaginationAction extends wijmo.undo.UndoableAction {
         private _grid: wijmo.grid.FlexGrid;
 
@@ -23,14 +23,18 @@ namespace Features {
         }
     }
 
-    export class Pagination implements IPagination, IBuilder, IDisposable {
-        private _grid: Grid.IGridWijmo;
+    export class Pagination
+        implements
+            OSFramework.Feature.IPagination,
+            OSFramework.Interface.IBuilder,
+            OSFramework.Interface.IDisposable {
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _pageSize: number;
         private _phId: string;
         private _qtdeButtons: number;
         private _view: wijmo.collections.CollectionView;
 
-        constructor(grid: Grid.IGridWijmo, pageSize: number) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo, pageSize: number) {
             this._grid = grid;
             this._view = grid.provider.itemsSource;
             this._pageSize = pageSize;
@@ -172,34 +176,34 @@ namespace Features {
             this._view = undefined;
         }
 
-        public executeAction(action: PageAction): boolean {
+        public executeAction(action: OSFramework.Enum.PageAction): boolean {
             switch (action) {
-                case PageAction.FirstPage:
+                case OSFramework.Enum.PageAction.FirstPage:
                     return this.moveToFirstPage();
-                case PageAction.Previous:
+                case OSFramework.Enum.PageAction.Previous:
                     return this.moveToPreviousPage();
-                case PageAction.Forward:
+                case OSFramework.Enum.PageAction.Forward:
                     return this.moveToNextPage();
-                case PageAction.LastPage:
+                case OSFramework.Enum.PageAction.LastPage:
                     return this.moveToLastPage();
                 default:
                     break;
             }
         }
 
-        public getValueByLabel(label: PageLabel): number {
+        public getValueByLabel(label: OSFramework.Enum.PageLabel): number {
             switch (label) {
-                case PageLabel.PageCount:
+                case OSFramework.Enum.PageLabel.PageCount:
                     return this.pageCount;
-                case PageLabel.PageIndex:
+                case OSFramework.Enum.PageLabel.PageIndex:
                     return this.pageIndex + 1;
-                case PageLabel.PageSize:
+                case OSFramework.Enum.PageLabel.PageSize:
                     return this.pageSize;
-                case PageLabel.RowEnd:
+                case OSFramework.Enum.PageLabel.RowEnd:
                     return this.rowEnd;
-                case PageLabel.RowStart:
+                case OSFramework.Enum.PageLabel.RowStart:
                     return this.rowStart;
-                case PageLabel.RowTotal:
+                case OSFramework.Enum.PageLabel.RowTotal:
                     return this.rowTotal;
                 default:
                     break;
@@ -226,7 +230,10 @@ namespace Features {
             return this._view.moveToPreviousPage();
         }
 
-        public registerLabel(label: PageLabel, phId: string): void {
+        public registerLabel(
+            label: OSFramework.Enum.PageLabel,
+            phId: string
+        ): void {
             this._view.collectionChanged.addHandler(() => {
                 const element = document.getElementById(phId);
 

@@ -1,11 +1,13 @@
-/**
- * Used to translate configurations from OS to Provider
- * Defines the basic structure for all config objects
- */
-interface IConfiguration {
+namespace OSFramework.Configuration {
     /**
-     * Method responsible for the translation of configuration from OS to Provider
+     * Used to translate configurations from OS to Provider
+     * Defines the basic structure for all config objects
      */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getProviderConfig(): any;
+    export interface IConfiguration {
+        /**
+         * Method responsible for the translation of configuration from OS to Provider
+         */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        getProviderConfig(): any;
+    }
 }

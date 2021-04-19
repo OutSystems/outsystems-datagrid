@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Grid {
-    export class RowMetadata implements IRowMetadata {
+namespace WijmoProvider.Grid {
+    export class RowMetadata implements OSFramework.Interface.IRowMetadata {
         private readonly _extraData = '__osRowMetada';
         private _grid: wijmo.grid.FlexGrid;
         private _itemsSource: wijmo.collections.CollectionView;

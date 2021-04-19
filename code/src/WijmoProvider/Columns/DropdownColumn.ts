@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
-    export class DropdownColumn extends AbstractProviderColumn<ColumnConfigDropdown> {
+namespace WijmoProvider.Column {
+    export class DropdownColumn extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfigDropdown> {
         constructor(
-            grid: Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
             extraConfig: JSON
@@ -10,19 +10,24 @@ namespace Column {
             super(
                 grid,
                 columnID,
-                new ColumnConfigDropdown(configs, extraConfig)
+                new OSFramework.Configuration.Column.ColumnConfigDropdown(
+                    configs,
+                    extraConfig
+                )
             );
             this.config.dataMap = new wijmo.grid.DataMap([], 'key', 'text');
-            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
+                this
+            );
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): ColumnType {
-            return ColumnType.Dropdown;
+        public get columnType(): OSFramework.Enum.ColumnType {
+            return OSFramework.Enum.ColumnType.Dropdown;
         }
 
         public get providerType(): wijmo.DataType {

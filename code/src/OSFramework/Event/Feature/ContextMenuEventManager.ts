@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ExternalEvents {
+namespace OSFramework.Event.Feature {
     /**
      * Class that will be responsible for managing the events of the context menu.
      *
@@ -11,17 +11,17 @@ namespace ExternalEvents {
         ContextMenuEventType,
         string
     > {
-        private _contextMenu: Features.ContextMenu;
+        private _contextMenu: OSFramework.Feature.IContextMenu;
 
-        constructor(contextMenu: Features.ContextMenu) {
+        constructor(contextMenu: OSFramework.Feature.IContextMenu) {
             super();
             this._contextMenu = contextMenu;
         }
 
         protected getInstanceOfEventType(
             eventType: ContextMenuEventType
-        ): InternalEvents.IEvent<string> {
-            let event: InternalEvents.IEvent<string>;
+        ): OSFramework.Event.IEvent<string> {
+            let event: OSFramework.Event.IEvent<string>;
 
             switch (eventType) {
                 case ContextMenuEventType.Toggle:

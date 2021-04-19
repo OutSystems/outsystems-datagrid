@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     /**
      * Undo stack won't work when the ColumnPicker is opened.
      * The wijmo.showPopup -> _addPopupToDOM moves the element to the body element
@@ -53,10 +53,10 @@ namespace Features {
      * Used to merge topLeftCells
      */
     class CustomMergeManager extends wijmo.grid.MergeManager {
-        private _grid: Grid.IGrid;
+        private _grid: OSFramework.Grid.IGrid;
         private _topLeftPanel: wijmo.grid.GridPanel;
 
-        constructor(grid: Grid.IGrid) {
+        constructor(grid: OSFramework.Grid.IGrid) {
             super();
             this._grid = grid;
             this._topLeftPanel = grid.provider.topLeftCells;
@@ -106,11 +106,14 @@ namespace Features {
         }
     }
 
-    export class ColumnPicker implements IBuilder, IDisposable {
-        private _grid: Grid.IGridWijmo;
+    export class ColumnPicker
+        implements
+            OSFramework.Interface.IBuilder,
+            OSFramework.Interface.IDisposable {
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _theColumnPicker: wijmo.input.ListBox;
 
-        constructor(grid: Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
         }
 

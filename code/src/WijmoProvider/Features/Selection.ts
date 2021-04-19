@@ -1,14 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     /**
      * Define non-generic methods containing provider code
      */
-    export interface IProviderSelection extends ISelection {
+    export interface IProviderSelection extends OSFramework.Feature.ISelection {
         getProviderAllSelections(): wijmo.grid.CellRange[];
     }
 
-    export class Selection implements IProviderSelection, IBuilder {
-        private _grid: Grid.IGridWijmo;
+    export class Selection
+        implements IProviderSelection, OSFramework.Interface.IBuilder {
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _hasSelectors: boolean;
         private _selectionMode: wijmo.grid.SelectionMode;
 
@@ -19,7 +20,7 @@ namespace Features {
          * @param selectionMode The current selection mode
          */
         constructor(
-            grid: Grid.IGridWijmo,
+            grid: WijmoProvider.Grid.IGridWijmo,
             hasSelectors = false,
             selectionMode = wijmo.grid.SelectionMode.MultiRange
         ) {
@@ -122,7 +123,7 @@ namespace Features {
             );
         }
 
-        public equalizeSelection(): GridAPI.Structures.CellRange[] {
+        public equalizeSelection(): OSFramework.OSStructure.CellRange[] {
             //This method just makes sense for MultiRange
             if (
                 this._grid.provider.selectionMode !==
@@ -186,30 +187,39 @@ namespace Features {
                 .sort(
                     (a, b) => a.bottomRow - b.bottomRow || a.topRow - b.topRow
                 )
-                .map((p) => CellRangeFactory.MakeFromProviderCellRange(p));
+                .map((p) =>
+                    WijmoProvider.Helper.CellRangeFactory.MakeFromProviderCellRange(
+                        p
+                    )
+                );
         }
 
-        public getActiveCell(): GridAPI.Structures.CellRange {
+        public getActiveCell(): OSFramework.OSStructure.CellRange {
             const currSelection = this._grid.provider.selection;
 
             if (currSelection && currSelection.isValid)
                 //currSelection has the last range selected
                 //properties row and col maintain the last cell selected or in a range, where the mouse button was released
-                return CellRangeFactory.MakeFromCoordinates(
+                return WijmoProvider.Helper.CellRangeFactory.MakeFromCoordinates(
                     currSelection.row,
                     currSelection.col
                 );
             else return undefined;
         }
 
-        public getAllSelections(): GridAPI.Structures.CellRange[] {
+        public getAllSelections(): OSFramework.OSStructure.CellRange[] {
             return this.getProviderAllSelections().map((p) =>
-                CellRangeFactory.MakeFromProviderCellRange(p)
+                WijmoProvider.Helper.CellRangeFactory.MakeFromProviderCellRange(
+                    p
+                )
             );
         }
 
-        public getAllSelectionsData(): GridAPI.Structures.RowData[] {
-            const rowColumn = new Map<number, GridAPI.Structures.RowData>();
+        public getAllSelectionsData(): OSFramework.OSStructure.RowData[] {
+            const rowColumn = new Map<
+                number,
+                OSFramework.OSStructure.RowData
+            >();
             const rowColumnArr = [];
 
             this.getProviderAllSelections().map((range) => {
@@ -228,7 +238,7 @@ namespace Features {
                         let curr = rowColumn.get(rowIndex);
 
                         if (!curr) {
-                            curr = new GridAPI.Structures.RowData(
+                            curr = new OSFramework.OSStructure.RowData(
                                 this._grid,
                                 rowIndex,
                                 this._grid.provider.rows[rowIndex].dataItem
@@ -241,7 +251,7 @@ namespace Features {
                         curr.selected.push(
                             ...bindings.map(
                                 (binding) =>
-                                    new GridAPI.Structures.BindingValue(
+                                    new OSFramework.OSStructure.BindingValue(
                                         binding,
                                         this._grid.provider.getCellData(
                                             rowIndex,
@@ -315,10 +325,10 @@ namespace Features {
             );
         }
 
-        public getSelectedRowsData(): GridAPI.Structures.RowData[] {
+        public getSelectedRowsData(): OSFramework.OSStructure.RowData[] {
             return this.getSelectedRows().map(
                 (rowIndex) =>
-                    new GridAPI.Structures.RowData(
+                    new OSFramework.OSStructure.RowData(
                         this._grid,
                         rowIndex,
                         this._grid.provider.rows[rowIndex].dataItem

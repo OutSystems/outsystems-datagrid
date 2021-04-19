@@ -1,8 +1,8 @@
-namespace GridAPI.Structures {
+namespace OSFramework.OSStructure {
     /**
      * Representation of Row-Data, used to OS communication
      */
-    export class RowData implements ISerializable {
+    export class RowData implements OSFramework.Interface.ISerializable {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public dataItem: any;
         public rowIndex: number;
@@ -16,14 +16,14 @@ namespace GridAPI.Structures {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         constructor(
-            grid: Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             rowIndex: number,
             dataItem: any,
             selected?: Array<BindingValue>
         ) {
             this.rowIndex = rowIndex;
             if (grid.isSingleEntity) {
-                this.dataItem = Helper.Flatten(dataItem);
+                this.dataItem = OSFramework.Helper.Flatten(dataItem);
             } else {
                 this.dataItem = dataItem;
             }

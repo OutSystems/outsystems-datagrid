@@ -1,10 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
-    export class Styling implements IStyling, IBuilder {
-        private _grid: Grid.IGridWijmo;
+namespace WijmoProvider.Feature {
+    export class Styling
+        implements
+            OSFramework.Feature.IStyling,
+            OSFramework.Interface.IBuilder {
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _rowHeight: number;
 
-        constructor(grid: Grid.IGridWijmo, rowHeight: number) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo, rowHeight: number) {
             this._grid = grid;
             this._rowHeight = rowHeight;
         }

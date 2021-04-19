@@ -4,32 +4,32 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace GridAPI.ColumnManager {
     const columnMap = new Map<string, string>(); //column.uniqueId -> grid.uniqueId
-    const columnArr = new Array<Column.IColumn>();
+    const columnArr = new Array<OSFramework.Column.IColumn>();
 
     /**
      * Creates the column for the provider with the given configurations.
      *
      * @param {string} columnID id of the column with which actions on the column can be performed.
-     * @param {Column.ColumnType} type type of column to be created.
+     * @param {OSFramework.Enum.ColumnType} type type of column to be created.
      * @param {string} [configs='{}'] configurations in JSON format.
      * @param {string} [editorConfig='{}'] configurations to be used when the column is in edit mode.
      * @returns {*}  {boolean} true if the column got created.
      */
     export function CreateColumn(
         columnID: string,
-        type: Column.ColumnType,
+        type: OSFramework.Enum.ColumnType,
         configs = '{}',
         editorConfig = '{}'
     ): boolean {
         editorConfig = editorConfig === '' ? '{}' : editorConfig;
         let output = false;
-        let column: Column.IColumn;
+        let column: OSFramework.Column.IColumn;
         const grid = GetGridByColumnId(columnID);
         const jsonConfigs = JSON.parse(configs);
         const jsonEditorConfigs = JSON.parse(editorConfig);
 
         if (grid !== undefined) {
-            column = Column.ColumnFactory.MakeColumn(
+            column = WijmoProvider.Column.ColumnFactory.MakeColumn(
                 grid,
                 type,
                 columnID,
@@ -53,8 +53,8 @@ namespace GridAPI.ColumnManager {
      * @param {string} columnID id of the column with which actions on the column can be performed.
      * @returns {*}  {ColumnMapper} this structure has the id of Grid, and the reference to the instance of the grid.
      */
-    function GetGridByColumnId(columnID: string): Grid.IGrid {
-        let grid: Grid.IGrid;
+    function GetGridByColumnId(columnID: string): OSFramework.Grid.IGrid {
+        let grid: OSFramework.Grid.IGrid;
 
         //ColumnId is the UniqueId
         if (columnMap.has(columnID)) {
@@ -62,12 +62,15 @@ namespace GridAPI.ColumnManager {
             //UniqueID not found
         } else {
             // Try to find its reference on DOM
-            const elem = Helper.GetElementByUniqueId(columnID, false);
+            const elem = OSFramework.Helper.GetElementByUniqueId(
+                columnID,
+                false
+            );
 
             // If element is found, means that the DOM was rendered
             if (elem !== undefined) {
                 //Find the closest grid
-                grid = Helper.GetClosestGrid(elem);
+                grid = OSFramework.Helper.GetClosestGrid(elem);
             }
             //TODO: [RGRIDT-623] By looking to the DOM first, maybe this 3rd possibility can be removed from here
             // Otherwise insert in active grid
@@ -83,7 +86,9 @@ namespace GridAPI.ColumnManager {
      * Returns a column based on ID
      * @param columnID Column Id
      */
-    export function GetColumnById(columnID: string): Column.IColumn {
+    export function GetColumnById(
+        columnID: string
+    ): OSFramework.Column.IColumn {
         return columnArr.find((p) => p && p.equalsToID(columnID));
     }
 

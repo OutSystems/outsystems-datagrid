@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ExternalEvents {
+namespace OSFramework.Event.Column {
     /**
      * Class that will be responsible for managing the events of grid columns.
      *
@@ -11,17 +11,17 @@ namespace ExternalEvents {
         ColumnEventType,
         string
     > {
-        private _column: Column.IColumn;
+        private _column: OSFramework.Column.IColumn;
 
-        constructor(column: Column.IColumn) {
+        constructor(column: OSFramework.Column.IColumn) {
             super();
             this._column = column;
         }
 
         protected getInstanceOfEventType(
             eventType: ColumnEventType
-        ): InternalEvents.IEvent<string> {
-            let event: InternalEvents.IEvent<string>;
+        ): OSFramework.Event.IEvent<string> {
+            let event: OSFramework.Event.IEvent<string>;
 
             switch (eventType) {
                 case ColumnEventType.ActionClick:

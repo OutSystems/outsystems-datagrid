@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     /**
      * Representation of OS Date Column
      * Responsible to instantiate the custom editor (calendar) and all the features of a Date column
@@ -8,11 +8,11 @@ namespace Column {
      * If GMT need to be consider, use the DateTimeColumn.
      */
     export class DateColumn extends AbstractProviderColumnEditor<
-        ColumnConfig,
-        EditorConfigDate
+        OSFramework.Configuration.Column.ColumnConfig,
+        OSFramework.Configuration.Column.EditorConfigDate
     > {
         constructor(
-            grid: Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
             editorConfig: JSON
@@ -20,19 +20,23 @@ namespace Column {
             super(
                 grid,
                 columnID,
-                new ColumnConfig(configs),
-                new EditorConfigDate(editorConfig)
+                new OSFramework.Configuration.Column.ColumnConfig(configs),
+                new OSFramework.Configuration.Column.EditorConfigDate(
+                    editorConfig
+                )
             );
-            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
+                this
+            );
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): ColumnType {
-            return ColumnType.Date;
+        public get columnType(): OSFramework.Enum.ColumnType {
+            return OSFramework.Enum.ColumnType.Date;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,16 +1,19 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
-    export class ValidationMark implements IValidationMark, IBuilder {
-        private _grid: Grid.IGridWijmo;
+namespace WijmoProvider.Feature {
+    export class ValidationMark
+        implements
+            OSFramework.Feature.IValidationMark,
+            OSFramework.Interface.IBuilder {
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
         /** Array containing all invalid rows */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _invalidRows: Array<any>;
         /** Exposed methods to manipulate RowMetadata */
-        private _metadata: Grid.IRowMetadata;
+        private _metadata: OSFramework.Interface.IRowMetadata;
 
-        constructor(grid: Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,16 +49,23 @@ namespace Features {
 
         /** Helper to convert the formats of Date and DateTime columns to the format of OS */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        private _convertToFormat(column: Column.IColumn, value: any) {
+        private _convertToFormat(
+            column: OSFramework.Column.IColumn,
+            value: any
+        ) {
             switch (column.columnType) {
-                case Column.ColumnType.Number:
-                case Column.ColumnType.Currency:
+                case OSFramework.Enum.ColumnType.Number:
+                case OSFramework.Enum.ColumnType.Currency:
                     return parseFloat(value ?? 0);
-                case Column.ColumnType.Date:
-                    return Helper.ToOSDate(value ?? new Date(1900, 0, 1));
-                case Column.ColumnType.DateTime:
-                    return Helper.ToOSDatetime(value ?? new Date(1900, 0, 1));
-                case Column.ColumnType.Checkbox:
+                case OSFramework.Enum.ColumnType.Date:
+                    return OSFramework.Helper.ToOSDate(
+                        value ?? new Date(1900, 0, 1)
+                    );
+                case OSFramework.Enum.ColumnType.DateTime:
+                    return OSFramework.Helper.ToOSDatetime(
+                        value ?? new Date(1900, 0, 1)
+                    );
+                case OSFramework.Enum.ColumnType.Checkbox:
                     return value ?? false;
                 default:
                     return value ?? '';
@@ -213,11 +223,13 @@ namespace Features {
                 if (
                     column.hasEvents &&
                     column.columnEvents.handlers.has(
-                        ExternalEvents.ColumnEventType.OnCellValueChange
+                        OSFramework.Event.Column.ColumnEventType
+                            .OnCellValueChange
                     )
                 ) {
                     column.columnEvents.trigger(
-                        ExternalEvents.ColumnEventType.OnCellValueChange,
+                        OSFramework.Event.Column.ColumnEventType
+                            .OnCellValueChange,
                         this._convertToFormat(column, newValue),
                         this._convertToFormat(column, oldValue),
                         rowNumber
@@ -300,18 +312,20 @@ namespace Features {
          * @param rowNumber Number of the row to check if there is any metadata associated to the validation marks.
          * @returns ValidationMarkInfo of the row specified.
          */
-        public getMetadata(rowNumber: number): ValidationMarkInfo {
+        public getMetadata(
+            rowNumber: number
+        ): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
             if (!this.hasMetadata(rowNumber))
                 this._metadata.setMetadata(
                     rowNumber,
                     this._internalLabel,
-                    new ValidationMarkInfo()
+                    new OSFramework.Feature.Auxiliar.ValidationMarkInfo()
                 );
 
             return this._metadata.getMetadata(
                 rowNumber,
                 this._internalLabel
-            ) as ValidationMarkInfo;
+            ) as OSFramework.Feature.Auxiliar.ValidationMarkInfo;
         }
 
         /**
@@ -384,21 +398,23 @@ namespace Features {
          */
         public validateRow(rowNumber: number): void {
             // Triggers the validation method per column
-            this._grid.getColumns().forEach((column: Column.IColumn) => {
-                // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
-                const currValue = this._grid.provider.getCellData(
-                    rowNumber,
-                    column.provider.index,
-                    false
-                );
-                // Triggers the events of OnCellValueChange associated to a specific column in OS
-                this._triggerEventsFromColumn(
-                    rowNumber,
-                    column.provider.binding,
-                    currValue,
-                    currValue
-                );
-            });
+            this._grid
+                .getColumns()
+                .forEach((column: OSFramework.Column.IColumn) => {
+                    // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
+                    const currValue = this._grid.provider.getCellData(
+                        rowNumber,
+                        column.provider.index,
+                        false
+                    );
+                    // Triggers the events of OnCellValueChange associated to a specific column in OS
+                    this._triggerEventsFromColumn(
+                        rowNumber,
+                        column.provider.binding,
+                        currValue,
+                        currValue
+                    );
+                });
         }
     }
 }

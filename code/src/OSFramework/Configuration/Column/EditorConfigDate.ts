@@ -1,4 +1,4 @@
-namespace Column {
+namespace OSFramework.Configuration.Column {
     /**
      * Defines the configuration for Date and Datetime custom editors
      */

@@ -1,18 +1,24 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Grid {
+namespace WijmoProvider.Grid {
     export class FlexGrid
-        extends AbstractGrid<wijmo.grid.FlexGrid, FlexGridConfig>
+        extends OSFramework.Grid.AbstractGrid<
+            wijmo.grid.FlexGrid,
+            OSFramework.Configuration.Grid.FlexGridConfig
+        >
         implements IGridWijmo {
-        private _fBuilder: Features.FeatureBuilder;
+        private _fBuilder: WijmoProvider.Feature.FeatureBuilder;
         private _lineIsSingleEntity = false;
         private _rowMetadata: RowMetadata;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(gridID: string, configs: any) {
-            super(gridID, new FlexGridConfig(configs));
+            super(
+                gridID,
+                new OSFramework.Configuration.Grid.FlexGridConfig(configs)
+            );
         }
 
-        private _addColumns(cols: Column.IColumn[]): void {
+        private _addColumns(cols: OSFramework.Column.IColumn[]): void {
             cols.forEach((col) => {
                 super.addColumn(col);
             });
@@ -34,12 +40,14 @@ namespace Grid {
             }
 
             //In-place convert data to Outsystems Format
-            Helper.ToOSFormat(this, tempArray);
+            OSFramework.Helper.ToOSFormat(this, tempArray);
 
             if (this.isSingleEntity) {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer
                 //when deserializing to need to put in the JSONDeserialize in the target "List Record {ENTITY}" -> would require extra step.
-                tempArray = Helper.FlattenArray(tempArray as [JSON]);
+                tempArray = OSFramework.Helper.FlattenArray(
+                    tempArray as [JSON]
+                );
             }
 
             return JSON.stringify(tempArray);
@@ -89,11 +97,11 @@ namespace Grid {
             return this._lineIsSingleEntity;
         }
 
-        public get rowMetadata(): IRowMetadata {
+        public get rowMetadata(): OSFramework.Interface.IRowMetadata {
             return this._rowMetadata;
         }
 
-        public addColumn(col: Column.IColumn): void {
+        public addColumn(col: OSFramework.Column.IColumn): void {
             super.addColumn(col);
 
             if (this.isReady) {
@@ -108,7 +116,7 @@ namespace Grid {
             super.build();
 
             this._provider = new wijmo.grid.FlexGrid(
-                Helper.GetElementByUniqueId(this.uniqueId),
+                OSFramework.Helper.GetElementByUniqueId(this.uniqueId),
                 this._getProviderConfig()
             );
             this._rowMetadata = new RowMetadata(this._provider);
@@ -121,7 +129,7 @@ namespace Grid {
         }
 
         public buildFeatures(): void {
-            this._fBuilder = new Features.FeatureBuilder(this);
+            this._fBuilder = new WijmoProvider.Feature.FeatureBuilder(this);
 
             this._features = this._fBuilder.features;
 
@@ -147,27 +155,27 @@ namespace Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public changeProperty(propertyName: string, value: any): void {
-            const propValue = OS_Config_Grid[propertyName];
+            const propValue = OSFramework.Enum.OS_Config_Grid[propertyName];
 
             switch (propValue) {
-                case OS_Config_Grid.allowColumnSort:
+                case OSFramework.Enum.OS_Config_Grid.allowColumnSort:
                     return this.features.sort.setState(value);
-                case OS_Config_Grid.allowFiltering:
+                case OSFramework.Enum.OS_Config_Grid.allowFiltering:
                     return this.features.filter.setState(value);
-                case OS_Config_Grid.rowsPerPage:
+                case OSFramework.Enum.OS_Config_Grid.rowsPerPage:
                     return this.features.pagination.changePageSize(value);
-                case OS_Config_Grid.rowHeight:
+                case OSFramework.Enum.OS_Config_Grid.rowHeight:
                     return this.features.styling.changeRowHeight(value);
-                case OS_Config_Grid.allowColumnReorder:
+                case OSFramework.Enum.OS_Config_Grid.allowColumnReorder:
                     return this.features.columnReorder.setState(value);
-                case OS_Config_Grid.allowColumnResize:
+                case OSFramework.Enum.OS_Config_Grid.allowColumnResize:
                     return this.features.columnResize.setState(value);
-                case OS_Config_Grid.allowKeyTabNavigation:
+                case OSFramework.Enum.OS_Config_Grid.allowKeyTabNavigation:
                     return this.features.tabNavigation.setState(value);
-                case OS_Config_Grid.allowEdit:
+                case OSFramework.Enum.OS_Config_Grid.allowEdit:
                     this._provider.isReadOnly = value === false;
                     return;
-                case OS_Config_Grid.selectionMode:
+                case OSFramework.Enum.OS_Config_Grid.selectionMode:
                     this.features.selection.setState(value);
                     return;
                 default:
@@ -192,8 +200,8 @@ namespace Grid {
             this._provider = undefined;
         }
 
-        public getChangesMade(): changesDone {
-            const changes: changesDone = {
+        public getChangesMade(): OSFramework.OSStructure.changesDone {
+            const changes: OSFramework.OSStructure.changesDone = {
                 hasChanges: false,
                 addedLinesJSON: undefined,
                 editedLinesJSON: undefined,
@@ -255,8 +263,10 @@ namespace Grid {
 
         public setData(data: string): boolean {
             // Use with a Date reviver to restore date fields
-            const infojson = Helper.JSONParser(data);
-            const hasMetainfo = Column.Generator.HasMetadata(infojson);
+            const infojson = OSFramework.Helper.JSONParser(data);
+            const hasMetainfo = WijmoProvider.Column.Generator.HasMetadata(
+                infojson
+            );
             let gridData = hasMetainfo ? infojson.data : infojson;
 
             if (this.isReady) {
@@ -270,7 +280,7 @@ namespace Grid {
                     if (hasMetainfo) {
                         //if we have meta information about the columns, let's NOT use wijmo generator
                         this.autoGenerate = false;
-                        const generated = Column.Generator.ColumnGenerator(
+                        const generated = WijmoProvider.Column.Generator.ColumnGenerator(
                             this,
                             infojson,
                             this.config.allowEdit
@@ -284,7 +294,9 @@ namespace Grid {
                     } else {
                         //if the grid is read-only, then we'll flatten the array and use wijmo generator
                         if (this.provider.isReadOnly) {
-                            gridData = Helper.FlattenArray(gridData);
+                            gridData = OSFramework.Helper.FlattenArray(
+                                gridData
+                            );
                         } else {
                             //if the grid is marked as editable, and is to be auto generated, we do not support (because of the save)
                             throw new Error(

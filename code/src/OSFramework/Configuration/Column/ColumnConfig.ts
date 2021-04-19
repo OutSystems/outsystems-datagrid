@@ -1,6 +1,6 @@
 /// <reference path="../AbstractConfiguration.ts" />
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace OSFramework.Configuration.Column {
     /**
      * Defines the generic properties for a Column
      */

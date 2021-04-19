@@ -1,4 +1,4 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace InternalEvents {
+namespace OSFramework.Event.Grid {
     export class AddNewRowEvent extends AbstractEvent<number> {}
 }

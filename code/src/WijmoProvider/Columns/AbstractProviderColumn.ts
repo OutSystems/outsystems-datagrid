@@ -1,14 +1,14 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     /**
      * An extension of AbstractColumn, used to handle the grid's provider
      */
     export abstract class AbstractProviderColumn<
-        T extends IConfigurationColumn
-    > extends AbstractColumn<T> {
+        T extends OSFramework.Configuration.IConfigurationColumn
+    > extends OSFramework.Column.AbstractColumn<T> {
         private _provider: wijmo.grid.Column;
 
-        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
             throw `The column ${this.columnType.toString()} does not support events`;
         }
 
@@ -43,7 +43,7 @@ namespace Column {
             if (this.hasParentColumn) {
                 const parent = this.grid.getColumn(
                     this.parentColumnId
-                ) as Column.IColumnGroup;
+                ) as OSFramework.Column.IColumnGroup;
                 parent.addChild(this);
 
                 if (parent.isReady) {
@@ -84,7 +84,7 @@ namespace Column {
             if (this.hasParentColumn) {
                 const parent = this.grid.getColumn(
                     this.parentColumnId
-                ) as Column.IColumnGroup;
+                ) as OSFramework.Column.IColumnGroup;
                 parent && parent.removeChild(this);
             }
 

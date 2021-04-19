@@ -1,15 +1,18 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Grid {
+namespace WijmoProvider.Grid {
     export namespace GridFactory {
         export function MakeGrid(
-            type: GridType,
+            type: OSFramework.Enum.GridType,
             gridID: string,
-            configs: IConfiguration
-        ): IGrid {
+            configs: OSFramework.Configuration.IConfiguration
+        ): OSFramework.Grid.IGrid {
             switch (type) {
-                case GridType.FlexGrid:
-                    console.log('Yay! Im worgkin')
-                    return new FlexGrid(gridID, configs as FlexGridConfig);
+                case OSFramework.Enum.GridType.FlexGrid:
+                console.log('Yay! Im worgkin')
+                    return new FlexGrid(
+                        gridID,
+                        configs as OSFramework.Configuration.Grid.FlexGridConfig
+                    );
                 default:
                     throw `There is no factory for this type of grid (${type})`;
             }

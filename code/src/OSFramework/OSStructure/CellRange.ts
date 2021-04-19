@@ -1,4 +1,4 @@
-namespace GridAPI.Structures {
+namespace OSFramework.OSStructure {
     /**
      * Representation of a generic range
      * Used to express selections, defining start and end

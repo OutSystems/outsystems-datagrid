@@ -1,61 +1,65 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     export namespace ColumnFactory {
         export function MakeColumn(
-            grid: Grid.IGrid,
-            type: ColumnType,
+            grid: OSFramework.Grid.IGrid,
+            type: OSFramework.Enum.ColumnType,
             columnID: string,
             configs: JSON,
             editorConfigs: JSON
-        ): IColumn {
+        ): OSFramework.Column.IColumn {
             switch (type) {
-                case ColumnType.Action:
+                case OSFramework.Enum.ColumnType.Action:
                     return new ActionColumn(grid, columnID, configs);
-                case ColumnType.Checkbox:
+                case OSFramework.Enum.ColumnType.Checkbox:
                     return new CheckboxColumn(grid, columnID, configs);
-                case ColumnType.Currency:
+                case OSFramework.Enum.ColumnType.Currency:
                     return new CurrencyColumn(
                         grid,
                         columnID,
                         configs,
-                        new EditorConfigCurrency(editorConfigs)
+                        new OSFramework.Configuration.Column.EditorConfigCurrency(
+                            editorConfigs
+                        )
                     );
-                case ColumnType.Date:
+                case OSFramework.Enum.ColumnType.Date:
                     return new DateColumn(
                         grid,
                         columnID,
                         configs,
                         editorConfigs
                     );
-                case ColumnType.DateTime:
+                case OSFramework.Enum.ColumnType.DateTime:
                     return new DateTimeColumn(
                         grid,
                         columnID,
                         configs,
                         editorConfigs
                     );
-                case ColumnType.Dropdown:
+                case OSFramework.Enum.ColumnType.Dropdown:
                     return new DropdownColumn(
                         grid,
                         columnID,
                         configs,
                         editorConfigs
                     );
-                case ColumnType.Group:
+                case OSFramework.Enum.ColumnType.Group:
                     return new GroupColumn(
                         grid,
                         columnID,
                         configs,
                         editorConfigs
                     );
-                case ColumnType.Number:
+                case OSFramework.Enum.ColumnType.Number:
                     return new NumberColumn(
                         grid,
                         columnID,
                         configs,
-                        new EditorConfigNumber(editorConfigs)
+                        new OSFramework.Configuration.Column.EditorConfigNumber(
+                            editorConfigs
+                        )
                     );
-                case ColumnType.Text:
+                case OSFramework.Enum.ColumnType.Text:
                     return new TextColumn(grid, columnID, configs);
                 default:
                     throw `There is no factory for this type of column (${type})`;

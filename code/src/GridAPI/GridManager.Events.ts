@@ -4,11 +4,11 @@ namespace GridAPI.GridManager.Events {
     const _pendingEvents: Map<
         string,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { cb: any; event: ExternalEvents.GridEventType }[]
+        { cb: any; event: OSFramework.Event.Grid.GridEventType }[]
     > = new Map<
         string,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        { cb: any; event: ExternalEvents.GridEventType }[]
+        { cb: any; event: OSFramework.Event.Grid.GridEventType }[]
     >();
 
     /**
@@ -16,14 +16,14 @@ namespace GridAPI.GridManager.Events {
      *
      * @export
      * @param {string} gridID grid in which to attach to an event.
-     * @param {ExternalEvents.GridEventType} eventName event to which attach to.
-     * @param {Callbacks.OSGrid.Event} callback to be invoked qhen the event occurs.
+     * @param {OSFramework.Event.Grid.GridEventType} eventName event to which attach to.
+     * @param {GridAPI.Callbacks.OSGrid.Event} callback to be invoked qhen the event occurs.
      */
     export function Subscribe(
         gridID: string,
-        eventName: ExternalEvents.GridEventType,
+        eventName: OSFramework.Event.Grid.GridEventType,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        callback: Callbacks.OSGrid.Event
+        callback: OSFramework.Callbacks.OSGrid.Event
     ): void {
         const grid = GetGridById(gridID);
         if (grid === undefined) {
@@ -63,9 +63,9 @@ namespace GridAPI.GridManager.Events {
 
     export function Unsubscribe(
         gridID: string,
-        eventName: ExternalEvents.GridEventType,
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        callback: Callbacks.OSGrid.Event
+        eventName: OSFramework.Event.Grid.GridEventType,
+        // eslint-disable-next-line
+        callback: OSFramework.Callbacks.OSGrid.Event
     ): void {
         const grid = GetGridById(gridID, false);
         if (grid !== undefined) {

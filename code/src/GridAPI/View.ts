@@ -11,7 +11,7 @@ namespace GridAPI {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         export function GetViewLayout(gridID: string): any {
-            if (!Helper.IsGridReady(gridID)) return;
+            if (!OSFramework.Helper.IsGridReady(gridID)) return;
             const grid = GridManager.GetGridById(gridID);
 
             return grid.getViewLayout();
@@ -26,8 +26,8 @@ namespace GridAPI {
         export function SetViewLayout(gridID: string, config: any): void {
             GridManager.Events.Subscribe(
                 gridID,
-                ExternalEvents.GridEventType.Initialized,
-                (gridId: string, gridObj: Grid.IGrid) => {
+                OSFramework.Event.Grid.GridEventType.Initialized,
+                (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                     gridObj.setViewLayout(config);
                 }
             );

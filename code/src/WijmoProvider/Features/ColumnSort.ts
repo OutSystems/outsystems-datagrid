@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     class ColumnSortAction extends wijmo.undo.UndoableAction {
         constructor(s: wijmo.grid.FlexGrid) {
             super(s);
@@ -26,11 +26,14 @@ namespace Features {
         }
     }
 
-    export class ColumnSort implements IColumnSort, IBuilder {
+    export class ColumnSort
+        implements
+            OSFramework.Feature.IColumnSort,
+            OSFramework.Interface.IBuilder {
         private _enabled: boolean;
-        private _grid: Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
 
-        constructor(grid: Grid.IGridWijmo, enabled: boolean) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
         }
@@ -134,10 +137,10 @@ namespace Features {
         }
 
         public validateAction(
-            action: InternalEvents.Actions /*, ctx: any*/
+            action: OSFramework.Event.Grid.Actions /*, ctx: any*/
         ): string {
             if (this.isGridSorted) {
-                if (action === InternalEvents.Actions.AddRow) {
+                if (action === OSFramework.Event.Grid.Actions.AddRow) {
                     return "Can't add rows when sort mode is On!";
                 }
             }

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     /**
      * Defines limites (positive and negative) based on decimal places
      */
@@ -19,25 +19,35 @@ namespace Column {
     ];
 
     export class NumberColumn<
-        T extends EditorConfigNumber
-    > extends AbstractProviderColumnEditor<ColumnConfig, T> {
+        T extends OSFramework.Configuration.Column.EditorConfigNumber
+    > extends AbstractProviderColumnEditor<
+        OSFramework.Configuration.Column.ColumnConfig,
+        T
+    > {
         constructor(
-            grid: Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
             editorConfig: T
         ) {
-            super(grid, columnID, new ColumnConfig(configs), editorConfig);
-            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+            super(
+                grid,
+                columnID,
+                new OSFramework.Configuration.Column.ColumnConfig(configs),
+                editorConfig
+            );
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
+                this
+            );
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): ColumnType {
-            return ColumnType.Number;
+        public get columnType(): OSFramework.Enum.ColumnType {
+            return OSFramework.Enum.ColumnType.Number;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

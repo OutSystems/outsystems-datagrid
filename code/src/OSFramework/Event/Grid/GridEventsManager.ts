@@ -1,27 +1,27 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ExternalEvents {
+namespace OSFramework.Event.Grid {
     /**
      * Class that will be responsible for managing the events of the grid.
      *
      * @export
      * @class GridEventsManager
-     * @extends {AbstractEventsManager<GridEventType, Grid.IGrid>}
+     * @extends {AbstractEventsManager<GridEventType, OSFramework.Grid.IGrid>}
      */
     export class GridEventsManager extends AbstractEventsManager<
         GridEventType,
-        Grid.IGrid
+        OSFramework.Grid.IGrid
     > {
-        private _grid: Grid.IGrid;
+        private _grid: OSFramework.Grid.IGrid;
 
-        constructor(grid: Grid.IGrid) {
+        constructor(grid: OSFramework.Grid.IGrid) {
             super();
             this._grid = grid;
         }
 
         protected getInstanceOfEventType(
             eventType: GridEventType
-        ): InternalEvents.IEvent<Grid.IGrid> {
-            let event: InternalEvents.IEvent<Grid.IGrid>;
+        ): OSFramework.Event.IEvent<OSFramework.Grid.IGrid> {
+            let event: OSFramework.Event.IEvent<OSFramework.Grid.IGrid>;
 
             switch (eventType) {
                 case GridEventType.Initialized:
@@ -42,7 +42,7 @@ namespace ExternalEvents {
 
         public addHandler(
             eventType: GridEventType,
-            handler: Callbacks.OSGrid.Event
+            handler: OSFramework.Callbacks.OSGrid.Event
         ): void {
             //if the grid is already ready, fire immediatly the event.
             if (eventType === GridEventType.Initialized && this._grid.isReady) {
@@ -55,7 +55,7 @@ namespace ExternalEvents {
 
         public trigger(
             event: GridEventType,
-            gridObj: Grid.IGrid,
+            gridObj: OSFramework.Grid.IGrid,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
             ...args
         ): void {
