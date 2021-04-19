@@ -1,4 +1,4 @@
-namespace Column {
+namespace OSFramework.Enum {
     /**
      * Internal type definition
      */

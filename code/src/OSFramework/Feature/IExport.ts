@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace OSFramework.Feature {
     export interface IExport {
         exportToClipboard(withHeaders: boolean): void;
         exportToCsv(): void;

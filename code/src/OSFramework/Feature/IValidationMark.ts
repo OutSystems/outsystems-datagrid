@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace OSFramework.Feature {
     export interface IValidationMark {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         invalidRows: Array<any>;

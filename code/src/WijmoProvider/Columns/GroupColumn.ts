@@ -1,22 +1,29 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
+namespace WijmoProvider.Column {
     export class GroupColumn
-        extends AbstractProviderColumn<ColumnConfigGroup>
-        implements IColumnGroup {
-        private _columns: IColumn[];
+        extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfigGroup>
+        implements OSFramework.Column.IColumnGroup {
+        private _columns: OSFramework.Column.IColumn[];
 
         constructor(
-            grid: Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
             specific: JSON
         ) {
-            super(grid, columnID, new ColumnConfigGroup(configs, specific));
+            super(
+                grid,
+                columnID,
+                new OSFramework.Configuration.Column.ColumnConfigGroup(
+                    configs,
+                    specific
+                )
+            );
             this._columns = [];
         }
 
-        public get columnType(): ColumnType {
-            return ColumnType.Group;
+        public get columnType(): OSFramework.Enum.ColumnType {
+            return OSFramework.Enum.ColumnType.Group;
         }
 
         public get provider(): wijmo.grid.ColumnGroup {
@@ -78,7 +85,7 @@ namespace Column {
             }
         }
 
-        public addChild(column: IColumn): void {
+        public addChild(column: OSFramework.Column.IColumn): void {
             if (this._columns.indexOf(column) === -1) {
                 this._columns.push(column);
             }
@@ -137,7 +144,7 @@ namespace Column {
             return providerConfig;
         }
 
-        public removeChild(column: IColumn): void {
+        public removeChild(column: OSFramework.Column.IColumn): void {
             _.remove(this._columns, (p) => p === column);
         }
     }

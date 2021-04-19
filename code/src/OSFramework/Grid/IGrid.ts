@@ -1,18 +1,22 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Grid {
-    export interface IGrid extends IBuilder, IDisposable, ISearchById, IView {
-        addedRows: InternalEvents.AddNewRowEvent;
+namespace OSFramework.Grid {
+    export interface IGrid
+        extends Interface.IBuilder,
+            Interface.IDisposable,
+            Interface.ISearchById,
+            Feature.IView {
+        addedRows: Event.Grid.AddNewRowEvent;
         autoGenerate: boolean;
-        config: IConfigurationGrid;
-        features: Features.CommmonFeatures;
-        gridEvents: ExternalEvents.GridEventsManager;
+        config: Configuration.IConfigurationGrid;
+        features: OSFramework.Feature.ExposedFeatures;
+        gridEvents: Event.Grid.GridEventsManager;
         isReady: boolean;
         isSingleEntity: boolean;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         provider: any;
-        rowMetadata: IRowMetadata;
+        rowMetadata: Interface.IRowMetadata;
         uniqueId: string;
-        validatingAction: InternalEvents.ValidatingAction;
+        validatingAction: Event.Grid.ValidatingAction;
         widgetId: string;
 
         addColumn(col: Column.IColumn);
@@ -25,7 +29,7 @@ namespace Grid {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         changeProperty(propertyName: string, propertyValue: any): void;
         clearAllChanges(): void;
-        getChangesMade(): changesDone;
+        getChangesMade(): OSStructure.changesDone;
         /**
          * Get the column on the grid by giving a columnID or a binding.
          * @param key key can be the uniqueId or a binding of a column

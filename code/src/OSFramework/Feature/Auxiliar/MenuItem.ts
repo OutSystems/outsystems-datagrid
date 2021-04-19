@@ -1,11 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace OSFramework.Feature.Auxiliar {
     /**
      * Representation of a menu item
      */
     export class MenuItem {
         /** The method executed by the MenuItem  */
-        public clickEvent: Callbacks.ContextMenu.OSClickEvent;
+        public clickEvent: OSFramework.Callbacks.ContextMenu.OSClickEvent;
         /** Used to indicate if a menuItem can be executed */
         public enabled: boolean;
         /** The list of sub-menu-items */

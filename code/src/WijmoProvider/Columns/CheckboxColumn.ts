@@ -1,18 +1,28 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
-    export class CheckboxColumn extends AbstractProviderColumn<ColumnConfig> {
-        constructor(grid: Grid.IGrid, columnID: string, configs: JSON) {
-            super(grid, columnID, new ColumnConfig(configs));
-            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+namespace WijmoProvider.Column {
+    export class CheckboxColumn extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfig> {
+        constructor(
+            grid: OSFramework.Grid.IGrid,
+            columnID: string,
+            configs: JSON
+        ) {
+            super(
+                grid,
+                columnID,
+                new OSFramework.Configuration.Column.ColumnConfig(configs)
+            );
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
+                this
+            );
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): ColumnType {
-            return ColumnType.Checkbox;
+        public get columnType(): OSFramework.Enum.ColumnType {
+            return OSFramework.Enum.ColumnType.Checkbox;
         }
 
         public get providerType(): wijmo.DataType {

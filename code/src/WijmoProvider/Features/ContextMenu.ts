@@ -1,25 +1,29 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     /**
      * Representation of the ContextMenu feature
      */
-    export class ContextMenu implements IBuilder, IDisposable, IContextMenu {
+    export class ContextMenu
+        implements
+            OSFramework.Interface.IBuilder,
+            OSFramework.Interface.IDisposable,
+            OSFramework.Feature.IContextMenu {
         /** Events from the Context Menu  */
-        private _contextMenuEvents: ExternalEvents.ContextMenuEventManager;
-        private _grid: Grid.IGridWijmo;
+        private _contextMenuEvents: OSFramework.Event.Feature.ContextMenuEventManager;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _isOpening: boolean;
         /** Map a UniqueId to its MenuItem */
-        private _menuItems: Map<string, MenuItem>;
+        private _menuItems: Map<string, OSFramework.Feature.Auxiliar.MenuItem>;
         /** Our provider ContextMenu instance */
         private _provider: wijmo.input.Menu;
         /** Only the root MenuItems to be shown on Input.Menu */
-        private _rootMenuItems: MenuItem[];
+        private _rootMenuItems: OSFramework.Feature.Auxiliar.MenuItem[];
 
-        constructor(grid: Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
             this._menuItems = new Map();
             this._rootMenuItems = [];
-            this._contextMenuEvents = new ExternalEvents.ContextMenuEventManager(
+            this._contextMenuEvents = new OSFramework.Event.Feature.ContextMenuEventManager(
                 this
             );
         }
@@ -28,7 +32,7 @@ namespace Features {
          * Adds a MenuItem to the the Mapper and ContextMenu.itemsSource
          * @param menuItem Instance of the new MenuItem just before insertion
          */
-        private _addMenuItem(menuItem: MenuItem) {
+        private _addMenuItem(menuItem: OSFramework.Feature.Auxiliar.MenuItem) {
             //If already inserted to the Map return error message
             if (this._menuItems.has(menuItem.uniqueId)) {
                 console.log(
@@ -90,7 +94,8 @@ namespace Features {
                         // It is easier to understand if it will open instead of analysing if the menu is dropped down.
                         this._isOpening = !e.isDroppedDown;
                         this._contextMenuEvents.trigger(
-                            ExternalEvents.ContextMenuEventType.Toggle
+                            OSFramework.Event.Feature.ContextMenuEventType
+                                .Toggle
                         );
                     }
                 }
@@ -113,21 +118,23 @@ namespace Features {
         private _defineMenuItemOrder(menuItemId: string): number {
             let itemPosition = -1;
             let allItemElems: HTMLCollection;
-            const menuItemElem = Helper.GetElementByUniqueId(menuItemId);
+            const menuItemElem = OSFramework.Helper.GetElementByUniqueId(
+                menuItemId
+            );
             const menuItem = this._menuItems.get(menuItemId);
 
             //When its a root element
             if (menuItem.isRootItem) {
                 //Find the placeholder where the menu items are dragged into
                 allItemElems = menuItemElem.closest(
-                    Helper.Constants.contextMenuCss
+                    OSFramework.Helper.Constants.contextMenuCss
                 ).children;
             }
             //When its a sub-menu-item
             else {
                 //Find its parent placeholder
                 allItemElems = menuItemElem.closest(
-                    Helper.Constants.contextSubMenuCss
+                    OSFramework.Helper.Constants.contextSubMenuCss
                 ).children;
             }
 
@@ -150,7 +157,10 @@ namespace Features {
          * @returns A boolean indicating if the current item should be shown
          */
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        private _filterMenuItem(e: MouseEvent, item: MenuItem): boolean {
+        private _filterMenuItem(
+            e: MouseEvent,
+            item: OSFramework.Feature.Auxiliar.MenuItem
+        ): boolean {
             // Get info from clicked area
             const ht = this._grid.provider.hitTest(e);
             //How to filter menu options, based on the clicked area =D
@@ -174,20 +184,26 @@ namespace Features {
          */
         private _getMenuParentId(menuItemId: string): string {
             let parentID: string = undefined;
-            const menuItem = Helper.GetElementByUniqueId(menuItemId);
+            const menuItem = OSFramework.Helper.GetElementByUniqueId(
+                menuItemId
+            );
             const menuParentSubMenu = menuItem.closest(
-                Helper.Constants.contextSubMenuCss
+                OSFramework.Helper.Constants.contextSubMenuCss
             );
 
             if (
                 menuParentSubMenu &&
                 menuParentSubMenu.parentNode.querySelector(
-                    Helper.Constants.contextMenuItemUniqueIdCss
+                    OSFramework.Helper.Constants.contextMenuItemUniqueIdCss
                 )
             ) {
                 parentID = menuParentSubMenu.parentNode
-                    .querySelector(Helper.Constants.contextMenuItemUniqueIdCss)
-                    .getAttribute(Helper.Constants.uniqueIdAttribute);
+                    .querySelector(
+                        OSFramework.Helper.Constants.contextMenuItemUniqueIdCss
+                    )
+                    .getAttribute(
+                        OSFramework.Helper.Constants.uniqueIdAttribute
+                    );
             }
 
             return parentID;
@@ -243,13 +259,13 @@ namespace Features {
          * Sort menu by its order
          * @param items list of menu items
          */
-        private _sortMenuItems(items: MenuItem[]) {
+        private _sortMenuItems(items: OSFramework.Feature.Auxiliar.MenuItem[]) {
             items.sort((a, b): number => {
                 this._sortMenuItems(a.items);
                 return a.order - b.order;
             });
         }
-        public get contextMenuEvents(): ExternalEvents.ContextMenuEventManager {
+        public get contextMenuEvents(): OSFramework.Event.Feature.ContextMenuEventManager {
             return this._contextMenuEvents;
         }
 
@@ -257,7 +273,7 @@ namespace Features {
             return this._isOpening;
         }
 
-        public get grid(): Grid.IGrid {
+        public get grid(): OSFramework.Grid.IGrid {
             return this._grid;
         }
 
@@ -265,9 +281,11 @@ namespace Features {
             menuItemId: string,
             label: string,
             enabled: boolean,
-            executeCommand: Callbacks.ContextMenu.OSClickEvent
+            executeCommand: OSFramework.Callbacks.ContextMenu.OSClickEvent
         ): void {
-            const menuItem = new MenuItem(menuItemId);
+            const menuItem = new OSFramework.Feature.Auxiliar.MenuItem(
+                menuItemId
+            );
 
             menuItem.label = label;
             menuItem.enabled = enabled;
@@ -277,7 +295,9 @@ namespace Features {
         }
 
         public addMenuItemSeparator(menuItemId: string): void {
-            const menuItem = new MenuItem(menuItemId);
+            const menuItem = new OSFramework.Feature.Auxiliar.MenuItem(
+                menuItemId
+            );
             menuItem.label = '-'; // this header is known by the provider, and is used to create the line separator
 
             this._addMenuItem(menuItem);

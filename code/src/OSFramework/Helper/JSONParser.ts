@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Helper {
+namespace OSFramework.Helper {
     /**
      * Responsible for parsing string fields to its correct data type
      *
@@ -71,7 +71,7 @@ namespace Helper {
      */
     // eslint-disable-next-line @typescript-eslint/naming-convention
     export function ToOSFormat(
-        grid: Grid.IGrid,
+        grid: OSFramework.Grid.IGrid,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: Array<any>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -79,7 +79,7 @@ namespace Helper {
         //TODO: [RGRIDT-638] Regression 2021-02-12: Is this method the best solution
         const columns = grid
             .getColumns()
-            .filter((p) => p.columnType === Column.ColumnType.Date);
+            .filter((p) => p.columnType === OSFramework.Enum.ColumnType.Date);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const setDeepDate = (binding: Array<string>, object: any) => {

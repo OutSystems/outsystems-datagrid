@@ -1,15 +1,18 @@
-namespace Column {
+namespace OSFramework.Column {
     /**
      * Representantion of a Grid's Column
      */
-    export interface IColumn extends IDisposable, ISearchById, IBuilder {
-        columnEvents: ExternalEvents.ColumnEventsManager;
+    export interface IColumn
+        extends Interface.IDisposable,
+            Interface.ISearchById,
+            Interface.IBuilder {
+        columnEvents: Event.Column.ColumnEventsManager;
         /** Internal ColumnType */
-        columnType: ColumnType;
+        columnType: Enum.ColumnType;
         /** The config used to build the column */
-        config: IConfigurationColumn;
+        config: Configuration.IConfigurationColumn;
         /** Returns the grid instance where the column is placed */
-        grid: Grid.IGrid;
+        grid: OSFramework.Grid.IGrid;
         /** Verifies if this column has associated events */
         hasEvents: boolean;
         /** Verifies if this column is contained inside another */

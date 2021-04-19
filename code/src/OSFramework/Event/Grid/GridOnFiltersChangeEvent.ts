@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ExternalEvents {
+namespace OSFramework.Event.Grid {
     /**
      *Class that represents the Filter Change event.
      *
@@ -16,9 +16,9 @@ namespace ExternalEvents {
          * @param activeFilters list of currently active filters
          */
         public trigger(
-            gridObj: Grid.IGrid,
+            gridObj: OSFramework.Grid.IGrid,
             gridID: string,
-            activeFilters: Array<GridAPI.Structures.ActiveFilter>
+            activeFilters: Array<OSFramework.OSStructure.ActiveFilter>
         ): void {
             const serializedActiveFilters = JSON.stringify(activeFilters);
             this.handlers

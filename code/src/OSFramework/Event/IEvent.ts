@@ -1,4 +1,4 @@
-namespace InternalEvents {
+namespace OSFramework.Event {
     /**
      * This interface is the base to all events. All events (both internal or external)
      * need to implement it.
@@ -9,10 +9,10 @@ namespace InternalEvents {
      */
     export interface IEvent<D> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        addHandler(handler: Callbacks.Generic, ...args);
+        addHandler(handler: OSFramework.Callbacks.Generic, ...args);
         hasHandlers(): boolean;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        removeHandler(handler: Callbacks.Generic);
+        removeHandler(handler: OSFramework.Callbacks.Generic);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         trigger(data: D, ...args): any;
     }

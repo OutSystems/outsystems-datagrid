@@ -1,8 +1,8 @@
-namespace Features {
+namespace OSFramework.Feature {
     export interface IColumnFilter
-        extends IBuilder,
-            IValidation,
-            IProviderConfig<boolean>,
+        extends Interface.IBuilder,
+            Interface.IValidation,
+            Interface.IProviderConfig<boolean>,
             IView {
         isGridFiltered: boolean;
         activate(columID: string): void;

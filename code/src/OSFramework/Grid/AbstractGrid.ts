@@ -1,38 +1,42 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Grid {
-    export abstract class AbstractGrid<W, Z extends IConfigurationGrid>
-        implements IGridGeneric<W> {
-        private _addedRows: InternalEvents.AddNewRowEvent;
-        private _columns: Map<string, Column.IColumn>;
-        private _columnsSet: Set<Column.IColumn>;
+namespace OSFramework.Grid {
+    export abstract class AbstractGrid<
+        W,
+        Z extends Configuration.IConfigurationGrid
+    > implements IGridGeneric<W> {
+        private _addedRows: OSFramework.Event.Grid.AddNewRowEvent;
+        private _columns: Map<string, OSFramework.Column.IColumn>;
+        private _columnsSet: Set<OSFramework.Column.IColumn>;
         private _configs: Z;
-        private _gridEvents: ExternalEvents.GridEventsManager;
+        private _gridEvents: OSFramework.Event.Grid.GridEventsManager;
         private _isReady: boolean;
         private _uniqueId: string;
-        private _validatingAction: InternalEvents.ValidatingAction;
+        private _validatingAction: OSFramework.Event.Grid.ValidatingAction;
         private _widgetId: string;
 
-        protected _features: Features.CommmonFeatures;
+        protected _features: OSFramework.Feature.ExposedFeatures;
         protected _provider: W;
 
         constructor(uniqueId: string, configs: Z) {
             this._uniqueId = uniqueId;
-            this._columns = new Map<string, Column.IColumn>();
-            this._columnsSet = new Set<Column.IColumn>();
+            this._columns = new Map<string, OSFramework.Column.IColumn>();
+            this._columnsSet = new Set<OSFramework.Column.IColumn>();
             this._configs = configs;
-            this._addedRows = new InternalEvents.AddNewRowEvent();
-            this._gridEvents = new ExternalEvents.GridEventsManager(this);
             this._isReady = false;
-            this._validatingAction = new InternalEvents.ValidatingAction();
+            this._addedRows = new OSFramework.Event.Grid.AddNewRowEvent();
+            this._gridEvents = new OSFramework.Event.Grid.GridEventsManager(
+                this
+            );
+            this._validatingAction = new OSFramework.Event.Grid.ValidatingAction();
 
             console.log(`Constructor grid '${this.uniqueId}'`);
         }
 
-        public get validatingAction(): InternalEvents.ValidatingAction {
+        public get validatingAction(): OSFramework.Event.Grid.ValidatingAction {
             return this._validatingAction;
         }
 
-        public get addedRows(): InternalEvents.AddNewRowEvent {
+        public get addedRows(): OSFramework.Event.Grid.AddNewRowEvent {
             return this._addedRows;
         }
 
@@ -48,7 +52,7 @@ namespace Grid {
             return this._isReady;
         }
 
-        public get gridEvents(): ExternalEvents.GridEventsManager {
+        public get gridEvents(): OSFramework.Event.Grid.GridEventsManager {
             return this._gridEvents;
         }
 
@@ -60,7 +64,7 @@ namespace Grid {
             return this._provider;
         }
 
-        public get features(): Features.CommmonFeatures {
+        public get features(): OSFramework.Feature.ExposedFeatures {
             return this._features;
         }
 
@@ -68,12 +72,12 @@ namespace Grid {
             this._isReady = true;
 
             this.gridEvents.trigger(
-                ExternalEvents.GridEventType.Initialized,
+                OSFramework.Event.Grid.GridEventType.Initialized,
                 this
             );
         }
 
-        public addColumn(col: Column.IColumn): void {
+        public addColumn(col: OSFramework.Column.IColumn): void {
             console.log(`Add column '${col.uniqueId}': '${col.config.header}'`);
             this._columns.set(col.config.binding, col);
             this._columns.set(col.uniqueId, col);
@@ -82,23 +86,25 @@ namespace Grid {
 
         public build(): void {
             //RGRIDT-372 - let's get the ID of the parent element, which will be used by the developer
-            this._widgetId = Helper.GetElementByUniqueId(this.uniqueId).closest(
-                Helper.Constants.gridTag
-            ).id;
+            this._widgetId = OSFramework.Helper.GetElementByUniqueId(
+                this.uniqueId
+            ).closest(OSFramework.Helper.Constants.gridTag).id;
         }
 
         public dispose(): void {
             this._isReady = false;
-            this._columns.forEach((col: Column.IColumn, columnID: string) => {
-                this.removeColumn(columnID);
-            });
+            this._columns.forEach(
+                (col: OSFramework.Column.IColumn, columnID: string) => {
+                    this.removeColumn(columnID);
+                }
+            );
         }
 
         public equalsToID(gridID: string): boolean {
             return gridID === this._uniqueId || gridID === this._widgetId;
         }
 
-        public getColumn(key: string): Column.IColumn {
+        public getColumn(key: string): OSFramework.Column.IColumn {
             if (this._columns.has(key)) {
                 return this._columns.get(key);
             } else {
@@ -106,7 +112,7 @@ namespace Grid {
             }
         }
 
-        public getColumns(): Column.IColumn[] {
+        public getColumns(): OSFramework.Column.IColumn[] {
             return Array.from(this._columnsSet);
         }
 
@@ -118,10 +124,14 @@ namespace Grid {
         }
 
         public hasColumnsDefined(): boolean {
-            const widget = Helper.GetElementByUniqueId(this.uniqueId);
-            const gridElement = widget.closest(Helper.Constants.gridTag);
+            const widget = OSFramework.Helper.GetElementByUniqueId(
+                this.uniqueId
+            );
+            const gridElement = widget.closest(
+                OSFramework.Helper.Constants.gridTag
+            );
             const columns = gridElement.querySelectorAll(
-                Helper.Constants.columnCss
+                OSFramework.Helper.Constants.columnCss
             );
 
             return columns.length > 0;
@@ -146,7 +156,7 @@ namespace Grid {
             }
         }
 
-        public abstract get rowMetadata(): IRowMetadata;
+        public abstract get rowMetadata(): Interface.IRowMetadata;
 
         public abstract get autoGenerate(): boolean;
 
@@ -169,7 +179,7 @@ namespace Grid {
 
         public abstract clearAllChanges(): void;
 
-        public abstract getChangesMade(): changesDone;
+        public abstract getChangesMade(): OSStructure.changesDone;
 
         public abstract getData(): JSON[];
 

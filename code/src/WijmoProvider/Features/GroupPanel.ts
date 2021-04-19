@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     class GroupPanelAction extends wijmo.undo.UndoableAction {
         private _grid: wijmo.grid.FlexGrid;
 
@@ -38,21 +38,25 @@ namespace Features {
         }
     }
 
-    // export class Builder extends Validation implements IBuilder {
-    export class GroupPanel implements IGroupPanel, IBuilder, IDisposable {
+    // export class Builder extends Validation implements OSFramework.Interface.IBuilder {
+    export class GroupPanel
+        implements
+            OSFramework.Feature.IGroupPanel,
+            OSFramework.Interface.IBuilder,
+            OSFramework.Interface.IDisposable {
         private _currGroupDescription: Array<wijmo.collections.PropertyGroupDescription>;
-        private _grid: Grid.IGridWijmo;
+        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _groupPanel: wijmo.grid.grouppanel.GroupPanel;
         private _panelId: string;
 
-        constructor(grid: Grid.IGridWijmo, panelId: string) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo, panelId: string) {
             this._grid = grid;
             this._panelId = panelId;
         }
 
         public build(): void {
             this._groupPanel = new wijmo.grid.grouppanel.GroupPanel(
-                Helper.GetElementByUniqueId(this._panelId)
+                OSFramework.Helper.GetElementByUniqueId(this._panelId)
             );
             this._groupPanel.grid = this._grid.provider;
             this._groupPanel.maxGroups = -1;
@@ -113,10 +117,10 @@ namespace Features {
         }
 
         public validateAction(
-            action: InternalEvents.Actions /*, ctx: any*/
+            action: OSFramework.Event.Grid.Actions /*, ctx: any*/
         ): string {
             if (this.isGridGrouped) {
-                if (action === InternalEvents.Actions.AddRow) {
+                if (action === OSFramework.Event.Grid.Actions.AddRow) {
                     return "Can't add rows when group is On!";
                 }
             }

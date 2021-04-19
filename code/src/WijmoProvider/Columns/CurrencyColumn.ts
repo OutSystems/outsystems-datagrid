@@ -1,16 +1,18 @@
 /// <reference path="./NumberColumn.ts" />
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Column {
-    export class CurrencyColumn extends NumberColumn<EditorConfigCurrency> {
+namespace WijmoProvider.Column {
+    export class CurrencyColumn extends NumberColumn<OSFramework.Configuration.Column.EditorConfigCurrency> {
         constructor(
-            grid: Grid.IGrid,
+            grid: OSFramework.Grid.IGrid,
             columnID: string,
             configs: JSON,
-            editorConfig: EditorConfigCurrency
+            editorConfig: OSFramework.Configuration.Column.EditorConfigCurrency
         ) {
             super(grid, columnID, configs, editorConfig);
-            this._columnEvents = new ExternalEvents.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
+                this
+            );
         }
 
         protected _setFormat(decimalPlaces: number, symbol?: string): void {
@@ -24,12 +26,12 @@ namespace Column {
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): ExternalEvents.ColumnEventsManager {
+        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): ColumnType {
-            return ColumnType.Currency;
+        public get columnType(): OSFramework.Enum.ColumnType {
+            return OSFramework.Enum.ColumnType.Currency;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types

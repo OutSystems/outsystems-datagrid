@@ -1,4 +1,4 @@
-namespace Features {
+namespace OSFramework.Feature {
     /**
      * Interface for freezing columns
      */
@@ -16,7 +16,7 @@ namespace Features {
          *
          * @param cell Used as reference to freeze everything up and left
          */
-        bySelection(cell: GridAPI.Structures.CellRange): void;
+        bySelection(cell: OSFramework.OSStructure.CellRange): void;
         /**
          * Freeze the first column
          */

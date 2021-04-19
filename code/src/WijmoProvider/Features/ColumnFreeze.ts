@@ -1,9 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
-    export class ColumnFreeze implements IColumnFreeze, IBuilder {
-        private _grid: Grid.IGridWijmo;
+namespace WijmoProvider.Feature {
+    export class ColumnFreeze
+        implements
+            OSFramework.Feature.IColumnFreeze,
+            OSFramework.Interface.IBuilder {
+        private _grid: WijmoProvider.Grid.IGridWijmo;
 
-        constructor(grid: Grid.IGridWijmo) {
+        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
         }
 
@@ -19,7 +22,7 @@ namespace Features {
             this.leftColumns();
         }
 
-        public bySelection(cell: GridAPI.Structures.CellRange): void {
+        public bySelection(cell: OSFramework.OSStructure.CellRange): void {
             this.leftColumns(cell.topRowIndex);
         }
 

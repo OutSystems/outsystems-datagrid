@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Helper {
+namespace WijmoProvider.Helper.Translation {
     function transposeLanguageFormat(language: string): string {
         let changedLang = language;
 
@@ -30,7 +30,7 @@ namespace Helper {
         fetch(url, { method: 'HEAD' }).then(function (response) {
             if (response.ok) {
                 // this callback is wijmo's workaround to translate the group panel. Remove once they've fixed
-                DynamicallyLoadScript(url, function () {
+                OSFramework.Helper.DynamicallyLoadScript(url, function () {
                     const gps = document.body.querySelectorAll(
                         '.wj-control.wj-grouppanel'
                     );

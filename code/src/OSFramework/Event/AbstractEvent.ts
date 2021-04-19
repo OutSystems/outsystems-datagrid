@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace InternalEvents {
+namespace OSFramework.Event {
     /**
      * Abstract class that will be responsible for the basic behaviours of a link, namely storing the callbacks.
      *
@@ -11,13 +11,13 @@ namespace InternalEvents {
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     export abstract class AbstractEvent<T> implements IEvent<T> {
-        private _handlers: Callbacks.Generic[] = [];
+        private _handlers: OSFramework.Callbacks.Generic[] = [];
 
-        protected get handlers(): Callbacks.Generic[] {
+        protected get handlers(): OSFramework.Callbacks.Generic[] {
             return this._handlers;
         }
 
-        public addHandler(handler: Callbacks.Generic): void {
+        public addHandler(handler: OSFramework.Callbacks.Generic): void {
             this._handlers.push(handler);
         }
 
@@ -26,7 +26,7 @@ namespace InternalEvents {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public removeHandler(handler: Callbacks.Generic): void {
+        public removeHandler(handler: OSFramework.Callbacks.Generic): void {
             const index = this._handlers.findIndex((hd) => {
                 return hd === handler;
             });

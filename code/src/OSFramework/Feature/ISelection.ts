@@ -1,8 +1,8 @@
-namespace Features {
+namespace OSFramework.Feature {
     /**
      * Exposed methods of a selection feature
      */
-    export interface ISelection extends IProviderConfig<number> {
+    export interface ISelection extends Interface.IProviderConfig<number> {
         /**
          * Checks if row Selectors are enabled
          */
@@ -30,21 +30,21 @@ namespace Features {
          * @returns A array containing what is selected, ordered by
          * @example Excel/Google spreadsheet don't accepts copying data in different structures, to avoid errors we decided to transform selections, getting the left-most column, and the right-most column and apply the same structure to all the selected ranges
          */
-        equalizeSelection(): GridAPI.Structures.CellRange[];
+        equalizeSelection(): OSFramework.OSStructure.CellRange[];
 
         /**
          * Return Grid's active cell
          */
-        getActiveCell(): GridAPI.Structures.CellRange;
+        getActiveCell(): OSFramework.OSStructure.CellRange;
 
         /**
          * Returns all selections (rows and ranges)
          */
-        getAllSelections(): GridAPI.Structures.CellRange[];
+        getAllSelections(): OSFramework.OSStructure.CellRange[];
         /**
          * Returns the Data of the selections
          */
-        getAllSelectionsData(): GridAPI.Structures.RowData[];
+        getAllSelectionsData(): OSFramework.OSStructure.RowData[];
 
         /**
          * Returns the Indexes of the selected rows
@@ -61,7 +61,7 @@ namespace Features {
         /**
          * Returns the Data of the selected rows
          */
-        getSelectedRowsData(): GridAPI.Structures.RowData[];
+        getSelectedRowsData(): OSFramework.OSStructure.RowData[];
 
         /**
          * Checks if there is a row selected on the grid

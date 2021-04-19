@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Helper {
+namespace OSFramework.Helper {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     export function Flatten(obj: JSON): any {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

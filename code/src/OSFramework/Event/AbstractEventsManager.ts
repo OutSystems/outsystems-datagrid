@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ExternalEvents {
+namespace OSFramework.Event {
     /**
      * This class is a Manager of events. It will be used by the Grid/Columns/etc in order to support
      * the listenning of the different events supported by the parent element.
@@ -13,17 +13,20 @@ namespace ExternalEvents {
      * @template D  this will the type of Data to be passed, by default to the handlers.
      */
     export abstract class AbstractEventsManager<ET, D> {
-        private _handlers: Map<ET, InternalEvents.IEvent<D>>;
+        private _handlers: Map<ET, OSFramework.Event.IEvent<D>>;
 
         constructor() {
-            this._handlers = new Map<ET, InternalEvents.IEvent<D>>();
+            this._handlers = new Map<ET, OSFramework.Event.IEvent<D>>();
         }
 
-        public get handlers(): Map<ET, InternalEvents.IEvent<D>> {
+        public get handlers(): Map<ET, OSFramework.Event.IEvent<D>> {
             return this._handlers;
         }
 
-        public addHandler(eventType: ET, handler: Callbacks.Generic): void {
+        public addHandler(
+            eventType: ET,
+            handler: OSFramework.Callbacks.Generic
+        ): void {
             if (this._handlers.has(eventType)) {
                 this._handlers.get(eventType).addHandler(handler);
             } else {
@@ -42,7 +45,10 @@ namespace ExternalEvents {
             return returnValue;
         }
 
-        public removeHandler(eventType: ET, handler: Callbacks.Generic): void {
+        public removeHandler(
+            eventType: ET,
+            handler: OSFramework.Callbacks.Generic
+        ): void {
             if (this._handlers.has(eventType)) {
                 const event = this._handlers.get(eventType);
                 event.removeHandler(handler);
@@ -68,6 +74,6 @@ namespace ExternalEvents {
          */
         protected abstract getInstanceOfEventType(
             eventType: ET
-        ): InternalEvents.IEvent<D>;
+        ): OSFramework.Event.IEvent<D>;
     }
 }

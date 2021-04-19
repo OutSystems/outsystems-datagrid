@@ -1,49 +1,30 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace Features {
+namespace WijmoProvider.Feature {
     export interface IFeatures {
-        features: CommmonFeatures;
+        features: OSFramework.Feature.ExposedFeatures;
         dispose();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    export class CommmonFeatures {
-        public columnFreeze: IColumnFreeze;
-        public columnReorder: IColumnReorder;
-        public columnResize: IColumnResize;
-        public contextMenu: IContextMenu;
-        public dirtyMark: IDirtyMark;
-        public export: IExport;
-        public filter: IColumnFilter;
-        public groupPanel: IGroupPanel;
-        public pagination: IPagination;
-        public rows: IRows;
-        public selection: ISelection;
-        public sort: IColumnSort;
-        public styling: IStyling;
-        public tabNavigation: ITabNavigation;
-        public undoStack: IUndoStack;
-        public validationMark: IValidationMark;
-        public view: IView;
-    }
-
     export abstract class AbstractFactoryBuilder
-        implements IFeatures, IBuilder {
-        protected _features: CommmonFeatures;
-        protected _grid: Grid.IGrid;
-        public _featureList: IBuilder[];
+        implements IFeatures, OSFramework.Interface.IBuilder {
+        protected _features: OSFramework.Feature.ExposedFeatures;
+        protected _grid: OSFramework.Grid.IGrid;
+        public _featureList: OSFramework.Interface.IBuilder[];
 
-        constructor(grid: Grid.IGrid) {
+        constructor(grid: OSFramework.Grid.IGrid) {
             this._grid = grid;
             this._featureList = [];
-            this._features = new CommmonFeatures();
+            this._features = new OSFramework.Feature.ExposedFeatures();
         }
 
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any
-        private _instanceOfIDisposable(object: any): object is IDisposable {
+        private _instanceOfIDisposable(
+            object: any
+        ): object is OSFramework.Interface.IDisposable {
             return 'dispose' in object;
         }
 
-        protected _makeItem<T extends IBuilder>(
+        protected _makeItem<T extends OSFramework.Interface.IBuilder>(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             c: new (...args: any) => T,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -54,7 +35,7 @@ namespace Features {
             return o;
         }
 
-        public get features(): CommmonFeatures {
+        public get features(): OSFramework.Feature.ExposedFeatures {
             return this._features;
         }
 
@@ -64,7 +45,8 @@ namespace Features {
 
         public dispose(): void {
             this._featureList.forEach((p) => {
-                this._instanceOfIDisposable(p) && (p as IDisposable).dispose();
+                this._instanceOfIDisposable(p) &&
+                    (p as OSFramework.Interface.IDisposable).dispose();
                 p = undefined;
             });
         }
@@ -188,7 +170,8 @@ namespace Features {
         }
 
         public build(): void {
-            const config = this._grid.config as Grid.FlexGridConfig;
+            const config = this._grid
+                .config as OSFramework.Configuration.Grid.FlexGridConfig;
 
             this._makeDirtyMark()
                 ._makeFilter(config.allowFiltering)

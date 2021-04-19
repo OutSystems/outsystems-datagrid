@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace ActiveFilterFactory {
+namespace WijmoProvider.Helper.FilterFactory {
     /**
      * The type below is a mapper of the serialized object sent by wijmo to facilitate our usage of it, while mapping to OutSystems structure.
      */
@@ -36,8 +36,8 @@ namespace ActiveFilterFactory {
     function _createCondition(
         condition: WijmoFilterCondition,
         filterAnd: boolean
-    ): GridAPI.Structures.FilterCondition {
-        const filterCondition = new GridAPI.Structures.FilterCondition();
+    ): OSFramework.OSStructure.FilterCondition {
+        const filterCondition = new OSFramework.OSStructure.FilterCondition();
         filterCondition.and = filterAnd;
         filterCondition.operatorTypeId = _getOperatorString(condition.operator);
         filterCondition.value = condition.value;
@@ -71,21 +71,21 @@ namespace ActiveFilterFactory {
      * Function that will transform the structure received from the provider, into the OutSystems structure format.
      *
      * @export
-     * @param {Grid.IGrid} grid
+     * @param {OSFramework.Grid.IGrid} grid
      * @param {string} serializedActiveFilters
      * @returns {*}  {GridAPI.Structures.ActiveFilter[]}
      */
     export function MakeFromActiveFilters(
-        grid: Grid.IGrid,
+        grid: OSFramework.Grid.IGrid,
         serializedActiveFilters: string
-    ): Array<GridAPI.Structures.ActiveFilter> {
+    ): Array<OSFramework.OSStructure.ActiveFilter> {
         const wijmoActiveFilters: WijmoActiveFilters = JSON.parse(
             serializedActiveFilters
         );
-        const activeFilters = new Array<GridAPI.Structures.ActiveFilter>();
+        const activeFilters = new Array<OSFramework.OSStructure.ActiveFilter>();
 
         wijmoActiveFilters.filters.forEach((filter) => {
-            const activeFilter = new GridAPI.Structures.ActiveFilter();
+            const activeFilter = new OSFramework.OSStructure.ActiveFilter();
             const column = grid.getColumn(filter.binding);
 
             activeFilter.binding = filter.binding;

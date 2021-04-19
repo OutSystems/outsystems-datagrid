@@ -1,4 +1,4 @@
-namespace Features {
+namespace OSFramework.Feature.Auxiliar {
     export class DirtyMarksInfo {
         public isDirtyRow: boolean;
         public isNew: boolean;
