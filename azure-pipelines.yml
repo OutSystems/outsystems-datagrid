@@ -30,22 +30,18 @@ stages:
         pool:
           vmImage: 'windows-latest'
         steps:
-          #Checkout repositories
-          - checkout: self
-          - checkout: datagrid-reactive-tests
-
           #Install dependencies
           - task: Npm@1
             displayName: 'npm install'
             inputs:
-              workingDir: './outsystems-datagrid-reactive/code'
+              workingDir: './code'
               verbose: false
 
           #Compile typescript files
           - task: Npm@1
             displayName: 'npm run build'
             inputs:
-              workingDir: './outsystems-datagrid-reactive/code'
+              workingDir: './code'
               command: custom
               verbose: false
               customCommand: 'run build'
@@ -53,14 +49,14 @@ stages:
           #Publish compiled file
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: './outsystems-datagrid-reactive/code/dist/GridFramework.js'
+              PathtoPublish: './code/dist/GridFramework.js'
               ArtifactName: 'GridFramework.js'
               publishLocation: 'Container'
 
           #Publish css file
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: './outsystems-datagrid-reactive/code/styles/Grid.css'
+              PathtoPublish: './code/styles/Grid.css'
               ArtifactName: 'Grid.css'
               publishLocation: 'Container'
 
@@ -81,7 +77,7 @@ stages:
               buildType: 'current'
               downloadType: 'single'
               artifactName: 'GridFramework.js'
-              downloadPath: '$(System.ArtifactsDirectory)/bin'
+              downloadPath: '$(Build.SourcesDirectory)/bin'
 
           #Download artifact
           - task: DownloadBuildArtifacts@0
@@ -89,7 +85,7 @@ stages:
               buildType: 'current'
               downloadType: 'single'
               artifactName: 'Grid.css'
-              downloadPath: '$(System.ArtifactsDirectory)/bin'
+              downloadPath: '$(Build.SourcesDirectory)/bin'
 
           #Define Python version
           - task: UsePythonVersion@0
