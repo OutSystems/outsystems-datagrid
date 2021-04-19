@@ -75,17 +75,18 @@ stages:
         pool:
           vmImage: 'windows-latest'
         steps:
-          #Download artifact
-          - task: DownloadPipelineArtifact@2
+          - task: DownloadBuildArtifacts@0
             inputs:
-              artifact: 'GridFramework.js'
-              path: $(Build.SourcesDirectory)/bin
-
-          #Download artifact
-          - task: DownloadPipelineArtifact@2
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'GridFramework.js'
+              downloadPath: '$(System.ArtifactsDirectory)/bin'
+          - task: DownloadBuildArtifacts@0
             inputs:
-              artifact: 'Grid.css'
-              path: $(Build.SourcesDirectory)/bin
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'Grid.css'
+              downloadPath: '$(System.ArtifactsDirectory)/bin'
 
           #Define Python version
           - task: UsePythonVersion@0
