@@ -38,7 +38,6 @@ steps:
   - task: npmAuthenticate@0
     displayName: 'Npm authenticate'
     condition: ne(variables['skip'], 'true')
-    displayName: 'Npm authenticate'
     inputs:
       workingFile: './datagrid-reactive-tests/.npmrc'
 
