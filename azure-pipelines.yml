@@ -65,6 +65,8 @@ stages:
               publishLocation: 'Container'
 
   - stage: Deploy
+    #Only run if not in dev branch
+    condition: ne(variables['Build.SourceBranchName'], 'dev')
     displayName: 'Deploy'
     jobs:
       - job: Deploy
@@ -73,34 +75,35 @@ stages:
         pool:
           vmImage: 'windows-latest'
         steps:
+          #Download artifact
           - task: DownloadPipelineArtifact@2
             inputs:
               artifact: 'GridFramework.js'
               path: $(Build.SourcesDirectory)/bin
 
-          # Download artifact
+          #Download artifact
           - task: DownloadPipelineArtifact@2
             inputs:
               artifact: 'Grid.css'
               path: $(Build.SourcesDirectory)/bin
 
-          #Install dependencies
+          #Define Python version
           - task: UsePythonVersion@0
             displayName: 'Use Python 3.8'
             inputs:
               versionSpec: 3.8
               addToPath: true
 
-          #Compile typescript files
+          #Install tools
           - script: python -m pip install --upgrade pip requests pybase64
             displayName: 'Install tools'
 
-          #Publish compiled file
+          #Format branch name
           - powershell: |
               $moduleName="DataGridReactive_"+"$(System.PullRequest.SourceBranch)"-replace '-', ''
               Write-Host "##vso[task.setvariable variable=module;]$moduleName"
 
-          #Publish css file
+          #Run Python script to publish code
           - task: PythonScript@0
             inputs:
               scriptSource: 'inline'
