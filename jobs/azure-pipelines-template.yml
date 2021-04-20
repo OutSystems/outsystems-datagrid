@@ -1,127 +1,121 @@
 # File: jobs/azure-pipelines-template.yml
 parameters:
-- name: browser
-  type: string
-- name: module
-  type: string
-- name: environment
-  type: string
-- name: feature
-  type: string
-- name: priority
-  type: string
-- name: grid
-  type: string
+  - name: browser
+    type: string
+  - name: module
+    type: string
+  - name: environment
+    type: string
+  - name: feature
+    type: string
+  - name: priority
+    type: string
+  - name: grid
+    type: string
 
 steps:
-#Format branch name
-- task: PowerShell@2
-  inputs:
-    filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
-    workingDirectory: ./outsystems-datagrid-reactive/
-    arguments:
-      -branch $(SourceBranchName)
+  #Format branch name
+  - task: PowerShell@2
+    displayName: 'Format branch name'
+    inputs:
+      filePath: './outsystems-datagrid-reactive/jobs/branch.ps1'
+      workingDirectory: ./outsystems-datagrid-reactive/
+      arguments: -branch $(SourceBranchName)
 
-#Ping sample test page
-#Sets skip variable as true if sample doesnt exist.
-- bash: |
-          status=$(curl -s --head -w %{http_code} $(ENV_URL)/$(branch)/ -o /dev/null)
-          echo $status
-          if [[ $status = 404 ]]
-          then
-            echo "##vso[task.setvariable variable=skip;]true"
-            echo $(skip)
-          fi
+  #Ping sample test page
+  #Sets skip variable as true if sample doesnt exist.
+  - bash: |
+      status=$(curl -s --head -w %{http_code} $(ENV_URL)/$(branch)/ -o /dev/null)
+      echo $status
+      if [[ $status = 404 ]]
+      then
+        echo "##vso[task.setvariable variable=skip;]true"
+        echo $(skip)
+      fi
+    displayName: "Ping sample test page"
 
-#Only run task if skip is not true
-- task: npmAuthenticate@0
-  condition: ne(variables['skip'], 'true')
-  displayName: 'Npm authenticate'
-  inputs:
-    workingFile: './datagrid-reactive-tests/.npmrc'
+  #Only run task if skip is not true
+  - task: npmAuthenticate@0
+    displayName: 'Npm authenticate'
+    condition: ne(variables['skip'], 'true')
+    inputs:
+      workingFile: './datagrid-reactive-tests/.npmrc'
 
-#Only run task if skip is not true
-- task: CmdLine@2
-  name: install_dep
-  condition: ne(variables['skip'], 'true')
-  displayName: 'Install dependencies using yarn'
-  inputs:
-    workingDirectory: './datagrid-reactive-tests/'
-    script: 'yarn install'
-  continueOnError: false
-  
-#Only run task if skip is not true
-- task: NodeTool@0
-  condition: ne(variables['skip'], 'true')
-  displayName: 'Use Node 14.15.4'
-  inputs: 
-    versionSpec: '14.15.4'
-    checkLatest: true
+  #Only run task if skip is not true
+  - task: CmdLine@2
+    name: install_dep
+    condition: ne(variables['skip'], 'true')
+    displayName: 'Install dependencies using yarn'
+    inputs:
+      workingDirectory: './datagrid-reactive-tests/'
+      script: 'yarn install'
+    continueOnError: false
 
-#Retrieve test features
-- bash: |
-          value=`cat ./outsystems-datagrid-reactive/jobs/tests/features.txt`
-          echo "$value"
-          echo "##vso[task.setvariable variable=features;]$value"
+  #Retrieve test features
+  - bash: |
+      value=`cat ./outsystems-datagrid-reactive/jobs/tests/features.txt`
+      echo "$value"
+      echo "##vso[task.setvariable variable=features;]$value"
+    displayName: "Retrieve test features"
 
-#Run tests if sample was pinged
-- task: Npm@1
-  condition: and(succeeded(), eq(variables['features'],''), eq('${{ parameters.priority }}','all'), ne(variables['skip'], 'true'))
-  displayName: 'Npm run all tests'
-  inputs:
-    workingDir: './datagrid-reactive-tests/'
-    command: 'custom'
-    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  --cucumberOpts.tagExpression=@${{ parameters.grid }}'
+  #Run tests if sample was pinged
+  - task: Npm@1
+    condition: and(succeeded(), eq(variables['features'],''), eq('${{ parameters.priority }}','all'), ne(variables['skip'], 'true'))
+    displayName: 'Npm run all tests'
+    inputs:
+      workingDir: './datagrid-reactive-tests/'
+      command: 'custom'
+      customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  --cucumberOpts.tagExpression=@${{ parameters.grid }}'
 
-#Run tests on specific features
-- task: Npm@1
-  condition: ne(variables['features'],'')
-  displayName: 'Npm run by $(features) feature(s)'
-  inputs:
-    workingDir: './datagrid-reactive-tests'
-    command: 'custom'
-    customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  "--cucumberOpts.tagExpression=$(features)"'
+  #Run tests on specific features
+  - task: Npm@1
+    condition: ne(variables['features'],'')
+    displayName: 'Npm run by $(features) feature(s)'
+    inputs:
+      workingDir: './datagrid-reactive-tests'
+      command: 'custom'
+      customCommand: 'run saucelabs -- --user=$(SAUCE_LABS_USER) --key=$(SAUCE_LABS_KEY) --module=$(branch) "--browsers=${{ parameters.browser }}" --headless=false --environment=${{ parameters.environment }} --grid=${{ parameters.grid }}  "--cucumberOpts.tagExpression=$(features)"'
 
-#Only run task if skip is not true
-- task: Npm@1
-  condition: ne(variables['skip'], 'true')
-  displayName: 'Generate Report'
-  timeoutInMinutes: 3
-  continueOnError: true
-  inputs:
-    workingDir: './datagrid-reactive-tests'
-    command: 'custom'
-    customCommand: 'run report'
+  #Only run task if skip is not true
+  - task: Npm@1
+    condition: ne(variables['skip'], 'true')
+    displayName: 'Generate Report'
+    timeoutInMinutes: 3
+    continueOnError: true
+    inputs:
+      workingDir: './datagrid-reactive-tests'
+      command: 'custom'
+      customCommand: 'run report'
 
-#Only run task if skip is not true
-- task: Npm@1
-  condition: ne(variables['skip'], 'true')
-  displayName: 'Convert to JUnit'
-  timeoutInMinutes: 3
-  continueOnError: true
-  inputs:
-    workingDir: './datagrid-reactive-tests'
-    command: 'custom'
-    customCommand: 'run convertToJUnit'
+  #Only run task if skip is not true
+  - task: Npm@1
+    condition: ne(variables['skip'], 'true')
+    displayName: 'Convert to JUnit'
+    timeoutInMinutes: 3
+    continueOnError: true
+    inputs:
+      workingDir: './datagrid-reactive-tests'
+      command: 'custom'
+      customCommand: 'run convertToJUnit'
 
-#Only run task if skip is not true
-- task: PublishTestResults@2
-  condition: ne(variables['skip'], 'true')
-  continueOnError: true
-  inputs:
-    workingDir: './datagrid-reactive-tests'
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/.tmp/junit/*.xml'
-    failTaskOnFailedTests: false
-    testRunTitle: 'Publish Report'
+  #Only run task if skip is not true
+  - task: PublishTestResults@2
+    condition: ne(variables['skip'], 'true')
+    continueOnError: true
+    inputs:
+      workingDir: './datagrid-reactive-tests'
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/.tmp/junit/*.xml'
+      failTaskOnFailedTests: false
+      testRunTitle: 'Publish Report'
 
-#Only run task if skip is not true
-- task: PublishCucumberReport@1
-  condition: ne(variables['skip'], 'true')
-  inputs:
-    jsonDir: './datagrid-reactive-tests/.tmp/json'
-    outputPath: './datagrid-reactive-tests/.tmp'
-    theme: 'bootstrap'
-    reportSuiteAsScenarios: true
-    name: 'Cucumber Report'
-    title: '${{ parameters.grid }} grid'
+  #Only run task if skip is not true
+  - task: PublishCucumberReport@1
+    condition: ne(variables['skip'], 'true')
+    inputs:
+      jsonDir: './datagrid-reactive-tests/.tmp/json'
+      outputPath: './datagrid-reactive-tests/.tmp'
+      theme: 'bootstrap'
+      reportSuiteAsScenarios: true
+      name: 'Cucumber Report'
+      title: '${{ parameters.grid }} grid'
