@@ -244,7 +244,7 @@ namespace OSFramework.Grid {
             if (this.dataSource.hasMetadata) {
                 //if we have meta information about the columns, let's NOT use wijmo generator
                 this.autoGenerate = false;
-                const generated = this._columnsGenerator.ColumnGenerator(
+                const generated = this._columnsGenerator.generate(
                     this,
                     this.dataSource.getMetadata(),
                     this.config.allowEdit
