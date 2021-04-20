@@ -2,15 +2,15 @@
 
 resources:
   repositories:
-  - repository: datagrid-reactive-tests
-    type: github
-    name: OutSystems/datagrid-reactive-tests
-    endpoint: OutSystems
+    - repository: datagrid-reactive-tests
+      type: github
+      name: OutSystems/datagrid-reactive-tests
+      endpoint: OutSystems
 
 trigger:
   branches:
     include:
-    - dev
+      - dev
 variables:
   SourcesDirectory: '$(Build.SourcesDirectory)'
   Project: 'outsystems-datagrid-reactive'
@@ -19,61 +19,139 @@ variables:
   TagName: 'v$(Build.BuildNumber)'
   CurrentBranchName: $(Build.SourceBranchName)
   SourceBranchName: $(System.PullRequest.SourceBranch)
-  
-stages: 
-- stage: Build
-  displayName: 'Build'
-  jobs:
-  - job: SourceBranch
-    steps:
-    - script: echo $(CurrentBranchName)
-  - job: BranchName
-    steps:
-    - script: echo $(SourceBranchName)
 
-  - job: Build
-    displayName: 'Build Job'
-    timeoutInMinutes: 8
-    pool:
-      vmImage: 'windows-latest'
-    steps:
+stages:
+  - stage: Build
+    displayName: 'Build'
+    jobs:
+      - job: Build
+        displayName: 'Build Job'
+        timeoutInMinutes: 8
+        pool:
+          vmImage: 'windows-latest'
+        steps:
+          #Install dependencies
+          - task: Npm@1
+            displayName: 'npm install'
+            inputs:
+              workingDir: './code'
+              verbose: false
 
-    #Checkout repositories
-    - checkout: self
-    - checkout: datagrid-reactive-tests
+          #Compile typescript files
+          - task: Npm@1
+            displayName: 'npm run build'
+            inputs:
+              workingDir: './code'
+              command: custom
+              verbose: false
+              customCommand: 'run build'
 
-    #Install dependencies
-    - task: Npm@1
-      displayName: 'npm install'
-      inputs:
-        workingDir: './outsystems-datagrid-reactive/code'
-        verbose: false
+          #Publish compiled file
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish GridFramework.js'
+            inputs:
+              PathtoPublish: './code/dist/GridFramework.js'
+              ArtifactName: 'GridFramework.js'
+              publishLocation: 'Container'
 
-    #Compile typescript files
-    - task: Npm@1
-      displayName: 'npm run build'
-      inputs:
-        workingDir: './outsystems-datagrid-reactive/code'
-        command: custom
-        verbose: false
-        customCommand: 'run build'
+          #Publish css file
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Grid.css'
+            inputs:
+              PathtoPublish: './code/styles/Grid.css'
+              ArtifactName: 'Grid.css'
+              publishLocation: 'Container'
 
-    #Publish compiled file    
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: './outsystems-datagrid-reactive/code/dist/GridFramework.js'
-        ArtifactName: 'GridFramework.js'
-        publishLocation: 'Container'
+  - stage: Deploy
+    #Only run if not in dev branch
+    condition: ne(variables['Build.SourceBranchName'], 'dev')
+    displayName: 'Deploy'
+    jobs:
+      - job: Deploy
+        displayName: 'Deploy Job'
+        timeoutInMinutes: 20
+        pool:
+          vmImage: 'windows-latest'
+        steps:
+          #Download artifact
+          - task: DownloadBuildArtifacts@0
+            displayName: 'Download GridFramework.js'
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'GridFramework.js'
+              downloadPath: '$(Build.SourcesDirectory)/bin'
 
-    #Publish css file
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: './outsystems-datagrid-reactive/code/styles/Grid.css'
-        ArtifactName: 'Grid.css'
-        publishLocation: 'Container'
+          #Download artifact
+          - task: DownloadBuildArtifacts@0
+            displayName: 'Download Grid.css'
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'Grid.css'
+              downloadPath: '$(Build.SourcesDirectory)/bin'
 
-#Run test pipeline
-- template: 'jobs/azure-pipelines-reactive.yml'
-  parameters:
-    currentBranch: $(CurrentBranchName)
-    sourceBranch: $(SourceBranchName)
+          #Define Python version
+          - task: UsePythonVersion@0
+            displayName: 'Use Python 3.8'
+            inputs:
+              versionSpec: 3.8
+              addToPath: true
+
+          #Install tools
+          - script: python -m pip install --upgrade pip requests pybase64
+            displayName: 'Install tools'
+
+          #Format branch name
+          - powershell: |
+              $moduleName="DataGridReactive_"+"$(System.PullRequest.SourceBranch)"-replace '-', ''
+              Write-Host "##vso[task.setvariable variable=module;]$moduleName"
+
+          #Run Python script to publish code
+          - task: PythonScript@0
+            displayName: 'Send built files to Server'
+            inputs:
+              scriptSource: 'inline'
+              script: |
+                import requests
+                import base64 
+
+                gridFrameworkJs = open("./bin/GridFramework.js/GridFramework.js", "rb").read()
+                encoded = base64.standard_b64encode(gridFrameworkJs)
+                gridFrameworkJs_file = encoded.decode('utf-8')
+
+                gridCSS = open("./bin/Grid.css/Grid.css", "rb").read()
+                encoded = base64.standard_b64encode(gridCSS)
+                gridCSS_file = encoded.decode('utf-8')
+                        
+                url = "$(updaterUrl)"
+
+                data = [
+                  {
+                    "ModuleName": "$(module)",
+                    "Block": "Gridframework",
+                    "File": gridFrameworkJs_file,
+                    "IsCSS": False
+                  },
+                  {
+                    "ModuleName": "$(module)",
+                    "Block": "Grid",
+                    "File": gridCSS_file ,
+                    "IsCSS": True
+                  }
+                ]
+
+                headers = {
+                  'Authorization': "$(auth)",
+                  'Content-Type': 'application/json'
+                }
+
+                response = requests.request("POST", url, headers=headers, json = data)
+
+                print(response.text.encode('utf8'))
+
+  #Run test pipeline
+  - template: 'jobs/azure-pipelines-reactive.yml'
+    parameters:
+      currentBranch: $(CurrentBranchName)
+      sourceBranch: $(SourceBranchName)
