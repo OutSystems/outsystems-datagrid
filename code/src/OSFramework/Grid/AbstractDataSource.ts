@@ -164,7 +164,7 @@ namespace OSFramework.Grid {
         public flatten(): void {
             const newData = FlattenArray(this._ds);
             this._ds.splice(0);
-            this._ds.push(newData);
+            this._ds.push(...newData);
         }
 
         public getData(): JSON[] {

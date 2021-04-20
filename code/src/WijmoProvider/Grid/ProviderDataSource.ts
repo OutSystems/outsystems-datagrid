@@ -28,6 +28,11 @@ namespace WijmoProvider.Grid {
             };
         }
 
+        public flatten() : void {
+            super.flatten();
+            this._provider.refresh();
+        }
+
         public getChanges<T extends OSFramework.OSStructure.ChangesDone>(
             c: new () => T
         ): T {
