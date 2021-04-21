@@ -1033,3 +1033,36 @@
     color: white;
     position: absolute;
 }
+
+/**** EVENTS CLASSES ONLY ****/
+/*    Only for SS preview    */
+.ss-event {
+    -servicestudio-background-color: white;
+    -servicestudio-border-color: darkgray;
+    -servicestudio-border-radius: 5px;
+    -servicestudio-border-style: solid;
+    -servicestudio-border-width: 1px;
+    -servicestudio-display: flex;
+    -servicestudio-flex-direction: row;
+    -servicestudio-flex-wrap: nowrap;
+    -servicestudio-margin-right: 5px;
+    -servicestudio-padding: 5px 10px;
+}
+
+.ss-event > img {
+    -servicestudio-width: 20.5px;
+}
+
+.ss-event > div {
+    -servicestudio-align-self: center;
+    -servicestudio-font-size: 16px;
+    -servicestudio-margin-left: 10px;
+}
+
+.ss-event-origin {
+    -servicestudio-color: darkgray;
+}
+
+.ss-event-name {
+    -servicestudio-font-weight: bold;
+}
