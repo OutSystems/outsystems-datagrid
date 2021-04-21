@@ -45,7 +45,7 @@ namespace WijmoProvider.Helper.Translation {
                 });
             } else {
                 //if the language resource is not found in the server, then throw an error and let the english be the default language.
-                throw `The language "${language}" is not supported. Falling back to "en-US" language.`;
+                throw `The language "${language}" is not supported. Falling back to the language in use.`;
             }
         });
     }
