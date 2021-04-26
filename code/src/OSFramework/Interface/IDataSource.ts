@@ -4,7 +4,7 @@ namespace OSFramework.Grid {
      */
     export interface IDataSource extends OSFramework.Interface.IBuilder {
         /**
-         * Idenfity if metadata was given
+         * Identify if metadata was given
          * @description Only works during the use of ArrangeData
          */
         hasMetadata: boolean;
@@ -55,7 +55,7 @@ namespace OSFramework.Grid {
          */
         hasResults(): boolean;
         /**
-         * Responsabem to items from the datasource
+         * Responsable for removing items from the datasource
          * @param item Can be the index position (0-based) or the dataItem of that row
          */
         removeRow(item: number | JSON): boolean;
