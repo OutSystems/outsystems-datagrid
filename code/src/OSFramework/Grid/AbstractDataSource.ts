@@ -79,7 +79,6 @@ namespace OSFramework.Grid {
         data: Array<any>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): void {
-        //TODO: [RGRIDT-638] Regression 2021-02-12: Is this method the best solution
         const columns = convertions.get('date');
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
