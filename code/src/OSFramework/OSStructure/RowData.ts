@@ -24,13 +24,15 @@ namespace OSFramework.OSStructure {
         ) {
             this._grid = grid;
             this.rowIndex = rowIndex;
+            this.dataItem = dataItem;
             this.selected = selected || new Array<BindingValue>();
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public serialize(): any {
             return {
-                ...this,
+                rowIndex: this.rowIndex,
+                selected: this.selected,
                 dataItem: this._grid.dataSource.toOSFormat(this.dataItem)
             };
         }
