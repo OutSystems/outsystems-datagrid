@@ -79,7 +79,7 @@ namespace OSFramework.Grid {
         data: Array<any>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): void {
-        const columns = convertions.get('date');
+        const columns = convertions.get('date') || [];
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const setDeepDate = (binding: string, object: any) => {
@@ -199,17 +199,18 @@ namespace OSFramework.Grid {
 
             this._metadata = dataJson.metadata;
 
-            this._isSingleEntity = Object.keys(dataJson.data[0] || {}).length <= 1;
+            this._isSingleEntity =
+                Object.keys(dataJson.data[0] || {}).length <= 1;
 
             if (this.hasMetadata) {
-                this._ds.push(...dataJson.data);
+                this._ds = [...dataJson.data];
             } else {
-                this._ds.push(...dataJson);
+                this._ds = [...dataJson];
             }
         }
 
         public toOSFormat(dataItem: any): any {
-            return this._getChangesString(dataItem);
+            return this._getChangesString([dataItem]);
         }
 
         public abstract build(): void;
