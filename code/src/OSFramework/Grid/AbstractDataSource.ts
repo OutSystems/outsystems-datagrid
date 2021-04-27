@@ -200,7 +200,7 @@ namespace OSFramework.Grid {
             this._metadata = dataJson.metadata;
 
             this._isSingleEntity =
-                Object.keys(dataJson.data[0] || {}).length <= 1;
+                Object.keys(dataJson[0] || dataJson.data[0] || {}).length <= 1;
 
             if (this.hasMetadata) {
                 this._ds = [...dataJson.data];
