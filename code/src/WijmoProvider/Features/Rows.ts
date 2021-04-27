@@ -195,6 +195,11 @@ namespace WijmoProvider.Feature {
 
             this._grid.dataSource.addRow(topRowIndex, items);
 
+            // Trigger the event of adding the new row that will add the dirty mark to the added row
+            for (let index = 0; index < quantity; index++) {
+                this._grid.addedRows.trigger(topRowIndex + index);
+            }
+
             // Trigger the method responsible for setting the row as new in the metadata of the row
             this._grid.addedRows.trigger(topRowIndex);
 
