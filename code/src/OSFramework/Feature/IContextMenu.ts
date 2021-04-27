@@ -9,10 +9,14 @@ namespace OSFramework.Feature {
          */
         contextMenuEvents: Event.Feature.ContextMenuEventManager;
 
-        //TODO: PART4: Describe
+        /**
+         * Defines if context menu is opening or closing
+         */
         isOpening: boolean;
 
-        //TODO: PART4: Describe
+        /**
+         * Grid's reference
+         */
         grid: Grid.IGrid;
 
         /**

@@ -3,6 +3,7 @@ namespace OSFramework.OSStructure {
      * Representation of Row-Data, used to OS communication
      */
     export class RowData implements OSFramework.Interface.ISerializable {
+        private _grid: Grid.IGrid;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public dataItem: any;
         public rowIndex: number;
@@ -16,26 +17,23 @@ namespace OSFramework.OSStructure {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         constructor(
-            grid: OSFramework.Grid.IGrid,
+            grid: Grid.IGrid,
             rowIndex: number,
             dataItem: any,
             selected?: Array<BindingValue>
         ) {
+            this._grid = grid;
             this.rowIndex = rowIndex;
-            if (grid.isSingleEntity) {
-                this.dataItem = OSFramework.Helper.Flatten(dataItem);
-            } else {
-                this.dataItem = dataItem;
-            }
-
+            this.dataItem = dataItem;
             this.selected = selected || new Array<BindingValue>();
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public serialize(): any {
             return {
-                ...this,
-                dataItem: JSON.stringify(this.dataItem)
+                rowIndex: this.rowIndex,
+                selected: this.selected,
+                dataItem: this._grid.dataSource.toOSFormat(this.dataItem)
             };
         }
     }

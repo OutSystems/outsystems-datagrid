@@ -81,28 +81,14 @@ namespace WijmoProvider.Column {
         return createdColumns;
     }
 
-    export namespace Generator {
-        export function ColumnGenerator(
+    export class ColumnGenerator implements OSFramework.Column.IColumnGenerator {
+        public generate(
             grid: OSFramework.Grid.IGrid,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-            columnsConfigs: any,
+            metadata: any,
             allowEdit: boolean
         ): OSFramework.Column.IColumn[] {
-            let columns: OSFramework.Column.IColumn[] = [];
-            if (HasMetadata(columnsConfigs)) {
-                columns = _columnGeneratorInternal(
-                    grid,
-                    columnsConfigs.metadata,
-                    '',
-                    allowEdit
-                );
-            }
-            return columns;
-        }
-
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        export function HasMetadata(columnsConfigs: any): boolean {
-            return columnsConfigs.metadata !== undefined;
+            return _columnGeneratorInternal(grid, metadata, '', allowEdit);
         }
     }
 }
