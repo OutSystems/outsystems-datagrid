@@ -102,6 +102,7 @@ namespace OSFramework.Grid {
     }
 
     export abstract class AbstractDataSource implements IDataSource {
+        private _isSingleEntity: boolean;
         protected _convertions: Map<string, Set<string>>;
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         protected _ds: Array<any>;
@@ -111,6 +112,7 @@ namespace OSFramework.Grid {
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             this._ds = new Array<any>();
             this._convertions = new Map<string, Set<string>>();
+            this._isSingleEntity = false;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -153,10 +155,15 @@ namespace OSFramework.Grid {
         }
 
         public get isSingleEntity(): boolean {
-            return Object.keys(this._ds[0] || {}).length <= 1;
+            return this._isSingleEntity;
         }
 
-        public addRow(position?: number, data?: JSON[]) {
+        public addRow(position?: number, data?: JSON[]): void {
+            if (this.isSingleEntity) {
+                for (let i = 0; i < data.length; i++) {
+                    data[i] = this._parseNewItem();
+                }
+            }
             this._ds.splice(position, 0, ...data);
         }
 
@@ -191,6 +198,8 @@ namespace OSFramework.Grid {
             const dataJson = ToJSONFormat(data, this._convertions);
 
             this._metadata = dataJson.metadata;
+
+            this._isSingleEntity = Object.keys(dataJson.data[0] || {}).length <= 1;
 
             if (this.hasMetadata) {
                 this._ds.push(...dataJson.data);
