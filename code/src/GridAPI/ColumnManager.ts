@@ -24,11 +24,21 @@ namespace GridAPI.ColumnManager {
         editorConfig = editorConfig === '' ? '{}' : editorConfig;
         let output = false;
         let column: OSFramework.Column.IColumn;
+        let conditionalFormat: Array<OSFramework.OSStructure.ConditionalFormat>;
         const grid = GetGridByColumnId(columnID);
         const jsonConfigs = JSON.parse(configs);
         const jsonEditorConfigs = JSON.parse(editorConfig);
 
         if (grid !== undefined) {
+            if (jsonEditorConfigs.conditionalFormat) {
+                conditionalFormat = jsonEditorConfigs.conditionalFormat;
+                delete jsonEditorConfigs.conditionalFormat;
+                ConditionalFormat.AddConditionalFormat(
+                    grid.uniqueId,
+                    jsonConfigs.binding,
+                    conditionalFormat
+                );
+            }
             column = WijmoProvider.Column.ColumnFactory.MakeColumn(
                 grid,
                 type,

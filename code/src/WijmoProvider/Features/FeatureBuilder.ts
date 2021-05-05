@@ -76,6 +76,13 @@ namespace WijmoProvider.Feature {
             return this;
         }
 
+        private _makeConditionalFormat(): FeatureBuilder {
+            this._features.conditionalFormat = this._makeItem(
+                ConditionalFormat
+            );
+            return this;
+        }
+
         private _makeContextMenu(): FeatureBuilder {
             this._features.contextMenu = this._makeItem(ContextMenu);
             return this;
@@ -192,7 +199,8 @@ namespace WijmoProvider.Feature {
                 ._makeUndoStack()
                 ._makeValidationMark()
                 ._makeSelection(config.allowRowSelector, config.selectionMode)
-                ._makeState();
+                ._makeState()
+                ._makeConditionalFormat();
 
             super.build();
         }

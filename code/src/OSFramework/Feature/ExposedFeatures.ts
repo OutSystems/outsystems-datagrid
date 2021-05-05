@@ -4,6 +4,7 @@ namespace OSFramework.Feature {
         public columnFreeze: IColumnFreeze;
         public columnReorder: IColumnReorder;
         public columnResize: IColumnResize;
+        public conditionalFormat: IConditionalFormat;
         public contextMenu: IContextMenu;
         public dirtyMark: IDirtyMark;
         public export: IExport;
