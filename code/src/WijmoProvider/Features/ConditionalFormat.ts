@@ -13,6 +13,7 @@ namespace WijmoProvider.Feature {
         // in case we are comparing dates
         if (typeof cellValue.getMonth === 'function') {
             comparedValue = Date.parse(comparedValue);
+            cellValue = Date.parse(cellValue);
         }
 
         switch (operator) {
