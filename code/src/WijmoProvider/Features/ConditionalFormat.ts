@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    enum NumberRules {
+    enum Rules {
         GreaterOrEqualsTo = '>=',
         GreaterThan = '>',
         Equals = '===',
@@ -9,19 +9,24 @@ namespace WijmoProvider.Feature {
         NotEquals = '!=='
     }
 
-    function Evaluate(operator, comparedValue, cellValue) {
+    function Evaluate(operator: Rules, comparedValue: any, cellValue: any) {
+        // in case we are comparing dates
+        if (typeof cellValue.getMonth === 'function') {
+            comparedValue = Date.parse(comparedValue);
+        }
+
         switch (operator) {
-            case NumberRules.GreaterOrEqualsTo:
+            case Rules.GreaterOrEqualsTo:
                 return cellValue >= comparedValue;
-            case NumberRules.GreaterThan:
+            case Rules.GreaterThan:
                 return cellValue > comparedValue;
-            case NumberRules.Equals:
+            case Rules.Equals:
                 return comparedValue === cellValue;
-            case NumberRules.NotEquals:
+            case Rules.NotEquals:
                 return comparedValue !== cellValue;
-            case NumberRules.LessOrEqualsTo:
+            case Rules.LessOrEqualsTo:
                 return cellValue <= comparedValue;
-            case NumberRules.LessThan:
+            case Rules.LessThan:
                 return cellValue < comparedValue;
             default:
                 break;
@@ -29,10 +34,10 @@ namespace WijmoProvider.Feature {
     }
 
     class Condition {
-        public condition: NumberRules;
+        public condition: Rules;
         public value: any;
 
-        constructor(condition: NumberRules, value: any) {
+        constructor(condition: Rules, value: any) {
             this.condition = condition;
             this.value = value;
         }
@@ -63,7 +68,6 @@ namespace WijmoProvider.Feature {
     }
 
     class ConditionExecuter {
-        private _metadata: OSFramework.Interface.IRowMetadata;
         public conditions: Array<ConditionAnd>;
 
         constructor(conditions: Array<ConditionAnd>) {
@@ -110,6 +114,7 @@ namespace WijmoProvider.Feature {
 
     export class ConditionalFormat
         implements
+            OSFramework.Feature.IConditionalFormat,
             OSFramework.Interface.IBuilder,
             OSFramework.Interface.IDisposable {
         private _grid: Grid.IGridWijmo;
@@ -125,7 +130,7 @@ namespace WijmoProvider.Feature {
             const conditionExecuters = [];
             rules.forEach((element) => {
                 const conditions: Array<Condition> = element.format.map((c) => {
-                    return new Condition(NumberRules[c.condition], c.value);
+                    return new Condition(Rules[c.condition], c.value);
                 });
                 const conditionAnds = new ConditionAnd(
                     element.cellClass,

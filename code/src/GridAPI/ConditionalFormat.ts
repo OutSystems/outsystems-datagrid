@@ -5,16 +5,16 @@ namespace GridAPI.ConditionalFormat {
      *
      * @export
      * @param {string} gridID
-     * @param {string} phID
-     * @param {number} buttonQuantity
+     * @param {string} binding
+     * @param {number} rule
      */
     export function AddConditionalFormat(
         gridID: string,
         binding: string,
-        rule: any
+        rule: Array<OSFramework.OSStructure.ConditionalFormat>
     ): void {
         GridManager.Events.Subscribe(
-            GridManager.GetActiveGrid().uniqueId,
+            gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.conditionalFormat.addRule(binding, rule);
