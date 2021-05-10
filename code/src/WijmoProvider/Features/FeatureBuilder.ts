@@ -58,6 +58,10 @@ namespace WijmoProvider.Feature {
             return this;
         }
 
+        private _makeCellStyle(): FeatureBuilder {
+            this._features.cellStyle = this._makeItem(CellStyle);
+            return this;
+        }
         private _makeColumnPicker(): FeatureBuilder {
             this._makeItem(ColumnPicker);
             return this;
@@ -187,6 +191,7 @@ namespace WijmoProvider.Feature {
                 ._makeRows()
                 ._makeExport()
                 ._makeGroupPanel(config.groupPanelId)
+                ._makeCellStyle()
                 ._makeColumnPicker()
                 ._makeToolTip()
                 ._makePagination(config.rowsPerPage)

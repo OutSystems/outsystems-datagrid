@@ -7,7 +7,7 @@ namespace OSFramework.Feature {
         /**
          * Add a CSS class to a specific row from the grid.
          */
-        addClass(rowNumber: number, className: string);
+        addClass(rowNumber: number, className: string, refresh?: boolean);
         /**
          * Add new rows to the grid. If there is a selection it will add as many rows as selected. If not, it will add a row at the top.
          */
@@ -23,7 +23,7 @@ namespace OSFramework.Feature {
         /**
          * Remove a single class from a specific row.
          */
-        removeClass(rowNumber: number, className: string);
+        removeClass(rowNumber: number, className: string, refresh?: boolean);
         /**
          * Remove the rows that are selected.
          */

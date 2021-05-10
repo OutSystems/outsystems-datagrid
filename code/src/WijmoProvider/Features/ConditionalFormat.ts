@@ -39,11 +39,17 @@ namespace WijmoProvider.Feature {
     }
 
     class ConditionAnd {
-        public cssClass: string;
+        public cellClass: string;
+        public rowClass: string;
         public rules: Array<Condition>;
 
-        constructor(cssClass: string, rules: Array<Condition>) {
-            this.cssClass = cssClass;
+        constructor(
+            cellClass: string,
+            rowClass: string,
+            rules: Array<Condition>
+        ) {
+            this.cellClass = cellClass;
+            this.rowClass = rowClass;
             this.rules = rules;
         }
 
@@ -57,18 +63,44 @@ namespace WijmoProvider.Feature {
     }
 
     class ConditionExecuter {
+        private _metadata: OSFramework.Interface.IRowMetadata;
         public conditions: Array<ConditionAnd>;
 
         constructor(conditions: Array<ConditionAnd>) {
             this.conditions = conditions;
         }
 
-        public execute(cellValue: any, cell: HTMLElement) {
+        public execute(
+            grid: Grid.IGridWijmo,
+            cellValue: any,
+            e: wijmo.grid.FormatItemEventArgs
+        ) {
             this.conditions.some((p) => {
                 const isTrue = p.evaluate(cellValue);
+                const binding = grid.provider.getColumn(e.col).binding;
 
                 if (isTrue) {
-                    wijmo.addClass(cell, p.cssClass);
+                    if (p.rowClass) {
+                        grid.features.rows.addClass(e.row, p.rowClass, false);
+                    }
+                    if (p.cellClass) {
+                        grid.features.cellStyle.addClass(
+                            binding,
+                            e.row,
+                            p.cellClass
+                        );
+                    }
+                } else {
+                    if (p.rowClass) {
+                        grid.features.rows.removeClass(
+                            e.row,
+                            p.rowClass,
+                            false
+                        );
+                    }
+                    if (p.cellClass) {
+                        grid.features.cellStyle.removeClass(e.row, binding);
+                    }
                 }
 
                 return isTrue;
@@ -86,20 +118,6 @@ namespace WijmoProvider.Feature {
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._mappedRules = new Map<string, ConditionExecuter>();
-
-            this._mappedRules.set(
-                'Sample_Product.Id',
-                new ConditionExecuter([
-                    new ConditionAnd('red', [
-                        new Condition(NumberRules.GreaterThan, 30),
-                        new Condition(NumberRules.LessThan, 50)
-                    ]),
-                    new ConditionAnd('blue', [
-                        new Condition(NumberRules.Equals, 29),
-                        new Condition(NumberRules.Equals, 40)
-                    ])
-                ])
-            );
         }
         private _parseRule(
             rules: Array<OSFramework.OSStructure.ConditionalFormat>
@@ -111,12 +129,14 @@ namespace WijmoProvider.Feature {
                 });
                 const conditionAnds = new ConditionAnd(
                     element.cellClass,
+                    element.rowClass,
                     conditions
                 );
                 conditionExecuters.push(conditionAnds);
             });
             return new ConditionExecuter(conditionExecuters);
         }
+
         public addRule(
             column: string,
             rules: Array<OSFramework.OSStructure.ConditionalFormat>
@@ -127,14 +147,16 @@ namespace WijmoProvider.Feature {
         public build(): void {
             this._grid.provider.formatItem.addHandler(
                 (s: wijmo.grid.FlexGrid, e: wijmo.grid.FormatItemEventArgs) => {
-                    const col = s.getColumn(e.col);
+                    if (e.panel.cellType === wijmo.grid.CellType.Cell) {
+                        const col = s.getColumn(e.col);
 
-                    if (this._mappedRules.has(col.binding)) {
-                        const cellData = s.getCellData(e.row, e.col, false);
+                        if (this._mappedRules.has(col.binding)) {
+                            const cellData = s.getCellData(e.row, e.col, false);
 
-                        this._mappedRules
-                            .get(col.binding)
-                            .execute(cellData, e.cell);
+                            this._mappedRules
+                                .get(col.binding)
+                                .execute(this._grid, cellData, e);
+                        }
                     }
                 }
             );
