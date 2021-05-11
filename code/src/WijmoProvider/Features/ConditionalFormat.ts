@@ -116,8 +116,7 @@ namespace WijmoProvider.Feature {
     export class ConditionalFormat
         implements
             OSFramework.Feature.IConditionalFormat,
-            OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable {
+            OSFramework.Interface.IBuilder {
         private _grid: Grid.IGridWijmo;
         private _mappedRules: Map<string, ConditionExecuter>;
 
@@ -166,9 +165,7 @@ namespace WijmoProvider.Feature {
                     }
                 }
             );
-        }
-        public dispose(): void {
-            throw new Error('Method not implemented.');
+            this._grid.provider.invalidate();
         }
     }
 }
