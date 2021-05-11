@@ -30,7 +30,7 @@ namespace WijmoProvider.Feature {
             case Rules.LessThan:
                 return cellValue < comparedValue;
             default:
-                break;
+                return false;
         }
     }
 
@@ -75,11 +75,7 @@ namespace WijmoProvider.Feature {
             this.conditions = conditions;
         }
 
-        public execute(
-            grid: Grid.IGridWijmo,
-            cellValue: any,
-            e: wijmo.grid.FormatItemEventArgs
-        ) {
+        public execute(grid: Grid.IGridWijmo, cellValue: any, e: any) {
             this.conditions.some((p) => {
                 const isTrue = p.evaluate(cellValue);
                 const binding = grid.provider.getColumn(e.col).binding;
@@ -150,22 +146,32 @@ namespace WijmoProvider.Feature {
         }
 
         public build(): void {
-            this._grid.provider.formatItem.addHandler(
-                (s: wijmo.grid.FlexGrid, e: wijmo.grid.FormatItemEventArgs) => {
-                    if (e.panel.cellType === wijmo.grid.CellType.Cell) {
-                        const col = s.getColumn(e.col);
+            this._grid.provider.updatingView.addHandler((s, e) => {
+                const columns = this._grid
+                    .getColumns()
+                    .filter((x) => this._mappedRules.get(x.config.binding));
 
-                        if (this._mappedRules.has(col.binding)) {
-                            const cellData = s.getCellData(e.row, e.col, false);
+                s.rows.forEach((row, index) => {
+                    columns.forEach((column) => {
+                        const binding = column.config.binding.split('.');
+                        const sample = binding[0];
+                        const colName = binding[1];
 
+                        if (row.dataItem[sample]) {
                             this._mappedRules
-                                .get(col.binding)
-                                .execute(this._grid, cellData, e);
+                                .get(column.config.binding)
+                                .execute(
+                                    this._grid,
+                                    row.dataItem[sample][colName],
+                                    {
+                                        row: index,
+                                        col: column.provider.index
+                                    }
+                                );
                         }
-                    }
-                }
-            );
-            this._grid.provider.invalidate();
+                    });
+                });
+            });
         }
     }
 }
