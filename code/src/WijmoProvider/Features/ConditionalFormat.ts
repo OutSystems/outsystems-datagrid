@@ -135,6 +135,28 @@ namespace WijmoProvider.Feature {
             return new ConditionExecuter(conditionExecuters);
         }
 
+        private _updatingViewHandler(s, e) {
+            const columns = this._grid
+                .getColumns()
+                .filter((x) => this._mappedRules.get(x.config.binding));
+
+            s.rows.forEach((row, index) => {
+                columns.forEach((column) => {
+                    const colBinding = column.config.binding.split('.');
+                    let value = row.dataItem;
+                    for (let i = 0; i < colBinding.length; i++) {
+                        value = value[colBinding[i]];
+                    }
+                    this._mappedRules
+                        .get(column.config.binding)
+                        .execute(this._grid, value, {
+                            row: index,
+                            col: column.provider.index
+                        });
+                });
+            });
+        }
+
         public addRules(
             binding: string,
             rules: Array<OSFramework.OSStructure.ConditionalFormat>
@@ -143,34 +165,12 @@ namespace WijmoProvider.Feature {
         }
 
         public build(): void {
-            this._grid.provider.updatingView.addHandler((s, e) => {
-                const columns = this._grid
-                    .getColumns()
-                    .filter((x) => this._mappedRules.get(x.config.binding));
-
-                s.rows.forEach((row, index) => {
-                    columns.forEach((column) => {
-                        const binding = column.config.binding.split('.');
-                        const sample = binding[0];
-                        const colName = binding[1];
-
-                        if (row.dataItem[sample]) {
-                            this._mappedRules
-                                .get(column.config.binding)
-                                .execute(
-                                    this._grid,
-                                    row.dataItem[sample][colName],
-                                    {
-                                        row: index,
-                                        col: column.provider.index
-                                    }
-                                );
-                        }
-                    });
-                });
-            });
+            this._grid.provider.updatingView.addHandler(
+                this._updatingViewHandler.bind(this)
+            );
         }
-        public removeRules(binding: string) {
+
+        public removeRules(binding: string): void {
             this._mappedRules.delete(binding);
         }
     }
