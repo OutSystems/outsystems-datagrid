@@ -249,7 +249,9 @@ namespace OSFramework.Grid {
                     this.dataSource.getMetadata(),
                     this.config.allowEdit
                 );
-                generated.forEach((p) => this.addColumn(p));
+                if (this._columns.size === 0) {
+                    generated.forEach((p) => this.addColumn(p));
+                }
             } else {
                 //if the grid is read-only, then we'll flatten the array and use wijmo generator
                 if (!this.config.allowEdit) {
