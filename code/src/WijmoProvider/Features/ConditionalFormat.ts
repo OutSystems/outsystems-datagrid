@@ -82,7 +82,7 @@ namespace WijmoProvider.Feature {
 
                 if (isTrue) {
                     if (p.rowClass) {
-                        grid.features.rows.addClass(e.row, p.rowClass, false);
+                        grid.features.rows.addClass(e.row, p.rowClass);
                     }
                     if (p.cellClass) {
                         grid.features.cellStyle.addClass(
@@ -93,11 +93,7 @@ namespace WijmoProvider.Feature {
                     }
                 } else {
                     if (p.rowClass) {
-                        grid.features.rows.removeClass(
-                            e.row,
-                            p.rowClass,
-                            false
-                        );
+                        grid.features.rows.removeClass(e.row, p.rowClass);
                     }
                     if (p.cellClass) {
                         grid.features.cellStyle.removeClass(e.row, binding);
@@ -120,6 +116,7 @@ namespace WijmoProvider.Feature {
             this._grid = grid;
             this._mappedRules = new Map<string, ConditionExecuter>();
         }
+
         private _parseRule(
             rules: Array<OSFramework.OSStructure.ConditionalFormat>
         ): ConditionExecuter {
@@ -138,11 +135,11 @@ namespace WijmoProvider.Feature {
             return new ConditionExecuter(conditionExecuters);
         }
 
-        public addRule(
-            column: string,
+        public addRules(
+            binding: string,
             rules: Array<OSFramework.OSStructure.ConditionalFormat>
         ): void {
-            this._mappedRules.set(column, this._parseRule(rules));
+            this._mappedRules.set(binding, this._parseRule(rules));
         }
 
         public build(): void {
@@ -172,6 +169,9 @@ namespace WijmoProvider.Feature {
                     });
                 });
             });
+        }
+        public removeRules(binding: string) {
+            this._mappedRules.delete(binding);
         }
     }
 }

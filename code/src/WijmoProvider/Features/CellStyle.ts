@@ -17,19 +17,14 @@ namespace WijmoProvider.Feature {
             grid: wijmo.grid.FlexGrid,
             e: wijmo.grid.FormatItemEventArgs
         ) {
+            const cssMetadata = this.getMetadata(e.row).cssClass;
+            const binding = this._grid.provider.getColumn(e.col).binding;
             if (
                 e.panel.cellType === wijmo.grid.CellType.Cell &&
-                this.getMetadata(e.row).cssClass.size > 0 &&
-                this.getMetadata(e.row).cssClass.get(
-                    this._grid.provider.getColumn(e.col).binding
-                )
+                cssMetadata.size > 0 &&
+                cssMetadata.get(binding)
             ) {
-                wijmo.addClass(
-                    e.cell,
-                    this.getMetadata(e.row).cssClass.get(
-                        this._grid.provider.getColumn(e.col).binding
-                    )
-                );
+                wijmo.addClass(e.cell, cssMetadata.get(binding));
             }
         }
 

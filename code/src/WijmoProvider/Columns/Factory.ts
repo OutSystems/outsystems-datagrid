@@ -6,7 +6,7 @@ namespace WijmoProvider.Column {
             type: OSFramework.Enum.ColumnType,
             columnID: string,
             configs: JSON,
-            editorConfigs: JSON,
+            editorConfigs: JSON
         ): OSFramework.Column.IColumn {
             switch (type) {
                 case OSFramework.Enum.ColumnType.Action:

@@ -163,7 +163,7 @@ namespace WijmoProvider.Feature {
         public addClass(
             rowNumber: number,
             className: string,
-            refresh = true
+            refresh = false
         ): void {
             this.getMetadata(rowNumber).addClass(className);
             if (refresh) {
@@ -284,7 +284,7 @@ namespace WijmoProvider.Feature {
         public removeClass(
             rowNumber: number,
             className: string,
-            refresh = true
+            refresh = false
         ): void {
             this.getMetadata(rowNumber).removeClass(className);
             if (refresh) {

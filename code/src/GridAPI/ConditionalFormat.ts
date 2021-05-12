@@ -5,19 +5,39 @@ namespace GridAPI.ConditionalFormat {
      *
      * @export
      * @param {string} gridID
-     * @param {string} binding
-     * @param {number} rule
+     * @param {string} binding Column binding
+     * @param {Array<OSFramework.OSStructure.ConditionalFormat>} rules Rules for conditional formatting.
      */
     export function AddConditionalFormat(
         gridID: string,
         binding: string,
-        rule: Array<OSFramework.OSStructure.ConditionalFormat>
+        rules: Array<OSFramework.OSStructure.ConditionalFormat>
     ): void {
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
-                gridObj.features.conditionalFormat.addRule(binding, rule);
+                gridObj.features.conditionalFormat.addRules(binding, rules);
+            }
+        );
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} binding Column binding
+     */
+    export function RemoveConditionalFormat(
+        gridID: string,
+        binding: string
+    ): void {
+        GridManager.Events.Subscribe(
+            gridID,
+            OSFramework.Event.Grid.GridEventType.Initialized,
+            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                gridObj.features.conditionalFormat.removeRules(binding);
             }
         );
     }

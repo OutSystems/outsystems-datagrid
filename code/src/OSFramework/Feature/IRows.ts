@@ -5,7 +5,7 @@ namespace OSFramework.Feature {
      */
     export interface IRows {
         /**
-         * Add a CSS class to a specific row from the grid.
+         * Add a CSS class to a specific row from the grid, refreshing or not the grid
          */
         addClass(rowNumber: number, className: string, refresh?: boolean);
         /**
@@ -21,7 +21,7 @@ namespace OSFramework.Feature {
          */
         removeAllClasses(rowNumber: number): void;
         /**
-         * Remove a single class from a specific row.
+         * Remove a single class from a specific row, refreshing or not the grid
          */
         removeClass(rowNumber: number, className: string, refresh?: boolean);
         /**
