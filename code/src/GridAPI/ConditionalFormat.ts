@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace GridAPI.ConditionalFormat {
     /**
-     *
+     * Adds new conditional format rules to the desired binding.
      *
      * @export
      * @param {string} gridID
@@ -23,7 +23,7 @@ namespace GridAPI.ConditionalFormat {
     }
 
     /**
-     *
+     * Removes rules of desired binding.
      *
      * @export
      * @param {string} gridID
