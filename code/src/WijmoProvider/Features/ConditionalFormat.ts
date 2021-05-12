@@ -145,6 +145,13 @@ namespace WijmoProvider.Feature {
                     const colBinding = column.config.binding.split('.');
                     let value = row.dataItem;
                     for (let i = 0; i < colBinding.length; i++) {
+                        // in case we get undefined we want to break
+                        if (
+                            value === undefined &&
+                            i === colBinding.length - 1
+                        ) {
+                            break;
+                        }
                         value = value[colBinding[i]];
                     }
                     this._mappedRules
