@@ -19,7 +19,7 @@ namespace GridAPI.Rows {
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
-            grid.features.rows.addClass(rowNumber, className);
+            grid.features.rows.addClass(rowNumber, className, true);
         }
     }
 
@@ -71,7 +71,7 @@ namespace GridAPI.Rows {
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
-            grid.features.rows.removeClass(rowNumber, className);
+            grid.features.rows.removeClass(rowNumber, className, true);
         }
     }
 

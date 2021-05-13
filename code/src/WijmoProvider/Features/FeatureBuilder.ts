@@ -58,6 +58,10 @@ namespace WijmoProvider.Feature {
             return this;
         }
 
+        private _makeCellStyle(): FeatureBuilder {
+            this._features.cellStyle = this._makeItem(CellStyle);
+            return this;
+        }
         private _makeColumnPicker(): FeatureBuilder {
             this._makeItem(ColumnPicker);
             return this;
@@ -73,6 +77,13 @@ namespace WijmoProvider.Feature {
 
         private _makeColumnResize(enable: boolean): FeatureBuilder {
             this._features.columnResize = this._makeItem(ColumnResize, enable);
+            return this;
+        }
+
+        private _makeConditionalFormat(): FeatureBuilder {
+            this._features.conditionalFormat = this._makeItem(
+                ConditionalFormat
+            );
             return this;
         }
 
@@ -180,6 +191,7 @@ namespace WijmoProvider.Feature {
                 ._makeRows()
                 ._makeExport()
                 ._makeGroupPanel(config.groupPanelId)
+                ._makeCellStyle()
                 ._makeColumnPicker()
                 ._makeToolTip()
                 ._makePagination(config.rowsPerPage)
@@ -192,7 +204,8 @@ namespace WijmoProvider.Feature {
                 ._makeUndoStack()
                 ._makeValidationMark()
                 ._makeSelection(config.allowRowSelector, config.selectionMode)
-                ._makeState();
+                ._makeState()
+                ._makeConditionalFormat();
 
             super.build();
         }
