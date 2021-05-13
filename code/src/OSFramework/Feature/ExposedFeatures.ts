@@ -1,9 +1,11 @@
 namespace OSFramework.Feature {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     export class ExposedFeatures {
+        public cellStyle: ICellStyle;
         public columnFreeze: IColumnFreeze;
         public columnReorder: IColumnReorder;
         public columnResize: IColumnResize;
+        public conditionalFormat: IConditionalFormat;
         public contextMenu: IContextMenu;
         public dirtyMark: IDirtyMark;
         public export: IExport;
