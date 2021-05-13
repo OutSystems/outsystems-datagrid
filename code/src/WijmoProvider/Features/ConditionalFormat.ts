@@ -85,6 +85,7 @@ namespace WijmoProvider.Feature {
                         grid.features.rows.addClass(e.row, p.rowClass);
                     }
                     if (p.cellClass) {
+                        grid.features.cellStyle.removeClass(e.row, binding);
                         grid.features.cellStyle.addClass(
                             binding,
                             e.row,
