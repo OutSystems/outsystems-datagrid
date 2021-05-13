@@ -38,6 +38,11 @@ namespace WijmoProvider.Column {
                 const providerConfig = this.getProviderConfig();
                 delete providerConfig.editor;
 
+                // We need to make sure the columns is visible only if the provider and our providerConfig
+                // share the same value for visibility of the column
+                providerConfig.visible =
+                    this.provider.isVisible && providerConfig.visible;
+
                 wijmo.copy(this.provider, providerConfig);
                 wijmo.copy(
                     this._editor,

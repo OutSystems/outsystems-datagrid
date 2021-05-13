@@ -28,7 +28,14 @@ namespace WijmoProvider.Column {
 
         public applyConfigs(): void {
             if (this.isReady) {
-                wijmo.copy(this.provider, this.getProviderConfig());
+                const providerConfig = this.getProviderConfig();
+
+                // We need to make sure the columns is visible only if the provider and our providerConfig
+                // share the same value for visibility of the column
+                providerConfig.visible =
+                    providerConfig.visible && this.provider.isVisible;
+
+                wijmo.copy(this.provider, providerConfig);
             } else {
                 console.log('applyConfigs - Column needs to be build');
             }
