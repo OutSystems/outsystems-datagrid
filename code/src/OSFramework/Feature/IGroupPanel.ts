@@ -2,5 +2,6 @@
 namespace OSFramework.Feature {
     export interface IGroupPanel extends Interface.IValidation, IView {
         isGridGrouped: boolean;
+        columnInGroupPanel(binding: string): boolean;
     }
 }

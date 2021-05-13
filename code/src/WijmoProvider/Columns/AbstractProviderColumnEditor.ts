@@ -38,10 +38,23 @@ namespace WijmoProvider.Column {
                 const providerConfig = this.getProviderConfig();
                 delete providerConfig.editor;
 
+                const inGroupPanel = this.grid.features.groupPanel.columnInGroupPanel(
+                    this.config.binding
+                );
+                const inColumnPicker =
+                    !this.provider.isVisible && !inGroupPanel;
+
                 // We need to make sure the columns is visible only if the provider and our providerConfig
                 // share the same value for visibility of the column
                 providerConfig.visible =
-                    this.provider.isVisible && providerConfig.visible;
+                    (providerConfig.visible &&
+                        this.provider.isVisible &&
+                        !inGroupPanel &&
+                        !inColumnPicker) ||
+                    (providerConfig.visible &&
+                        !this.provider.isVisible &&
+                        !inGroupPanel &&
+                        inColumnPicker);
 
                 wijmo.copy(this.provider, providerConfig);
                 wijmo.copy(
