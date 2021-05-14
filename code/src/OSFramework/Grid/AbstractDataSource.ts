@@ -8,7 +8,7 @@ namespace OSFramework.Grid {
     function FlattenArray(dataArray: JSON[]): JSON[] {
         const returnDataArray = [];
         dataArray.forEach((item) => {
-            returnDataArray.push(OSFramework.Helper.Flatten(item));
+            returnDataArray.push(Helper.Flatten(item));
         });
 
         return returnDataArray;
@@ -115,7 +115,7 @@ namespace OSFramework.Grid {
             this._isSingleEntity = false;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         protected _getChangesString(itemsChanged: any): string {
             let tempArray = itemsChanged.map((p) => _.cloneDeep(p));
 
@@ -159,10 +159,8 @@ namespace OSFramework.Grid {
         }
 
         public addRow(position?: number, data?: JSON[]): void {
-            if (this.isSingleEntity) {
-                for (let i = 0; i < data.length; i++) {
-                    data[i] = this._parseNewItem();
-                }
+            for (let i = 0; i < data.length; i++) {
+                data[i] = this._parseNewItem();
             }
             this._ds.splice(position, 0, ...data);
         }
@@ -209,23 +207,19 @@ namespace OSFramework.Grid {
             }
         }
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public toOSFormat(dataItem: any): any {
             return this._getChangesString([dataItem]);
         }
 
         public abstract build(): void;
-
         public abstract clear(): void;
-
-        public abstract search(info: string): void;
-
-        public abstract getChanges<
-            T extends OSFramework.OSStructure.ChangesDone
-        >(c: new () => T): T;
-
+        public abstract getChanges<T extends OSStructure.ChangesDone>(
+            c: new () => T
+        ): T;
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public abstract getProviderDataSource(): any;
-
         public abstract hasResults(): boolean;
+        public abstract search(info: string): void;
     }
 }
