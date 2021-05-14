@@ -8,9 +8,7 @@ namespace OSFramework.Feature.Auxiliar {
             this.cssClass = new Map<string, any>();
         }
         public addClass(binding: string, cssClass: string): void {
-            if (this.cssClass.get(binding) === undefined) {
-                this.cssClass.set(binding, cssClass);
-            }
+            this.cssClass.set(binding, cssClass);
         }
         public removeClass(binding: string): void {
             if (this.cssClass.get(binding)) {
