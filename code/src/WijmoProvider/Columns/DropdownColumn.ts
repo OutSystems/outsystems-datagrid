@@ -39,6 +39,8 @@ namespace WijmoProvider.Column {
                 const providerConfig = this.getProviderConfig();
                 delete providerConfig.dataMap;
 
+                providerConfig.visible = this._getVisibility();
+
                 wijmo.copy(this.provider, providerConfig);
             } else {
                 console.log('applyConfigs - Column needs to be build');
