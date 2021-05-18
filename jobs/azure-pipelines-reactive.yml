@@ -52,12 +52,13 @@ stages:
   jobs:
   - job: Tests
     displayName: 'Tests Job'
+    timeoutInMinutes: 120
     pool:
       vmImage: 'windows-latest'
     steps:
     #Checkout repositories
     - checkout: self
-    - checkout: datagrid-web-tests 
+    - checkout: datagrid-reactive-tests 
 
     - template: 'azure-pipelines-template.yml'
       parameters:
