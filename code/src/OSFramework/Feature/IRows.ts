@@ -5,9 +5,9 @@ namespace OSFramework.Feature {
      */
     export interface IRows {
         /**
-         * Add a CSS class to a specific row from the grid.
+         * Add a CSS class to a specific row from the grid, refreshing or not the grid
          */
-        addClass(rowNumber: number, className: string);
+        addClass(rowNumber: number, className: string, refresh?: boolean);
         /**
          * Add new rows to the grid. If there is a selection it will add as many rows as selected. If not, it will add a row at the top.
          */
@@ -21,9 +21,9 @@ namespace OSFramework.Feature {
          */
         removeAllClasses(rowNumber: number): void;
         /**
-         * Remove a single class from a specific row.
+         * Remove a single class from a specific row, refreshing or not the grid
          */
-        removeClass(rowNumber: number, className: string);
+        removeClass(rowNumber: number, className: string, refresh?: boolean);
         /**
          * Remove the rows that are selected.
          */

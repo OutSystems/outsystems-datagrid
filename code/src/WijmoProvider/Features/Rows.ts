@@ -82,7 +82,7 @@ namespace WijmoProvider.Feature {
         private _grid: WijmoProvider.Grid.IGridWijmo;
 
         /** This is going to be used as a label for the css classes saved on the metadata of the Row */
-        private readonly _internalLabel = '__cssClass';
+        private readonly _internalLabel = '__rowCssClass';
 
         private _metadata: OSFramework.Interface.IRowMetadata;
 
@@ -160,9 +160,15 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row in which the class is going to be added.
          * @param className CSS class to add to the row.
          */
-        public addClass(rowNumber: number, className: string): void {
+        public addClass(
+            rowNumber: number,
+            className: string,
+            refresh = false
+        ): void {
             this.getMetadata(rowNumber).addClass(className);
-            this._grid.provider.invalidate(); //Mark to be refreshed
+            if (refresh) {
+                this._grid.provider.invalidate(); //Mark to be refreshed
+            }
         }
 
         /**
@@ -275,9 +281,15 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row in which all CSS classes are going to be removed.
          * @param className CSS class to remove from the row.
          */
-        public removeClass(rowNumber: number, className: string): void {
+        public removeClass(
+            rowNumber: number,
+            className: string,
+            refresh = false
+        ): void {
             this.getMetadata(rowNumber).removeClass(className);
-            this._grid.provider.invalidate(); //Mark to be refreshed
+            if (refresh) {
+                this._grid.provider.invalidate(); //Mark to be refreshed
+            }
         }
 
         /**

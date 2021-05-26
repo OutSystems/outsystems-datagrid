@@ -45,11 +45,11 @@ namespace WijmoProvider.Feature {
             OSFramework.Interface.IBuilder,
             OSFramework.Interface.IDisposable {
         private _currGroupDescription: Array<wijmo.collections.PropertyGroupDescription>;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
         private _groupPanel: wijmo.grid.grouppanel.GroupPanel;
         private _panelId: string;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo, panelId: string) {
+        constructor(grid: Grid.IGridWijmo, panelId: string) {
             this._grid = grid;
             this._panelId = panelId;
         }
@@ -83,6 +83,12 @@ namespace WijmoProvider.Feature {
                     //Updates the global variable wih the current config
                     this._currGroupDescription = o.slice();
                 }
+            );
+        }
+
+        public columnInGroupPanel(binding: string): boolean {
+            return this._groupPanel._hiddenCols.some(
+                (col) => col.binding === binding
             );
         }
 

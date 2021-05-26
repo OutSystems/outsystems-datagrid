@@ -38,6 +38,8 @@ namespace WijmoProvider.Column {
                 const providerConfig = this.getProviderConfig();
                 delete providerConfig.editor;
 
+                providerConfig.visible = this._getVisibility();
+
                 wijmo.copy(this.provider, providerConfig);
                 wijmo.copy(
                     this._editor,

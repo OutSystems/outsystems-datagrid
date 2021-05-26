@@ -26,9 +26,40 @@ namespace WijmoProvider.Column {
             this._provider = provider;
         }
 
+        /**
+         * Checks if the visibility of the provider is True or False depending on the provider configs,
+         * wijmo's column and if the column is in the group panel or unchecked in the column picker
+         */
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        protected _getVisibility(): boolean {
+            const providerConfig = this.getProviderConfig();
+            const inGroupPanel = this.grid.features.groupPanel.columnInGroupPanel(
+                this.config.binding
+            );
+            const inColumnPicker = !this.provider.isVisible && !inGroupPanel;
+
+            // We need to make sure the columns is visible only if the provider and our providerConfig
+            // share the same value of visibility for the column AND the column is not on the group panel,
+            // also considering if it is hidden or not on the column picker.
+            return (
+                (providerConfig.visible &&
+                    this.provider.isVisible &&
+                    !inGroupPanel &&
+                    !inColumnPicker) ||
+                (providerConfig.visible &&
+                    !this.provider.isVisible &&
+                    !inGroupPanel &&
+                    inColumnPicker)
+            );
+        }
+
         public applyConfigs(): void {
             if (this.isReady) {
-                wijmo.copy(this.provider, this.getProviderConfig());
+                const providerConfig = this.getProviderConfig();
+
+                providerConfig.visible = this._getVisibility();
+
+                wijmo.copy(this.provider, providerConfig);
             } else {
                 console.log('applyConfigs - Column needs to be build');
             }
