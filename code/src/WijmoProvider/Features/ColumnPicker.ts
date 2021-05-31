@@ -149,6 +149,16 @@ namespace WijmoProvider.Feature {
             this._theColumnPicker = new wijmo.input.ListBox(picker, {
                 checkedMemberPath: 'visible',
                 displayMemberPath: 'header',
+                formatItem: (sender, e) => {
+                    e.item.innerHTML =  `<div class="wj-listbox-item__inner">`+
+                                        `<input class="wj-listbox-item__input" type="checkbox" ${e.data.isRequired ? 'disabled' : '' }>` +
+                                        `<span class="wj-listbox-item__label">${e.data.header}</span>`+
+                                        `</div>`;
+                    if(e.data.visible) {
+                        e.item.querySelector('input').checked = true;
+                        e.item.querySelector('input').setAttribute("checked", "true");
+                    }
+                },
                 //Undo Stack Enable
                 itemChecked: (s: wijmo.input.ListBox) => {
                     const _item = s.selectedItem;
