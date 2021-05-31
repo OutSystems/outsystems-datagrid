@@ -82,24 +82,22 @@ namespace WijmoProvider.Feature {
 
         public exportToExcel(withStyles: boolean): void {
             this._resetPagination();
-
-            const params = {
-                includeColumnHeaders: true,
-                includeRowHeaders: true,
-                includeCellStyles: withStyles,
-                formatItem: this.exportFormatItem
-            };
-
-            const book = wijmo.grid.xlsx.FlexGridXlsxConverter.save(
-                this._grid.provider,
-                params
-            );
-            //name the sheet
-            book.sheets[0].name = 'DataGrid Data';
-            // save the book
-            book.save('DataGridReactive.xlsx');
-
-            this._reApplyPagination();
+            // include timeout in order to apply conditional format
+            setTimeout(() => {
+                const params = {
+                    includeColumnHeaders: true,
+                    includeRowHeaders: true,
+                    includeCellStyles: withStyles,
+                    formatItem: this.exportFormatItem
+                };
+                const book = wijmo.grid.xlsx.FlexGridXlsxConverter.save(
+                    this._grid.provider,
+                    params
+                );
+                book.sheets[0].name = 'DataGrid Data';
+                book.save('DataGridReactive.xlsx');
+                this._reApplyPagination();
+            }, 10);
         }
     }
 }
