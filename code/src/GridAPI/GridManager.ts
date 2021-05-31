@@ -146,12 +146,12 @@ namespace GridAPI.GridManager {
      * @export
      * @param {string} gridID ID of the Grid where the change will occur.
      */
-    export function MarkChangesAsSaved(gridID: string): void {
+    export function MarkChangesAsSaved(gridID: string, clearInvalids: boolean): void {
         // eslint-disable-next-line
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
-            grid.clearAllChanges();
+            grid.clearAllChanges(clearInvalids);
         }
     }
 
