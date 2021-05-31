@@ -94,7 +94,14 @@ namespace OSFramework.Grid {
                     this.dataSource.getMetadata(),
                     this.config.allowEdit
                 );
-                if (this._columns.size === 0) {
+                const newColumns = this._checkForNewColumns();
+                // remove existing columns if new dataSource has different columns
+                if (this._columns.size > 0 && newColumns) {
+                    this._columns.forEach((p) => this.removeColumn(p.uniqueId));
+                    generated.forEach((p) => this.addColumn(p));
+                }
+                // generate new columns
+                if (this._columns.size === 0 && newColumns) {
                     generated.forEach((p) => this.addColumn(p));
                 }
             } else {
@@ -110,6 +117,21 @@ namespace OSFramework.Grid {
             }
         }
 
+        private _checkForNewColumns(): boolean {
+            const metadata = this.dataSource.getMetadata();
+            let hasColumns = false;
+            return Object.keys(metadata).some((source) => {
+                const columns = Array.from(this._columns.values()).map(
+                    (col) => col.config.binding
+                );
+                const newColumns = Object.keys(metadata[source]);
+                hasColumns = newColumns.every((column) => {
+                    return columns.indexOf(`${source}.${column}`) !== -1;
+                });
+
+                return !hasColumns;
+            });
+        }
         private _validateBindings(): void {
             if (this.dataSource.hasMetadata) {
                 this.getColumns().forEach((column) => {
