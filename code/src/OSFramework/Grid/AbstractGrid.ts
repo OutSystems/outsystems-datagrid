@@ -120,10 +120,10 @@ namespace OSFramework.Grid {
         private _checkForNewColumns(): boolean {
             const metadata = this.dataSource.getMetadata();
             let hasColumns = false;
+            const columns = Array.from(this._columns.values()).map(
+                (col) => col.config.binding
+            );
             return Object.keys(metadata).some((source) => {
-                const columns = Array.from(this._columns.values()).map(
-                    (col) => col.config.binding
-                );
                 const newColumns = Object.keys(metadata[source]);
                 hasColumns = newColumns.every((column) => {
                     return columns.indexOf(`${source}.${column}`) !== -1;
