@@ -131,11 +131,11 @@ namespace WijmoProvider.Grid {
             }
         }
 
-        public clearAllChanges(cleanValidationMark: boolean): void {
+        public clearAllChanges(clearValidationMark: boolean): void {
             if (this.isReady) {
                 this.dataSource.clear();
                 this.features.dirtyMark.clear();
-                if (cleanValidationMark) {
+                if (clearValidationMark) {
                     this.features.validationMark.clear();
                 }
             }
