@@ -2,7 +2,8 @@
 namespace WijmoProvider.Column {
     export class GroupColumn
         extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfigGroup>
-        implements OSFramework.Column.IColumnGroup {
+        implements OSFramework.Column.IColumnGroup
+    {
         private _columns: OSFramework.Column.IColumn[];
 
         constructor(
@@ -88,6 +89,9 @@ namespace WijmoProvider.Column {
         public addChild(column: OSFramework.Column.IColumn): void {
             if (this._columns.indexOf(column) === -1) {
                 this._columns.push(column);
+                this.provider.columns.push(
+                    new wijmo.grid.ColumnGroup(column.getProviderConfig())
+                );
             }
         }
 

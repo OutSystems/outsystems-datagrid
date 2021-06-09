@@ -33,9 +33,10 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         protected _getVisibility(): boolean {
             const providerConfig = this.getProviderConfig();
-            const inGroupPanel = this.grid.features.groupPanel.columnInGroupPanel(
-                this.config.binding
-            );
+            const inGroupPanel =
+                this.grid.features.groupPanel.columnInGroupPanel(
+                    this.config.binding
+                );
             const inColumnPicker = !this.provider.isVisible && !inGroupPanel;
 
             // We need to make sure the columns is visible only if the provider and our providerConfig
@@ -76,24 +77,6 @@ namespace WijmoProvider.Column {
                     this.parentColumnId
                 ) as OSFramework.Column.IColumnGroup;
                 parent.addChild(this);
-
-                if (parent.isReady) {
-                    //RGRIDT-574 review after solved
-                    //We should think in the future how config.index should work considering groups
-                    //Index is 0 based AND based on its parent
-                    //                  |Group 1         |Group2              |
-                    //                  |ColA    |ColB   |ColC   |ColD   |ColE|
-                    // Column indexes   |0       |1      |0      |1      |2   |
-                    // Group indexes    |0               |1                   |
-                    //Inserting in the correct position
-                    // this.provider = new wijmo.grid.ColumnGroup(this.getProviderConfig(), parent.provider);
-                    //const providerGrid: wijmo.grid.FlexGrid = this._grid.provider;
-                    //providerGrid.columns.insert(this.config.index, this.provider);
-                } else {
-                    console.error(
-                        `build - GroupColumn "${parent.config.header}" needs to be build before its childs ("${this.config.header}")`
-                    );
-                }
             } else {
                 //Where column will be placed
                 let indexPosition = this.indexPosition();
@@ -103,9 +86,11 @@ namespace WijmoProvider.Column {
                         ? providerGrid.columns.length
                         : indexPosition;
 
-                this.provider = new wijmo.grid.Column(this.getProviderConfig());
+                this.provider = new wijmo.grid.ColumnGroup(
+                    this.getProviderConfig()
+                );
 
-                providerGrid.columns.insert(indexPosition, this.provider);
+                providerGrid.columnGroups.push(this.provider);
             }
         }
 
