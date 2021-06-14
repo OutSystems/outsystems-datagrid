@@ -149,7 +149,7 @@ namespace GridAPI.GridManager {
      */
     export function MarkChangesAsSaved(
         gridID: string,
-        clearInvalids: boolean
+        clearInvalids = true
     ): void {
         // eslint-disable-next-line
         const grid = GridManager.GetGridById(gridID);
