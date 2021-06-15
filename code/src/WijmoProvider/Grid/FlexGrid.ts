@@ -134,10 +134,10 @@ namespace WijmoProvider.Grid {
         public clearAllChanges(clearValidationMark: boolean): void {
             if (this.isReady) {
                 this.dataSource.clear();
-                this.features.dirtyMark.clear();
                 if (clearValidationMark) {
                     this.features.validationMark.clear();
                 }
+                this.features.dirtyMark.clear();
             }
         }
 

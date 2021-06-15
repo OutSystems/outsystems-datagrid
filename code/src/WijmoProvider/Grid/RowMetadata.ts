@@ -56,9 +56,19 @@ namespace WijmoProvider.Grid {
             });
         }
 
-        public clearPropertyByRow(row: number, propertyName: string): void {
-            this.hasOwnProperty(row, propertyName) &&
-                this._getRowMetadata(row).delete(propertyName);
+        public clearPropertyByRow(dataItem: any, propertyName: string): void {
+            // eslint-disable-next-line prettier/prettier
+            if(dataItem.__osRowMetada && dataItem.__osRowMetada.has(propertyName)){
+                dataItem.__osRowMetada.delete(propertyName);
+            }
+        }
+
+        public clearPropertyByRowNumber(
+            rowNumber: number,
+            propertyName: string
+        ): void {
+            this.hasOwnProperty(rowNumber, propertyName) &&
+                this._getRowMetadata(rowNumber).delete(propertyName);
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

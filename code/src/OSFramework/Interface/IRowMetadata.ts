@@ -21,11 +21,18 @@ namespace OSFramework.Interface {
          */
         clearProperty(propertyName: string): void;
         /**
-         * Responsible for cleaning metadata information for a given row and property
+         * Responsible for cleaning metadata information for a given row number and property
          * @param row Index row reference, works only in the current page
          * @param propertyName Metadata property to be clear
          */
-        clearPropertyByRow(row: number, propertyName: string): void;
+        clearPropertyByRowNumber(row: number, propertyName: string): void;
+        /**
+         * Responsible for cleaning metadata information for a given row and property
+         * @param {*} dataItem
+         * @param {string} propertyName
+         * @memberof IRowMetadata
+         */
+        clearPropertyByRow(dataItem: any, propertyName: string): void;
         /**
          * Responsible for retrieving metadata information for a given row and property
          * @param row Index row reference, works only in the current page
