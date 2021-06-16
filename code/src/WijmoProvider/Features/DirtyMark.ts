@@ -6,9 +6,8 @@ namespace WijmoProvider.Feature {
             OSFramework.Interface.IBuilder {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private readonly _internalLabel = '__dirtyMarkFeature';
-        private readonly _extraData = '__osRowMetada';
-        private readonly _validationLabel = '__validationMarkFeature';
         private _metadata: OSFramework.Interface.IRowMetadata;
+        private readonly _validationLabel = '__validationMarkFeature';
 
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
@@ -165,19 +164,13 @@ namespace WijmoProvider.Feature {
             const rowList = this._grid.provider
                 .itemsSource as wijmo.collections.CollectionView;
             rowList.sourceCollection.forEach((element) => {
-                // eslint-disable-next-line prettier/prettier
-                if (element[this._extraData] &&
-                    (!element[this._extraData].has(this._validationLabel) || 
-                        // eslint-disable-next-line prettier/prettier
-                        element[this._extraData].get(this._validationLabel).validation.values().next().value)
-                ) {
+                if (this._metadata.isRowValid(element, this._validationLabel)) {
                     this._metadata.clearPropertyByRow(
                         element,
                         this._internalLabel
                     );
                 }
             });
-
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 

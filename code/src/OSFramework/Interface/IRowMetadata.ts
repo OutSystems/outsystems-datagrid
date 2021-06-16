@@ -21,18 +21,18 @@ namespace OSFramework.Interface {
          */
         clearProperty(propertyName: string): void;
         /**
-         * Responsible for cleaning metadata information for a given row number and property
-         * @param row Index row reference, works only in the current page
-         * @param propertyName Metadata property to be clear
-         */
-        clearPropertyByRowNumber(row: number, propertyName: string): void;
-        /**
          * Responsible for cleaning metadata information for a given row and property
          * @param {*} dataItem
          * @param {string} propertyName
          * @memberof IRowMetadata
          */
         clearPropertyByRow(dataItem: any, propertyName: string): void;
+        /**
+         * Responsible for cleaning metadata information for a given row number and property
+         * @param row Index row reference, works only in the current page
+         * @param propertyName Metadata property to be clear
+         */
+        clearPropertyByRowNumber(row: number, propertyName: string): void;
         /**
          * Responsible for retrieving metadata information for a given row and property
          * @param row Index row reference, works only in the current page
@@ -46,6 +46,14 @@ namespace OSFramework.Interface {
          * @param property Metadata property
          */
         hasOwnProperty(row: number, property: string): boolean;
+        /**
+         * Verify if the Row has any invalid cell
+         * @param {*} dataItem
+         * @param {string} validationLabel
+         * @return {*}  {boolean}
+         * @memberof IRowMetadata
+         */
+        isRowValid(dataItem: any, validationLabel: string): boolean;
         /**
          * Stores RowMetadata information for a given row and property
          * @param row Index row reference, works only in the current page

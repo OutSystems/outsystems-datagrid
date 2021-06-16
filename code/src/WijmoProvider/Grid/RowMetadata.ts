@@ -83,6 +83,19 @@ namespace WijmoProvider.Grid {
             );
         }
 
+        public isRowValid(dataItem: any, validationLabel: string): boolean {
+            let isValid = true;
+
+            if (dataItem.__osRowMetada && dataItem.__osRowMetada.has(validationLabel)) {
+                dataItem.__osRowMetada.get(validationLabel).validation.forEach(element => {
+                        if (!element) {
+                            isValid = false;
+                        }
+                    });
+            }
+            return isValid;
+        }
+
         public setMetadata(
             row: number,
             propertyName: string,
