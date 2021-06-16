@@ -52,24 +52,25 @@ namespace WijmoProvider.Column {
             return wijmo.DataType.Object;
         }
 
-        private _getCollapsedToBinding(columnId: string): string {
-            if (columnId === undefined || columnId === '') return undefined;
+        private _getCollapsedToBinding(columnBinding: string): string {
+            if (columnBinding === undefined || columnBinding === '') return undefined;
 
-            const col = GridAPI.ColumnManager.GetColumnById(columnId);
+            const col = this.grid.getColumn(columnBinding);
             let hasError = false;
 
             if (col) {
                 //The informed column doens't belong to this Group
-                if (col.parentColumnId === undefined) {
-                    hasError = true;
-                }
-                //The informed column's group matches with this Group
-                else if (this.equalsToID(col.parentColumnId)) {
+                // if (col.parentColumnId === undefined) {
+                //     hasError = true;
+                // }
+                // //The informed column's group matches with this Group
+                // else 
+                if (this.equalsToID(col.parentColumnId)) {
                     return col.config.binding;
                 }
                 //The informed maybe inside a sub-group
                 else {
-                    return this._getCollapsedToBinding(col.uniqueId);
+                    return columnBinding;
                 }
             } else {
                 hasError = true;
@@ -150,6 +151,9 @@ namespace WijmoProvider.Column {
 
         public removeChild(column: OSFramework.Column.IColumn): void {
             _.remove(this._columns, (p) => p === column);
+            this.provider.columns
+                .filter((x) => x.binding === column.provider.binding)
+                .forEach((x) => this.provider.columns.remove(x));
         }
     }
 }

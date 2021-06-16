@@ -77,6 +77,31 @@ namespace WijmoProvider.Column {
                     this.parentColumnId
                 ) as OSFramework.Column.IColumnGroup;
                 parent.addChild(this);
+
+                if (parent.isReady) {
+                    //RGRIDT-574 review after solved
+                    //We should think in the future how config.index should work considering groups
+                    //Index is 0 based AND based on its parent
+                    //                  |Group 1         |Group2              |
+                    //                  |ColA    |ColB   |ColC   |ColD   |ColE|
+                    // Column indexes   |0       |1      |0      |1      |2   |
+                    // Group indexes    |0               |1                   |
+                    //Inserting in the correct position
+                    const providerGrid = this.grid.provider;
+
+                    this.provider = new wijmo.grid.ColumnGroup(
+                        this.getProviderConfig()
+                    );
+
+                    // providerGrid.columns.insert(
+                    //     this.provider.index,
+                    //     this.provider
+                    // );
+                } else {
+                    console.error(
+                        `build - GroupColumn "${parent.config.header}" needs to be build before its childs ("${this.config.header}")`
+                    );
+                }
             } else {
                 //Where column will be placed
                 let indexPosition = this.indexPosition();
