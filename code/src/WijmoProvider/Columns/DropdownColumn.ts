@@ -80,11 +80,11 @@ namespace WijmoProvider.Column {
             super.build();
         }
         public changeDisplayValues(): void {
-            if (this.config.filterBinding) {
+            if (this.config.parentBinding) {
                 const dataMap = this.config.dataMap;
                 const values = dataMap.collectionView.items;
 
-                const column = this.grid.getColumn(this.config.filterBinding);
+                const column = this.grid.getColumn(this.config.parentBinding);
 
                 if (column) {
                     // set child column to non mandatory, so we can set it to blank when parent changes value
@@ -100,7 +100,7 @@ namespace WijmoProvider.Column {
                     // override getDisplayValues method to get values that
                     // correspond to the parent
                     dataMap.getDisplayValues = (dataItem) => {
-                        const colBinding = this.config.filterBinding.split('.');
+                        const colBinding = this.config.parentBinding.split('.');
                         let value = dataItem;
                         for (let i = 0; i < colBinding.length; i++) {
                             // in case we get undefined we want to break

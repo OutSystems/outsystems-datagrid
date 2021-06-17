@@ -155,11 +155,13 @@ namespace OSFramework.Grid {
                     );
                     // validate dropdown dependency columns
                     // @ts-ignore
-                    if (column.config.filterBinding) {
+                    if (column.config.parentBinding) {
                         // @ts-ignore
-                        const parentBinding = column.config.filterBinding;
+                        const parentBinding = column.config.parentBinding;
                         const parentBindingMatches = parentBinding.split('.');
                         
+                        // reset metadata
+                        metadata = this.dataSource.getMetadata();
                         parentBindingMatches.forEach((binding) =>
                             validate(binding, parentBinding)
                         );
