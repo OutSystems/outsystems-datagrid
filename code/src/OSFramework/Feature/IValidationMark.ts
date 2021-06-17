@@ -5,7 +5,8 @@ namespace OSFramework.Feature {
         invalidRows: Array<any>;
         clear(): void;
         errorMessage(rowNumber: number, binding: string): string;
-        isInvalid(rowNumber: number, binding: string): boolean;
+        isInvalidByRow(row: any): boolean;
+        isInvalidByRowNumber(rowNumber: number, binding: string): boolean;
         setStatus(
             rowNumber: number,
             columnID: string,

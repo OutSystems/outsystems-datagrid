@@ -136,8 +136,20 @@ namespace WijmoProvider.Grid {
                 this.dataSource.clear();
                 if (clearValidationMark) {
                     this.features.validationMark.clear();
+                    this.features.dirtyMark.clear();
+                } else {
+                    const rowList = this._provider
+                        .itemsSource as wijmo.collections.CollectionView;
+                    rowList.sourceCollection.forEach((element) => {
+                        if (
+                            this.features.validationMark.isInvalidByRow(
+                                element
+                            ) === false
+                        ) {
+                            this.features.dirtyMark.clearByRow(element);
+                        }
+                    });
                 }
-                this.features.dirtyMark.clear();
             }
         }
 

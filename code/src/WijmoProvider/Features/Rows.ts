@@ -244,16 +244,16 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row to check if there is any metadata associated to the cssClasses.
          * @returns CssClass of the row specified.
          */
-        public getMetadata(row: number): CssClassInfo {
-            if (!this.hasMetadata(row))
-                this._metadata.setMetadata(
-                    row,
+        public getMetadata(rowNumber: number): CssClassInfo {
+            if (!this.hasMetadata(rowNumber))
+                this._metadata.setMetadataByRowNumber(
+                    rowNumber,
                     this._internalLabel,
                     new CssClassInfo()
                 );
 
-            return this._metadata.getMetadata(
-                row,
+            return this._metadata.getMetadataByRowNumber(
+                rowNumber,
                 this._internalLabel
             ) as CssClassInfo;
         }
@@ -263,8 +263,11 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row to check if there is any metadata associated to the cssClasses.
          * @returns Boolean that indicates whether a specific row has metadata associated to the cssClasses.
          */
-        public hasMetadata(row: number): boolean {
-            return this._metadata.hasOwnProperty(row, this._internalLabel);
+        public hasMetadata(rowNumber: number): boolean {
+            return this._metadata.hasOwnPropertyByRowNumber(
+                rowNumber,
+                this._internalLabel
+            );
         }
 
         /**

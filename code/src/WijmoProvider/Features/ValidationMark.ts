@@ -84,7 +84,7 @@ namespace WijmoProvider.Feature {
                 wijmo.addClass(e.cell, 'wj-state-invalid');
             } else if (
                 e.panel.cellType === wijmo.grid.CellType.RowHeader &&
-                this._isInvalidRow(e.row)
+                this._isInvalidRowByRowNumber(e.row)
             ) {
                 wijmo.addClass(e.cell, 'wj-state-invalid');
             }
@@ -99,9 +99,9 @@ namespace WijmoProvider.Feature {
         private _isInvalidCell(rowNumber: number, colNumber: number): boolean {
             const provider = this._grid.provider;
 
-            if (this.hasMetadata(rowNumber)) {
+            if (this.hasMetadataByRowNumber(rowNumber)) {
                 const binding = provider.getColumn(colNumber).binding;
-                const metadata = this.getMetadata(rowNumber);
+                const metadata = this.getMetadataByRowNumber(rowNumber);
 
                 return (
                     metadata.validation.has(binding) &&
@@ -116,9 +116,9 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row to check if a row has invalid cells
          * @returns Boolean that indicates if the row is invalid. Returns True if invalid. False, otherwise.
          */
-        private _isInvalidRow(rowNumber: number): boolean {
-            if (this.hasMetadata(rowNumber)) {
-                const metadata = this.getMetadata(rowNumber);
+        private _isInvalidRowByRowNumber(rowNumber: number): boolean {
+            if (this.hasMetadataByRowNumber(rowNumber)) {
+                const metadata = this.getMetadataByRowNumber(rowNumber);
                 let notInvalidCells = 0;
 
                 for (const binding of metadata.validation.keys()) {
@@ -304,25 +304,48 @@ namespace WijmoProvider.Feature {
          * @returns Error message of the row specified.
          */
         public errorMessage(rowNumber: number, binding: string): string {
-            return this.getMetadata(rowNumber).errorMessage.get(binding);
+            return this.getMetadataByRowNumber(rowNumber).errorMessage.get(
+                binding
+            );
         }
 
         /**
          * Gets the metadata associated to the validation marks for a specific row.
+         * @param row Row to check if there is any metadata associated to the validation marks.
+         * @returns ValidationMarkInfo of the row specified.
+         */
+        public getMetadataByRow(
+            row: number
+        ): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
+            if (!this.hasMetadataByRow(row))
+                this._metadata.setMetadataByRow(
+                    row,
+                    this._internalLabel,
+                    new OSFramework.Feature.Auxiliar.ValidationMarkInfo()
+                );
+
+            return this._metadata.getMetadataByRow(
+                row,
+                this._internalLabel
+            ) as OSFramework.Feature.Auxiliar.ValidationMarkInfo;
+        }
+
+        /**
+         * Gets the metadata associated to the validation marks for a specific row number.
          * @param rowNumber Number of the row to check if there is any metadata associated to the validation marks.
          * @returns ValidationMarkInfo of the row specified.
          */
-        public getMetadata(
+        public getMetadataByRowNumber(
             rowNumber: number
         ): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
-            if (!this.hasMetadata(rowNumber))
-                this._metadata.setMetadata(
+            if (!this.hasMetadataByRowNumber(rowNumber))
+                this._metadata.setMetadataByRowNumber(
                     rowNumber,
                     this._internalLabel,
                     new OSFramework.Feature.Auxiliar.ValidationMarkInfo()
                 );
 
-            return this._metadata.getMetadata(
+            return this._metadata.getMetadataByRowNumber(
                 rowNumber,
                 this._internalLabel
             ) as OSFramework.Feature.Auxiliar.ValidationMarkInfo;
@@ -330,13 +353,35 @@ namespace WijmoProvider.Feature {
 
         /**
          * Indicates if a specific row has any metadata associated to the validation marks.
+         * @param row Row to check if there is any metadata associated to the validation marks.
+         * @returns Boolean that indicates whether a specific row has metadata associated to the validation marks.
+         */
+        public hasMetadataByRow(row: any): boolean {
+            return this._metadata.hasOwnPropertyByRow(row, this._internalLabel);
+        }
+
+        /**
+         * Indicates if a specific row number has any metadata associated to the validation marks.
          * @param rowNumber Number of the row to check if there is any metadata associated to the validation marks.
          * @returns Boolean that indicates whether a specific row has metadata associated to the validation marks.
          */
-        public hasMetadata(rowNumber: number): boolean {
-            return this._metadata.hasOwnProperty(
+        public hasMetadataByRowNumber(rowNumber: number): boolean {
+            return this._metadata.hasOwnPropertyByRowNumber(
                 rowNumber,
                 this._internalLabel
+            );
+        }
+
+        /**
+         * Indicates if a specific cell value is valid or not by giving the row and the binding.
+         * @param row Row to get the validation state.
+         * @returns Boolean that indicates whether a specific cell is valid or not.
+         */
+        public isInvalidByRow(row: any): boolean {
+            return Array.from(this.getMetadataByRow(row).validation).some(
+                (element) => {
+                    return element[1] === false;
+                }
             );
         }
 
@@ -346,9 +391,14 @@ namespace WijmoProvider.Feature {
          * @param binding Binding of the column to complement the matching on the validation map
          * @returns Boolean that indicates whether a specific cell is valid or not.
          */
-        public isInvalid(rowNumber: number, binding: string): boolean {
+        public isInvalidByRowNumber(
+            rowNumber: number,
+            binding: string
+        ): boolean {
             return (
-                this.getMetadata(rowNumber).validation.get(binding) === false
+                this.getMetadataByRowNumber(rowNumber).validation.get(
+                    binding
+                ) === false
             );
         }
 
@@ -369,10 +419,13 @@ namespace WijmoProvider.Feature {
                 .provider;
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
-            this.getMetadata(rowNumber).validation.set(column.binding, isValid);
+            this.getMetadataByRowNumber(rowNumber).validation.set(
+                column.binding,
+                isValid
+            );
 
             // Sets the errorMessage map by matching the binding of the columns with the error that indicates the error of the validation to be shown when this one is not valid.
-            this.getMetadata(rowNumber).errorMessage.set(
+            this.getMetadataByRowNumber(rowNumber).errorMessage.set(
                 column.binding,
                 // If the error message is empty we want to return the message -> Invalid [Column Name]
                 // Make sure all the end of lines from the error that comes from OS are replaced with <br>
@@ -384,7 +437,7 @@ namespace WijmoProvider.Feature {
             // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
             this._setInvalidRows(
                 rowNumber,
-                isValid && !this._isInvalidRow(rowNumber)
+                isValid && !this._isInvalidRowByRowNumber(rowNumber)
             );
 
             // Makes sure the grid gets refreshed after validation

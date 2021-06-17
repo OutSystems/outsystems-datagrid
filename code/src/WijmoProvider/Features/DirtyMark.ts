@@ -161,35 +161,26 @@ namespace WijmoProvider.Feature {
         }
 
         public clear(): void {
-            const rowList = this._grid.provider
-                .itemsSource as wijmo.collections.CollectionView;
-            rowList.sourceCollection.forEach((element) => {
-                if (this._metadata.isRowValid(element, this._validationLabel)) {
-                    this._metadata.clearPropertyByRow(
-                        element,
-                        this._internalLabel
-                    );
-                }
-            });
+            this._metadata.clearProperty(this._internalLabel);
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
-        // public clearByRow(row: number): void {
-        //     this._metadata.clearPropertyByRow(row, this._internalLabel);
-        //     this._grid.grid.invalidate(); //Mark to be refreshed
-        // }
+        public clearByRow(row: any): void {
+            this._metadata.clearPropertyByRow(row, this._internalLabel);
+            this._grid.provider.invalidate(); //Mark to be refreshed
+        }
 
         public getMetadata(
             row: number
         ): OSFramework.Feature.Auxiliar.DirtyMarksInfo {
             if (!this.hasMetadata(row))
-                this._metadata.setMetadata(
+                this._metadata.setMetadataByRowNumber(
                     row,
                     this._internalLabel,
                     new OSFramework.Feature.Auxiliar.DirtyMarksInfo()
                 );
 
-            return this._metadata.getMetadata(
+            return this._metadata.getMetadataByRowNumber(
                 row,
                 this._internalLabel
             ) as OSFramework.Feature.Auxiliar.DirtyMarksInfo;
@@ -205,15 +196,18 @@ namespace WijmoProvider.Feature {
         public getOldValue(rowNumber: number, binding: string): any {
             if (this.hasMetadata(rowNumber)) {
                 return this._metadata
-                    .getMetadata(rowNumber, this._internalLabel)
+                    .getMetadataByRowNumber(rowNumber, this._internalLabel)
                     .originalValues.get(binding);
             }
             // If there is no metadata we want to return undefined
             return undefined;
         }
 
-        public hasMetadata(row: number): boolean {
-            return this._metadata.hasOwnProperty(row, this._internalLabel);
+        public hasMetadata(rowNumber: number): boolean {
+            return this._metadata.hasOwnPropertyByRowNumber(
+                rowNumber,
+                this._internalLabel
+            );
         }
     }
 }
