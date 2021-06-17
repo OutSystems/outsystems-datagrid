@@ -9,12 +9,14 @@ namespace OSFramework.Configuration.Column {
         public dataMapEditor: any;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public dropdownOptions: any;
+        public filterBinding: string;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(config: any, extra: any) {
             super(config);
             this.dataMap = undefined;
             this.dropdownOptions = extra.datamap;
+            this.filterBinding = extra.filterBinding;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
