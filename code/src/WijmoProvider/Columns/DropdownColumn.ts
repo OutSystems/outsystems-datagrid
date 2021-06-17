@@ -86,39 +86,42 @@ namespace WijmoProvider.Column {
 
                 const column = this.grid.getColumn(this.config.filterBinding);
 
-                // set child column to non mandatory, so we can set it to blank when parent changes value
-                this.provider.isRequired = false;
+                if (column) {
+                    // set child column to non mandatory, so we can set it to blank when parent changes value
+                    this.provider.isRequired = false;
 
-                // on parent cell change subscription, to set child cell's to blank
-                column.columnEvents.addHandler(
-                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange,
-                    this._parentCellValueChangeHandler.bind(this)
-                );
+                    // on parent cell change subscription, to set child cell's to blank
+                    column.columnEvents.addHandler(
+                        OSFramework.Event.Column.ColumnEventType
+                            .OnCellValueChange,
+                        this._parentCellValueChangeHandler.bind(this)
+                    );
 
-                // override getDisplayValues method to get values that
-                // correspond to the parent
-                dataMap.getDisplayValues = (dataItem) => {
-                    const colBinding = this.config.filterBinding.split('.');
-                    let value = dataItem;
-                    for (let i = 0; i < colBinding.length; i++) {
-                        // in case we get undefined we want to break
-                        if (
-                            value === undefined &&
-                            i === colBinding.length - 1
-                        ) {
-                            break;
+                    // override getDisplayValues method to get values that
+                    // correspond to the parent
+                    dataMap.getDisplayValues = (dataItem) => {
+                        const colBinding = this.config.filterBinding.split('.');
+                        let value = dataItem;
+                        for (let i = 0; i < colBinding.length; i++) {
+                            // in case we get undefined we want to break
+                            if (
+                                value === undefined &&
+                                i === colBinding.length - 1
+                            ) {
+                                break;
+                            }
+                            value = value[colBinding[i]];
                         }
-                        value = value[colBinding[i]];
-                    }
 
-                    // if there is no value, we don't return anything
-                    if (value) {
-                        const validValues = values.filter(
-                            (x) => x.parentKey === value.toString()
-                        );
-                        return validValues.map((value) => value.text);
-                    }
-                };
+                        // if there is no value, we don't return anything
+                        if (value) {
+                            const validValues = values.filter(
+                                (x) => x.parentKey === value.toString()
+                            );
+                            return validValues.map((value) => value.text);
+                        }
+                    };
+                }
             }
         }
 

@@ -3,7 +3,8 @@ namespace OSFramework.Grid {
     export abstract class AbstractGrid<
         W,
         Z extends Configuration.IConfigurationGrid
-    > implements IGridGeneric<W> {
+    > implements IGridGeneric<W>
+    {
         private _addedRows: Event.Grid.AddNewRowEvent;
         private _columns: Map<string, Column.IColumn>;
         private _columnsGenerator: Column.IColumnGenerator;
@@ -139,16 +140,30 @@ namespace OSFramework.Grid {
                     // Split the binding of the column by every dot. (e.g Sample_product.Name -> ['Sample_Product', 'Name'])
                     const bindingMatches = column.config.binding.split('.');
                     let metadata = this.dataSource.getMetadata();
-                    bindingMatches.forEach((keyword) => {
+
+                    const validate = (keyword, binding) => {
                         // Check if the matching keyword is a property from metadata
                         if (metadata && !metadata.hasOwnProperty(keyword)) {
-                            throw `The binding "${
-                                column.config.binding
-                            }" doesn't match any valid column from the data you specified. ${'\n'} Expected format: "EntityName.FieldName". ${'\n'} For example: "Product_Sample.Name"`;
+                            throw `The binding "${binding}" doesn't match any valid column from the data you specified. ${'\n'} Expected format: "EntityName.FieldName". ${'\n'} For example: "Product_Sample.Name"`;
                         }
                         // If keyword is a property from metadata then use metadata[keyword] as the new metadata and iterate to the next keyword.
                         metadata = metadata[keyword];
-                    });
+                    };
+
+                    bindingMatches.forEach((binding) =>
+                        validate(binding, column.config.binding)
+                    );
+                    // validate dropdown dependency columns
+                    // @ts-ignore
+                    if (column.config.filterBinding) {
+                        // @ts-ignore
+                        const parentBinding = column.config.filterBinding;
+                        const parentBindingMatches = parentBinding.split('.');
+                        
+                        parentBindingMatches.forEach((binding) =>
+                            validate(binding, parentBinding)
+                        );
+                    }
                 });
             }
         }
