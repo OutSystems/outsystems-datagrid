@@ -73,11 +73,11 @@ namespace WijmoProvider.Grid {
 
         public clearPropertyByRow(dataItem: any, propertyName: string): void {
             // eslint-disable-next-line prettier/prettier
-            if (
-                dataItem.__osRowMetada &&
-                dataItem.__osRowMetada.has(propertyName)
+            if (dataItem &&
+                dataItem[this._extraData] &&
+                dataItem[this._extraData].has(propertyName)
             ) {
-                dataItem.__osRowMetada.delete(propertyName);
+                dataItem[this._extraData].delete(propertyName);
             }
         }
 

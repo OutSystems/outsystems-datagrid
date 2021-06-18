@@ -142,11 +142,11 @@ namespace WijmoProvider.Grid {
                         .itemsSource as wijmo.collections.CollectionView;
                     rowList.sourceCollection.forEach((element) => {
                         if (
-                            this.features.validationMark.isInvalidByRow(
+                            this.features.validationMark.isInvalidRow(
                                 element
                             ) === false
                         ) {
-                            this.features.dirtyMark.clearByRow(element);
+                            this.features.dirtyMark.clearPropertyInRow(element);
                         }
                     });
                 }

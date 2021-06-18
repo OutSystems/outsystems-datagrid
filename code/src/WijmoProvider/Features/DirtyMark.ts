@@ -165,7 +165,7 @@ namespace WijmoProvider.Feature {
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
-        public clearByRow(row: any): void {
+        public clearPropertyInRow(row: any): void {
             this._metadata.clearPropertyByRow(row, this._internalLabel);
             this._grid.provider.invalidate(); //Mark to be refreshed
         }

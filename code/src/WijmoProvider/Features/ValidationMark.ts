@@ -373,32 +373,29 @@ namespace WijmoProvider.Feature {
         }
 
         /**
-         * Indicates if a specific cell value is valid or not by giving the row and the binding.
-         * @param row Row to get the validation state.
-         * @returns Boolean that indicates whether a specific cell is valid or not.
-         */
-        public isInvalidByRow(row: any): boolean {
-            return Array.from(this.getMetadataByRow(row).validation).some(
-                (element) => {
-                    return element[1] === false;
-                }
-            );
-        }
-
-        /**
          * Indicates if a specific cell value is valid or not by giving the row number and the binding.
          * @param rowNumber Number of the row to get the validation state.
          * @param binding Binding of the column to complement the matching on the validation map
          * @returns Boolean that indicates whether a specific cell is valid or not.
          */
-        public isInvalidByRowNumber(
-            rowNumber: number,
-            binding: string
-        ): boolean {
+        public isInvalid(rowNumber: number, binding: string): boolean {
             return (
                 this.getMetadataByRowNumber(rowNumber).validation.get(
                     binding
                 ) === false
+            );
+        }
+
+        /**
+         * Indicates if a specific cell value is valid or not by giving the row and the binding.
+         * @param row Row to get the validation state.
+         * @returns Boolean that indicates whether a specific cell is valid or not.
+         */
+        public isInvalidRow(row: any): boolean {
+            return Array.from(this.getMetadataByRow(row).validation).some(
+                (element) => {
+                    return element[1] === false;
+                }
             );
         }
 

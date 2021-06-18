@@ -29,7 +29,7 @@ namespace OSFramework.Grid {
         ): void;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         changeProperty(propertyName: string, propertyValue: any): void;
-        clearAllChanges(clearInvalids: boolean): void;
+        clearAllChanges(forceClearValidationMarks: boolean): void;
         getChangesMade(): OSFramework.OSStructure.ChangesDone;
         /**
          * Get the column on the grid by giving a columnID or a binding.

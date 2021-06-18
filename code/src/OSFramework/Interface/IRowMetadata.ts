@@ -39,7 +39,7 @@ namespace OSFramework.Interface {
          * @param propertyName Metadata property
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        getMetadataByRow(row: number, propertyName: string): any;
+        getMetadataByRow(row: any, propertyName: string): any;
         /**
          * Responsible for retrieving metadata information for a given row number and property
          * @param rowNumber Index row reference, works only in the current page
@@ -60,18 +60,6 @@ namespace OSFramework.Interface {
          */
         hasOwnPropertyByRowNumber(rowNumber: number, property: string): boolean;
         /**
-         * Stores RowMetadata information for a given row number and property
-         * @param rowNumber Index row reference, works only in the current page
-         * @param propertyName Metadata property
-         * @param propertyValue Value to be stored
-         */
-        setMetadataByRowNumber(
-            rowNumber: number,
-            propertyName: string,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            propertyValue: any
-        ): void;
-        /**
          * Stores RowMetadata information for a given row and property
          * @param {*} row
          * @param {string} propertyName
@@ -80,6 +68,18 @@ namespace OSFramework.Interface {
          */
         setMetadataByRow(
             row: any,
+            propertyName: string,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            propertyValue: any
+        ): void;
+        /**
+         * Stores RowMetadata information for a given row number and property
+         * @param rowNumber Index row reference, works only in the current page
+         * @param propertyName Metadata property
+         * @param propertyValue Value to be stored
+         */
+        setMetadataByRowNumber(
+            rowNumber: number,
             propertyName: string,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             propertyValue: any
