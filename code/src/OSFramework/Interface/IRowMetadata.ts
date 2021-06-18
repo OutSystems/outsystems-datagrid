@@ -22,31 +22,64 @@ namespace OSFramework.Interface {
         clearProperty(propertyName: string): void;
         /**
          * Responsible for cleaning metadata information for a given row and property
+         * @param {*} dataItem
+         * @param {string} propertyName
+         * @memberof IRowMetadata
+         */
+        clearPropertyByRow(dataItem: any, propertyName: string): void;
+        /**
+         * Responsible for cleaning metadata information for a given row number and property
          * @param row Index row reference, works only in the current page
          * @param propertyName Metadata property to be clear
          */
-        clearPropertyByRow(row: number, propertyName: string): void;
+        clearPropertyByRowNumber(row: number, propertyName: string): void;
         /**
          * Responsible for retrieving metadata information for a given row and property
          * @param row Index row reference, works only in the current page
          * @param propertyName Metadata property
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        getMetadata(row: number, propertyName: string): any;
+        getMetadataByRow(row: any, propertyName: string): any;
+        /**
+         * Responsible for retrieving metadata information for a given row number and property
+         * @param rowNumber Index row reference, works only in the current page
+         * @param propertyName Metadata property
+         */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        getMetadataByRowNumber(rowNumber: number, propertyName: string): any;
         /**
          * Verify the presence of metadata information for a given row and property
-         * @param row Index row reference, works only in the current page
+         * @param {*} row
+         * @param {string} property
+         */
+        hasOwnPropertyByRow(row: any, property: string): boolean;
+        /**
+         * Verify the presence of metadata information for a given row number and property
+         * @param rowNumber Index row reference, works only in the current page
          * @param property Metadata property
          */
-        hasOwnProperty(row: number, property: string): boolean;
+        hasOwnPropertyByRowNumber(rowNumber: number, property: string): boolean;
         /**
          * Stores RowMetadata information for a given row and property
-         * @param row Index row reference, works only in the current page
+         * @param {*} row
+         * @param {string} propertyName
+         * @param {*} propertyValue
+         * @memberof IRowMetadata
+         */
+        setMetadataByRow(
+            row: any,
+            propertyName: string,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            propertyValue: any
+        ): void;
+        /**
+         * Stores RowMetadata information for a given row number and property
+         * @param rowNumber Index row reference, works only in the current page
          * @param propertyName Metadata property
          * @param propertyValue Value to be stored
          */
-        setMetadata(
-            row: number,
+        setMetadataByRowNumber(
+            rowNumber: number,
             propertyName: string,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             propertyValue: any

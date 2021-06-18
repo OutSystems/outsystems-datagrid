@@ -51,23 +51,26 @@ namespace WijmoProvider.Feature {
         }
 
         public getMetadata(
-            row: number
+            rowNumber: number
         ): OSFramework.Feature.Auxiliar.CellStyleInfo {
-            if (!this.hasMetadata(row))
-                this._metadata.setMetadata(
-                    row,
+            if (!this.hasMetadata(rowNumber))
+                this._metadata.setMetadataByRowNumber(
+                    rowNumber,
                     this._internalLabel,
                     new OSFramework.Feature.Auxiliar.CellStyleInfo()
                 );
 
-            return this._metadata.getMetadata(
-                row,
+            return this._metadata.getMetadataByRowNumber(
+                rowNumber,
                 this._internalLabel
             ) as OSFramework.Feature.Auxiliar.CellStyleInfo;
         }
 
-        public hasMetadata(row: number): boolean {
-            return this._metadata.hasOwnProperty(row, this._internalLabel);
+        public hasMetadata(rowNumber: number): boolean {
+            return this._metadata.hasOwnPropertyByRowNumber(
+                rowNumber,
+                this._internalLabel
+            );
         }
 
         public removeClass(rowNumber: number, binding: string): void {
