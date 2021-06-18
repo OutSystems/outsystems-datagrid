@@ -199,7 +199,7 @@ namespace WijmoProvider.Feature {
 
             providerGrid.focus(); // In case of Undo action, the user will not need to click on the grid to undo.
 
-            this._grid.dataSource.addRow(topRowIndex, items);
+            this._grid.dataSource.addRow(dsTopRowIndex, items);
 
             // Trigger the event of adding the new row that will add the dirty mark to the added row
             for (let index = 0; index < quantity; index++) {
