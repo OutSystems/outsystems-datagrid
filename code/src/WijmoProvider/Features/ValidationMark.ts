@@ -315,7 +315,7 @@ namespace WijmoProvider.Feature {
          * @returns ValidationMarkInfo of the row specified.
          */
         public getMetadataByRow(
-            row: number
+            row: any
         ): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
             if (!this.hasMetadataByRow(row))
                 this._metadata.setMetadataByRow(
