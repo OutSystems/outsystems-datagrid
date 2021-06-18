@@ -29,7 +29,11 @@ namespace WijmoProvider.Column {
         ): void {
             // only set to blank if there is a different value
             if (oldValue !== newValue) {
-                // trigger dirty mark
+                const currentValue = this.grid.provider.getCellData(
+                    rowNumber,
+                    this.provider.index
+                );
+
                 this.grid.features.dirtyMark.saveOriginalValue(
                     rowNumber,
                     this.provider.index
@@ -41,6 +45,19 @@ namespace WijmoProvider.Column {
                     true
                 );
                 this.grid.features.validationMark.validateRow(rowNumber);
+
+                const column = this.grid.getColumn(columnID);
+
+                // trigger cell value change event
+                if (column) {
+                    this.columnEvents.trigger(
+                        OSFramework.Event.Column.ColumnEventType
+                            .OnCellValueChange,
+                        '',
+                        currentValue,
+                        rowNumber
+                    );
+                }
             }
         }
 
