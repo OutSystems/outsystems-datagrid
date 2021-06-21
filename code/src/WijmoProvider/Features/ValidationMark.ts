@@ -324,7 +324,7 @@ namespace WijmoProvider.Feature {
                     new OSFramework.Feature.Auxiliar.ValidationMarkInfo()
                 );
 
-            return this._metadata.getMetadataByRow(
+            return this._metadata.getMetadataInRow(
                 row,
                 this._internalLabel
             ) as OSFramework.Feature.Auxiliar.ValidationMarkInfo;

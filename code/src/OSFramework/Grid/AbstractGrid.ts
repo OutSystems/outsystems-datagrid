@@ -273,7 +273,9 @@ namespace OSFramework.Grid {
             propertyValue: any
         ): void;
 
-        public abstract clearAllChanges(clearInvalids: boolean): void;
+        public abstract clearAllChanges(
+            forceClearValidationMarks: boolean
+        ): void;
 
         public abstract getChangesMade(): OSStructure.ChangesDone;
 

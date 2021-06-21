@@ -39,7 +39,7 @@ namespace OSFramework.Interface {
          * @param propertyName Metadata property
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        getMetadataByRow(row: any, propertyName: string): any;
+        getMetadataInRow(row: any, propertyName: string): any;
         /**
          * Responsible for retrieving metadata information for a given row number and property
          * @param rowNumber Index row reference, works only in the current page

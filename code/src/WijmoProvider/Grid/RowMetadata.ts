@@ -11,7 +11,7 @@ namespace WijmoProvider.Grid {
                 .itemsSource as wijmo.collections.CollectionView;
         }
 
-        private _getRowMetadataByRow(row: any): Map<string, any> {
+        private _getRowMetadataInRow(row: any): Map<string, any> {
             if (!this._hasMetadataByRow(row))
                 row[this._extraData] = new Map<
                     string,
@@ -73,7 +73,8 @@ namespace WijmoProvider.Grid {
 
         public clearPropertyByRow(dataItem: any, propertyName: string): void {
             // eslint-disable-next-line prettier/prettier
-            if (dataItem &&
+            if (
+                dataItem &&
                 dataItem[this._extraData] &&
                 dataItem[this._extraData].has(propertyName)
             ) {
@@ -89,8 +90,8 @@ namespace WijmoProvider.Grid {
                 this._getRowMetadataByRowNumber(rowNumber).delete(propertyName);
         }
 
-        public getMetadataByRow(row: any, propertyName: string): any {
-            return this._getRowMetadataByRow(row).get(propertyName);
+        public getMetadataInRow(row: any, propertyName: string): any {
+            return this._getRowMetadataInRow(row).get(propertyName);
         }
 
         public getMetadataByRowNumber(
@@ -103,7 +104,7 @@ namespace WijmoProvider.Grid {
         public hasOwnPropertyByRow(row: any, property: string): boolean {
             return (
                 this._hasMetadataByRow(row) &&
-                this._getRowMetadataByRow(row).has(property)
+                this._getRowMetadataInRow(row).has(property)
             );
         }
 
@@ -123,7 +124,7 @@ namespace WijmoProvider.Grid {
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             propertyValue: any
         ): void {
-            this._getRowMetadataByRow(row).set(propertyName, propertyValue);
+            this._getRowMetadataInRow(row).set(propertyName, propertyValue);
         }
 
         public setMetadataByRowNumber(
