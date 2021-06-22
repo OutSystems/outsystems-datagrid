@@ -59,8 +59,15 @@ namespace WijmoProvider.Column {
                             editorConfigs
                         )
                     );
+                case OSFramework.Enum.ColumnType.Calculated:
+                    return new CalculatedColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        editorConfigs
+                    );
                 case OSFramework.Enum.ColumnType.Text:
-                    return new TextColumn(grid, columnID, configs);
+                    return new TextColumn(grid, columnID, configs, editorConfigs);
                 default:
                     throw `There is no factory for this type of column (${type})`;
             }

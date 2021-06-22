@@ -13,6 +13,7 @@ namespace OSFramework.Enum {
         Dropdown = 'Dropdown',
         Group = 'Group',
         Number = 'Number',
+        Calculated = 'Calculated',
         Link = 'Link',
         Text = 'Text',
         UpLoad = 'UpLoad'

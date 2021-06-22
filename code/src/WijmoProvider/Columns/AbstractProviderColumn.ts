@@ -107,6 +107,9 @@ namespace WijmoProvider.Column {
 
                 providerGrid.columns.insert(indexPosition, this.provider);
             }
+
+            // if calculated
+            // add to provider.calculatedFields
         }
 
         public dispose(): void {
