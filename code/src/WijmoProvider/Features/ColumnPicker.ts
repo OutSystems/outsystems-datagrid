@@ -109,10 +109,12 @@ namespace WijmoProvider.Feature {
     export class ColumnPicker
         implements
             OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable {
+            OSFramework.Interface.IDisposable
+    {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _theColumnPicker: wijmo.input.ListBox;
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
         }
@@ -149,14 +151,22 @@ namespace WijmoProvider.Feature {
             this._theColumnPicker = new wijmo.input.ListBox(picker, {
                 checkedMemberPath: 'visible',
                 displayMemberPath: 'header',
-                formatItem: (sender, e) => {
-                    e.item.innerHTML =  `<div class="wj-listbox-item__inner">`+
-                                        `<input class="wj-listbox-item__input" type="checkbox" ${e.data.isRequired ? 'disabled' : '' }>` +
-                                        `<span class="wj-listbox-item__label">${e.data.header}</span>`+
-                                        `</div>`;
-                    if(e.data.visible) {
-                        e.item.querySelector('input').checked = true;
-                        e.item.querySelector('input').setAttribute("checked", "true");
+                formatItem: (
+                    sender: wijmo.input.ListBox,
+                    e: wijmo.input.FormatItemEventArgs
+                ) => {
+                    if (e && e.data && e.data.binding) {
+                        const col = this._grid.getColumn(e.data.binding);
+                        if (col !== undefined) {
+                            if (col.config.canBeHidden === false) {
+                                const checkbox = e.item.querySelector(
+                                    'input[type="checkbox"]'
+                                );
+                                if (checkbox) {
+                                    checkbox.setAttribute('disabled', 'true');
+                                }
+                            }
+                        }
                     }
                 },
                 //Undo Stack Enable
