@@ -56,7 +56,6 @@ namespace WijmoProvider.Column {
             const wijmoControl = this.editorProviderType;
 
             //Copy column's config
-            this._editorConfigs.required = this.config.required || false;
             this._editorConfigs.format = this.config.format;
 
             // this.config.editor = this._editorConfigs.getProviderConfig();

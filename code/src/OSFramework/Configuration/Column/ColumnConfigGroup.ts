@@ -22,7 +22,6 @@ namespace OSFramework.Configuration.Column {
         public header: string;
         public isCollapsed: boolean;
         public isMandatory: boolean;
-        public required: boolean;
         public uniqueId: string;
         public validateBinding: boolean;
 
