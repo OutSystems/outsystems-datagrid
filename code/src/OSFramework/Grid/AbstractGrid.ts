@@ -154,10 +154,13 @@ namespace OSFramework.Grid {
                         validate(binding, column.config.binding)
                     );
                     // validate dropdown dependency columns
-                    if (column.config.hasOwnProperty('parentBinding')) {
+                    if (
+                        column.config.hasOwnProperty('parentBinding') &&
+                        column.config['parentBinding'] !== ''
+                    ) {
                         const parentBinding = column.config['parentBinding'];
                         const parentBindingMatches = parentBinding.split('.');
-                        
+
                         // reset metadata
                         metadata = this.dataSource.getMetadata();
                         parentBindingMatches.forEach((binding) =>
