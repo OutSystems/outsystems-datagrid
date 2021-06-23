@@ -21,17 +21,7 @@ namespace WijmoProvider.Feature {
             grid: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
-            const binding = grid.getColumn(e.col).binding;
-
-            if (
-                !this._isNewRow(e.row) &&
-                !this._hasCellInitialValue(e.row, binding)
-            ) {
-                this.getMetadata(e.row).originalValues.set(
-                    binding,
-                    grid.getCellData(e.row, e.col, false)
-                );
-            }
+            this.saveOriginalValue(e.row, e.col);
         }
 
         private _formatItems(
@@ -204,6 +194,27 @@ namespace WijmoProvider.Feature {
 
         public hasMetadata(row: number): boolean {
             return this._metadata.hasOwnProperty(row, this._internalLabel);
+        }
+
+        public saveOriginalValue(
+            rowNumber: number,
+            columnNumber: number
+        ): void {
+            const binding = this._grid.provider.getColumn(columnNumber).binding;
+
+            if (
+                !this._isNewRow(rowNumber) &&
+                !this._hasCellInitialValue(rowNumber, binding)
+            ) {
+                this.getMetadata(rowNumber).originalValues.set(
+                    binding,
+                    this._grid.provider.getCellData(
+                        rowNumber,
+                        columnNumber,
+                        false
+                    )
+                );
+            }
         }
     }
 }
