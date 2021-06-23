@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Feature {
     export interface ICalculatedField {
+        calculatedFields: {};
         /**
          * Adds new calculated field formula the desired binding.
          */

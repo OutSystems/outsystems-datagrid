@@ -11,7 +11,7 @@ namespace WijmoProvider.Feature {
         switch (fn) {
             case OSFramework.OSStructure.Functions.Avg:
                 let vals = parsedValues.join(' + ');
-                return `(${vals}) / parsedValues.length`;
+                return `(${vals}) / ${parsedValues.length}`;
             case OSFramework.OSStructure.Functions.Diff:
                 return parsedValues.join(' - ');
             case OSFramework.OSStructure.Functions.Div:
@@ -19,7 +19,7 @@ namespace WijmoProvider.Feature {
             case OSFramework.OSStructure.Functions.Max:
                 return `Math.max(${parsedValues.join(', ')})`;
             case OSFramework.OSStructure.Functions.Min:
-                return `Math.mix(${parsedValues.join(', ')})`;
+                return `Math.min(${parsedValues.join(', ')})`;
             case OSFramework.OSStructure.Functions.Mult:
                 return parsedValues.join(' * ');
             case OSFramework.OSStructure.Functions.Sum:
@@ -39,21 +39,23 @@ namespace WijmoProvider.Feature {
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
-            this._calculatedFields = [];
+            this._calculatedFields = {};
+        }
+
+        public get calculatedFields(): boolean {
+            return this._calculatedFields;
         }
 
         public addFormula(
             binding: string,
             formula: OSFramework.OSStructure.Formula
         ): void {
-            this._calculatedFields.push({
-                [binding]: Evaluate(formula)
-            });
+            this._calculatedFields[binding] = Evaluate(formula);
         }
+
         public removeFormula(binding: string) {
-            this._calculatedFields = this._calculatedFields.filter(
-                (x) => x.binding !== binding
-            );
+            if (this._calculatedFields.hasOwnProperty(binding))
+                delete this._calculatedFields[binding];
         }
 
         public build(): void {
