@@ -40,4 +40,34 @@ namespace GridAPI.Cells {
             rowIndex
         );
     }
+    /**
+     * Responsible for updating a specific cell -
+     * This is needed in a case we wnat to update another column cell, for example when a cell content is denpendent on another.
+     *
+     * @param {string} gridID ID of the Grid.
+     * @param {number} rowIndex Index of the row that contains the cells to be validated.
+     * @param {string} columnID ID of the Column block in which the cell should be updated.
+     * @param {*} value New value to settled on the cell.
+     * @param {boolean} [showDirtyMark=true] Boolean that represents if the action should also show a dirty mark.
+     */
+    export function SetCellData(
+        gridID: string,
+        rowIndex: number,
+        columnID: string,
+        // eslint-disable-next-line
+        value: any,
+        showDirtyMark = true
+    ): void {
+        if (OSFramework.Helper.IsGridReady(gridID) === false) return;
+        const grid = GridManager.GetGridById(gridID);
+        const column = ColumnManager.GetColumnById(columnID).provider;
+        if (column === undefined) return;
+
+        if (showDirtyMark) {
+            grid.features.dirtyMark.saveOriginalValue(rowIndex, column.index);
+        }
+
+        grid.features.cellData.setCellData(rowIndex, columnID, value);
+        grid.features.validationMark.validateRow(rowIndex);
+    }
 }

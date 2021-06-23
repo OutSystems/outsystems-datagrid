@@ -3,8 +3,7 @@ namespace OSFramework.Grid {
     export abstract class AbstractGrid<
         W,
         Z extends Configuration.IConfigurationGrid
-    > implements IGridGeneric<W>
-    {
+    > implements IGridGeneric<W> {
         private _addedRows: Event.Grid.AddNewRowEvent;
         private _columns: Map<string, Column.IColumn>;
         private _columnsGenerator: Column.IColumnGenerator;
@@ -159,7 +158,7 @@ namespace OSFramework.Grid {
                         // @ts-ignore
                         const parentBinding = column.config.parentBinding;
                         const parentBindingMatches = parentBinding.split('.');
-                        
+
                         // reset metadata
                         metadata = this.dataSource.getMetadata();
                         parentBindingMatches.forEach((binding) =>
