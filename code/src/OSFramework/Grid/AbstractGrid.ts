@@ -154,10 +154,8 @@ namespace OSFramework.Grid {
                         validate(binding, column.config.binding)
                     );
                     // validate dropdown dependency columns
-                    // @ts-ignore
-                    if (column.config.parentBinding) {
-                        // @ts-ignore
-                        const parentBinding = column.config.parentBinding;
+                    if (column.config.hasOwnProperty('parentBinding')) {
+                        const parentBinding = column.config['parentBinding'];
                         const parentBindingMatches = parentBinding.split('.');
                         
                         // reset metadata
