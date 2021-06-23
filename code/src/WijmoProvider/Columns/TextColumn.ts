@@ -1,19 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Column {
-    export class TextColumn extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfigText> {
+    export class TextColumn extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfig> {
         constructor(
             grid: OSFramework.Grid.IGrid,
             columnID: string,
-            configs: JSON,
-            extraConfig: JSON
+            configs: JSON
         ) {
             super(
                 grid,
                 columnID,
-                new OSFramework.Configuration.Column.ColumnConfigText(
-                    configs,
-                    extraConfig
-                )
+                new OSFramework.Configuration.Column.ColumnConfig(configs)
             );
             this._columnEvents =
                 new OSFramework.Event.Column.ColumnEventsManager(this);

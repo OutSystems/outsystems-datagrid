@@ -8,11 +8,6 @@ namespace OSFramework.Configuration.Column {
          */
         public mask: string;
 
-        constructor(config: any, extraConfig: any) {
-            super(config);
-            this.mask = extraConfig.mask;
-        }
-
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public getProviderConfig(): any {
             const config = super.getProviderConfig();

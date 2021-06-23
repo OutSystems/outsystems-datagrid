@@ -67,7 +67,7 @@ namespace WijmoProvider.Column {
                         editorConfigs
                     );
                 case OSFramework.Enum.ColumnType.Text:
-                    return new TextColumn(grid, columnID, configs, editorConfigs);
+                    return new TextColumn(grid, columnID, configs);
                 default:
                     throw `There is no factory for this type of column (${type})`;
             }
