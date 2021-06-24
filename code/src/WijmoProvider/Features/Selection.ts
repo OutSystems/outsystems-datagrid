@@ -309,7 +309,9 @@ namespace WijmoProvider.Feature {
                     );
                 });
 
-            return rows;
+            // Return only unique indexes (check if there are duplicated indexes)
+            // Duplicate indexes could be retuned when the mouse and ctrl was used for selection
+            return rows.filter((item, index) => rows.indexOf(item) === index);
         }
 
         public getSelectedRowsCount(): number {

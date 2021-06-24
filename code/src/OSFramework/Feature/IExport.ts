@@ -2,7 +2,7 @@
 namespace OSFramework.Feature {
     export interface IExport {
         exportToClipboard(withHeaders: boolean): void;
-        exportToCsv(): void;
-        exportToExcel(withStyles: boolean): void;
+        exportToCsv(filename?: string): void;
+        exportToExcel(withStyles: boolean, filename?: string): void;
     }
 }
