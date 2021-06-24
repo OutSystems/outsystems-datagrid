@@ -69,5 +69,10 @@ namespace OSFramework.Grid {
          * @param dataItem
          */
         toOSFormat(dataItem: any): any;
+        /**
+         * Transform value to JSON format
+         * @param value
+         */
+        trimSecondsFromDate(value: string): string;
     }
 }

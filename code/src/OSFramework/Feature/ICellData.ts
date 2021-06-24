@@ -12,6 +12,7 @@ namespace OSFramework.Feature {
             rowNumber: number,
             columnID: string,
             // eslint-disable-next-line
-            value: string): void;
+            value: string
+        ): void;
     }
 }
