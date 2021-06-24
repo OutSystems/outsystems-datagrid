@@ -1,6 +1,7 @@
 namespace OSFramework.Feature {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     export class ExposedFeatures {
+        public calculatedField: ICalculatedField;
         public cellStyle: ICellStyle;
         public columnFreeze: IColumnFreeze;
         public columnReorder: IColumnReorder;
