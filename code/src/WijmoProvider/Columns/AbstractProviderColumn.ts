@@ -110,8 +110,10 @@ namespace WijmoProvider.Column {
             }
 
             if (this.columnType === OSFramework.Enum.ColumnType.Calculated) {
+                this.grid.features.filter.deactivate(this.uniqueId);
                 this.grid.features.calculatedField.addFormula(
                     this.config.binding,
+                    this.config.header,
                     this.config['formula']
                 );
             }

@@ -42,16 +42,31 @@ namespace WijmoProvider.Feature {
             this._calculatedFields = {};
         }
 
-        private _validateValues(values) {
-            return values
+        private _validateValues(values, header) {
+            const isValid = values
                 .filter((val) => isNaN(parseInt(val)))
                 .every(
                     (value) =>
                         this._grid
+                            // get columns
                             .getColumns()
+                            // filter number and currency only
+                            .filter(
+                                (col) =>
+                                    col.columnType ===
+                                        OSFramework.Enum.ColumnType.Currency ||
+                                    col.columnType ===
+                                        OSFramework.Enum.ColumnType.Number
+                            )
+                            // get binding
                             .map((col) => col.config.binding)
                             .indexOf(value) !== -1
                 );
+
+            if (!isValid) {
+                throw `The content of ${header} column is not being displayed because the given formula is not valid. Formula values must be bindings to Currency or Number columns or numeric values written as text.
+                Example: "Product.Price" or "10"`;
+            }
         }
 
         public get calculatedFields(): boolean {
@@ -60,11 +75,12 @@ namespace WijmoProvider.Feature {
 
         public addFormula(
             binding: string,
+            header: string,
             formula: OSFramework.OSStructure.Formula
         ): void {
-            const isValid = this._validateValues(formula.values);
-            const values = isValid ? Evaluate(formula) : '';
-            this._calculatedFields[binding] = values;
+            this._validateValues(formula.values, header);
+
+            this._calculatedFields[binding] = Evaluate(formula);
         }
 
         public removeFormula(binding: string) {

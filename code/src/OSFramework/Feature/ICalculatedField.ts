@@ -7,6 +7,7 @@ namespace OSFramework.Feature {
          */
         addFormula(
             binding: string,
+            header: string,
             rules: OSFramework.OSStructure.Formula
         ): void;
 
