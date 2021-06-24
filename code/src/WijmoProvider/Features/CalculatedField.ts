@@ -42,6 +42,18 @@ namespace WijmoProvider.Feature {
             this._calculatedFields = {};
         }
 
+        private _validateValues(values) {
+            return values
+                .filter((val) => isNaN(parseInt(val)))
+                .every(
+                    (value) =>
+                        this._grid
+                            .getColumns()
+                            .map((col) => col.config.binding)
+                            .indexOf(value) !== -1
+                );
+        }
+
         public get calculatedFields(): boolean {
             return this._calculatedFields;
         }
@@ -50,7 +62,9 @@ namespace WijmoProvider.Feature {
             binding: string,
             formula: OSFramework.OSStructure.Formula
         ): void {
-            this._calculatedFields[binding] = Evaluate(formula);
+            const isValid = this._validateValues(formula.values);
+            const values = isValid ? Evaluate(formula) : '';
+            this._calculatedFields[binding] = values;
         }
 
         public removeFormula(binding: string) {
