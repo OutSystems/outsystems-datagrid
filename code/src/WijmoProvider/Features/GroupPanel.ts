@@ -43,7 +43,8 @@ namespace WijmoProvider.Feature {
         implements
             OSFramework.Feature.IGroupPanel,
             OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable {
+            OSFramework.Interface.IDisposable
+    {
         private _currGroupDescription: Array<wijmo.collections.PropertyGroupDescription>;
         private _grid: Grid.IGridWijmo;
         private _groupPanel: wijmo.grid.grouppanel.GroupPanel;
@@ -54,7 +55,21 @@ namespace WijmoProvider.Feature {
             this._panelId = panelId;
         }
 
+        private _drop(e: DragEvent) {
+            //@ts-ignore
+            if (this._dragCol && this._dragCol.binding.startsWith('$')) return;
+            //@ts-ignore
+            this._dragMarker
+                ? //@ts-ignore
+                  this._moveGroup(this._dragMarker, e)
+                : //@ts-ignore
+                  this._dragCol && this._addGroup(this._dragCol, e);
+        }
+
         public build(): void {
+            // override wijmo's group panel drop in order to prevent calculated columns being grouped
+            wijmo.grid.grouppanel.GroupPanel.prototype._drop = this._drop;
+
             this._groupPanel = new wijmo.grid.grouppanel.GroupPanel(
                 OSFramework.Helper.GetElementByUniqueId(this._panelId)
             );

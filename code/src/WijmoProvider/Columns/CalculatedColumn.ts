@@ -20,7 +20,10 @@ namespace WijmoProvider.Column {
 
             // set custom binding
             this.config.binding =
-                this.config.header.replace(/[^a-zA-Z]+/g, '') + "_" + Date.now();
+                '$' +
+                this.config.header.replace(/[^a-zA-Z]+/g, '') +
+                '_' +
+                Date.now();
         }
 
         /** Returns all the events associated to the column */
