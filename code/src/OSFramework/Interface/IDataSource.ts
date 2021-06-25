@@ -70,7 +70,7 @@ namespace OSFramework.Grid {
          */
         toOSFormat(dataItem: any): any;
         /**
-         * Transform value to JSON format
+         * Removes the second to dates in string format because the Datetime picker format is HH:mm
          * @param value
          */
         trimSecondsFromDate(value: string): string;

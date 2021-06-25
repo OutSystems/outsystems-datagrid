@@ -17,7 +17,7 @@ namespace WijmoProvider.Feature {
                 comparedValue.indexOf('Z') > -1
             );
             comparedValue = Date.parse(
-                WijmoProvider.Helper.DataUtils.TrimSeconds(comparedValue)
+                WijmoProvider.Helper.DataUtils.ResetSeconds(comparedValue)
             );
         }
 

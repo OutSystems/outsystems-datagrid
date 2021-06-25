@@ -19,11 +19,9 @@ namespace WijmoProvider.Feature {
 
         public setCellData(
             rowNumber: number,
-            columnID: string,
+            column: OSFramework.Column.IColumn,
             value: string
         ): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columnID);
-
             if (column.columnType === OSFramework.Enum.ColumnType.DateTime) {
                 value = this._grid.dataSource.trimSecondsFromDate(value);
             }

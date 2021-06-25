@@ -10,7 +10,7 @@ namespace OSFramework.Feature {
          */
         setCellData(
             rowNumber: number,
-            columnID: string,
+            columnID: OSFramework.Column.IColumn,
             // eslint-disable-next-line
             value: string
         ): void;

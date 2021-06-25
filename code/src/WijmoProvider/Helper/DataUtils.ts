@@ -15,7 +15,12 @@ namespace WijmoProvider.Helper.DataUtils {
         return ticks;
     }
 
-    export function TrimSeconds(value: string): string {
+    /**
+     * Sets the date (in ISO format) seconds as 00
+     * @param value date in ISO format
+     * @returns date in ISO format will seconds as 00 e.g 2021-06-25T12:23:34Z => 2021-06-25T12:23:00Z
+     */
+    export function ResetSeconds(value: string): string {
         return value.replace(/:(\d{2})Z/, ':00Z');
     }
 }

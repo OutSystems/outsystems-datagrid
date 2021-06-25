@@ -21,6 +21,10 @@ namespace WijmoProvider.Column {
             return this._provider;
         }
 
+        public get providerIndex(): number {
+            return this.provider.index;
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         public set provider(provider: wijmo.grid.Column) {
             this._provider = provider;

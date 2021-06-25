@@ -60,14 +60,17 @@ namespace GridAPI.Cells {
     ): void {
         if (OSFramework.Helper.IsGridReady(gridID) === false) return;
         const grid = GridManager.GetGridById(gridID);
-        const column = ColumnManager.GetColumnById(columnID).provider;
+        const column = ColumnManager.GetColumnById(columnID);
         if (column === undefined) return;
 
         if (showDirtyMark) {
-            grid.features.dirtyMark.saveOriginalValue(rowIndex, column.index);
+            grid.features.dirtyMark.saveOriginalValue(
+                rowIndex,
+                column.providerIndex
+            );
         }
 
-        grid.features.cellData.setCellData(rowIndex, columnID, value);
+        grid.features.cellData.setCellData(rowIndex, column, value);
         grid.features.validationMark.validateRow(rowIndex);
     }
 }

@@ -24,6 +24,8 @@ namespace OSFramework.Column {
         /** Stores the reference to the Provider's column instance */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         provider: any;
+        /** Returns the column index in the provider */
+        providerIndex: number;
         /** Gets the provider's column type */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         providerType: any;
