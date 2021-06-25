@@ -27,6 +27,7 @@ namespace OSFramework.Configuration.Column {
         public header: string;
         public isMandatory: boolean;
         public multiLine: boolean;
+        public required: boolean;
         public uniqueId: string;
         public validateBinding: boolean;
         public visible: boolean;
@@ -48,6 +49,7 @@ namespace OSFramework.Configuration.Column {
                 header: this.header,
                 format: this.format,
                 isReadOnly: this.allowEdit === false,
+                isRequired: this.required,
                 visible: this.visible,
                 allowDragging: this.allowReorder,
                 allowResizing: this.allowResize,

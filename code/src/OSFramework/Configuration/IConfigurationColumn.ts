@@ -34,6 +34,8 @@ namespace OSFramework.Configuration {
         header: string;
         /** Wether or not column is mandatory*/
         isMandatory: boolean;
+        /** Defines when the column can or not be empty */
+        required: boolean;
         /**
          * Represents the identifier created on OS and used as reference to find objects on screen
          */
