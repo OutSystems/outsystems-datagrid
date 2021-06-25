@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Column {
     /**
      * Representantion of a Grid's Column
@@ -12,7 +13,7 @@ namespace OSFramework.Column {
         /** The config used to build the column */
         config: Configuration.IConfigurationColumn;
         /** Returns the grid instance where the column is placed */
-        grid: OSFramework.Grid.IGrid;
+        grid: Grid.IGrid;
         /** Verifies if this column has associated events */
         hasEvents: boolean;
         /** Verifies if this column is contained inside another */
