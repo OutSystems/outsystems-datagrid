@@ -6,6 +6,7 @@ namespace OSFramework.Feature {
         clear(): void;
         errorMessage(rowNumber: number, binding: string): string;
         isInvalid(rowNumber: number, binding: string): boolean;
+        isInvalidRow(row: any): boolean;
         setStatus(
             rowNumber: number,
             columnID: string,

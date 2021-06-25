@@ -5,7 +5,8 @@ namespace WijmoProvider.Grid {
             wijmo.grid.FlexGrid,
             OSFramework.Configuration.Grid.FlexGridConfig
         >
-        implements IGridWijmo {
+        implements IGridWijmo
+    {
         private _fBuilder: WijmoProvider.Feature.FeatureBuilder;
         private _lineIsSingleEntity = false;
         private _rowMetadata: RowMetadata;
@@ -64,12 +65,16 @@ namespace WijmoProvider.Grid {
                 OSFramework.Helper.GetElementByUniqueId(this.uniqueId),
                 this._getProviderConfig()
             );
-            this._provider.itemsSource = this.dataSource.getProviderDataSource();
+            this._provider.itemsSource =
+                this.dataSource.getProviderDataSource();
             this._rowMetadata = new RowMetadata(this._provider);
 
             this.buildFeatures();
 
             this._buildColumns();
+
+            this._provider.itemsSource.calculatedFields =
+                this.features.calculatedField.calculatedFields;
 
             this.finishBuild();
         }
@@ -131,11 +136,25 @@ namespace WijmoProvider.Grid {
             }
         }
 
-        public clearAllChanges(): void {
+        public clearAllChanges(clearValidationMark: boolean): void {
             if (this.isReady) {
                 this.dataSource.clear();
-                this.features.dirtyMark.clear();
-                this.features.validationMark.clear();
+                if (clearValidationMark) {
+                    this.features.validationMark.clear();
+                    this.features.dirtyMark.clear();
+                } else {
+                    const rowList = this._provider
+                        .itemsSource as wijmo.collections.CollectionView;
+                    rowList.sourceCollection.forEach((element) => {
+                        if (
+                            this.features.validationMark.isInvalidRow(
+                                element
+                            ) === false
+                        ) {
+                            this.features.dirtyMark.clearPropertyInRow(element);
+                        }
+                    });
+                }
             }
         }
 

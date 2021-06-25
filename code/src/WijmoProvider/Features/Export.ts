@@ -1,7 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
     export class Export
-        implements OSFramework.Feature.IExport, OSFramework.Interface.IBuilder {
+        implements OSFramework.Feature.IExport, OSFramework.Interface.IBuilder
+    {
         private _curPage: number;
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _pageSize: number;
@@ -20,6 +21,14 @@ namespace WijmoProvider.Feature {
                 rowsNumber - 1,
                 colsNumber - 1
             );
+        }
+
+        private _handleFilename(fileName: string, isCSV = false): string {
+            if (fileName === undefined || fileName === '') {
+                fileName = 'DataGridReactive';
+            }
+
+            return `${fileName}.${isCSV ? 'csv' : 'xlsx'}`;
         }
 
         //Then re-apply the pagination
@@ -66,10 +75,10 @@ namespace WijmoProvider.Feature {
             wijmo.Clipboard.copy(result);
         }
 
-        public exportToCsv(): void {
+        public exportToCsv(filename?: string): void {
             this._resetPagination();
 
-            const params = { fileName: 'DataGridReactive.csv' };
+            const params = { fileName: this._handleFilename(filename, true) };
             const result = this._grid.provider.getClipString(
                 this._getFullCellRange(),
                 true,
@@ -80,7 +89,7 @@ namespace WijmoProvider.Feature {
             wijmo.saveFile(result, params.fileName);
         }
 
-        public exportToExcel(withStyles: boolean): void {
+        public exportToExcel(withStyles: boolean, filename: string): void {
             this._resetPagination();
             // include timeout in order to apply conditional format
             setTimeout(() => {
@@ -95,7 +104,7 @@ namespace WijmoProvider.Feature {
                     params
                 );
                 book.sheets[0].name = 'DataGrid Data';
-                book.save('DataGridReactive.xlsx');
+                book.save(this._handleFilename(filename, false));
                 this._reApplyPagination();
             }, 10);
         }
