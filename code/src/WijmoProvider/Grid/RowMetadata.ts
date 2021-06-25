@@ -35,7 +35,7 @@ namespace WijmoProvider.Grid {
         }
 
         private _hasMetadataByRow(row: any): boolean {
-            return row && row.hasOwnProperty(this._extraData);
+            return row && row[this._extraData];
         }
 
         private _hasMetadataByRowNumber(row: number): boolean {
