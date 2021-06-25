@@ -131,11 +131,25 @@ namespace WijmoProvider.Grid {
             }
         }
 
-        public clearAllChanges(): void {
+        public clearAllChanges(clearValidationMark: boolean): void {
             if (this.isReady) {
                 this.dataSource.clear();
-                this.features.dirtyMark.clear();
-                this.features.validationMark.clear();
+                if (clearValidationMark) {
+                    this.features.validationMark.clear();
+                    this.features.dirtyMark.clear();
+                } else {
+                    const rowList = this._provider
+                        .itemsSource as wijmo.collections.CollectionView;
+                    rowList.sourceCollection.forEach((element) => {
+                        if (
+                            this.features.validationMark.isInvalidRow(
+                                element
+                            ) === false
+                        ) {
+                            this.features.dirtyMark.clearPropertyInRow(element);
+                        }
+                    });
+                }
             }
         }
 
