@@ -29,13 +29,6 @@ namespace GridAPI.ColumnManager {
         const jsonEditorConfigs = JSON.parse(editorConfig);
 
         if (grid !== undefined) {
-            if (jsonEditorConfigs.conditionalFormat) {
-                ConditionalFormat.AddConditionalFormat(
-                    grid.uniqueId,
-                    jsonConfigs.binding,
-                    jsonEditorConfigs.conditionalFormat
-                );
-            }
             column = WijmoProvider.Column.ColumnFactory.MakeColumn(
                 grid,
                 type,
@@ -48,6 +41,16 @@ namespace GridAPI.ColumnManager {
             columnMap.set(columnID, grid.uniqueId);
             grid.addColumn(column);
 
+            if (
+                jsonEditorConfigs.conditionalFormat &&
+                jsonEditorConfigs.conditionalFormat.length > 0
+            ) {
+                ConditionalFormat.AddConditionalFormat(
+                    grid.uniqueId,
+                    column.config.binding,
+                    jsonEditorConfigs.conditionalFormat
+                );
+            }
             output = true;
         }
 

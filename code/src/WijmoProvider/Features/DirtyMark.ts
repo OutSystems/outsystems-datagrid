@@ -7,6 +7,7 @@ namespace WijmoProvider.Feature {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private readonly _internalLabel = '__dirtyMarkFeature';
         private _metadata: OSFramework.Interface.IRowMetadata;
+        private readonly _validationLabel = '__validationMarkFeature';
 
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
@@ -154,22 +155,22 @@ namespace WijmoProvider.Feature {
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
-        // public clearByRow(row: number): void {
-        //     this._metadata.clearPropertyByRow(row, this._internalLabel);
-        //     this._grid.grid.invalidate(); //Mark to be refreshed
-        // }
+        public clearPropertyInRow(row: any): void {
+            this._metadata.clearPropertyByRow(row, this._internalLabel);
+            this._grid.provider.invalidate(); //Mark to be refreshed
+        }
 
         public getMetadata(
             row: number
         ): OSFramework.Feature.Auxiliar.DirtyMarksInfo {
             if (!this.hasMetadata(row))
-                this._metadata.setMetadata(
+                this._metadata.setMetadataByRowNumber(
                     row,
                     this._internalLabel,
                     new OSFramework.Feature.Auxiliar.DirtyMarksInfo()
                 );
 
-            return this._metadata.getMetadata(
+            return this._metadata.getMetadataByRowNumber(
                 row,
                 this._internalLabel
             ) as OSFramework.Feature.Auxiliar.DirtyMarksInfo;
@@ -185,15 +186,18 @@ namespace WijmoProvider.Feature {
         public getOldValue(rowNumber: number, binding: string): any {
             if (this.hasMetadata(rowNumber)) {
                 return this._metadata
-                    .getMetadata(rowNumber, this._internalLabel)
+                    .getMetadataByRowNumber(rowNumber, this._internalLabel)
                     .originalValues.get(binding);
             }
             // If there is no metadata we want to return undefined
             return undefined;
         }
 
-        public hasMetadata(row: number): boolean {
-            return this._metadata.hasOwnProperty(row, this._internalLabel);
+        public hasMetadata(rowNumber: number): boolean {
+            return this._metadata.hasOwnPropertyByRowNumber(
+                rowNumber,
+                this._internalLabel
+            );
         }
 
         public saveOriginalValue(

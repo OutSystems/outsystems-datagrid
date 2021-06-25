@@ -11,9 +11,20 @@ namespace WijmoProvider.Grid {
                 .itemsSource as wijmo.collections.CollectionView;
         }
 
+        private _getRowMetadataInRow(row: any): Map<string, any> {
+            if (!this._hasMetadataByRow(row))
+                row[this._extraData] = new Map<
+                    string,
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    any
+                >();
+
+            return row[this._extraData];
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        private _getRowMetadata(row: number): Map<string, any> {
-            if (!this._hasMetadata(row))
+        private _getRowMetadataByRowNumber(row: number): Map<string, any> {
+            if (!this._hasMetadataByRowNumber(row))
                 this._grid.rows[row].dataItem[this._extraData] = new Map<
                     string,
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,10 +34,14 @@ namespace WijmoProvider.Grid {
             return this._grid.rows[row].dataItem[this._extraData];
         }
 
-        private _hasMetadata(row: number): boolean {
+        private _hasMetadataByRow(row: any): boolean {
+            return row && row[this._extraData];
+        }
+
+        private _hasMetadataByRowNumber(row: number): boolean {
             return (
                 this._grid.rows[row].dataItem &&
-                this._grid.rows[row].dataItem.hasOwnProperty(this._extraData)
+                this._grid.rows[row].dataItem[this._extraData]
             );
         }
 
@@ -56,30 +71,72 @@ namespace WijmoProvider.Grid {
             });
         }
 
-        public clearPropertyByRow(row: number, propertyName: string): void {
-            this.hasOwnProperty(row, propertyName) &&
-                this._getRowMetadata(row).delete(propertyName);
+        public clearPropertyByRow(dataItem: any, propertyName: string): void {
+            // eslint-disable-next-line prettier/prettier
+            if (
+                dataItem &&
+                dataItem[this._extraData] &&
+                dataItem[this._extraData].has(propertyName)
+            ) {
+                dataItem[this._extraData].delete(propertyName);
+            }
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getMetadata(row: number, propertyName: string): any {
-            return this._getRowMetadata(row).get(propertyName);
+        public clearPropertyByRowNumber(
+            rowNumber: number,
+            propertyName: string
+        ): void {
+            this.hasOwnPropertyByRowNumber(rowNumber, propertyName) &&
+                this._getRowMetadataByRowNumber(rowNumber).delete(propertyName);
         }
 
-        public hasOwnProperty(row: number, property: string): boolean {
+        public getMetadataInRow(row: any, propertyName: string): any {
+            return this._getRowMetadataInRow(row).get(propertyName);
+        }
+
+        public getMetadataByRowNumber(
+            rowNumber: number,
+            propertyName: string
+        ): any {
+            return this._getRowMetadataByRowNumber(rowNumber).get(propertyName);
+        }
+
+        public hasOwnPropertyByRow(row: any, property: string): boolean {
             return (
-                this._hasMetadata(row) &&
-                this._getRowMetadata(row).has(property)
+                this._hasMetadataByRow(row) &&
+                this._getRowMetadataInRow(row).has(property)
             );
         }
 
-        public setMetadata(
-            row: number,
+        public hasOwnPropertyByRowNumber(
+            rowNumber: number,
+            property: string
+        ): boolean {
+            return (
+                this._hasMetadataByRowNumber(rowNumber) &&
+                this._getRowMetadataByRowNumber(rowNumber).has(property)
+            );
+        }
+
+        public setMetadataByRow(
+            row: any,
             propertyName: string,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             propertyValue: any
         ): void {
-            this._getRowMetadata(row).set(propertyName, propertyValue);
+            this._getRowMetadataInRow(row).set(propertyName, propertyValue);
+        }
+
+        public setMetadataByRowNumber(
+            rowNumber: number,
+            propertyName: string,
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+            propertyValue: any
+        ): void {
+            this._getRowMetadataByRowNumber(rowNumber).set(
+                propertyName,
+                propertyValue
+            );
         }
     }
 }

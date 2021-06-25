@@ -153,10 +153,11 @@ namespace OSFramework.Grid {
                         validate(binding, column.config.binding)
                     );
                     // validate dropdown dependency columns
-                    // @ts-ignore
-                    if (column.config.parentBinding) {
-                        // @ts-ignore
-                        const parentBinding = column.config.parentBinding;
+                    if (
+                        column.config.hasOwnProperty('parentBinding') &&
+                        column.config['parentBinding'] !== ''
+                    ) {
+                        const parentBinding = column.config['parentBinding'];
                         const parentBindingMatches = parentBinding.split('.');
 
                         // reset metadata
@@ -289,7 +290,9 @@ namespace OSFramework.Grid {
             propertyValue: any
         ): void;
 
-        public abstract clearAllChanges(): void;
+        public abstract clearAllChanges(
+            forceClearValidationMarks: boolean
+        ): void;
 
         public abstract getChangesMade(): OSStructure.ChangesDone;
 

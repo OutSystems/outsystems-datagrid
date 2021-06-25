@@ -37,9 +37,10 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         protected _getVisibility(): boolean {
             const providerConfig = this.getProviderConfig();
-            const inGroupPanel = this.grid.features.groupPanel.columnInGroupPanel(
-                this.config.binding
-            );
+            const inGroupPanel =
+                this.grid.features.groupPanel.columnInGroupPanel(
+                    this.config.binding
+                );
             const inColumnPicker = !this.provider.isVisible && !inGroupPanel;
 
             // We need to make sure the columns is visible only if the provider and our providerConfig
@@ -110,6 +111,15 @@ namespace WijmoProvider.Column {
                 this.provider = new wijmo.grid.Column(this.getProviderConfig());
 
                 providerGrid.columns.insert(indexPosition, this.provider);
+            }
+
+            if (this.columnType === OSFramework.Enum.ColumnType.Calculated) {
+                this.grid.features.filter.deactivate(this.uniqueId);
+                this.grid.features.calculatedField.addFormula(
+                    this.config.binding,
+                    this.config.header,
+                    this.config['formula']
+                );
             }
         }
 
