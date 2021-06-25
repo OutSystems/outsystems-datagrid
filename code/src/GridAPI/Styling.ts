@@ -9,8 +9,9 @@ namespace GridAPI.Styling {
         rowIndex: number,
         className: string
     ): void {
+        const binding = ColumnManager.GetColumnById(columnID).config.binding;
         GridManager.GetGridById(gridID).features.cellStyle.addClass(
-            columnID,
+            binding,
             rowIndex,
             className
         );
@@ -19,26 +20,46 @@ namespace GridAPI.Styling {
     export function SetColumnCssClass(
         gridID: string,
         columnID: string,
-        rowIndex: number,
-        applyToHeader : boolean
+        cssClass: string,
+        applyToHeader: boolean
     ): void {
-        //
+        if (applyToHeader) {
+            GridManager.GetGridById(gridID).features.styling.addCssClassAll(
+                columnID,
+                cssClass
+            );
+        } else {
+            GridManager.GetGridById(gridID).features.styling.addCssClass(
+                columnID,
+                cssClass
+            );
+        }
     }
 
-    export function RemoveCellCssClass(
+    export function RemoveAllCssClassesFromCell(
         gridID: string,
         columnID: string,
-        rowIndex: number,
-        className: string
+        rowIndex: number
     ): void {
-        //
+        const binding = ColumnManager.GetColumnById(columnID).config.binding;
+        GridManager.GetGridById(gridID).features.cellStyle.removeClass(
+            rowIndex,
+            binding
+        );
     }
 
     export function RemoveColumnCssClass(
         gridID: string,
         columnID: string,
-        rowIndex: number
+        cssClass: string
     ): void {
-        //
+        GridManager.GetGridById(gridID).features.styling.removeCssClassAll(
+            columnID,
+            cssClass
+        );
+        GridManager.GetGridById(gridID).features.styling.removeCssClass(
+            columnID,
+            cssClass
+        );
     }
 }
