@@ -18,7 +18,8 @@ namespace WijmoProvider.Column {
             this._columnEvents =
                 new OSFramework.Event.Column.ColumnEventsManager(this);
 
-            // set custom binding
+            // set custom binding with this format: $ColumnHeader_timestamp
+            // eg.: $Average_423432413123
             this.config.binding =
                 '$' +
                 this.config.header.replace(/[^a-zA-Z]+/g, '') +
