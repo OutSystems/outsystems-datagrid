@@ -96,7 +96,11 @@ namespace WijmoProvider.Feature {
                         grid.features.rows.removeClass(e.row, p.rowClass);
                     }
                     if (p.cellClass) {
-                        grid.features.cellStyle.removeClass(e.row, binding);
+                        grid.features.cellStyle.removeClass(
+                            e.row,
+                            binding,
+                            p.cellClass
+                        );
                     }
                 }
 
@@ -108,7 +112,8 @@ namespace WijmoProvider.Feature {
     export class ConditionalFormat
         implements
             OSFramework.Feature.IConditionalFormat,
-            OSFramework.Interface.IBuilder {
+            OSFramework.Interface.IBuilder
+    {
         private _grid: Grid.IGridWijmo;
         private _mappedRules: Map<string, ConditionExecuter>;
 
