@@ -5,8 +5,7 @@ namespace WijmoProvider.Grid {
             wijmo.grid.FlexGrid,
             OSFramework.Configuration.Grid.FlexGridConfig
         >
-        implements IGridWijmo
-    {
+        implements IGridWijmo {
         private _fBuilder: WijmoProvider.Feature.FeatureBuilder;
         private _lineIsSingleEntity = false;
         private _rowMetadata: RowMetadata;
@@ -65,16 +64,14 @@ namespace WijmoProvider.Grid {
                 OSFramework.Helper.GetElementByUniqueId(this.uniqueId),
                 this._getProviderConfig()
             );
-            this._provider.itemsSource =
-                this.dataSource.getProviderDataSource();
+            this._provider.itemsSource = this.dataSource.getProviderDataSource();
             this._rowMetadata = new RowMetadata(this._provider);
 
             this.buildFeatures();
 
             this._buildColumns();
 
-            this._provider.itemsSource.calculatedFields =
-                this.features.calculatedField.calculatedFields;
+            this._provider.itemsSource.calculatedFields = this.features.calculatedField.calculatedFields;
 
             this.finishBuild();
         }

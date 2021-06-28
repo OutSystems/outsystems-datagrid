@@ -11,8 +11,9 @@ namespace WijmoProvider.Column {
                 columnID,
                 new OSFramework.Configuration.Column.ColumnConfig(configs)
             );
-            this._columnEvents =
-                new OSFramework.Event.Column.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
+                this
+            );
         }
 
         /** Returns all the events associated to the column */
