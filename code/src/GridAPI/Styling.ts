@@ -18,6 +18,7 @@ namespace GridAPI.Styling {
         rowIndex: number,
         className: string
     ): void {
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const binding = ColumnManager.GetColumnById(columnID).config.binding;
         GridManager.GetGridById(gridID).features.cellStyle.addClass(
             binding,
@@ -41,6 +42,7 @@ namespace GridAPI.Styling {
         cssClass: string,
         applyToHeader: boolean
     ): void {
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         GridManager.GetGridById(gridID).features.styling.addColumnCssClass(
             columnID,
             cssClass,
@@ -60,6 +62,7 @@ namespace GridAPI.Styling {
         columnID: string,
         rowIndex: number
     ): void {
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const column = ColumnManager.GetColumnById(columnID);
         if (column !== undefined) {
             const binding = column.config.binding;
@@ -82,6 +85,7 @@ namespace GridAPI.Styling {
         columnID: string,
         cssClass: string
     ): void {
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
         GridManager.GetGridById(gridID).features.styling.removeColumnCssClass(
             columnID,
             cssClass
