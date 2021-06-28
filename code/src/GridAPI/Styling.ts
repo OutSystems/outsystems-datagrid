@@ -41,17 +41,11 @@ namespace GridAPI.Styling {
         cssClass: string,
         applyToHeader: boolean
     ): void {
-        if (applyToHeader) {
-            GridManager.GetGridById(gridID).features.styling.addCssClassAll(
-                columnID,
-                cssClass
-            );
-        } else {
-            GridManager.GetGridById(gridID).features.styling.addCssClass(
-                columnID,
-                cssClass
-            );
-        }
+        GridManager.GetGridById(gridID).features.styling.addColumnCssClass(
+            columnID,
+            cssClass,
+            applyToHeader
+        );
     }
     /**
      * Function that will remove all the CSS classes that were added to a Cell.
@@ -66,11 +60,14 @@ namespace GridAPI.Styling {
         columnID: string,
         rowIndex: number
     ): void {
-        const binding = ColumnManager.GetColumnById(columnID).config.binding;
-        GridManager.GetGridById(gridID).features.cellStyle.removeClass(
-            rowIndex,
-            binding
-        );
+        const column = ColumnManager.GetColumnById(columnID);
+        if (column !== undefined) {
+            const binding = column.config.binding;
+            GridManager.GetGridById(gridID).features.cellStyle.removeClass(
+                rowIndex,
+                binding
+            );
+        }
     }
     /**
      * Function that will remove a added CSS class from a column.
@@ -85,11 +82,7 @@ namespace GridAPI.Styling {
         columnID: string,
         cssClass: string
     ): void {
-        GridManager.GetGridById(gridID).features.styling.removeCssClassAll(
-            columnID,
-            cssClass
-        );
-        GridManager.GetGridById(gridID).features.styling.removeCssClass(
+        GridManager.GetGridById(gridID).features.styling.removeColumnCssClass(
             columnID,
             cssClass
         );

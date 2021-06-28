@@ -14,18 +14,24 @@ namespace WijmoProvider.Feature {
 
         private _getCssClass(columnID: string): Array<string> {
             let classList = [];
-            const classListString =
-                this._grid.getColumn(columnID).provider.cssClass || ' ';
-            classList = classListString.split(' ');
+            const column = this._grid.getColumn(columnID);
+
+            if (column) {
+                const classListString = column.provider.cssClass || ' ';
+                classList = classListString.split(' ');
+            }
 
             return classList;
         }
 
         private _getCssClassAll(columnID: string): Array<string> {
             let classList = [];
-            const classListString =
-                this._grid.getColumn(columnID).provider.cssClassAll || ' ';
-            classList = classListString.split(' ');
+            const column = this._grid.getColumn(columnID);
+
+            if (column) {
+                const classListString = column.provider.cssClassAll || ' ';
+                classList = classListString.split(' ');
+            }
 
             return classList;
         }
@@ -34,25 +40,28 @@ namespace WijmoProvider.Feature {
             return this._rowHeight;
         }
 
-        public addCssClass(columnID: string, className: string): void {
-            const classList = this._getCssClass(columnID);
-            const index = classList.indexOf(className);
-            if (index === -1) {
-                classList.push(className);
-                this._grid.getColumn(
-                    columnID
-                ).provider.cssClass = classList.join(' ');
-            }
-        }
-
-        public addCssClassAll(columnID: string, className: string): void {
-            const classList = this._getCssClassAll(columnID);
-            const index = classList.indexOf(className);
-            if (index === -1) {
-                classList.push(className);
-                this._grid.getColumn(
-                    columnID
-                ).provider.cssClassAll = classList.join(' ');
+        public addColumnCssClass(
+            columnID: string,
+            className: string,
+            includeHeader: boolean
+        ): void {
+            const column = this._grid.getColumn(columnID);
+            if (column) {
+                if (includeHeader) {
+                    const classList = this._getCssClassAll(columnID);
+                    const index = classList.indexOf(className);
+                    if (index === -1) {
+                        classList.push(className);
+                        column.provider.cssClassAll = classList.join(' ');
+                    }
+                } else {
+                    const classList = this._getCssClass(columnID);
+                    const index = classList.indexOf(className);
+                    if (index === -1) {
+                        classList.push(className);
+                        column.provider.cssClass = classList.join(' ');
+                    }
+                }
             }
         }
 
@@ -73,29 +82,26 @@ namespace WijmoProvider.Feature {
             this._grid.provider.cells.rows.defaultSize = rowHeight;
         }
 
-        public removeCssClass(columnID: string, className: string): void {
-            const classList = this._getCssClass(columnID);
+        public removeColumnCssClass(columnID: string, className: string): void {
+            const column = this._grid.getColumn(columnID);
+            if (column) {
+                //remove from class list
+                let classList = this._getCssClass(columnID);
+                let index = classList.indexOf(className);
+                if (index > -1) {
+                    classList.splice(index, 1);
+                }
+                column.provider.cssClass = classList.join(' ');
 
-            const index = classList.indexOf(className);
-            if (index > -1) {
-                classList.splice(index, 1);
+                //remove from classAll list
+                classList = this._getCssClassAll(columnID);
+                index = classList.indexOf(className);
+                if (index > -1) {
+                    classList.splice(index, 1);
+                }
+
+                column.provider.cssClassAll = classList.join(' ');
             }
-            this._grid.getColumn(columnID).provider.cssClass = classList.join(
-                ' '
-            );
-        }
-
-        public removeCssClassAll(columnID: string, className: string): void {
-            const classList = this._getCssClassAll(columnID);
-
-            const index = classList.indexOf(className);
-            if (index > -1) {
-                classList.splice(index, 1);
-            }
-
-            this._grid.getColumn(
-                columnID
-            ).provider.cssClassAll = classList.join(' ');
         }
     }
 }
