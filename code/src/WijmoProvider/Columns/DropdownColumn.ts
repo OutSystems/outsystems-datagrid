@@ -16,9 +16,8 @@ namespace WijmoProvider.Column {
                 )
             );
             this.config.dataMap = new wijmo.grid.DataMap([], 'key', 'text');
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
-                this
-            );
+            this._columnEvents =
+                new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
         private _parentCellValueChangeHandler(
@@ -83,21 +82,24 @@ namespace WijmoProvider.Column {
                 providerConfig.visible = this._getVisibility();
 
                 wijmo.copy(this.provider, providerConfig);
-                if (this.config.parentBinding) {
-                    this.changeDisplayValues();
-                }
             } else {
                 console.log('applyConfigs - Column needs to be build');
             }
         }
 
         public build(): void {
-            (this.config
-                .dataMap as wijmo.grid.DataMap).collectionView.sourceCollection = this.config.dropdownOptions;
+            (
+                this.config.dataMap as wijmo.grid.DataMap
+            ).collectionView.sourceCollection = this.config.dropdownOptions;
             this.config.dataMapEditor = wijmo.grid.DataMapEditor.DropDownList;
 
             super.build();
+
+            if (this.config.parentBinding) {
+                this.changeDisplayValues();
+            }
         }
+
         public changeDisplayValues(): void {
             const dataMap = this.config.dataMap;
             const values = dataMap.collectionView.items;
