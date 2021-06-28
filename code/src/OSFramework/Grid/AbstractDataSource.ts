@@ -212,6 +212,16 @@ namespace OSFramework.Grid {
             return this._getChangesString([dataItem]);
         }
 
+        public trimSecondsFromDate(value: string): string {
+            const stringGroups = value.split(':');
+
+            if (stringGroups.length > 2) {
+                value = stringGroups.slice(0, 2).join(':');
+            }
+
+            return value;
+        }
+
         public abstract build(): void;
         public abstract clear(): void;
         public abstract getChanges<T extends OSStructure.ChangesDone>(

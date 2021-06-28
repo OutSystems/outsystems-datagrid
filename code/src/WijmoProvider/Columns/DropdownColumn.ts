@@ -83,7 +83,9 @@ namespace WijmoProvider.Column {
                 providerConfig.visible = this._getVisibility();
 
                 wijmo.copy(this.provider, providerConfig);
-                this.changeDisplayValues();
+                if (this.config.parentBinding) {
+                    this.changeDisplayValues();
+                }
             } else {
                 console.log('applyConfigs - Column needs to be build');
             }
@@ -97,48 +99,45 @@ namespace WijmoProvider.Column {
             super.build();
         }
         public changeDisplayValues(): void {
-            if (this.config.parentBinding) {
-                const dataMap = this.config.dataMap;
-                const values = dataMap.collectionView.items;
+            const dataMap = this.config.dataMap;
+            const values = dataMap.collectionView.items;
 
-                const column = this.grid.getColumn(this.config.parentBinding);
+            const column = this.grid.getColumn(this.config.parentBinding);
 
-                if (column) {
-                    // set child column to non mandatory, so we can set it to blank when parent changes value
-                    this.provider.isRequired = false;
+            if (column) {
+                // set child column to non mandatory, so we can set it to blank when parent changes value
+                this.provider.isRequired = false;
 
-                    // on parent cell change subscription, to set child cell's to blank
-                    column.columnEvents.addHandler(
-                        OSFramework.Event.Column.ColumnEventType
-                            .OnCellValueChange,
-                        this._parentCellValueChangeHandler.bind(this)
-                    );
+                // on parent cell change subscription, to set child cell's to blank
+                column.columnEvents.addHandler(
+                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange,
+                    this._parentCellValueChangeHandler.bind(this)
+                );
 
-                    // override getDisplayValues method to get values that
-                    // correspond to the parent
-                    dataMap.getDisplayValues = (dataItem) => {
-                        const colBinding = this.config.parentBinding.split('.');
-                        let value = dataItem;
-                        for (let i = 0; i < colBinding.length; i++) {
-                            // in case we get undefined we want to break
-                            if (
-                                value === undefined &&
-                                i === colBinding.length - 1
-                            ) {
-                                break;
-                            }
-                            value = value[colBinding[i]];
+                // override getDisplayValues method to get values that
+                // correspond to the parent
+                dataMap.getDisplayValues = (dataItem) => {
+                    const colBinding = this.config.parentBinding.split('.');
+                    let value = dataItem;
+                    for (let i = 0; i < colBinding.length; i++) {
+                        // in case we get undefined we want to break
+                        if (
+                            value === undefined &&
+                            i === colBinding.length - 1
+                        ) {
+                            break;
                         }
+                        value = value[colBinding[i]];
+                    }
 
-                        // if there is no value, we don't return anything
-                        if (value) {
-                            const validValues = values.filter(
-                                (x) => x.parentKey === value.toString()
-                            );
-                            return validValues.map((value) => value.text);
-                        }
-                    };
-                }
+                    // if there is no value, we don't return anything
+                    if (value) {
+                        const validValues = values.filter(
+                            (x) => x.parentKey === value.toString()
+                        );
+                        return validValues.map((value) => value.text);
+                    }
+                };
             }
         }
 

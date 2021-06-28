@@ -58,6 +58,11 @@ namespace WijmoProvider.Feature {
             return this;
         }
 
+        private _makeCellData(): FeatureBuilder {
+            this._features.cellData = this._makeItem(CellData);
+            return this;
+        }
+
         private _makeCalculatedField(): FeatureBuilder {
             this._features.calculatedField = this._makeItem(CalculatedField);
             return this;
@@ -196,6 +201,7 @@ namespace WijmoProvider.Feature {
                 ._makeRows()
                 ._makeExport()
                 ._makeGroupPanel(config.groupPanelId)
+                ._makeCellData()
                 ._makeCellStyle()
                 ._makeColumnPicker()
                 ._makeToolTip()
