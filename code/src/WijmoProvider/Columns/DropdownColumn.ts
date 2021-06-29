@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Column {
     export class DropdownColumn extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfigDropdown> {
+        private _handlerAdded: boolean;
         constructor(
             grid: OSFramework.Grid.IGrid,
             columnID: string,
@@ -18,6 +19,7 @@ namespace WijmoProvider.Column {
             this.config.dataMap = new wijmo.grid.DataMap([], 'key', 'text');
             this._columnEvents =
                 new OSFramework.Event.Column.ColumnEventsManager(this);
+            this._handlerAdded = false;
         }
 
         private _parentCellValueChangeHandler(
@@ -61,6 +63,21 @@ namespace WijmoProvider.Column {
             }
         }
 
+        private _parentHandler() {
+            const column = this.grid.getColumn(this.config.parentBinding);
+
+            if (column) {
+                // set child column to non mandatory, so we can set it to blank when parent changes value
+                this.provider.isRequired = false;
+
+                // on parent cell change subscription, to set child cell's to blank
+                column.columnEvents.addHandler(
+                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange,
+                    this._parentCellValueChangeHandler.bind(this)
+                );
+            }
+        }
+
         /** Returns all the events associated to the column */
         public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
             return this._columnEvents;
@@ -95,8 +112,15 @@ namespace WijmoProvider.Column {
 
             super.build();
 
-            if (this.config.parentBinding) {
+            if (
+                this.config.dropdownOptions &&
+                this.config.dropdownOptions.length > 0
+            ) {
                 this.changeDisplayValues();
+                if (!this._handlerAdded) {
+                    this._parentHandler();
+                    this._handlerAdded = true;
+                }
             }
         }
 
@@ -107,15 +131,6 @@ namespace WijmoProvider.Column {
             const column = this.grid.getColumn(this.config.parentBinding);
 
             if (column) {
-                // set child column to non mandatory, so we can set it to blank when parent changes value
-                this.provider.isRequired = false;
-
-                // on parent cell change subscription, to set child cell's to blank
-                column.columnEvents.addHandler(
-                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange,
-                    this._parentCellValueChangeHandler.bind(this)
-                );
-
                 // override getDisplayValues method to get values that
                 // correspond to the parent
                 dataMap.getDisplayValues = (dataItem) => {
@@ -154,6 +169,14 @@ namespace WijmoProvider.Column {
                     this.config.dropdownOptions = values;
                     dataMap.collectionView.sourceCollection = values;
                     dataMap.collectionView.refresh();
+                    if (this.config.parentBinding) {
+                        this.changeDisplayValues();
+
+                        if (!this._handlerAdded) {
+                            this._parentHandler();
+                            this._handlerAdded = true;
+                        }
+                    }
                     break;
                 default:
                     super.changeProperty(propertyName, propertyValue);
