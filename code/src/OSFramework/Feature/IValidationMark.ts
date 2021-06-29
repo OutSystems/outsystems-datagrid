@@ -13,6 +13,7 @@ namespace OSFramework.Feature {
             isValid: boolean,
             errorMessage: string
         ): void;
+        validateCell(rowNumber: number, column: OSFramework.Column.IColumn): void;
         validateRow(rowNumber: number): void;
         // clearByRow(row: number): void;
     }
