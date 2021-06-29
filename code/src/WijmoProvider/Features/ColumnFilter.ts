@@ -63,9 +63,9 @@ namespace WijmoProvider.Feature {
 
         public get isGridFiltered(): boolean {
             return (
-                JSON.parse(this._filter.filterDefinition).filter(
+                JSON.parse(this._filter.filterDefinition).filters.filter(
                     (x) => x.filterType !== 0
-                ).filters.length > 0
+                ).length > 0
             );
         }
         public activate(columID: string): void {
