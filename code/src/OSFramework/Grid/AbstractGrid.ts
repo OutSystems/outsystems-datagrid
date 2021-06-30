@@ -4,52 +4,52 @@ namespace OSFramework.Grid {
         W,
         Z extends Configuration.IConfigurationGrid
     > implements IGridGeneric<W> {
-        private _addedRows: OSFramework.Event.Grid.AddNewRowEvent;
-        private _columns: Map<string, OSFramework.Column.IColumn>;
-        private _columnsGenerator: OSFramework.Column.IColumnGenerator;
-        private _columnsSet: Set<OSFramework.Column.IColumn>;
+        private _addedRows: Event.Grid.AddNewRowEvent;
+        private _columns: Map<string, Column.IColumn>;
+        private _columnsGenerator: Column.IColumnGenerator;
+        private _columnsSet: Set<Column.IColumn>;
         private _configs: Z;
-        private _dataSource: OSFramework.Grid.IDataSource;
-        private _gridEvents: OSFramework.Event.Grid.GridEventsManager;
+        private _dataSource: Grid.IDataSource;
+        private _gridEvents: Event.Grid.GridEventsManager;
         private _isReady: boolean;
         private _uniqueId: string;
-        private _validatingAction: OSFramework.Event.Grid.ValidatingAction;
+        private _validatingAction: Event.Grid.ValidatingAction;
         private _widgetId: string;
 
-        protected _features: OSFramework.Feature.ExposedFeatures;
+        protected _features: Feature.ExposedFeatures;
         protected _provider: W;
+        public abstract autoGenerate: boolean;
 
         constructor(
             uniqueId: string,
             configs: Z,
-            dataSource: OSFramework.Grid.IDataSource,
-            columnsGenerator: OSFramework.Column.IColumnGenerator
+            dataSource: Grid.IDataSource,
+            columnsGenerator: Column.IColumnGenerator
         ) {
             this._uniqueId = uniqueId;
-            this._columns = new Map<string, OSFramework.Column.IColumn>();
-            this._columnsSet = new Set<OSFramework.Column.IColumn>();
+            this._columns = new Map<string, Column.IColumn>();
+            this._columnsSet = new Set<Column.IColumn>();
             this._columnsGenerator = columnsGenerator;
             this._configs = configs;
             this._dataSource = dataSource;
             this._isReady = false;
-            this._addedRows = new OSFramework.Event.Grid.AddNewRowEvent();
-            this._gridEvents = new OSFramework.Event.Grid.GridEventsManager(
-                this
-            );
-            this._validatingAction = new OSFramework.Event.Grid.ValidatingAction();
+            this._addedRows = new Event.Grid.AddNewRowEvent();
+            this._gridEvents = new Event.Grid.GridEventsManager(this);
+            this._validatingAction = new Event.Grid.ValidatingAction();
 
             console.log(`Constructor grid '${this.uniqueId}'`);
         }
 
-        public get validatingAction(): OSFramework.Event.Grid.ValidatingAction {
+        public get validatingAction(): Event.Grid.ValidatingAction {
             return this._validatingAction;
         }
 
-        public get addedRows(): OSFramework.Event.Grid.AddNewRowEvent {
+        public get addedRows(): Event.Grid.AddNewRowEvent {
             return this._addedRows;
         }
 
-        public get dataSource(): OSFramework.Grid.IDataSource {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        public get dataSource(): Grid.IDataSource {
             return this._dataSource;
         }
 
@@ -69,7 +69,7 @@ namespace OSFramework.Grid {
             return this.dataSource.isSingleEntity;
         }
 
-        public get gridEvents(): OSFramework.Event.Grid.GridEventsManager {
+        public get gridEvents(): Event.Grid.GridEventsManager {
             return this._gridEvents;
         }
 
@@ -81,20 +81,101 @@ namespace OSFramework.Grid {
             return this._provider;
         }
 
-        public get features(): OSFramework.Feature.ExposedFeatures {
+        public get features(): Feature.ExposedFeatures {
             return this._features;
         }
+        private _autoGenCol(): void {
+            //let's auto generate the columns
+            if (this.dataSource.hasMetadata) {
+                //if we have meta information about the columns, let's NOT use wijmo generator
+                this.autoGenerate = false;
+                const generated = this._columnsGenerator.generate(
+                    this,
+                    this.dataSource.getMetadata(),
+                    this.config.allowEdit
+                );
+                const newColumns = this._checkForNewColumns();
+                // remove existing columns if new dataSource has different columns
+                if (this._columns.size > 0 && newColumns) {
+                    this._columns.forEach((p) => this.removeColumn(p.uniqueId));
+                    generated.forEach((p) => this.addColumn(p));
+                }
+                // generate new columns
+                if (this._columns.size === 0 && newColumns) {
+                    generated.forEach((p) => this.addColumn(p));
+                }
+            } else {
+                //if the grid is read-only, then we'll flatten the array and use wijmo generator
+                if (!this.config.allowEdit) {
+                    this.dataSource.flatten();
+                } else {
+                    //if the grid is marked as editable, and is to be auto generated, we do not support (because of the save)
+                    throw new Error(
+                        'You cannot use JSONSerialize and make the grid editable. Please use ArrangeData action for this scenario.'
+                    );
+                }
+            }
+        }
 
+        private _checkForNewColumns(): boolean {
+            const metadata = this.dataSource.getMetadata();
+            let hasColumns = false;
+            const columns = Array.from(this._columns.values()).map(
+                (col) => col.config.binding
+            );
+            return Object.keys(metadata).some((source) => {
+                const newColumns = Object.keys(metadata[source]);
+                hasColumns = newColumns.every((column) => {
+                    return columns.indexOf(`${source}.${column}`) !== -1;
+                });
+
+                return !hasColumns;
+            });
+        }
+        private _validateBindings(): void {
+            if (this.dataSource.hasMetadata) {
+                this.getColumns().forEach((column) => {
+                    if (column.config.validateBinding === false) return;
+                    // Split the binding of the column by every dot. (e.g Sample_product.Name -> ['Sample_Product', 'Name'])
+                    const bindingMatches = column.config.binding.split('.');
+                    let metadata = this.dataSource.getMetadata();
+
+                    const validate = (keyword, binding) => {
+                        // Check if the matching keyword is a property from metadata
+                        if (metadata && !metadata.hasOwnProperty(keyword)) {
+                            throw `The binding "${binding}" doesn't match any valid column from the data you specified. ${'\n'} Expected format: "EntityName.FieldName". ${'\n'} For example: "Product_Sample.Name"`;
+                        }
+                        // If keyword is a property from metadata then use metadata[keyword] as the new metadata and iterate to the next keyword.
+                        metadata = metadata[keyword];
+                    };
+
+                    bindingMatches.forEach((binding) =>
+                        validate(binding, column.config.binding)
+                    );
+                    // validate dropdown dependency columns
+                    if (
+                        column.config.hasOwnProperty('parentBinding') &&
+                        column.config['parentBinding'] !== ''
+                    ) {
+                        const parentBinding = column.config['parentBinding'];
+                        const parentBindingMatches = parentBinding.split('.');
+
+                        // reset metadata
+                        metadata = this.dataSource.getMetadata();
+                        parentBindingMatches.forEach((binding) =>
+                            validate(binding, parentBinding)
+                        );
+                    }
+                });
+            }
+        }
         protected finishBuild(): void {
             this._isReady = true;
 
-            this.gridEvents.trigger(
-                OSFramework.Event.Grid.GridEventType.Initialized,
-                this
-            );
+            this.gridEvents.trigger(Event.Grid.GridEventType.Initialized, this);
         }
 
-        public addColumn(col: OSFramework.Column.IColumn): void {
+        public addColumn(col: Column.IColumn): void {
             console.log(`Add column '${col.uniqueId}': '${col.config.header}'`);
             this._columns.set(col.config.binding, col);
             this._columns.set(col.uniqueId, col);
@@ -103,27 +184,25 @@ namespace OSFramework.Grid {
 
         public build(): void {
             //RGRIDT-372 - let's get the ID of the parent element, which will be used by the developer
-            this._widgetId = OSFramework.Helper.GetElementByUniqueId(
-                this.uniqueId
-            ).closest(OSFramework.Helper.Constants.gridTag).id;
+            this._widgetId = Helper.GetElementByUniqueId(this.uniqueId).closest(
+                Helper.Constants.gridTag
+            ).id;
 
             this.dataSource.build();
         }
 
         public dispose(): void {
             this._isReady = false;
-            this._columns.forEach(
-                (col: OSFramework.Column.IColumn, columnID: string) => {
-                    this.removeColumn(columnID);
-                }
-            );
+            this._columns.forEach((col: Column.IColumn, columnID: string) => {
+                this.removeColumn(columnID);
+            });
         }
 
         public equalsToID(gridID: string): boolean {
             return gridID === this._uniqueId || gridID === this._widgetId;
         }
 
-        public getColumn(key: string): OSFramework.Column.IColumn {
+        public getColumn(key: string): Column.IColumn {
             if (this._columns.has(key)) {
                 return this._columns.get(key);
             } else {
@@ -131,8 +210,12 @@ namespace OSFramework.Grid {
             }
         }
 
-        public getColumns(): OSFramework.Column.IColumn[] {
+        public getColumns(): Column.IColumn[] {
             return Array.from(this._columnsSet);
+        }
+
+        public getData(): JSON[] {
+            return this.dataSource.getData();
         }
 
         public hasColumn(key: string): boolean {
@@ -143,14 +226,10 @@ namespace OSFramework.Grid {
         }
 
         public hasColumnsDefined(): boolean {
-            const widget = OSFramework.Helper.GetElementByUniqueId(
-                this.uniqueId
-            );
-            const gridElement = widget.closest(
-                OSFramework.Helper.Constants.gridTag
-            );
+            const widget = Helper.GetElementByUniqueId(this.uniqueId);
+            const gridElement = widget.closest(Helper.Constants.gridTag);
             const columns = gridElement.querySelectorAll(
-                OSFramework.Helper.Constants.columnCss
+                Helper.Constants.columnCss
             );
 
             return columns.length > 0;
@@ -179,9 +258,22 @@ namespace OSFramework.Grid {
             }
         }
 
-        public abstract get rowMetadata(): Interface.IRowMetadata;
+        public setData(data: string): boolean {
+            this.dataSource.setData(data);
 
-        public abstract autoGenerate: boolean;
+            if (this.isReady) {
+                if (!this.hasColumnsDefined()) {
+                    this._autoGenCol();
+                } else {
+                    this._validateBindings();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+        public abstract get rowMetadata(): Interface.IRowMetadata;
 
         public abstract buildFeatures(): void;
 
@@ -198,9 +290,11 @@ namespace OSFramework.Grid {
             propertyValue: any
         ): void;
 
-        public abstract clearAllChanges(): void;
+        public abstract clearAllChanges(
+            forceClearValidationMarks: boolean
+        ): void;
 
-        public abstract getChangesMade(): OSFramework.OSStructure.ChangesDone;
+        public abstract getChangesMade(): OSStructure.ChangesDone;
 
         // public abstract getData(): JSON[];
 
@@ -218,72 +312,5 @@ namespace OSFramework.Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public abstract setViewLayout(state: any): void;
-
-        public getData(): JSON[] {
-            return this.dataSource.getData();
-        }
-
-        public setData(data: string): boolean {
-            this.dataSource.setData(data);
-
-            if (this.isReady) {
-                if (!this.hasColumnsDefined()) {
-                    this._autoGenCol();
-                } else {
-                    this._validateBindings();
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private _autoGenCol(): void {
-            //let's auto generate the columns
-            if (this.dataSource.hasMetadata) {
-                //if we have meta information about the columns, let's NOT use wijmo generator
-                this.autoGenerate = false;
-                const generated = this._columnsGenerator.generate(
-                    this,
-                    this.dataSource.getMetadata(),
-                    this.config.allowEdit
-                );
-                if (this._columns.size === 0) {
-                    generated.forEach((p) => this.addColumn(p));
-                }
-            } else {
-                //if the grid is read-only, then we'll flatten the array and use wijmo generator
-                if (!this.config.allowEdit) {
-                    this.dataSource.flatten();
-                } else {
-                    //if the grid is marked as editable, and is to be auto generated, we do not support (because of the save)
-                    throw new Error(
-                        'You cannot use JSONSerialize and make the grid editable. Please use ArrangeData action for this scenario.'
-                    );
-                }
-            }
-        }
-
-        private _validateBindings(): void {
-            if (this.dataSource.hasMetadata) {
-                this.getColumns().forEach((column) => {
-                    if (column.config.validateBinding === false) return;
-                    // Split the binding of the column by every dot. (e.g Sample_product.Name -> ['Sample_Product', 'Name'])
-                    const bindingMatches = column.config.binding.split('.');
-                    let metadata = this.dataSource.getMetadata();
-                    bindingMatches.forEach((keyword) => {
-                        // Check if the matching keyword is a property from metadata
-                        if (metadata && !metadata.hasOwnProperty(keyword)) {
-                            throw `The binding "${
-                                column.config.binding
-                            }" doesn't match any valid column from the data you specified. ${'\n'} Expected format: "EntityName.FieldName". ${'\n'} For example: "Product_Sample.Name"`;
-                        }
-                        // If keyword is a property from metadata then use metadata[keyword] as the new metadata and iterate to the next keyword.
-                        metadata = metadata[keyword];
-                    });
-                });
-            }
-        }
     }
 }

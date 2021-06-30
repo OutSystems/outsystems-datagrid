@@ -145,13 +145,17 @@ namespace GridAPI.GridManager {
      *
      * @export
      * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {boolean} forceCleanInvalids determines whether or not we should clean the validation marks.
      */
-    export function MarkChangesAsSaved(gridID: string): void {
+    export function MarkChangesAsSaved(
+        gridID: string,
+        forceCleanInvalids = false
+    ): void {
         // eslint-disable-next-line
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
-            grid.clearAllChanges();
+            grid.clearAllChanges(forceCleanInvalids);
         }
     }
 

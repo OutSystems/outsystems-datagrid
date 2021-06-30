@@ -21,6 +21,10 @@ namespace WijmoProvider.Column {
             return this._provider;
         }
 
+        public get providerIndex(): number {
+            return this.provider.index;
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         public set provider(provider: wijmo.grid.Column) {
             this._provider = provider;
@@ -106,6 +110,15 @@ namespace WijmoProvider.Column {
                 this.provider = new wijmo.grid.Column(this.getProviderConfig());
 
                 providerGrid.columns.insert(indexPosition, this.provider);
+            }
+
+            if (this.columnType === OSFramework.Enum.ColumnType.Calculated) {
+                this.grid.features.filter.deactivate(this.uniqueId);
+                this.grid.features.calculatedField.addFormula(
+                    this.config.binding,
+                    this.config.header,
+                    this.config['formula']
+                );
             }
         }
 

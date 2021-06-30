@@ -59,6 +59,13 @@ namespace WijmoProvider.Column {
                             editorConfigs
                         )
                     );
+                case OSFramework.Enum.ColumnType.Calculated:
+                    return new CalculatedColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        editorConfigs
+                    );
                 case OSFramework.Enum.ColumnType.Text:
                     return new TextColumn(grid, columnID, configs);
                 default:
