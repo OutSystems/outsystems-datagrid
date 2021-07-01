@@ -53,7 +53,8 @@ namespace WijmoProvider.Column {
         }
 
         private _getCollapsedToBinding(columnBinding: string): string {
-            if (columnBinding === undefined || columnBinding === '') return undefined;
+            if (columnBinding === undefined || columnBinding === '')
+                return undefined;
 
             const col = this.grid.getColumn(columnBinding);
             let hasError = false;
@@ -64,7 +65,7 @@ namespace WijmoProvider.Column {
                 //     hasError = true;
                 // }
                 // //The informed column's group matches with this Group
-                // else 
+                // else
                 if (this.equalsToID(col.parentColumnId)) {
                     return col.config.binding;
                 }
@@ -90,9 +91,6 @@ namespace WijmoProvider.Column {
         public addChild(column: OSFramework.Column.IColumn): void {
             if (this._columns.indexOf(column) === -1) {
                 this._columns.push(column);
-                this.provider.columns.push(
-                    new wijmo.grid.ColumnGroup(column.getProviderConfig())
-                );
             }
         }
 
@@ -151,9 +149,6 @@ namespace WijmoProvider.Column {
 
         public removeChild(column: OSFramework.Column.IColumn): void {
             _.remove(this._columns, (p) => p === column);
-            this.provider.columns
-                .filter((x) => x.binding === column.provider.binding)
-                .forEach((x) => this.provider.columns.remove(x));
         }
     }
 }

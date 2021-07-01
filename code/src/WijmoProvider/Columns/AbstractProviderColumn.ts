@@ -94,7 +94,8 @@ namespace WijmoProvider.Column {
                     const providerGrid = this.grid.provider;
 
                     this.provider = new wijmo.grid.ColumnGroup(
-                        this.getProviderConfig()
+                        this.getProviderConfig(),
+                        parent.provider
                     );
 
                     // providerGrid.columns.insert(
