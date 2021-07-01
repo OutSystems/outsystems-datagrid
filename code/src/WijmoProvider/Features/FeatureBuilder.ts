@@ -58,6 +58,16 @@ namespace WijmoProvider.Feature {
             return this;
         }
 
+        private _makeCellData(): FeatureBuilder {
+            this._features.cellData = this._makeItem(CellData);
+            return this;
+        }
+
+        private _makeCalculatedField(): FeatureBuilder {
+            this._features.calculatedField = this._makeItem(CalculatedField);
+            return this;
+        }
+
         private _makeCellStyle(): FeatureBuilder {
             this._features.cellStyle = this._makeItem(CellStyle);
             return this;
@@ -191,6 +201,7 @@ namespace WijmoProvider.Feature {
                 ._makeRows()
                 ._makeExport()
                 ._makeGroupPanel(config.groupPanelId)
+                ._makeCellData()
                 ._makeCellStyle()
                 ._makeColumnPicker()
                 ._makeToolTip()
@@ -205,7 +216,8 @@ namespace WijmoProvider.Feature {
                 ._makeValidationMark()
                 ._makeSelection(config.allowRowSelector, config.selectionMode)
                 ._makeState()
-                ._makeConditionalFormat();
+                ._makeConditionalFormat()
+                ._makeCalculatedField();
 
             super.build();
         }

@@ -6,12 +6,14 @@ namespace OSFramework.Feature {
         clear(): void;
         errorMessage(rowNumber: number, binding: string): string;
         isInvalid(rowNumber: number, binding: string): boolean;
+        isInvalidRow(row: any): boolean;
         setStatus(
             rowNumber: number,
             columnID: string,
             isValid: boolean,
             errorMessage: string
         ): void;
+        validateCell(rowNumber: number, column: OSFramework.Column.IColumn): void;
         validateRow(rowNumber: number): void;
         // clearByRow(row: number): void;
     }

@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Grid {
-    export class ProviderDataSource extends OSFramework.Grid.AbstractDataSource {
+    export class ProviderDataSource extends OSFramework.Grid
+        .AbstractDataSource {
         private _provider: wijmo.collections.CollectionView;
 
         public addRow(position?: number, data?: JSON[]) {
@@ -28,7 +29,7 @@ namespace WijmoProvider.Grid {
             };
         }
 
-        public flatten() : void {
+        public flatten(): void {
             super.flatten();
             this._provider.refresh();
         }

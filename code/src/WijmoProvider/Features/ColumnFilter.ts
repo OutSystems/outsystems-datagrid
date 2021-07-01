@@ -25,7 +25,8 @@ namespace WijmoProvider.Feature {
         implements
             OSFramework.Feature.IColumnFilter,
             OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable {
+            OSFramework.Interface.IDisposable
+    {
         private _enabled: boolean;
         private _filter: wijmo.grid.filter.FlexGridFilter;
         private _grid: WijmoProvider.Grid.IGridWijmo;
@@ -61,7 +62,11 @@ namespace WijmoProvider.Feature {
         }
 
         public get isGridFiltered(): boolean {
-            return JSON.parse(this._filter.filterDefinition).filters.length > 0;
+            return (
+                JSON.parse(this._filter.filterDefinition).filters.filter(
+                    (x) => x.filterType !== 0
+                ).length > 0
+            );
         }
         public activate(columID: string): void {
             const column = GridAPI.ColumnManager.GetColumnById(columID);
@@ -86,12 +91,13 @@ namespace WijmoProvider.Feature {
                 this.validateAction.bind(this)
             );
 
-            const dateOperators = wijmo.culture.FlexGridFilter.numberOperators.filter(
-                function (item) {
+            const dateOperators =
+                wijmo.culture.FlexGridFilter.numberOperators.filter(function (
+                    item
+                ) {
                     //Removing item "Does not Equal"
                     return item.op !== 1;
-                }
-            );
+                });
 
             wijmo.culture.FlexGridFilter.dateOperators = dateOperators;
 

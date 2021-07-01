@@ -22,6 +22,14 @@ namespace WijmoProvider.Feature {
             );
         }
 
+        private _handleFilename(fileName: string, isCSV = false): string {
+            if (fileName === undefined || fileName === '') {
+                fileName = 'DataGridReactive';
+            }
+
+            return `${fileName}.${isCSV ? 'csv' : 'xlsx'}`;
+        }
+
         //Then re-apply the pagination
         private _reApplyPagination(): void {
             this._grid.features.pagination.changePageSize(this._pageSize);
@@ -66,10 +74,10 @@ namespace WijmoProvider.Feature {
             wijmo.Clipboard.copy(result);
         }
 
-        public exportToCsv(): void {
+        public exportToCsv(filename?: string): void {
             this._resetPagination();
 
-            const params = { fileName: 'DataGridReactive.csv' };
+            const params = { fileName: this._handleFilename(filename, true) };
             const result = this._grid.provider.getClipString(
                 this._getFullCellRange(),
                 true,
@@ -80,26 +88,24 @@ namespace WijmoProvider.Feature {
             wijmo.saveFile(result, params.fileName);
         }
 
-        public exportToExcel(withStyles: boolean): void {
+        public exportToExcel(withStyles: boolean, filename: string): void {
             this._resetPagination();
-
-            const params = {
-                includeColumnHeaders: true,
-                includeRowHeaders: true,
-                includeCellStyles: withStyles,
-                formatItem: this.exportFormatItem
-            };
-
-            const book = wijmo.grid.xlsx.FlexGridXlsxConverter.save(
-                this._grid.provider,
-                params
-            );
-            //name the sheet
-            book.sheets[0].name = 'DataGrid Data';
-            // save the book
-            book.save('DataGridReactive.xlsx');
-
-            this._reApplyPagination();
+            // include timeout in order to apply conditional format
+            setTimeout(() => {
+                const params = {
+                    includeColumnHeaders: true,
+                    includeRowHeaders: true,
+                    includeCellStyles: withStyles,
+                    formatItem: this.exportFormatItem
+                };
+                const book = wijmo.grid.xlsx.FlexGridXlsxConverter.save(
+                    this._grid.provider,
+                    params
+                );
+                book.sheets[0].name = 'DataGrid Data';
+                book.save(this._handleFilename(filename, false));
+                this._reApplyPagination();
+            }, 10);
         }
     }
 }
