@@ -64,17 +64,20 @@ namespace WijmoProvider.Column {
         }
 
         private _parentHandler() {
-            const column = this.grid.getColumn(this.config.parentBinding);
+            if (!!this.config.parentBinding) {
+                const column = this.grid.getColumn(this.config.parentBinding);
 
-            if (column) {
-                // set child column to non mandatory, so we can set it to blank when parent changes value
-                this.provider.isRequired = false;
+                if (column) {
+                    // set child column to non mandatory, so we can set it to blank when parent changes value
+                    this.provider.isRequired = false;
 
-                // on parent cell change subscription, to set child cell's to blank
-                column.columnEvents.addHandler(
-                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange,
-                    this._parentCellValueChangeHandler.bind(this)
-                );
+                    // on parent cell change subscription, to set child cell's to blank
+                    column.columnEvents.addHandler(
+                        OSFramework.Event.Column.ColumnEventType
+                            .OnCellValueChange,
+                        this._parentCellValueChangeHandler.bind(this)
+                    );
+                }
             }
         }
 
