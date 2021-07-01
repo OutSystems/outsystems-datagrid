@@ -49,7 +49,6 @@ namespace WijmoProvider.Feature {
         private _grid: Grid.IGridWijmo;
         private _groupPanel: wijmo.grid.grouppanel.GroupPanel;
         private _panelId: string;
-        private _draggedColumn: wijmo.grid.Column;
 
         constructor(grid: Grid.IGridWijmo, panelId: string) {
             this._grid = grid;
@@ -100,11 +99,6 @@ namespace WijmoProvider.Feature {
                     this._currGroupDescription = o.slice();
                 }
             );
-
-            this._grid.provider.draggingColumn.addHandler((s, e) => {
-                // keep track of group being dragged
-                this._draggedColumn = e.getColumn(true);
-            });
         }
 
         public columnInGroupPanel(binding: string): boolean {
