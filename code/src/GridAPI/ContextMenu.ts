@@ -17,8 +17,9 @@ namespace GridAPI.ContextMenu {
     ): string {
         //Try to find in DOM only if not present on Map
         if (lookUpDOM && !_menuItemsToGridId.has(menuItemId)) {
-            const menuOptionElement =
-                OSFramework.Helper.GetElementByUniqueId(menuItemId);
+            const menuOptionElement = OSFramework.Helper.GetElementByUniqueId(
+                menuItemId
+            );
             const grid = OSFramework.Helper.GetClosestGrid(menuOptionElement);
 
             if (grid) {

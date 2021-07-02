@@ -15,8 +15,9 @@ namespace WijmoProvider.Column {
                     extraConfig
                 )
             );
-            this._columnEvents =
-                new OSFramework.Event.Column.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
+                this
+            );
 
             // set custom binding with this format: $ColumnHeader_timestamp
             // eg.: $Average_423432413123

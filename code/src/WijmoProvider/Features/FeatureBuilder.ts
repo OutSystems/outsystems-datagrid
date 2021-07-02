@@ -6,8 +6,7 @@ namespace WijmoProvider.Feature {
     }
 
     export abstract class AbstractFactoryBuilder
-        implements IFeatures, OSFramework.Interface.IBuilder
-    {
+        implements IFeatures, OSFramework.Interface.IBuilder {
         protected _features: OSFramework.Feature.ExposedFeatures;
         protected _grid: OSFramework.Grid.IGrid;
         public _featureList: OSFramework.Interface.IBuilder[];
@@ -92,8 +91,9 @@ namespace WijmoProvider.Feature {
         }
 
         private _makeConditionalFormat(): FeatureBuilder {
-            this._features.conditionalFormat =
-                this._makeItem(ConditionalFormat);
+            this._features.conditionalFormat = this._makeItem(
+                ConditionalFormat
+            );
             return this;
         }
 
