@@ -19,6 +19,7 @@ namespace OSFramework.Configuration.Column {
         public format: string;
         public genericColumnId: string;
         public header: string;
+        public headerTooltip: string;
         public isCollapsed: boolean;
         public isMandatory: boolean;
         public required: boolean;

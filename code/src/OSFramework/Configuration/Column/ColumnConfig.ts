@@ -24,6 +24,7 @@ namespace OSFramework.Configuration.Column {
         public format: string;
         public genericColumnId: string;
         public header: string;
+        public headerTooltip: string;
         public isMandatory: boolean;
         public multiLine: boolean;
         public required: boolean;

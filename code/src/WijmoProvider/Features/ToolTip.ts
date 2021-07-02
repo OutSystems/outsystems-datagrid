@@ -56,23 +56,32 @@ namespace WijmoProvider.Feature {
                     );
                 }
             } else if (ht.cellType === wijmo.grid.CellType.ColumnHeader) {
-                if (
+                const rendered = this._grid.getColumn(ht.getColumn().binding)
+                    .config;
+                this._grid.provider.columns[ht.col] || {};
+
+                if (_currTarget && rendered.headerTooltip) {
+                    if (document.getElementById(rendered.headerTooltip)) {
+                        rendered.headerTooltip = '#' + rendered.headerTooltip;
+                    }
+                    this._setHeaderTooltip(_currTarget, rendered.headerTooltip);
+                } else if (
                     _currTarget &&
                     _currTarget.innerText !== undefined &&
                     _currTarget.innerText !== ''
                 ) {
-                    //Make sure to reset the cssClass for the tooltip
-                    this._toolTipClass(false);
-                    this._toolTip.setTooltip(
-                        _currTarget,
-                        _currTarget.innerText
-                    );
+                    this._setHeaderTooltip(_currTarget, _currTarget.innerText);
                 }
             }
         }
-
         private _onMouseOut(/*e: Event*/): void {
             this._toolTip.hide();
+        }
+
+        private _setHeaderTooltip(element: HTMLElement, content: string): void {
+            //Make sure to reset the cssClass for the tooltip
+            this._toolTipClass(false);
+            this._toolTip.setTooltip(element, content);
         }
 
         private _setToolTip(cell: Element): void {

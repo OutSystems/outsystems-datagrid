@@ -51,6 +51,10 @@ namespace GridAPI.ColumnManager {
                     jsonEditorConfigs.conditionalFormat
                 );
             }
+
+            if (jsonConfigs.headerTooltip) {
+                //
+            }
             output = true;
         }
 
