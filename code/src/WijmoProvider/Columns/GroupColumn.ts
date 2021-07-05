@@ -149,6 +149,9 @@ namespace WijmoProvider.Column {
 
         public removeChild(column: OSFramework.Column.IColumn): void {
             _.remove(this._columns, (p) => p === column);
+            this.provider.columns
+                .filter((x) => x.binding === column.provider.binding)
+                .forEach((x) => this.provider.columns.remove(x));
         }
     }
 }
