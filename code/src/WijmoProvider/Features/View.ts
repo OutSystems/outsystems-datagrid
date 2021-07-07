@@ -1,10 +1,17 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
+    class GroupDefinition {
+        public header: string;
+        public isCollapsed: boolean;
+        public collapseTo: string;
+        public children: Array<any>;
+    }
     /**
      * Defines the Save and Load layout feature
      */
     export class View
-        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IView {
+        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IView
+    {
         private _grid: WijmoProvider.Grid.IGridWijmo;
 
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {
@@ -27,6 +34,47 @@ namespace WijmoProvider.Feature {
                     };
                 })
             );
+        }
+
+        private _getGroupDefinition(col): Array<any> {
+            var children = [];
+
+            for (var i = 0; i < col.length; i++) {
+                var obj = new GroupDefinition();
+                obj.header = col[i].header;
+                if (col[i]._type === null) {
+                    obj.isCollapsed = col[i].isCollapsed;
+                    obj.collapseTo = col[i].collapseTo;
+                }
+
+                if (col[i].columns && col[i].columns.length > 0) {
+                    obj.children = [];
+                    obj.children.push(this._getGroupDefinition(col[i].columns));
+                }
+                children.push(obj);
+            }
+            return children;
+        }
+
+        private _setGroups(columns, config) {
+            for (var i = 0; i < config.length; i++) {
+                var colDef = columns.filter(
+                    (x) => x.header === config[i].header
+                );
+                if (colDef.length > 0) {
+                    colDef = colDef[0];
+                    if (config[i].children && config[i].children.length > 0) {
+                        this._setGroups(colDef.columns, config[i].children[0]);
+                    }
+                    columns.remove(colDef);
+                    colDef.collapseTo = config[i].collapseTo;
+                    // it can't be colDef.isCollapsed = config[i].isCollapsed ????
+                    if (config[i].isCollapsed) colDef.isCollapsed = true;
+                    else colDef.isCollapsed = false;
+
+                    columns.insert(i, colDef);
+                }
+            }
         }
 
         /**
@@ -66,8 +114,12 @@ namespace WijmoProvider.Feature {
             const state = {
                 columns: this._getColumnLayout(),
                 filterDefinition: this._grid.features.filter.getViewLayout(),
-                groupDescriptions: this._grid.features.groupPanel.getViewLayout(),
-                sortDescriptions: this._grid.features.sort.getViewLayout()
+                groupDescriptions:
+                    this._grid.features.groupPanel.getViewLayout(),
+                sortDescriptions: this._grid.features.sort.getViewLayout(),
+                groupColumns: this._getGroupDefinition(
+                    this._grid.provider.columnGroups
+                )
             };
 
             return JSON.stringify(state);
@@ -81,6 +133,10 @@ namespace WijmoProvider.Feature {
                 this._grid.features.filter.setViewLayout(config);
                 this._grid.features.groupPanel.setViewLayout(config);
                 this._grid.features.sort.setViewLayout(config);
+                this._setGroups(
+                    this._grid.provider.columnGroups,
+                    config.groupColumns
+                );
             });
         }
     }
