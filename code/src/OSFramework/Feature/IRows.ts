@@ -17,6 +17,10 @@ namespace OSFramework.Feature {
          */
         clear(): void;
         /**
+         * Get data from a specific row.
+         */
+        getRowData(rowNumber: number): string;
+        /**
          * Clear all classes from a specific row.
          */
         removeAllClasses(rowNumber: number): void;

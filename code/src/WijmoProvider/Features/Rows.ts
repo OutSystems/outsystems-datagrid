@@ -78,7 +78,8 @@ namespace WijmoProvider.Feature {
     }
 
     export class Rows
-        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IRows {
+        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IRows
+    {
         private _grid: WijmoProvider.Grid.IGridWijmo;
 
         /** This is going to be used as a label for the css classes saved on the metadata of the Row */
@@ -266,6 +267,14 @@ namespace WijmoProvider.Feature {
             ) as CssClassInfo;
         }
 
+        public getRowData(rowNumber: number): string {
+            return JSON.stringify(
+                OSFramework.Helper.Flatten(
+                    this._grid.provider.rows[rowNumber].dataItem
+                )
+            );
+        }
+
         /**
          * Indicates if a specific row has any metadata associated to the cssClasses.
          * @param rowNumber Number of the row to check if there is any metadata associated to the cssClasses.
@@ -323,8 +332,9 @@ namespace WijmoProvider.Feature {
             const expectedRowCount =
                 this._getRowsCount() -
                 this._grid.features.selection.getSelectedRowsCountByCellRange();
-            const selRanges = (this._grid.features
-                .selection as IProviderSelection).getProviderAllSelections();
+            const selRanges = (
+                this._grid.features.selection as IProviderSelection
+            ).getProviderAllSelections();
 
             // In case of Undo action, the user will not need to click on the grid to undo.
             providerGrid.focus();

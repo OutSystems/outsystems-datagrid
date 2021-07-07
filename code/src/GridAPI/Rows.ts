@@ -42,6 +42,25 @@ namespace GridAPI.Rows {
     }
 
     /**
+     * Function that will get data from a specific row
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {number} rowNumber Number of the row in data will be retrieved.
+     * @returns {*}  {string} Resulting code and message in JSON format
+     */
+    export function GetRowData(gridID: string, rowNumber: number): string {
+        const grid = GridManager.GetGridById(gridID);
+        let output = '';
+
+        if (grid !== undefined) {
+            output = grid.features.rows.getRowData(rowNumber);
+        }
+
+        return output;
+    }
+
+    /**
      * Remove all CSS classes from a specific row on the grid.
      *
      * @param {string} gridID ID of the Grid where the change will occur.
