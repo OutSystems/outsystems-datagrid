@@ -267,7 +267,7 @@ namespace WijmoProvider.Feature {
             ) as CssClassInfo;
         }
 
-        public getRowData(rowNumber: number): string {
+        public getRowData(rowNumber: number): any {
             return this._grid.isSingleEntity
                 ? OSFramework.Helper.Flatten(
                       this._grid.provider.rows[rowNumber].dataItem
