@@ -268,13 +268,11 @@ namespace WijmoProvider.Feature {
         }
 
         public getRowData(rowNumber: number): string {
-            return JSON.stringify(
-                this._grid.isSingleEntity
-                    ? OSFramework.Helper.Flatten(
-                          this._grid.provider.rows[rowNumber].dataItem
-                      )
-                    : this._grid.provider.rows[rowNumber].dataItem
-            );
+            return this._grid.isSingleEntity
+                ? OSFramework.Helper.Flatten(
+                      this._grid.provider.rows[rowNumber].dataItem
+                  )
+                : this._grid.provider.rows[rowNumber].dataItem;
         }
 
         /**

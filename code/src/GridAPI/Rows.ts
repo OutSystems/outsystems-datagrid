@@ -54,7 +54,7 @@ namespace GridAPI.Rows {
         let output = '';
 
         if (grid !== undefined) {
-            output = grid.features.rows.getRowData(rowNumber);
+            output = JSON.stringify(grid.features.rows.getRowData(rowNumber));
         }
 
         return output;
