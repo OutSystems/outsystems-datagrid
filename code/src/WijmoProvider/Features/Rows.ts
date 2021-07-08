@@ -267,6 +267,7 @@ namespace WijmoProvider.Feature {
             ) as CssClassInfo;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public getRowData(rowNumber: number): any {
             return this._grid.isSingleEntity
                 ? OSFramework.Helper.Flatten(
