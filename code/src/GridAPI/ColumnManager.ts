@@ -52,9 +52,6 @@ namespace GridAPI.ColumnManager {
                 );
             }
 
-            if (jsonConfigs.headerTooltip) {
-                //
-            }
             output = true;
         }
 

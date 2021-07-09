@@ -62,6 +62,8 @@ namespace WijmoProvider.Feature {
 
                 if (_currTarget && rendered.headerTooltip) {
                     if (document.getElementById(rendered.headerTooltip)) {
+                        // If headerTooltip is an Id of an Element, it should be manipulated to be a selector.
+                        // setTooltip() wijmo method allows us to render the content of another element using its id
                         rendered.headerTooltip = '#' + rendered.headerTooltip;
                     }
                     this._setHeaderTooltip(_currTarget, rendered.headerTooltip);
