@@ -42,10 +42,12 @@ namespace WijmoProvider.Column {
                         ? this.config.binding.substr(1)
                         : undefined,
                 click: (e, ctx) => {
+                    if (ctx.item['__osRowMetada']) {
+                        delete ctx.item['__osRowMetada'];
+                    }
                     this._columnEvents.trigger(
                         OSFramework.Event.Column.ColumnEventType.ActionClick,
                         JSON.stringify(
-                            //TODO: [RGRIDT-637] refactor this code.
                             this.grid.isSingleEntity
                                 ? OSFramework.Helper.Flatten(ctx.item)
                                 : ctx.item

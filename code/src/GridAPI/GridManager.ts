@@ -94,6 +94,16 @@ namespace GridAPI.GridManager {
     }
 
     /**
+     * Function that returns all Ids of the grids in the page.
+     *
+     * @export
+     * @returns {*}  {Map<string, OSFramework.Grid.IGrid>}
+     */
+    export function GetAllGridIdsInPage(): Array<string> {
+        return Array.from(gridMap.keys());
+    }
+
+    /**
      * Function that gets the instance of the current active grid. The active grid, is always the last (existing) grid that was created in the page.
      *
      * @export
