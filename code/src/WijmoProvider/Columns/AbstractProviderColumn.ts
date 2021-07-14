@@ -91,17 +91,10 @@ namespace WijmoProvider.Column {
                     // Column indexes   |0       |1      |0      |1      |2   |
                     // Group indexes    |0               |1                   |
                     //Inserting in the correct position
-                    const providerGrid = this.grid.provider;
-
                     this.provider = new wijmo.grid.ColumnGroup(
                         this.getProviderConfig(),
                         parent.provider
                     );
-
-                    // providerGrid.columns.insert(
-                    //     this.provider.index,
-                    //     this.provider
-                    // );
                 } else {
                     console.error(
                         `build - GroupColumn "${parent.config.header}" needs to be build before its childs ("${this.config.header}")`
