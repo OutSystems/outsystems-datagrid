@@ -33,7 +33,8 @@ namespace WijmoProvider.Column {
             if (oldValue !== newValue) {
                 const currentValue = this.grid.provider.getCellData(
                     rowNumber,
-                    this.provider.index
+                    this.provider.index,
+                    true
                 );
 
                 this.grid.features.dirtyMark.saveOriginalValue(
