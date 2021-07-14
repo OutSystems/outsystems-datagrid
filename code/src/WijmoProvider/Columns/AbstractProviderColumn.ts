@@ -119,8 +119,8 @@ namespace WijmoProvider.Column {
                 this.provider = new wijmo.grid.ColumnGroup(
                     this.getProviderConfig()
                 );
-
-                providerGrid.columnGroups.push(this.provider);
+                //@ts-ignore
+                providerGrid.columnGroups.insert(indexPosition, this.provider);
             }
 
             if (this.columnType === OSFramework.Enum.ColumnType.Calculated) {
@@ -146,7 +146,8 @@ namespace WijmoProvider.Column {
             //RGRIDT-574 review after solved
             //Error when the column is inside a ColumnGroup
             !this.hasParentColumn &&
-                (this.grid.provider as wijmo.grid.FlexGrid).columns.remove(
+                //@ts-ignore
+                (this.grid.provider as wijmo.grid.FlexGrid).columnGroups.remove(
                     this.provider
                 );
         }
