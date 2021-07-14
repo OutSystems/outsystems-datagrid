@@ -32,6 +32,8 @@ namespace OSFramework.Configuration {
         genericColumnId: string;
         /** The header of a column */
         header: string;
+        /** String to display on the column header tooltip */
+        headerTooltip: string;
         /** Wether or not column is mandatory*/
         isMandatory: boolean;
         /** Defines when the column can or not be empty */

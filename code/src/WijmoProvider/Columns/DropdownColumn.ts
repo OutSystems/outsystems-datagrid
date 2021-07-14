@@ -17,8 +17,9 @@ namespace WijmoProvider.Column {
                 )
             );
             this.config.dataMap = new wijmo.grid.DataMap([], 'key', 'text');
-            this._columnEvents =
-                new OSFramework.Event.Column.ColumnEventsManager(this);
+            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
+                this
+            );
             this._handlerAdded = false;
         }
 
@@ -109,9 +110,8 @@ namespace WijmoProvider.Column {
         }
 
         public build(): void {
-            (
-                this.config.dataMap as wijmo.grid.DataMap
-            ).collectionView.sourceCollection = this.config.dropdownOptions;
+            (this.config
+                .dataMap as wijmo.grid.DataMap).collectionView.sourceCollection = this.config.dropdownOptions;
             this.config.dataMapEditor = wijmo.grid.DataMapEditor.DropDownList;
 
             super.build();
