@@ -58,7 +58,6 @@ namespace WijmoProvider.Feature {
             } else if (ht.cellType === wijmo.grid.CellType.ColumnHeader) {
                 const rendered = this._grid.getColumn(ht.getColumn().binding)
                     .config;
-                this._grid.provider.columns[ht.col] || {};
 
                 if (_currTarget && rendered.headerTooltip) {
                     if (document.getElementById(rendered.headerTooltip)) {
