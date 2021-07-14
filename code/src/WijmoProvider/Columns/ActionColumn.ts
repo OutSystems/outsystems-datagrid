@@ -42,15 +42,16 @@ namespace WijmoProvider.Column {
                         ? this.config.binding.substr(1)
                         : undefined,
                 click: (e, ctx) => {
-                    if (ctx.item['__osRowMetada']) {
-                        delete ctx.item['__osRowMetada'];
-                    }
+                    //Let's clone the line, since we will be removing the metadata info from it.
+                    const clonedDataItem = _.cloneDeep(ctx.item);
+                    this.grid.rowMetadata.clear(clonedDataItem);
+
                     this._columnEvents.trigger(
                         OSFramework.Event.Column.ColumnEventType.ActionClick,
                         JSON.stringify(
                             this.grid.isSingleEntity
-                                ? OSFramework.Helper.Flatten(ctx.item)
-                                : ctx.item
+                                ? OSFramework.Helper.Flatten(clonedDataItem)
+                                : clonedDataItem
                         )
                     );
                 }
