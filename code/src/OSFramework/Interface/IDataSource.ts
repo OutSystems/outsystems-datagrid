@@ -13,6 +13,15 @@ namespace OSFramework.Grid {
          */
         isSingleEntity: boolean;
         /**
+         * Identifies the parent grid of this data source.
+         * This way, when formating data to be exported the removal of the
+         * metadata can be done by the object that knows it.
+         *
+         * @type {IGrid}
+         * @memberof IDataSource
+         */
+        parentGrid: IGrid;
+        /**
          * Add row to an specific position on the DataSource
          * @param position index position (0-based)
          * @param data The array of items to be inserted
