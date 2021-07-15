@@ -37,6 +37,9 @@ namespace OSFramework.Grid {
             this._gridEvents = new Event.Grid.GridEventsManager(this);
             this._validatingAction = new Event.Grid.ValidatingAction();
 
+            //The purpose here is to set the datasource parent grid.
+            this._dataSource.parentGrid = this;
+
             console.log(`Constructor grid '${this.uniqueId}'`);
         }
 

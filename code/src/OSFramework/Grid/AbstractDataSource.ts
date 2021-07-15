@@ -107,6 +107,7 @@ namespace OSFramework.Grid {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         protected _ds: Array<any>;
         protected _metadata: JSON;
+        protected _parentGrid: IGrid;
 
         constructor() {
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
@@ -117,7 +118,11 @@ namespace OSFramework.Grid {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         protected _getChangesString(itemsChanged: any): string {
-            let tempArray = itemsChanged.map((p) => _.cloneDeep(p));
+            let tempArray = itemsChanged.map((p) => {
+                const clonedDataItem = _.cloneDeep(p);
+                this._parentGrid.rowMetadata.clear(clonedDataItem);
+                return clonedDataItem;
+            });
 
             //In-place convert data to Outsystems Format
             ToOSFormat(this._convertions, tempArray);
@@ -156,6 +161,16 @@ namespace OSFramework.Grid {
 
         public get isSingleEntity(): boolean {
             return this._isSingleEntity;
+        }
+
+        public get parentGrid(): IGrid {
+            return this._parentGrid;
+        }
+
+        public set parentGrid(grid: IGrid) {
+            if (this._parentGrid === undefined) {
+                this._parentGrid = grid;
+            }
         }
 
         public addRow(position?: number, data?: JSON[]): void {
