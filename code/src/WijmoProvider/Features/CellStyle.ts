@@ -41,6 +41,7 @@ namespace WijmoProvider.Feature {
         ): void {
             this.getMetadata(rowNumber).addClass(binding, className);
         }
+
         public build(): void {
             this._grid.provider.formatItem.addHandler(
                 this._formatItems.bind(this)

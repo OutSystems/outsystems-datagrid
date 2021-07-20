@@ -10,13 +10,9 @@ namespace OSFramework.Feature.Auxiliar {
             this.cssClass = new Map<string, Array<string>>();
         }
 
-        private getCSSClassesByBinding(binding: string) {
-            return this.cssClass.get(binding);
-        }
-
         public addClass(binding: string, cssClass: string): void {
             if (this.hasCssClass(binding, cssClass) === false) {
-                const cssClasses = this.getCSSClassesByBinding(binding) || [];
+                const cssClasses = this.getCssClassesByBinding(binding) || [];
 
                 cssClasses.push(cssClass);
 
@@ -24,9 +20,13 @@ namespace OSFramework.Feature.Auxiliar {
             }
         }
 
+        public getCssClassesByBinding(binding: string): any {
+            return this.cssClass.get(binding);
+        }
+
         /** Checks if class exists in the cssClass array */
         public hasCssClass(binding: string, cssClass: string): boolean {
-            const cssClasses = this.getCSSClassesByBinding(binding);
+            const cssClasses = this.getCssClassesByBinding(binding);
             if (cssClasses) return cssClasses.indexOf(cssClass) !== -1;
 
             return false;
@@ -39,7 +39,7 @@ namespace OSFramework.Feature.Auxiliar {
 
         public removeClass(binding: string, cssClass: string): void {
             if (this.hasCssClass(binding, cssClass)) {
-                const cssClasses = this.getCSSClassesByBinding(binding);
+                const cssClasses = this.getCssClassesByBinding(binding);
                 cssClasses.splice(cssClasses.indexOf(cssClass), 1);
             }
         }

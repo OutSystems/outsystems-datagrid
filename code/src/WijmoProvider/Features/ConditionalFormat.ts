@@ -103,8 +103,11 @@ namespace WijmoProvider.Feature {
                         );
                     }
                 }
+                const classes = grid.features.cellStyle
+                    .getMetadata(e.row)
+                    .getCssClassesByBinding(binding);
 
-                return isTrue;
+                return isTrue && classes.length === 0;
             });
         }
     }
