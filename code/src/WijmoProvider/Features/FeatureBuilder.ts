@@ -6,8 +6,7 @@ namespace WijmoProvider.Feature {
     }
 
     export abstract class AbstractFactoryBuilder
-        implements IFeatures, OSFramework.Interface.IBuilder
-    {
+        implements IFeatures, OSFramework.Interface.IBuilder {
         protected _features: OSFramework.Feature.ExposedFeatures;
         protected _grid: OSFramework.Grid.IGrid;
         public _featureList: OSFramework.Interface.IBuilder[];
@@ -59,6 +58,11 @@ namespace WijmoProvider.Feature {
             return this;
         }
 
+        private _makeCellData(): FeatureBuilder {
+            this._features.cellData = this._makeItem(CellData);
+            return this;
+        }
+
         private _makeCalculatedField(): FeatureBuilder {
             this._features.calculatedField = this._makeItem(CalculatedField);
             return this;
@@ -87,8 +91,9 @@ namespace WijmoProvider.Feature {
         }
 
         private _makeConditionalFormat(): FeatureBuilder {
-            this._features.conditionalFormat =
-                this._makeItem(ConditionalFormat);
+            this._features.conditionalFormat = this._makeItem(
+                ConditionalFormat
+            );
             return this;
         }
 
@@ -196,6 +201,7 @@ namespace WijmoProvider.Feature {
                 ._makeRows()
                 ._makeExport()
                 ._makeGroupPanel(config.groupPanelId)
+                ._makeCellData()
                 ._makeCellStyle()
                 ._makeColumnPicker()
                 ._makeToolTip()

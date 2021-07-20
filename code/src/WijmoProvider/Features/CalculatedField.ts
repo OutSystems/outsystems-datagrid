@@ -32,8 +32,7 @@ namespace WijmoProvider.Feature {
     export class CalculatedField
         implements
             OSFramework.Feature.ICalculatedField,
-            OSFramework.Interface.IBuilder
-    {
+            OSFramework.Interface.IBuilder {
         private _grid: Grid.IGridWijmo;
         private _calculatedFields: any;
 

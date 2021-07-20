@@ -61,7 +61,11 @@ namespace WijmoProvider.Feature {
         }
 
         public get isGridFiltered(): boolean {
-            return JSON.parse(this._filter.filterDefinition).filters.length > 0;
+            return (
+                JSON.parse(this._filter.filterDefinition).filters.filter(
+                    (x) => x.filterType !== 0
+                ).length > 0
+            );
         }
         public activate(columID: string): void {
             const column = GridAPI.ColumnManager.GetColumnById(columID);

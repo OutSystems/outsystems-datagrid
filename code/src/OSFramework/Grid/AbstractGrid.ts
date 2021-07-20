@@ -3,8 +3,7 @@ namespace OSFramework.Grid {
     export abstract class AbstractGrid<
         W,
         Z extends Configuration.IConfigurationGrid
-    > implements IGridGeneric<W>
-    {
+    > implements IGridGeneric<W> {
         private _addedRows: Event.Grid.AddNewRowEvent;
         private _columns: Map<string, Column.IColumn>;
         private _columnsGenerator: Column.IColumnGenerator;
@@ -37,6 +36,9 @@ namespace OSFramework.Grid {
             this._addedRows = new Event.Grid.AddNewRowEvent();
             this._gridEvents = new Event.Grid.GridEventsManager(this);
             this._validatingAction = new Event.Grid.ValidatingAction();
+
+            //The purpose here is to set the datasource parent grid.
+            this._dataSource.parentGrid = this;
 
             console.log(`Constructor grid '${this.uniqueId}'`);
         }

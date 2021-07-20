@@ -78,7 +78,8 @@ namespace WijmoProvider.Feature {
     }
 
     export class Rows
-        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IRows {
+        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IRows
+    {
         private _grid: WijmoProvider.Grid.IGridWijmo;
 
         /** This is going to be used as a label for the css classes saved on the metadata of the Row */
@@ -195,7 +196,10 @@ namespace WijmoProvider.Feature {
                 this._grid.features.selection.getSelectedRowsCountByCellRange() ||
                 1;
             const expectedRowCount = this._getRowsCount() + quantity;
-            const items = new Array<any>(quantity).fill(_.cloneDeep({}));
+            //Take the selection off the grid so it is possible to add rows when a cell is in edit mode
+            providerGrid.select(-1, -1);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            let items = new Array<any>(quantity).fill(_.cloneDeep({}));
 
             providerGrid.focus(); // In case of Undo action, the user will not need to click on the grid to undo.
 
@@ -213,6 +217,11 @@ namespace WijmoProvider.Feature {
             this._grid.features.selection.selectAndFocusFirstCell(topRowIndex);
 
             // Take care of the undoable action Add new rows.
+            // The new created row data must be retrieved from the source collection to be added to add items list
+            items = this._grid.provider.collectionView.sourceCollection.slice(
+                dsTopRowIndex,
+                dsTopRowIndex + quantity
+            );
             const undoableItems = { datasourceIdx: dsTopRowIndex, items };
             this._grid.features.undoStack.pushAction(
                 new GridInsertRowAction(providerGrid, undoableItems)
@@ -256,6 +265,15 @@ namespace WijmoProvider.Feature {
                 rowNumber,
                 this._internalLabel
             ) as CssClassInfo;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public getRowData(rowNumber: number): any {
+            return this._grid.isSingleEntity
+                ? OSFramework.Helper.Flatten(
+                      this._grid.provider.rows[rowNumber].dataItem
+                  )
+                : this._grid.provider.rows[rowNumber].dataItem;
         }
 
         /**
@@ -315,8 +333,9 @@ namespace WijmoProvider.Feature {
             const expectedRowCount =
                 this._getRowsCount() -
                 this._grid.features.selection.getSelectedRowsCountByCellRange();
-            const selRanges = (this._grid.features
-                .selection as IProviderSelection).getProviderAllSelections();
+            const selRanges = (
+                this._grid.features.selection as IProviderSelection
+            ).getProviderAllSelections();
 
             // In case of Undo action, the user will not need to click on the grid to undo.
             providerGrid.focus();

@@ -207,6 +207,8 @@ namespace OSFramework.Column {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         abstract get provider(): any;
 
+        abstract get providerIndex(): number;
+
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         abstract set provider(provider: any);
 

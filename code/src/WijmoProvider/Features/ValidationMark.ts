@@ -466,5 +466,24 @@ namespace WijmoProvider.Feature {
                     );
                 });
         }
+
+        public validateCell(
+            rowNumber: number,
+            column: OSFramework.Column.IColumn
+        ): void {
+            // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
+            const currValue = this._grid.provider.getCellData(
+                rowNumber,
+                column.provider.index,
+                false
+            );
+            // Triggers the events of OnCellValueChange associated to a specific column in OS
+            this._triggerEventsFromColumn(
+                rowNumber,
+                column.provider.binding,
+                currValue,
+                currValue
+            );
+        }
     }
 }

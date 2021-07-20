@@ -21,6 +21,10 @@ namespace WijmoProvider.Column {
             return this._provider;
         }
 
+        public get providerIndex(): number {
+            return this.provider.index;
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         public set provider(provider: wijmo.grid.Column) {
             this._provider = provider;
@@ -33,10 +37,9 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         protected _getVisibility(): boolean {
             const providerConfig = this.getProviderConfig();
-            const inGroupPanel =
-                this.grid.features.groupPanel.columnInGroupPanel(
-                    this.config.binding
-                );
+            const inGroupPanel = this.grid.features.groupPanel.columnInGroupPanel(
+                this.config.binding
+            );
             const inColumnPicker = !this.provider.isVisible && !inGroupPanel;
 
             // We need to make sure the columns is visible only if the provider and our providerConfig
