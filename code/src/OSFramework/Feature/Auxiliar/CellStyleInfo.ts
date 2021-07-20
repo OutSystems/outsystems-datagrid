@@ -1,8 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Feature.Auxiliar {
     export class CellStyleInfo {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        private _classes: Array<string>;
         public cssClass: Map<string, Array<string>>;
 
         constructor() {
@@ -20,7 +18,7 @@ namespace OSFramework.Feature.Auxiliar {
             }
         }
 
-        public getCssClassesByBinding(binding: string): any {
+        public getCssClassesByBinding(binding: string): string[] {
             return this.cssClass.get(binding);
         }
 
