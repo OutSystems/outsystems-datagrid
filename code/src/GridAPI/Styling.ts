@@ -25,6 +25,7 @@ namespace GridAPI.Styling {
             rowIndex,
             className
         );
+        wijmo.Control.invalidateAll();
     }
     /**
      * Function that will add a specific CSS class to the cells of a column.
@@ -66,7 +67,7 @@ namespace GridAPI.Styling {
         const column = ColumnManager.GetColumnById(columnID);
         if (column !== undefined) {
             const binding = column.config.binding;
-            GridManager.GetGridById(gridID).features.cellStyle.removeClass(
+            GridManager.GetGridById(gridID).features.cellStyle.removeAllClasses(
                 rowIndex,
                 binding
             );
