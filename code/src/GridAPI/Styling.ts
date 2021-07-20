@@ -25,7 +25,6 @@ namespace GridAPI.Styling {
             rowIndex,
             className
         );
-        wijmo.Control.invalidateAll();
     }
     /**
      * Function that will add a specific CSS class to the cells of a column.
