@@ -10,9 +10,8 @@ namespace WijmoProvider.Column {
             editorConfig: OSFramework.Configuration.Column.EditorConfigCurrency
         ) {
             super(grid, columnID, configs, editorConfig);
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
-                this
-            );
+            this._columnEvents =
+                new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
         protected _setFormat(decimalPlaces: number, symbol?: string): void {
@@ -37,6 +36,11 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
+                case 'conditionalFormat':
+                    this._setConditionalFormat(JSON.parse(propertyValue));
+                    this.applyConfigs();
+                    this.grid.provider.invalidate(); // reapply classes
+                    break;
                 case 'symbol':
                     this._setFormat(
                         this.editorConfig.decimalPlaces,

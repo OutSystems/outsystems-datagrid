@@ -24,9 +24,17 @@ namespace WijmoProvider.Column {
                     editorConfig
                 )
             );
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
-                this
-            );
+            this._columnEvents =
+                new OSFramework.Event.Column.ColumnEventsManager(this);
+        }
+
+        protected _setConditionalFormat(conditionalFormat): void {
+            if (conditionalFormat && conditionalFormat.length > 0) {
+                this.grid.features.conditionalFormat.addRules(
+                    this.config.binding,
+                    conditionalFormat
+                );
+            }
         }
 
         /** Returns all the events associated to the column */
@@ -50,6 +58,7 @@ namespace WijmoProvider.Column {
         public build(): void {
             this.editorConfig.timeFormat = 'HH:mm';
             this.config.format = `${GridAPI.dateFormat} ${this.editorConfig.timeFormat}`;
+            this._setConditionalFormat(this.editorConfig.conditionalFormat);
 
             super.build();
         }

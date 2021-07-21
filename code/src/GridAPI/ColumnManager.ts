@@ -41,16 +41,16 @@ namespace GridAPI.ColumnManager {
             columnMap.set(columnID, grid.uniqueId);
             grid.addColumn(column);
 
-            if (
-                jsonEditorConfigs.conditionalFormat &&
-                jsonEditorConfigs.conditionalFormat.length > 0
-            ) {
-                ConditionalFormat.AddConditionalFormat(
-                    grid.uniqueId,
-                    column.config.binding,
-                    jsonEditorConfigs.conditionalFormat
-                );
-            }
+            // if (
+            //     jsonEditorConfigs.conditionalFormat &&
+            //     jsonEditorConfigs.conditionalFormat.length > 0
+            // ) {
+            //     ConditionalFormat.AddConditionalFormat(
+            //         grid.uniqueId,
+            //         column.config.binding,
+            //         jsonEditorConfigs.conditionalFormat
+            //     );
+            // }
 
             output = true;
         }
