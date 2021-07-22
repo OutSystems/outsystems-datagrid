@@ -90,11 +90,15 @@ namespace WijmoProvider.Column {
                     : minPerDecPlaces;
         }
 
-        protected _setConditionalFormat(conditionalFormat): void {
+        protected _setConditionalFormat(
+            conditionalFormat: any,
+            refresh = false
+        ): void {
             if (conditionalFormat && conditionalFormat.length > 0) {
                 this.grid.features.conditionalFormat.addRules(
                     this.config.binding,
-                    conditionalFormat
+                    conditionalFormat,
+                    refresh
                 );
             }
         }
@@ -138,7 +142,7 @@ namespace WijmoProvider.Column {
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
                 case 'conditionalFormat':
-                    this._setConditionalFormat(JSON.parse(propertyValue));
+                    this._setConditionalFormat(JSON.parse(propertyValue), true);
                     this.applyConfigs();
                     this.grid.provider.invalidate(); // reapply classes
                     break;

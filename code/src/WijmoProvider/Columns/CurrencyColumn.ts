@@ -37,7 +37,7 @@ namespace WijmoProvider.Column {
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
                 case 'conditionalFormat':
-                    this._setConditionalFormat(JSON.parse(propertyValue));
+                    this._setConditionalFormat(JSON.parse(propertyValue), true);
                     this.applyConfigs();
                     this.grid.provider.invalidate(); // reapply classes
                     break;

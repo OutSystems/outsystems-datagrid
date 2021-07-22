@@ -29,11 +29,15 @@ namespace WijmoProvider.Column {
                 new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
-        protected _setConditionalFormat(conditionalFormat): void {
+        protected _setConditionalFormat(
+            conditionalFormat: any,
+            refresh = false
+        ): void {
             if (conditionalFormat && conditionalFormat.length > 0) {
                 this.grid.features.conditionalFormat.addRules(
                     this.config.binding,
-                    conditionalFormat
+                    conditionalFormat,
+                    refresh
                 );
             }
         }
