@@ -101,11 +101,18 @@ namespace WijmoProvider.Feature {
                         grid.features.rows.removeClass(e.row, p.rowClass);
                     }
                     if (p.cellClass) {
-                        grid.features.cellStyle.removeClass(e.row, binding);
+                        grid.features.cellStyle.removeClass(
+                            e.row,
+                            binding,
+                            p.cellClass
+                        );
                     }
                 }
+                const classes = grid.features.cellStyle
+                    .getMetadata(e.row)
+                    .getCssClassesByBinding(binding);
 
-                return isTrue;
+                return isTrue && classes.length === 0;
             });
         }
     }
@@ -113,7 +120,8 @@ namespace WijmoProvider.Feature {
     export class ConditionalFormat
         implements
             OSFramework.Feature.IConditionalFormat,
-            OSFramework.Interface.IBuilder {
+            OSFramework.Interface.IBuilder
+    {
         private _grid: Grid.IGridWijmo;
         private _mappedRules: Map<string, ConditionExecuter>;
 
