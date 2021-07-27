@@ -25,12 +25,13 @@ namespace WijmoProvider.Feature {
         implements
             OSFramework.Feature.IColumnFilter,
             OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable {
+            OSFramework.Interface.IDisposable
+    {
         private _enabled: boolean;
         private _filter: wijmo.grid.filter.FlexGridFilter;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
+        constructor(grid: Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
         }
@@ -46,7 +47,7 @@ namespace WijmoProvider.Feature {
                 this._grid.gridEvents.trigger(
                     OSFramework.Event.Grid.GridEventType.OnFiltersChange,
                     this._grid,
-                    WijmoProvider.Helper.FilterFactory.MakeFromActiveFilters(
+                    Helper.FilterFactory.MakeFromActiveFilters(
                         this._grid,
                         s.filterDefinition
                     )
@@ -90,12 +91,13 @@ namespace WijmoProvider.Feature {
                 this.validateAction.bind(this)
             );
 
-            const dateOperators = wijmo.culture.FlexGridFilter.numberOperators.filter(
-                function (item) {
+            const dateOperators =
+                wijmo.culture.FlexGridFilter.numberOperators.filter(function (
+                    item
+                ) {
                     //Removing item "Does not Equal"
                     return item.op !== 1;
-                }
-            );
+                });
 
             wijmo.culture.FlexGridFilter.dateOperators = dateOperators;
 
@@ -115,6 +117,7 @@ namespace WijmoProvider.Feature {
             this._filter.getColumnFilter(column.provider).filterType =
                 wijmo.grid.filter.FilterType.None;
         }
+
         public dispose(): void {
             this._filter = undefined;
         }
@@ -126,7 +129,9 @@ namespace WijmoProvider.Feature {
 
         public setState(value: boolean): void {
             this._filter.defaultFilterType = value
-                ? wijmo.grid.filter.FilterType.Both
+                ? this._grid.config.serverSidePagination
+                    ? wijmo.grid.filter.FilterType.Value
+                    : wijmo.grid.filter.FilterType.Both
                 : wijmo.grid.filter.FilterType.None;
             this._filter.showSortButtons = false;
             this._enabled = value;
