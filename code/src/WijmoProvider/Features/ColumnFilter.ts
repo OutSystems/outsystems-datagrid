@@ -68,11 +68,14 @@ namespace WijmoProvider.Feature {
                 ).length > 0
             );
         }
+
         public activate(columID: string): void {
             const column = GridAPI.ColumnManager.GetColumnById(columID);
 
-            this._filter.getColumnFilter(column.provider).filterType =
-                wijmo.grid.filter.FilterType.Both;
+            this._filter.getColumnFilter(column.provider).filterType = this
+                ._grid.config.serverSidePagination
+                ? wijmo.grid.filter.FilterType.Value
+                : wijmo.grid.filter.FilterType.Both;
         }
 
         public build(): void {
