@@ -111,4 +111,19 @@ namespace GridAPI.Rows {
 
         return output;
     }
+
+    /**
+     * Function that will set start index of row.
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {number} startIndex New row start index.
+     */
+    export function UpdateRowNumber(gridID: string, startIndex: number): void {
+        const grid = GridManager.GetGridById(gridID);
+
+        if (grid !== undefined) {
+            grid.features.autoRowNumber.setStartIndex(startIndex);
+        }
+    }
 }
