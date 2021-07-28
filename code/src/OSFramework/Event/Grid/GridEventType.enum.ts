@@ -9,6 +9,7 @@ namespace OSFramework.Event.Grid {
     export enum GridEventType {
         Initialized = 'Initialized',
         OnFiltersChange = 'OnFiltersChange',
+        OnSortChange = 'OnSortChange',
         SearchEnded = 'SearchEnded'
     }
 }

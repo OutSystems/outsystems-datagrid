@@ -74,7 +74,7 @@ namespace WijmoProvider.Feature {
 
             this._filter.getColumnFilter(column.provider).filterType = this
                 ._grid.config.serverSidePagination
-                ? wijmo.grid.filter.FilterType.Value
+                ? wijmo.grid.filter.FilterType.Condition
                 : wijmo.grid.filter.FilterType.Both;
         }
 
@@ -133,7 +133,7 @@ namespace WijmoProvider.Feature {
         public setState(value: boolean): void {
             this._filter.defaultFilterType = value
                 ? this._grid.config.serverSidePagination
-                    ? wijmo.grid.filter.FilterType.Value
+                    ? wijmo.grid.filter.FilterType.Condition
                     : wijmo.grid.filter.FilterType.Both
                 : wijmo.grid.filter.FilterType.None;
             this._filter.showSortButtons = false;
