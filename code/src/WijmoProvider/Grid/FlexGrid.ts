@@ -5,7 +5,8 @@ namespace WijmoProvider.Grid {
             wijmo.grid.FlexGrid,
             OSFramework.Configuration.Grid.FlexGridConfig
         >
-        implements IGridWijmo {
+        implements IGridWijmo
+    {
         private _fBuilder: WijmoProvider.Feature.FeatureBuilder;
         private _lineIsSingleEntity = false;
         private _rowMetadata: RowMetadata;
@@ -18,6 +19,33 @@ namespace WijmoProvider.Grid {
                 new WijmoProvider.Grid.ProviderDataSource(),
                 new WijmoProvider.Column.ColumnGenerator()
             );
+        }
+
+        /**
+         * This action performs a workaround for an issue related with
+         * Safari 14.* version. The paint doesn't get triggered by the
+         * scroll on the grid.
+         *
+         * @private
+         * @memberof FlexGrid
+         */
+        private _safari14workaround(): void {
+            if (
+                /^((?!chrome|android).).*Version\/14.*safari/i.test(
+                    navigator.userAgent
+                )
+            ) {
+                this._provider.updatedView.addHandler(
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    (grid: wijmo.grid.FlexGrid, e: wijmo.EventArgs) => {
+                        //removes previous tranform
+                        grid._root.style.transform = '';
+                        //this is the "fake" transform that forces Safari to repaint the grid area
+                        grid._root.style.transform = 'translateZ(0)';
+                    }
+                );
+                console.log('The fix for Safari 14 has been applied.');
+            }
         }
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -64,14 +92,18 @@ namespace WijmoProvider.Grid {
                 OSFramework.Helper.GetElementByUniqueId(this.uniqueId),
                 this._getProviderConfig()
             );
-            this._provider.itemsSource = this.dataSource.getProviderDataSource();
+            this._provider.itemsSource =
+                this.dataSource.getProviderDataSource();
             this._rowMetadata = new RowMetadata(this._provider);
 
             this.buildFeatures();
 
             this._buildColumns();
 
-            this._provider.itemsSource.calculatedFields = this.features.calculatedField.calculatedFields;
+            this._provider.itemsSource.calculatedFields =
+                this.features.calculatedField.calculatedFields;
+
+            this._safari14workaround();
 
             this.finishBuild();
         }
