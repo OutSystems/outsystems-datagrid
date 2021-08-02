@@ -1066,3 +1066,15 @@
 .ss-event-name {
     -servicestudio-font-weight: bold;
 }
+
+.server-side-message{
+    -servicestudio-background: #DCECFD;
+    -servicestudio-color: #938E8E;
+    -servicestudio-font-family: 'Verdana';
+    -servicestudio-font-size: 12px;
+    -servicestudio-padding: 15px 15px;
+}
+
+.license-link-url {
+    -servicestudio-color: #006DE9;
+}
