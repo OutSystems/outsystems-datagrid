@@ -1075,6 +1075,10 @@
     -servicestudio-padding: 15px 15px;
 }
 
-.license-link-url {
+.server-side-message:before {
+    -servicestudio-content: '🛈 To use server-side pagination, follow the steps detailed in: '
+}
+
+.server-side-message > .server-side-pagination-link {
     -servicestudio-color: #006DE9;
 }
