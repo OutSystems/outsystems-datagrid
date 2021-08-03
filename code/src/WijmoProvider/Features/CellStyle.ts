@@ -3,7 +3,8 @@ namespace WijmoProvider.Feature {
     export class CellStyle
         implements
             OSFramework.Interface.IBuilder,
-            OSFramework.Feature.ICellStyle {
+            OSFramework.Feature.ICellStyle
+    {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private readonly _internalLabel = '__cellStyle';
         private _metadata: OSFramework.Interface.IRowMetadata;
@@ -22,12 +23,13 @@ namespace WijmoProvider.Feature {
                 const binding = this._grid.provider.getColumn(e.col).binding;
 
                 if (cssMetadata.size > 0 && cssMetadata.get(binding)) {
-                    wijmo.addClass(
-                        e.cell,
-                        this.getMetadata(e.row).cssClass.get(
+                    this.getMetadata(e.row)
+                        .cssClass.get(
                             this._grid.provider.getColumn(e.col).binding
                         )
-                    );
+                        .forEach((className) => {
+                            wijmo.addClass(e.cell, className);
+                        });
                 }
             }
         }
@@ -39,6 +41,7 @@ namespace WijmoProvider.Feature {
         ): void {
             this.getMetadata(rowNumber).addClass(binding, className);
         }
+
         public build(): void {
             this._grid.provider.formatItem.addHandler(
                 this._formatItems.bind(this)
@@ -73,8 +76,16 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        public removeClass(rowNumber: number, binding: string): void {
-            this.getMetadata(rowNumber).removeClass(binding);
+        public removeAllClasses(rowNumber: number, binding: string): void {
+            this.getMetadata(rowNumber).removeAllClasses(binding);
+        }
+
+        public removeClass(
+            rowNumber: number,
+            binding: string,
+            className: string
+        ): any {
+            this.getMetadata(rowNumber).removeClass(binding, className);
         }
     }
 }
