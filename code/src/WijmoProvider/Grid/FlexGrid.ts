@@ -21,6 +21,33 @@ namespace WijmoProvider.Grid {
             );
         }
 
+        /**
+         * This action performs a workaround for an issue related with
+         * Safari 14.* version. The paint doesn't get triggered by the
+         * scroll on the grid.
+         *
+         * @private
+         * @memberof FlexGrid
+         */
+        private _safari14workaround(): void {
+            if (
+                /^((?!chrome|android).).*Version\/14.*safari/i.test(
+                    navigator.userAgent
+                )
+            ) {
+                this._provider.updatedView.addHandler(
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    (grid: wijmo.grid.FlexGrid, e: wijmo.EventArgs) => {
+                        //removes previous tranform
+                        grid._root.style.transform = '';
+                        //this is the "fake" transform that forces Safari to repaint the grid area
+                        grid._root.style.transform = 'translateZ(0)';
+                    }
+                );
+                console.log('The fix for Safari 14 has been applied.');
+            }
+        }
+
         // eslint-disable-next-line @typescript-eslint/member-ordering
         private _buildColumns(): void {
             this.getColumns().forEach((col) => col.build());
@@ -75,6 +102,8 @@ namespace WijmoProvider.Grid {
 
             this._provider.itemsSource.calculatedFields =
                 this.features.calculatedField.calculatedFields;
+
+            this._safari14workaround();
 
             this.finishBuild();
         }
