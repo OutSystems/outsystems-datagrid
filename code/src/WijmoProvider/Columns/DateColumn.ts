@@ -29,19 +29,6 @@ namespace WijmoProvider.Column {
                 new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
-        protected _setConditionalFormat(
-            conditionalFormat: any,
-            refresh = false
-        ): void {
-            if (conditionalFormat && conditionalFormat.length > 0) {
-                this.grid.features.conditionalFormat.addRules(
-                    this.config.binding,
-                    conditionalFormat,
-                    refresh
-                );
-            }
-        }
-
         /** Returns all the events associated to the column */
         public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
             return this._columnEvents;
