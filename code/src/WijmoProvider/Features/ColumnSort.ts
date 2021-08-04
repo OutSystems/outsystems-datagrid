@@ -43,6 +43,11 @@ namespace WijmoProvider.Feature {
             return this._grid.provider.itemsSource.sortDescriptions.length > 0;
         }
 
+        /**
+         * Converts wijmo sortDescriptions into our ActiveSort structure
+         * @param sortDescriptions wijmo sort descriptions
+         * @returns Array of ActiveSort
+         */
         private _makeActiveSort(
             sortDescriptions: any
         ): Array<OSFramework.OSStructure.ActiveSort> {
