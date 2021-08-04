@@ -119,7 +119,10 @@ namespace GridAPI.Rows {
      * @param {string} gridID ID of the Grid where the change will occur.
      * @param {number} startIndex New row start index.
      */
-    export function UpdateRowNumber(gridID: string, startIndex: number): void {
+    export function UpdateStartingRowHeader(
+        gridID: string,
+        startIndex: number
+    ): void {
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
