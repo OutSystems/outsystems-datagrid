@@ -69,13 +69,17 @@ namespace WijmoProvider.Feature {
             );
         }
 
+        public get filterType(): wijmo.grid.filter.FilterType {
+            return this._grid.config.serverSidePagination
+                ? wijmo.grid.filter.FilterType.Condition
+                : wijmo.grid.filter.FilterType.Both;
+        }
+
         public activate(columID: string): void {
             const column = GridAPI.ColumnManager.GetColumnById(columID);
 
-            this._filter.getColumnFilter(column.provider).filterType = this
-                ._grid.config.serverSidePagination
-                ? wijmo.grid.filter.FilterType.Condition
-                : wijmo.grid.filter.FilterType.Both;
+            this._filter.getColumnFilter(column.provider).filterType =
+                this.filterType;
         }
 
         public build(): void {
@@ -132,9 +136,7 @@ namespace WijmoProvider.Feature {
 
         public setState(value: boolean): void {
             this._filter.defaultFilterType = value
-                ? this._grid.config.serverSidePagination
-                    ? wijmo.grid.filter.FilterType.Condition
-                    : wijmo.grid.filter.FilterType.Both
+                ? this.filterType
                 : wijmo.grid.filter.FilterType.None;
             this._filter.showSortButtons = false;
             this._enabled = value;
