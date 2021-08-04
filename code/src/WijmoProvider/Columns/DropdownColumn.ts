@@ -34,7 +34,8 @@ namespace WijmoProvider.Column {
             if (oldValue !== newValue) {
                 const currentValue = this.grid.provider.getCellData(
                     rowNumber,
-                    this.provider.index
+                    this.provider.index,
+                    true
                 );
 
                 this.grid.features.dirtyMark.saveOriginalValue(
@@ -47,7 +48,7 @@ namespace WijmoProvider.Column {
                     '',
                     true
                 );
-                this.grid.features.validationMark.validateRow(rowNumber);
+                this.grid.features.validationMark.validateCell(rowNumber, this);
 
                 const column = this.grid.getColumn(columnID);
 
@@ -65,17 +66,20 @@ namespace WijmoProvider.Column {
         }
 
         private _parentHandler() {
-            const column = this.grid.getColumn(this.config.parentBinding);
+            if (this.config.parentBinding) {
+                const column = this.grid.getColumn(this.config.parentBinding);
 
-            if (column) {
-                // set child column to non mandatory, so we can set it to blank when parent changes value
-                this.provider.isRequired = false;
+                if (column) {
+                    // set child column to non mandatory, so we can set it to blank when parent changes value
+                    this.provider.isRequired = false;
 
-                // on parent cell change subscription, to set child cell's to blank
-                column.columnEvents.addHandler(
-                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange,
-                    this._parentCellValueChangeHandler.bind(this)
-                );
+                    // on parent cell change subscription, to set child cell's to blank
+                    column.columnEvents.addHandler(
+                        OSFramework.Event.Column.ColumnEventType
+                            .OnCellValueChange,
+                        this._parentCellValueChangeHandler.bind(this)
+                    );
+                }
             }
         }
 
@@ -116,10 +120,13 @@ namespace WijmoProvider.Column {
                 this.config.dropdownOptions &&
                 this.config.dropdownOptions.length > 0
             ) {
-                this.changeDisplayValues();
-                if (!this._handlerAdded) {
-                    this._parentHandler();
-                    this._handlerAdded = true;
+                // eslint-disable-next-line no-extra-boolean-cast
+                if (!!this.config.parentBinding) {
+                    this.changeDisplayValues();
+                    if (!this._handlerAdded) {
+                        this._parentHandler();
+                        this._handlerAdded = true;
+                    }
                 }
             }
         }
@@ -128,9 +135,12 @@ namespace WijmoProvider.Column {
             const dataMap = this.config.dataMap;
             const values = dataMap.collectionView.items;
 
-            const column = this.grid.getColumn(this.config.parentBinding);
+            const parentColumn = this.grid.getColumn(this.config.parentBinding);
 
-            if (column) {
+            if (
+                parentColumn &&
+                parentColumn.columnType === OSFramework.Enum.ColumnType.Dropdown
+            ) {
                 // override getDisplayValues method to get values that
                 // correspond to the parent
                 dataMap.getDisplayValues = (dataItem) => {
@@ -169,7 +179,9 @@ namespace WijmoProvider.Column {
                     this.config.dropdownOptions = values;
                     dataMap.collectionView.sourceCollection = values;
                     dataMap.collectionView.refresh();
-                    if (this.config.parentBinding) {
+
+                    // eslint-disable-next-line no-extra-boolean-cast
+                    if (!!this.config.parentBinding) {
                         this.changeDisplayValues();
 
                         if (!this._handlerAdded) {
