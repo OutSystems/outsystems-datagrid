@@ -10,7 +10,8 @@ namespace WijmoProvider.Column {
             K extends OSFramework.Configuration.IConfigurationColumnEditor
         >
         extends AbstractProviderColumn<T>
-        implements OSFramework.Column.IColumnCustom {
+        implements OSFramework.Column.IColumnCustom
+    {
         private _editor: wijmo.Control;
         private _editorConfigs: K;
 
@@ -28,9 +29,12 @@ namespace WijmoProvider.Column {
             return this._editorConfigs;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public get editorProvider(): wijmo.Control {
             return this._editor;
+        }
+
+        public get hasConditionalFormat(): boolean {
+            return this.editorConfig.hasOwnProperty('conditionalFormat');
         }
 
         public applyConfigs(): void {
@@ -70,6 +74,12 @@ namespace WijmoProvider.Column {
             //Save the editor on config =D
             this.config.editor = this._editor;
 
+            if (this.hasConditionalFormat) {
+                this._setConditionalFormat(
+                    this.editorConfig['conditionalFormat']
+                );
+            }
+
             super.build();
         }
 
@@ -78,6 +88,11 @@ namespace WijmoProvider.Column {
             //Verify the property is available on EditorConfigs
             if (this.editorConfig.hasOwnProperty(propertyName)) {
                 this.editorConfig[propertyName] = propertyValue;
+
+                if (this.hasConditionalFormat) {
+                    this._setConditionalFormat(JSON.parse(propertyValue), true);
+                    this.grid.provider.invalidate(); // reapply classes
+                }
 
                 if (this.isReady) {
                     this.applyConfigs();

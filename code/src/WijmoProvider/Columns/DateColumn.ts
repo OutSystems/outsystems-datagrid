@@ -63,7 +63,6 @@ namespace WijmoProvider.Column {
         public build(): void {
             //Setting date format
             this.config.format = GridAPI.dateFormat;
-            this._setConditionalFormat(this.editorConfig.conditionalFormat);
 
             super.build();
         }
@@ -71,11 +70,6 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
-                case 'conditionalFormat':
-                    this._setConditionalFormat(JSON.parse(propertyValue), true);
-                    this.applyConfigs();
-                    this.grid.provider.invalidate(); // reapply classes
-                    break;
                 default:
                     super.changeProperty(propertyName, propertyValue);
             }

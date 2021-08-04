@@ -90,19 +90,6 @@ namespace WijmoProvider.Column {
                     : minPerDecPlaces;
         }
 
-        protected _setConditionalFormat(
-            conditionalFormat: any,
-            refresh = false
-        ): void {
-            if (conditionalFormat && conditionalFormat.length > 0) {
-                this.grid.features.conditionalFormat.addRules(
-                    this.config.binding,
-                    conditionalFormat,
-                    refresh
-                );
-            }
-        }
-
         /**
          * Makes the provider string format based on decimal places
          *
@@ -133,7 +120,6 @@ namespace WijmoProvider.Column {
 
         public build(): void {
             this._setFormat(this.editorConfig.decimalPlaces);
-            this._setConditionalFormat(this.editorConfig.conditionalFormat);
 
             super.build();
         }
@@ -141,11 +127,6 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
-                case 'conditionalFormat':
-                    this._setConditionalFormat(JSON.parse(propertyValue), true);
-                    this.applyConfigs();
-                    this.grid.provider.invalidate(); // reapply classes
-                    break;
                 case 'decimalPlaces':
                     this._setFormat(propertyValue);
                     this.applyConfigs();

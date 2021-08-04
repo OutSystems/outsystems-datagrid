@@ -36,11 +36,6 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
-                case 'conditionalFormat':
-                    this._setConditionalFormat(JSON.parse(propertyValue), true);
-                    this.applyConfigs();
-                    this.grid.provider.invalidate(); // reapply classes
-                    break;
                 case 'symbol':
                     this._setFormat(
                         this.editorConfig.decimalPlaces,
