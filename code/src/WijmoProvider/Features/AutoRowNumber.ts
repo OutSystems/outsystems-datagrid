@@ -23,6 +23,7 @@ namespace WijmoProvider.Feature {
                         e.panel.cellType === wijmo.grid.CellType.RowHeader &&
                         e.col === 0
                     ) {
+                        // if we have a startIndex defined, we want to use it, otherwise fallback to default state
                         const firstRow =
                             this._startIndex ||
                             this._grid.features.pagination.rowStart;
@@ -32,6 +33,10 @@ namespace WijmoProvider.Feature {
             );
         }
 
+        /**
+         * Updates row starting index
+         * @param value new row starting index
+         */
         public setStartIndex(value: number): void {
             this._startIndex = value;
             this._grid.provider.invalidate(); // refresh grid with new index
