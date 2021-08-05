@@ -34,7 +34,7 @@ namespace WijmoProvider.Column {
         }
 
         public get hasConditionalFormat(): boolean {
-            return this.editorConfig.hasOwnProperty('conditionalFormat');
+            return this.editorConfig.conditionalFormat !== undefined;
         }
 
         public applyConfigs(): void {
@@ -75,9 +75,7 @@ namespace WijmoProvider.Column {
             this.config.editor = this._editor;
 
             if (this.hasConditionalFormat) {
-                this._setConditionalFormat(
-                    this.editorConfig['conditionalFormat']
-                );
+                this._setConditionalFormat(this.editorConfig.conditionalFormat);
             }
 
             super.build();

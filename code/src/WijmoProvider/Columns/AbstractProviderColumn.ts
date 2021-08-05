@@ -59,7 +59,7 @@ namespace WijmoProvider.Column {
         }
 
         protected _setConditionalFormat(
-            conditionalFormat: any,
+            conditionalFormat: Array<OSFramework.OSStructure.ConditionalFormat>,
             refresh = false
         ): void {
             if (conditionalFormat && conditionalFormat.length > 0) {
