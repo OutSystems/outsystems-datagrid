@@ -6,7 +6,8 @@ namespace OSFramework.Feature {
          */
         addRules(
             binding: string,
-            rules: Array<OSFramework.OSStructure.ConditionalFormat>
+            rules: Array<OSFramework.OSStructure.ConditionalFormat>,
+            refresh?: boolean
         ): void;
 
         /**

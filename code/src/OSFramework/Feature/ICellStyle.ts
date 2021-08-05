@@ -6,6 +6,8 @@ namespace OSFramework.Feature {
          */
         addClass(binding: string, rowNumber: number, className: string): void;
 
+        clear(): void;
+
         getMetadata(rowNumber: number): Feature.Auxiliar.CellStyleInfo;
 
         removeAllClasses(rowNumber: number, binding: string): void;
