@@ -3,7 +3,6 @@ namespace OSFramework.Configuration.Column {
      * Defines the configuration for Numeric custom editors
      */
     export class EditorConfigNumber extends AbstractEditorConfig {
-        public conditionalFormat: any;
         public decimalPlaces: number;
         public maxValue?: number;
         public minValue?: number;
