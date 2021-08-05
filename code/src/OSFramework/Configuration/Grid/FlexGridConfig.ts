@@ -17,6 +17,7 @@ namespace OSFramework.Configuration.Grid {
         public rowHeight: number;
         public rowsPerPage: number;
         public selectionMode: number;
+        public serverSidePagination: boolean;
         public uniqueId: string;
         public validateEdits: boolean;
 
