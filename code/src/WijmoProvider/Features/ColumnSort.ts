@@ -29,7 +29,8 @@ namespace WijmoProvider.Feature {
     export class ColumnSort
         implements
             OSFramework.Feature.IColumnSort,
-            OSFramework.Interface.IBuilder {
+            OSFramework.Interface.IBuilder
+    {
         private _enabled: boolean;
         private _grid: WijmoProvider.Grid.IGridWijmo;
 
@@ -40,6 +41,62 @@ namespace WijmoProvider.Feature {
 
         public get isGridSorted(): boolean {
             return this._grid.provider.itemsSource.sortDescriptions.length > 0;
+        }
+
+        /**
+         * Converts wijmo sortDescriptions into our ActiveSort structure
+         * @param sortDescriptions wijmo sort descriptions
+         * @returns Array of ActiveSort
+         */
+        private _makeActiveSort(
+            sortDescriptions: any
+        ): Array<OSFramework.OSStructure.ActiveSort> {
+            const activeSorts = new Array<OSFramework.OSStructure.ActiveSort>();
+
+            if (sortDescriptions && sortDescriptions.length) {
+                sortDescriptions.map((sd) => {
+                    const sort = new OSFramework.OSStructure.ActiveSort();
+                    const column = this._grid.getColumn(sd.property);
+                    sort.binding = sd.property;
+                    sort.columnId = (column && column.widgetId) || '';
+                    sort.sorting = sd.ascending
+                        ? OSFramework.OSStructure.Sorting.Ascending
+                        : OSFramework.OSStructure.Sorting.Descending;
+
+                    activeSorts.push(sort);
+                });
+            }
+
+            return activeSorts;
+        }
+
+        /**
+         * Does the reset of the sorting on the third click.
+         *
+         * @private
+         * @param {wijmo.grid.FlexGrid} s
+         * @param {wijmo.grid.CellRangeEventArgs} e
+         * @memberof ColumnSort
+         */
+        private _sortedHandler(
+            s: wijmo.grid.FlexGrid,
+            e: wijmo.grid.CellRangeEventArgs
+        ) {
+            const col = s.getColumn(e.col);
+            const index = col.currentSortIndex;
+            const sd = s.itemsSource.sortDescriptions[index];
+
+            if (
+                this._grid.gridEvents.hasHandlers(
+                    OSFramework.Event.Grid.GridEventType.OnSortChange
+                )
+            ) {
+                this._grid.gridEvents.trigger(
+                    OSFramework.Event.Grid.GridEventType.OnSortChange,
+                    this._grid,
+                    this._makeActiveSort(s.itemsSource.sortDescriptions)
+                );
+            }
         }
 
         /**
@@ -71,6 +128,12 @@ namespace WijmoProvider.Feature {
 
                     //Cancel the default behavior
                     e.cancel = true;
+
+                    this._grid.gridEvents.trigger(
+                        OSFramework.Event.Grid.GridEventType.OnSortChange,
+                        this._grid,
+                        this._makeActiveSort(s.itemsSource.sortDescriptions)
+                    );
                 }
 
                 //Clean all others if shift isn't pressed
@@ -91,15 +154,20 @@ namespace WijmoProvider.Feature {
             this._grid.provider.sortingColumn.addHandler(
                 this._sortingHandler.bind(this)
             );
+            this._grid.provider.sortedColumn.addHandler(
+                this._sortedHandler.bind(this)
+            );
             this._grid.validatingAction.addHandler(
                 this.validateAction.bind(this)
             );
 
             this.setState(this._enabled);
         }
+
         public clear(): void {
             this._grid.provider.collectionView.sortDescriptions.clear();
         }
+
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public getViewLayout(): any {
             return this._grid.provider.itemsSource.sortDescriptions.map(

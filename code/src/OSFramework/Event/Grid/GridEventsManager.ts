@@ -30,6 +30,9 @@ namespace OSFramework.Event.Grid {
                 case GridEventType.OnFiltersChange:
                     event = new GridOnFiltersChangeEvent();
                     break;
+                case GridEventType.OnSortChange:
+                    event = new GridOnSortChangeEvent();
+                    break;
                 case GridEventType.SearchEnded:
                     event = new GridSearchEndEvent();
                     break;
