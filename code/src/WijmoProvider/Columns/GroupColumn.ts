@@ -61,17 +61,16 @@ namespace WijmoProvider.Column {
 
             if (col) {
                 //The informed column doens't belong to this Group
-                // if (col.parentColumnId === undefined) {
-                //     hasError = true;
-                // }
-                // //The informed column's group matches with this Group
-                // else
-                if (this.equalsToID(col.parentColumnId)) {
+                if (col.parentColumnId === undefined) {
+                    hasError = true;
+                }
+                //The informed column's group matches with this Group
+                else if (this.equalsToID(col.parentColumnId)) {
                     return col.config.binding;
                 }
                 //The informed maybe inside a sub-group
                 else {
-                    return columnBinding;
+                    return this._getCollapsedToBinding(col.uniqueId);
                 }
             } else {
                 hasError = true;
@@ -80,10 +79,11 @@ namespace WijmoProvider.Column {
             //To avoid breaking the page, just send an alert-message through console
             if (hasError) {
                 console.error(
-                    `The columns specified on collapseTo property isn't available on group ${this.config.header}`
+                    `The column "${columnBinding}" specified on the CollapseTo field is not part of the group ${
+                        this.config.header
+                    }. ${'\n'}  Please drag-and-drop the column inside the group placeholder or pick one of the columns inside it.`
                 );
 
-                //No collapseTo
                 return undefined;
             }
         }
