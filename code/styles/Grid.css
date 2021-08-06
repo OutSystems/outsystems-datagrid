@@ -1066,3 +1066,19 @@
 .ss-event-name {
     -servicestudio-font-weight: bold;
 }
+
+.server-side-message{
+    -servicestudio-background: #DCECFD;
+    -servicestudio-color: #938E8E;
+    -servicestudio-font-family: 'Verdana';
+    -servicestudio-font-size: 12px;
+    -servicestudio-padding: 15px 15px;
+}
+
+.server-side-message:before {
+    -servicestudio-content: '🛈 To use server-side pagination, follow the steps detailed in: '
+}
+
+.server-side-message > .server-side-pagination-link {
+    -servicestudio-color: #006DE9;
+}

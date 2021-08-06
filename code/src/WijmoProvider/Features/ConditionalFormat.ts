@@ -112,7 +112,7 @@ namespace WijmoProvider.Feature {
                     .getMetadata(e.row)
                     .getCssClassesByBinding(binding);
 
-                return isTrue && classes.length === 0;
+                return isTrue && classes?.length === 0;
             });
         }
     }
@@ -179,8 +179,15 @@ namespace WijmoProvider.Feature {
 
         public addRules(
             binding: string,
-            rules: Array<OSFramework.OSStructure.ConditionalFormat>
+            rules: Array<OSFramework.OSStructure.ConditionalFormat>,
+            refresh?: boolean
         ): void {
+            // clear classes previously added
+            if (refresh) {
+                this._grid.features.cellStyle.clear();
+                this._grid.features.rows.clear();
+            }
+
             this._mappedRules.set(binding, this._parseRule(rules));
         }
 

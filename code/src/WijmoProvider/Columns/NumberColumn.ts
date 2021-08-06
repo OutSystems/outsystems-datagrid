@@ -36,9 +36,8 @@ namespace WijmoProvider.Column {
                 new OSFramework.Configuration.Column.ColumnConfig(configs),
                 editorConfig
             );
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
-                this
-            );
+            this._columnEvents =
+                new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
         /** Returns all the events associated to the column */

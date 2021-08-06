@@ -58,6 +58,19 @@ namespace WijmoProvider.Column {
             );
         }
 
+        protected _setConditionalFormat(
+            conditionalFormat: Array<OSFramework.OSStructure.ConditionalFormat>,
+            refresh = false
+        ): void {
+            if (conditionalFormat && conditionalFormat.length > 0) {
+                this.grid.features.conditionalFormat.addRules(
+                    this.config.binding,
+                    conditionalFormat,
+                    refresh
+                );
+            }
+        }
+
         public applyConfigs(): void {
             if (this.isReady) {
                 const providerConfig = this.getProviderConfig();
