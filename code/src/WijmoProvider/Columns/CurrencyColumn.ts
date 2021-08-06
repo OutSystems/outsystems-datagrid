@@ -10,9 +10,8 @@ namespace WijmoProvider.Column {
             editorConfig: OSFramework.Configuration.Column.EditorConfigCurrency
         ) {
             super(grid, columnID, configs, editorConfig);
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
-                this
-            );
+            this._columnEvents =
+                new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
         protected _setFormat(decimalPlaces: number, symbol?: string): void {
