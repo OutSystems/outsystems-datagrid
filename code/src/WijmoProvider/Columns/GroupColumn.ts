@@ -60,22 +60,16 @@ namespace WijmoProvider.Column {
             let hasError = false;
 
             if (col) {
-                //The informed column doens't belong to this Group
-                if (col.parentColumnId === undefined) {
-                    hasError = true;
-                }
-                //The informed column's group matches with this Group
-                else if (this.equalsToID(col.parentColumnId)) {
+                if (this.equalsToID(col.parentColumnId)) {
                     return col.config.binding;
                 }
                 //The informed maybe inside a sub-group
                 else {
-                    return this._getCollapsedToBinding(col.uniqueId);
+                    return columnBinding;
                 }
             } else {
                 hasError = true;
             }
-
             //To avoid breaking the page, just send an alert-message through console
             if (hasError) {
                 console.error(
@@ -83,7 +77,7 @@ namespace WijmoProvider.Column {
                         this.config.header
                     }. ${'\n'}  Please drag-and-drop the column inside the group placeholder or pick one of the columns inside it.`
                 );
-
+                //No collapseTo
                 return undefined;
             }
         }

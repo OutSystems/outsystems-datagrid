@@ -171,7 +171,9 @@ namespace WijmoProvider.Feature {
                         .get(column.config.binding)
                         .execute(this._grid, value, {
                             row: index,
-                            col: GridAPI.GridManager.GetActiveGrid().provider.columns.find(x => x.binding === column.provider.binding).index
+                            col: this._grid.provider.columns.find(
+                                (x) => x.binding === column.provider.binding
+                            ).index
                         });
                 });
             });
