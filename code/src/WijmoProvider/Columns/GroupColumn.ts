@@ -53,9 +53,6 @@ namespace WijmoProvider.Column {
         }
 
         private _getCollapsedToBinding(columnBinding: string): string {
-            if (columnBinding === undefined || columnBinding === '')
-                return undefined;
-
             const col = this.grid.getColumn(columnBinding);
             let hasError = false;
 
