@@ -62,9 +62,7 @@ namespace WijmoProvider.Column {
             if (col) {
                 if (this.equalsToID(col.parentColumnId)) {
                     return col.config.binding;
-                }
-                //The informed maybe inside a sub-group
-                else {
+                } else {
                     return columnBinding;
                 }
             } else {
