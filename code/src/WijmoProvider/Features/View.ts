@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
     class GroupDefinition {
+        public align: string;
         public children: Array<any>;
         public collapseTo: string;
         public header: string;
@@ -45,6 +46,7 @@ namespace WijmoProvider.Feature {
                 if (col[i]._type === null) {
                     obj.isCollapsed = col[i].isCollapsed;
                     obj.collapseTo = col[i].collapseTo;
+                    obj.align = col[i].align;
                 }
 
                 if (col[i].columns && col[i].columns.length > 0) {
@@ -96,7 +98,8 @@ namespace WijmoProvider.Feature {
                     }
                     columns.remove(colDef);
                     colDef.collapseTo = config[i].collapseTo;
-                    colDef.isCollapsed = config[i].isCollapsed;
+                    colDef.isCollapsed = config[i].isCollapsed || false; // in case it wasn't defined, set to false
+                    colDef.align = config[i].align || colDef.align;
 
                     columns.insert(i, colDef);
                 }
