@@ -53,6 +53,9 @@ namespace WijmoProvider.Column {
         }
 
         private _getCollapsedToBinding(columnBinding: string): string {
+            if (columnBinding === undefined || columnBinding === '')
+                return undefined;
+
             const col = this.grid.getColumn(columnBinding);
             let hasError = false;
 
@@ -91,11 +94,6 @@ namespace WijmoProvider.Column {
                     this.config.collapseTo
                 );
             }
-
-            //When there isn't a reference for collapseTo, makes the group always expanded
-            if (this.provider.collapseTo === undefined) {
-                this.provider.isCollapsed = false;
-            }
         }
 
         public dispose(): void {
@@ -120,11 +118,6 @@ namespace WijmoProvider.Column {
                 providerConfig.collapseTo = this._getCollapsedToBinding(
                     this.config.collapseTo
                 );
-            }
-
-            //When there isn't a reference for collapseTo, makes the group always expanded
-            if (providerConfig.collapseTo === undefined) {
-                providerConfig.isCollapsed = false;
             }
 
             providerConfig.columns = this._columns
