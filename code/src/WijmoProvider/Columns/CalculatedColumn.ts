@@ -15,9 +15,8 @@ namespace WijmoProvider.Column {
                     extraConfig
                 )
             );
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
-                this
-            );
+            this._columnEvents =
+                new OSFramework.Event.Column.ColumnEventsManager(this);
 
             // set custom binding with this format: $ColumnHeader_timestamp
             // eg.: $Average_423432413123
@@ -39,6 +38,20 @@ namespace WijmoProvider.Column {
 
         public get providerType(): wijmo.DataType {
             return wijmo.DataType.String;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public build(): any {
+            super.build();
+            this.grid.features.filter.deactivate(this.uniqueId);
+            this.grid.features.calculatedField.addFormula(
+                this.config.binding,
+                this.config.header,
+                this.config.formula
+            );
+            if (this.config.conditionalFormat) {
+                super._setConditionalFormat(this.config.conditionalFormat);
+            }
         }
     }
 }
