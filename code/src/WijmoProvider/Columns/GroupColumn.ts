@@ -52,6 +52,9 @@ namespace WijmoProvider.Column {
             return wijmo.DataType.Object;
         }
 
+        /**
+         * Gets binding on which the group will be collapsed to
+         */
         private _getCollapsedToBinding(columnBinding: string): string {
             if (columnBinding === undefined || columnBinding === '')
                 return undefined;
@@ -80,6 +83,10 @@ namespace WijmoProvider.Column {
             }
         }
 
+        /**
+         * Adds child to group
+         * @param column column which will be added to group
+         */
         public addChild(column: OSFramework.Column.IColumn): void {
             if (this._columns.indexOf(column) === -1) {
                 this._columns.push(column);
@@ -131,6 +138,8 @@ namespace WijmoProvider.Column {
 
         public removeChild(column: OSFramework.Column.IColumn): void {
             _.remove(this._columns, (p) => p === column);
+
+            // Remove child from group
             this.provider.columns
                 .filter((x) => x.binding === column.provider.binding)
                 .forEach((x) => this.provider.columns.remove(x));

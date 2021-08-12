@@ -24,10 +24,10 @@ namespace WijmoProvider.Feature {
                 ) as wijmo.grid.ColumnGroup;
             });
 
+            // We want to limit dragging to columns within groups
             this._grid.provider.draggingColumnOver.addHandler((s, e) => {
-                // allow dropping only within groups
                 let col = e.getColumn(true) as wijmo.grid.ColumnGroup;
-                e.cancel = col.parentGroup != this._draggedColumn.parentGroup;
+                e.cancel = col.parentGroup != this._draggedColumn.parentGroup; // check if column belongs to its own group
             });
         }
 

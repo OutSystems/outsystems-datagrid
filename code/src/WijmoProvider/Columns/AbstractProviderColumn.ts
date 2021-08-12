@@ -6,6 +6,7 @@ namespace WijmoProvider.Column {
     export abstract class AbstractProviderColumn<
         T extends OSFramework.Configuration.IConfigurationColumn
     > extends OSFramework.Column.AbstractColumn<T> {
+        // to use group columns on grid, all columns must be column group
         private _provider: wijmo.grid.ColumnGroup;
 
         public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {

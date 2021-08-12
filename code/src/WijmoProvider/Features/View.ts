@@ -37,6 +37,9 @@ namespace WijmoProvider.Feature {
             );
         }
 
+        /**
+         * Returns the groups layout
+         */
         private _getGroupDefinition(col): Array<any> {
             const children = [];
 
@@ -86,6 +89,9 @@ namespace WijmoProvider.Feature {
             });
         }
 
+        /**
+         * Sets the groups layout
+         */
         private _setGroups(columns, config) {
             for (let i = 0; i < config.length; i++) {
                 let colDef = columns.filter(
