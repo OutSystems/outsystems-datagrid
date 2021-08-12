@@ -32,7 +32,7 @@ namespace OSFramework.Configuration.Column {
             super(config);
             this.isCollapsed = extra.isCollapsed;
             this.collapseTo = extra.collapseTo;
-            this.align = extra.align;
+            this.align = config.align;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
