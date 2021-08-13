@@ -5,8 +5,12 @@ namespace OSFramework.Feature {
             Interface.IProviderConfig<boolean>,
             IView {
         isGridFiltered: boolean;
-        activate(columID: string): void;
-        clear(columID: string): void;
-        deactivate(columID: string): void;
+        activate(columnID: string): void;
+        changeFilterType(
+            columnID: string,
+            filterType: wijmo.grid.filter.FilterType
+        ): void;
+        clear(columnID: string): void;
+        deactivate(columnID: string): void;
     }
 }
