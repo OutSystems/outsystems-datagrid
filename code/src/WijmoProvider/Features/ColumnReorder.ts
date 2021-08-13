@@ -3,9 +3,11 @@ namespace WijmoProvider.Feature {
     export class ColumnReorder
         implements
             OSFramework.Feature.IColumnReorder,
-            OSFramework.Interface.IBuilder {
+            OSFramework.Interface.IBuilder
+    {
         private _enabled: boolean;
         private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _draggedColumn: wijmo.grid.ColumnGroup;
 
         constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
@@ -14,6 +16,19 @@ namespace WijmoProvider.Feature {
 
         public build(): void {
             this.setState(this._enabled);
+
+            // keep track of group being dragged
+            this._grid.provider.draggingColumn.addHandler((s, e) => {
+                this._draggedColumn = e.getColumn(
+                    true
+                ) as wijmo.grid.ColumnGroup;
+            });
+
+            // We want to limit dragging to columns within groups
+            this._grid.provider.draggingColumnOver.addHandler((s, e) => {
+                let col = e.getColumn(true) as wijmo.grid.ColumnGroup;
+                e.cancel = col.parentGroup != this._draggedColumn.parentGroup; // check if column belongs to its own group
+            });
         }
 
         public setState(value: boolean): void {

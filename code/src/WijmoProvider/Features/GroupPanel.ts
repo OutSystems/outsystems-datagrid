@@ -43,7 +43,8 @@ namespace WijmoProvider.Feature {
         implements
             OSFramework.Feature.IGroupPanel,
             OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable {
+            OSFramework.Interface.IDisposable
+    {
         private _currGroupDescription: Array<wijmo.collections.PropertyGroupDescription>;
         private _grid: Grid.IGridWijmo;
         private _groupPanel: wijmo.grid.grouppanel.GroupPanel;

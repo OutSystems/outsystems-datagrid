@@ -6,7 +6,8 @@ namespace WijmoProvider.Column {
     export abstract class AbstractProviderColumn<
         T extends OSFramework.Configuration.IConfigurationColumn
     > extends OSFramework.Column.AbstractColumn<T> {
-        private _provider: wijmo.grid.Column;
+        // to use group columns on grid, all columns must be column group
+        private _provider: wijmo.grid.ColumnGroup;
 
         public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
             throw `The column ${this.columnType.toString()} does not support events`;
@@ -17,17 +18,17 @@ namespace WijmoProvider.Column {
             return this.columnEvents !== undefined;
         }
 
-        public get provider(): wijmo.grid.Column {
+        public get provider(): wijmo.grid.ColumnGroup {
             return this._provider;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        public set provider(provider: wijmo.grid.ColumnGroup) {
+            this._provider = provider;
         }
 
         public get providerIndex(): number {
             return this.provider.index;
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        public set provider(provider: wijmo.grid.Column) {
-            this._provider = provider;
         }
 
         /**
@@ -104,9 +105,10 @@ namespace WijmoProvider.Column {
                     // Column indexes   |0       |1      |0      |1      |2   |
                     // Group indexes    |0               |1                   |
                     //Inserting in the correct position
-                    // this.provider = new wijmo.grid.ColumnGroup(this.getProviderConfig(), parent.provider);
-                    //const providerGrid: wijmo.grid.FlexGrid = this._grid.provider;
-                    //providerGrid.columns.insert(this.config.index, this.provider);
+                    this.provider = new wijmo.grid.ColumnGroup(
+                        this.getProviderConfig(),
+                        parent.provider
+                    );
                 } else {
                     console.error(
                         `build - GroupColumn "${parent.config.header}" needs to be build before its childs ("${this.config.header}")`
@@ -121,9 +123,13 @@ namespace WijmoProvider.Column {
                         ? providerGrid.columns.length
                         : indexPosition;
 
-                this.provider = new wijmo.grid.Column(this.getProviderConfig());
+                this.provider = new wijmo.grid.ColumnGroup(
+                    this.getProviderConfig()
+                );
 
-                providerGrid.columns.insert(indexPosition, this.provider);
+                const columnGroups =
+                    providerGrid.columnGroups as wijmo.collections.ObservableArray<wijmo.grid.ColumnGroup>;
+                columnGroups.insert(indexPosition, this.provider);
             }
 
             if (this.columnType === OSFramework.Enum.ColumnType.Calculated) {
@@ -149,9 +155,10 @@ namespace WijmoProvider.Column {
             //RGRIDT-574 review after solved
             //Error when the column is inside a ColumnGroup
             !this.hasParentColumn &&
-                (this.grid.provider as wijmo.grid.FlexGrid).columns.remove(
-                    this.provider
-                );
+                (
+                    (this.grid.provider as wijmo.grid.FlexGrid)
+                        .columnGroups as wijmo.collections.ObservableArray<wijmo.grid.ColumnGroup>
+                ).remove(this.provider);
         }
 
         abstract get providerType(): wijmo.DataType;
