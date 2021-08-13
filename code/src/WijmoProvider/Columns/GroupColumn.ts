@@ -138,7 +138,9 @@ namespace WijmoProvider.Column {
 
         public removeChild(column: OSFramework.Column.IColumn): void {
             // remove column from internal group columns array
-            _.remove(this._columns, (p) => p === column);
+            this._columns = this._columns.filter(function (item) {
+                return item !== column;
+            });
 
             // Remove child from group
             this.provider.columns
