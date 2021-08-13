@@ -4,8 +4,8 @@ namespace WijmoProvider.Column {
         constructor(
             grid: OSFramework.Grid.IGrid,
             columnID: string,
-            configs: JSON,
-            extraConfig: JSON
+            configs: any,
+            extraConfig: any
         ) {
             super(
                 grid,
@@ -24,7 +24,7 @@ namespace WijmoProvider.Column {
                 '$' +
                 this.config.header.replace(/[^a-zA-Z]+/g, '') +
                 '_' +
-                Date.now();
+                extraConfig.formula.function;
         }
 
         /** Returns all the events associated to the column */
