@@ -131,15 +131,6 @@ namespace WijmoProvider.Column {
                     providerGrid.columnGroups as wijmo.collections.ObservableArray<wijmo.grid.ColumnGroup>;
                 columnGroups.insert(indexPosition, this.provider);
             }
-
-            if (this.columnType === OSFramework.Enum.ColumnType.Calculated) {
-                this.grid.features.filter.deactivate(this.uniqueId);
-                this.grid.features.calculatedField.addFormula(
-                    this.config.binding,
-                    this.config.header,
-                    this.config['formula']
-                );
-            }
         }
 
         public dispose(): void {
