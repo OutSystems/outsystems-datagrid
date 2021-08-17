@@ -16,11 +16,19 @@ namespace GridAPI.Rows {
         rowNumber: number,
         className: string
     ): void {
+        Performance.SetMark('Rows.AddClass');
+
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
             grid.features.rows.addClass(rowNumber, className, true);
         }
+        Performance.SetMark('Rows.AddClass-end');
+        Performance.GetMeasure(
+            '@datagrid-Rows.AddClass',
+            'Rows.AddClass',
+            'Rows.AddClass-end'
+        );
     }
 
     /**
@@ -31,6 +39,8 @@ namespace GridAPI.Rows {
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function AddRows(gridID: string): string {
+        Performance.SetMark('Rows.AddRows');
+
         const grid = GridManager.GetGridById(gridID);
         let output = '';
 
@@ -38,6 +48,12 @@ namespace GridAPI.Rows {
             output = JSON.stringify(grid.features.rows.addNewRows());
         }
 
+        Performance.SetMark('Rows.AddRows-end');
+        Performance.GetMeasure(
+            '@datagrid-Rows.AddRows',
+            'Rows.AddRows',
+            'Rows.AddRows-end'
+        );
         return output;
     }
 
@@ -50,6 +66,8 @@ namespace GridAPI.Rows {
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function GetRowData(gridID: string, rowNumber: number): string {
+        Performance.SetMark('Rows.GetRowData');
+
         const grid = GridManager.GetGridById(gridID);
         let output = '';
 
@@ -57,6 +75,12 @@ namespace GridAPI.Rows {
             output = JSON.stringify(grid.features.rows.getRowData(rowNumber));
         }
 
+        Performance.SetMark('Rows.GetRowData-end');
+        Performance.GetMeasure(
+            '@datagrid-Rows.GetRowData',
+            'Rows.GetRowData',
+            'Rows.GetRowData-end'
+        );
         return output;
     }
 
@@ -67,11 +91,19 @@ namespace GridAPI.Rows {
      * @param {number} rowNumber Number of the row in which all CSS classes are going to be removed.
      */
     export function RemoveAllClasses(gridID: string, rowNumber: number): void {
+        Performance.SetMark('Rows.RemoveAllClasses');
+
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
             grid.features.rows.removeAllClasses(rowNumber);
         }
+        Performance.SetMark('Rows.RemoveAllClasses-end');
+        Performance.GetMeasure(
+            '@datagrid-Rows.RemoveAllClasses',
+            'Rows.RemoveAllClasses',
+            'Rows.RemoveAllClasses-end'
+        );
     }
 
     /**
@@ -87,11 +119,19 @@ namespace GridAPI.Rows {
         rowNumber: number,
         className: string
     ): void {
+        Performance.SetMark('Rows.RemoveClass');
+
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
             grid.features.rows.removeClass(rowNumber, className, true);
         }
+        Performance.SetMark('Rows.RemoveClass-end');
+        Performance.GetMeasure(
+            '@datagrid-Rows.RemoveClass',
+            'Rows.RemoveClass',
+            'Rows.RemoveClass-end'
+        );
     }
 
     /**
@@ -102,6 +142,8 @@ namespace GridAPI.Rows {
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function RemoveRows(gridID: string): string {
+        Performance.SetMark('Rows.RemoveRows');
+
         const grid = GridManager.GetGridById(gridID);
         let output = '';
 
@@ -109,6 +151,12 @@ namespace GridAPI.Rows {
             output = JSON.stringify(grid.features.rows.removeSelectedRows());
         }
 
+        Performance.SetMark('Rows.RemoveRows-end');
+        Performance.GetMeasure(
+            '@datagrid-Rows.RemoveRows',
+            'Rows.RemoveRows',
+            'Rows.RemoveRows-end'
+        );
         return output;
     }
 
@@ -123,10 +171,18 @@ namespace GridAPI.Rows {
         gridID: string,
         startIndex: number
     ): void {
+        Performance.SetMark('Rows.UpdateStartingRowHeader');
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
             grid.features.autoRowNumber.setStartIndex(startIndex);
         }
+
+        Performance.SetMark('Rows.UpdateStartingRowHeader-end');
+        Performance.GetMeasure(
+            '@datagrid-Rows.UpdateStartingRowHeader',
+            'Rows.UpdateStartingRowHeader',
+            'Rows.UpdateStartingRowHeader-end'
+        );
     }
 }

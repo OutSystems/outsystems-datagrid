@@ -17,6 +17,8 @@ namespace GridAPI.GridManager {
         grid: OSFramework.Grid.IGrid,
         data: string
     ): boolean {
+        Performance.SetMark('GridManager.setDataInGrid');
+
         let output = false;
         if (grid !== undefined) {
             if (grid.isReady && data !== '' && data !== '{}') {
@@ -24,6 +26,13 @@ namespace GridAPI.GridManager {
             }
             output = true;
         }
+
+        Performance.SetMark('GridManager.setDataInGrid-end');
+        Performance.GetMeasure(
+            '@datagrid-GridManager.setDataInGrid',
+            'GridManager.setDataInGrid',
+            'GridManager.setDataInGrid-end'
+        );
         return output;
     }
 
@@ -39,6 +48,8 @@ namespace GridAPI.GridManager {
         gridID: string,
         configs: string
     ): OSFramework.Grid.IGrid {
+        Performance.SetMark('GridManager.CreateGrid');
+
         const _grid = WijmoProvider.Grid.GridFactory.MakeGrid(
             OSFramework.Enum.GridType.FlexGrid,
             gridID,
@@ -56,6 +67,12 @@ namespace GridAPI.GridManager {
 
         Events.CheckPendingEvents(gridID);
 
+        Performance.SetMark('GridManager.CreateGrid-end');
+        Performance.GetMeasure(
+            '@datagrid-GridManager.CreateGrid',
+            'GridManager.CreateGrid',
+            'GridManager.CreateGrid-end'
+        );
         return _grid;
     }
 
@@ -71,6 +88,8 @@ namespace GridAPI.GridManager {
         gridID: string,
         raiseError = true
     ): OSFramework.Grid.IGrid {
+        Performance.SetMark('GridManager.GetGridById');
+
         let grid: OSFramework.Grid.IGrid;
 
         //gridID is the UniqueId
@@ -90,6 +109,12 @@ namespace GridAPI.GridManager {
             throw new Error(`Grid id:${gridID} not found`);
         }
 
+        Performance.SetMark('GridManager.GetGridById-end');
+        Performance.GetMeasure(
+            '@datagrid-GridManager.GetGridById',
+            'GridManager.GetGridById',
+            'GridManager.GetGridById-end'
+        );
         return grid;
     }
 
@@ -121,6 +146,8 @@ namespace GridAPI.GridManager {
      * @returns {*}  {string} Changed lines in JSON format.
      */
     export function GetChangesInGrid(gridID: string): string {
+        Performance.SetMark('GridManager.GetChangesInGrid');
+
         const grid = GridManager.GetGridById(gridID);
         let output = '';
 
@@ -128,6 +155,12 @@ namespace GridAPI.GridManager {
             output = JSON.stringify(grid.getChangesMade());
         }
 
+        Performance.SetMark('GridManager.GetChangesInGrid-end');
+        Performance.GetMeasure(
+            '@datagrid-GridManager.GetChangesInGrid',
+            'GridManager.GetChangesInGrid',
+            'GridManager.GetChangesInGrid-end'
+        );
         return output;
     }
 
@@ -140,6 +173,8 @@ namespace GridAPI.GridManager {
      * @returns {*}  {boolean} true if the grid was initialized.
      */
     export function InitializeGrid(gridID: string, data = '{}'): boolean {
+        Performance.SetMark('GridManager.InitializeGrid');
+
         let output = false;
         const grid = GetGridById(gridID);
 
@@ -147,6 +182,12 @@ namespace GridAPI.GridManager {
 
         output = setDataInGrid(grid, data);
 
+        Performance.SetMark('GridManager.InitializeGrid-end');
+        Performance.GetMeasure(
+            '@datagrid-GridManager.InitializeGrid',
+            'GridManager.InitializeGrid',
+            'GridManager.InitializeGrid-end'
+        );
         return output;
     }
 
@@ -161,12 +202,21 @@ namespace GridAPI.GridManager {
         gridID: string,
         forceCleanInvalids = false
     ): void {
+        Performance.SetMark('GridManager.MarkChangesAsSaved');
+
         // eslint-disable-next-line
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
             grid.clearAllChanges(forceCleanInvalids);
         }
+
+        Performance.SetMark('GridManager.MarkChangesAsSaved-end');
+        Performance.GetMeasure(
+            '@datagrid-GridManager.MarkChangesAsSaved',
+            'GridManager.MarkChangesAsSaved',
+            'GridManager.MarkChangesAsSaved-end'
+        );
     }
 
     /**
@@ -178,8 +228,17 @@ namespace GridAPI.GridManager {
      * @returns {*}  {boolean} true if the data was changed in the grid.
      */
     export function SetGridData(gridID: string, data: string): boolean {
+        Performance.SetMark('GridManager.SetGridData');
+
         const grid = GetGridById(gridID);
         const output = setDataInGrid(grid, data);
+
+        Performance.SetMark('SetGridData-end');
+        Performance.GetMeasure(
+            '@datagrid-GridManager.SetGridData',
+            'GridManager.SetGridData',
+            'GridManager.SetGridData-end'
+        );
         return output;
     }
 
@@ -190,6 +249,8 @@ namespace GridAPI.GridManager {
      * @param {string} gridID ID of the Grid to be destroyed.
      */
     export function RemoveGrid(gridID: string): void {
+        Performance.SetMark('GridManager.RemoveGrid');
+
         const grid = GetGridById(gridID);
 
         gridMap.delete(grid.uniqueId);
@@ -200,6 +261,13 @@ namespace GridAPI.GridManager {
         }
 
         grid.dispose();
+
+        Performance.SetMark('GridManager.RemoveGrid-end');
+        Performance.GetMeasure(
+            '@datagrid-GridManager.RemoveGrid',
+            'GridManager.RemoveGrid',
+            'GridManager.RemoveGrid-end'
+        );
     }
 
     /**
@@ -216,9 +284,18 @@ namespace GridAPI.GridManager {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         propertyValue: any
     ): void {
+        Performance.SetMark('GridManager.ChangeProperty');
+
         const grid = GetGridById(gridID);
 
         grid.changeProperty(propertyName, propertyValue);
+
+        Performance.SetMark('GridManager.ChangeProperty-end');
+        Performance.GetMeasure(
+            '@datagrid-GridManager.ChangeProperty',
+            'GridManager.ChangeProperty',
+            'GridManager.ChangeProperty-end'
+        );
     }
 
     /**
@@ -228,6 +305,8 @@ namespace GridAPI.GridManager {
      * @param {string} gridID
      */
     export function DestroyGrid(gridID: string): void {
+        Performance.SetMark('GridManager.DestroyGrid');
+
         const grid = GetGridById(gridID);
 
         gridMap.delete(grid.uniqueId);
@@ -238,6 +317,13 @@ namespace GridAPI.GridManager {
         }
 
         grid.dispose();
+
+        Performance.SetMark('GridManager.DestroyGrid-end');
+        Performance.GetMeasure(
+            '@datagrid-GridManager.DestroyGrid',
+            'GridManager.DestroyGrid',
+            'GridManager.DestroyGrid-end'
+        );
     }
 
     /**

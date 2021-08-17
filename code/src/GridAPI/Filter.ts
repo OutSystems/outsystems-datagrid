@@ -25,6 +25,8 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Search(gridID: string, searchedValue: string): void {
+        Performance.SetMark('Filter.search');
+
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
@@ -41,6 +43,13 @@ namespace GridAPI.Filter {
             OSFramework.Event.Grid.GridEventType.SearchEnded,
             grid
         );
+
+        Performance.SetMark('Filter.search-end');
+        Performance.GetMeasure(
+            '@datagrid-Filter.search',
+            'Filter.search',
+            'Filter.search-end'
+        );
         //TODO: [RGRIDT-621] Give feedback if grid is not found
     }
 
@@ -53,10 +62,18 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Activate(gridID: string, columnID: string): void {
+        Performance.SetMark('Filter.activate');
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.filter.activate(columnID);
+
+        Performance.SetMark('Filter.activate-end');
+        Performance.GetMeasure(
+            '@datagrid-Filter.activate',
+            'Filter.activate',
+            'Filter.activate-end'
+        );
     }
 
     /**
@@ -68,10 +85,18 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Clear(gridID: string, columnID: string): void {
+        Performance.SetMark('Filter.clear');
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.filter.clear(columnID);
+
+        Performance.SetMark('Filter.clear-end');
+        Performance.GetMeasure(
+            '@datagrid-Filter.clear',
+            'Filter.clear',
+            'Filter.clear-end'
+        );
     }
     /**
      * Function that deactivates filter of a given column
@@ -82,8 +107,17 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Deactivate(gridID: string, columnID: string): void {
+        Performance.SetMark('Filter.deactivate');
+
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
         grid.features.filter.deactivate(columnID);
+
+        Performance.SetMark('Filter.deactivate-end');
+        Performance.GetMeasure(
+            '@datagrid-Filter.deactivate',
+            'Filter.deactivate',
+            'Filter.deactivate-end'
+        );
     }
 }
