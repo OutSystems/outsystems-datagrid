@@ -220,12 +220,15 @@ namespace WijmoProvider.Feature {
                 !this._isNewRow(rowNumber) &&
                 !this._hasCellInitialValue(rowNumber, binding)
             ) {
+                const columnType = this._grid.getColumn(binding)?.columnType;
+                const isDropdown =
+                    columnType === OSFramework.Enum.ColumnType.Dropdown;
                 this.getMetadata(rowNumber).originalValues.set(
                     binding,
                     this._grid.provider.getCellData(
                         rowNumber,
                         columnNumber,
-                        false
+                        isDropdown
                     )
                 );
             }
