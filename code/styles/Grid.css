@@ -259,8 +259,7 @@
 
 .wj-cell.wj-state-invalid.wj-header.wj-alt:not(.wj-state-multi-selected),
 .wj-cell.wj-state-invalid.wj-header.wj-header-alt:not(.wj-state-multi-selected),
-.wj-cell.wj-alt,
-.wj-cell.wj-header-alt {
+.wj-cell.wj-alt {
     background: var(--datagrid-cell-background-alt);
 }
 
