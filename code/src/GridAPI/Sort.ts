@@ -11,15 +11,15 @@ namespace GridAPI.Sort {
      * @returns {*}  {void}
      */
     export function Clear(gridID: string): void {
-        Performance.SetMark('Sort.Clear');
+        PerformanceAPI.SetMark('Sort.Clear');
 
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.sort.clear();
 
-        Performance.SetMark('Sort.Clear-end');
-        Performance.GetMeasure(
+        PerformanceAPI.SetMark('Sort.Clear-end');
+        PerformanceAPI.GetMeasure(
             '@datagrid-Sort.Clear',
             'Sort.Clear',
             'Sort.Clear-end'

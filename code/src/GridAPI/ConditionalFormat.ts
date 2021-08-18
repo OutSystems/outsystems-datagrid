@@ -13,7 +13,7 @@ namespace GridAPI.ConditionalFormat {
         binding: string,
         rules: Array<OSFramework.OSStructure.ConditionalFormat>
     ): void {
-        Performance.SetMark('ConditionalFormat.AddConditionalFormat');
+        PerformanceAPI.SetMark('ConditionalFormat.AddConditionalFormat');
 
         GridManager.Events.Subscribe(
             gridID,
@@ -21,10 +21,10 @@ namespace GridAPI.ConditionalFormat {
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.conditionalFormat.addRules(binding, rules);
 
-                Performance.SetMark(
+                PerformanceAPI.SetMark(
                     'ConditionalFormat.AddConditionalFormat-end'
                 );
-                Performance.GetMeasure(
+                PerformanceAPI.GetMeasure(
                     '@datagrid-ConditionalFormat.AddConditionalFormat',
                     'ConditionalFormat.AddConditionalFormat',
                     'ConditionalFormat.AddConditionalFormat-end'
@@ -44,7 +44,7 @@ namespace GridAPI.ConditionalFormat {
         gridID: string,
         binding: string
     ): void {
-        Performance.SetMark('ConditionalFormat.RemoveConditionalFormat');
+        PerformanceAPI.SetMark('ConditionalFormat.RemoveConditionalFormat');
 
         GridManager.Events.Subscribe(
             gridID,
@@ -52,10 +52,10 @@ namespace GridAPI.ConditionalFormat {
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.conditionalFormat.removeRules(binding);
 
-                Performance.SetMark(
+                PerformanceAPI.SetMark(
                     'ConditionalFormat.RemoveConditionalFormat-end'
                 );
-                Performance.GetMeasure(
+                PerformanceAPI.GetMeasure(
                     '@datagrid-ConditionalFormat.RemoveConditionalFormat',
                     'ConditionalFormat.RemoveConditionalFormat',
                     'ConditionalFormat.RemoveConditionalFormat-end'

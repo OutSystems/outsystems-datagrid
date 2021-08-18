@@ -25,7 +25,7 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Search(gridID: string, searchedValue: string): void {
-        Performance.SetMark('Filter.search');
+        PerformanceAPI.SetMark('Filter.search');
 
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
@@ -44,8 +44,8 @@ namespace GridAPI.Filter {
             grid
         );
 
-        Performance.SetMark('Filter.search-end');
-        Performance.GetMeasure(
+        PerformanceAPI.SetMark('Filter.search-end');
+        PerformanceAPI.GetMeasure(
             '@datagrid-Filter.search',
             'Filter.search',
             'Filter.search-end'
@@ -62,14 +62,14 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Activate(gridID: string, columnID: string): void {
-        Performance.SetMark('Filter.activate');
+        PerformanceAPI.SetMark('Filter.activate');
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.filter.activate(columnID);
 
-        Performance.SetMark('Filter.activate-end');
-        Performance.GetMeasure(
+        PerformanceAPI.SetMark('Filter.activate-end');
+        PerformanceAPI.GetMeasure(
             '@datagrid-Filter.activate',
             'Filter.activate',
             'Filter.activate-end'
@@ -85,14 +85,14 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Clear(gridID: string, columnID: string): void {
-        Performance.SetMark('Filter.clear');
+        PerformanceAPI.SetMark('Filter.clear');
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.filter.clear(columnID);
 
-        Performance.SetMark('Filter.clear-end');
-        Performance.GetMeasure(
+        PerformanceAPI.SetMark('Filter.clear-end');
+        PerformanceAPI.GetMeasure(
             '@datagrid-Filter.clear',
             'Filter.clear',
             'Filter.clear-end'
@@ -107,14 +107,14 @@ namespace GridAPI.Filter {
      * @returns {*}  {void}
      */
     export function Deactivate(gridID: string, columnID: string): void {
-        Performance.SetMark('Filter.deactivate');
+        PerformanceAPI.SetMark('Filter.deactivate');
 
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
         grid.features.filter.deactivate(columnID);
 
-        Performance.SetMark('Filter.deactivate-end');
-        Performance.GetMeasure(
+        PerformanceAPI.SetMark('Filter.deactivate-end');
+        PerformanceAPI.GetMeasure(
             '@datagrid-Filter.deactivate',
             'Filter.deactivate',
             'Filter.deactivate-end'

@@ -18,7 +18,7 @@ namespace GridAPI.Styling {
         rowIndex: number,
         className: string
     ): void {
-        Performance.SetMark('Styling.SetCellCssClass');
+        PerformanceAPI.SetMark('Styling.SetCellCssClass');
 
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const binding = ColumnManager.GetColumnById(columnID).config.binding;
@@ -27,8 +27,8 @@ namespace GridAPI.Styling {
             rowIndex,
             className
         );
-        Performance.SetMark('Styling.SetCellCssClass-end');
-        Performance.GetMeasure(
+        PerformanceAPI.SetMark('Styling.SetCellCssClass-end');
+        PerformanceAPI.GetMeasure(
             '@datagrid-Styling.SetCellCssClass',
             'Styling.SetCellCssClass',
             'Styling.SetCellCssClass-end'
@@ -50,7 +50,7 @@ namespace GridAPI.Styling {
         cssClass: string,
         applyToHeader: boolean
     ): void {
-        Performance.SetMark('Styling.SetColumnCssClass');
+        PerformanceAPI.SetMark('Styling.SetColumnCssClass');
 
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         GridManager.GetGridById(gridID).features.styling.addColumnCssClass(
@@ -58,8 +58,8 @@ namespace GridAPI.Styling {
             cssClass,
             applyToHeader
         );
-        Performance.SetMark('Styling.SetColumnCssClass-end');
-        Performance.GetMeasure(
+        PerformanceAPI.SetMark('Styling.SetColumnCssClass-end');
+        PerformanceAPI.GetMeasure(
             '@datagrid-Styling.SetColumnCssClass',
             'Styling.SetColumnCssClass',
             'Styling.SetColumnCssClass-end'
@@ -78,7 +78,7 @@ namespace GridAPI.Styling {
         columnID: string,
         rowIndex: number
     ): void {
-        Performance.SetMark('Styling.RemoveAllCssClassesFromCell');
+        PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell');
 
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const column = ColumnManager.GetColumnById(columnID);
@@ -89,8 +89,8 @@ namespace GridAPI.Styling {
                 binding
             );
         }
-        Performance.SetMark('Styling.RemoveAllCssClassesFromCell-end');
-        Performance.GetMeasure(
+        PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell-end');
+        PerformanceAPI.GetMeasure(
             '@datagrid-Styling.RemoveAllCssClassesFromCell',
             'Styling.RemoveAllCssClassesFromCell',
             'Styling.RemoveAllCssClassesFromCell-end'
@@ -109,7 +109,7 @@ namespace GridAPI.Styling {
         columnID: string,
         cssClass: string
     ): void {
-        Performance.SetMark('Styling.RemoveColumnCssClass');
+        PerformanceAPI.SetMark('Styling.RemoveColumnCssClass');
 
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         GridManager.GetGridById(gridID).features.styling.removeColumnCssClass(
@@ -117,8 +117,8 @@ namespace GridAPI.Styling {
             cssClass
         );
 
-        Performance.SetMark('Styling.RemoveColumnCssClass-end');
-        Performance.GetMeasure(
+        PerformanceAPI.SetMark('Styling.RemoveColumnCssClass-end');
+        PerformanceAPI.GetMeasure(
             '@datagrid-Styling.RemoveColumnCssClass',
             'Styling.RemoveColumnCssClass',
             'Styling.RemoveColumnCssClass-end'
