@@ -40,12 +40,11 @@ namespace GridAPI.Pagination {
         phID: string,
         buttonQuantity: number
     ): void {
-        PerformanceAPI.SetMark('Pagination.CreatePageButtons');
-
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                PerformanceAPI.SetMark('Pagination.CreatePageButtons');
                 gridObj.features.pagination.createPageButtons(
                     phID,
                     buttonQuantity
@@ -188,12 +187,11 @@ namespace GridAPI.Pagination {
         gridID: string,
         phID: string
     ): void {
-        PerformanceAPI.SetMark('Pagination.RegisterCurrentPageLabel');
-
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                PerformanceAPI.SetMark('Pagination.RegisterCurrentPageLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.PageIndex,
                     phID
@@ -219,12 +217,11 @@ namespace GridAPI.Pagination {
      * @param {string} phID
      */
     export function RegisterPageCountLabel(gridID: string, phID: string): void {
-        PerformanceAPI.SetMark('Pagination.RegisterPageCountLabel');
-
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                PerformanceAPI.SetMark('Pagination.RegisterPageCountLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.PageCount,
                     phID
@@ -248,12 +245,11 @@ namespace GridAPI.Pagination {
      * @param {string} phID
      */
     export function RegisterPageSizeLabel(gridID: string, phID: string): void {
-        PerformanceAPI.SetMark('Pagination.RegisterPageSizeLabel');
-
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                PerformanceAPI.SetMark('Pagination.RegisterPageSizeLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.PageSize,
                     phID
@@ -277,12 +273,11 @@ namespace GridAPI.Pagination {
      * @param {string} phID
      */
     export function RegisterRowEndLabel(gridID: string, phID: string): void {
-        PerformanceAPI.SetMark('Pagination.RegisterRowEndLabel');
-
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                PerformanceAPI.SetMark('Pagination.RegisterRowEndLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.RowEnd,
                     phID
@@ -306,12 +301,11 @@ namespace GridAPI.Pagination {
      * @param {string} phID
      */
     export function RegisterRowStartLabel(gridID: string, phID: string): void {
-        PerformanceAPI.SetMark('Pagination.RegisterRowStartLabel');
-
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                PerformanceAPI.SetMark('Pagination.RegisterRowStartLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.RowStart,
                     phID
@@ -335,12 +329,11 @@ namespace GridAPI.Pagination {
      * @param {string} phID
      */
     export function RegisterRowTotalLabel(gridID: string, phID: string): void {
-        PerformanceAPI.SetMark('Pagination.RegisterRowTotalLabel');
-
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                PerformanceAPI.SetMark('Pagination.RegisterRowTotalLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.RowTotal,
                     phID

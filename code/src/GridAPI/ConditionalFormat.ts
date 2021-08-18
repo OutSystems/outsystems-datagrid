@@ -13,12 +13,13 @@ namespace GridAPI.ConditionalFormat {
         binding: string,
         rules: Array<OSFramework.OSStructure.ConditionalFormat>
     ): void {
-        PerformanceAPI.SetMark('ConditionalFormat.AddConditionalFormat');
-
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                PerformanceAPI.SetMark(
+                    'ConditionalFormat.AddConditionalFormat'
+                );
                 gridObj.features.conditionalFormat.addRules(binding, rules);
 
                 PerformanceAPI.SetMark(
@@ -44,12 +45,13 @@ namespace GridAPI.ConditionalFormat {
         gridID: string,
         binding: string
     ): void {
-        PerformanceAPI.SetMark('ConditionalFormat.RemoveConditionalFormat');
-
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                PerformanceAPI.SetMark(
+                    'ConditionalFormat.RemoveConditionalFormat'
+                );
                 gridObj.features.conditionalFormat.removeRules(binding);
 
                 PerformanceAPI.SetMark(

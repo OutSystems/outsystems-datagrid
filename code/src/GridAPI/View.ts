@@ -32,12 +32,11 @@ namespace GridAPI {
          */
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         export function SetViewLayout(gridID: string, config: any): void {
-            PerformanceAPI.SetMark('View.SetViewLayout');
-
             GridManager.Events.Subscribe(
                 gridID,
                 OSFramework.Event.Grid.GridEventType.Initialized,
                 (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                    PerformanceAPI.SetMark('View.SetViewLayout');
                     gridObj.setViewLayout(config);
 
                     PerformanceAPI.SetMark('View.SetViewLayout-end');
