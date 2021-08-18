@@ -4,8 +4,7 @@
   "description": "",
   "license": "ISC",
   "scripts": {
-    "debug": "tsc --removeComments",
-    "build": "tsc & gulp production-script",
+    "build": "tsc",
     "lint": "eslint ./src/*/*.ts",
     "lintfix": "eslint --fix ./src/*/*.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
