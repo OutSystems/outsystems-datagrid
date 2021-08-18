@@ -15,6 +15,8 @@ namespace GridAPI.ContextMenu {
         menuItemId: string,
         lookUpDOM = true
     ): string {
+        PerformanceAPI.SetMark('ContextMenu.getGridByMenuId');
+
         //Try to find in DOM only if not present on Map
         if (lookUpDOM && !_menuItemsToGridId.has(menuItemId)) {
             const menuOptionElement =
@@ -26,6 +28,12 @@ namespace GridAPI.ContextMenu {
             }
         }
 
+        PerformanceAPI.SetMark('ContextMenu.getGridByMenuId-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ContextMenu.getGridByMenuId',
+            'ContextMenu.getGridByMenuId',
+            'ContextMenu.getGridByMenuId-end'
+        );
         return _menuItemsToGridId.get(menuItemId);
     }
 
@@ -43,6 +51,8 @@ namespace GridAPI.ContextMenu {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         clickEvent: OSFramework.Callbacks.ContextMenu.OSClickEvent
     ): void {
+        PerformanceAPI.SetMark('ContextMenu.addItem');
+
         const gridID = GetGridByMenuId(menuItemId);
 
         if (gridID !== undefined) {
@@ -61,6 +71,13 @@ namespace GridAPI.ContextMenu {
                         );
                     }
                 );
+
+                PerformanceAPI.SetMark('ContextMenu.addItem-end');
+                PerformanceAPI.GetMeasure(
+                    '@datagrid-ContextMenu.addItem',
+                    'ContextMenu.addItem',
+                    'ContextMenu.addItem-end'
+                );
             } else {
                 //the grid was not found
                 throw `The context menu item ${label} is being placed in a grid that doesn't exist`;
@@ -72,6 +89,8 @@ namespace GridAPI.ContextMenu {
     }
 
     export function AddSeparator(menuItemId: string): void {
+        PerformanceAPI.SetMark('ContextMenu.addSeparator');
+
         const gridID = GetGridByMenuId(menuItemId);
 
         if (gridID !== undefined) {
@@ -86,6 +105,13 @@ namespace GridAPI.ContextMenu {
                             menuItemId
                         );
                     }
+                );
+
+                PerformanceAPI.SetMark('ContextMenu.addSeparator-end');
+                PerformanceAPI.GetMeasure(
+                    '@datagrid-ContextMenu.addSeparator',
+                    'ContextMenu.addSeparator',
+                    'ContextMenu.addSeparator-end'
                 );
             } else {
                 //the grid was not found
@@ -102,6 +128,8 @@ namespace GridAPI.ContextMenu {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         propertyValue: any
     ): void {
+        PerformanceAPI.SetMark('ContextMenu.ChangeProperty');
+
         const gridID = GetGridByMenuId(menuItemId, false);
 
         if (gridID !== undefined) {
@@ -114,9 +142,18 @@ namespace GridAPI.ContextMenu {
                     propertyValue
                 );
         }
+
+        PerformanceAPI.SetMark('ContextMenu.-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ContextMenu.ChangeProperty',
+            'ContextMenu.ChangeProperty',
+            'ContextMenu.ChangeProperty-end'
+        );
     }
 
     export function RemoveItem(menuItemId: string): void {
+        PerformanceAPI.SetMark('ContextMenu.removeItem');
+
         const gridID = GetGridByMenuId(menuItemId, false);
 
         if (gridID !== undefined) {
@@ -125,5 +162,12 @@ namespace GridAPI.ContextMenu {
             grid && grid.features.contextMenu.removeMenuItem(menuItemId);
             _menuItemsToGridId.delete(menuItemId);
         }
+
+        PerformanceAPI.SetMark('ContextMenu.removeItem-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ContextMenu.removeItem',
+            'ContextMenu.removeItem',
+            'ContextMenu.removeItem-end'
+        );
     }
 }

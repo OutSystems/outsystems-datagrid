@@ -21,6 +21,8 @@ namespace GridAPI.ColumnManager {
         configs = '{}',
         editorConfig = '{}'
     ): boolean {
+        PerformanceAPI.SetMark('ColumnManager.createColumn');
+
         editorConfig = editorConfig === '' ? '{}' : editorConfig;
         let output = false;
         let column: OSFramework.Column.IColumn;
@@ -44,6 +46,12 @@ namespace GridAPI.ColumnManager {
             output = true;
         }
 
+        PerformanceAPI.SetMark('ColumnManager.createColumn-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.createColumn',
+            'ColumnManager.createColumn',
+            'ColumnManager.createColumn-end'
+        );
         return output;
     }
 
@@ -54,6 +62,8 @@ namespace GridAPI.ColumnManager {
      * @returns {*}  {ColumnMapper} this structure has the id of Grid, and the reference to the instance of the grid.
      */
     function GetGridByColumnId(columnID: string): OSFramework.Grid.IGrid {
+        PerformanceAPI.SetMark('ColumnManager.getGridByColumnId');
+
         let grid: OSFramework.Grid.IGrid;
 
         //ColumnId is the UniqueId
@@ -79,6 +89,12 @@ namespace GridAPI.ColumnManager {
             }
         }
 
+        PerformanceAPI.SetMark('ColumnManager.getGridByColumnId-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.getGridByColumnId',
+            'ColumnManager.getGridByColumnId',
+            'ColumnManager.getGridByColumnId-end'
+        );
         return grid;
     }
 
@@ -106,11 +122,19 @@ namespace GridAPI.ColumnManager {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         propertyValue: any
     ): void {
+        PerformanceAPI.SetMark('ColumnManager.changeProperty');
+
         const grid = GetGridByColumnId(columnID);
 
         if (grid !== undefined) {
             grid.changeColumnProperty(columnID, propertyName, propertyValue);
         }
+        PerformanceAPI.SetMark('ColumnManager.changeProperty-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.changeProperty',
+            'ColumnManager.changeProperty',
+            'ColumnManager.changeProperty-end'
+        );
     }
 
     /**
@@ -120,6 +144,8 @@ namespace GridAPI.ColumnManager {
      * @param {string} columnID id of the column with which actions on the column can be performed.
      */
     export function DestroyColumn(columnID: string): void {
+        PerformanceAPI.SetMark('ColumnManager.destroyColumn');
+
         const grid = GetGridByColumnId(columnID);
 
         grid && grid.removeColumn(columnID);
@@ -129,6 +155,12 @@ namespace GridAPI.ColumnManager {
                 return p && p.equalsToID(columnID);
             }),
             1
+        );
+        PerformanceAPI.SetMark('ColumnManager.destroyColumn-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.destroyColumn',
+            'ColumnManager.destroyColumn',
+            'ColumnManager.destroyColumn-end'
         );
     }
 }

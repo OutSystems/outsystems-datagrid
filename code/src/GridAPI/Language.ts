@@ -9,9 +9,18 @@ namespace GridAPI {
          * @param {string} url
          */
         export function SetLanguage(language: string, url: string): void {
+            PerformanceAPI.SetMark('Language.SetLanguage');
+
             if (language !== '') {
                 WijmoProvider.Helper.Translation.SetLanguage(language, url);
             }
+
+            PerformanceAPI.SetMark('Language.SetLanguage-end');
+            PerformanceAPI.GetMeasure(
+                '@datagrid-Language.SetLanguage',
+                'Language.SetLanguage',
+                'Language.SetLanguage-end'
+            );
         }
     }
 }

@@ -20,11 +20,20 @@ namespace GridAPI.Cells {
         isValid: boolean,
         errorMessage: string
     ): void {
+        PerformanceAPI.SetMark('Cells.setValidationStatus');
         GridManager.GetGridById(gridID).features.validationMark.setStatus(
             rowIndex,
             columnID,
             isValid,
             errorMessage
+        );
+        PerformanceAPI.SetMark('Cells.setValidationStatus');
+
+        PerformanceAPI.SetMark('Cells.setValidationStatus-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Cells.setValidationStatus',
+            'Cells.setValidationStatus',
+            'Cells.setValidationStatus-end'
         );
     }
 
@@ -40,11 +49,19 @@ namespace GridAPI.Cells {
         rowIndex: number,
         columnID: string
     ): void {
+        PerformanceAPI.SetMark('Cells.validateCell');
+
         const column = ColumnManager.GetColumnById(columnID);
         if (column === undefined) return;
         GridManager.GetGridById(gridID).features.validationMark.validateCell(
             rowIndex,
             column
+        );
+        PerformanceAPI.SetMark('Cells.validateCell-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Cells.validateCell',
+            'Cells.validateCell',
+            'Cells.validateCell-end'
         );
     }
 
@@ -56,8 +73,16 @@ namespace GridAPI.Cells {
      * @param {number} rowIndex Index of the row that contains the cells to be validated.
      */
     export function ValidateRow(gridID: string, rowIndex: number): void {
+        PerformanceAPI.SetMark('Cells.validateRow');
+
         GridManager.GetGridById(gridID).features.validationMark.validateRow(
             rowIndex
+        );
+        PerformanceAPI.SetMark('Cells.validateRow-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Cells.validateRow',
+            'Cells.validateRow',
+            'Cells.validateRow-end'
         );
     }
     /**
@@ -78,6 +103,8 @@ namespace GridAPI.Cells {
         value: any,
         showDirtyMark = true
     ): void {
+        PerformanceAPI.SetMark('Cells.setCellData');
+
         if (OSFramework.Helper.IsGridReady(gridID) === false) return;
         const grid = GridManager.GetGridById(gridID);
         const column = ColumnManager.GetColumnById(columnID);
@@ -92,5 +119,11 @@ namespace GridAPI.Cells {
 
         grid.features.cellData.setCellData(rowIndex, column, value);
         grid.features.validationMark.validateCell(rowIndex, column);
+        PerformanceAPI.SetMark('Cells.setCellData-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Cells.setCellData',
+            'Cells.setCellData',
+            'Cells.setCellData-end'
+        );
     }
 }
