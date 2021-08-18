@@ -75,11 +75,8 @@ namespace WijmoProvider.Feature {
                 : wijmo.grid.filter.FilterType.Both;
         }
 
-        public activate(columID: string): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columID);
-
-            this._filter.getColumnFilter(column.provider).filterType =
-                this.filterType;
+        public activate(columnID: string): void {
+            this.changeFilterType(columnID, this.filterType);
         }
 
         public build(): void {
@@ -111,18 +108,27 @@ namespace WijmoProvider.Feature {
             this.setState(this._enabled);
         }
 
-        public clear(columID: string): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columID);
+        public changeFilterType(
+            columnID: string,
+            filterType: wijmo.grid.filter.FilterType
+        ): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columnID);
+
+            if (column) {
+                this._filter.getColumnFilter(column.provider).filterType =
+                    filterType;
+            }
+        }
+
+        public clear(columnID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columnID);
 
             this._filter.getColumnFilter(column.provider).clear();
             this._grid.provider.collectionView.refresh();
         }
 
-        public deactivate(columID: string): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columID);
-
-            this._filter.getColumnFilter(column.provider).filterType =
-                wijmo.grid.filter.FilterType.None;
+        public deactivate(columnID: string): void {
+            this.changeFilterType(columnID, wijmo.grid.filter.FilterType.None);
         }
 
         public dispose(): void {
