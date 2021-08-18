@@ -2,14 +2,21 @@
  *  Namespace that contains functions responsible for interactions with the grid.
  */
 // eslint-disable-next-line
-namespace GridAPI.Performance {
+namespace PerformanceAPI {
+    let performanceObj: IPerformance;
+
+    (function () {
+        const isDebug = GetDebug();
+        performanceObj = Factory.MakePerformance(isDebug);
+    })();
+
     /**
      * Function that clears all the created marks from the current session.
      *
      * @export
      */
     export function ClearMarks(): void {
-        performance.clearMarks();
+        performanceObj.clearMarks();
     }
 
     /**
@@ -18,7 +25,7 @@ namespace GridAPI.Performance {
      * @export
      */
     export function ClearMeasures(): void {
-        performance.clearMeasures();
+        performanceObj.clearMeasures();
     }
 
     /**
@@ -28,10 +35,10 @@ namespace GridAPI.Performance {
      */
     export function GetAllMeasures(keyword = ''): PerformanceEntryList {
         if (keyword === '') {
-            return performance.getEntriesByType('measure');
+            return performanceObj.getEntriesByType('measure');
         }
         const regex = new RegExp(`${keyword}`);
-        return performance
+        return performanceObj
             .getEntriesByType('measure')
             .filter((rec) => regex.test(rec.name));
     }
@@ -52,7 +59,8 @@ namespace GridAPI.Performance {
      * @param {string} name name of the measure to get the duration from.
      */
     export function GetDuration(name: string): number {
-        const measure: PerformanceEntry = performance.getEntriesByName(name)[0];
+        const measure: PerformanceEntry =
+            performanceObj.getEntriesByName(name)[0];
         return measure.duration;
     }
 
@@ -69,9 +77,9 @@ namespace GridAPI.Performance {
         key1: string,
         key2: string
     ): PerformanceEntry {
-        performance.measure(name, key1, key2);
+        performanceObj.measure(name, key1, key2);
 
-        return performance.getEntriesByName(name)[0];
+        return performanceObj.getEntriesByName(name)[0];
     }
 
     /**
@@ -91,8 +99,6 @@ namespace GridAPI.Performance {
      * @param {string} key name of the mark.
      */
     export function SetMark(key: string): void {
-        if (GetDebug()) {
-            performance.mark(key);
-        }
+        performanceObj.mark(key);
     }
 }

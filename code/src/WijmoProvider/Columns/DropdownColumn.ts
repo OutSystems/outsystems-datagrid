@@ -17,9 +17,8 @@ namespace WijmoProvider.Column {
                 )
             );
             this.config.dataMap = new wijmo.grid.DataMap([], 'key', 'text');
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
-                this
-            );
+            this._columnEvents =
+                new OSFramework.Event.Column.ColumnEventsManager(this);
             this._handlerAdded = false;
         }
 
@@ -110,8 +109,9 @@ namespace WijmoProvider.Column {
         }
 
         public build(): void {
-            (this.config
-                .dataMap as wijmo.grid.DataMap).collectionView.sourceCollection = this.config.dropdownOptions;
+            (
+                this.config.dataMap as wijmo.grid.DataMap
+            ).collectionView.sourceCollection = this.config.dropdownOptions;
             this.config.dataMapEditor = wijmo.grid.DataMapEditor.DropDownList;
 
             super.build();
@@ -123,6 +123,13 @@ namespace WijmoProvider.Column {
                 // eslint-disable-next-line no-extra-boolean-cast
                 if (!!this.config.parentBinding) {
                     this.changeDisplayValues();
+
+                    // RGRIDT-977: Wijmo has a bug that breaks filter by condition on dependent dropdowns
+                    this.grid.features.filter.changeFilterType(
+                        this.uniqueId,
+                        wijmo.grid.filter.FilterType.Value
+                    );
+
                     if (!this._handlerAdded) {
                         this._parentHandler();
                         this._handlerAdded = true;
@@ -183,6 +190,12 @@ namespace WijmoProvider.Column {
                     // eslint-disable-next-line no-extra-boolean-cast
                     if (!!this.config.parentBinding) {
                         this.changeDisplayValues();
+
+                        // RGRIDT-977: Wijmo has a bug that breaks filter by condition on dependent dropdowns
+                        this.grid.features.filter.changeFilterType(
+                            this.uniqueId,
+                            wijmo.grid.filter.FilterType.Value
+                        );
 
                         if (!this._handlerAdded) {
                             this._parentHandler();
