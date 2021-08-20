@@ -169,7 +169,7 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row to trigger the events
          * @param isValid Wether or not row is valid
          */
-        private _setInvalidRows(rowNumber: number, isValid: boolean): void {
+        private _setRowStatus(rowNumber: number, isValid: boolean): void {
             const dataItem = this._grid.provider.rows[rowNumber].dataItem;
 
             if (this._invalidRows.indexOf(dataItem) === -1) {
@@ -400,11 +400,6 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        public setRowStatus(rowNumber: number, isValid: boolean): void {
-            // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
-            this._setInvalidRows(rowNumber, isValid);
-        }
-
         /**
          * Used to validate a cell by defining its metadata with a state that indicates if it is valid or not.
          * @param rowNumber Number of the row in which the action of validation should be triggered.
@@ -412,7 +407,7 @@ namespace WijmoProvider.Feature {
          * @param isValid Boolean that indicates whether the cell value meets a validation or data type rule. True, if the value conforms to the rule. False, otherwise.
          * @param errorMessage Message to be shown to the user when the value introduced is not valid.
          */
-        public setStatus(
+        public setCellStatus(
             rowNumber: number,
             columnWidgetID: string,
             isValid: boolean,
@@ -438,13 +433,18 @@ namespace WijmoProvider.Feature {
             );
 
             // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
-            this._setInvalidRows(
+            this._setRowStatus(
                 rowNumber,
                 isValid && !this._isInvalidRowByRowNumber(rowNumber)
             );
 
             // Makes sure the grid gets refreshed after validation
             this._grid.provider.invalidate();
+        }
+
+        public setRowStatus(rowNumber: number, isValid: boolean): void {
+            // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
+            this._setRowStatus(rowNumber, isValid);
         }
 
         public validateCell(
