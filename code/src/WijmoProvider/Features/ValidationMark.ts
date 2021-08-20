@@ -3,7 +3,8 @@ namespace WijmoProvider.Feature {
     export class ValidationMark
         implements
             OSFramework.Feature.IValidationMark,
-            OSFramework.Interface.IBuilder {
+            OSFramework.Interface.IBuilder
+    {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
@@ -399,6 +400,11 @@ namespace WijmoProvider.Feature {
             );
         }
 
+        public setRowStatus(rowNumber: number, isValid: boolean): void {
+            // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
+            this._setInvalidRows(rowNumber, isValid);
+        }
+
         /**
          * Used to validate a cell by defining its metadata with a state that indicates if it is valid or not.
          * @param rowNumber Number of the row in which the action of validation should be triggered.
@@ -412,8 +418,8 @@ namespace WijmoProvider.Feature {
             isValid: boolean,
             errorMessage: string
         ): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columnWidgetID)
-                .provider;
+            const column =
+                GridAPI.ColumnManager.GetColumnById(columnWidgetID).provider;
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
             this.getMetadataByRowNumber(rowNumber).validation.set(
@@ -441,6 +447,25 @@ namespace WijmoProvider.Feature {
             this._grid.provider.invalidate();
         }
 
+        public validateCell(
+            rowNumber: number,
+            column: OSFramework.Column.IColumn
+        ): void {
+            // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
+            const currValue = this._grid.provider.getCellData(
+                rowNumber,
+                column.provider.index,
+                false
+            );
+            // Triggers the events of OnCellValueChange associated to a specific column in OS
+            this._triggerEventsFromColumn(
+                rowNumber,
+                column.provider.binding,
+                currValue,
+                currValue
+            );
+        }
+
         /**
          * Used to run the actions responsible for row validation per column.
          * Those actions might be included in the OnCellValueChange handler or in case the isMandatory column configuration is set.
@@ -465,25 +490,6 @@ namespace WijmoProvider.Feature {
                         currValue
                     );
                 });
-        }
-
-        public validateCell(
-            rowNumber: number,
-            column: OSFramework.Column.IColumn
-        ): void {
-            // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
-            const currValue = this._grid.provider.getCellData(
-                rowNumber,
-                column.provider.index,
-                false
-            );
-            // Triggers the events of OnCellValueChange associated to a specific column in OS
-            this._triggerEventsFromColumn(
-                rowNumber,
-                column.provider.binding,
-                currValue,
-                currValue
-            );
         }
     }
 }
