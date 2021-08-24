@@ -27,7 +27,8 @@ namespace OSFramework.Grid {
     ): any {
         //regex expressions for date and datetime should be described here
         const regex = {
-            datetime: /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z?$/, //yyyy-MM-ddThh:mm:ssZ
+            datetime:
+                /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z?$/, //yyyy-MM-ddThh:mm:ssZ
             date: /^(\d{4})-(\d{2})-(\d{2})$/ //yyyy-MM-dd
         };
 
@@ -102,6 +103,7 @@ namespace OSFramework.Grid {
     }
 
     export abstract class AbstractDataSource implements IDataSource {
+        private _counter = -1;
         private _isSingleEntity: boolean;
         protected _convertions: Map<string, Set<string>>;
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
@@ -114,6 +116,15 @@ namespace OSFramework.Grid {
             this._ds = new Array<any>();
             this._convertions = new Map<string, Set<string>>();
             this._isSingleEntity = false;
+        }
+
+        // set primary key field of dataItem
+        private _setKeyBinding(data): any {
+            const binding = this.parentGrid.config.keyBinding.split('.');
+            if (binding.length === 1)
+                return (data[binding[0]] = this._counter--);
+
+            return (data[binding[0]][binding[1]] = this._counter--);
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
@@ -176,7 +187,11 @@ namespace OSFramework.Grid {
         public addRow(position?: number, data?: JSON[]): void {
             for (let i = 0; i < data.length; i++) {
                 data[i] = this._parseNewItem();
+
+                // set primary key field of dataItem
+                this._setKeyBinding(data[i]);
             }
+
             this._ds.splice(position, 0, ...data);
         }
 

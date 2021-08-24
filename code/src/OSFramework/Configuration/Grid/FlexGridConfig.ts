@@ -2,7 +2,8 @@
 namespace OSFramework.Configuration.Grid {
     export class FlexGridConfig
         extends AbstractConfiguration
-        implements IConfigurationGrid {
+        implements IConfigurationGrid
+    {
         public allowColumnReorder: boolean;
         public allowColumnResize: boolean;
         public allowColumnSort: boolean;
@@ -13,6 +14,7 @@ namespace OSFramework.Configuration.Grid {
         public allowRowSelector: boolean;
         public autoGenerateColumns: boolean;
         public groupPanelId: string;
+        public keyBinding: string;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public rowHeight: number;
         public rowsPerPage: number;
