@@ -21,7 +21,7 @@ namespace GridAPI.Cells {
         errorMessage: string
     ): void {
         PerformanceAPI.SetMark('Cells.setValidationStatus');
-        GridManager.GetGridById(gridID).features.validationMark.setStatus(
+        GridManager.GetGridById(gridID).features.validationMark.setCellStatus(
             rowIndex,
             columnID,
             isValid,
