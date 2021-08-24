@@ -143,7 +143,7 @@ namespace GridAPI.ContextMenu {
                 );
         }
 
-        PerformanceAPI.SetMark('ContextMenu.-end');
+        PerformanceAPI.SetMark('ContextMenu.ChangeProperty-end');
         PerformanceAPI.GetMeasure(
             '@datagrid-ContextMenu.ChangeProperty',
             'ContextMenu.ChangeProperty',
