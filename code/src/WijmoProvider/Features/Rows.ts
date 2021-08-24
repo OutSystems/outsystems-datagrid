@@ -356,6 +356,11 @@ namespace WijmoProvider.Feature {
                         );
                         // Remove the data item from the editable collection view.
                         dataSource.remove(providerGrid.rows[row].dataItem);
+                        // Removed rows should be valid
+                        this._grid.features.validationMark.setRowStatus(
+                            row,
+                            true
+                        );
                     }
                 });
             });

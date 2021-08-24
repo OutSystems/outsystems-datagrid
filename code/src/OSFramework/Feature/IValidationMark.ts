@@ -7,12 +7,13 @@ namespace OSFramework.Feature {
         errorMessage(rowNumber: number, binding: string): string;
         isInvalid(rowNumber: number, binding: string): boolean;
         isInvalidRow(row: any): boolean;
-        setStatus(
+        setCellStatus(
             rowNumber: number,
             columnID: string,
             isValid: boolean,
             errorMessage: string
         ): void;
+        setRowStatus(rowNumber: number, isValid: boolean): void;
         validateCell(
             rowNumber: number,
             column: OSFramework.Column.IColumn

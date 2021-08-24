@@ -233,7 +233,7 @@ namespace GridAPI.GridManager {
         const grid = GetGridById(gridID);
         const output = setDataInGrid(grid, data);
 
-        PerformanceAPI.SetMark('SetGridData-end');
+        PerformanceAPI.SetMark('GridManager.SetGridData-end');
         PerformanceAPI.GetMeasure(
             '@datagrid-GridManager.SetGridData',
             'GridManager.SetGridData',

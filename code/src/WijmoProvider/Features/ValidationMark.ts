@@ -3,7 +3,8 @@ namespace WijmoProvider.Feature {
     export class ValidationMark
         implements
             OSFramework.Feature.IValidationMark,
-            OSFramework.Interface.IBuilder {
+            OSFramework.Interface.IBuilder
+    {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
@@ -168,7 +169,7 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row to trigger the events
          * @param isValid Wether or not row is valid
          */
-        private _setInvalidRows(rowNumber: number, isValid: boolean): void {
+        private _setRowStatus(rowNumber: number, isValid: boolean): void {
             const dataItem = this._grid.provider.rows[rowNumber].dataItem;
 
             if (this._invalidRows.indexOf(dataItem) === -1) {
@@ -406,14 +407,14 @@ namespace WijmoProvider.Feature {
          * @param isValid Boolean that indicates whether the cell value meets a validation or data type rule. True, if the value conforms to the rule. False, otherwise.
          * @param errorMessage Message to be shown to the user when the value introduced is not valid.
          */
-        public setStatus(
+        public setCellStatus(
             rowNumber: number,
             columnWidgetID: string,
             isValid: boolean,
             errorMessage: string
         ): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columnWidgetID)
-                .provider;
+            const column =
+                GridAPI.ColumnManager.GetColumnById(columnWidgetID).provider;
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
             this.getMetadataByRowNumber(rowNumber).validation.set(
@@ -432,13 +433,37 @@ namespace WijmoProvider.Feature {
             );
 
             // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
-            this._setInvalidRows(
+            this._setRowStatus(
                 rowNumber,
                 isValid && !this._isInvalidRowByRowNumber(rowNumber)
             );
 
             // Makes sure the grid gets refreshed after validation
             this._grid.provider.invalidate();
+        }
+
+        public setRowStatus(rowNumber: number, isValid: boolean): void {
+            // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
+            this._setRowStatus(rowNumber, isValid);
+        }
+
+        public validateCell(
+            rowNumber: number,
+            column: OSFramework.Column.IColumn
+        ): void {
+            // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
+            const currValue = this._grid.provider.getCellData(
+                rowNumber,
+                column.provider.index,
+                false
+            );
+            // Triggers the events of OnCellValueChange associated to a specific column in OS
+            this._triggerEventsFromColumn(
+                rowNumber,
+                column.provider.binding,
+                currValue,
+                currValue
+            );
         }
 
         /**
@@ -465,25 +490,6 @@ namespace WijmoProvider.Feature {
                         currValue
                     );
                 });
-        }
-
-        public validateCell(
-            rowNumber: number,
-            column: OSFramework.Column.IColumn
-        ): void {
-            // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
-            const currValue = this._grid.provider.getCellData(
-                rowNumber,
-                column.provider.index,
-                false
-            );
-            // Triggers the events of OnCellValueChange associated to a specific column in OS
-            this._triggerEventsFromColumn(
-                rowNumber,
-                column.provider.binding,
-                currValue,
-                currValue
-            );
         }
     }
 }
