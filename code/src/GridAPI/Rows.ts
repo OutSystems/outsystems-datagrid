@@ -85,6 +85,22 @@ namespace GridAPI.Rows {
     }
 
     /**
+     * Function that will get row number
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {number} key Text set on keyBinding.
+     * @returns {*}  {string} Resulting code and message in JSON format
+     */
+    export function GetRowNumberByKey(gridID: string, key: string): number {
+        const grid = GridManager.GetGridById(gridID);
+
+        if (grid !== undefined) {
+            return grid.dataSource.getRowNumberByKey(key);
+        }
+    }
+
+    /**
      * Remove all CSS classes from a specific row on the grid.
      *
      * @param {string} gridID ID of the Grid where the change will occur.
@@ -158,6 +174,26 @@ namespace GridAPI.Rows {
             'Rows.RemoveRows-end'
         );
         return output;
+    }
+
+    /**
+     * Function that will set start index of row.
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {number} startIndex New row start index.
+     */
+    export function UpdateAddedLineKey(
+        gridID: string,
+        currentRowId: string,
+        newKey: string
+    ): void {
+        // TODO: Add error structure
+        const grid = GridManager.GetGridById(gridID);
+
+        if (grid !== undefined) {
+            grid.dataSource.updateAddedLineKey(currentRowId, newKey);
+        }
     }
 
     /**

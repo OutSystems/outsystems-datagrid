@@ -118,13 +118,15 @@ namespace OSFramework.Grid {
             this._isSingleEntity = false;
         }
 
+        private _getRowByKey(key: string) {
+            return this._ds.find((item) => {
+                return _.get(item, this.parentGrid.config.keyBinding) === key;
+            });
+        }
+
         // set primary key field of dataItem
         private _setKeyBinding(data): any {
-            const binding = this.parentGrid.config.keyBinding.split('.');
-            if (binding.length === 1)
-                return (data[binding[0]] = this._counter--);
-
-            return (data[binding[0]][binding[1]] = this._counter--);
+            _.set(data, this.parentGrid.config.keyBinding, this._counter--);
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
@@ -209,6 +211,12 @@ namespace OSFramework.Grid {
             return this._metadata;
         }
 
+        public getRowNumberByKey(key: string): number {
+            return this._ds.findIndex(
+                (item) => _.get(item, this.parentGrid.config.keyBinding) === key
+            );
+        }
+
         public removeRow(item: number | JSON): boolean {
             const index =
                 typeof item === 'number' ? item : this._ds.indexOf(item);
@@ -250,6 +258,24 @@ namespace OSFramework.Grid {
             }
 
             return value;
+        }
+
+        public updateAddedLineKey(
+            currentRowId: string,
+            newKey: string
+        ): boolean {
+            const row = this._getRowByKey(currentRowId);
+
+            if (!row) {
+                return false;
+            }
+
+            // set primary key with new value
+            _.set(row, this.parentGrid.config.keyBinding, newKey);
+            // refresh grid with new value
+            this.parentGrid.provider.invalidate();
+
+            return true;
         }
 
         public abstract build(): void;

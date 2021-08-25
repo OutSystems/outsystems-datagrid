@@ -59,6 +59,8 @@ namespace OSFramework.Grid {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getProviderDataSource(): any;
+
+        getRowNumberByKey(key: string): number;
         /**
          * Indicate whether the filtered dataSource has Results to show
          */
@@ -83,5 +85,7 @@ namespace OSFramework.Grid {
          * @param value
          */
         trimSecondsFromDate(value: string): string;
+
+        updateAddedLineKey(currentRowId: string, newKey: string): boolean;
     }
 }
