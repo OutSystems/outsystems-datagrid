@@ -89,7 +89,7 @@ namespace GridAPI.Rows {
      *
      * @export
      * @param {string} gridID ID of the Grid where the change will occur.
-     * @param {number} key Text set on keyBinding.
+     * @param {string} key Text set on keyBinding.
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function GetRowNumberByKey(gridID: string, key: string): number {
@@ -177,7 +177,7 @@ namespace GridAPI.Rows {
     }
 
     /**
-     * Function that will set start index of row.
+     * Function that will ipdate the key binding of an added line on a given grid. The id of the row with the CurrentRowId will be updated with the NewKey value.
      *
      * @export
      * @param {string} gridID ID of the Grid where the change will occur.
@@ -228,7 +228,7 @@ namespace GridAPI.Rows {
      * @export
      *
      * @param {string} gridID ID of the Grid.
-     * @param {number} rowKey Key of the row that contains the cell to be validated.
+     * @param {string} rowKey Key of the row that contains the cell to be validated.
      * @param {string} columnID ID of the Column block in which the action of validation should be triggered.
      * @param {boolean} isValid State to which the cell should get validated (valid/invalid).
      * @param {string} errorMessage Message that the cell should show on a tooltip in case of an invalid state.
