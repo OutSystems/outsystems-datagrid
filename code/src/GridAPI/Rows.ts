@@ -183,7 +183,7 @@ namespace GridAPI.Rows {
      * @param {string} gridID ID of the Grid where the change will occur.
      * @param {number} startIndex New row start index.
      */
-    export function UpdateAddedLineKey(
+    export function UpdateAddedRowKey(
         gridID: string,
         currentRowId: string,
         newKey: string
@@ -192,7 +192,7 @@ namespace GridAPI.Rows {
         const grid = GridManager.GetGridById(gridID);
 
         if (grid !== undefined) {
-            grid.dataSource.updateAddedLineKey(currentRowId, newKey);
+            grid.dataSource.updateAddedRowKey(currentRowId, newKey);
         }
     }
 
@@ -220,5 +220,35 @@ namespace GridAPI.Rows {
             'Rows.UpdateStartingRowHeader',
             'Rows.UpdateStartingRowHeader-end'
         );
+    }
+
+    /**
+     * Function that will set the row validation using the key
+     *
+     * @export
+     *
+     * @param {string} gridID ID of the Grid.
+     * @param {number} rowKey Key of the row that contains the cell to be validated.
+     * @param {string} columnID ID of the Column block in which the action of validation should be triggered.
+     * @param {boolean} isValid State to which the cell should get validated (valid/invalid).
+     * @param {string} errorMessage Message that the cell should show on a tooltip in case of an invalid state.
+     */
+    export function SetValidationStatusByKey(
+        gridID: string,
+        rowKey: string,
+        columnID: string,
+        isValid: boolean,
+        errorMessage: string
+    ): void {
+        const grid = GridManager.GetGridById(gridID);
+
+        if (grid !== undefined) {
+            grid.features.validationMark.setCellStatusByKey(
+                rowKey,
+                columnID,
+                isValid,
+                errorMessage
+            );
+        }
     }
 }

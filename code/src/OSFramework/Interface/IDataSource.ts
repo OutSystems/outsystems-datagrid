@@ -86,6 +86,6 @@ namespace OSFramework.Grid {
          */
         trimSecondsFromDate(value: string): string;
 
-        updateAddedLineKey(currentRowId: string, newKey: string): boolean;
+        updateAddedRowKey(currentRowId: string, newKey: string): boolean;
     }
 }

@@ -212,8 +212,10 @@ namespace OSFramework.Grid {
         }
 
         public getRowNumberByKey(key: string): number {
-            return this._ds.findIndex(
-                (item) => _.get(item, this.parentGrid.config.keyBinding) === key
+            return this.parentGrid.provider.rows.findIndex(
+                (item) =>
+                    _.get(item.dataItem, this.parentGrid.config.keyBinding) ===
+                    key
             );
         }
 
@@ -260,7 +262,7 @@ namespace OSFramework.Grid {
             return value;
         }
 
-        public updateAddedLineKey(
+        public updateAddedRowKey(
             currentRowId: string,
             newKey: string
         ): boolean {
