@@ -1,15 +1,13 @@
 {
-	"diffEditor.ignoreTrimWhitespace": true,
+	"5diffEditor.ignoreTrimWhitespace": true,
 	"files.autoSave": "off",
 	"editor.minimap.maxColumn": 170,
 	"editor.wordWrapColumn": 170,
-	"editor.formatOnSave": true,
+	"editor.formatOnSave": false,
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": true,
-		"source.fixAll.stylelint": true
+		"source.fixAll.eslint": true
 	},
 	"css.lint.fontFaceProperties": "ignore",
-	"scss.lint.fontFaceProperties": "ignore",
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"[html]": {
 		"editor.defaultFormatter": "vscode.html-language-features"
@@ -22,9 +20,6 @@
 	},
 	"[json]": {
 		"editor.defaultFormatter": "vscode.json-language-features"
-	},
-	"[scss]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[jsonc]": {
 		"editor.defaultFormatter": "vscode.json-language-features"
