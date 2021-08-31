@@ -122,9 +122,6 @@ namespace WijmoProvider.Column {
 
             this._setMaxValue();
             this._setMinValue();
-
-            // if format starts with n, the number will have thousand separator
-            // if starts with f, it won't
             this._setEditorFormat(this.editorConfig.hasThousandSeparator);
         }
 
