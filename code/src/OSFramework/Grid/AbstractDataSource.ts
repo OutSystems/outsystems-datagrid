@@ -120,7 +120,12 @@ namespace OSFramework.Grid {
 
         private _getRowByKey(key: string) {
             return this._ds.find((item) => {
-                return _.get(item, this.parentGrid.config.keyBinding) === key;
+                return (
+                    _.get(
+                        item,
+                        this.parentGrid.config.keyBinding
+                    ).toString() === key
+                );
             });
         }
 
