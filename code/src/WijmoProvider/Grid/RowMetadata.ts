@@ -133,7 +133,8 @@ namespace WijmoProvider.Grid {
 
         public getRowIndexByKey(rowKey: string): number {
             const rowIndex = this._itemsSource.sourceCollection.findIndex(
-                (item) => _.get(item, this._configs.keyBinding) === rowKey
+                (item) =>
+                    _.get(item, this._configs.keyBinding).toString() === rowKey
             );
 
             return rowIndex;
