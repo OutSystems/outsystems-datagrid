@@ -114,7 +114,11 @@ namespace WijmoProvider.Column {
             this._setMaxValue();
             this._setMinValue();
 
-            this.config.format = `n ${this.editorConfig.decimalPlaces}`;
+            // if format starts with n, the number will have thousand separator
+            // if starts with f, it won't
+            const format = this.editorConfig.hasThousandSeparator ? 'n' : 'f';
+
+            this.config.format = `${format} ${this.editorConfig.decimalPlaces}`;
             this.editorConfig.format = this.config.format;
         }
 
