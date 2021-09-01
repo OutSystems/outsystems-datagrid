@@ -3,6 +3,7 @@ namespace OSFramework.Configuration.Column {
      * Defines the configuration for Date and Datetime custom editors
      */
     export class EditorConfigDate extends AbstractEditorConfig {
+        public format: string;
         public max: Date;
         public min: Date;
         public timeFormat: string;

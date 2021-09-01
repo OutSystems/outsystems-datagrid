@@ -48,7 +48,9 @@ namespace WijmoProvider.Column {
 
         public build(): void {
             this.editorConfig.timeFormat = 'HH:mm';
-            this.config.format = `${GridAPI.dateFormat} ${this.editorConfig.timeFormat}`;
+            this.config.format =
+                this.editorConfig.format ||
+                `${GridAPI.dateFormat} ${this.editorConfig.timeFormat}`;
 
             super.build();
         }
