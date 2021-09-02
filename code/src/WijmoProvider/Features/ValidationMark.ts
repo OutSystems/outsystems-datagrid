@@ -120,19 +120,8 @@ namespace WijmoProvider.Feature {
         private _isInvalidRowByRowKey(rowKey: string): boolean {
             if (this.hasMetadataByRowKey(rowKey)) {
                 const metadata = this.getMetadataByRowKey(rowKey);
-                let notInvalidCells = 0;
 
-                for (const binding of metadata.validation.keys()) {
-                    //If validation of a specific cell is equal to True
-                    if (metadata.validation.get(binding) === true)
-                        //Add 1 to the the validCells summatory
-                        notInvalidCells++;
-                    //One cell is invalid so the mark should be shown
-                    else break;
-                }
-
-                //If Total changes - equals > 0 there is some dirty register on the row
-                return metadata.validation.size - notInvalidCells > 0;
+                return this._validateMetadata(metadata);
             }
 
             return false;
@@ -146,19 +135,8 @@ namespace WijmoProvider.Feature {
         private _isInvalidRowByRowNumber(rowNumber: number): boolean {
             if (this.hasMetadataByRowNumber(rowNumber)) {
                 const metadata = this.getMetadataByRowNumber(rowNumber);
-                let notInvalidCells = 0;
 
-                for (const binding of metadata.validation.keys()) {
-                    //If validation of a specific cell is equal to True
-                    if (metadata.validation.get(binding) === true)
-                        //Add 1 to the the validCells summatory
-                        notInvalidCells++;
-                    //One cell is invalid so the mark should be shown
-                    else break;
-                }
-
-                //If Total changes - equals > 0 there is some dirty register on the row
-                return metadata.validation.size - notInvalidCells > 0;
+                return this._validateMetadata(metadata);
             }
 
             return false;
@@ -313,6 +291,24 @@ namespace WijmoProvider.Feature {
                 oldValue,
                 action._oldState
             );
+        }
+
+        private _validateMetadata(
+            metadata: OSFramework.Feature.Auxiliar.ValidationMarkInfo
+        ): boolean {
+            let notInvalidCells = 0;
+
+            for (const binding of metadata.validation.keys()) {
+                //If validation of a specific cell is equal to True
+                if (metadata.validation.get(binding) === true)
+                    //Add 1 to the the validCells summatory
+                    notInvalidCells++;
+                //One cell is invalid so the mark should be shown
+                else break;
+            }
+
+            //If Total changes - equals > 0 there is some dirty register on the row
+            return metadata.validation.size - notInvalidCells > 0;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

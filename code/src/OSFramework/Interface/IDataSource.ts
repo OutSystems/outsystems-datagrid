@@ -59,7 +59,10 @@ namespace OSFramework.Grid {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getProviderDataSource(): any;
-
+        /**
+         * Retrieve row number by given key
+         * @param key value that will match key binding
+         */
         getRowNumberByKey(key: string): number;
         /**
          * Indicate whether the filtered dataSource has Results to show
@@ -85,7 +88,11 @@ namespace OSFramework.Grid {
          * @param value
          */
         trimSecondsFromDate(value: string): string;
-
+        /**
+         * Updates row key binding with new key
+         * @param currentRowId current key binding
+         * @param newKey new key binding
+         */
         updateAddedRowKey(currentRowId: string, newKey: string): boolean;
     }
 }
