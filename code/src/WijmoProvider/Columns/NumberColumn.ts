@@ -58,6 +58,15 @@ namespace WijmoProvider.Column {
             return wijmo.DataType.Number;
         }
 
+        private _setEditorFormat(hasThousandSeparator: boolean): void {
+            // if format starts with n, the number will have thousand separator
+            // if starts with f, it won't
+            const format = hasThousandSeparator ? 'n' : 'f';
+
+            this.config.format = `${format} ${this.editorConfig.decimalPlaces}`;
+            this.editorConfig.format = this.config.format;
+        }
+
         /**
          * Configure the column's editor to validate maximum values
          *
@@ -113,9 +122,7 @@ namespace WijmoProvider.Column {
 
             this._setMaxValue();
             this._setMinValue();
-
-            this.config.format = `n ${this.editorConfig.decimalPlaces}`;
-            this.editorConfig.format = this.config.format;
+            this._setEditorFormat(this.editorConfig.hasThousandSeparator);
         }
 
         public build(): void {
@@ -129,6 +136,10 @@ namespace WijmoProvider.Column {
             switch (propertyName) {
                 case 'decimalPlaces':
                     this._setFormat(propertyValue);
+                    this.applyConfigs();
+                    break;
+                case 'hasThousandSeparator':
+                    this._setEditorFormat(propertyValue);
                     this.applyConfigs();
                     break;
                 case 'minValue':

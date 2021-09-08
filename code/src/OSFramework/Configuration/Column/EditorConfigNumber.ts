@@ -4,6 +4,7 @@ namespace OSFramework.Configuration.Column {
      */
     export class EditorConfigNumber extends AbstractEditorConfig {
         public decimalPlaces: number;
+        public hasThousandSeparator: boolean;
         public maxValue?: number;
         public minValue?: number;
         public step: number;
