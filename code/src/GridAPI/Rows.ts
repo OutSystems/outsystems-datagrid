@@ -85,6 +85,22 @@ namespace GridAPI.Rows {
     }
 
     /**
+     * Function that will get row number
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {string} key Text set on keyBinding.
+     * @returns {*}  {string} Resulting code and message in JSON format
+     */
+    export function GetRowNumberByKey(gridID: string, key: string): number {
+        const grid = GridManager.GetGridById(gridID);
+
+        if (grid !== undefined) {
+            return grid.dataSource.getRowNumberByKey(key);
+        }
+    }
+
+    /**
      * Remove all CSS classes from a specific row on the grid.
      *
      * @param {string} gridID ID of the Grid where the change will occur.
@@ -161,6 +177,26 @@ namespace GridAPI.Rows {
     }
 
     /**
+     * Function that will ipdate the key binding of an added line on a given grid. The id of the row with the CurrentRowId will be updated with the NewKey value.
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {number} startIndex New row start index.
+     */
+    export function UpdateAddedRowKey(
+        gridID: string,
+        currentRowId: string,
+        newKey: string
+    ): void {
+        // TODO: Add error structure
+        const grid = GridManager.GetGridById(gridID);
+
+        if (grid !== undefined) {
+            grid.dataSource.updateAddedRowKey(currentRowId, newKey);
+        }
+    }
+
+    /**
      * Function that will set start index of row.
      *
      * @export
@@ -184,5 +220,35 @@ namespace GridAPI.Rows {
             'Rows.UpdateStartingRowHeader',
             'Rows.UpdateStartingRowHeader-end'
         );
+    }
+
+    /**
+     * Function that will set the row validation using the key
+     *
+     * @export
+     *
+     * @param {string} gridID ID of the Grid.
+     * @param {string} rowKey Key of the row that contains the cell to be validated.
+     * @param {string} columnID ID of the Column block in which the action of validation should be triggered.
+     * @param {boolean} isValid State to which the cell should get validated (valid/invalid).
+     * @param {string} errorMessage Message that the cell should show on a tooltip in case of an invalid state.
+     */
+    export function SetValidationStatusByKey(
+        gridID: string,
+        rowKey: string,
+        columnID: string,
+        isValid: boolean,
+        errorMessage: string
+    ): void {
+        const grid = GridManager.GetGridById(gridID);
+
+        if (grid !== undefined) {
+            grid.features.validationMark.setCellStatusByKey(
+                rowKey,
+                columnID,
+                isValid,
+                errorMessage
+            );
+        }
     }
 }

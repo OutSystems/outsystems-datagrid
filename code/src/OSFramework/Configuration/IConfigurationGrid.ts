@@ -10,6 +10,10 @@ namespace OSFramework.Configuration {
         allowEdit: boolean;
 
         /**
+         Indicates the primary key field of the data
+        */
+        keyBinding: string;
+        /**
          Indicates if the grid is in server side pagination mode
         */
         serverSidePagination: boolean;

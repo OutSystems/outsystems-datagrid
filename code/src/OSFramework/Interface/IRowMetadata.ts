@@ -34,12 +34,12 @@ namespace OSFramework.Interface {
          */
         clearPropertyByRowNumber(row: number, propertyName: string): void;
         /**
-         * Responsible for retrieving metadata information for a given row and property
-         * @param row Index row reference, works only in the current page
+         * Responsible for retrieving metadata information for a given row key and property
+         * @param key Key row reference
          * @param propertyName Metadata property
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        getMetadataInRow(row: any, propertyName: string): any;
+        getMetadataByRowKey(key: string, propertyName: string): any;
         /**
          * Responsible for retrieving metadata information for a given row number and property
          * @param rowNumber Index row reference, works only in the current page
@@ -48,11 +48,26 @@ namespace OSFramework.Interface {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getMetadataByRowNumber(rowNumber: number, propertyName: string): any;
         /**
+         * Responsible for retrieving metadata information for a given row and property
+         * @param row Index row reference, works only in the current page
+         * @param propertyName Metadata property
+         */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        getMetadataInRow(row: any, propertyName: string): any;
+
+        getRowIndexByKey(rowKey: string): number;
+        /**
          * Verify the presence of metadata information for a given row and property
          * @param {*} row
          * @param {string} property
          */
         hasOwnPropertyByRow(row: any, property: string): boolean;
+        /**
+         * Verify the presence of metadata information for a given row key and property
+         * @param rowKey Key row reference
+         * @param property Metadata property
+         */
+        hasOwnPropertyByRowKey(rowKey: string, property: string): boolean;
         /**
          * Verify the presence of metadata information for a given row number and property
          * @param rowNumber Index row reference, works only in the current page
@@ -68,6 +83,18 @@ namespace OSFramework.Interface {
          */
         setMetadataByRow(
             row: any,
+            propertyName: string,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            propertyValue: any
+        ): void;
+        /**
+         * Stores RowMetadata information for a given row number and property
+         * @param rowKey Key row reference
+         * @param propertyName Metadata property
+         * @param propertyValue Value to be stored
+         */
+        setMetadataByRowKey(
+            rowKey: string,
             propertyName: string,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             propertyValue: any
