@@ -117,7 +117,7 @@ namespace WijmoProvider.Feature {
 
                 // we receive values as an array ["Brazil", "Portugal"], but wijmo expects an object
                 // eg.: {Brazil: true, Portugal: true}. So let's transform this to the desired input
-                columnFilter.showValues = values.reduce((obj, cur, i) => {
+                columnFilter.showValues = values.reduce((obj, cur) => {
                     return { ...obj, [cur]: true };
                 }, {});
 
