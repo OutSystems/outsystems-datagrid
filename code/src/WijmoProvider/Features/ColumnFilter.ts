@@ -108,6 +108,25 @@ namespace WijmoProvider.Feature {
             this.setState(this._enabled);
         }
 
+        public byValue(columnId: string, values: Array<string>): void {
+            const column = this._grid.getColumn(columnId);
+            if (column) {
+                const columnFilter = this._filter.getColumnFilter(
+                    column.config.binding
+                ).valueFilter;
+
+                // we receive values as an array ["Brazil", "Portugal"], but wijmo expects an object
+                // eg.: {Brazil: true, Portugal: true}. So let's transform this to the desired input
+                columnFilter.showValues = values.reduce((obj, cur, i) => {
+                    return { ...obj, [cur]: true };
+                }, {});
+
+                this._filter.apply();
+                // trigger event
+                this._filterChangedHandler(this._filter);
+            }
+        }
+
         public changeFilterType(
             columnID: string,
             filterType: wijmo.grid.filter.FilterType
