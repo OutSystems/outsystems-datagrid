@@ -21,7 +21,8 @@ namespace WijmoProvider.Column {
                 columnID,
                 new OSFramework.Configuration.Column.ColumnConfig(configs),
                 new OSFramework.Configuration.Column.EditorConfigDate(
-                    editorConfig
+                    editorConfig,
+                    true
                 )
             );
             this._columnEvents =
@@ -47,10 +48,21 @@ namespace WijmoProvider.Column {
         }
 
         public build(): void {
-            this.editorConfig.timeFormat = 'HH:mm';
-            this.config.format = `${GridAPI.dateFormat} ${this.editorConfig.timeFormat}`;
-
+            this.config.format = this.editorConfig.format;
             super.build();
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+        public changeProperty(propertyName: string, propertyValue: any): void {
+            switch (propertyName) {
+                case 'format':
+                    this.editorConfig.format =
+                        propertyValue || this.editorConfig.defaultFormat;
+                    this.applyConfigs();
+                    break;
+                default:
+                    super.changeProperty(propertyName, propertyValue);
+            }
         }
     }
 }
