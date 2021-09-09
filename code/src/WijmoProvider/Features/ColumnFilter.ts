@@ -108,6 +108,43 @@ namespace WijmoProvider.Feature {
             this.setState(this._enabled);
         }
 
+        public byCondition(
+            columnId: string,
+            values: OSFramework.OSStructure.FilterCondition[]
+        ): void {
+            const column = this._grid.getColumn(columnId);
+            if (column) {
+                const columnFilter = this._filter.getColumnFilter(
+                    column.config.binding
+                ).conditionFilter;
+
+                if (values.length > 0) {
+                    const condition1 = values[0];
+                    const condition2 = values[1];
+
+                    columnFilter.condition1.value =
+                        column.columnType === OSFramework.Enum.ColumnType.Number
+                            ? parseInt(condition1.value)
+                            : condition1.value;
+                    columnFilter.condition1.operator =
+                        wijmo.grid.filter.Operator[condition1.operatorTypeId];
+                    columnFilter.and = condition1.and;
+
+                    if (condition2) {
+                        columnFilter.condition1.value = condition2.value;
+                        columnFilter.condition1.operator =
+                            wijmo.grid.filter.Operator[
+                                condition2.operatorTypeId
+                            ];
+                    }
+
+                    this._filter.apply();
+                    // trigger event
+                    this._filterChangedHandler(this._filter);
+                }
+            }
+        }
+
         public byValue(columnId: string, values: Array<string>): void {
             const column = this._grid.getColumn(columnId);
             if (column) {

@@ -6,6 +6,10 @@ namespace OSFramework.Feature {
             IView {
         isGridFiltered: boolean;
         activate(columnID: string): void;
+        byCondition(
+            columnId: string,
+            values: Array<OSFramework.OSStructure.FilterCondition>
+        ): void;
         byValue(columnId: string, values: Array<string>): void;
         changeFilterType(
             columnID: string,
