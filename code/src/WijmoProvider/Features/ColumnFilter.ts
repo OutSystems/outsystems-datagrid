@@ -124,7 +124,7 @@ namespace WijmoProvider.Feature {
 
                     columnFilter.condition1.value =
                         column.columnType === OSFramework.Enum.ColumnType.Number
-                            ? parseInt(condition1.value)
+                            ? parseFloat(condition1.value)
                             : condition1.value;
                     columnFilter.condition1.operator =
                         wijmo.grid.filter.Operator[condition1.operatorTypeId];
