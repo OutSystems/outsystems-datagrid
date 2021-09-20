@@ -13,6 +13,12 @@ namespace OSFramework.Feature {
             isValid: boolean,
             errorMessage: string
         ): void;
+        setCellStatusByKey(
+            rowKey: string,
+            columnWidgetID: string,
+            isValid: boolean,
+            errorMessage: string
+        ): void;
         setRowStatus(rowNumber: number, isValid: boolean): void;
         validateCell(
             rowNumber: number,

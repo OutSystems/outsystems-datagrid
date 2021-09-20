@@ -34,7 +34,10 @@ namespace WijmoProvider.Column {
         }
 
         public get hasConditionalFormat(): boolean {
-            return this.editorConfig.conditionalFormat !== undefined;
+            return (
+                this.editorConfig.conditionalFormat !== undefined &&
+                this.editorConfig.conditionalFormat.length > 0
+            );
         }
 
         public applyConfigs(): void {
@@ -43,6 +46,7 @@ namespace WijmoProvider.Column {
                 delete providerConfig.editor;
 
                 providerConfig.visible = this._getVisibility();
+                providerConfig.format = this.editorConfig.format;
 
                 wijmo.copy(this.provider, providerConfig);
                 wijmo.copy(

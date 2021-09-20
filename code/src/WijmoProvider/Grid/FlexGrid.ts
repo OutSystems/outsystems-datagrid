@@ -94,7 +94,7 @@ namespace WijmoProvider.Grid {
             );
             this._provider.itemsSource =
                 this.dataSource.getProviderDataSource();
-            this._rowMetadata = new RowMetadata(this._provider);
+            this._rowMetadata = new RowMetadata(this._provider, this.config);
 
             this.buildFeatures();
 
