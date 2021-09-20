@@ -131,8 +131,8 @@ namespace WijmoProvider.Feature {
                     columnFilter.and = condition1.and;
 
                     if (condition2) {
-                        columnFilter.condition1.value = condition2.value;
-                        columnFilter.condition1.operator =
+                        columnFilter.condition2.value = condition2.value;
+                        columnFilter.condition2.operator =
                             wijmo.grid.filter.Operator[
                                 condition2.operatorTypeId
                             ];
