@@ -163,4 +163,32 @@ namespace GridAPI.ColumnManager {
             'ColumnManager.destroyColumn-end'
         );
     }
+
+    /**
+     * Set column aggregate in group panel
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {string} columnID id of the column with which actions on the column can be performed.
+     * @param {wijmo.Aggregate} aggregate aggregate that will be applied on group panel.
+     */
+    export function SetColumnAggregate(
+        gridID: string,
+        columnID: string,
+        aggregate: wijmo.Aggregate
+    ): void {
+        PerformanceAPI.SetMark('ColumnManager.SetColumnAggregate');
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        const grid = GridManager.GetGridById(gridID);
+
+        grid.features.groupPanel.setAggregate(columnID, aggregate);
+
+        PerformanceAPI.SetMark('ColumnManager.SetColumnAggregate-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.SetColumnAggregate',
+            'ColumnManager.SetColumnAggregate',
+            'ColumnManager.SetColumnAggregate-end'
+        );
+    }
 }
