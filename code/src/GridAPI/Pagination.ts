@@ -67,13 +67,21 @@ namespace GridAPI.Pagination {
      * @param {string} gridID Id of the Grid from which to obtain the pagination Index
      * @return {*}  {number} Index of the current page, 0 based. Return -1 if the Grid is not yet initialized.
      */
-    export function GetCurrentPage(gridID: string): number {
+    export function GetCurrentPage(gridID: string): string {
         PerformanceAPI.SetMark('Pagination.GetCurrentPage');
+        let output = '';
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return -1;
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            return JSON.stringify({
+                value: -1,
+                isSuccess: false,
+                message: 'Grid not found',
+                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+            });
+        }
+
         const grid = GridManager.GetGridById(gridID);
-
-        const pageIndex = grid.features.pagination.pageIndex;
+        output = JSON.stringify(grid.features.pagination.getCurrentPage());
 
         PerformanceAPI.SetMark('Pagination.GetCurrentPage-end');
         PerformanceAPI.GetMeasure(
@@ -82,7 +90,7 @@ namespace GridAPI.Pagination {
             'Pagination.GetCurrentPage-end'
         );
 
-        return pageIndex;
+        return output;
     }
 
     /**
@@ -162,13 +170,20 @@ namespace GridAPI.Pagination {
      * @param {number} n
      * @returns {*}  {void}
      */
-    export function MoveToPage(gridID: string, n: number): void {
+    export function MoveToPage(gridID: string, n: number): string {
         PerformanceAPI.SetMark('Pagination.MoveToPage');
+        let output = '';
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            return JSON.stringify({
+                isSuccess: false,
+                message: 'Grid not found',
+                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+            });
+        }
+
         const grid = GridManager.GetGridById(gridID);
-
-        grid.features.pagination.moveToPage(n);
+        output = JSON.stringify(grid.features.pagination.moveToPage(n));
 
         PerformanceAPI.SetMark('Pagination.MoveToPage-end');
         PerformanceAPI.GetMeasure(
@@ -176,6 +191,8 @@ namespace GridAPI.Pagination {
             'Pagination.MoveToPage',
             'Pagination.MoveToPage-end'
         );
+
+        return output;
     }
 
     /**
