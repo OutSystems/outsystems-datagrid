@@ -127,6 +127,7 @@ namespace GridAPI.Filter {
      * @export
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID ID of the column that will be filtered.
+     * @param {string} values Values on which the column will be filtered by.
      * @returns {*}  {void}
      */
     export function ByCondition(
@@ -155,6 +156,7 @@ namespace GridAPI.Filter {
      * @export
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID ID of the column that will be filtered.
+     * @param {string} values Values on which the column will be filtered by.
      * @returns {*}  {void}
      */
     export function ByValue(
