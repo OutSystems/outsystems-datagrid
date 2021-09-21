@@ -72,12 +72,15 @@ namespace GridAPI.Pagination {
         let output = '';
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            return JSON.stringify({
+            let returnMessage = new OSFramework.OSStructure.ReturnMessage();
+
+            returnMessage = {
                 value: -1,
                 isSuccess: false,
                 message: 'Grid not found',
                 code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            });
+            };
+            return JSON.stringify(returnMessage);
         }
 
         const grid = GridManager.GetGridById(gridID);
@@ -175,11 +178,15 @@ namespace GridAPI.Pagination {
         let output = '';
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            return JSON.stringify({
+            let returnMessage = new OSFramework.OSStructure.ReturnMessage();
+
+            returnMessage = {
+                value: -1,
                 isSuccess: false,
                 message: 'Grid not found',
                 code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            });
+            };
+            return JSON.stringify(returnMessage);
         }
 
         const grid = GridManager.GetGridById(gridID);

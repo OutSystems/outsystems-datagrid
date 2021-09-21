@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.OSStructures {
+namespace OSFramework.OSStructure {
     /** Return Message that is sent to Service Studio */
     export class ReturnMessage {
         /** Error Code from a list of codes */

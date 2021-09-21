@@ -1,7 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    type _ErrorMessage = { code: OSFramework.Enum.ErrorCodes; message: string };
-
     class CssClassInfo {
         /**
          * Contains all CSS classes from a specific row.
