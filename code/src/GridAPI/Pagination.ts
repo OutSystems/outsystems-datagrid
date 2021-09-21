@@ -61,6 +61,31 @@ namespace GridAPI.Pagination {
     }
 
     /**
+     * Gets the current page Index of the DataGrid.
+     *
+     * @export
+     * @param {string} gridID Id of the Grid from which to obtain the pagination Index
+     * @return {*}  {number} Index of the current page, 0 based. Return -1 if the Grid is not yet initialized.
+     */
+    export function GetCurrentPage(gridID: string): number {
+        PerformanceAPI.SetMark('Pagination.GetCurrentPage');
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) return -1;
+        const grid = GridManager.GetGridById(gridID);
+
+        const pageIndex = grid.features.pagination.pageIndex;
+
+        PerformanceAPI.SetMark('Pagination.GetCurrentPage-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Pagination.GetCurrentPage',
+            'Pagination.GetCurrentPage',
+            'Pagination.GetCurrentPage-end'
+        );
+
+        return pageIndex;
+    }
+
+    /**
      *
      *
      * @export
