@@ -120,4 +120,62 @@ namespace GridAPI.Filter {
             'Filter.deactivate-end'
         );
     }
+
+    /**
+     * Function that filters a column by condition
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @param {string} columnID ID of the column that will be filtered.
+     * @param {string} values Values on which the column will be filtered by.
+     * @returns {*}  {void}
+     */
+    export function ByCondition(
+        gridID: string,
+        columnID: string,
+        values: string
+    ): void {
+        PerformanceAPI.SetMark('Filter.ByCondition');
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        const grid = GridManager.GetGridById(gridID);
+
+        grid.features.filter.byCondition(columnID, JSON.parse(values));
+
+        PerformanceAPI.SetMark('Filter.ByCondition-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Filter.ByCondition',
+            'Filter.ByCondition',
+            'Filter.ByCondition-end'
+        );
+    }
+
+    /**
+     * Function that filters a column by value
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @param {string} columnID ID of the column that will be filtered.
+     * @param {string} values Values on which the column will be filtered by.
+     * @returns {*}  {void}
+     */
+    export function ByValue(
+        gridID: string,
+        columnID: string,
+        values: string
+    ): void {
+        PerformanceAPI.SetMark('Filter.ByValue');
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        const grid = GridManager.GetGridById(gridID);
+
+        grid.features.filter.byValue(columnID, JSON.parse(values));
+
+        PerformanceAPI.SetMark('Filter.ByValue-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Filter.ByValue',
+            'Filter.ByValue',
+            'Filter.ByValue-end'
+        );
+    }
 }
