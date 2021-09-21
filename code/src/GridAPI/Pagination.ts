@@ -65,7 +65,7 @@ namespace GridAPI.Pagination {
      *
      * @export
      * @param {string} gridID Id of the Grid from which to obtain the pagination Index
-     * @return {*}  {number} Index of the current page, 0 based. Return -1 if the Grid is not yet initialized.
+     * @return {*}  {string} Stringified JSON structure containing Index of the current page, error message and code, and success boolean
      */
     export function GetCurrentPage(gridID: string): string {
         PerformanceAPI.SetMark('Pagination.GetCurrentPage');
@@ -168,7 +168,7 @@ namespace GridAPI.Pagination {
      * @export
      * @param {string} gridID
      * @param {number} n
-     * @returns {*}  {void}
+     * @returns {*}  {string} Stringified JSON structure containing error message and code, and success boolean
      */
     export function MoveToPage(gridID: string, n: number): string {
         PerformanceAPI.SetMark('Pagination.MoveToPage');

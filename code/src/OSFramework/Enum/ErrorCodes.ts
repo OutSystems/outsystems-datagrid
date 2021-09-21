@@ -9,6 +9,7 @@ namespace OSFramework.Enum {
 
         // Error Codes - API errors - Specific errors generated when exposing the component client actions API/Framework.
         API_FailedPaginationGetCurrentPage = 'GRID-API-01001',
+        API_FailedPaginationSetCurrentPage = 'GRID-API-01002',
         API_UnableToAddRow = 'GRID-API-02001',
         API_FailedAddRow = 'GRID-API-02002',
         API_UnableToRemoveRow = 'GRID-API-02001',

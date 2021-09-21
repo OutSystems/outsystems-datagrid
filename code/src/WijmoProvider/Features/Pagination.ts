@@ -200,6 +200,7 @@ namespace WijmoProvider.Feature {
             let message = '';
             let code: OSFramework.Enum.ErrorCodes;
 
+            // we don't want to return page index if there is server side pagination
             if (this._grid.config.serverSidePagination) {
                 isSuccess = false;
                 value = 0;
@@ -253,11 +254,12 @@ namespace WijmoProvider.Feature {
             let message = '';
             let code: OSFramework.Enum.ErrorCodes;
 
+            // we don't want to set page index if there is server side pagination
             if (this._grid.config.serverSidePagination) {
                 message = this._serverSideOnErrorMessage;
                 code =
                     OSFramework.Enum.ErrorCodes
-                        .API_FailedPaginationGetCurrentPage;
+                        .API_FailedPaginationSetCurrentPage;
             }
             isSuccess = this._view.moveToPage(n);
 
