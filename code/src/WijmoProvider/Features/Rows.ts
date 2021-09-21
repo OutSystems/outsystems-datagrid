@@ -174,7 +174,7 @@ namespace WijmoProvider.Feature {
          * Add a new row to the grid with all cells empty.
          * @returns ReturnMessage containing the resulting code from the adding rows and the error message in case of failure.
          */
-        public addNewRows(): OSFramework.OSStructures.ReturnMessage {
+        public addNewRows(): OSFramework.OSStructure.ReturnMessage {
             if (!this._canAddRows()) {
                 // Return error
                 return {
@@ -320,7 +320,7 @@ namespace WijmoProvider.Feature {
          * Remove all selected rows from the grid.
          * @returns ReturnMessage containing the resulting code from the removing rows and the error message in case of failure.
          */
-        public removeSelectedRows(): OSFramework.OSStructures.ReturnMessage {
+        public removeSelectedRows(): OSFramework.OSStructure.ReturnMessage {
             if (!this._canRemoveRows()) {
                 return {
                     code: OSFramework.Enum.ErrorCodes.API_UnableToRemoveRow,

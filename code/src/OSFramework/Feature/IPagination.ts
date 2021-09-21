@@ -10,12 +10,12 @@ namespace OSFramework.Feature {
         changePageSize(n: number): void;
         createPageButtons(phId: string, qtde: number): void;
         executeAction(action: Enum.PageAction): boolean;
-        getCurrentPage(): OSStructures.ReturnMessage;
+        getCurrentPage(): OSStructure.ReturnMessage;
         getValueByLabel(label: Enum.PageLabel): number;
         moveToFirstPage(): boolean;
         moveToLastPage(): boolean;
         moveToNextPage(): boolean;
-        moveToPage(n: number): OSStructures.ReturnMessage;
+        moveToPage(n: number): OSStructure.ReturnMessage;
         moveToPreviousPage(): boolean;
         registerLabel(label: Enum.PageLabel, phId: string): void;
     }

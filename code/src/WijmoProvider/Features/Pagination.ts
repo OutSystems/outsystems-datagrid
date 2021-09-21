@@ -194,7 +194,7 @@ namespace WijmoProvider.Feature {
             }
         }
 
-        public getCurrentPage(): OSFramework.OSStructures.ReturnMessage {
+        public getCurrentPage(): OSFramework.OSStructure.ReturnMessage {
             let isSuccess = true;
             let value = this.pageIndex;
             let message = '';
@@ -249,7 +249,7 @@ namespace WijmoProvider.Feature {
             return this._view.moveToNextPage();
         }
 
-        public moveToPage(n: number): OSFramework.OSStructures.ReturnMessage {
+        public moveToPage(n: number): OSFramework.OSStructure.ReturnMessage {
             let isSuccess = false;
             let message = '';
             let code: OSFramework.Enum.ErrorCodes;
