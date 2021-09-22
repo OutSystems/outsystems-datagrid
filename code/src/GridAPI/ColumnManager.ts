@@ -170,12 +170,12 @@ namespace GridAPI.ColumnManager {
      * @export
      * @param {string} gridID ID of the Grid where the change will occur.
      * @param {string} columnID id of the column with which actions on the column can be performed.
-     * @param {wijmo.Aggregate} aggregate aggregate that will be applied on group panel.
+     * @param {number} aggregate aggregate that will be applied on group panel.
      */
     export function SetColumnAggregate(
         gridID: string,
         columnID: string,
-        aggregate: wijmo.Aggregate
+        aggregate: number
     ): void {
         PerformanceAPI.SetMark('ColumnManager.SetColumnAggregate');
 
