@@ -33,8 +33,6 @@ namespace WijmoProvider.Feature {
         private _pageSize: number;
         private _phId: string;
         private _qtdeButtons: number;
-        private _serverSideOnErrorMessage =
-            'It seems that you have server side pagination turned on. Switch it off and try again';
         private _view: wijmo.collections.CollectionView;
 
         constructor(grid: WijmoProvider.Grid.IGridWijmo, pageSize: number) {
@@ -194,30 +192,6 @@ namespace WijmoProvider.Feature {
             }
         }
 
-        public getCurrentPage(): OSFramework.OSStructure.ReturnMessage {
-            let isSuccess = true;
-            let value = this.pageIndex;
-            let message = '';
-            let code: OSFramework.Enum.ErrorCodes;
-
-            // we don't want to return page index if there is server side pagination
-            if (this._grid.config.serverSidePagination) {
-                isSuccess = false;
-                value = 0;
-                message = this._serverSideOnErrorMessage;
-                code =
-                    OSFramework.Enum.ErrorCodes
-                        .API_FailedPaginationGetCurrentPage;
-            }
-
-            return {
-                code,
-                isSuccess,
-                value,
-                message
-            };
-        }
-
         public getValueByLabel(label: OSFramework.Enum.PageLabel): number {
             switch (label) {
                 case OSFramework.Enum.PageLabel.PageCount:
@@ -249,25 +223,8 @@ namespace WijmoProvider.Feature {
             return this._view.moveToNextPage();
         }
 
-        public moveToPage(n: number): OSFramework.OSStructure.ReturnMessage {
-            let isSuccess = false;
-            let message = '';
-            let code: OSFramework.Enum.ErrorCodes;
-
-            // we don't want to set page index if there is server side pagination
-            if (this._grid.config.serverSidePagination) {
-                message = this._serverSideOnErrorMessage;
-                code =
-                    OSFramework.Enum.ErrorCodes
-                        .API_FailedPaginationSetCurrentPage;
-            }
-            isSuccess = this._view.moveToPage(n);
-
-            return {
-                code,
-                isSuccess,
-                message
-            };
+        public moveToPage(n: number): boolean {
+            return this._view.moveToPage(n);
         }
 
         public moveToPreviousPage(): boolean {

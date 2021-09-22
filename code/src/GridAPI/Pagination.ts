@@ -69,11 +69,9 @@ namespace GridAPI.Pagination {
      */
     export function GetCurrentPage(gridID: string): string {
         PerformanceAPI.SetMark('Pagination.GetCurrentPage');
-        let output = '';
+        let returnMessage = new OSFramework.OSStructure.ReturnMessage();
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            let returnMessage = new OSFramework.OSStructure.ReturnMessage();
-
             returnMessage = {
                 value: -1,
                 isSuccess: false,
@@ -84,7 +82,28 @@ namespace GridAPI.Pagination {
         }
 
         const grid = GridManager.GetGridById(gridID);
-        output = JSON.stringify(grid.features.pagination.getCurrentPage());
+
+        let value = grid.features.pagination.pageIndex;
+        let isSuccess = true;
+        let message: string;
+        let code: OSFramework.Enum.ErrorCodes;
+
+        // we don't want to return page index if there is server side pagination
+        if (grid.config.serverSidePagination) {
+            value = 0;
+            isSuccess = false;
+            message =
+                'It seems that you have server side pagination turned on. Switch it off and try again';
+            code =
+                OSFramework.Enum.ErrorCodes.API_FailedPaginationGetCurrentPage;
+        }
+
+        returnMessage = {
+            value,
+            isSuccess,
+            message,
+            code
+        };
 
         PerformanceAPI.SetMark('Pagination.GetCurrentPage-end');
         PerformanceAPI.GetMeasure(
@@ -93,7 +112,7 @@ namespace GridAPI.Pagination {
             'Pagination.GetCurrentPage-end'
         );
 
-        return output;
+        return JSON.stringify(returnMessage);
     }
 
     /**
@@ -175,13 +194,10 @@ namespace GridAPI.Pagination {
      */
     export function MoveToPage(gridID: string, n: number): string {
         PerformanceAPI.SetMark('Pagination.MoveToPage');
-        let output = '';
+        let returnMessage = new OSFramework.OSStructure.ReturnMessage();
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            let returnMessage = new OSFramework.OSStructure.ReturnMessage();
-
             returnMessage = {
-                value: -1,
                 isSuccess: false,
                 message: 'Grid not found',
                 code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
@@ -190,7 +206,26 @@ namespace GridAPI.Pagination {
         }
 
         const grid = GridManager.GetGridById(gridID);
-        output = JSON.stringify(grid.features.pagination.moveToPage(n));
+        let isSuccess = true;
+        let message: string;
+        let code: OSFramework.Enum.ErrorCodes;
+
+        // we don't want to set page index if there is server side pagination
+        if (grid.config.serverSidePagination) {
+            isSuccess = false;
+            message =
+                'It seems that you have server side pagination turned on. Switch it off and try again';
+            code =
+                OSFramework.Enum.ErrorCodes.API_FailedPaginationSetCurrentPage;
+        }
+
+        isSuccess = grid.features.pagination.moveToPage(n);
+
+        returnMessage = {
+            isSuccess,
+            message,
+            code
+        };
 
         PerformanceAPI.SetMark('Pagination.MoveToPage-end');
         PerformanceAPI.GetMeasure(
@@ -199,7 +234,7 @@ namespace GridAPI.Pagination {
             'Pagination.MoveToPage-end'
         );
 
-        return output;
+        return JSON.stringify(returnMessage);
     }
 
     /**
