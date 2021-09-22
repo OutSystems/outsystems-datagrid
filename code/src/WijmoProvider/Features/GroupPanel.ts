@@ -125,7 +125,7 @@ namespace WijmoProvider.Feature {
             const column = this._grid.getColumn(binding);
 
             if (column) {
-                column.provider.aggregate = aggregate;
+                column.provider.aggregate = wijmo.Aggregate[aggregate];
             }
         }
 
