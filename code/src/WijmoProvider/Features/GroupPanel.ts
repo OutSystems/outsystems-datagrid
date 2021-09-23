@@ -125,6 +125,10 @@ namespace WijmoProvider.Feature {
             const column = this._grid.getColumn(binding);
 
             if (column) {
+                if (!wijmo.Aggregate[aggregate]) {
+                    throw `The aggreagate you've passed does not exist.`;
+                }
+
                 column.provider.aggregate = wijmo.Aggregate[aggregate];
             }
         }
