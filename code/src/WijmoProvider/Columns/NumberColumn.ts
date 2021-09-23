@@ -139,6 +139,7 @@ namespace WijmoProvider.Column {
                     this.applyConfigs();
                     break;
                 case 'hasThousandSeparator':
+                    this.editorConfig.hasThousandSeparator = propertyValue;
                     this._setEditorFormat(propertyValue);
                     this.applyConfigs();
                     break;
