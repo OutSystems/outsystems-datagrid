@@ -13,6 +13,6 @@ namespace OSFramework.Feature {
          * @param binding binding of the column
          * @param aggregate aggregation function
          */
-        setAggregate(binding: string, aggregate: wijmo.Aggregate): void;
+        setAggregate(binding: string, aggregate: number): void;
     }
 }
