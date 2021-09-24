@@ -121,6 +121,18 @@ namespace WijmoProvider.Feature {
             );
         }
 
+        public setAggregate(binding: string, aggregate: wijmo.Aggregate): void {
+            const column = this._grid.getColumn(binding);
+
+            if (column) {
+                if (!wijmo.Aggregate[aggregate]) {
+                    throw `The aggreagate you've passed does not exist.`;
+                }
+
+                column.provider.aggregate = wijmo.Aggregate[aggregate];
+            }
+        }
+
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public setViewLayout(state: any): void {
             const source = this._grid.provider.itemsSource;
