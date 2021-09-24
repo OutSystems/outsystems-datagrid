@@ -27,7 +27,8 @@ namespace WijmoProvider.Feature {
         implements
             OSFramework.Feature.IPagination,
             OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable {
+            OSFramework.Interface.IDisposable
+    {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _pageSize: number;
         private _phId: string;
@@ -238,9 +239,8 @@ namespace WijmoProvider.Feature {
                 const element = document.getElementById(phId);
 
                 if (element)
-                    element.textContent = this.getValueByLabel(
-                        label
-                    ).toString();
+                    element.textContent =
+                        this.getValueByLabel(label).toString();
             });
         }
     }
