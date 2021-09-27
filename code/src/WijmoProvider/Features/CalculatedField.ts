@@ -84,13 +84,13 @@ namespace WijmoProvider.Feature {
             this._calculatedFields[binding] = Evaluate(formula);
         }
 
-        public removeFormula(binding: string) {
-            if (this._calculatedFields.hasOwnProperty(binding))
-                delete this._calculatedFields[binding];
-        }
-
         public build(): void {
             return;
+        }
+
+        public removeFormula(binding: string): void {
+            if (this._calculatedFields.hasOwnProperty(binding))
+                delete this._calculatedFields[binding];
         }
     }
 }

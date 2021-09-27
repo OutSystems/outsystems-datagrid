@@ -5,9 +5,9 @@ namespace WijmoProvider.Feature {
             OSFramework.Feature.IColumnReorder,
             OSFramework.Interface.IBuilder
     {
-        private _enabled: boolean;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _draggedColumn: wijmo.grid.ColumnGroup;
+        private _enabled: boolean;
+        private _grid: Grid.IGridWijmo;
 
         constructor(grid: Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;

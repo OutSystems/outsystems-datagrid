@@ -18,17 +18,6 @@ namespace WijmoProvider.Grid {
             this._provider.clearChanges();
         }
 
-        public search(searchedValue: string): void {
-            const rx = new RegExp(searchedValue, 'i');
-
-            // always move to first page when a search is done
-            this._provider.moveToFirstPage();
-
-            this._provider.filter = function (x) {
-                return !searchedValue || JSON.stringify(x).match(rx) !== null;
-            };
-        }
-
         public flatten(): void {
             super.flatten();
             this._provider.refresh();
@@ -70,6 +59,17 @@ namespace WijmoProvider.Grid {
 
         public hasResults(): boolean {
             return this._provider.isEmpty === false;
+        }
+
+        public search(searchedValue: string): void {
+            const rx = new RegExp(searchedValue, 'i');
+
+            // always move to first page when a search is done
+            this._provider.moveToFirstPage();
+
+            this._provider.filter = function (x) {
+                return !searchedValue || JSON.stringify(x).match(rx) !== null;
+            };
         }
 
         public setData(data: string): void {

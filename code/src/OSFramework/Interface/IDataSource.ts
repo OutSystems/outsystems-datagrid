@@ -32,11 +32,6 @@ namespace OSFramework.Grid {
          */
         clear(): void;
         /**
-         * Filter the datasource by the given value
-         * @param searchedValue the value used as filter
-         */
-        search(searchedValue: string): void;
-        /**
          * Used to flatten the datasource
          */
         flatten(): void;
@@ -73,6 +68,11 @@ namespace OSFramework.Grid {
          * @param item Can be the index position (0-based) or the dataItem of that row
          */
         removeRow(item: number | JSON): boolean;
+        /**
+         * Filter the datasource by the given value
+         * @param searchedValue the value used as filter
+         */
+        search(searchedValue: string): void;
         /**
          * Set data to be printed on the grid
          * @param data data source in JSON stringify format

@@ -7,8 +7,8 @@ namespace WijmoProvider.Grid {
         >
         implements IGridWijmo
     {
-        private _fBuilder: WijmoProvider.Feature.FeatureBuilder;
         private _lineIsSingleEntity = false;
+        private _fBuilder: Feature.FeatureBuilder;
         private _rowMetadata: RowMetadata;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
