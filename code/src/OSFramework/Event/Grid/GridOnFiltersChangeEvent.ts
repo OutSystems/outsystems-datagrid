@@ -16,6 +16,7 @@ namespace OSFramework.Event.Grid {
          * @param activeFilters list of currently active filters
          */
         public trigger(
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             gridObj: OSFramework.Grid.IGrid,
             gridID: string,
             activeFilters: Array<OSFramework.OSStructure.ActiveFilter>

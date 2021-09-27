@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Configuration.Column {
     /**
      * Defines the configuration for Date and Datetime custom editors

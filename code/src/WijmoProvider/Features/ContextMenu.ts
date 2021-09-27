@@ -159,6 +159,7 @@ namespace WijmoProvider.Feature {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         private _filterMenuItem(
             e: MouseEvent,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             item: OSFramework.Feature.Auxiliar.MenuItem
         ): boolean {
             // Get info from clicked area

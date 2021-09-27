@@ -4,7 +4,9 @@ namespace WijmoProvider.Column {
         constructor(
             grid: OSFramework.Grid.IGrid,
             columnID: string,
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             configs: any,
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             extraConfig: any
         ) {
             super(

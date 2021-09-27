@@ -13,6 +13,7 @@ namespace OSFramework.Event.Column {
     > {
         private _column: OSFramework.Column.IColumn;
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         constructor(column: OSFramework.Column.IColumn) {
             super();
             this._column = column;

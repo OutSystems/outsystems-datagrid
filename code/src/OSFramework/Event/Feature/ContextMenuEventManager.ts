@@ -13,6 +13,7 @@ namespace OSFramework.Event.Feature {
     > {
         private _contextMenu: OSFramework.Feature.IContextMenu;
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         constructor(contextMenu: OSFramework.Feature.IContextMenu) {
             super();
             this._contextMenu = contextMenu;

@@ -56,13 +56,17 @@ namespace WijmoProvider.Feature {
         }
 
         private _drop(e: DragEvent) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             //@ts-ignore
             if (this._dragCol && this._dragCol.binding.startsWith('$')) return;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             //@ts-ignore
             this._dragMarker
-                ? //@ts-ignore
+                ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  //@ts-ignore
                   this._moveGroup(this._dragMarker, e)
-                : //@ts-ignore
+                : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  //@ts-ignore
                   this._dragCol && this._addGroup(this._dragCol, e);
         }
 

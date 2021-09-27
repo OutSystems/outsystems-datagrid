@@ -26,7 +26,9 @@ namespace WijmoProvider.Column {
             gridID: string,
             rowNumber: number,
             columnID: string,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             oldValue: any,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newValue: any
         ): void {
             // only set to blank if there is a different value

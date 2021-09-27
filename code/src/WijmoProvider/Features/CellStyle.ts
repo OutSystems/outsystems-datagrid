@@ -84,6 +84,7 @@ namespace WijmoProvider.Feature {
             rowNumber: number,
             binding: string,
             className: string
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ): any {
             this.getMetadata(rowNumber).removeClass(binding, className);
         }

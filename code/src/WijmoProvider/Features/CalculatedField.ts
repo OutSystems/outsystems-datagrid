@@ -34,6 +34,7 @@ namespace WijmoProvider.Feature {
             OSFramework.Feature.ICalculatedField,
             OSFramework.Interface.IBuilder {
         private _grid: Grid.IGridWijmo;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _calculatedFields: any;
 
         constructor(grid: Grid.IGridWijmo) {

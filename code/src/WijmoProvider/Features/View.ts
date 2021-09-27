@@ -2,6 +2,7 @@
 namespace WijmoProvider.Feature {
     class GroupDefinition {
         public align: string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public children: Array<any>;
         public collapseTo: string;
         public header: string;
@@ -40,7 +41,8 @@ namespace WijmoProvider.Feature {
         /**
          * Returns the groups layout
          */
-        private _getGroupDefinition(col): Array<any> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        private _getGroupDefinition(col: any): Array<any> {
             const children = [];
 
             for (let i = 0; i < col.length; i++) {

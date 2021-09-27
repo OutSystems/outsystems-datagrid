@@ -165,6 +165,7 @@ namespace WijmoProvider.Feature {
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public clearPropertyInRow(row: any): void {
             this._metadata.clearPropertyByRow(row, this._internalLabel);
             this._grid.provider.invalidate(); //Mark to be refreshed

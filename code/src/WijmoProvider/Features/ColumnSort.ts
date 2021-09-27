@@ -80,6 +80,7 @@ namespace WijmoProvider.Feature {
          */
         private _sortedHandler(
             s: wijmo.grid.FlexGrid,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             e: wijmo.grid.CellRangeEventArgs
         ) {
             const col = s.getColumn(e.col);

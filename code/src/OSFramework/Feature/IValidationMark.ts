@@ -6,6 +6,7 @@ namespace OSFramework.Feature {
         clear(): void;
         errorMessage(rowNumber: number, binding: string): string;
         isInvalid(rowNumber: number, binding: string): boolean;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         isInvalidRow(row: any): boolean;
         setCellStatus(
             rowNumber: number,

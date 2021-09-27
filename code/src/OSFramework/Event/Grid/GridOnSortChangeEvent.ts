@@ -16,6 +16,7 @@ namespace OSFramework.Event.Grid {
          * @param activeSorts list of currently active sorts
          */
         public trigger(
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             gridObj: OSFramework.Grid.IGrid,
             gridID: string,
             activeSorts: Array<OSStructure.ActiveSort>
