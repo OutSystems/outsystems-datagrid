@@ -65,15 +65,45 @@ namespace GridAPI.Pagination {
      *
      * @export
      * @param {string} gridID Id of the Grid from which to obtain the pagination Index
-     * @return {*}  {number} Index of the current page, 0 based. Return -1 if the Grid is not yet initialized.
+     * @return {*}  {string} Stringified JSON structure containing Index of the current page, error message and code, and success boolean
      */
-    export function GetCurrentPage(gridID: string): number {
+    export function GetCurrentPage(gridID: string): string {
         PerformanceAPI.SetMark('Pagination.GetCurrentPage');
+        let returnMessage = new OSFramework.OSStructure.ReturnMessage();
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return -1;
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            returnMessage = {
+                value: -1,
+                isSuccess: false,
+                message: 'Grid not found',
+                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+            };
+            return JSON.stringify(returnMessage);
+        }
+
         const grid = GridManager.GetGridById(gridID);
 
-        const pageIndex = grid.features.pagination.pageIndex;
+        let value = grid.features.pagination.pageIndex;
+        let isSuccess = true;
+        let message: string;
+        let code: OSFramework.Enum.ErrorCodes;
+
+        // we don't want to return page index if there is server side pagination
+        if (grid.config.serverSidePagination) {
+            value = 0;
+            isSuccess = false;
+            message =
+                'It seems that you have server side pagination turned on. Switch it off and try again';
+            code =
+                OSFramework.Enum.ErrorCodes.API_FailedPaginationGetCurrentPage;
+        }
+
+        returnMessage = {
+            value,
+            isSuccess,
+            message,
+            code
+        };
 
         PerformanceAPI.SetMark('Pagination.GetCurrentPage-end');
         PerformanceAPI.GetMeasure(
@@ -82,7 +112,7 @@ namespace GridAPI.Pagination {
             'Pagination.GetCurrentPage-end'
         );
 
-        return pageIndex;
+        return JSON.stringify(returnMessage);
     }
 
     /**
@@ -160,15 +190,42 @@ namespace GridAPI.Pagination {
      * @export
      * @param {string} gridID
      * @param {number} n
-     * @returns {*}  {void}
+     * @returns {*}  {string} Stringified JSON structure containing error message and code, and success boolean
      */
-    export function MoveToPage(gridID: string, n: number): void {
+    export function MoveToPage(gridID: string, n: number): string {
         PerformanceAPI.SetMark('Pagination.MoveToPage');
+        let returnMessage = new OSFramework.OSStructure.ReturnMessage();
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Grid not found',
+                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+            };
+            return JSON.stringify(returnMessage);
+        }
+
         const grid = GridManager.GetGridById(gridID);
+        let isSuccess = true;
+        let message: string;
+        let code: OSFramework.Enum.ErrorCodes;
 
-        grid.features.pagination.moveToPage(n);
+        // we don't want to set page index if there is server side pagination
+        if (grid.config.serverSidePagination) {
+            isSuccess = false;
+            message =
+                'It seems that you have server side pagination turned on. Switch it off and try again';
+            code =
+                OSFramework.Enum.ErrorCodes.API_FailedPaginationSetCurrentPage;
+        }
+
+        isSuccess = grid.features.pagination.moveToPage(n);
+
+        returnMessage = {
+            isSuccess,
+            message,
+            code
+        };
 
         PerformanceAPI.SetMark('Pagination.MoveToPage-end');
         PerformanceAPI.GetMeasure(
@@ -176,6 +233,8 @@ namespace GridAPI.Pagination {
             'Pagination.MoveToPage',
             'Pagination.MoveToPage-end'
         );
+
+        return JSON.stringify(returnMessage);
     }
 
     /**

@@ -14,13 +14,11 @@ namespace WijmoProvider.Column {
                 new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
-        protected _setFormat(decimalPlaces: number, symbol?: string): void {
+        protected _setFormat(decimalPlaces: number): void {
             //The supper will calculate the Min and Max and validate decimalPlaces
             super._setFormat(decimalPlaces);
 
-            this.config.format = `c${this.editorConfig.decimalPlaces} ${
-                symbol || this.editorConfig.symbol
-            }`;
+            this.config.format = `c${this.editorConfig.decimalPlaces} ${this.editorConfig.symbol}`;
             this.editorConfig.format = this.config.format;
         }
 
@@ -37,10 +35,8 @@ namespace WijmoProvider.Column {
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
                 case 'symbol':
-                    this._setFormat(
-                        this.editorConfig.decimalPlaces,
-                        propertyValue
-                    );
+                    this.editorConfig.symbol = propertyValue;
+                    this._setFormat(this.editorConfig.decimalPlaces);
                     this.applyConfigs();
                     break;
                 default:
