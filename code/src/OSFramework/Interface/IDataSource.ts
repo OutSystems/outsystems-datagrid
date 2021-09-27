@@ -2,7 +2,7 @@ namespace OSFramework.Grid {
     /**
      * Defines the basic interface for a DataSource
      */
-    export interface IDataSource extends OSFramework.Interface.IBuilder {
+    export interface IDataSource extends Interface.IBuilder {
         /**
          * Identify if metadata was given
          * @description Only works during the use of ArrangeData
@@ -38,9 +38,7 @@ namespace OSFramework.Grid {
         /**
          * Returns the changes made on the grid
          */
-        getChanges<T extends OSFramework.OSStructure.ChangesDone>(
-            c: new () => T
-        ): T;
+        getChanges<T extends OSStructure.ChangesDone>(c: new () => T): T;
         /**
          * Return the full data source
          */

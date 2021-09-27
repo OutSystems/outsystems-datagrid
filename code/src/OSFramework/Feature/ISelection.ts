@@ -30,21 +30,21 @@ namespace OSFramework.Feature {
          * @returns A array containing what is selected, ordered by
          * @example Excel/Google spreadsheet don't accepts copying data in different structures, to avoid errors we decided to transform selections, getting the left-most column, and the right-most column and apply the same structure to all the selected ranges
          */
-        equalizeSelection(): OSFramework.OSStructure.CellRange[];
+        equalizeSelection(): OSStructure.CellRange[];
 
         /**
          * Return Grid's active cell
          */
-        getActiveCell(): OSFramework.OSStructure.CellRange;
+        getActiveCell(): OSStructure.CellRange;
 
         /**
          * Returns all selections (rows and ranges)
          */
-        getAllSelections(): OSFramework.OSStructure.CellRange[];
+        getAllSelections(): OSStructure.CellRange[];
         /**
          * Returns the Data of the selections
          */
-        getAllSelectionsData(): OSFramework.OSStructure.RowData[];
+        getAllSelectionsData(): OSStructure.RowData[];
 
         /**
          * Returns the Indexes of the selected rows
