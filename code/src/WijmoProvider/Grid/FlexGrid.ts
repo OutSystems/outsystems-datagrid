@@ -7,7 +7,6 @@ namespace WijmoProvider.Grid {
         >
         implements IGridWijmo
     {
-        private _lineIsSingleEntity = false;
         private _fBuilder: Feature.FeatureBuilder;
         private _rowMetadata: RowMetadata;
 

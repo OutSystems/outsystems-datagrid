@@ -1,17 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
     function Evaluate(formula: OSFramework.OSStructure.Formula) {
-        let fn: OSFramework.OSStructure.Functions = formula.function;
+        const fn: OSFramework.OSStructure.Functions = formula.function;
 
-        let parsedValues = formula.values.map((val) => {
+        const parsedValues = formula.values.map((val) => {
             if (isNaN(parseInt(val))) return `$.${val}`;
             return val;
         });
 
         switch (fn) {
             case OSFramework.OSStructure.Functions.Avg:
-                let vals = parsedValues.join(' + ');
-                return `(${vals}) / ${parsedValues.length}`;
+                return `(${parsedValues.join(' + ')}) / ${parsedValues.length}`;
             case OSFramework.OSStructure.Functions.Diff:
                 return parsedValues.join(' - ');
             case OSFramework.OSStructure.Functions.Div:
