@@ -27,7 +27,7 @@ namespace OSFramework.Feature.Auxiliar {
             return !this.parentMenuItemId;
         }
 
-        constructor(uniqueId) {
+        constructor(uniqueId: string) {
             this.uniqueId = uniqueId;
         }
     }

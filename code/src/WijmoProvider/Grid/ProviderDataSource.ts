@@ -4,7 +4,7 @@ namespace WijmoProvider.Grid {
         .AbstractDataSource {
         private _provider: wijmo.collections.CollectionView;
 
-        public addRow(position?: number, data?: JSON[]) {
+        public addRow(position?: number, data?: JSON[]): void {
             super.addRow(position, data);
             this._provider.refresh();
         }

@@ -7,7 +7,7 @@ namespace OSFramework.Callbacks {
      * This is the most generic callback signature and can be used even for internal events
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    export type Generic = { (...ags): any };
+    export type Generic = { (...args): any };
 
     /**
      * This is the most generic callback signature for events existing in OutSystems code.

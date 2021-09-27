@@ -153,8 +153,8 @@ namespace WijmoProvider.Feature {
             return new ConditionExecuter(conditionExecuters);
         }
 
-        private _updatingViewHandler(s, e) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+        private _updatingViewHandler(s: any, e: any) {
             const columns = this._grid
                 .getColumns()
                 .filter((x) => this._mappedRules.get(x.config.binding));
