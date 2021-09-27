@@ -22,6 +22,10 @@ namespace WijmoProvider.Helper.Translation {
     }
 
     export function SetLanguage(language: string, url: string): void {
+        // on wijmo version 5.20212.808 and prior, when importing english culture files, the grid has some different resources
+        // than if we used default translation. in order to prevent this, we don't want to import english culture files.
+        if (language === 'en-US' || language.includes('en')) return;
+
         const regex = new RegExp('culture.(.*)(?=.min)');
         const transposedLanguage = transposeLanguageFormat(language);
 
