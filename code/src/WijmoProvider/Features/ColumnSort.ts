@@ -49,6 +49,7 @@ namespace WijmoProvider.Feature {
          * @returns Array of ActiveSort
          */
         private _makeActiveSort(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             sortDescriptions: any
         ): Array<OSFramework.OSStructure.ActiveSort> {
             const activeSorts = new Array<OSFramework.OSStructure.ActiveSort>();

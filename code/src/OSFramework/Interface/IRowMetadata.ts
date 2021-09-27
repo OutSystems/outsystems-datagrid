@@ -62,6 +62,7 @@ namespace OSFramework.Interface {
          * @param {*} row
          * @param {string} property
          */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         hasOwnPropertyByRow(row: any, property: string): boolean;
         /**
          * Verify the presence of metadata information for a given row key and property

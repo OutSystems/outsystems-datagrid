@@ -121,6 +121,7 @@ namespace WijmoProvider.Grid {
                 this._getRowMetadataByRowNumber(rowNumber).delete(propertyName);
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public getMetadataByRowKey(key: string, propertyName: string): any {
             return this._getRowMetadataByRowKey(key).get(propertyName);
         }

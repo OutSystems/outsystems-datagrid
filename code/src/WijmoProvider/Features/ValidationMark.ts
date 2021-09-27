@@ -52,6 +52,7 @@ namespace WijmoProvider.Feature {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _convertToFormat(
             column: OSFramework.Column.IColumn,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             value: any
         ) {
             switch (column.columnType) {
