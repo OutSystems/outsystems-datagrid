@@ -16,7 +16,9 @@ namespace OSFramework.Event.Grid {
             gridID: string,
             ...args
         ): void {
-            this.handlers.slice(0).forEach((h) => h(gridID, gridObj));
+            this.handlers
+                .slice(0)
+                .forEach((h) => Helper.AsyncInvocation(h, gridID, gridObj));
         }
     }
 }

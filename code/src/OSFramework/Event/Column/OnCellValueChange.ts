@@ -17,7 +17,14 @@ namespace OSFramework.Event.Column {
             this.handlers
                 .slice(0)
                 .forEach((h) =>
-                    h(gridID, rowNumber, columnID, oldValue, newValue)
+                    Helper.AsyncInvocation(
+                        h,
+                        gridID,
+                        rowNumber,
+                        columnID,
+                        oldValue,
+                        newValue
+                    )
                 );
         }
     }

@@ -35,8 +35,8 @@ namespace OSFramework.Event.Feature {
         }
 
         public trigger(event: ContextMenuEventType): void {
-            if (this.handlers.has(event)) {
-                this.handlers
+            if (this.events.has(event)) {
+                this.events
                     .get(event)
                     .trigger(
                         this._contextMenu.grid.widgetId,

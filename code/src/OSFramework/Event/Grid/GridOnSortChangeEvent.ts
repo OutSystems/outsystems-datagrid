@@ -24,9 +24,11 @@ namespace OSFramework.Event.Grid {
             this.handlers
                 .slice(0)
                 .forEach((h) =>
-                    setTimeout(
-                        () => h(gridID, gridObj, serializedActiveSorts),
-                        0
+                    Helper.AsyncInvocation(
+                        h,
+                        gridID,
+                        gridObj,
+                        serializedActiveSorts
                     )
                 );
         }

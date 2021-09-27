@@ -251,7 +251,7 @@ namespace WijmoProvider.Feature {
                 }
                 if (
                     column.hasEvents &&
-                    column.columnEvents.handlers.has(
+                    column.columnEvents.events.has(
                         OSFramework.Event.Column.ColumnEventType
                             .OnCellValueChange
                     )
