@@ -83,10 +83,6 @@ namespace WijmoProvider.Feature {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             e: wijmo.grid.CellRangeEventArgs
         ) {
-            const col = s.getColumn(e.col);
-            const index = col.currentSortIndex;
-            const sd = s.itemsSource.sortDescriptions[index];
-
             if (
                 this._grid.gridEvents.hasHandlers(
                     OSFramework.Event.Grid.GridEventType.OnSortChange
