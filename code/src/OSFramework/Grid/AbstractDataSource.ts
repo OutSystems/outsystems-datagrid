@@ -27,7 +27,8 @@ namespace OSFramework.Grid {
     ): any {
         //regex expressions for date and datetime should be described here
         const regex = {
-            datetime: /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z?$/, //yyyy-MM-ddThh:mm:ssZ
+            datetime:
+                /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z?$/, //yyyy-MM-ddThh:mm:ssZ
             date: /^(\d{4})-(\d{2})-(\d{2})$/ //yyyy-MM-dd
         };
 
@@ -102,6 +103,7 @@ namespace OSFramework.Grid {
     }
 
     export abstract class AbstractDataSource implements IDataSource {
+        private _counter = -1;
         private _isSingleEntity: boolean;
         protected _convertions: Map<string, Set<string>>;
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
@@ -114,6 +116,25 @@ namespace OSFramework.Grid {
             this._ds = new Array<any>();
             this._convertions = new Map<string, Set<string>>();
             this._isSingleEntity = false;
+        }
+
+        private _getRowByKey(key: string) {
+            return this._ds.find((item) => {
+                return (
+                    _.get(
+                        item,
+                        this.parentGrid.config.keyBinding
+                    ).toString() === key
+                );
+            });
+        }
+
+        // set primary key field of dataItem
+        private _setKeyBinding(data): any {
+            // we only want to do this if we have key binding set
+            if (this.parentGrid.config.keyBinding) {
+                _.set(data, this.parentGrid.config.keyBinding, this._counter--);
+            }
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
@@ -176,7 +197,11 @@ namespace OSFramework.Grid {
         public addRow(position?: number, data?: JSON[]): void {
             for (let i = 0; i < data.length; i++) {
                 data[i] = this._parseNewItem();
+
+                // set primary key field of dataItem
+                this._setKeyBinding(data[i]);
             }
+
             this._ds.splice(position, 0, ...data);
         }
 
@@ -192,6 +217,14 @@ namespace OSFramework.Grid {
 
         public getMetadata(): JSON {
             return this._metadata;
+        }
+
+        public getRowNumberByKey(key: string): number {
+            return this.parentGrid.provider.rows.findIndex(
+                (item) =>
+                    _.get(item.dataItem, this.parentGrid.config.keyBinding) ===
+                    key
+            );
         }
 
         public removeRow(item: number | JSON): boolean {
@@ -235,6 +268,24 @@ namespace OSFramework.Grid {
             }
 
             return value;
+        }
+
+        public updateAddedRowKey(
+            currentRowId: string,
+            newKey: string
+        ): boolean {
+            const row = this._getRowByKey(currentRowId);
+
+            if (!row) {
+                return false;
+            }
+
+            // set primary key with new value
+            _.set(row, this.parentGrid.config.keyBinding, newKey);
+            // refresh grid with new value
+            this.parentGrid.provider.invalidate();
+
+            return true;
         }
 
         public abstract build(): void;

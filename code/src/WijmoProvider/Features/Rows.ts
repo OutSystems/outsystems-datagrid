@@ -1,7 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    type _ErrorMessage = { code: number; message: string };
-
     class CssClassInfo {
         /**
          * Contains all CSS classes from a specific row.
@@ -174,15 +172,16 @@ namespace WijmoProvider.Feature {
 
         /**
          * Add a new row to the grid with all cells empty.
-         * @returns ErrorMessage containing the resulting code from the adding rows and the error message in case of failure.
+         * @returns ReturnMessage containing the resulting code from the adding rows and the error message in case of failure.
          */
-        public addNewRows(): _ErrorMessage {
+        public addNewRows(): OSFramework.OSStructure.ReturnMessage {
             if (!this._canAddRows()) {
                 // Return error
                 return {
-                    code: 201,
+                    code: OSFramework.Enum.ErrorCodes.API_UnableToAddRow,
                     message:
-                        'It seems that you have an active filter, group or sort on your columns. Remove them and try again.'
+                        'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
+                    isSuccess: false
                 };
             }
 
@@ -230,9 +229,13 @@ namespace WijmoProvider.Feature {
             // Make sure the count of rows is correct after adding rows.
             if (this._getRowsCount() === expectedRowCount) {
                 // Return success
-                return { code: 200, message: 'Success' };
+                return { message: 'Success', isSuccess: true };
             } else {
-                return { code: 400, message: 'Error' };
+                return {
+                    code: OSFramework.Enum.ErrorCodes.API_FailedAddRow,
+                    message: 'Error',
+                    isSuccess: false
+                };
             }
         }
 
@@ -315,14 +318,15 @@ namespace WijmoProvider.Feature {
 
         /**
          * Remove all selected rows from the grid.
-         * @returns ErrorMessage containing the resulting code from the removing rows and the error message in case of failure.
+         * @returns ReturnMessage containing the resulting code from the removing rows and the error message in case of failure.
          */
-        public removeSelectedRows(): _ErrorMessage {
+        public removeSelectedRows(): OSFramework.OSStructure.ReturnMessage {
             if (!this._canRemoveRows()) {
                 return {
-                    code: 400,
+                    code: OSFramework.Enum.ErrorCodes.API_UnableToRemoveRow,
                     message:
-                        'It seems that you have an active filter, group or sort on your columns. Remove them and try again.'
+                        'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
+                    isSuccess: false
                 };
             }
             //This will avoid the same row being selected multiple times
@@ -370,9 +374,13 @@ namespace WijmoProvider.Feature {
 
             // Make sure the count of rows is correct after removing rows.
             if (this._getRowsCount() === expectedRowCount) {
-                return { code: 200, message: 'Success' };
+                return { message: 'Success', isSuccess: true };
             } else {
-                return { code: 400, message: 'Error' };
+                return {
+                    code: OSFramework.Enum.ErrorCodes.API_FailedRemoveRow,
+                    message: 'Error',
+                    isSuccess: false
+                };
             }
         }
     }
