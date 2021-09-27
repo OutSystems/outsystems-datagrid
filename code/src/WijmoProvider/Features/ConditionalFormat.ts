@@ -13,12 +13,12 @@ namespace WijmoProvider.Feature {
     function Evaluate(operator: Rules, comparedValue: any, cellValue: any) {
         // in case we are comparing dates
         if (typeof cellValue.getMonth === 'function') {
-            cellValue = WijmoProvider.Helper.DataUtils.GetTicksFromDate(
+            cellValue = Helper.DataUtils.GetTicksFromDate(
                 cellValue,
                 comparedValue.indexOf('Z') > -1
             );
             comparedValue = Date.parse(
-                WijmoProvider.Helper.DataUtils.ResetSeconds(comparedValue)
+                Helper.DataUtils.ResetSeconds(comparedValue)
             );
         }
 

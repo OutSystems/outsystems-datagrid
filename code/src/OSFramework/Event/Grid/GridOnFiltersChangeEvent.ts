@@ -19,7 +19,7 @@ namespace OSFramework.Event.Grid {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             gridObj: OSFramework.Grid.IGrid,
             gridID: string,
-            activeFilters: Array<OSFramework.OSStructure.ActiveFilter>
+            activeFilters: Array<OSStructure.ActiveFilter>
         ): void {
             const serializedActiveFilters = JSON.stringify(activeFilters);
             this.handlers

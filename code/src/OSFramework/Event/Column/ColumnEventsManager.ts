@@ -21,8 +21,8 @@ namespace OSFramework.Event.Column {
 
         protected getInstanceOfEventType(
             eventType: ColumnEventType
-        ): OSFramework.Event.IEvent<string> {
-            let event: OSFramework.Event.IEvent<string>;
+        ): Event.IEvent<string> {
+            let event: Event.IEvent<string>;
 
             switch (eventType) {
                 case ColumnEventType.ActionClick:

@@ -5,9 +5,9 @@ namespace WijmoProvider.Feature {
             OSFramework.Feature.ITabNavigation,
             OSFramework.Interface.IBuilder {
         private _enabled: boolean;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
+        constructor(grid: Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
         }

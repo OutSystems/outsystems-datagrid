@@ -5,11 +5,11 @@ namespace WijmoProvider.Feature {
             OSFramework.Interface.IBuilder,
             OSFramework.Feature.ICellStyle
     {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
         private readonly _internalLabel = '__cellStyle';
         private _metadata: OSFramework.Interface.IRowMetadata;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
         }

@@ -9,7 +9,7 @@ namespace WijmoProvider.Feature {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _draggedColumn: wijmo.grid.ColumnGroup;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
+        constructor(grid: Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
         }

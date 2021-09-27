@@ -5,7 +5,7 @@ namespace WijmoProvider.Feature {
             OSFramework.Feature.IValidationMark,
             OSFramework.Interface.IBuilder
     {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
         /** Array containing all invalid rows */
@@ -14,7 +14,7 @@ namespace WijmoProvider.Feature {
         /** Exposed methods to manipulate RowMetadata */
         private _metadata: OSFramework.Interface.IRowMetadata;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any

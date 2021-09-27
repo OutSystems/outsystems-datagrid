@@ -21,8 +21,8 @@ namespace OSFramework.Event.Feature {
 
         protected getInstanceOfEventType(
             eventType: ContextMenuEventType
-        ): OSFramework.Event.IEvent<string> {
-            let event: OSFramework.Event.IEvent<string>;
+        ): Event.IEvent<string> {
+            let event: Event.IEvent<string>;
 
             switch (eventType) {
                 case ContextMenuEventType.Toggle:

@@ -11,7 +11,7 @@ namespace WijmoProvider.Feature {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _undoStack: wijmo.undo.UndoStack;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
         }
 

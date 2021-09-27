@@ -10,7 +10,7 @@ namespace WijmoProvider.Feature {
             OSFramework.Feature.IContextMenu {
         /** Events from the Context Menu  */
         private _contextMenuEvents: OSFramework.Event.Feature.ContextMenuEventManager;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
         private _isOpening: boolean;
         /** Map a UniqueId to its MenuItem */
         private _menuItems: Map<string, OSFramework.Feature.Auxiliar.MenuItem>;
@@ -19,7 +19,7 @@ namespace WijmoProvider.Feature {
         /** Only the root MenuItems to be shown on Input.Menu */
         private _rootMenuItems: OSFramework.Feature.Auxiliar.MenuItem[];
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._menuItems = new Map();
             this._rootMenuItems = [];

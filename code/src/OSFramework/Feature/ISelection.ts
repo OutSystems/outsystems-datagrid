@@ -61,7 +61,7 @@ namespace OSFramework.Feature {
         /**
          * Returns the Data of the selected rows
          */
-        getSelectedRowsData(): OSFramework.OSStructure.RowData[];
+        getSelectedRowsData(): OSStructure.RowData[];
 
         /**
          * Checks if there is a row selected on the grid

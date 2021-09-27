@@ -188,9 +188,7 @@ namespace WijmoProvider.Feature {
                     (a, b) => a.bottomRow - b.bottomRow || a.topRow - b.topRow
                 )
                 .map((p) =>
-                    WijmoProvider.Helper.CellRangeFactory.MakeFromProviderCellRange(
-                        p
-                    )
+                    Helper.CellRangeFactory.MakeFromProviderCellRange(p)
                 );
         }
 
@@ -200,7 +198,7 @@ namespace WijmoProvider.Feature {
             if (currSelection && currSelection.isValid)
                 //currSelection has the last range selected
                 //properties row and col maintain the last cell selected or in a range, where the mouse button was released
-                return WijmoProvider.Helper.CellRangeFactory.MakeFromCoordinates(
+                return Helper.CellRangeFactory.MakeFromCoordinates(
                     currSelection.row,
                     currSelection.col
                 );
@@ -209,9 +207,7 @@ namespace WijmoProvider.Feature {
 
         public getAllSelections(): OSFramework.OSStructure.CellRange[] {
             return this.getProviderAllSelections().map((p) =>
-                WijmoProvider.Helper.CellRangeFactory.MakeFromProviderCellRange(
-                    p
-                )
+                Helper.CellRangeFactory.MakeFromProviderCellRange(p)
             );
         }
 

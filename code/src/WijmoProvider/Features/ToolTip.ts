@@ -8,10 +8,10 @@ namespace WijmoProvider.Feature {
         private _eventMouseEnter: any;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _eventMouseOut: any;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
         private _toolTip: wijmo.Tooltip;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._toolTip = new wijmo.Tooltip();
             this._eventMouseEnter = this._onMouseEnter.bind(this);

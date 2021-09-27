@@ -7,9 +7,7 @@ namespace OSFramework.Event.Column {
      * @class AbstractColumnEvent
      * @extends {OSFramework.Event.AbstractEvent<string>}
      */
-    export abstract class AbstractColumnEvent extends OSFramework.Event
-        .AbstractEvent<string> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    export abstract class AbstractColumnEvent extends Event.AbstractEvent<string> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         public trigger(gridID: string, columnID: string, ...args: any): void {
             this.handlers.slice(0).forEach((h) => h(gridID, columnID, ...args));

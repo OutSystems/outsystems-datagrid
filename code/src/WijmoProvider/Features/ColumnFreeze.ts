@@ -6,7 +6,7 @@ namespace WijmoProvider.Feature {
             OSFramework.Interface.IBuilder {
         private _grid: WijmoProvider.Grid.IGridWijmo;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
         }
 

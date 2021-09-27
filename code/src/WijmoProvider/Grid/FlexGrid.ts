@@ -16,8 +16,8 @@ namespace WijmoProvider.Grid {
             super(
                 gridID,
                 new OSFramework.Configuration.Grid.FlexGridConfig(configs),
-                new WijmoProvider.Grid.ProviderDataSource(),
-                new WijmoProvider.Column.ColumnGenerator()
+                new Grid.ProviderDataSource(),
+                new Column.ColumnGenerator()
             );
         }
 
@@ -109,7 +109,7 @@ namespace WijmoProvider.Grid {
         }
 
         public buildFeatures(): void {
-            this._fBuilder = new WijmoProvider.Feature.FeatureBuilder(this);
+            this._fBuilder = new Feature.FeatureBuilder(this);
 
             this._features = this._fBuilder.features;
 

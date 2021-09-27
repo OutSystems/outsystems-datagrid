@@ -7,7 +7,7 @@ namespace WijmoProvider.Feature {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _rowHeight: number;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo, rowHeight: number) {
+        constructor(grid: Grid.IGridWijmo, rowHeight: number) {
             this._grid = grid;
             this._rowHeight = rowHeight;
         }
