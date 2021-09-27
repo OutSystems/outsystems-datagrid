@@ -11,7 +11,8 @@ namespace OSFramework.Column {
      */
     export abstract class AbstractColumn<
         T extends Configuration.IConfigurationColumn
-    > implements IColumn {
+    > implements IColumn
+    {
         /** Configuration reference */
         private _configs: T;
         /** Internal reference to Grid component */

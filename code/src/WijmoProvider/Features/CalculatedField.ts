@@ -32,10 +32,11 @@ namespace WijmoProvider.Feature {
     export class CalculatedField
         implements
             OSFramework.Feature.ICalculatedField,
-            OSFramework.Interface.IBuilder {
-        private _grid: Grid.IGridWijmo;
+            OSFramework.Interface.IBuilder
+    {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _calculatedFields: any;
+        private _grid: Grid.IGridWijmo;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;

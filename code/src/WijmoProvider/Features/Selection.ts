@@ -8,7 +8,8 @@ namespace WijmoProvider.Feature {
     }
 
     export class Selection
-        implements IProviderSelection, OSFramework.Interface.IBuilder {
+        implements IProviderSelection, OSFramework.Interface.IBuilder
+    {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _hasSelectors: boolean;
         private _selectionMode: wijmo.grid.SelectionMode;

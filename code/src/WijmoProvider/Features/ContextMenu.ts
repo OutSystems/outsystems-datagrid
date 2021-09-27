@@ -7,7 +7,8 @@ namespace WijmoProvider.Feature {
         implements
             OSFramework.Interface.IBuilder,
             OSFramework.Interface.IDisposable,
-            OSFramework.Feature.IContextMenu {
+            OSFramework.Feature.IContextMenu
+    {
         /** Events from the Context Menu  */
         private _contextMenuEvents: OSFramework.Event.Feature.ContextMenuEventManager;
         private _grid: Grid.IGridWijmo;
@@ -23,9 +24,8 @@ namespace WijmoProvider.Feature {
             this._grid = grid;
             this._menuItems = new Map();
             this._rootMenuItems = [];
-            this._contextMenuEvents = new OSFramework.Event.Feature.ContextMenuEventManager(
-                this
-            );
+            this._contextMenuEvents =
+                new OSFramework.Event.Feature.ContextMenuEventManager(this);
         }
 
         /**
@@ -118,9 +118,8 @@ namespace WijmoProvider.Feature {
         private _defineMenuItemOrder(menuItemId: string): number {
             let itemPosition = -1;
             let allItemElems: HTMLCollection;
-            const menuItemElem = OSFramework.Helper.GetElementByUniqueId(
-                menuItemId
-            );
+            const menuItemElem =
+                OSFramework.Helper.GetElementByUniqueId(menuItemId);
             const menuItem = this._menuItems.get(menuItemId);
 
             //When its a root element
@@ -185,9 +184,8 @@ namespace WijmoProvider.Feature {
          */
         private _getMenuParentId(menuItemId: string): string {
             let parentID: string = undefined;
-            const menuItem = OSFramework.Helper.GetElementByUniqueId(
-                menuItemId
-            );
+            const menuItem =
+                OSFramework.Helper.GetElementByUniqueId(menuItemId);
             const menuParentSubMenu = menuItem.closest(
                 OSFramework.Helper.Constants.contextSubMenuCss
             );

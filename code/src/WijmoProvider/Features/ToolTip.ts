@@ -3,7 +3,8 @@ namespace WijmoProvider.Feature {
     export class ToolTip
         implements
             OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable {
+            OSFramework.Interface.IDisposable
+    {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _eventMouseEnter: any;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,9 +24,8 @@ namespace WijmoProvider.Feature {
             const ht = this._grid.provider.hitTest(e);
 
             if (ht.cellType === wijmo.grid.CellType.Cell) {
-                const isInvalid = _currTarget.classList.contains(
-                    'wj-state-invalid'
-                );
+                const isInvalid =
+                    _currTarget.classList.contains('wj-state-invalid');
 
                 if (_currTarget.querySelector('div.dg-cell')) {
                     _currTarget = _currTarget.querySelector('div.dg-cell');
@@ -56,8 +56,9 @@ namespace WijmoProvider.Feature {
                     );
                 }
             } else if (ht.cellType === wijmo.grid.CellType.ColumnHeader) {
-                const rendered = this._grid.getColumn(ht.getColumn().binding)
-                    ?.config;
+                const rendered = this._grid.getColumn(
+                    ht.getColumn().binding
+                )?.config;
 
                 if (_currTarget && rendered?.headerTooltip) {
                     if (document.getElementById(rendered.headerTooltip)) {

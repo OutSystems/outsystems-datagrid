@@ -3,8 +3,9 @@ namespace WijmoProvider.Feature {
     export class ColumnFreeze
         implements
             OSFramework.Feature.IColumnFreeze,
-            OSFramework.Interface.IBuilder {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+            OSFramework.Interface.IBuilder
+    {
+        private _grid: Grid.IGridWijmo;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
@@ -34,7 +35,8 @@ namespace WijmoProvider.Feature {
             if (n !== undefined) {
                 this._grid.provider.frozenColumns = n;
             } else {
-                const activeCell = this._grid.features.selection.getActiveCell();
+                const activeCell =
+                    this._grid.features.selection.getActiveCell();
 
                 if (activeCell !== undefined) {
                     this._grid.provider.frozenColumns =

@@ -3,7 +3,8 @@ namespace WijmoProvider.Feature {
     export class ColumnResize
         implements
             OSFramework.Feature.IColumnResize,
-            OSFramework.Interface.IBuilder {
+            OSFramework.Interface.IBuilder
+    {
         private _enabled: boolean;
         private _grid: Grid.IGridWijmo;
 
