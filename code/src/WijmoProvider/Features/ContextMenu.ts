@@ -7,10 +7,11 @@ namespace WijmoProvider.Feature {
         implements
             OSFramework.Interface.IBuilder,
             OSFramework.Interface.IDisposable,
-            OSFramework.Feature.IContextMenu {
+            OSFramework.Feature.IContextMenu
+    {
         /** Events from the Context Menu  */
         private _contextMenuEvents: OSFramework.Event.Feature.ContextMenuEventManager;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
         private _isOpening: boolean;
         /** Map a UniqueId to its MenuItem */
         private _menuItems: Map<string, OSFramework.Feature.Auxiliar.MenuItem>;
@@ -19,13 +20,12 @@ namespace WijmoProvider.Feature {
         /** Only the root MenuItems to be shown on Input.Menu */
         private _rootMenuItems: OSFramework.Feature.Auxiliar.MenuItem[];
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._menuItems = new Map();
             this._rootMenuItems = [];
-            this._contextMenuEvents = new OSFramework.Event.Feature.ContextMenuEventManager(
-                this
-            );
+            this._contextMenuEvents =
+                new OSFramework.Event.Feature.ContextMenuEventManager(this);
         }
 
         /**
@@ -118,9 +118,8 @@ namespace WijmoProvider.Feature {
         private _defineMenuItemOrder(menuItemId: string): number {
             let itemPosition = -1;
             let allItemElems: HTMLCollection;
-            const menuItemElem = OSFramework.Helper.GetElementByUniqueId(
-                menuItemId
-            );
+            const menuItemElem =
+                OSFramework.Helper.GetElementByUniqueId(menuItemId);
             const menuItem = this._menuItems.get(menuItemId);
 
             //When its a root element
@@ -159,6 +158,7 @@ namespace WijmoProvider.Feature {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         private _filterMenuItem(
             e: MouseEvent,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             item: OSFramework.Feature.Auxiliar.MenuItem
         ): boolean {
             // Get info from clicked area
@@ -184,9 +184,8 @@ namespace WijmoProvider.Feature {
          */
         private _getMenuParentId(menuItemId: string): string {
             let parentID: string = undefined;
-            const menuItem = OSFramework.Helper.GetElementByUniqueId(
-                menuItemId
-            );
+            const menuItem =
+                OSFramework.Helper.GetElementByUniqueId(menuItemId);
             const menuParentSubMenu = menuItem.closest(
                 OSFramework.Helper.Constants.contextSubMenuCss
             );

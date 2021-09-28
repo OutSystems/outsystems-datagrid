@@ -32,9 +32,9 @@ namespace WijmoProvider.Feature {
             OSFramework.Interface.IBuilder
     {
         private _enabled: boolean;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
+        constructor(grid: Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
         }
@@ -49,6 +49,7 @@ namespace WijmoProvider.Feature {
          * @returns Array of ActiveSort
          */
         private _makeActiveSort(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             sortDescriptions: any
         ): Array<OSFramework.OSStructure.ActiveSort> {
             const activeSorts = new Array<OSFramework.OSStructure.ActiveSort>();
@@ -80,12 +81,9 @@ namespace WijmoProvider.Feature {
          */
         private _sortedHandler(
             s: wijmo.grid.FlexGrid,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             e: wijmo.grid.CellRangeEventArgs
         ) {
-            const col = s.getColumn(e.col);
-            const index = col.currentSortIndex;
-            const sd = s.itemsSource.sortDescriptions[index];
-
             if (
                 this._grid.gridEvents.hasHandlers(
                     OSFramework.Event.Grid.GridEventType.OnSortChange

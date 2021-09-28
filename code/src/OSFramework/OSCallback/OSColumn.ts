@@ -1,6 +1,7 @@
 /**
  * Namespace that contains the callbacks signatures to be passed in the column events.
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Callbacks.OSColumn {
     /**
      * This is the callback signature for events triggerend by column action.

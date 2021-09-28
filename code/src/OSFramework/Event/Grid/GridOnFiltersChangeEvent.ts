@@ -16,17 +16,20 @@ namespace OSFramework.Event.Grid {
          * @param activeFilters list of currently active filters
          */
         public trigger(
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             gridObj: OSFramework.Grid.IGrid,
             gridID: string,
-            activeFilters: Array<OSFramework.OSStructure.ActiveFilter>
+            activeFilters: Array<OSStructure.ActiveFilter>
         ): void {
             const serializedActiveFilters = JSON.stringify(activeFilters);
             this.handlers
                 .slice(0)
                 .forEach((h) =>
-                    setTimeout(
-                        () => h(gridID, gridObj, serializedActiveFilters),
-                        0
+                    Helper.AsyncInvocation(
+                        h,
+                        gridID,
+                        gridObj,
+                        serializedActiveFilters
                     )
                 );
         }

@@ -1,8 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.OSStructure {
     /**
      * Representation of Row-Data, used to OS communication
      */
-    export class RowData implements OSFramework.Interface.ISerializable {
+    export class RowData implements Interface.ISerializable {
         private _grid: Grid.IGrid;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public dataItem: any;
@@ -19,6 +20,7 @@ namespace OSFramework.OSStructure {
         constructor(
             grid: Grid.IGrid,
             rowIndex: number,
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             dataItem: any,
             selected?: Array<BindingValue>
         ) {

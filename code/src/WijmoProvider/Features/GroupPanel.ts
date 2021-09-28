@@ -56,13 +56,17 @@ namespace WijmoProvider.Feature {
         }
 
         private _drop(e: DragEvent) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             //@ts-ignore
             if (this._dragCol && this._dragCol.binding.startsWith('$')) return;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             //@ts-ignore
             this._dragMarker
-                ? //@ts-ignore
+                ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  //@ts-ignore
                   this._moveGroup(this._dragMarker, e)
-                : //@ts-ignore
+                : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  //@ts-ignore
                   this._dragCol && this._addGroup(this._dragCol, e);
         }
 
@@ -119,6 +123,18 @@ namespace WijmoProvider.Feature {
                     return { property: gd.propertyName };
                 }
             );
+        }
+
+        public setAggregate(binding: string, aggregate: wijmo.Aggregate): void {
+            const column = this._grid.getColumn(binding);
+
+            if (column) {
+                if (!wijmo.Aggregate[aggregate]) {
+                    throw `The aggreagate you've passed does not exist.`;
+                }
+
+                column.provider.aggregate = wijmo.Aggregate[aggregate];
+            }
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any

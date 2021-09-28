@@ -12,11 +12,15 @@ namespace OSFramework.Event.Grid {
         .AbstractEvent<OSFramework.Grid.IGrid> {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         public trigger(
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             gridObj: OSFramework.Grid.IGrid,
             gridID: string,
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-unused-vars
             ...args
         ): void {
-            this.handlers.slice(0).forEach((h) => h(gridID, gridObj));
+            this.handlers
+                .slice(0)
+                .forEach((h) => Helper.AsyncInvocation(h, gridID, gridObj));
         }
     }
 }

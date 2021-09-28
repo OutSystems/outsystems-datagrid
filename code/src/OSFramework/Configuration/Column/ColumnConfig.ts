@@ -6,7 +6,8 @@ namespace OSFramework.Configuration.Column {
      */
     export class ColumnConfig
         extends AbstractConfiguration
-        implements IConfigurationColumn {
+        implements IConfigurationColumn
+    {
         public align: string;
         public allowEdit: boolean;
         public allowReorder: boolean;

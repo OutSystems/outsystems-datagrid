@@ -5,11 +5,11 @@ namespace WijmoProvider.Feature {
             OSFramework.Feature.IColumnReorder,
             OSFramework.Interface.IBuilder
     {
-        private _enabled: boolean;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
         private _draggedColumn: wijmo.grid.ColumnGroup;
+        private _enabled: boolean;
+        private _grid: Grid.IGridWijmo;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
+        constructor(grid: Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
         }
@@ -26,8 +26,8 @@ namespace WijmoProvider.Feature {
 
             // We want to limit dragging to columns within groups
             this._grid.provider.draggingColumnOver.addHandler((s, e) => {
-                let col = e.getColumn(true) as wijmo.grid.ColumnGroup;
-                e.cancel = col.parentGroup != this._draggedColumn.parentGroup; // check if column belongs to its own group
+                const col = e.getColumn(true) as wijmo.grid.ColumnGroup;
+                e.cancel = col.parentGroup !== this._draggedColumn.parentGroup; // check if column belongs to its own group
             });
         }
 

@@ -7,8 +7,7 @@ namespace WijmoProvider.Grid {
         >
         implements IGridWijmo
     {
-        private _fBuilder: WijmoProvider.Feature.FeatureBuilder;
-        private _lineIsSingleEntity = false;
+        private _fBuilder: Feature.FeatureBuilder;
         private _rowMetadata: RowMetadata;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
@@ -16,8 +15,8 @@ namespace WijmoProvider.Grid {
             super(
                 gridID,
                 new OSFramework.Configuration.Grid.FlexGridConfig(configs),
-                new WijmoProvider.Grid.ProviderDataSource(),
-                new WijmoProvider.Column.ColumnGenerator()
+                new Grid.ProviderDataSource(),
+                new Column.ColumnGenerator()
             );
         }
 
@@ -79,9 +78,7 @@ namespace WijmoProvider.Grid {
 
             if (this.isReady) {
                 //OS takes a while to set the WidgetId
-                setTimeout(() => {
-                    col.build();
-                }, 0);
+                OSFramework.Helper.AsyncInvocation(col.build.bind(col));
             }
         }
 
@@ -109,7 +106,7 @@ namespace WijmoProvider.Grid {
         }
 
         public buildFeatures(): void {
-            this._fBuilder = new WijmoProvider.Feature.FeatureBuilder(this);
+            this._fBuilder = new Feature.FeatureBuilder(this);
 
             this._features = this._fBuilder.features;
 

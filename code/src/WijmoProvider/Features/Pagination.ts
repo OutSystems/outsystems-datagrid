@@ -27,14 +27,15 @@ namespace WijmoProvider.Feature {
         implements
             OSFramework.Feature.IPagination,
             OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+            OSFramework.Interface.IDisposable
+    {
+        private _grid: Grid.IGridWijmo;
         private _pageSize: number;
         private _phId: string;
         private _qtdeButtons: number;
         private _view: wijmo.collections.CollectionView;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo, pageSize: number) {
+        constructor(grid: Grid.IGridWijmo, pageSize: number) {
             this._grid = grid;
             this._view = grid.provider.itemsSource;
             this._pageSize = pageSize;
@@ -238,9 +239,8 @@ namespace WijmoProvider.Feature {
                 const element = document.getElementById(phId);
 
                 if (element)
-                    element.textContent = this.getValueByLabel(
-                        label
-                    ).toString();
+                    element.textContent =
+                        this.getValueByLabel(label).toString();
             });
         }
     }
