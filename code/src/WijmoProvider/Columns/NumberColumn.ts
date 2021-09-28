@@ -58,7 +58,8 @@ namespace WijmoProvider.Column {
             return wijmo.DataType.Number;
         }
 
-        private _setEditorFormat(hasThousandSeparator: boolean): void {
+        // by default, we want numbers to have thousand separator
+        private _setEditorFormat(hasThousandSeparator = true): void {
             // if format starts with n, the number will have thousand separator
             // if starts with f, it won't
             const format = hasThousandSeparator ? 'n' : 'f';
