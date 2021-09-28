@@ -40,7 +40,15 @@ namespace WijmoProvider.Feature {
             this._view = grid.provider.itemsSource;
             this._pageSize = pageSize;
         }
-
+        /**
+         * This method is used to setup the value of the pagination
+         * in the placeholder.
+         *
+         * @private
+         * @param {OSFramework.Enum.PageLabel} label
+         * @param {string} phId
+         * @memberof Pagination
+         */
         private _setValueInPh(
             label: OSFramework.Enum.PageLabel,
             phId: string
@@ -48,7 +56,10 @@ namespace WijmoProvider.Feature {
             const element = document.getElementById(phId);
             const value = this.getValueByLabel(label);
 
+            //If we found the placeholder (!== null) and the
+            //provider already has a value (!== NaN).
             if (element && value) {
+                //Let's set the value in the placeholder
                 element.textContent = value.toString();
             }
         }
@@ -205,22 +216,23 @@ namespace WijmoProvider.Feature {
         }
 
         public getValueByLabel(label: OSFramework.Enum.PageLabel): number {
-            switch (label) {
-                case OSFramework.Enum.PageLabel.PageCount:
-                    return this.pageCount;
-                case OSFramework.Enum.PageLabel.PageIndex:
-                    return this.pageIndex + 1;
-                case OSFramework.Enum.PageLabel.PageSize:
-                    return this.pageSize;
-                case OSFramework.Enum.PageLabel.RowEnd:
-                    return this.rowEnd;
-                case OSFramework.Enum.PageLabel.RowStart:
-                    return this.rowStart;
-                case OSFramework.Enum.PageLabel.RowTotal:
-                    return this.rowTotal;
-                default:
-                    break;
+            if (this._view) {
+                switch (label) {
+                    case OSFramework.Enum.PageLabel.PageCount:
+                        return this.pageCount;
+                    case OSFramework.Enum.PageLabel.PageIndex:
+                        return this.pageIndex + 1;
+                    case OSFramework.Enum.PageLabel.PageSize:
+                        return this.pageSize;
+                    case OSFramework.Enum.PageLabel.RowEnd:
+                        return this.rowEnd;
+                    case OSFramework.Enum.PageLabel.RowStart:
+                        return this.rowStart;
+                    case OSFramework.Enum.PageLabel.RowTotal:
+                        return this.rowTotal;
+                }
             }
+            return NaN;
         }
 
         public moveToFirstPage(): boolean {
@@ -243,11 +255,26 @@ namespace WijmoProvider.Feature {
             return this._view.moveToPreviousPage();
         }
 
+        /**
+         * This method is responsible for registering the
+         * placeholder in which we'll want to add the number
+         * corresponding to the pagination.
+         *
+         * @param {OSFramework.Enum.PageLabel} label
+         * @param {string} phId
+         * @memberof Pagination
+         */
         public registerLabel(
             label: OSFramework.Enum.PageLabel,
             phId: string
         ): void {
+            //Since the register can happen at any moment in time,
+            //we'll first try to immediatly set, if both provider
+            //and placeholder are ready for such.
             this._setValueInPh(label, phId);
+            //In a later stage we want this to be done when there's
+            //an event of the provider saying that the collection
+            //(visible rows) has changed.
             this._view.collectionChanged.addHandler(() => {
                 this._setValueInPh(label, phId);
             });
