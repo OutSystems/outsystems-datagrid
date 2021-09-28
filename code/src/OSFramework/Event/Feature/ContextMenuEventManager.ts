@@ -13,6 +13,7 @@ namespace OSFramework.Event.Feature {
     > {
         private _contextMenu: OSFramework.Feature.IContextMenu;
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         constructor(contextMenu: OSFramework.Feature.IContextMenu) {
             super();
             this._contextMenu = contextMenu;
@@ -20,8 +21,8 @@ namespace OSFramework.Event.Feature {
 
         protected getInstanceOfEventType(
             eventType: ContextMenuEventType
-        ): OSFramework.Event.IEvent<string> {
-            let event: OSFramework.Event.IEvent<string>;
+        ): Event.IEvent<string> {
+            let event: Event.IEvent<string>;
 
             switch (eventType) {
                 case ContextMenuEventType.Toggle:

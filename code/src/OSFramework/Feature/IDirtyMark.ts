@@ -7,7 +7,9 @@ namespace OSFramework.Feature {
          * Clears dirty marks in the given row.
          * @param {*} row
          */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         clearPropertyInRow(row: any): void;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getOldValue(rowNumber: number, binding: string): any;
         /**
          * Saves cell original value

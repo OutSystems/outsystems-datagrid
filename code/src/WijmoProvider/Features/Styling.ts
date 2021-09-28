@@ -1,13 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
     export class Styling
-        implements
-            OSFramework.Feature.IStyling,
-            OSFramework.Interface.IBuilder {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        implements OSFramework.Feature.IStyling, OSFramework.Interface.IBuilder
+    {
+        private _grid: Grid.IGridWijmo;
         private _rowHeight: number;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo, rowHeight: number) {
+        constructor(grid: Grid.IGridWijmo, rowHeight: number) {
             this._grid = grid;
             this._rowHeight = rowHeight;
         }
@@ -69,7 +68,8 @@ namespace WijmoProvider.Feature {
             // This value doesn't change (48px)
             const colHeadersHeight = 48;
             // Set default height for column headers
-            this._grid.provider.columnHeaders.rows.defaultSize = colHeadersHeight;
+            this._grid.provider.columnHeaders.rows.defaultSize =
+                colHeadersHeight;
 
             // Sets the initial rowHeight
             if (this._rowHeight !== undefined) {

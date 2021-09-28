@@ -62,6 +62,7 @@ namespace OSFramework.Event.Grid {
 
         public trigger(
             event: GridEventType,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             gridObj: OSFramework.Grid.IGrid,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
             ...args

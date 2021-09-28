@@ -26,6 +26,7 @@ namespace OSFramework.Interface {
          * @param {string} propertyName
          * @memberof IRowMetadata
          */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         clearPropertyByRow(dataItem: any, propertyName: string): void;
         /**
          * Responsible for cleaning metadata information for a given row number and property
@@ -61,6 +62,7 @@ namespace OSFramework.Interface {
          * @param {*} row
          * @param {string} property
          */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         hasOwnPropertyByRow(row: any, property: string): boolean;
         /**
          * Verify the presence of metadata information for a given row key and property
@@ -82,6 +84,7 @@ namespace OSFramework.Interface {
          * @memberof IRowMetadata
          */
         setMetadataByRow(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             row: any,
             propertyName: string,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any

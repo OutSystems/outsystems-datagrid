@@ -9,15 +9,16 @@ namespace WijmoProvider.Feature {
         NotEquals = '!=='
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function Evaluate(operator: Rules, comparedValue: any, cellValue: any) {
         // in case we are comparing dates
         if (typeof cellValue.getMonth === 'function') {
-            cellValue = WijmoProvider.Helper.DataUtils.GetTicksFromDate(
+            cellValue = Helper.DataUtils.GetTicksFromDate(
                 cellValue,
                 comparedValue.indexOf('Z') > -1
             );
             comparedValue = Date.parse(
-                WijmoProvider.Helper.DataUtils.ResetSeconds(comparedValue)
+                Helper.DataUtils.ResetSeconds(comparedValue)
             );
         }
 
@@ -41,8 +42,10 @@ namespace WijmoProvider.Feature {
 
     class Condition {
         public condition: Rules;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public value: any;
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         constructor(condition: Rules, value: any) {
             this.condition = condition;
             this.value = value;
@@ -64,6 +67,7 @@ namespace WijmoProvider.Feature {
             this.rules = rules;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public evaluate(cellValue: any = 0): boolean {
             const evaluated = this.rules.map((rule) => {
                 return Evaluate(rule.condition, rule.value, cellValue);
@@ -80,6 +84,7 @@ namespace WijmoProvider.Feature {
             this.conditions = conditions;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public execute(grid: Grid.IGridWijmo, cellValue: any, e: any) {
             this.conditions.some((p) => {
                 const isTrue = p.evaluate(cellValue);
@@ -148,7 +153,8 @@ namespace WijmoProvider.Feature {
             return new ConditionExecuter(conditionExecuters);
         }
 
-        private _updatingViewHandler(s, e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+        private _updatingViewHandler(s: any, e: any) {
             const columns = this._grid
                 .getColumns()
                 .filter((x) => this._mappedRules.get(x.config.binding));

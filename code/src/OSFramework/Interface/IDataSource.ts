@@ -1,8 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Grid {
     /**
      * Defines the basic interface for a DataSource
      */
-    export interface IDataSource extends OSFramework.Interface.IBuilder {
+    export interface IDataSource extends Interface.IBuilder {
         /**
          * Identify if metadata was given
          * @description Only works during the use of ArrangeData
@@ -32,20 +33,13 @@ namespace OSFramework.Grid {
          */
         clear(): void;
         /**
-         * Filter the datasource by the given value
-         * @param searchedValue the value used as filter
-         */
-        search(searchedValue: string): void;
-        /**
          * Used to flatten the datasource
          */
         flatten(): void;
         /**
          * Returns the changes made on the grid
          */
-        getChanges<T extends OSFramework.OSStructure.ChangesDone>(
-            c: new () => T
-        ): T;
+        getChanges<T extends OSStructure.ChangesDone>(c: new () => T): T;
         /**
          * Return the full data source
          */
@@ -74,6 +68,11 @@ namespace OSFramework.Grid {
          */
         removeRow(item: number | JSON): boolean;
         /**
+         * Filter the datasource by the given value
+         * @param searchedValue the value used as filter
+         */
+        search(searchedValue: string): void;
+        /**
          * Set data to be printed on the grid
          * @param data data source in JSON stringify format
          */
@@ -82,6 +81,7 @@ namespace OSFramework.Grid {
          * Transform dataItem to OS format
          * @param dataItem
          */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         toOSFormat(dataItem: any): any;
         /**
          * Removes the second to dates in string format because the Datetime picker format is HH:mm

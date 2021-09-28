@@ -5,7 +5,7 @@ namespace WijmoProvider.Feature {
             OSFramework.Feature.IValidationMark,
             OSFramework.Interface.IBuilder
     {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
         /** Array containing all invalid rows */
@@ -14,7 +14,7 @@ namespace WijmoProvider.Feature {
         /** Exposed methods to manipulate RowMetadata */
         private _metadata: OSFramework.Interface.IRowMetadata;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,6 +52,7 @@ namespace WijmoProvider.Feature {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _convertToFormat(
             column: OSFramework.Column.IColumn,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             value: any
         ) {
             switch (column.columnType) {
@@ -362,6 +363,7 @@ namespace WijmoProvider.Feature {
          * @returns ValidationMarkInfo of the row specified.
          */
         public getMetadataByRow(
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             row: any
         ): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
             if (!this.hasMetadataByRow(row))
@@ -424,6 +426,7 @@ namespace WijmoProvider.Feature {
          * @param row Row to check if there is any metadata associated to the validation marks.
          * @returns Boolean that indicates whether a specific row has metadata associated to the validation marks.
          */
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public hasMetadataByRow(row: any): boolean {
             return this._metadata.hasOwnPropertyByRow(row, this._internalLabel);
         }
@@ -471,6 +474,7 @@ namespace WijmoProvider.Feature {
          * @param row Row to get the validation state.
          * @returns Boolean that indicates whether a specific cell is valid or not.
          */
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public isInvalidRow(row: any): boolean {
             return Array.from(this.getMetadataByRow(row).validation).some(
                 (element) => {

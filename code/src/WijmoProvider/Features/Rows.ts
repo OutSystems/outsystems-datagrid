@@ -78,14 +78,14 @@ namespace WijmoProvider.Feature {
     export class Rows
         implements OSFramework.Interface.IBuilder, OSFramework.Feature.IRows
     {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
 
         /** This is going to be used as a label for the css classes saved on the metadata of the Row */
         private readonly _internalLabel = '__rowCssClass';
 
         private _metadata: OSFramework.Interface.IRowMetadata;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
         }

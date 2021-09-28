@@ -13,6 +13,7 @@ namespace OSFramework.Event.Column {
     > {
         private _column: OSFramework.Column.IColumn;
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         constructor(column: OSFramework.Column.IColumn) {
             super();
             this._column = column;
@@ -20,8 +21,8 @@ namespace OSFramework.Event.Column {
 
         protected getInstanceOfEventType(
             eventType: ColumnEventType
-        ): OSFramework.Event.IEvent<string> {
-            let event: OSFramework.Event.IEvent<string>;
+        ): Event.IEvent<string> {
+            let event: Event.IEvent<string>;
 
             switch (eventType) {
                 case ColumnEventType.ActionClick:

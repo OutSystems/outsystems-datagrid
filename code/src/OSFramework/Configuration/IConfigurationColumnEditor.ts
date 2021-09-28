@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Configuration {
     /**
      * Defines a basic interface for Custom column Editors

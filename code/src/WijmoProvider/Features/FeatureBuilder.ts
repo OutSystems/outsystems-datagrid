@@ -20,6 +20,7 @@ namespace WijmoProvider.Feature {
 
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any
         private _instanceOfIDisposable(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             object: any
         ): object is OSFramework.Interface.IDisposable {
             return 'dispose' in object;
