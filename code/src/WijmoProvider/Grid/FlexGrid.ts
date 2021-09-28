@@ -78,7 +78,7 @@ namespace WijmoProvider.Grid {
 
             if (this.isReady) {
                 //OS takes a while to set the WidgetId
-                OSFramework.Helper.AsyncInvocation(col.build.bind(this));
+                OSFramework.Helper.AsyncInvocation(col.build.bind(col));
             }
         }
 
