@@ -41,6 +41,18 @@ namespace WijmoProvider.Feature {
             this._pageSize = pageSize;
         }
 
+        private _setValueInPh(
+            label: OSFramework.Enum.PageLabel,
+            phId: string
+        ): void {
+            const element = document.getElementById(phId);
+            const value = this.getValueByLabel(label);
+
+            if (element && value) {
+                element.textContent = value.toString();
+            }
+        }
+
         private _update(): void {
             if (this._phId) {
                 this.createPageButtons(this._phId, this._qtdeButtons);
@@ -235,12 +247,9 @@ namespace WijmoProvider.Feature {
             label: OSFramework.Enum.PageLabel,
             phId: string
         ): void {
+            this._setValueInPh(label, phId);
             this._view.collectionChanged.addHandler(() => {
-                const element = document.getElementById(phId);
-
-                if (element)
-                    element.textContent =
-                        this.getValueByLabel(label).toString();
+                this._setValueInPh(label, phId);
             });
         }
     }
