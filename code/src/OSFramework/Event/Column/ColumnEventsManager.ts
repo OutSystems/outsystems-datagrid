@@ -50,8 +50,8 @@ namespace OSFramework.Event.Column {
             oldValue?: string,
             rowNumber?: number
         ): void {
-            if (this.handlers.has(eventType)) {
-                const handlerEvent = this.handlers.get(eventType);
+            if (this.events.has(eventType)) {
+                const handlerEvent = this.events.get(eventType);
 
                 switch (eventType) {
                     case ColumnEventType.ActionClick:

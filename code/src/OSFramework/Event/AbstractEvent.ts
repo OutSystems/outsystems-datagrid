@@ -38,7 +38,10 @@ namespace OSFramework.Event {
 
         // eslint-disable-next-line  @typescript-eslint/no-unused-vars, @typescript-eslint/explicit-module-boundary-types
         public trigger(data?: T, ...args): void {
-            this._handlers.slice(0).forEach((h) => h(data));
+            // eslint-disable-next-line no-debugger
+            this._handlers
+                .slice(0)
+                .forEach((h) => Helper.AsyncInvocation(h, data));
         }
     }
 }

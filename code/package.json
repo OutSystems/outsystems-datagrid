@@ -8,7 +8,8 @@
     "lint": "eslint . --ext .ts",
     "lintfix": "eslint . --fix --ext .ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier": "prettier --config ./.prettierrc.json --write \"**/*.+(js|ts|css)\""
+    "prettier": "prettier --config ./.prettierrc.json --write \"**/*.+(js|ts|css)\"",
+    "setup": "npm i && tsc"
   },
   "author": "OutSystems R&D",
   "dependencies": {
