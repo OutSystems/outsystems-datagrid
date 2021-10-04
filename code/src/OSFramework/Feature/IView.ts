@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Feature {
     /**
      * Interface for saving and loaging grid view

@@ -9,15 +9,16 @@ namespace WijmoProvider.Feature {
         NotEquals = '!=='
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function Evaluate(operator: Rules, comparedValue: any, cellValue: any) {
         // in case we are comparing dates
         if (typeof cellValue.getMonth === 'function') {
-            cellValue = WijmoProvider.Helper.DataUtils.GetTicksFromDate(
+            cellValue = Helper.DataUtils.GetTicksFromDate(
                 cellValue,
                 comparedValue.indexOf('Z') > -1
             );
             comparedValue = Date.parse(
-                WijmoProvider.Helper.DataUtils.ResetSeconds(comparedValue)
+                Helper.DataUtils.ResetSeconds(comparedValue)
             );
         }
 
@@ -41,8 +42,10 @@ namespace WijmoProvider.Feature {
 
     class Condition {
         public condition: Rules;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public value: any;
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         constructor(condition: Rules, value: any) {
             this.condition = condition;
             this.value = value;
@@ -64,6 +67,7 @@ namespace WijmoProvider.Feature {
             this.rules = rules;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public evaluate(cellValue: any = 0): boolean {
             const evaluated = this.rules.map((rule) => {
                 return Evaluate(rule.condition, rule.value, cellValue);
@@ -80,6 +84,7 @@ namespace WijmoProvider.Feature {
             this.conditions = conditions;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public execute(grid: Grid.IGridWijmo, cellValue: any, e: any) {
             this.conditions.some((p) => {
                 const isTrue = p.evaluate(cellValue);
@@ -101,11 +106,18 @@ namespace WijmoProvider.Feature {
                         grid.features.rows.removeClass(e.row, p.rowClass);
                     }
                     if (p.cellClass) {
-                        grid.features.cellStyle.removeClass(e.row, binding);
+                        grid.features.cellStyle.removeClass(
+                            e.row,
+                            binding,
+                            p.cellClass
+                        );
                     }
                 }
+                const classes = grid.features.cellStyle
+                    .getMetadata(e.row)
+                    .getCssClassesByBinding(binding);
 
-                return isTrue;
+                return isTrue && classes?.length === 0;
             });
         }
     }
@@ -113,7 +125,8 @@ namespace WijmoProvider.Feature {
     export class ConditionalFormat
         implements
             OSFramework.Feature.IConditionalFormat,
-            OSFramework.Interface.IBuilder {
+            OSFramework.Interface.IBuilder
+    {
         private _grid: Grid.IGridWijmo;
         private _mappedRules: Map<string, ConditionExecuter>;
 
@@ -140,7 +153,8 @@ namespace WijmoProvider.Feature {
             return new ConditionExecuter(conditionExecuters);
         }
 
-        private _updatingViewHandler(s, e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+        private _updatingViewHandler(s: any, e: any) {
             const columns = this._grid
                 .getColumns()
                 .filter((x) => this._mappedRules.get(x.config.binding));
@@ -163,7 +177,9 @@ namespace WijmoProvider.Feature {
                         .get(column.config.binding)
                         .execute(this._grid, value, {
                             row: index,
-                            col: column.provider.index
+                            col: this._grid.provider.columns.find(
+                                (x) => x.binding === column.provider.binding
+                            ).index
                         });
                 });
             });
@@ -171,8 +187,15 @@ namespace WijmoProvider.Feature {
 
         public addRules(
             binding: string,
-            rules: Array<OSFramework.OSStructure.ConditionalFormat>
+            rules: Array<OSFramework.OSStructure.ConditionalFormat>,
+            refresh?: boolean
         ): void {
+            // clear classes previously added
+            if (refresh) {
+                this._grid.features.cellStyle.clear();
+                this._grid.features.rows.clear();
+            }
+
             this._mappedRules.set(binding, this._parseRule(rules));
         }
 

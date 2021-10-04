@@ -5,9 +5,9 @@ namespace WijmoProvider.Grid {
             wijmo.grid.FlexGrid,
             OSFramework.Configuration.Grid.FlexGridConfig
         >
-        implements IGridWijmo {
-        private _fBuilder: WijmoProvider.Feature.FeatureBuilder;
-        private _lineIsSingleEntity = false;
+        implements IGridWijmo
+    {
+        private _fBuilder: Feature.FeatureBuilder;
         private _rowMetadata: RowMetadata;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
@@ -15,9 +15,36 @@ namespace WijmoProvider.Grid {
             super(
                 gridID,
                 new OSFramework.Configuration.Grid.FlexGridConfig(configs),
-                new WijmoProvider.Grid.ProviderDataSource(),
-                new WijmoProvider.Column.ColumnGenerator()
+                new Grid.ProviderDataSource(),
+                new Column.ColumnGenerator()
             );
+        }
+
+        /**
+         * This action performs a workaround for an issue related with
+         * Safari 14.* version. The paint doesn't get triggered by the
+         * scroll on the grid.
+         *
+         * @private
+         * @memberof FlexGrid
+         */
+        private _safari14workaround(): void {
+            if (
+                /^((?!chrome|android).).*Version\/14.*safari/i.test(
+                    navigator.userAgent
+                )
+            ) {
+                this._provider.updatedView.addHandler(
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    (grid: wijmo.grid.FlexGrid, e: wijmo.EventArgs) => {
+                        //removes previous tranform
+                        grid._root.style.transform = '';
+                        //this is the "fake" transform that forces Safari to repaint the grid area
+                        grid._root.style.transform = 'translateZ(0)';
+                    }
+                );
+                console.log('The fix for Safari 14 has been applied.');
+            }
         }
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -51,9 +78,7 @@ namespace WijmoProvider.Grid {
 
             if (this.isReady) {
                 //OS takes a while to set the WidgetId
-                setTimeout(() => {
-                    col.build();
-                }, 0);
+                OSFramework.Helper.AsyncInvocation(col.build.bind(col));
             }
         }
 
@@ -64,20 +89,24 @@ namespace WijmoProvider.Grid {
                 OSFramework.Helper.GetElementByUniqueId(this.uniqueId),
                 this._getProviderConfig()
             );
-            this._provider.itemsSource = this.dataSource.getProviderDataSource();
-            this._rowMetadata = new RowMetadata(this._provider);
+            this._provider.itemsSource =
+                this.dataSource.getProviderDataSource();
+            this._rowMetadata = new RowMetadata(this._provider, this.config);
 
             this.buildFeatures();
 
             this._buildColumns();
 
-            this._provider.itemsSource.calculatedFields = this.features.calculatedField.calculatedFields;
+            this._provider.itemsSource.calculatedFields =
+                this.features.calculatedField.calculatedFields;
+
+            this._safari14workaround();
 
             this.finishBuild();
         }
 
         public buildFeatures(): void {
-            this._fBuilder = new WijmoProvider.Feature.FeatureBuilder(this);
+            this._fBuilder = new Feature.FeatureBuilder(this);
 
             this._features = this._fBuilder.features;
 

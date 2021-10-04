@@ -84,41 +84,48 @@ namespace WijmoProvider.Helper.FilterFactory {
         );
         const activeFilters = new Array<OSFramework.OSStructure.ActiveFilter>();
 
-        wijmoActiveFilters.filters.forEach((filter) => {
-            const activeFilter = new OSFramework.OSStructure.ActiveFilter();
-            const column = grid.getColumn(filter.binding);
+        wijmoActiveFilters.filters
+            .filter(
+                (activeFilters) =>
+                    activeFilters.type === 'condition' ||
+                    activeFilters.type === 'value'
+            )
+            .forEach((filter) => {
+                const activeFilter = new OSFramework.OSStructure.ActiveFilter();
+                const column = grid.getColumn(filter.binding);
 
-            activeFilter.binding = filter.binding;
-            activeFilter.columnId = (column && column.widgetId) || '';
-            activeFilter.filterTypeId = filter.type;
+                activeFilter.binding = filter.binding;
+                activeFilter.columnId = (column && column.widgetId) || '';
+                activeFilter.filterTypeId = filter.type;
 
-            switch (activeFilter.filterTypeId) {
-                case 'condition':
-                    //Currently wijmo only supports 2 filter operators per column. However our code already sends back a list of filter operators.
-                    if (filter.condition1.operator !== null) {
-                        activeFilter.filterConditions.push(
-                            _createCondition(filter.condition1, filter.and)
-                        );
-                    }
-                    if (filter.condition2.operator !== null) {
-                        activeFilter.filterConditions.push(
-                            _createCondition(filter.condition2, filter.and)
-                        );
-                    }
-                    break;
-                case 'value':
-                    //Here we will get the array coming from wijmo [{value1: true, value2: true, ...]
-                    //Then we'll get only the keys [value1, value2, ...], and concatenate these to our empty array.
-                    activeFilter.filterShowValues = activeFilter.filterShowValues.concat(
-                        Object.keys(filter.showValues)
-                    );
-                    break;
-                default:
-                    throw `Filter type ${activeFilter.filterTypeId} not supported.`;
-            }
+                switch (activeFilter.filterTypeId) {
+                    case 'condition':
+                        //Currently wijmo only supports 2 filter operators per column. However our code already sends back a list of filter operators.
+                        if (filter.condition1.operator !== null) {
+                            activeFilter.filterConditions.push(
+                                _createCondition(filter.condition1, filter.and)
+                            );
+                        }
+                        if (filter.condition2.operator !== null) {
+                            activeFilter.filterConditions.push(
+                                _createCondition(filter.condition2, filter.and)
+                            );
+                        }
+                        break;
+                    case 'value':
+                        //Here we will get the array coming from wijmo [{value1: true, value2: true, ...]
+                        //Then we'll get only the keys [value1, value2, ...], and concatenate these to our empty array.
+                        activeFilter.filterShowValues =
+                            activeFilter.filterShowValues.concat(
+                                Object.keys(filter.showValues)
+                            );
+                        break;
+                    default:
+                        throw `Filter type ${activeFilter.filterTypeId} not supported.`;
+                }
 
-            activeFilters.push(activeFilter);
-        });
+                activeFilters.push(activeFilter);
+            });
 
         return activeFilters;
     }

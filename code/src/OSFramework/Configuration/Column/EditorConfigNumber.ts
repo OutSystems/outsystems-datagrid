@@ -1,9 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Configuration.Column {
     /**
      * Defines the configuration for Numeric custom editors
      */
     export class EditorConfigNumber extends AbstractEditorConfig {
         public decimalPlaces: number;
+        public hasThousandSeparator: boolean;
         public maxValue?: number;
         public minValue?: number;
         public step: number;

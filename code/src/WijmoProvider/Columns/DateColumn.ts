@@ -22,12 +22,12 @@ namespace WijmoProvider.Column {
                 columnID,
                 new OSFramework.Configuration.Column.ColumnConfig(configs),
                 new OSFramework.Configuration.Column.EditorConfigDate(
-                    editorConfig
+                    editorConfig,
+                    false
                 )
             );
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
-                this
-            );
+            this._columnEvents =
+                new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
         /** Returns all the events associated to the column */
@@ -49,10 +49,21 @@ namespace WijmoProvider.Column {
         }
 
         public build(): void {
-            //Setting date format
-            this.config.format = GridAPI.dateFormat;
-
+            this.config.format = this.editorConfig.format;
             super.build();
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+        public changeProperty(propertyName: string, propertyValue: any): void {
+            switch (propertyName) {
+                case 'format':
+                    this.editorConfig.format =
+                        propertyValue || this.editorConfig.defaultFormat;
+                    this.applyConfigs();
+                    break;
+                default:
+                    super.changeProperty(propertyName, propertyValue);
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.OSStructure {
     /**
      * Used to expose Gris's selections to OS, in a key-value pair object

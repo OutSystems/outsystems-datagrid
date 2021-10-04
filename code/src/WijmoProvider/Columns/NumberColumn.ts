@@ -36,9 +36,8 @@ namespace WijmoProvider.Column {
                 new OSFramework.Configuration.Column.ColumnConfig(configs),
                 editorConfig
             );
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
-                this
-            );
+            this._columnEvents =
+                new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
         /** Returns all the events associated to the column */
@@ -57,6 +56,16 @@ namespace WijmoProvider.Column {
 
         public get providerType(): wijmo.DataType {
             return wijmo.DataType.Number;
+        }
+
+        // by default, we want numbers to have thousand separator
+        private _setEditorFormat(hasThousandSeparator = true): void {
+            // if format starts with n, the number will have thousand separator
+            // if starts with f, it won't
+            const format = hasThousandSeparator ? 'n' : 'f';
+
+            this.config.format = `${format} ${this.editorConfig.decimalPlaces}`;
+            this.editorConfig.format = this.config.format;
         }
 
         /**
@@ -114,9 +123,7 @@ namespace WijmoProvider.Column {
 
             this._setMaxValue();
             this._setMinValue();
-
-            this.config.format = `n ${this.editorConfig.decimalPlaces}`;
-            this.editorConfig.format = this.config.format;
+            this._setEditorFormat(this.editorConfig.hasThousandSeparator);
         }
 
         public build(): void {
@@ -130,6 +137,11 @@ namespace WijmoProvider.Column {
             switch (propertyName) {
                 case 'decimalPlaces':
                     this._setFormat(propertyValue);
+                    this.applyConfigs();
+                    break;
+                case 'hasThousandSeparator':
+                    this.editorConfig.hasThousandSeparator = propertyValue;
+                    this._setEditorFormat(propertyValue);
                     this.applyConfigs();
                     break;
                 case 'minValue':

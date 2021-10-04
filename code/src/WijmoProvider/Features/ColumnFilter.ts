@@ -29,9 +29,9 @@ namespace WijmoProvider.Feature {
     {
         private _enabled: boolean;
         private _filter: wijmo.grid.filter.FlexGridFilter;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo, enabled: boolean) {
+        constructor(grid: Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
             this._enabled = enabled;
         }
@@ -47,7 +47,7 @@ namespace WijmoProvider.Feature {
                 this._grid.gridEvents.trigger(
                     OSFramework.Event.Grid.GridEventType.OnFiltersChange,
                     this._grid,
-                    WijmoProvider.Helper.FilterFactory.MakeFromActiveFilters(
+                    Helper.FilterFactory.MakeFromActiveFilters(
                         this._grid,
                         s.filterDefinition
                     )
@@ -68,11 +68,15 @@ namespace WijmoProvider.Feature {
                 ).length > 0
             );
         }
-        public activate(columID: string): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columID);
 
-            this._filter.getColumnFilter(column.provider).filterType =
-                wijmo.grid.filter.FilterType.Both;
+        public get filterType(): wijmo.grid.filter.FilterType {
+            return this._grid.config.serverSidePagination
+                ? wijmo.grid.filter.FilterType.Condition
+                : wijmo.grid.filter.FilterType.Both;
+        }
+
+        public activate(columnID: string): void {
+            this.changeFilterType(columnID, this.filterType);
         }
 
         public build(): void {
@@ -104,19 +108,85 @@ namespace WijmoProvider.Feature {
             this.setState(this._enabled);
         }
 
-        public clear(columID: string): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columID);
+        public byCondition(
+            columnId: string,
+            values: OSFramework.OSStructure.FilterCondition[]
+        ): void {
+            const column = this._grid.getColumn(columnId);
+            if (column) {
+                const columnFilter = this._filter.getColumnFilter(
+                    column.config.binding
+                ).conditionFilter;
+
+                if (values.length > 0) {
+                    const condition1 = values[0];
+                    const condition2 = values[1];
+
+                    columnFilter.condition1.value =
+                        column.columnType === OSFramework.Enum.ColumnType.Number
+                            ? parseFloat(condition1.value)
+                            : condition1.value;
+                    columnFilter.condition1.operator =
+                        wijmo.grid.filter.Operator[condition1.operatorTypeId];
+                    columnFilter.and = condition1.and;
+
+                    if (condition2) {
+                        columnFilter.condition2.value = condition2.value;
+                        columnFilter.condition2.operator =
+                            wijmo.grid.filter.Operator[
+                                condition2.operatorTypeId
+                            ];
+                    }
+
+                    this._filter.apply();
+                    // trigger event
+                    this._filterChangedHandler(this._filter);
+                }
+            }
+        }
+
+        public byValue(columnId: string, values: Array<string>): void {
+            const column = this._grid.getColumn(columnId);
+            if (column) {
+                const columnFilter = this._filter.getColumnFilter(
+                    column.config.binding
+                ).valueFilter;
+
+                // we receive values as an array ["Brazil", "Portugal"], but wijmo expects an object
+                // eg.: {Brazil: true, Portugal: true}. So let's transform this to the desired input
+                columnFilter.showValues = values.reduce((obj, cur) => {
+                    return { ...obj, [cur]: true };
+                }, {});
+
+                this._filter.apply();
+                // trigger event
+                this._filterChangedHandler(this._filter);
+            }
+        }
+
+        public changeFilterType(
+            columnID: string,
+            filterType: wijmo.grid.filter.FilterType
+        ): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columnID);
+
+            if (column) {
+                this._filter.getColumnFilter(column.provider).filterType =
+                    filterType;
+            }
+        }
+
+        public clear(columnID: string): void {
+            const column = GridAPI.ColumnManager.GetColumnById(columnID);
 
             this._filter.getColumnFilter(column.provider).clear();
             this._grid.provider.collectionView.refresh();
         }
 
-        public deactivate(columID: string): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columID);
-
-            this._filter.getColumnFilter(column.provider).filterType =
-                wijmo.grid.filter.FilterType.None;
+        public deactivate(columnID: string): void {
+            this.changeFilterType(columnID, wijmo.grid.filter.FilterType.None);
         }
+
         public dispose(): void {
             this._filter = undefined;
         }
@@ -128,7 +198,7 @@ namespace WijmoProvider.Feature {
 
         public setState(value: boolean): void {
             this._filter.defaultFilterType = value
-                ? wijmo.grid.filter.FilterType.Both
+                ? this.filterType
                 : wijmo.grid.filter.FilterType.None;
             this._filter.showSortButtons = false;
             this._enabled = value;

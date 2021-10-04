@@ -1,7 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    type _ErrorMessage = { code: number; message: string };
-
     class CssClassInfo {
         /**
          * Contains all CSS classes from a specific row.
@@ -78,15 +76,16 @@ namespace WijmoProvider.Feature {
     }
 
     export class Rows
-        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IRows {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IRows
+    {
+        private _grid: Grid.IGridWijmo;
 
         /** This is going to be used as a label for the css classes saved on the metadata of the Row */
         private readonly _internalLabel = '__rowCssClass';
 
         private _metadata: OSFramework.Interface.IRowMetadata;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
         }
@@ -173,15 +172,16 @@ namespace WijmoProvider.Feature {
 
         /**
          * Add a new row to the grid with all cells empty.
-         * @returns ErrorMessage containing the resulting code from the adding rows and the error message in case of failure.
+         * @returns ReturnMessage containing the resulting code from the adding rows and the error message in case of failure.
          */
-        public addNewRows(): _ErrorMessage {
+        public addNewRows(): OSFramework.OSStructure.ReturnMessage {
             if (!this._canAddRows()) {
                 // Return error
                 return {
-                    code: 201,
+                    code: OSFramework.Enum.ErrorCodes.API_UnableToAddRow,
                     message:
-                        'It seems that you have an active filter, group or sort on your columns. Remove them and try again.'
+                        'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
+                    isSuccess: false
                 };
             }
 
@@ -195,7 +195,10 @@ namespace WijmoProvider.Feature {
                 this._grid.features.selection.getSelectedRowsCountByCellRange() ||
                 1;
             const expectedRowCount = this._getRowsCount() + quantity;
-            const items = new Array<any>(quantity).fill(_.cloneDeep({}));
+            //Take the selection off the grid so it is possible to add rows when a cell is in edit mode
+            providerGrid.select(-1, -1);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            let items = new Array<any>(quantity).fill(_.cloneDeep({}));
 
             providerGrid.focus(); // In case of Undo action, the user will not need to click on the grid to undo.
 
@@ -213,6 +216,11 @@ namespace WijmoProvider.Feature {
             this._grid.features.selection.selectAndFocusFirstCell(topRowIndex);
 
             // Take care of the undoable action Add new rows.
+            // The new created row data must be retrieved from the source collection to be added to add items list
+            items = this._grid.provider.collectionView.sourceCollection.slice(
+                dsTopRowIndex,
+                dsTopRowIndex + quantity
+            );
             const undoableItems = { datasourceIdx: dsTopRowIndex, items };
             this._grid.features.undoStack.pushAction(
                 new GridInsertRowAction(providerGrid, undoableItems)
@@ -221,9 +229,13 @@ namespace WijmoProvider.Feature {
             // Make sure the count of rows is correct after adding rows.
             if (this._getRowsCount() === expectedRowCount) {
                 // Return success
-                return { code: 200, message: 'Success' };
+                return { message: 'Success', isSuccess: true };
             } else {
-                return { code: 400, message: 'Error' };
+                return {
+                    code: OSFramework.Enum.ErrorCodes.API_FailedAddRow,
+                    message: 'Error',
+                    isSuccess: false
+                };
             }
         }
 
@@ -256,6 +268,15 @@ namespace WijmoProvider.Feature {
                 rowNumber,
                 this._internalLabel
             ) as CssClassInfo;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public getRowData(rowNumber: number): any {
+            return this._grid.isSingleEntity
+                ? OSFramework.Helper.Flatten(
+                      this._grid.provider.rows[rowNumber].dataItem
+                  )
+                : this._grid.provider.rows[rowNumber].dataItem;
         }
 
         /**
@@ -297,14 +318,15 @@ namespace WijmoProvider.Feature {
 
         /**
          * Remove all selected rows from the grid.
-         * @returns ErrorMessage containing the resulting code from the removing rows and the error message in case of failure.
+         * @returns ReturnMessage containing the resulting code from the removing rows and the error message in case of failure.
          */
-        public removeSelectedRows(): _ErrorMessage {
+        public removeSelectedRows(): OSFramework.OSStructure.ReturnMessage {
             if (!this._canRemoveRows()) {
                 return {
-                    code: 400,
+                    code: OSFramework.Enum.ErrorCodes.API_UnableToRemoveRow,
                     message:
-                        'It seems that you have an active filter, group or sort on your columns. Remove them and try again.'
+                        'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
+                    isSuccess: false
                 };
             }
             //This will avoid the same row being selected multiple times
@@ -315,8 +337,9 @@ namespace WijmoProvider.Feature {
             const expectedRowCount =
                 this._getRowsCount() -
                 this._grid.features.selection.getSelectedRowsCountByCellRange();
-            const selRanges = (this._grid.features
-                .selection as IProviderSelection).getProviderAllSelections();
+            const selRanges = (
+                this._grid.features.selection as IProviderSelection
+            ).getProviderAllSelections();
 
             // In case of Undo action, the user will not need to click on the grid to undo.
             providerGrid.focus();
@@ -337,6 +360,11 @@ namespace WijmoProvider.Feature {
                         );
                         // Remove the data item from the editable collection view.
                         dataSource.remove(providerGrid.rows[row].dataItem);
+                        // Removed rows should be valid
+                        this._grid.features.validationMark.setRowStatus(
+                            row,
+                            true
+                        );
                     }
                 });
             });
@@ -346,9 +374,13 @@ namespace WijmoProvider.Feature {
 
             // Make sure the count of rows is correct after removing rows.
             if (this._getRowsCount() === expectedRowCount) {
-                return { code: 200, message: 'Success' };
+                return { message: 'Success', isSuccess: true };
             } else {
-                return { code: 400, message: 'Error' };
+                return {
+                    code: OSFramework.Enum.ErrorCodes.API_FailedRemoveRow,
+                    message: 'Error',
+                    isSuccess: false
+                };
             }
         }
     }

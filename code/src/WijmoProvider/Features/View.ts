@@ -1,13 +1,22 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
+    class GroupDefinition {
+        public align: string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public children: Array<any>;
+        public collapseTo: string;
+        public header: string;
+        public isCollapsed: boolean;
+    }
     /**
      * Defines the Save and Load layout feature
      */
     export class View
-        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IView {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IView
+    {
+        private _grid: Grid.IGridWijmo;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
         }
 
@@ -27,6 +36,31 @@ namespace WijmoProvider.Feature {
                     };
                 })
             );
+        }
+
+        /**
+         * Returns the groups layout
+         */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        private _getGroupDefinition(col: any): Array<any> {
+            const children = [];
+
+            for (let i = 0; i < col.length; i++) {
+                const obj = new GroupDefinition();
+                obj.header = col[i].header;
+                if (col[i]._type === null) {
+                    obj.isCollapsed = col[i].isCollapsed;
+                    obj.collapseTo = col[i].collapseTo;
+                    obj.align = col[i].align;
+                }
+
+                if (col[i].columns && col[i].columns.length > 0) {
+                    obj.children = [];
+                    obj.children.push(this._getGroupDefinition(col[i].columns));
+                }
+                children.push(obj);
+            }
+            return children;
         }
 
         /**
@@ -57,6 +91,29 @@ namespace WijmoProvider.Feature {
             });
         }
 
+        /**
+         * Sets the groups layout
+         */
+        private _setGroups(columns, config) {
+            for (let i = 0; i < config.length; i++) {
+                let colDef = columns.filter(
+                    (x) => x.header === config[i].header
+                );
+                if (colDef.length > 0) {
+                    colDef = colDef[0];
+                    if (config[i].children && config[i].children.length > 0) {
+                        this._setGroups(colDef.columns, config[i].children[0]);
+                    }
+                    columns.remove(colDef);
+                    colDef.collapseTo = config[i].collapseTo;
+                    colDef.isCollapsed = config[i].isCollapsed || false; // in case it wasn't defined, set to false
+                    colDef.align = config[i].align || colDef.align;
+
+                    columns.insert(i, colDef);
+                }
+            }
+        }
+
         public build(): void {
             //No need to build
         }
@@ -66,8 +123,12 @@ namespace WijmoProvider.Feature {
             const state = {
                 columns: this._getColumnLayout(),
                 filterDefinition: this._grid.features.filter.getViewLayout(),
-                groupDescriptions: this._grid.features.groupPanel.getViewLayout(),
-                sortDescriptions: this._grid.features.sort.getViewLayout()
+                groupDescriptions:
+                    this._grid.features.groupPanel.getViewLayout(),
+                sortDescriptions: this._grid.features.sort.getViewLayout(),
+                groupColumns: this._getGroupDefinition(
+                    this._grid.provider.columnGroups
+                )
             };
 
             return JSON.stringify(state);
@@ -81,6 +142,10 @@ namespace WijmoProvider.Feature {
                 this._grid.features.filter.setViewLayout(config);
                 this._grid.features.groupPanel.setViewLayout(config);
                 this._grid.features.sort.setViewLayout(config);
+                this._setGroups(
+                    this._grid.provider.columnGroups,
+                    config.groupColumns
+                );
             });
         }
     }

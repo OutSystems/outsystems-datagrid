@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.Feature {
     export interface IColumnFilter
         extends Interface.IBuilder,
@@ -5,8 +6,17 @@ namespace OSFramework.Feature {
             Interface.IProviderConfig<boolean>,
             IView {
         isGridFiltered: boolean;
-        activate(columID: string): void;
-        clear(columID: string): void;
-        deactivate(columID: string): void;
+        activate(columnID: string): void;
+        byCondition(
+            columnId: string,
+            values: Array<OSFramework.OSStructure.FilterCondition>
+        ): void;
+        byValue(columnId: string, values: Array<string>): void;
+        changeFilterType(
+            columnID: string,
+            filterType: wijmo.grid.filter.FilterType
+        ): void;
+        clear(columnID: string): void;
+        deactivate(columnID: string): void;
     }
 }

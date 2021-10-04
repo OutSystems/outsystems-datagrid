@@ -18,12 +18,20 @@ namespace GridAPI.Styling {
         rowIndex: number,
         className: string
     ): void {
+        PerformanceAPI.SetMark('Styling.SetCellCssClass');
+
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const binding = ColumnManager.GetColumnById(columnID).config.binding;
         GridManager.GetGridById(gridID).features.cellStyle.addClass(
             binding,
             rowIndex,
             className
+        );
+        PerformanceAPI.SetMark('Styling.SetCellCssClass-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Styling.SetCellCssClass',
+            'Styling.SetCellCssClass',
+            'Styling.SetCellCssClass-end'
         );
     }
     /**
@@ -42,11 +50,19 @@ namespace GridAPI.Styling {
         cssClass: string,
         applyToHeader: boolean
     ): void {
+        PerformanceAPI.SetMark('Styling.SetColumnCssClass');
+
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         GridManager.GetGridById(gridID).features.styling.addColumnCssClass(
             columnID,
             cssClass,
             applyToHeader
+        );
+        PerformanceAPI.SetMark('Styling.SetColumnCssClass-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Styling.SetColumnCssClass',
+            'Styling.SetColumnCssClass',
+            'Styling.SetColumnCssClass-end'
         );
     }
     /**
@@ -62,15 +78,23 @@ namespace GridAPI.Styling {
         columnID: string,
         rowIndex: number
     ): void {
+        PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell');
+
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const column = ColumnManager.GetColumnById(columnID);
         if (column !== undefined) {
             const binding = column.config.binding;
-            GridManager.GetGridById(gridID).features.cellStyle.removeClass(
+            GridManager.GetGridById(gridID).features.cellStyle.removeAllClasses(
                 rowIndex,
                 binding
             );
         }
+        PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Styling.RemoveAllCssClassesFromCell',
+            'Styling.RemoveAllCssClassesFromCell',
+            'Styling.RemoveAllCssClassesFromCell-end'
+        );
     }
     /**
      * Function that will remove a added CSS class from a column.
@@ -85,10 +109,19 @@ namespace GridAPI.Styling {
         columnID: string,
         cssClass: string
     ): void {
+        PerformanceAPI.SetMark('Styling.RemoveColumnCssClass');
+
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         GridManager.GetGridById(gridID).features.styling.removeColumnCssClass(
             columnID,
             cssClass
+        );
+
+        PerformanceAPI.SetMark('Styling.RemoveColumnCssClass-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Styling.RemoveColumnCssClass',
+            'Styling.RemoveColumnCssClass',
+            'Styling.RemoveColumnCssClass-end'
         );
     }
 }

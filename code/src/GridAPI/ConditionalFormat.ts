@@ -17,7 +17,19 @@ namespace GridAPI.ConditionalFormat {
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                PerformanceAPI.SetMark(
+                    'ConditionalFormat.AddConditionalFormat'
+                );
                 gridObj.features.conditionalFormat.addRules(binding, rules);
+
+                PerformanceAPI.SetMark(
+                    'ConditionalFormat.AddConditionalFormat-end'
+                );
+                PerformanceAPI.GetMeasure(
+                    '@datagrid-ConditionalFormat.AddConditionalFormat',
+                    'ConditionalFormat.AddConditionalFormat',
+                    'ConditionalFormat.AddConditionalFormat-end'
+                );
             }
         );
     }
@@ -37,7 +49,19 @@ namespace GridAPI.ConditionalFormat {
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
             (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                PerformanceAPI.SetMark(
+                    'ConditionalFormat.RemoveConditionalFormat'
+                );
                 gridObj.features.conditionalFormat.removeRules(binding);
+
+                PerformanceAPI.SetMark(
+                    'ConditionalFormat.RemoveConditionalFormat-end'
+                );
+                PerformanceAPI.GetMeasure(
+                    '@datagrid-ConditionalFormat.RemoveConditionalFormat',
+                    'ConditionalFormat.RemoveConditionalFormat',
+                    'ConditionalFormat.RemoveConditionalFormat-end'
+                );
             }
         );
     }

@@ -13,6 +13,7 @@ namespace OSFramework.Enum {
         rowHeight,
         rowsPerPage,
         selectionMode,
+        serverSidePagination,
         validateEdits
     }
 }

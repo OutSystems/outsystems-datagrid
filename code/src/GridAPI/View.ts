@@ -11,9 +11,17 @@ namespace GridAPI {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         export function GetViewLayout(gridID: string): any {
+            PerformanceAPI.SetMark('View.GetViewLayout');
+
             if (!OSFramework.Helper.IsGridReady(gridID)) return;
             const grid = GridManager.GetGridById(gridID);
 
+            PerformanceAPI.SetMark('View.GetViewLayout-end');
+            PerformanceAPI.GetMeasure(
+                '@datagrid-View.GetViewLayout',
+                'View.GetViewLayout',
+                'View.GetViewLayout-end'
+            );
             return grid.getViewLayout();
         }
 
@@ -28,7 +36,15 @@ namespace GridAPI {
                 gridID,
                 OSFramework.Event.Grid.GridEventType.Initialized,
                 (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                    PerformanceAPI.SetMark('View.SetViewLayout');
                     gridObj.setViewLayout(config);
+
+                    PerformanceAPI.SetMark('View.SetViewLayout-end');
+                    PerformanceAPI.GetMeasure(
+                        '@datagrid-View.SetViewLayout',
+                        'View.SetViewLayout',
+                        'View.SetViewLayout-end'
+                    );
                 }
             );
         }

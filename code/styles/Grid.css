@@ -259,8 +259,7 @@
 
 .wj-cell.wj-state-invalid.wj-header.wj-alt:not(.wj-state-multi-selected),
 .wj-cell.wj-state-invalid.wj-header.wj-header-alt:not(.wj-state-multi-selected),
-.wj-cell.wj-alt,
-.wj-cell.wj-header-alt {
+.wj-cell.wj-alt {
     background: var(--datagrid-cell-background-alt);
 }
 
@@ -1065,4 +1064,20 @@
 
 .ss-event-name {
     -servicestudio-font-weight: bold;
+}
+
+.server-side-message{
+    -servicestudio-background: #DCECFD;
+    -servicestudio-color: #938E8E;
+    -servicestudio-font-family: 'Verdana';
+    -servicestudio-font-size: 12px;
+    -servicestudio-padding: 15px 15px;
+}
+
+.server-side-message:before {
+    -servicestudio-content: '🛈 To use server-side pagination, follow the steps detailed in: '
+}
+
+.server-side-message > .server-side-pagination-link {
+    -servicestudio-color: #006DE9;
 }

@@ -30,6 +30,9 @@ namespace OSFramework.Event.Grid {
                 case GridEventType.OnFiltersChange:
                     event = new GridOnFiltersChangeEvent();
                     break;
+                case GridEventType.OnSortChange:
+                    event = new GridOnSortChangeEvent();
+                    break;
                 case GridEventType.SearchEnded:
                     event = new GridSearchEndEvent();
                     break;
@@ -47,7 +50,11 @@ namespace OSFramework.Event.Grid {
             //if the grid is already ready, fire immediatly the event.
             if (eventType === GridEventType.Initialized && this._grid.isReady) {
                 //make the invocation of the handler assync.
-                setTimeout(() => handler(this._grid.widgetId, this._grid), 0);
+                Helper.AsyncInvocation(
+                    handler,
+                    this._grid.widgetId,
+                    this._grid
+                );
             } else {
                 super.addHandler(eventType, handler);
             }
@@ -55,12 +62,13 @@ namespace OSFramework.Event.Grid {
 
         public trigger(
             event: GridEventType,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             gridObj: OSFramework.Grid.IGrid,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
             ...args
         ): void {
-            if (this.handlers.has(event)) {
-                this.handlers
+            if (this.events.has(event)) {
+                this.events
                     .get(event)
                     .trigger(gridObj, gridObj.widgetId, ...args);
             }

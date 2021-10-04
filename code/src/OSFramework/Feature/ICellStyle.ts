@@ -5,10 +5,19 @@ namespace OSFramework.Feature {
          * Add a CSS class to a specific cell from the grid.
          */
         addClass(binding: string, rowNumber: number, className: string): void;
+
+        clear(): void;
+
+        getMetadata(rowNumber: number): Feature.Auxiliar.CellStyleInfo;
+
+        removeAllClasses(rowNumber: number, binding: string): void;
         /**
          * Remove CSS class from a specific cell from the grid.
          */
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        removeClass(rowNumber: number, binding: string): any;
+        removeClass(
+            rowNumber: number,
+            binding: string,
+            className: string
+        ): void;
     }
 }

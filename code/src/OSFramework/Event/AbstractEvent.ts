@@ -11,13 +11,13 @@ namespace OSFramework.Event {
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     export abstract class AbstractEvent<T> implements IEvent<T> {
-        private _handlers: OSFramework.Callbacks.Generic[] = [];
+        private _handlers: Callbacks.Generic[] = [];
 
-        protected get handlers(): OSFramework.Callbacks.Generic[] {
+        protected get handlers(): Callbacks.Generic[] {
             return this._handlers;
         }
 
-        public addHandler(handler: OSFramework.Callbacks.Generic): void {
+        public addHandler(handler: Callbacks.Generic): void {
             this._handlers.push(handler);
         }
 
@@ -26,7 +26,7 @@ namespace OSFramework.Event {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public removeHandler(handler: OSFramework.Callbacks.Generic): void {
+        public removeHandler(handler: Callbacks.Generic): void {
             const index = this._handlers.findIndex((hd) => {
                 return hd === handler;
             });
@@ -38,7 +38,10 @@ namespace OSFramework.Event {
 
         // eslint-disable-next-line  @typescript-eslint/no-unused-vars, @typescript-eslint/explicit-module-boundary-types
         public trigger(data?: T, ...args): void {
-            this._handlers.slice(0).forEach((h) => h(data));
+            // eslint-disable-next-line no-debugger
+            this._handlers
+                .slice(0)
+                .forEach((h) => Helper.AsyncInvocation(h, data));
         }
     }
 }

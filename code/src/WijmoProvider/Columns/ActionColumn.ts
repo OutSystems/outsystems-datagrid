@@ -11,9 +11,8 @@ namespace WijmoProvider.Column {
                 columnID,
                 new OSFramework.Configuration.Column.ColumnConfig(configs)
             );
-            this._columnEvents = new OSFramework.Event.Column.ColumnEventsManager(
-                this
-            );
+            this._columnEvents =
+                new OSFramework.Event.Column.ColumnEventsManager(this);
         }
 
         /** Returns all the events associated to the column */
@@ -42,13 +41,16 @@ namespace WijmoProvider.Column {
                         ? this.config.binding.substr(1)
                         : undefined,
                 click: (e, ctx) => {
+                    //Let's clone the line, since we will be removing the metadata info from it.
+                    const clonedDataItem = _.cloneDeep(ctx.item);
+                    this.grid.rowMetadata.clear(clonedDataItem);
+
                     this._columnEvents.trigger(
                         OSFramework.Event.Column.ColumnEventType.ActionClick,
                         JSON.stringify(
-                            //TODO: [RGRIDT-637] refactor this code.
                             this.grid.isSingleEntity
-                                ? OSFramework.Helper.Flatten(ctx.item)
-                                : ctx.item
+                                ? OSFramework.Helper.Flatten(clonedDataItem)
+                                : clonedDataItem
                         )
                     );
                 }

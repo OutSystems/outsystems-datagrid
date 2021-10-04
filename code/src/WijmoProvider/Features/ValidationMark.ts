@@ -5,7 +5,7 @@ namespace WijmoProvider.Feature {
             OSFramework.Feature.IValidationMark,
             OSFramework.Interface.IBuilder
     {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
         /** Array containing all invalid rows */
@@ -14,7 +14,7 @@ namespace WijmoProvider.Feature {
         /** Exposed methods to manipulate RowMetadata */
         private _metadata: OSFramework.Interface.IRowMetadata;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,6 +52,7 @@ namespace WijmoProvider.Feature {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _convertToFormat(
             column: OSFramework.Column.IColumn,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             value: any
         ) {
             switch (column.columnType) {
@@ -114,25 +115,29 @@ namespace WijmoProvider.Feature {
 
         /**
          * Checks if a specific row is invalid by checking if it contains any invalid cells.
+         * @param rowKey Key of the row to check if a row has invalid cells
+         * @returns Boolean that indicates if the row is invalid. Returns True if invalid. False, otherwise.
+         */
+        private _isInvalidRowByRowKey(rowKey: string): boolean {
+            if (this.hasMetadataByRowKey(rowKey)) {
+                const metadata = this.getMetadataByRowKey(rowKey);
+
+                return this._validateMetadata(metadata);
+            }
+
+            return false;
+        }
+
+        /**
+         * Checks if a specific row is invalid by checking if it contains any invalid cells.
          * @param rowNumber Number of the row to check if a row has invalid cells
          * @returns Boolean that indicates if the row is invalid. Returns True if invalid. False, otherwise.
          */
         private _isInvalidRowByRowNumber(rowNumber: number): boolean {
             if (this.hasMetadataByRowNumber(rowNumber)) {
                 const metadata = this.getMetadataByRowNumber(rowNumber);
-                let notInvalidCells = 0;
 
-                for (const binding of metadata.validation.keys()) {
-                    //If validation of a specific cell is equal to True
-                    if (metadata.validation.get(binding) === true)
-                        //Add 1 to the the validCells summatory
-                        notInvalidCells++;
-                    //One cell is invalid so the mark should be shown
-                    else break;
-                }
-
-                //If Total changes - equals > 0 there is some dirty register on the row
-                return metadata.validation.size - notInvalidCells > 0;
+                return this._validateMetadata(metadata);
             }
 
             return false;
@@ -169,8 +174,32 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row to trigger the events
          * @param isValid Wether or not row is valid
          */
-        private _setInvalidRows(rowNumber: number, isValid: boolean): void {
+        private _setRowStatus(rowNumber: number, isValid: boolean): void {
             const dataItem = this._grid.provider.rows[rowNumber].dataItem;
+
+            if (this._invalidRows.indexOf(dataItem) === -1) {
+                if (isValid === false) {
+                    this._invalidRows.push(dataItem);
+                }
+            } else {
+                if (isValid === true) {
+                    this._invalidRows.splice(
+                        this._invalidRows.indexOf(dataItem),
+                        1
+                    );
+                }
+            }
+        }
+
+        /**
+         * Set invalid rows by key
+         * @param rowKey Key of the row to trigger the events
+         * @param isValid Wether or not row is valid
+         */
+        private _setRowStatusByKey(rowKey: string, isValid: boolean): void {
+            const rowIndex = this._metadata.getRowIndexByKey(rowKey);
+            const dataItem =
+                this._grid.provider.itemsSource.sourceCollection[rowIndex];
 
             if (this._invalidRows.indexOf(dataItem) === -1) {
                 if (isValid === false) {
@@ -223,7 +252,7 @@ namespace WijmoProvider.Feature {
                 }
                 if (
                     column.hasEvents &&
-                    column.columnEvents.handlers.has(
+                    column.columnEvents.events.has(
                         OSFramework.Event.Column.ColumnEventType
                             .OnCellValueChange
                     )
@@ -263,6 +292,24 @@ namespace WijmoProvider.Feature {
                 oldValue,
                 action._oldState
             );
+        }
+
+        private _validateMetadata(
+            metadata: OSFramework.Feature.Auxiliar.ValidationMarkInfo
+        ): boolean {
+            let notInvalidCells = 0;
+
+            for (const binding of metadata.validation.keys()) {
+                //If validation of a specific cell is equal to True
+                if (metadata.validation.get(binding) === true)
+                    //Add 1 to the the validCells summatory
+                    notInvalidCells++;
+                //One cell is invalid so the mark should be shown
+                else break;
+            }
+
+            //If Total changes - equals > 0 there is some dirty register on the row
+            return metadata.validation.size - notInvalidCells > 0;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -316,6 +363,7 @@ namespace WijmoProvider.Feature {
          * @returns ValidationMarkInfo of the row specified.
          */
         public getMetadataByRow(
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             row: any
         ): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
             if (!this.hasMetadataByRow(row))
@@ -327,6 +375,27 @@ namespace WijmoProvider.Feature {
 
             return this._metadata.getMetadataInRow(
                 row,
+                this._internalLabel
+            ) as OSFramework.Feature.Auxiliar.ValidationMarkInfo;
+        }
+
+        /**
+         * Gets the metadata associated to the validation marks for a specific row key.
+         * @param rowKey Key of the row to check if there is any metadata associated to the validation marks.
+         * @returns ValidationMarkInfo of the row specified.
+         */
+        public getMetadataByRowKey(
+            rowKey: string
+        ): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
+            if (!this.hasMetadataByRowKey(rowKey))
+                this._metadata.setMetadataByRowKey(
+                    rowKey,
+                    this._internalLabel,
+                    new OSFramework.Feature.Auxiliar.ValidationMarkInfo()
+                );
+
+            return this._metadata.getMetadataByRowKey(
+                rowKey,
                 this._internalLabel
             ) as OSFramework.Feature.Auxiliar.ValidationMarkInfo;
         }
@@ -357,8 +426,21 @@ namespace WijmoProvider.Feature {
          * @param row Row to check if there is any metadata associated to the validation marks.
          * @returns Boolean that indicates whether a specific row has metadata associated to the validation marks.
          */
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public hasMetadataByRow(row: any): boolean {
             return this._metadata.hasOwnPropertyByRow(row, this._internalLabel);
+        }
+
+        /**
+         * Indicates if a specific row key has any metadata associated to the validation marks.
+         * @param rowKey Key of the row to check if there is any metadata associated to the validation marks.
+         * @returns Boolean that indicates whether a specific row has metadata associated to the validation marks.
+         */
+        public hasMetadataByRowKey(rowKey: string): boolean {
+            return this._metadata.hasOwnPropertyByRowKey(
+                rowKey,
+                this._internalLabel
+            );
         }
 
         /**
@@ -392,6 +474,7 @@ namespace WijmoProvider.Feature {
          * @param row Row to get the validation state.
          * @returns Boolean that indicates whether a specific cell is valid or not.
          */
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public isInvalidRow(row: any): boolean {
             return Array.from(this.getMetadataByRow(row).validation).some(
                 (element) => {
@@ -407,7 +490,7 @@ namespace WijmoProvider.Feature {
          * @param isValid Boolean that indicates whether the cell value meets a validation or data type rule. True, if the value conforms to the rule. False, otherwise.
          * @param errorMessage Message to be shown to the user when the value introduced is not valid.
          */
-        public setStatus(
+        public setCellStatus(
             rowNumber: number,
             columnWidgetID: string,
             isValid: boolean,
@@ -433,13 +516,79 @@ namespace WijmoProvider.Feature {
             );
 
             // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
-            this._setInvalidRows(
+            this._setRowStatus(
                 rowNumber,
                 isValid && !this._isInvalidRowByRowNumber(rowNumber)
             );
 
             // Makes sure the grid gets refreshed after validation
             this._grid.provider.invalidate();
+        }
+
+        /**
+         * Used to validate a cell by defining its metadata with a state that indicates if it is valid or not.
+         * @param rowKey Key of the row in which the action of validation should be triggered.
+         * @param columnWidgetID ID of the Column block in which the action of validation should be triggered.
+         * @param isValid Boolean that indicates whether the cell value meets a validation or data type rule. True, if the value conforms to the rule. False, otherwise.
+         * @param errorMessage Message to be shown to the user when the value introduced is not valid.
+         */
+        public setCellStatusByKey(
+            rowKey: string,
+            columnWidgetID: string,
+            isValid: boolean,
+            errorMessage: string
+        ): void {
+            const column =
+                GridAPI.ColumnManager.GetColumnById(columnWidgetID).provider;
+
+            // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
+            this.getMetadataByRowKey(rowKey).validation.set(
+                column.binding,
+                isValid
+            );
+
+            // Sets the errorMessage map by matching the binding of the columns with the error that indicates the error of the validation to be shown when this one is not valid.
+            this.getMetadataByRowKey(rowKey).errorMessage.set(
+                column.binding,
+                // If the error message is empty we want to return the message -> Invalid [Column Name]
+                // Make sure all the end of lines from the error that comes from OS are replaced with <br>
+                errorMessage !== ''
+                    ? errorMessage.replace(/\n/g, '<br>')
+                    : 'Invalid ' + column.header
+            );
+
+            // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
+            this._setRowStatusByKey(
+                rowKey,
+                isValid && !this._isInvalidRowByRowKey(rowKey)
+            );
+
+            // Makes sure the grid gets refreshed after validation
+            this._grid.provider.invalidate();
+        }
+
+        public setRowStatus(rowNumber: number, isValid: boolean): void {
+            // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
+            this._setRowStatus(rowNumber, isValid);
+        }
+
+        public validateCell(
+            rowNumber: number,
+            column: OSFramework.Column.IColumn
+        ): void {
+            // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
+            const currValue = this._grid.provider.getCellData(
+                rowNumber,
+                column.provider.index,
+                false
+            );
+            // Triggers the events of OnCellValueChange associated to a specific column in OS
+            this._triggerEventsFromColumn(
+                rowNumber,
+                column.provider.binding,
+                currValue,
+                currValue
+            );
         }
 
         /**
@@ -466,25 +615,6 @@ namespace WijmoProvider.Feature {
                         currValue
                     );
                 });
-        }
-
-        public validateCell(
-            rowNumber: number,
-            column: OSFramework.Column.IColumn
-        ): void {
-            // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
-            const currValue = this._grid.provider.getCellData(
-                rowNumber,
-                column.provider.index,
-                false
-            );
-            // Triggers the events of OnCellValueChange associated to a specific column in OS
-            this._triggerEventsFromColumn(
-                rowNumber,
-                column.provider.binding,
-                currValue,
-                currValue
-            );
         }
     }
 }

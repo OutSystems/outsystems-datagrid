@@ -3,15 +3,16 @@ namespace WijmoProvider.Feature {
     export class ToolTip
         implements
             OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable {
+            OSFramework.Interface.IDisposable
+    {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _eventMouseEnter: any;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _eventMouseOut: any;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Grid.IGridWijmo;
         private _toolTip: wijmo.Tooltip;
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._toolTip = new wijmo.Tooltip();
             this._eventMouseEnter = this._onMouseEnter.bind(this);
@@ -23,9 +24,8 @@ namespace WijmoProvider.Feature {
             const ht = this._grid.provider.hitTest(e);
 
             if (ht.cellType === wijmo.grid.CellType.Cell) {
-                const isInvalid = _currTarget.classList.contains(
-                    'wj-state-invalid'
-                );
+                const isInvalid =
+                    _currTarget.classList.contains('wj-state-invalid');
 
                 if (_currTarget.querySelector('div.dg-cell')) {
                     _currTarget = _currTarget.querySelector('div.dg-cell');
@@ -56,23 +56,34 @@ namespace WijmoProvider.Feature {
                     );
                 }
             } else if (ht.cellType === wijmo.grid.CellType.ColumnHeader) {
-                if (
+                const rendered = this._grid.getColumn(
+                    ht.getColumn().binding
+                )?.config;
+
+                if (_currTarget && rendered?.headerTooltip) {
+                    if (document.getElementById(rendered.headerTooltip)) {
+                        // If headerTooltip is an Id of an Element, it should be manipulated to be a selector.
+                        // setTooltip() wijmo method allows us to render the content of another element using its id
+                        rendered.headerTooltip = '#' + rendered.headerTooltip;
+                    }
+                    this._setHeaderTooltip(_currTarget, rendered.headerTooltip);
+                } else if (
                     _currTarget &&
                     _currTarget.innerText !== undefined &&
                     _currTarget.innerText !== ''
                 ) {
-                    //Make sure to reset the cssClass for the tooltip
-                    this._toolTipClass(false);
-                    this._toolTip.setTooltip(
-                        _currTarget,
-                        _currTarget.innerText
-                    );
+                    this._setHeaderTooltip(_currTarget, _currTarget.innerText);
                 }
             }
         }
-
         private _onMouseOut(/*e: Event*/): void {
             this._toolTip.hide();
+        }
+
+        private _setHeaderTooltip(element: HTMLElement, content: string): void {
+            //Make sure to reset the cssClass for the tooltip
+            this._toolTipClass(false);
+            this._toolTip.setTooltip(element, content);
         }
 
         private _setToolTip(cell: Element): void {

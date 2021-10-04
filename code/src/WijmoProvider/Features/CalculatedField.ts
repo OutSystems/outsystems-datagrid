@@ -1,17 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
     function Evaluate(formula: OSFramework.OSStructure.Formula) {
-        let fn: OSFramework.OSStructure.Functions = formula.function;
+        const fn: OSFramework.OSStructure.Functions = formula.function;
 
-        let parsedValues = formula.values.map((val) => {
+        const parsedValues = formula.values.map((val) => {
             if (isNaN(parseInt(val))) return `$.${val}`;
             return val;
         });
 
         switch (fn) {
             case OSFramework.OSStructure.Functions.Avg:
-                let vals = parsedValues.join(' + ');
-                return `(${vals}) / ${parsedValues.length}`;
+                return `(${parsedValues.join(' + ')}) / ${parsedValues.length}`;
             case OSFramework.OSStructure.Functions.Diff:
                 return parsedValues.join(' - ');
             case OSFramework.OSStructure.Functions.Div:
@@ -32,9 +31,11 @@ namespace WijmoProvider.Feature {
     export class CalculatedField
         implements
             OSFramework.Feature.ICalculatedField,
-            OSFramework.Interface.IBuilder {
-        private _grid: Grid.IGridWijmo;
+            OSFramework.Interface.IBuilder
+    {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _calculatedFields: any;
+        private _grid: Grid.IGridWijmo;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
@@ -82,13 +83,13 @@ namespace WijmoProvider.Feature {
             this._calculatedFields[binding] = Evaluate(formula);
         }
 
-        public removeFormula(binding: string) {
-            if (this._calculatedFields.hasOwnProperty(binding))
-                delete this._calculatedFields[binding];
-        }
-
         public build(): void {
             return;
+        }
+
+        public removeFormula(binding: string): void {
+            if (this._calculatedFields.hasOwnProperty(binding))
+                delete this._calculatedFields[binding];
         }
     }
 }

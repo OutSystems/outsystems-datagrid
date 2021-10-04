@@ -2,10 +2,10 @@
 namespace OSFramework.Event.Grid {
     export class ValidatingAction implements IEvent<Actions> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        private _handlers: OSFramework.Callbacks.Generic[] = [];
+        private _handlers: Callbacks.Generic[] = [];
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public addHandler(handler: OSFramework.Callbacks.Generic) {
+        public addHandler(handler: Callbacks.Generic) {
             this._handlers.push(handler);
         }
 
@@ -13,8 +13,7 @@ namespace OSFramework.Event.Grid {
             return this._handlers.length > 0;
         }
 
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public removeHandler(handler: OSFramework.Callbacks.Generic) {
+        public removeHandler(handler: Callbacks.Generic): void {
             const index = this._handlers.findIndex((hd) => {
                 return hd === handler;
             });

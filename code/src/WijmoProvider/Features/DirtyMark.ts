@@ -3,13 +3,14 @@ namespace WijmoProvider.Feature {
     export class DirtyMark
         implements
             OSFramework.Feature.IDirtyMark,
-            OSFramework.Interface.IBuilder {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+            OSFramework.Interface.IBuilder
+    {
+        private _grid: Grid.IGridWijmo;
         private readonly _internalLabel = '__dirtyMarkFeature';
         private _metadata: OSFramework.Interface.IRowMetadata;
         private readonly _validationLabel = '__validationMarkFeature';
 
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
         }
@@ -53,7 +54,10 @@ namespace WijmoProvider.Feature {
             const grid = this._grid.provider;
             if (this.hasMetadata(row)) {
                 const binding = grid.getColumn(col).binding;
-                const cellValue = grid.getCellData(row, col, false);
+                const columnType = this._grid.getColumn(binding)?.columnType;
+                const isDropdown =
+                    columnType === OSFramework.Enum.ColumnType.Dropdown;
+                const cellValue = grid.getCellData(row, col, isDropdown); // on dropdown columns we want formatted value
                 const metadata = this.getMetadata(row);
 
                 //If the cell isNew we want to have the dirty mark
@@ -72,7 +76,8 @@ namespace WijmoProvider.Feature {
                         //Even when converted to String because after edition the cells from the Dropdown Columns will have the value in string format and before edition the value of those same cells can be integers (number identifiers).
                         return (
                             originalValue !== cellValue &&
-                            originalValue.toString() !== cellValue
+                            originalValue.toString() !== cellValue &&
+                            originalValue.toString() !== cellValue.toString() // compare date objects as well
                         );
                     }
                 }
@@ -86,10 +91,14 @@ namespace WijmoProvider.Feature {
                 let notDirtyCells = 0;
 
                 for (const k of metadata.originalValues.keys()) {
+                    const columnType = this._grid.getColumn(k)?.columnType;
+                    const isDropdown =
+                        columnType === OSFramework.Enum.ColumnType.Dropdown;
+                    // on dropdown columns we want formatted value
                     const cellValue = this._grid.provider.getCellData(
                         row,
                         k,
-                        false
+                        isDropdown
                     );
                     const originalValue = metadata.originalValues.get(k);
 
@@ -107,7 +116,8 @@ namespace WijmoProvider.Feature {
                         //Even when converted to String because after edition the cells from the Dropdown Columns will have the value in string format and before edition the value of those same cells can be integers (number identifiers).
                         if (
                             originalValue === cellValue ||
-                            originalValue.toString() === cellValue
+                            originalValue.toString() === cellValue ||
+                            originalValue.toString() === cellValue.toString() // compare date objects as well
                         ) {
                             //Add 1 to the notDirtyCells
                             notDirtyCells++;
@@ -155,6 +165,7 @@ namespace WijmoProvider.Feature {
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public clearPropertyInRow(row: any): void {
             this._metadata.clearPropertyByRow(row, this._internalLabel);
             this._grid.provider.invalidate(); //Mark to be refreshed
@@ -210,12 +221,15 @@ namespace WijmoProvider.Feature {
                 !this._isNewRow(rowNumber) &&
                 !this._hasCellInitialValue(rowNumber, binding)
             ) {
+                const columnType = this._grid.getColumn(binding)?.columnType;
+                const isDropdown =
+                    columnType === OSFramework.Enum.ColumnType.Dropdown;
                 this.getMetadata(rowNumber).originalValues.set(
                     binding,
                     this._grid.provider.getCellData(
                         rowNumber,
                         columnNumber,
-                        false
+                        isDropdown
                     )
                 );
             }

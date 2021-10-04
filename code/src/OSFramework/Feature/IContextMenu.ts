@@ -8,16 +8,14 @@ namespace OSFramework.Feature {
          * Getter for the contextMenu events
          */
         contextMenuEvents: Event.Feature.ContextMenuEventManager;
-
-        /**
-         * Defines if context menu is opening or closing
-         */
-        isOpening: boolean;
-
         /**
          * Grid's reference
          */
         grid: Grid.IGrid;
+        /**
+         * Defines if context menu is opening or closing
+         */
+        isOpening: boolean;
 
         /**
          * Responsable for adding menu items

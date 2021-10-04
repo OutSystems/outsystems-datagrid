@@ -8,5 +8,11 @@ namespace OSFramework.Feature {
          * @param binding binding of the column
          */
         columnInGroupPanel(binding: string): boolean;
+        /**
+         * Sets the column aggregation function inside the Group Panel
+         * @param binding binding of the column
+         * @param aggregate aggregation function
+         */
+        setAggregate(binding: string, aggregate: number): void;
     }
 }

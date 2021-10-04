@@ -8,8 +8,9 @@ namespace WijmoProvider.Feature {
     }
 
     export class Selection
-        implements IProviderSelection, OSFramework.Interface.IBuilder {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        implements IProviderSelection, OSFramework.Interface.IBuilder
+    {
+        private _grid: Grid.IGridWijmo;
         private _hasSelectors: boolean;
         private _selectionMode: wijmo.grid.SelectionMode;
 
@@ -20,7 +21,7 @@ namespace WijmoProvider.Feature {
          * @param selectionMode The current selection mode
          */
         constructor(
-            grid: WijmoProvider.Grid.IGridWijmo,
+            grid: Grid.IGridWijmo,
             hasSelectors = false,
             selectionMode = wijmo.grid.SelectionMode.MultiRange
         ) {
@@ -188,9 +189,7 @@ namespace WijmoProvider.Feature {
                     (a, b) => a.bottomRow - b.bottomRow || a.topRow - b.topRow
                 )
                 .map((p) =>
-                    WijmoProvider.Helper.CellRangeFactory.MakeFromProviderCellRange(
-                        p
-                    )
+                    Helper.CellRangeFactory.MakeFromProviderCellRange(p)
                 );
         }
 
@@ -200,7 +199,7 @@ namespace WijmoProvider.Feature {
             if (currSelection && currSelection.isValid)
                 //currSelection has the last range selected
                 //properties row and col maintain the last cell selected or in a range, where the mouse button was released
-                return WijmoProvider.Helper.CellRangeFactory.MakeFromCoordinates(
+                return Helper.CellRangeFactory.MakeFromCoordinates(
                     currSelection.row,
                     currSelection.col
                 );
@@ -209,9 +208,7 @@ namespace WijmoProvider.Feature {
 
         public getAllSelections(): OSFramework.OSStructure.CellRange[] {
             return this.getProviderAllSelections().map((p) =>
-                WijmoProvider.Helper.CellRangeFactory.MakeFromProviderCellRange(
-                    p
-                )
+                Helper.CellRangeFactory.MakeFromProviderCellRange(p)
             );
         }
 

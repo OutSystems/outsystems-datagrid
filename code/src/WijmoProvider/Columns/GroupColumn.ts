@@ -2,7 +2,8 @@
 namespace WijmoProvider.Column {
     export class GroupColumn
         extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfigGroup>
-        implements OSFramework.Column.IColumnGroup {
+        implements OSFramework.Column.IColumnGroup
+    {
         private _columns: OSFramework.Column.IColumn[];
 
         constructor(
@@ -51,40 +52,41 @@ namespace WijmoProvider.Column {
             return wijmo.DataType.Object;
         }
 
-        private _getCollapsedToBinding(columnId: string): string {
-            if (columnId === undefined || columnId === '') return undefined;
+        /**
+         * Gets binding on which the group will be collapsed to
+         */
+        private _getCollapsedToBinding(columnBinding: string): string {
+            if (columnBinding === undefined || columnBinding === '')
+                return undefined;
 
-            const col = GridAPI.ColumnManager.GetColumnById(columnId);
+            const col = this.grid.getColumn(columnBinding);
             let hasError = false;
 
             if (col) {
-                //The informed column doens't belong to this Group
-                if (col.parentColumnId === undefined) {
-                    hasError = true;
-                }
-                //The informed column's group matches with this Group
-                else if (this.equalsToID(col.parentColumnId)) {
+                if (this.equalsToID(col.parentColumnId)) {
                     return col.config.binding;
-                }
-                //The informed maybe inside a sub-group
-                else {
-                    return this._getCollapsedToBinding(col.uniqueId);
+                } else {
+                    return columnBinding;
                 }
             } else {
                 hasError = true;
             }
-
             //To avoid breaking the page, just send an alert-message through console
             if (hasError) {
                 console.error(
-                    `The columns specified on collapseTo property isn't available on group ${this.config.header}`
+                    `The column "${columnBinding}" specified on the CollapseTo field is not part of the group ${
+                        this.config.header
+                    }. ${'\n'}  Please drag-and-drop the column inside the group placeholder or pick one of the columns inside it.`
                 );
-
                 //No collapseTo
                 return undefined;
             }
         }
 
+        /**
+         * Adds child to group
+         * @param column column which will be added to group
+         */
         public addChild(column: OSFramework.Column.IColumn): void {
             if (this._columns.indexOf(column) === -1) {
                 this._columns.push(column);
@@ -98,11 +100,6 @@ namespace WijmoProvider.Column {
                 this.provider.collapseTo = this._getCollapsedToBinding(
                     this.config.collapseTo
                 );
-            }
-
-            //When there isn't a reference for collapseTo, makes the group always expanded
-            if (this.provider.collapseTo === undefined) {
-                this.provider.isCollapsed = false;
             }
         }
 
@@ -130,11 +127,6 @@ namespace WijmoProvider.Column {
                 );
             }
 
-            //When there isn't a reference for collapseTo, makes the group always expanded
-            if (providerConfig.collapseTo === undefined) {
-                providerConfig.isCollapsed = false;
-            }
-
             providerConfig.columns = this._columns
                 //Sort based on index position
                 .sort((a, b) => a.indexPosition() - b.indexPosition())
@@ -145,7 +137,15 @@ namespace WijmoProvider.Column {
         }
 
         public removeChild(column: OSFramework.Column.IColumn): void {
-            _.remove(this._columns, (p) => p === column);
+            // remove column from internal group columns array
+            this._columns = this._columns.filter(function (item) {
+                return item !== column;
+            });
+
+            // Remove child from group
+            this.provider.columns
+                .filter((x) => x.binding === column.provider.binding)
+                .forEach((x) => this.provider.columns.remove(x));
         }
     }
 }

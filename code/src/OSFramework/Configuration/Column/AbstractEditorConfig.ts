@@ -7,7 +7,9 @@ namespace OSFramework.Configuration.Column {
      */
     export abstract class AbstractEditorConfig
         extends AbstractConfiguration
-        implements IConfigurationColumnEditor {
+        implements IConfigurationColumnEditor
+    {
+        public conditionalFormat: Array<OSStructure.ConditionalFormat>;
         public format: string;
         public required: boolean;
     }
