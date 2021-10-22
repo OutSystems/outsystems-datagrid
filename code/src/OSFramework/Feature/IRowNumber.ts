@@ -5,5 +5,7 @@ namespace OSFramework.Feature {
          * Sets start row index.
          */
         setStartIndex(value: number): void;
+
+        setState(value: boolean): void;
     }
 }

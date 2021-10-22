@@ -16,6 +16,7 @@ namespace OSFramework.Feature {
         public filter: IColumnFilter;
         public groupPanel: IGroupPanel;
         public pagination: IPagination;
+        public rowHeader: IRowHeader;
         public rows: IRows;
         public selection: ISelection;
         public sort: IColumnSort;
