@@ -106,9 +106,6 @@ namespace WijmoProvider.Feature {
                 this._selectionChanging
             );
 
-            this._grid.provider.selectionChanged.removeHandler(
-                this._selectionChanged
-            );
             this._grid.provider.selectionChanged.addHandler(
                 this._selectionChanged.bind(this)
             );
