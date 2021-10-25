@@ -55,7 +55,6 @@ namespace WijmoProvider.Feature {
         ) {
             if (e.row >= 0) {
                 const isSelected = grid.rows[e.row]?.isSelected;
-
                 this.getMetadata(e.row).isChecked = isSelected;
             }
         }
@@ -89,7 +88,7 @@ namespace WijmoProvider.Feature {
          * @param grid Object triggering the event
          * @param e CellRangeEventArgs, defined the current selection
          */
-        private _updatingView(grid: wijmo.grid.FlexGrid, e: any) {
+        private _updatingView(grid: wijmo.grid.FlexGrid) {
             grid.rows.forEach((row) => {
                 row.isSelected = this.getMetadata(row.index).isChecked;
             });
