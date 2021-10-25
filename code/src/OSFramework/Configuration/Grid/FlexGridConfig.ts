@@ -15,7 +15,7 @@ namespace OSFramework.Configuration.Grid {
         public autoGenerateColumns: boolean;
         public groupPanelId: string;
         public keyBinding: string;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public rowHeader: Enum.RowHeader;
         public rowHeight: number;
         public rowsPerPage: number;
         public selectionMode: number;
