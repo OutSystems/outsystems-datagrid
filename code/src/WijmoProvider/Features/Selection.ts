@@ -288,18 +288,18 @@ namespace WijmoProvider.Feature {
 
         public getMetadata(
             rowNumber: number
-        ): OSFramework.Feature.Auxiliar.CheckedPages {
+        ): OSFramework.Feature.Auxiliar.RowSelection {
             if (!this.hasMetadata(rowNumber)) {
                 this._metadata.setMetadataByRowNumber(
                     rowNumber,
                     this._internalLabel,
-                    new OSFramework.Feature.Auxiliar.CheckedPages()
+                    new OSFramework.Feature.Auxiliar.RowSelection()
                 );
             }
             return this._metadata.getMetadataByRowNumber(
                 rowNumber,
                 this._internalLabel
-            ) as OSFramework.Feature.Auxiliar.CheckedPages;
+            ) as OSFramework.Feature.Auxiliar.RowSelection;
         }
 
         public getProviderAllSelections(): wijmo.grid.CellRange[] {
