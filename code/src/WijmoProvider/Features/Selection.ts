@@ -12,6 +12,8 @@ namespace WijmoProvider.Feature {
     {
         private _grid: Grid.IGridWijmo;
         private _hasSelectors: boolean;
+        private readonly _internalLabel = '__checkedPages';
+        private _metadata: OSFramework.Interface.IRowMetadata;
         private _selectionMode: wijmo.grid.SelectionMode;
 
         /**
@@ -29,25 +31,11 @@ namespace WijmoProvider.Feature {
 
             this._selectionMode = selectionMode;
             this._hasSelectors = hasSelectors;
+            this._metadata = this._grid.rowMetadata;
         }
 
         public get hasSelectors(): boolean {
             return this._hasSelectors;
-        }
-
-        private _buildSelector(): void {
-            if (!this._hasSelectors) return;
-
-            const column = new wijmo.grid.Column();
-            column.allowResizing = false;
-            column.allowSorting = false;
-            column.allowDragging = false;
-            column.allowMerging = false;
-            this._grid.provider.rowHeaders.columns.push(column);
-
-            new wijmo.grid.selector.Selector(column);
-            //Use event bellow along with RowMetadata to save checked items per page
-            //selector.onItemChecked
         }
 
         private _getCheckedRows(): number[] {
@@ -57,7 +45,22 @@ namespace WijmoProvider.Feature {
         }
 
         /**
-         * Responsable for maintain unique selections, user can't have the same range selected twice
+         * Responsible for adding metadata on checked rows
+         * @param grid Object triggering the event
+         * @param e CellRangeEventArgs, defined the current selection
+         */
+        private _selectionChanged(
+            grid: wijmo.grid.FlexGrid,
+            e: wijmo.grid.CellRangeEventArgs
+        ) {
+            if (e.row >= 0) {
+                const isSelected = grid.rows[e.row]?.isSelected;
+                this.getMetadata(e.row).isChecked = isSelected;
+            }
+        }
+
+        /**
+         * Responsible for maintain unique selections, user can't have the same range selected twice
          * @param grid Object triggering the event
          * @param e CellRangeEventArgs, defined the current selection
          */
@@ -80,9 +83,18 @@ namespace WijmoProvider.Feature {
             }
         }
 
-        public build(): void {
-            this._buildSelector();
+        /**
+         * Responsible for checking rows based on metadata.
+         * @param grid Object triggering the event
+         * @param e CellRangeEventArgs, defined the current selection
+         */
+        private _updatingView(grid: wijmo.grid.FlexGrid) {
+            grid.rows.forEach((row) => {
+                row.isSelected = this.getMetadata(row.index).isChecked;
+            });
+        }
 
+        public build(): void {
             //Set SelectionMode after defining Selectors, because wijmo will redefine them
             this.setState(this._selectionMode);
 
@@ -92,6 +104,15 @@ namespace WijmoProvider.Feature {
             this._grid.provider.selectionChanging.addHandler(
                 this._selectionChanging
             );
+
+            this._grid.provider.selectionChanged.addHandler(
+                this._selectionChanged.bind(this)
+            );
+
+            this._grid.provider.updatingView.addHandler(
+                this._updatingView.bind(this)
+            );
+
             this._grid.provider.copying.addHandler(
                 this.equalizeSelection.bind(this)
             );
@@ -265,6 +286,22 @@ namespace WijmoProvider.Feature {
             return rowColumnArr;
         }
 
+        public getMetadata(
+            rowNumber: number
+        ): OSFramework.Feature.Auxiliar.RowSelection {
+            if (!this.hasMetadata(rowNumber)) {
+                this._metadata.setMetadataByRowNumber(
+                    rowNumber,
+                    this._internalLabel,
+                    new OSFramework.Feature.Auxiliar.RowSelection()
+                );
+            }
+            return this._metadata.getMetadataByRowNumber(
+                rowNumber,
+                this._internalLabel
+            ) as OSFramework.Feature.Auxiliar.RowSelection;
+        }
+
         public getProviderAllSelections(): wijmo.grid.CellRange[] {
             const ranges: wijmo.grid.CellRange[] = [];
             const maxCol = this._grid.provider.columns.length - 1;
@@ -332,6 +369,13 @@ namespace WijmoProvider.Feature {
                         rowIndex,
                         this._grid.provider.rows[rowIndex].dataItem
                     )
+            );
+        }
+
+        public hasMetadata(rowNumber: number): boolean {
+            return this._metadata.hasOwnPropertyByRowNumber(
+                rowNumber,
+                this._internalLabel
             );
         }
 
