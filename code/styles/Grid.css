@@ -243,8 +243,8 @@
         );
 }
 
-.wj-cell.wj-header.checked-columns,
-.wj-cell.wj-header.checked-columns ~ .wj-header {
+.wj-cell.wj-header.checked-column-header,
+.wj-cell.wj-header.checked-column-header ~ .wj-header {
     background: linear-gradient(
             var(--color-primary-selected),
             var(--color-primary-selected)

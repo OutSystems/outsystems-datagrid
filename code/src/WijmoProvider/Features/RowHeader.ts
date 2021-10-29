@@ -48,25 +48,31 @@ namespace WijmoProvider.Feature {
         private _buildRowHeader() {
             if (this.hasCheckbox) {
                 this._buildCheckbox();
+                // with checkbox, we want to prevent row selection on row number and
+                // want to still be able to select cells.
                 this._disableRowSelectionOnRowNumber();
-
                 this._grid.provider.selectionMode =
                     wijmo.grid.SelectionMode.CellRange;
 
-                // check if Grid has checked rows
-                this._grid.provider.formatItem.addHandler((s) => {
-                    const element =
-                        s.columnHeaders.hostElement.querySelector(
-                            '.wj-cell.wj-header'
+                // if grid has checked rows, add custom class so column headers are selected as well
+                this._grid.provider.formatItem.addHandler((s, e) => {
+                    if (e.panel.cellType === wijmo.grid.CellType.RowHeader) {
+                        const element =
+                            s.columnHeaders.hostElement.querySelector(
+                                '.wj-cell.wj-header'
+                            );
+
+                        const el = s.rowHeaders.hostElement.querySelector(
+                            "input[type='checkbox']:checked"
                         );
 
-                    const el = s.hostElement.querySelector(
-                        ".wj-header input[type='checkbox']:checked"
-                    );
-                    if (el) {
-                        wijmo.addClass(element, 'checked-columns');
-                    } else if (wijmo.hasClass(element, 'checked-columns')) {
-                        wijmo.removeClass(element, 'checked-columns');
+                        if (el) {
+                            wijmo.addClass(element, 'checked-column-header');
+                        } else if (
+                            wijmo.hasClass(element, 'checked-column-header')
+                        ) {
+                            wijmo.removeClass(element, 'checked-column-header');
+                        }
                     }
                 });
             }
