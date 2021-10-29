@@ -57,21 +57,31 @@ namespace WijmoProvider.Feature {
                 // if grid has checked rows, add custom class so column headers are selected as well
                 this._grid.provider.formatItem.addHandler((s, e) => {
                     if (e.panel.cellType === wijmo.grid.CellType.RowHeader) {
-                        const element =
+                        const columnHeaderElement =
                             s.columnHeaders.hostElement.querySelector(
                                 '.wj-cell.wj-header'
                             );
 
-                        const el = s.rowHeaders.hostElement.querySelector(
-                            "input[type='checkbox']:checked"
-                        );
+                        const rowHeaderCheckedElement =
+                            s.rowHeaders.hostElement.querySelector(
+                                "input[type='checkbox']:checked"
+                            );
 
-                        if (el) {
-                            wijmo.addClass(element, 'checked-column-header');
+                        if (rowHeaderCheckedElement) {
+                            wijmo.addClass(
+                                columnHeaderElement,
+                                'checked-column-header'
+                            );
                         } else if (
-                            wijmo.hasClass(element, 'checked-column-header')
+                            wijmo.hasClass(
+                                columnHeaderElement,
+                                'checked-column-header'
+                            )
                         ) {
-                            wijmo.removeClass(element, 'checked-column-header');
+                            wijmo.removeClass(
+                                columnHeaderElement,
+                                'checked-column-header'
+                            );
                         }
                     }
                 });
