@@ -13,7 +13,7 @@
   },
   "author": "OutSystems R&D",
   "dependencies": {
-    "@types/lodash": "^4.14.169",
+    "@types/lodash": "^4.14.175",
     "typescript": "^4.1.3"
   },
   "devDependencies": {
