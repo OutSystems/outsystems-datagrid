@@ -66,7 +66,9 @@ namespace WijmoProvider.Feature {
             // and it has a type. we should check for both.
             return (
                 JSON.parse(this._filter.filterDefinition).filters.filter(
-                    (x) => x.filterType !== 0 && !!x.type
+                    (filterDefinition) =>
+                        filterDefinition.filterType !== 0 &&
+                        !!filterDefinition.type
                 ).length > 0
             );
         }
