@@ -52,7 +52,7 @@ namespace WijmoProvider.Feature {
                 // want to still be able to select cells.
                 this._disableRowSelectionOnRowNumber();
                 this._grid.provider.selectionMode =
-                    wijmo.grid.SelectionMode.CellRange;
+                    wijmo.grid.SelectionMode.MultiRange;
 
                 // if grid has checked rows, add custom class so column headers are selected as well
                 this._grid.provider.formatItem.addHandler((s, e) => {
