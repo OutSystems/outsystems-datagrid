@@ -40,6 +40,7 @@ namespace WijmoProvider.Feature {
             column.allowSorting = false;
             column.allowDragging = false;
             column.allowMerging = false;
+            column.align = 'center';
 
             new wijmo.grid.selector.Selector(this._grid.provider);
             this._grid.provider.rowHeaders.columns.insert(0, column);
