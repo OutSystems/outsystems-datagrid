@@ -166,6 +166,16 @@
 .wj-flexgrid .wj-cell.wj-hasdropdown .wj-dropdown.wj-inputdate input {
     width: 100%;
 }
+
+.wj-flexgrid .wj-cell label:before {
+    content: '';
+    bottom: 0;
+    right: 0;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
 .wj-colheaders > .wj-row > .wj-cell::before,
 .wj-flexgrid .wj-colheaders .wj-header.wj-colgroup.wj-cell::before {
     content: '';
@@ -223,6 +233,18 @@
 }
 
 .wj-cell.wj-header.wj-state-multi-selected {
+    background: linear-gradient(
+            var(--color-primary-selected),
+            var(--color-primary-selected)
+        ),
+        linear-gradient(
+            var(--datagrid-header-cell-background),
+            var(--datagrid-header-cell-background)
+        );
+}
+
+.wj-cell.wj-header.checked-column-header,
+.wj-cell.wj-header.checked-column-header ~ .wj-header {
     background: linear-gradient(
             var(--color-primary-selected),
             var(--color-primary-selected)
@@ -1066,18 +1088,18 @@
     -servicestudio-font-weight: bold;
 }
 
-.server-side-message{
-    -servicestudio-background: #DCECFD;
-    -servicestudio-color: #938E8E;
+.server-side-message {
+    -servicestudio-background: #dcecfd;
+    -servicestudio-color: #938e8e;
     -servicestudio-font-family: 'Verdana';
     -servicestudio-font-size: 12px;
     -servicestudio-padding: 15px 15px;
 }
 
 .server-side-message:before {
-    -servicestudio-content: '🛈 To use server-side pagination, follow the steps detailed in: '
+    -servicestudio-content: '🛈 To use server-side pagination, follow the steps detailed in: ';
 }
 
 .server-side-message > .server-side-pagination-link {
-    -servicestudio-color: #006DE9;
+    -servicestudio-color: #006de9;
 }
