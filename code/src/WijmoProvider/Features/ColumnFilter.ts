@@ -62,9 +62,13 @@ namespace WijmoProvider.Feature {
         }
 
         public get isGridFiltered(): boolean {
+            // when filter is active, the filterDefinition object usually has filterType different than 0
+            // and it has a type. we should check for both.
             return (
                 JSON.parse(this._filter.filterDefinition).filters.filter(
-                    (x) => x.filterType !== 0
+                    (filterDefinition) =>
+                        filterDefinition.filterType !== 0 &&
+                        !!filterDefinition.type
                 ).length > 0
             );
         }
@@ -168,7 +172,7 @@ namespace WijmoProvider.Feature {
             columnID: string,
             filterType: wijmo.grid.filter.FilterType
         ): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columnID);
+            const column = this._grid.getColumn(columnID);
 
             if (column) {
                 this._filter.getColumnFilter(column.provider).filterType =
@@ -177,7 +181,7 @@ namespace WijmoProvider.Feature {
         }
 
         public clear(columnID: string): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columnID);
+            const column = this._grid.getColumn(columnID);
 
             this._filter.getColumnFilter(column.provider).clear();
             this._grid.provider.collectionView.refresh();
