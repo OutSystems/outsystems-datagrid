@@ -13,6 +13,13 @@ namespace WijmoProvider.Feature {
     function Evaluate(operator: Rules, comparedValue: any, cellValue: any) {
         // in case we are comparing dates
         if (typeof cellValue.getMonth === 'function') {
+            // Whenever we have null dates coming from OS, it should have GMT-0036
+            // this is the way JS handles dates before 1911: "historical timezone offsets are applied, prior to about 1900 most were not even hour or half hour offsets."
+            // so we must ensure that our compared value (OS Null date) has this GMT as well.
+            if (comparedValue.indexOf('1900-01-01') > -1) {
+                comparedValue = '1900-01-01T00:36:45.000Z';
+            }
+
             cellValue = Helper.DataUtils.GetTicksFromDate(
                 cellValue,
                 comparedValue.indexOf('Z') > -1
