@@ -13,6 +13,24 @@ namespace WijmoProvider.Feature {
     function Evaluate(operator: Rules, comparedValue: any, cellValue: any) {
         // in case we are comparing dates
         if (typeof cellValue.getMonth === 'function') {
+            // Whenever we have null dates coming from OS, it has a different timezone than today's
+            // this is the way JS handles dates before 1911: "historical timezone offsets are applied, prior to about 1900 most were not even hour or half hour offsets."
+            // so we must ensure that our compared value (OS Null date) has this GMT as well.
+            const comparedDate = new Date(comparedValue);
+            const comparedYear = comparedDate.getUTCFullYear();
+            if (comparedYear <= 1911) {
+                const timezoneOffset = cellValue.toISOString().split('T')[1];
+
+                // get UTC date of compared value and add timezoneOffset to it
+                comparedValue =
+                    `${comparedYear}-0${(comparedDate.getUTCMonth() + 1)
+                        .toString()
+                        .slice(-2)}-0${comparedDate
+                        .getUTCDate()
+                        .toString()
+                        .slice(-2)}T` + timezoneOffset;
+            }
+
             cellValue = Helper.DataUtils.GetTicksFromDate(
                 cellValue,
                 comparedValue.indexOf('Z') > -1
