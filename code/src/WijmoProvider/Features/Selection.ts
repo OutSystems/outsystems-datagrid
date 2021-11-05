@@ -318,15 +318,30 @@ namespace WijmoProvider.Feature {
                 ...this._grid.provider.selectedRanges.filter((p) => p.isValid)
             );
             // }
-            return this._getCheckedRows()
+
+            // create checkedRows cell range.
+            let checkedRowsRange = this._getCheckedRows()
                 .map((p) => new wijmo.grid.CellRange(p, 0, p, maxCol))
                 .filter((p) => {
                     for (let i = 0; i < ranges.length; i++) {
                         if (ranges[i].contains(p)) return false;
                     }
                     return true;
-                })
-                .concat(ranges);
+                });
+
+            // for each cellRange, check if it has any row intersection with checked rows
+            // if it has, we add it to checkedRows array.
+            ranges.forEach((range) => {
+                if (
+                    !checkedRowsRange.some((checked) =>
+                        checked.intersectsRow(range)
+                    )
+                ) {
+                    checkedRowsRange = [...checkedRowsRange, range];
+                }
+            });
+
+            return checkedRowsRange;
         }
 
         public getSelectedRows(): number[] {
