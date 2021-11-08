@@ -167,7 +167,7 @@
     width: 100%;
 }
 
-.wj-flexgrid .wj-cell label:before {
+.wj-flexgrid .wj-header.wj-cell label:before {
     content: '';
     bottom: 0;
     right: 0;
