@@ -70,6 +70,11 @@ namespace OSFramework.Feature {
         getSelectedRowsData(): OSStructure.RowData[];
 
         /**
+         * Checks if there is any checked row on the grid
+         */
+        hasCheckedRows(): boolean;
+
+        /**
          * Checks if there is a row selected on the grid
          */
         hasSelectedRows(): boolean;
