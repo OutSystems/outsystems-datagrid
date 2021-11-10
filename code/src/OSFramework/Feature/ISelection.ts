@@ -48,6 +48,11 @@ namespace OSFramework.Feature {
         getAllSelectionsData(): OSStructure.RowData[];
 
         /**
+         * Returns the Data of the checked rows
+         */
+        getCheckedRowsData(): OSStructure.CheckedRowData[];
+
+        /**
          * Returns the Indexes of the selected rows
          */
         getSelectedRows(): number[];

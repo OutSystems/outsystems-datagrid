@@ -12,7 +12,7 @@ namespace WijmoProvider.Feature {
     {
         private _grid: Grid.IGridWijmo;
         private _hasSelectors: boolean;
-        private readonly _internalLabel = '__checkedPages';
+        private readonly _internalLabel = '__rowSelection';
         private _metadata: OSFramework.Interface.IRowMetadata;
         private _selectionMode: wijmo.grid.SelectionMode;
 
@@ -284,6 +284,23 @@ namespace WijmoProvider.Feature {
 
             rowColumn.clear();
             return rowColumnArr;
+        }
+
+        public getCheckedRowsData(): OSFramework.OSStructure.CheckedRowData[] {
+            const allCheckedRows =
+                this._grid.provider.itemsSource.sourceCollection.filter(
+                    (item) =>
+                        item?.__osRowMetadata?.get(this._internalLabel)
+                            .isChecked === true
+                );
+
+            return allCheckedRows.map(
+                (dataItem) =>
+                    new OSFramework.OSStructure.CheckedRowData(
+                        this._grid,
+                        dataItem
+                    )
+            );
         }
 
         public getMetadata(
