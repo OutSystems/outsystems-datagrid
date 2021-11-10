@@ -34,6 +34,25 @@ namespace GridAPI.Selection {
         );
     }
 
+    export function GetCheckedRowsData(gridID: string): string {
+        PerformanceAPI.SetMark('Selection.GetCheckedRowsData');
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) return '[]';
+        const grid = GridManager.GetGridById(gridID);
+
+        PerformanceAPI.SetMark('Selection.GetCheckedRowsData-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Selection.GetCheckedRowsData',
+            'Selection.GetCheckedRowsData',
+            'Selection.GetCheckedRowsData-end'
+        );
+        return JSON.stringify(
+            grid.features.selection
+                .getCheckedRowsData()
+                .map((p) => p.serialize())
+        );
+    }
+
     export function GetSelectedRowsCount(gridID: string): number {
         PerformanceAPI.SetMark('Selection.GetSelectedRowsCount');
 
