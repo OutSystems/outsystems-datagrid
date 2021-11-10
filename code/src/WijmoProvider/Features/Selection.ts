@@ -146,7 +146,7 @@ namespace WijmoProvider.Feature {
         }
 
         public equalizeSelection(): OSFramework.OSStructure.CellRange[] {
-            //This method just makes sense for MultiRange and for grid's without checked rows
+            //This method just makes sense for MultiRange or for grid's without checked rows
             if (
                 this._grid.provider.selectionMode !==
                     wijmo.grid.SelectionMode.MultiRange ||
