@@ -146,10 +146,11 @@ namespace WijmoProvider.Feature {
         }
 
         public equalizeSelection(): OSFramework.OSStructure.CellRange[] {
-            //This method just makes sense for MultiRange
+            //This method just makes sense for MultiRange or for grid's without checked rows
             if (
                 this._grid.provider.selectionMode !==
-                wijmo.grid.SelectionMode.MultiRange
+                    wijmo.grid.SelectionMode.MultiRange ||
+                this.hasCheckedRows()
             )
                 return;
             const grid = this._grid.provider; //Auxiliar for grid
@@ -402,6 +403,10 @@ namespace WijmoProvider.Feature {
                         this._grid.provider.rows[rowIndex].dataItem
                     )
             );
+        }
+
+        public hasCheckedRows(): boolean {
+            return this.getCheckedRowsData().length > 0;
         }
 
         public hasMetadata(rowNumber: number): boolean {
