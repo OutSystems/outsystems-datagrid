@@ -74,9 +74,7 @@ namespace WijmoProvider.Feature {
         }
 
         public get filterType(): wijmo.grid.filter.FilterType {
-            return this._grid.config.serverSidePagination
-                ? wijmo.grid.filter.FilterType.Condition
-                : wijmo.grid.filter.FilterType.Both;
+            return wijmo.grid.filter.FilterType.Both;
         }
 
         public activate(columnID: string): void {
