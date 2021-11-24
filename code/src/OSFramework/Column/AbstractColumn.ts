@@ -124,7 +124,7 @@ namespace OSFramework.Column {
         }
 
         protected _setConditionalFormat(
-            conditionalFormat: Array<OSFramework.OSStructure.ConditionalFormat>,
+            conditionalFormat: Array<OSStructure.ConditionalFormat>,
             refresh = false
         ): void {
             if (conditionalFormat && conditionalFormat.length > 0) {
