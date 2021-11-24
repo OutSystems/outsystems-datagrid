@@ -191,25 +191,23 @@ namespace WijmoProvider.Feature {
 
             s.rows.forEach((row, index) => {
                 columns.forEach((column) => {
-                    const colBinding = column.config.binding.split('.');
-                    let value = row.dataItem;
-                    for (let i = 0; i < colBinding.length; i++) {
-                        // in case we get undefined we want to break
-                        if (
-                            value === undefined &&
-                            i === colBinding.length - 1
-                        ) {
-                            break;
-                        }
-                        value = value[colBinding[i]];
-                    }
+                    const isDropdown =
+                        column.columnType ===
+                        OSFramework.Enum.ColumnType.Dropdown;
+                    const colIndex = this._grid.provider.columns.find(
+                        (x) => x.binding === column.provider.binding
+                    ).index;
+                    const value = this._grid.provider.getCellData(
+                        index,
+                        colIndex,
+                        isDropdown // on dropdown columns we want formatted value
+                    );
+
                     this._mappedRules
                         .get(column.config.binding)
                         .execute(this._grid, value, {
                             row: index,
-                            col: this._grid.provider.columns.find(
-                                (x) => x.binding === column.provider.binding
-                            ).index
+                            col: colIndex
                         });
                 });
             });
