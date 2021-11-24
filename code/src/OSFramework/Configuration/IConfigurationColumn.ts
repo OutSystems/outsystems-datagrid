@@ -13,6 +13,8 @@ namespace OSFramework.Configuration {
         binding: string;
         /** Defines if the column can or not be hidden */
         canBeHidden: boolean;
+        /** Defines conditionalFormat to be applied on column cells */
+        conditionalFormat: Array<OSStructure.ConditionalFormat>;
         /** A provider value!
          * This defines the type of the column */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
