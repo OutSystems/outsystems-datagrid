@@ -6,7 +6,7 @@ namespace WijmoProvider.Column {
             type: OSFramework.Enum.ColumnType,
             columnID: string,
             configs: JSON,
-            editorConfigs: JSON
+            extraConfigs: JSON
         ): OSFramework.Column.IColumn {
             switch (type) {
                 case OSFramework.Enum.ColumnType.Action:
@@ -19,7 +19,7 @@ namespace WijmoProvider.Column {
                         columnID,
                         configs,
                         new OSFramework.Configuration.Column.EditorConfigCurrency(
-                            editorConfigs
+                            extraConfigs
                         )
                     );
                 case OSFramework.Enum.ColumnType.Date:
@@ -27,28 +27,28 @@ namespace WijmoProvider.Column {
                         grid,
                         columnID,
                         configs,
-                        editorConfigs
+                        extraConfigs
                     );
                 case OSFramework.Enum.ColumnType.DateTime:
                     return new DateTimeColumn(
                         grid,
                         columnID,
                         configs,
-                        editorConfigs
+                        extraConfigs
                     );
                 case OSFramework.Enum.ColumnType.Dropdown:
                     return new DropdownColumn(
                         grid,
                         columnID,
                         configs,
-                        editorConfigs
+                        extraConfigs
                     );
                 case OSFramework.Enum.ColumnType.Group:
                     return new GroupColumn(
                         grid,
                         columnID,
                         configs,
-                        editorConfigs
+                        extraConfigs
                     );
                 case OSFramework.Enum.ColumnType.Number:
                     return new NumberColumn(
@@ -56,7 +56,7 @@ namespace WijmoProvider.Column {
                         columnID,
                         configs,
                         new OSFramework.Configuration.Column.EditorConfigNumber(
-                            editorConfigs
+                            extraConfigs
                         )
                     );
                 case OSFramework.Enum.ColumnType.Calculated:
@@ -64,14 +64,14 @@ namespace WijmoProvider.Column {
                         grid,
                         columnID,
                         configs,
-                        editorConfigs
+                        extraConfigs
                     );
                 case OSFramework.Enum.ColumnType.Text:
                     return new TextColumn(
                         grid,
                         columnID,
                         configs,
-                        editorConfigs
+                        extraConfigs
                     );
                 default:
                     throw `There is no factory for this type of column (${type})`;
