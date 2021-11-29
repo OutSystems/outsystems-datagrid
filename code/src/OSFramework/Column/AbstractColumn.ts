@@ -123,6 +123,19 @@ namespace OSFramework.Column {
             this._preBuilt = true;
         }
 
+        protected setConditionalFormat(
+            conditionalFormat: Array<OSStructure.ConditionalFormat>,
+            refresh = false
+        ): void {
+            if (conditionalFormat && conditionalFormat.length > 0) {
+                this.grid.features.conditionalFormat.addRules(
+                    this.config.binding,
+                    conditionalFormat,
+                    refresh
+                );
+            }
+        }
+
         /**
          * Responsable for building the columns provider
          */
@@ -140,6 +153,11 @@ namespace OSFramework.Column {
             //Update the column's config when the property is available
             if (this.config.hasOwnProperty(propertyName)) {
                 this.config[propertyName] = propertyValue;
+
+                if (this.hasConditionalFormat) {
+                    this.setConditionalFormat(JSON.parse(propertyValue), true);
+                    this.grid.provider.invalidate(); // reapply classes
+                }
 
                 if (this.isReady) {
                     this.applyConfigs();
@@ -185,6 +203,13 @@ namespace OSFramework.Column {
             )
                 .map((p) => p.parentNode)
                 .indexOf(thisColumn);
+        }
+
+        public get hasConditionalFormat(): boolean {
+            return (
+                this.config.conditionalFormat !== undefined &&
+                this.config.conditionalFormat.length > 0
+            );
         }
 
         public refresh(): void {

@@ -6,7 +6,11 @@ namespace WijmoProvider.Feature {
         Equals = '===',
         LessOrEqualsTo = '<=',
         LessThan = '<',
-        NotEquals = '!=='
+        NotEquals = '!==',
+        Contains = 'Contains',
+        DoesNotContain = 'DoesNotContain',
+        BeginsWith = 'BeginsWith',
+        EndWith = 'EndWith'
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -53,6 +57,14 @@ namespace WijmoProvider.Feature {
                 return cellValue <= comparedValue;
             case Rules.LessThan:
                 return cellValue < comparedValue;
+            case Rules.BeginsWith:
+                return cellValue.startsWith(comparedValue);
+            case Rules.EndWith:
+                return cellValue.endsWith(comparedValue);
+            case Rules.Contains:
+                return cellValue.toLowerCase().includes(comparedValue);
+            case Rules.DoesNotContain:
+                return !cellValue.toLowerCase().includes(comparedValue);
             default:
                 return false;
         }
