@@ -12,7 +12,12 @@ namespace WijmoProvider.Column {
                 case OSFramework.Enum.ColumnType.Action:
                     return new ActionColumn(grid, columnID, configs);
                 case OSFramework.Enum.ColumnType.Checkbox:
-                    return new CheckboxColumn(grid, columnID, configs);
+                    return new CheckboxColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        extraConfigs
+                    );
                 case OSFramework.Enum.ColumnType.Currency:
                     return new CurrencyColumn(
                         grid,
