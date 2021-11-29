@@ -77,7 +77,7 @@ namespace WijmoProvider.Column {
 
             const providerGrid: wijmo.grid.FlexGrid = this.grid.provider;
 
-            this._setConditionalFormat(this.config.conditionalFormat);
+            this.setConditionalFormat(this.config.conditionalFormat);
 
             if (this.hasParentColumn) {
                 const parent = this.grid.getColumn(
