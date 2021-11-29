@@ -123,7 +123,7 @@ namespace OSFramework.Column {
             this._preBuilt = true;
         }
 
-        protected _setConditionalFormat(
+        protected setConditionalFormat(
             conditionalFormat: Array<OSStructure.ConditionalFormat>,
             refresh = false
         ): void {
@@ -155,7 +155,7 @@ namespace OSFramework.Column {
                 this.config[propertyName] = propertyValue;
 
                 if (this.hasConditionalFormat) {
-                    this._setConditionalFormat(JSON.parse(propertyValue), true);
+                    this.setConditionalFormat(JSON.parse(propertyValue), true);
                     this.grid.provider.invalidate(); // reapply classes
                 }
 

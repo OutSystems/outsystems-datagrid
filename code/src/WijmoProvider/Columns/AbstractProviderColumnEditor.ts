@@ -79,7 +79,7 @@ namespace WijmoProvider.Column {
             this.config.editor = this._editor;
 
             if (this.hasConditionalFormat) {
-                this._setConditionalFormat(this.editorConfig.conditionalFormat);
+                this.setConditionalFormat(this.editorConfig.conditionalFormat);
             }
 
             super.build();
@@ -92,7 +92,7 @@ namespace WijmoProvider.Column {
                 this.editorConfig[propertyName] = propertyValue;
 
                 if (this.hasConditionalFormat) {
-                    this._setConditionalFormat(JSON.parse(propertyValue), true);
+                    this.setConditionalFormat(JSON.parse(propertyValue), true);
                     this.grid.provider.invalidate(); // reapply classes
                 }
 

@@ -14,34 +14,47 @@ namespace WijmoProvider.Feature {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function FormatDate(comparedValue: any, cellValue: any) {
+        // Whenever we have null dates coming from OS, it has a different timezone than today's
+        // this is the way JS handles dates before 1911: "historical timezone offsets are applied, prior to about 1900 most were not even hour or half hour offsets."
+        // so we must ensure that our compared value (OS Null date) has this GMT as well.
+        const comparedDate = new Date(comparedValue);
+        const comparedYear = comparedDate.getUTCFullYear();
+        if (comparedYear <= 1911) {
+            const timezoneOffset = cellValue.toISOString().split('T')[1];
+
+            // get UTC date of compared value and add timezoneOffset to it
+            comparedValue =
+                `${comparedYear}-0${(comparedDate.getUTCMonth() + 1)
+                    .toString()
+                    .slice(-2)}-0${comparedDate
+                    .getUTCDate()
+                    .toString()
+                    .slice(-2)}T` + timezoneOffset;
+        }
+
+        const formattedCellValue = Helper.DataUtils.GetTicksFromDate(
+            cellValue,
+            comparedValue.indexOf('Z') > -1
+        );
+        const formatedComparedValue = Date.parse(
+            Helper.DataUtils.ResetSeconds(comparedValue)
+        );
+
+        return [formatedComparedValue, formattedCellValue];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function Evaluate(operator: Rules, comparedValue: any, cellValue: any) {
         // in case we are comparing dates
-        if (typeof cellValue.getMonth === 'function') {
-            // Whenever we have null dates coming from OS, it has a different timezone than today's
-            // this is the way JS handles dates before 1911: "historical timezone offsets are applied, prior to about 1900 most were not even hour or half hour offsets."
-            // so we must ensure that our compared value (OS Null date) has this GMT as well.
-            const comparedDate = new Date(comparedValue);
-            const comparedYear = comparedDate.getUTCFullYear();
-            if (comparedYear <= 1911) {
-                const timezoneOffset = cellValue.toISOString().split('T')[1];
-
-                // get UTC date of compared value and add timezoneOffset to it
-                comparedValue =
-                    `${comparedYear}-0${(comparedDate.getUTCMonth() + 1)
-                        .toString()
-                        .slice(-2)}-0${comparedDate
-                        .getUTCDate()
-                        .toString()
-                        .slice(-2)}T` + timezoneOffset;
-            }
-
-            cellValue = Helper.DataUtils.GetTicksFromDate(
-                cellValue,
-                comparedValue.indexOf('Z') > -1
+        if (cellValue && typeof cellValue.getMonth === 'function') {
+            const [formattedComparedValue, formattedCellValue] = FormatDate(
+                comparedValue,
+                cellValue
             );
-            comparedValue = Date.parse(
-                Helper.DataUtils.ResetSeconds(comparedValue)
-            );
+
+            cellValue = formattedCellValue;
+            comparedValue = formattedComparedValue;
         }
 
         switch (operator) {
@@ -58,13 +71,18 @@ namespace WijmoProvider.Feature {
             case Rules.LessThan:
                 return cellValue < comparedValue;
             case Rules.BeginsWith:
-                return cellValue.startsWith(comparedValue);
+                return cellValue && cellValue.startsWith(comparedValue);
             case Rules.EndWith:
-                return cellValue.endsWith(comparedValue);
+                return cellValue && cellValue.endsWith(comparedValue);
             case Rules.Contains:
-                return cellValue.toLowerCase().includes(comparedValue);
+                return (
+                    cellValue && cellValue.toLowerCase().includes(comparedValue)
+                );
             case Rules.DoesNotContain:
-                return !cellValue.toLowerCase().includes(comparedValue);
+                return (
+                    cellValue &&
+                    !cellValue.toLowerCase().includes(comparedValue)
+                );
             default:
                 return false;
         }
