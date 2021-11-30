@@ -44,8 +44,12 @@ namespace WijmoProvider.Feature {
         return [formatedComparedValue, formattedCellValue];
     }
 
+    /**
+     * Evaluates number and date cells
+     *
+     */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function Evaluate(operator: Rules, comparedValue: any, cellValue: any) {
+    function Evaluate(operator: Rules, comparedValue: any, cellValue: any = 0) {
         // in case we are comparing dates
         if (cellValue && typeof cellValue.getMonth === 'function') {
             const [formattedComparedValue, formattedCellValue] = FormatDate(
@@ -70,19 +74,32 @@ namespace WijmoProvider.Feature {
                 return cellValue <= comparedValue;
             case Rules.LessThan:
                 return cellValue < comparedValue;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Evaluates text cells
+     *
+     */
+    function EvaluateText(operator: Rules, comparedValue = '', cellValue = '') {
+        cellValue = cellValue.toLowerCase();
+        comparedValue = comparedValue.toLowerCase();
+
+        switch (operator) {
+            case Rules.Equals:
+                return comparedValue === cellValue;
+            case Rules.NotEquals:
+                return comparedValue !== cellValue;
             case Rules.BeginsWith:
-                return cellValue && cellValue.startsWith(comparedValue);
+                return cellValue.startsWith(comparedValue);
             case Rules.EndWith:
-                return cellValue && cellValue.endsWith(comparedValue);
+                return cellValue.endsWith(comparedValue);
             case Rules.Contains:
-                return (
-                    cellValue && cellValue.toLowerCase().includes(comparedValue)
-                );
+                return cellValue.includes(comparedValue);
             case Rules.DoesNotContain:
-                return (
-                    cellValue &&
-                    !cellValue.toLowerCase().includes(comparedValue)
-                );
+                return !cellValue.includes(comparedValue);
             default:
                 return false;
         }
@@ -116,9 +133,20 @@ namespace WijmoProvider.Feature {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public evaluate(cellValue: any = 0): boolean {
+        public evaluate(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            cellValue: any,
+            columnType: OSFramework.Enum.ColumnType
+        ): boolean {
             const evaluated = this.rules.map((rule) => {
-                return Evaluate(rule.condition, rule.value, cellValue);
+                if (
+                    columnType === OSFramework.Enum.ColumnType.Dropdown ||
+                    columnType === OSFramework.Enum.ColumnType.Text
+                ) {
+                    return EvaluateText(rule.condition, rule.value, cellValue);
+                } else {
+                    return Evaluate(rule.condition, rule.value, cellValue);
+                }
             });
 
             return evaluated.indexOf(false) === -1;
@@ -132,10 +160,16 @@ namespace WijmoProvider.Feature {
             this.conditions = conditions;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public execute(grid: Grid.IGridWijmo, cellValue: any, e: any) {
+        public execute(
+            grid: Grid.IGridWijmo,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            cellValue: any,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            e: any,
+            columnType: OSFramework.Enum.ColumnType
+        ) {
             this.conditions.some((p) => {
-                const isTrue = p.evaluate(cellValue);
+                const isTrue = p.evaluate(cellValue, columnType);
                 const binding = grid.provider.getColumn(e.col).binding;
 
                 if (isTrue) {
@@ -207,11 +241,13 @@ namespace WijmoProvider.Feature {
                 .getColumns()
                 .filter((x) => this._mappedRules.get(x.config.binding));
 
+            // iterate all rows and columns in order to get cell values
             s.rows.forEach((row, index) => {
                 columns.forEach((column) => {
                     const isDropdown =
                         column.columnType ===
                         OSFramework.Enum.ColumnType.Dropdown;
+
                     const colIndex = this._grid.provider.columns.find(
                         (x) => x.binding === column.provider.binding
                     ).index;
@@ -221,12 +257,15 @@ namespace WijmoProvider.Feature {
                         isDropdown // on dropdown columns we want formatted value
                     );
 
-                    this._mappedRules
-                        .get(column.config.binding)
-                        .execute(this._grid, value, {
+                    this._mappedRules.get(column.config.binding).execute(
+                        this._grid,
+                        value,
+                        {
                             row: index,
                             col: colIndex
-                        });
+                        },
+                        column.columnType
+                    );
                 });
             });
         }
