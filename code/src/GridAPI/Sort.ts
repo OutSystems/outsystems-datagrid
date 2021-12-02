@@ -29,14 +29,14 @@ namespace GridAPI.Sort {
     export function ColumnSort(
         gridID: string,
         columnID: string,
-        isAscending: boolean
+        sorting: OSFramework.OSStructure.Sorting
     ): void {
         PerformanceAPI.SetMark('Sort.ColumnSort');
 
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
-        grid.features.sort.sortColumn(columnID, isAscending);
+        grid.features.sort.sortColumn(columnID, sorting);
 
         PerformanceAPI.SetMark('Sort.ColumnSort-end');
         PerformanceAPI.GetMeasure(
