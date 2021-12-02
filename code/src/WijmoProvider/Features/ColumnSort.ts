@@ -202,6 +202,33 @@ namespace WijmoProvider.Feature {
             });
         }
 
+        public sortColumn(columnID: string, isAscending: boolean): void {
+            const column = this._grid.getColumn(columnID);
+
+            if (column) {
+                // check if column has sort active
+                const existingColumnSort =
+                    this._grid.provider.itemsSource.sortDescriptions.find(
+                        (sd) => sd.property === column.config.binding
+                    );
+                // if there is sort active on column, we must remove it
+                if (existingColumnSort) {
+                    this._grid.provider.itemsSource.sortDescriptions.remove(
+                        existingColumnSort
+                    );
+                }
+
+                this._grid.provider.itemsSource.sortDescriptions.push(
+                    new wijmo.collections.SortDescription(
+                        column.config.binding,
+                        isAscending
+                    )
+                );
+            } else {
+                throw new Error(`Column with id ${columnID} was not found.`);
+            }
+        }
+
         public validateAction(
             action: OSFramework.Event.Grid.Actions /*, ctx: any*/
         ): string {
