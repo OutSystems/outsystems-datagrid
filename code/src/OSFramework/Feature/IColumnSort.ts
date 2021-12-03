@@ -6,5 +6,6 @@ namespace OSFramework.Feature {
             IView {
         isGridSorted: boolean;
         clear(): void;
+        sortColumn(columnID: string, ascending: OSStructure.Sorting): void;
     }
 }

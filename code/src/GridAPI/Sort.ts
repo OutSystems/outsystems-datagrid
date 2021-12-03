@@ -25,4 +25,24 @@ namespace GridAPI.Sort {
             'Sort.Clear-end'
         );
     }
+
+    export function ColumnSort(
+        gridID: string,
+        columnID: string,
+        sorting: OSFramework.OSStructure.Sorting
+    ): void {
+        PerformanceAPI.SetMark('Sort.ColumnSort');
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        const grid = GridManager.GetGridById(gridID);
+
+        grid.features.sort.sortColumn(columnID, sorting);
+
+        PerformanceAPI.SetMark('Sort.ColumnSort-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Sort.ColumnSort',
+            'Sort.ColumnSort',
+            'Sort.ColumnSort-end'
+        );
+    }
 }
