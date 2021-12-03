@@ -23,6 +23,10 @@ namespace WijmoProvider.Feature {
             let _currTarget: HTMLElement = e.currentTarget as HTMLElement;
             const ht = this._grid.provider.hitTest(e);
 
+            const sanitizedValue = OSFramework.Helper.Sanitize(
+                _currTarget.innerText
+            );
+
             if (ht.cellType === wijmo.grid.CellType.Cell) {
                 const isInvalid =
                     _currTarget.classList.contains('wj-state-invalid');
@@ -38,11 +42,11 @@ namespace WijmoProvider.Feature {
                 if (isInvalid === false) {
                     if (
                         _currTarget.scrollWidth > _currTarget.clientWidth &&
-                        _currTarget.innerText !== undefined &&
-                        _currTarget.innerText !== ''
+                        sanitizedValue !== undefined &&
+                        sanitizedValue !== ''
                     ) {
                         //JS asserts the previous declaration as true when they are equal
-                        this._toolTip.show(_currTarget, _currTarget.innerText); // show tooltip if text is overflow/hidden
+                        this._toolTip.show(_currTarget, sanitizedValue); // show tooltip if text is overflow/hidden
                     }
                 }
                 //Otherwise (If the cell is invalid)
@@ -69,10 +73,10 @@ namespace WijmoProvider.Feature {
                     this._setHeaderTooltip(_currTarget, rendered.headerTooltip);
                 } else if (
                     _currTarget &&
-                    _currTarget.innerText !== undefined &&
-                    _currTarget.innerText !== ''
+                    sanitizedValue !== undefined &&
+                    sanitizedValue !== ''
                 ) {
-                    this._setHeaderTooltip(_currTarget, _currTarget.innerText);
+                    this._setHeaderTooltip(_currTarget, sanitizedValue);
                 }
             }
         }
