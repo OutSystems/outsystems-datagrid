@@ -14,6 +14,11 @@ parameters:
     type: string
 
 steps:
+  #Set Node version
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '^10 || ^12 || ^14'
+
   #Format branch name
   - task: PowerShell@2
     displayName: 'Format branch name'
