@@ -33,11 +33,10 @@ namespace GridAPI.Sort {
     ): void {
         PerformanceAPI.SetMark('Sort.ColumnSort');
 
-        if (OSFramework.Helper.IsGridReady(gridID)) {
-            const grid = GridManager.GetGridById(gridID);
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        const grid = GridManager.GetGridById(gridID);
 
-            grid.features.sort.sortColumn(columnID, sorting);
-        }
+        grid.features.sort.sortColumn(columnID, sorting);
 
         PerformanceAPI.SetMark('Sort.ColumnSort-end');
         PerformanceAPI.GetMeasure(
