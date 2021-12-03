@@ -84,6 +84,8 @@ namespace WijmoProvider.Feature {
      *
      */
     function EvaluateText(operator: Rules, comparedValue = '', cellValue = '') {
+        if (cellValue === null) return false;
+
         cellValue = cellValue.toLowerCase();
         comparedValue = comparedValue.toLowerCase();
 
