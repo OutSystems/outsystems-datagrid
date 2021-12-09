@@ -4,6 +4,7 @@ namespace OSFramework.Enum {
      * Codes that get the associated to specific returning messages indicated wheter the action had success or not.
      */
     export enum ErrorCodes {
+        GRID_SUCCESS = 200,
         // Error Codes - CONFiguration errors - Any error related with missing or wrong configuration of the application.
         CFG_GridNotFound = 'GRID-CFG-01001',
 
