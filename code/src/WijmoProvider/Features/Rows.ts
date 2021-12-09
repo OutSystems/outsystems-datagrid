@@ -229,7 +229,11 @@ namespace WijmoProvider.Feature {
             // Make sure the count of rows is correct after adding rows.
             if (this._getRowsCount() === expectedRowCount) {
                 // Return success
-                return { message: 'Success', isSuccess: true };
+                return {
+                    message: 'Success',
+                    isSuccess: true,
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
             } else {
                 return {
                     code: OSFramework.Enum.ErrorCodes.API_FailedAddRow,
@@ -374,7 +378,11 @@ namespace WijmoProvider.Feature {
 
             // Make sure the count of rows is correct after removing rows.
             if (this._getRowsCount() === expectedRowCount) {
-                return { message: 'Success', isSuccess: true };
+                return {
+                    message: 'Success',
+                    isSuccess: true,
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
             } else {
                 return {
                     code: OSFramework.Enum.ErrorCodes.API_FailedRemoveRow,
