@@ -157,16 +157,20 @@ namespace WijmoProvider.Feature {
             if (action.dataItem === undefined) return;
 
             const binding = this._grid.provider.getColumn(action.col).binding;
-            const oldValue = this._grid.features.dirtyMark.getOldValue(
-                action.row,
-                binding
-            );
-            this._triggerEventsFromColumn(
-                action.row,
-                binding,
-                oldValue,
-                action._newState
-            );
+
+            // we don't want to redo on GridRemoveRowAction
+            if (typeof action._oldState !== 'object') {
+                const oldValue = this._grid.features.dirtyMark.getOldValue(
+                    action.row,
+                    binding
+                );
+                this._triggerEventsFromColumn(
+                    action.row,
+                    binding,
+                    oldValue,
+                    action._newState
+                );
+            }
         }
 
         /**
@@ -282,16 +286,20 @@ namespace WijmoProvider.Feature {
             if (action.dataItem === undefined) return;
 
             const binding = this._grid.provider.getColumn(action.col).binding;
-            const oldValue = this._grid.features.dirtyMark.getOldValue(
-                action.row,
-                binding
-            );
-            this._triggerEventsFromColumn(
-                action.row,
-                binding,
-                oldValue,
-                action._oldState
-            );
+
+            // we don't want to undo on GridRemoveRowAction
+            if (typeof action._oldState !== 'object') {
+                const oldValue = this._grid.features.dirtyMark.getOldValue(
+                    action.row,
+                    binding
+                );
+                this._triggerEventsFromColumn(
+                    action.row,
+                    binding,
+                    oldValue,
+                    action._oldState
+                );
+            }
         }
 
         private _validateMetadata(
