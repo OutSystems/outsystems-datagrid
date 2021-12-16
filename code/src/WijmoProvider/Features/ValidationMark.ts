@@ -154,12 +154,14 @@ namespace WijmoProvider.Feature {
             const action: any = e.action;
 
             // we only want to redo on GridEditAction
-            if (action.dataItem === undefined) return;
-
-            const binding = this._grid.provider.getColumn(action.col).binding;
-
             // we don't want to redo on GridRemoveRowAction
-            if (typeof action._oldState !== 'object') {
+            if (
+                action.dataItem !== undefined &&
+                typeof action._oldState !== 'object'
+            ) {
+                const binding = this._grid.provider.getColumn(
+                    action.col
+                ).binding;
                 const oldValue = this._grid.features.dirtyMark.getOldValue(
                     action.row,
                     binding
@@ -283,12 +285,14 @@ namespace WijmoProvider.Feature {
             const action: any = e.action;
 
             // we only want to undo on GridEditAction
-            if (action.dataItem === undefined) return;
-
-            const binding = this._grid.provider.getColumn(action.col).binding;
-
             // we don't want to undo on GridRemoveRowAction
-            if (typeof action._oldState !== 'object') {
+            if (
+                action.dataItem !== undefined &&
+                typeof action._oldState !== 'object'
+            ) {
+                const binding = this._grid.provider.getColumn(
+                    action.col
+                ).binding;
                 const oldValue = this._grid.features.dirtyMark.getOldValue(
                     action.row,
                     binding
