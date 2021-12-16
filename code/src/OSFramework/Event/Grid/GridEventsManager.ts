@@ -36,6 +36,9 @@ namespace OSFramework.Event.Grid {
                 case GridEventType.SearchEnded:
                     event = new GridSearchEndEvent();
                     break;
+                case GridEventType.OnDataChange:
+                    event = new GridOnDataChangeEvent();
+                    break;
                 default:
                     throw `The event '${eventType}' is not supported in a grid`;
                     break;

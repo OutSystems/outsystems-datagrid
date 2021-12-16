@@ -228,6 +228,24 @@ namespace WijmoProvider.Feature {
 
             // Make sure the count of rows is correct after adding rows.
             if (this._getRowsCount() === expectedRowCount) {
+                if (
+                    this._grid.gridEvents.hasHandlers(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                    )
+                ) {
+                    const dataChanges =
+                        new OSFramework.OSStructure.DataChanges();
+
+                    dataChanges.changedRows = items;
+                    dataChanges.totalRows = this._getRowsCount();
+
+                    this._grid.gridEvents.trigger(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        this._grid,
+                        dataChanges
+                    );
+                }
+
                 // Return success
                 return {
                     message: 'Success',
@@ -348,6 +366,8 @@ namespace WijmoProvider.Feature {
             // In case of Undo action, the user will not need to click on the grid to undo.
             providerGrid.focus();
 
+            const deletedRowsList = [];
+
             dataSource.deferUpdate(() => {
                 selRanges.forEach((range) => {
                     for (
@@ -362,6 +382,7 @@ namespace WijmoProvider.Feature {
                                 new wijmo.grid.CellRange(row, -1)
                             )
                         );
+                        deletedRowsList.push(providerGrid.rows[row].dataItem);
                         // Remove the data item from the editable collection view.
                         dataSource.remove(providerGrid.rows[row].dataItem);
                         // Removed rows should be valid
@@ -378,6 +399,24 @@ namespace WijmoProvider.Feature {
 
             // Make sure the count of rows is correct after removing rows.
             if (this._getRowsCount() === expectedRowCount) {
+                if (
+                    this._grid.gridEvents.hasHandlers(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                    )
+                ) {
+                    const dataChanges =
+                        new OSFramework.OSStructure.DataChanges();
+
+                    dataChanges.changedRows = deletedRowsList;
+                    dataChanges.totalRows = this._getRowsCount();
+
+                    this._grid.gridEvents.trigger(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        this._grid,
+                        dataChanges
+                    );
+                }
+
                 return {
                     message: 'Success',
                     isSuccess: true,
