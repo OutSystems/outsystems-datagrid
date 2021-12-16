@@ -154,19 +154,25 @@ namespace WijmoProvider.Feature {
             const action: any = e.action;
 
             // we only want to redo on GridEditAction
-            if (action.dataItem === undefined) return;
-
-            const binding = this._grid.provider.getColumn(action.col).binding;
-            const oldValue = this._grid.features.dirtyMark.getOldValue(
-                action.row,
-                binding
-            );
-            this._triggerEventsFromColumn(
-                action.row,
-                binding,
-                oldValue,
-                action._newState
-            );
+            // we don't want to redo on GridRemoveRowAction
+            if (
+                action.dataItem !== undefined &&
+                typeof action._oldState !== 'object'
+            ) {
+                const binding = this._grid.provider.getColumn(
+                    action.col
+                ).binding;
+                const oldValue = this._grid.features.dirtyMark.getOldValue(
+                    action.row,
+                    binding
+                );
+                this._triggerEventsFromColumn(
+                    action.row,
+                    binding,
+                    oldValue,
+                    action._newState
+                );
+            }
         }
 
         /**
@@ -279,19 +285,25 @@ namespace WijmoProvider.Feature {
             const action: any = e.action;
 
             // we only want to undo on GridEditAction
-            if (action.dataItem === undefined) return;
-
-            const binding = this._grid.provider.getColumn(action.col).binding;
-            const oldValue = this._grid.features.dirtyMark.getOldValue(
-                action.row,
-                binding
-            );
-            this._triggerEventsFromColumn(
-                action.row,
-                binding,
-                oldValue,
-                action._oldState
-            );
+            // we don't want to undo on GridRemoveRowAction
+            if (
+                action.dataItem !== undefined &&
+                typeof action._oldState !== 'object'
+            ) {
+                const binding = this._grid.provider.getColumn(
+                    action.col
+                ).binding;
+                const oldValue = this._grid.features.dirtyMark.getOldValue(
+                    action.row,
+                    binding
+                );
+                this._triggerEventsFromColumn(
+                    action.row,
+                    binding,
+                    oldValue,
+                    action._oldState
+                );
+            }
         }
 
         private _validateMetadata(
