@@ -38,15 +38,18 @@ namespace WijmoProvider.Feature {
     }
 
     class GridInsertRowAction extends wijmo.undo.UndoableAction {
+        private _grid: Grid.IGridWijmo;
+
         constructor(
-            grid: wijmo.grid.FlexGrid,
+            grid: Grid.IGridWijmo,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             undoableItems: { datasourceIdx: number; items: any[] }
         ) {
-            super(grid);
+            super(grid.provider);
+            this._grid = grid;
             this._oldState = { action: 'remove', ...undoableItems };
             this._newState = undoableItems;
-            const cv = grid.itemsSource;
+            const cv = grid.provider.itemsSource;
             cv.trackChanges && cv.itemsAdded.push(...undoableItems.items);
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -71,6 +74,88 @@ namespace WijmoProvider.Feature {
                 cv.refresh();
                 cv.moveCurrentToPosition(state.datasourceIdx);
                 this._target.focus();
+
+                if (
+                    this._grid.gridEvents.hasHandlers(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                    )
+                ) {
+                    const dataChanges =
+                        new OSFramework.OSStructure.DataChanges();
+                    dataChanges.changedRows = state.items;
+                    dataChanges.totalRows =
+                        this._grid.features.pagination.rowTotal;
+                    this._grid.gridEvents.trigger(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        this._grid,
+                        dataChanges
+                    );
+                }
+            }
+        }
+    }
+
+    class GridRemoveRowAction extends wijmo.undo.UndoableAction {
+        private _grid: Grid.IGridWijmo;
+
+        constructor(
+            grid: Grid.IGridWijmo,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            undoableItems: any
+        ) {
+            super(grid.provider);
+            this._grid = grid;
+            this._oldState = { action: 'insert', items: [...undoableItems] };
+            this._newState = undoableItems;
+            const cv = grid.provider.itemsSource;
+            // clear existing items, because we want to override them with ours
+            cv.itemsRemoved.clear();
+            cv.trackChanges && cv.itemsRemoved.push(...undoableItems);
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public applyState(state: any) {
+            const cv = this._target.itemsSource;
+            if (cv) {
+                if (state.action === 'insert') {
+                    state.items
+                        .sort((a, b) => a.datasourceIdx - b.datasourceIdx)
+                        .forEach((item) => {
+                            cv.sourceCollection.splice(
+                                item.datasourceIdx,
+                                0,
+                                item.item
+                            );
+                            cv.trackChanges &&
+                                cv.itemsRemoved.remove(item.item);
+                        });
+                } else {
+                    //redo
+                    state.forEach((item) => {
+                        cv.sourceCollection.splice(item.datasourceIdx, 1);
+                        cv.trackChanges && cv.itemsRemoved.push(item);
+                    });
+                }
+                cv.refresh();
+                cv.moveCurrentToPosition(cv.currentPosition);
+                this._target.focus();
+
+                if (
+                    this._grid.gridEvents.hasHandlers(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                    )
+                ) {
+                    const dataChanges =
+                        new OSFramework.OSStructure.DataChanges();
+                    dataChanges.changedRows =
+                        state.items || state.map((state) => state.item);
+                    dataChanges.totalRows =
+                        this._grid.features.pagination.rowTotal;
+                    this._grid.gridEvents.trigger(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        this._grid,
+                        dataChanges
+                    );
+                }
             }
         }
     }
@@ -223,7 +308,7 @@ namespace WijmoProvider.Feature {
             );
             const undoableItems = { datasourceIdx: dsTopRowIndex, items };
             this._grid.features.undoStack.pushAction(
-                new GridInsertRowAction(providerGrid, undoableItems)
+                new GridInsertRowAction(this._grid, undoableItems)
             );
 
             // Make sure the count of rows is correct after adding rows.
@@ -367,6 +452,7 @@ namespace WijmoProvider.Feature {
             providerGrid.focus();
 
             const deletedRowsList = [];
+            const undoableItems = [];
 
             dataSource.deferUpdate(() => {
                 selRanges.forEach((range) => {
@@ -375,13 +461,12 @@ namespace WijmoProvider.Feature {
                         row >= range.topRow;
                         row--
                     ) {
-                        // Take care of the undoable action of removing rows.
-                        providerGrid.onDeletingRow(
-                            new wijmo.grid.CellRangeEventArgs(
-                                providerGrid.cells,
-                                new wijmo.grid.CellRange(row, -1)
-                            )
-                        );
+                        const undoableItem = {
+                            datasourceIdx: row,
+                            item: providerGrid.rows[row].dataItem
+                        };
+                        undoableItems.push(undoableItem);
+
                         deletedRowsList.push(providerGrid.rows[row].dataItem);
                         // Remove the data item from the editable collection view.
                         dataSource.remove(providerGrid.rows[row].dataItem);
@@ -391,6 +476,9 @@ namespace WijmoProvider.Feature {
                             true
                         );
                     }
+                    this._grid.features.undoStack.pushAction(
+                        new GridRemoveRowAction(this._grid, undoableItems)
+                    );
                 });
             });
 
