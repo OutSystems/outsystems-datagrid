@@ -49,30 +49,33 @@ namespace WijmoProvider.Feature {
             this._grid = grid;
             this._oldState = { action: 'remove', ...undoableItems };
             this._newState = undoableItems;
-            const cv = grid.provider.itemsSource;
-            cv.trackChanges && cv.itemsAdded.push(...undoableItems.items);
+            const collectionView = grid.provider.itemsSource;
+            collectionView.trackChanges &&
+                collectionView.itemsAdded.push(...undoableItems.items);
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public applyState(state: any) {
-            const cv = this._target.itemsSource;
-            if (cv) {
+            const collectionView = this._target.itemsSource;
+            if (collectionView) {
                 if (state.action === 'remove') {
                     //undo
                     state.items.forEach((item) => {
-                        cv.remove(item);
-                        cv.trackChanges && cv.itemsAdded.remove(item);
+                        collectionView.remove(item);
+                        collectionView.trackChanges &&
+                            collectionView.itemsAdded.remove(item);
                     });
                 } else {
                     //redo
-                    cv.sourceCollection.splice(
+                    collectionView.sourceCollection.splice(
                         state.datasourceIdx,
                         0,
                         ...state.items
                     );
-                    cv.trackChanges && cv.itemsAdded.push(...state.items);
+                    collectionView.trackChanges &&
+                        collectionView.itemsAdded.push(...state.items);
                 }
-                cv.refresh();
-                cv.moveCurrentToPosition(state.datasourceIdx);
+                collectionView.refresh();
+                collectionView.moveCurrentToPosition(state.datasourceIdx);
                 this._target.focus();
 
                 if (
@@ -107,36 +110,43 @@ namespace WijmoProvider.Feature {
             this._grid = grid;
             this._oldState = { action: 'insert', items: [...undoableItems] };
             this._newState = undoableItems;
-            const cv = grid.provider.itemsSource;
+            const collectionView = grid.provider.itemsSource;
             // clear existing items, because we want to override them with ours
-            cv.itemsRemoved.clear();
-            cv.trackChanges && cv.itemsRemoved.push(...undoableItems);
+            collectionView.itemsRemoved.clear();
+            collectionView.trackChanges &&
+                collectionView.itemsRemoved.push(...undoableItems);
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public applyState(state: any) {
-            const cv = this._target.itemsSource;
-            if (cv) {
+            const collectionView = this._target.itemsSource;
+            if (collectionView) {
                 if (state.action === 'insert') {
                     state.items
                         .sort((a, b) => a.datasourceIdx - b.datasourceIdx)
                         .forEach((item) => {
-                            cv.sourceCollection.splice(
+                            collectionView.sourceCollection.splice(
                                 item.datasourceIdx,
                                 0,
                                 item.item
                             );
-                            cv.trackChanges &&
-                                cv.itemsRemoved.remove(item.item);
+                            collectionView.trackChanges &&
+                                collectionView.itemsRemoved.remove(item.item);
                         });
                 } else {
                     //redo
                     state.forEach((item) => {
-                        cv.sourceCollection.splice(item.datasourceIdx, 1);
-                        cv.trackChanges && cv.itemsRemoved.push(item);
+                        collectionView.sourceCollection.splice(
+                            item.datasourceIdx,
+                            1
+                        );
+                        collectionView.trackChanges &&
+                            collectionView.itemsRemoved.push(item);
                     });
                 }
-                cv.refresh();
-                cv.moveCurrentToPosition(cv.currentPosition);
+                collectionView.refresh();
+                collectionView.moveCurrentToPosition(
+                    collectionView.currentPosition
+                );
                 this._target.focus();
 
                 if (
