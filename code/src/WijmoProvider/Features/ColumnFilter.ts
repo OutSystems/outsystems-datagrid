@@ -74,7 +74,9 @@ namespace WijmoProvider.Feature {
         }
 
         public get filterType(): wijmo.grid.filter.FilterType {
-            return wijmo.grid.filter.FilterType.Both;
+            return this._grid.config.serverSidePagination
+                ? wijmo.grid.filter.FilterType.Condition
+                : wijmo.grid.filter.FilterType.Both;
         }
 
         public activate(columnID: string): void {
@@ -203,6 +205,11 @@ namespace WijmoProvider.Feature {
             options: Array<string>,
             maxVisibleOptions?: number
         ): void {
+            if (!this._grid.config.serverSidePagination)
+                throw new Error(
+                    'This action is meant to be used on a Grid with server-side pagination ON.'
+                );
+
             const column = this._grid.getColumn(columnID);
 
             // for now we only want this to work on text or dropdown columns
@@ -210,6 +217,12 @@ namespace WijmoProvider.Feature {
                 column.columnType === OSFramework.Enum.ColumnType.Text ||
                 column.columnType === OSFramework.Enum.ColumnType.Dropdown
             ) {
+                // this column will have
+                this.changeFilterType(
+                    columnID,
+                    wijmo.grid.filter.FilterType.Both
+                );
+
                 this._filter.getColumnFilter(
                     column.provider
                 ).valueFilter.uniqueValues = Array.from(
