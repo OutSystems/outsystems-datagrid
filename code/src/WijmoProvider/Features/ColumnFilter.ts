@@ -217,7 +217,7 @@ namespace WijmoProvider.Feature {
                 column.columnType === OSFramework.Enum.ColumnType.Text ||
                 column.columnType === OSFramework.Enum.ColumnType.Dropdown
             ) {
-                // this column will have
+                // this column will have both filter types
                 this.changeFilterType(
                     columnID,
                     wijmo.grid.filter.FilterType.Both
