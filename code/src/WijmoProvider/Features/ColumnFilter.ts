@@ -74,9 +74,7 @@ namespace WijmoProvider.Feature {
         }
 
         public get filterType(): wijmo.grid.filter.FilterType {
-            return this._grid.config.serverSidePagination
-                ? wijmo.grid.filter.FilterType.Condition
-                : wijmo.grid.filter.FilterType.Both;
+            return wijmo.grid.filter.FilterType.Both;
         }
 
         public activate(columnID: string): void {
@@ -198,6 +196,35 @@ namespace WijmoProvider.Feature {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public getViewLayout(): any {
             return this._filter.filterDefinition;
+        }
+
+        public setColumnFilterOptions(
+            columnID: string,
+            options: Array<string>,
+            maxVisibleOptions?: number
+        ): void {
+            const column = this._grid.getColumn(columnID);
+
+            // for now we only want this to work on text or dropdown columns
+            if (
+                column.columnType === OSFramework.Enum.ColumnType.Text ||
+                column.columnType === OSFramework.Enum.ColumnType.Dropdown
+            ) {
+                this._filter.getColumnFilter(
+                    column.provider
+                ).valueFilter.uniqueValues = Array.from(
+                    new Set<string>(options) // we only want unique values
+                );
+
+                if (maxVisibleOptions > 0)
+                    this._filter.getColumnFilter(
+                        column.provider
+                    ).valueFilter.maxValues = maxVisibleOptions;
+            } else {
+                throw new Error(
+                    `The SetColumnFilterOptions client action can only be applied to Text or Dropdowncolumns.`
+                );
+            }
         }
 
         public setState(value: boolean): void {
