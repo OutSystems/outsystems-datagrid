@@ -18,5 +18,10 @@ namespace OSFramework.Feature {
         ): void;
         clear(columnID: string): void;
         deactivate(columnID: string): void;
+        setColumnFilterOptions(
+            columnID: string,
+            options: Array<string>,
+            maxVisibleOptions?: number
+        ): void;
     }
 }
