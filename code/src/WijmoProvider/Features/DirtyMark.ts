@@ -76,8 +76,8 @@ namespace WijmoProvider.Feature {
                         //Even when converted to String because after edition the cells from the Dropdown Columns will have the value in string format and before edition the value of those same cells can be integers (number identifiers).
                         return (
                             originalValue !== cellValue &&
-                            originalValue.toString() !== cellValue &&
-                            originalValue.toString() !== cellValue.toString() // compare date objects as well
+                            originalValue.toString() !==
+                                (cellValue && cellValue.toString()) // compare date objects as well
                         );
                     }
                 }
@@ -116,8 +116,8 @@ namespace WijmoProvider.Feature {
                         //Even when converted to String because after edition the cells from the Dropdown Columns will have the value in string format and before edition the value of those same cells can be integers (number identifiers).
                         if (
                             originalValue === cellValue ||
-                            originalValue.toString() === cellValue ||
-                            originalValue.toString() === cellValue.toString() // compare date objects as well
+                            originalValue.toString() ===
+                                (cellValue && cellValue.toString()) // compare date objects as well
                         ) {
                             //Add 1 to the notDirtyCells
                             notDirtyCells++;
