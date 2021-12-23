@@ -216,7 +216,7 @@ namespace WijmoProvider.Feature {
                     new Set<string>(options) // we only want unique values
                 );
 
-                if (maxVisibleOptions)
+                if (maxVisibleOptions > 0)
                     this._filter.getColumnFilter(
                         column.provider
                     ).valueFilter.maxValues = maxVisibleOptions;
