@@ -207,7 +207,7 @@ namespace WijmoProvider.Feature {
         ): void {
             if (!this._grid.config.serverSidePagination)
                 throw new Error(
-                    'This action is meant to be used on a Grid with server-side pagination ON.'
+                    'The SetColumnFilterOptions action is meant to be used on a Grid with server-side pagination ON.'
                 );
 
             const column = this._grid.getColumn(columnID);
