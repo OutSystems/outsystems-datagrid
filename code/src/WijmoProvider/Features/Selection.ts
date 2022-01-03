@@ -12,6 +12,8 @@ namespace WijmoProvider.Feature {
     {
         private _grid: Grid.IGridWijmo;
         private _hasSelectors: boolean;
+        private readonly _internalLabel = '__rowSelection';
+        private _metadata: OSFramework.Interface.IRowMetadata;
         private _selectionMode: wijmo.grid.SelectionMode;
 
         /**
@@ -29,25 +31,11 @@ namespace WijmoProvider.Feature {
 
             this._selectionMode = selectionMode;
             this._hasSelectors = hasSelectors;
+            this._metadata = this._grid.rowMetadata;
         }
 
         public get hasSelectors(): boolean {
             return this._hasSelectors;
-        }
-
-        private _buildSelector(): void {
-            if (!this._hasSelectors) return;
-
-            const column = new wijmo.grid.Column();
-            column.allowResizing = false;
-            column.allowSorting = false;
-            column.allowDragging = false;
-            column.allowMerging = false;
-            this._grid.provider.rowHeaders.columns.push(column);
-
-            new wijmo.grid.selector.Selector(column);
-            //Use event bellow along with RowMetadata to save checked items per page
-            //selector.onItemChecked
         }
 
         private _getCheckedRows(): number[] {
@@ -57,7 +45,22 @@ namespace WijmoProvider.Feature {
         }
 
         /**
-         * Responsable for maintain unique selections, user can't have the same range selected twice
+         * Responsible for adding metadata on checked rows
+         * @param grid Object triggering the event
+         * @param e CellRangeEventArgs, defined the current selection
+         */
+        private _selectionChanged(
+            grid: wijmo.grid.FlexGrid,
+            e: wijmo.grid.CellRangeEventArgs
+        ) {
+            if (e.row >= 0) {
+                const isSelected = grid.rows[e.row]?.isSelected;
+                this.getMetadata(e.row).isChecked = isSelected;
+            }
+        }
+
+        /**
+         * Responsible for maintain unique selections, user can't have the same range selected twice
          * @param grid Object triggering the event
          * @param e CellRangeEventArgs, defined the current selection
          */
@@ -80,9 +83,18 @@ namespace WijmoProvider.Feature {
             }
         }
 
-        public build(): void {
-            this._buildSelector();
+        /**
+         * Responsible for checking rows based on metadata.
+         * @param grid Object triggering the event
+         * @param e CellRangeEventArgs, defined the current selection
+         */
+        private _updatingView(grid: wijmo.grid.FlexGrid) {
+            grid.rows.forEach((row) => {
+                row.isSelected = this.getMetadata(row.index).isChecked;
+            });
+        }
 
+        public build(): void {
             //Set SelectionMode after defining Selectors, because wijmo will redefine them
             this.setState(this._selectionMode);
 
@@ -92,6 +104,15 @@ namespace WijmoProvider.Feature {
             this._grid.provider.selectionChanging.addHandler(
                 this._selectionChanging
             );
+
+            this._grid.provider.selectionChanged.addHandler(
+                this._selectionChanged.bind(this)
+            );
+
+            this._grid.provider.updatingView.addHandler(
+                this._updatingView.bind(this)
+            );
+
             this._grid.provider.copying.addHandler(
                 this.equalizeSelection.bind(this)
             );
@@ -125,10 +146,11 @@ namespace WijmoProvider.Feature {
         }
 
         public equalizeSelection(): OSFramework.OSStructure.CellRange[] {
-            //This method just makes sense for MultiRange
+            //This method just makes sense for MultiRange or for grid's without checked rows
             if (
                 this._grid.provider.selectionMode !==
-                wijmo.grid.SelectionMode.MultiRange
+                    wijmo.grid.SelectionMode.MultiRange ||
+                this.hasCheckedRows()
             )
                 return;
             const grid = this._grid.provider; //Auxiliar for grid
@@ -265,6 +287,39 @@ namespace WijmoProvider.Feature {
             return rowColumnArr;
         }
 
+        public getCheckedRowsData(): OSFramework.OSStructure.CheckedRowData[] {
+            const allCheckedRows =
+                this._grid.provider.itemsSource.sourceCollection.filter(
+                    (item) =>
+                        item?.__osRowMetadata?.get(this._internalLabel)
+                            .isChecked === true
+                );
+
+            return allCheckedRows.map(
+                (dataItem) =>
+                    new OSFramework.OSStructure.CheckedRowData(
+                        this._grid,
+                        dataItem
+                    )
+            );
+        }
+
+        public getMetadata(
+            rowNumber: number
+        ): OSFramework.Feature.Auxiliar.RowSelection {
+            if (!this.hasMetadata(rowNumber)) {
+                this._metadata.setMetadataByRowNumber(
+                    rowNumber,
+                    this._internalLabel,
+                    new OSFramework.Feature.Auxiliar.RowSelection()
+                );
+            }
+            return this._metadata.getMetadataByRowNumber(
+                rowNumber,
+                this._internalLabel
+            ) as OSFramework.Feature.Auxiliar.RowSelection;
+        }
+
         public getProviderAllSelections(): wijmo.grid.CellRange[] {
             const ranges: wijmo.grid.CellRange[] = [];
             const maxCol = this._grid.provider.columns.length - 1;
@@ -281,15 +336,30 @@ namespace WijmoProvider.Feature {
                 ...this._grid.provider.selectedRanges.filter((p) => p.isValid)
             );
             // }
-            return this._getCheckedRows()
+
+            // create checkedRows cell range.
+            let checkedRowsRange = this._getCheckedRows()
                 .map((p) => new wijmo.grid.CellRange(p, 0, p, maxCol))
                 .filter((p) => {
                     for (let i = 0; i < ranges.length; i++) {
                         if (ranges[i].contains(p)) return false;
                     }
                     return true;
-                })
-                .concat(ranges);
+                });
+
+            // for each cellRange, check if it has any row intersection with checked rows
+            // if it has, we add it to checkedRows array.
+            ranges.forEach((range) => {
+                if (
+                    !checkedRowsRange.some((checked) =>
+                        checked.intersectsRow(range)
+                    )
+                ) {
+                    checkedRowsRange = [...checkedRowsRange, range];
+                }
+            });
+
+            return checkedRowsRange;
         }
 
         public getSelectedRows(): number[] {
@@ -332,6 +402,17 @@ namespace WijmoProvider.Feature {
                         rowIndex,
                         this._grid.provider.rows[rowIndex].dataItem
                     )
+            );
+        }
+
+        public hasCheckedRows(): boolean {
+            return this.getCheckedRowsData().length > 0;
+        }
+
+        public hasMetadata(rowNumber: number): boolean {
+            return this._metadata.hasOwnPropertyByRowNumber(
+                rowNumber,
+                this._internalLabel
             );
         }
 

@@ -10,6 +10,7 @@ namespace OSFramework.Event.Grid {
         Initialized = 'Initialized',
         OnFiltersChange = 'OnFiltersChange',
         OnSortChange = 'OnSortChange',
+        OnDataChange = 'OnDataChange',
         SearchEnded = 'SearchEnded'
     }
 }

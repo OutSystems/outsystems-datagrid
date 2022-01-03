@@ -3,7 +3,7 @@ namespace OSFramework.Configuration.Column {
     /**
      * Defines the configuration for Dropdown custom editors
      */
-    export class ColumnConfigDropdown extends ColumnConfig {
+    export class ColumnConfigDropdown extends ColumnConfigConditionalFormat {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public dataMap: any;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,7 +14,7 @@ namespace OSFramework.Configuration.Column {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(config: any, extra: any) {
-            super(config);
+            super(config, extra);
             this.dataMap = undefined;
             this.dropdownOptions = extra.datamap;
             this.parentBinding = extra.parentBinding;

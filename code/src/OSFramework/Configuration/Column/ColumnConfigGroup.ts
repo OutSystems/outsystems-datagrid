@@ -12,6 +12,7 @@ namespace OSFramework.Configuration.Column {
         public binding: string;
         public canBeHidden: boolean;
         public collapseTo: string;
+        public conditionalFormat: Array<OSStructure.ConditionalFormat>;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public dataType: any;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

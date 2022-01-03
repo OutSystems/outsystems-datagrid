@@ -48,6 +48,11 @@ namespace OSFramework.Feature {
         getAllSelectionsData(): OSStructure.RowData[];
 
         /**
+         * Returns the Data of the checked rows
+         */
+        getCheckedRowsData(): OSStructure.CheckedRowData[];
+
+        /**
          * Returns the Indexes of the selected rows
          */
         getSelectedRows(): number[];
@@ -63,6 +68,11 @@ namespace OSFramework.Feature {
          * Returns the Data of the selected rows
          */
         getSelectedRowsData(): OSStructure.RowData[];
+
+        /**
+         * Checks if there is any checked row on the grid
+         */
+        hasCheckedRows(): boolean;
 
         /**
          * Checks if there is a row selected on the grid

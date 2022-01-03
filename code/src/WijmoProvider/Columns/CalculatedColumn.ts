@@ -51,9 +51,6 @@ namespace WijmoProvider.Column {
                 this.config.header,
                 this.config.formula
             );
-            if (this.config.conditionalFormat) {
-                super._setConditionalFormat(this.config.conditionalFormat);
-            }
         }
     }
 }

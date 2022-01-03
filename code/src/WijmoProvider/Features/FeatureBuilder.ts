@@ -136,6 +136,11 @@ namespace WijmoProvider.Feature {
             return this;
         }
 
+        private _makeRowHeader(rowHeader: number): FeatureBuilder {
+            this._features.rowHeader = this._makeItem(RowHeader, rowHeader);
+            return this;
+        }
+
         private _makeRows(): FeatureBuilder {
             this._features.rows = this._makeItem(Rows);
             return this;
@@ -204,7 +209,6 @@ namespace WijmoProvider.Feature {
                 ._makeGroupPanel(config.groupPanelId)
                 ._makeCellData()
                 ._makeCellStyle()
-                ._makeColumnPicker()
                 ._makeToolTip()
                 ._makePagination(config.rowsPerPage)
                 ._makeSort(config.allowColumnSort)
@@ -218,7 +222,9 @@ namespace WijmoProvider.Feature {
                 ._makeSelection(config.allowRowSelector, config.selectionMode)
                 ._makeState()
                 ._makeConditionalFormat()
-                ._makeCalculatedField();
+                ._makeCalculatedField()
+                ._makeRowHeader(config.rowHeader)
+                ._makeColumnPicker();
 
             super.build();
         }

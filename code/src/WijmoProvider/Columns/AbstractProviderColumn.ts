@@ -59,19 +59,6 @@ namespace WijmoProvider.Column {
             );
         }
 
-        protected _setConditionalFormat(
-            conditionalFormat: Array<OSFramework.OSStructure.ConditionalFormat>,
-            refresh = false
-        ): void {
-            if (conditionalFormat && conditionalFormat.length > 0) {
-                this.grid.features.conditionalFormat.addRules(
-                    this.config.binding,
-                    conditionalFormat,
-                    refresh
-                );
-            }
-        }
-
         public applyConfigs(): void {
             if (this.isReady) {
                 const providerConfig = this.getProviderConfig();
@@ -89,6 +76,8 @@ namespace WijmoProvider.Column {
             super.build();
 
             const providerGrid: wijmo.grid.FlexGrid = this.grid.provider;
+
+            this.setConditionalFormat(this.config.conditionalFormat);
 
             if (this.hasParentColumn) {
                 const parent = this.grid.getColumn(

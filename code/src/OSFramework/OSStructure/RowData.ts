@@ -39,4 +39,31 @@ namespace OSFramework.OSStructure {
             };
         }
     }
+
+    export class CheckedRowData implements Interface.ISerializable {
+        private _grid: Grid.IGrid;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public dataItem: any;
+
+        /**
+         * Represent Checked Row data
+         * @param dataItem Full data source of that row
+         */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        constructor(
+            grid: Grid.IGrid,
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+            dataItem: any
+        ) {
+            this._grid = grid;
+            this.dataItem = dataItem;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public serialize(): any {
+            return {
+                dataItem: this._grid.dataSource.toOSFormat(this.dataItem)
+            };
+        }
+    }
 }

@@ -72,8 +72,8 @@ namespace WijmoProvider.Feature {
             if (this._topLeftPanel === panel) {
                 const lastRowIndex = panel.rows.length - 1;
 
-                //Without selectors merge it all!
-                if (!this._grid.features.selection.hasSelectors) {
+                //Without checkbox merge it all!
+                if (!this._grid.features.rowHeader.hasCheckbox) {
                     return new wijmo.grid.CellRange(
                         0,
                         0,

@@ -178,4 +178,39 @@ namespace GridAPI.Filter {
             'Filter.ByValue-end'
         );
     }
+
+    /**
+     * Function that sets column filter options
+     *
+     * @export
+     * @param {string} gridID ID of the Grid block.
+     * @param {string} columnID ID of the column block where the filter options will be set.
+     * @param {string} options  Values that will be used on filter by value list.
+     * @param {number} maxVisibleOptions Maximum number of elements on the filter list of display values.
+     * @returns {*}  {void}
+     */
+    export function SetColumnFilterOptions(
+        gridID: string,
+        columnID: string,
+        options: string,
+        maxVisibleOptions?: number
+    ): void {
+        PerformanceAPI.SetMark('Filter.SetColumnFilterOptions');
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        const grid = GridManager.GetGridById(gridID);
+
+        grid.features.filter.setColumnFilterOptions(
+            columnID,
+            JSON.parse(options),
+            maxVisibleOptions
+        );
+
+        PerformanceAPI.SetMark('Filter.SetColumnFilterOptions-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Filter.SetColumnFilterOptions',
+            'Filter.SetColumnFilterOptions',
+            'Filter.SetColumnFilterOptions-end'
+        );
+    }
 }

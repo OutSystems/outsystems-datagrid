@@ -88,7 +88,9 @@ namespace WijmoProvider.Helper.FilterFactory {
             .filter(
                 (activeFilters) =>
                     activeFilters.type === 'condition' ||
-                    activeFilters.type === 'value'
+                    // when we change filter uniqueValues this event gets triggered with showValues being null
+                    // we only want to call the added handler if we have showValues defined
+                    (activeFilters.type === 'value' && activeFilters.showValues)
             )
             .forEach((filter) => {
                 const activeFilter = new OSFramework.OSStructure.ActiveFilter();

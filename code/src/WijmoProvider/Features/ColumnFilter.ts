@@ -62,9 +62,13 @@ namespace WijmoProvider.Feature {
         }
 
         public get isGridFiltered(): boolean {
+            // when filter is active, the filterDefinition object usually has filterType different than 0
+            // and it has a type. we should check for both.
             return (
                 JSON.parse(this._filter.filterDefinition).filters.filter(
-                    (x) => x.filterType !== 0
+                    (filterDefinition) =>
+                        filterDefinition.filterType !== 0 &&
+                        !!filterDefinition.type
                 ).length > 0
             );
         }
@@ -168,7 +172,7 @@ namespace WijmoProvider.Feature {
             columnID: string,
             filterType: wijmo.grid.filter.FilterType
         ): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columnID);
+            const column = this._grid.getColumn(columnID);
 
             if (column) {
                 this._filter.getColumnFilter(column.provider).filterType =
@@ -177,7 +181,7 @@ namespace WijmoProvider.Feature {
         }
 
         public clear(columnID: string): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columnID);
+            const column = this._grid.getColumn(columnID);
 
             this._filter.getColumnFilter(column.provider).clear();
             this._grid.provider.collectionView.refresh();
@@ -194,6 +198,46 @@ namespace WijmoProvider.Feature {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public getViewLayout(): any {
             return this._filter.filterDefinition;
+        }
+
+        public setColumnFilterOptions(
+            columnID: string,
+            options: Array<string>,
+            maxVisibleOptions?: number
+        ): void {
+            if (!this._grid.config.serverSidePagination)
+                throw new Error(
+                    'The SetColumnFilterOptions action is meant to be used on a Grid with server-side pagination ON.'
+                );
+
+            const column = this._grid.getColumn(columnID);
+
+            // for now we only want this to work on text or dropdown columns
+            if (
+                column.columnType === OSFramework.Enum.ColumnType.Text ||
+                column.columnType === OSFramework.Enum.ColumnType.Dropdown
+            ) {
+                // this column will have both filter types
+                this.changeFilterType(
+                    columnID,
+                    wijmo.grid.filter.FilterType.Both
+                );
+
+                this._filter.getColumnFilter(
+                    column.provider
+                ).valueFilter.uniqueValues = Array.from(
+                    new Set<string>(options) // we only want unique values
+                );
+
+                if (maxVisibleOptions > 0)
+                    this._filter.getColumnFilter(
+                        column.provider
+                    ).valueFilter.maxValues = maxVisibleOptions;
+            } else {
+                throw new Error(
+                    `The SetColumnFilterOptions client action can only be applied to Text or Dropdowncolumns.`
+                );
+            }
         }
 
         public setState(value: boolean): void {

@@ -38,39 +38,134 @@ namespace WijmoProvider.Feature {
     }
 
     class GridInsertRowAction extends wijmo.undo.UndoableAction {
+        private _grid: Grid.IGridWijmo;
+
         constructor(
-            grid: wijmo.grid.FlexGrid,
+            grid: Grid.IGridWijmo,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             undoableItems: { datasourceIdx: number; items: any[] }
         ) {
-            super(grid);
+            super(grid.provider);
+            this._grid = grid;
             this._oldState = { action: 'remove', ...undoableItems };
             this._newState = undoableItems;
-            const cv = grid.itemsSource;
-            cv.trackChanges && cv.itemsAdded.push(...undoableItems.items);
+            const collectionView = grid.provider.itemsSource;
+            collectionView.trackChanges &&
+                collectionView.itemsAdded.push(...undoableItems.items);
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public applyState(state: any) {
-            const cv = this._target.itemsSource;
-            if (cv) {
+            const collectionView = this._target.itemsSource;
+            if (collectionView) {
                 if (state.action === 'remove') {
                     //undo
                     state.items.forEach((item) => {
-                        cv.remove(item);
-                        cv.trackChanges && cv.itemsAdded.remove(item);
+                        collectionView.remove(item);
+                        collectionView.trackChanges &&
+                            collectionView.itemsAdded.remove(item);
                     });
                 } else {
                     //redo
-                    cv.sourceCollection.splice(
+                    collectionView.sourceCollection.splice(
                         state.datasourceIdx,
                         0,
                         ...state.items
                     );
-                    cv.trackChanges && cv.itemsAdded.push(...state.items);
+                    collectionView.trackChanges &&
+                        collectionView.itemsAdded.push(...state.items);
                 }
-                cv.refresh();
-                cv.moveCurrentToPosition(state.datasourceIdx);
+                collectionView.refresh();
+                collectionView.moveCurrentToPosition(state.datasourceIdx);
                 this._target.focus();
+
+                if (
+                    this._grid.gridEvents.hasHandlers(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                    )
+                ) {
+                    const dataChanges =
+                        new OSFramework.OSStructure.DataChanges();
+                    dataChanges.changedRows = state.items;
+                    dataChanges.totalRows =
+                        this._grid.features.pagination.rowTotal;
+                    this._grid.gridEvents.trigger(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        this._grid,
+                        dataChanges
+                    );
+                }
+            }
+        }
+    }
+
+    class GridRemoveRowAction extends wijmo.undo.UndoableAction {
+        private _grid: Grid.IGridWijmo;
+
+        constructor(
+            grid: Grid.IGridWijmo,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            undoableItems: any
+        ) {
+            super(grid.provider);
+            this._grid = grid;
+            this._oldState = { action: 'insert', items: [...undoableItems] };
+            this._newState = undoableItems;
+            const collectionView = grid.provider.itemsSource;
+            // clear existing items, because we want to override them with ours
+            collectionView.itemsRemoved.clear();
+            collectionView.trackChanges &&
+                collectionView.itemsRemoved.push(...undoableItems);
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public applyState(state: any) {
+            const collectionView = this._target.itemsSource;
+            if (collectionView) {
+                if (state.action === 'insert') {
+                    state.items
+                        .sort((a, b) => a.datasourceIdx - b.datasourceIdx)
+                        .forEach((item) => {
+                            collectionView.sourceCollection.splice(
+                                item.datasourceIdx,
+                                0,
+                                item.item
+                            );
+                            collectionView.trackChanges &&
+                                collectionView.itemsRemoved.remove(item.item);
+                        });
+                } else {
+                    //redo
+                    state.forEach((item) => {
+                        collectionView.sourceCollection.splice(
+                            item.datasourceIdx,
+                            1
+                        );
+                        collectionView.trackChanges &&
+                            collectionView.itemsRemoved.push(item);
+                    });
+                }
+                collectionView.refresh();
+                collectionView.moveCurrentToPosition(
+                    collectionView.currentPosition
+                );
+                this._target.focus();
+
+                if (
+                    this._grid.gridEvents.hasHandlers(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                    )
+                ) {
+                    const dataChanges =
+                        new OSFramework.OSStructure.DataChanges();
+                    dataChanges.changedRows =
+                        state.items || state.map((state) => state.item);
+                    dataChanges.totalRows =
+                        this._grid.features.pagination.rowTotal;
+                    this._grid.gridEvents.trigger(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        this._grid,
+                        dataChanges
+                    );
+                }
             }
         }
     }
@@ -223,13 +318,35 @@ namespace WijmoProvider.Feature {
             );
             const undoableItems = { datasourceIdx: dsTopRowIndex, items };
             this._grid.features.undoStack.pushAction(
-                new GridInsertRowAction(providerGrid, undoableItems)
+                new GridInsertRowAction(this._grid, undoableItems)
             );
 
             // Make sure the count of rows is correct after adding rows.
             if (this._getRowsCount() === expectedRowCount) {
+                if (
+                    this._grid.gridEvents.hasHandlers(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                    )
+                ) {
+                    const dataChanges =
+                        new OSFramework.OSStructure.DataChanges();
+
+                    dataChanges.changedRows = items;
+                    dataChanges.totalRows = this._getRowsCount();
+
+                    this._grid.gridEvents.trigger(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        this._grid,
+                        dataChanges
+                    );
+                }
+
                 // Return success
-                return { message: 'Success', isSuccess: true };
+                return {
+                    message: 'Success',
+                    isSuccess: true,
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
             } else {
                 return {
                     code: OSFramework.Enum.ErrorCodes.API_FailedAddRow,
@@ -344,6 +461,9 @@ namespace WijmoProvider.Feature {
             // In case of Undo action, the user will not need to click on the grid to undo.
             providerGrid.focus();
 
+            const deletedRowsList = [];
+            const undoableItems = [];
+
             dataSource.deferUpdate(() => {
                 selRanges.forEach((range) => {
                     for (
@@ -351,13 +471,13 @@ namespace WijmoProvider.Feature {
                         row >= range.topRow;
                         row--
                     ) {
-                        // Take care of the undoable action of removing rows.
-                        providerGrid.onDeletingRow(
-                            new wijmo.grid.CellRangeEventArgs(
-                                providerGrid.cells,
-                                new wijmo.grid.CellRange(row, -1)
-                            )
-                        );
+                        const undoableItem = {
+                            datasourceIdx: row,
+                            item: providerGrid.rows[row].dataItem
+                        };
+                        undoableItems.push(undoableItem);
+
+                        deletedRowsList.push(providerGrid.rows[row].dataItem);
                         // Remove the data item from the editable collection view.
                         dataSource.remove(providerGrid.rows[row].dataItem);
                         // Removed rows should be valid
@@ -366,6 +486,9 @@ namespace WijmoProvider.Feature {
                             true
                         );
                     }
+                    this._grid.features.undoStack.pushAction(
+                        new GridRemoveRowAction(this._grid, undoableItems)
+                    );
                 });
             });
 
@@ -374,7 +497,29 @@ namespace WijmoProvider.Feature {
 
             // Make sure the count of rows is correct after removing rows.
             if (this._getRowsCount() === expectedRowCount) {
-                return { message: 'Success', isSuccess: true };
+                if (
+                    this._grid.gridEvents.hasHandlers(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                    )
+                ) {
+                    const dataChanges =
+                        new OSFramework.OSStructure.DataChanges();
+
+                    dataChanges.changedRows = deletedRowsList;
+                    dataChanges.totalRows = this._getRowsCount();
+
+                    this._grid.gridEvents.trigger(
+                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        this._grid,
+                        dataChanges
+                    );
+                }
+
+                return {
+                    message: 'Success',
+                    isSuccess: true,
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
             } else {
                 return {
                     code: OSFramework.Enum.ErrorCodes.API_FailedRemoveRow,
