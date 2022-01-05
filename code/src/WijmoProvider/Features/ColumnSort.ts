@@ -178,6 +178,18 @@ namespace WijmoProvider.Feature {
             );
         }
 
+        public isColumnSorted(columnID: string): boolean {
+            const column = this._grid.getColumn(columnID);
+
+            if (!column) return false;
+
+            return (
+                this._grid.provider.itemsSource.sortDescriptions.find(
+                    (col) => col.property === column.config.binding
+                ) !== undefined
+            );
+        }
+
         public setState(value: boolean): void {
             this._grid.provider.allowSorting = value
                 ? wijmo.grid.AllowSorting.MultiColumn
