@@ -58,7 +58,7 @@ namespace WijmoProvider.Feature {
 
             //If we found the placeholder (!== null) and the
             //provider already has a value (!== NaN).
-            if (element && value) {
+            if (element && !isNaN(value)) {
                 //Let's set the value in the placeholder
                 element.textContent = value.toString();
             }
@@ -86,11 +86,11 @@ namespace WijmoProvider.Feature {
         }
 
         public get rowStart(): number {
-            return this.pageIndex * this.pageSize + 1;
+            return this._view.itemCount && this.pageIndex * this.pageSize + 1;
         }
 
         public get rowEnd(): number {
-            return this.rowStart + this._view.itemCount - 1;
+            return this.rowStart && this.rowStart + this._view.itemCount - 1;
         }
 
         /// Retrieve the total number of rows considering all pages
