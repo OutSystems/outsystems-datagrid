@@ -52,6 +52,10 @@ namespace OSFramework.Event.Column {
         ): void {
             if (this.events.has(eventType)) {
                 const handlerEvent = this.events.get(eventType);
+                // RGRIDT-1122: if column is sorted, we want on cell change event to be handled syncronally, because in some cases our validation happens before sorting occurs.
+                const isAsync = !this._column.grid.features.sort.isColumnSorted(
+                    this._column.widgetId
+                );
 
                 switch (eventType) {
                     case ColumnEventType.ActionClick:
@@ -67,7 +71,8 @@ namespace OSFramework.Event.Column {
                             this._column.widgetId, // ID of the Column block in which the cell value has changed.
                             rowNumber, // Number of the row in which the cell value has changed.
                             oldValue, // Value of the cell before its value has changed (Old)
-                            value // Value of the cell after its value has changed (New)
+                            value, // Value of the cell after its value has changed (New)
+                            isAsync
                         );
                         break;
                     default:
