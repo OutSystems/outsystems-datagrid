@@ -39,7 +39,7 @@ namespace OSFramework.Configuration.Column {
         // eslint-disable-next-line
         constructor(config: any) {
             // Remove any {} or [] that exist on the binding. In order to accept any format "{EntityName}.[FieldName]" or "EntityName.FieldName"
-            config.binding = config.binding.replaceAll(/[{}[\]]+/g, '');
+            config.binding = config.binding.replace(/[{}[\]]+/g, '');
             super(config);
         }
 
