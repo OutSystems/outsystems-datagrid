@@ -13,7 +13,8 @@ namespace OSFramework.Enum {
         API_FailedPaginationSetCurrentPage = 'GRID-API-01002',
         API_UnableToAddRow = 'GRID-API-02001',
         API_FailedAddRow = 'GRID-API-02002',
-        API_UnableToRemoveRow = 'GRID-API-02001',
-        API_FailedRemoveRow = 'GRID-API-02002'
+        API_UnableToRemoveRow = 'GRID-API-02003',
+        API_FailedRemoveRow = 'GRID-API-02004',
+        API_FailedApplyRowValidation = 'GRID-API-02005'
     }
 }

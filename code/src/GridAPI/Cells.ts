@@ -72,18 +72,25 @@ namespace GridAPI.Cells {
      * @param {string} gridID ID of the Grid.
      * @param {number} rowIndex Index of the row that contains the cells to be validated.
      */
-    export function ValidateRow(gridID: string, rowIndex: number): void {
+    export function ValidateRow(gridID: string, rowIndex: number): string {
         PerformanceAPI.SetMark('Cells.validateRow');
 
-        GridManager.GetGridById(gridID).features.validationMark.validateRow(
-            rowIndex
+        let output = '';
+
+        output = JSON.stringify(
+            GridManager.GetGridById(gridID).features.validationMark.validateRow(
+                rowIndex
+            )
         );
+
         PerformanceAPI.SetMark('Cells.validateRow-end');
         PerformanceAPI.GetMeasure(
             '@datagrid-Cells.validateRow',
             'Cells.validateRow',
             'Cells.validateRow-end'
         );
+
+        return output;
     }
     /**
      * Responsible for updating a specific cell -
