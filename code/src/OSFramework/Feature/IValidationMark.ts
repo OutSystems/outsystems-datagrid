@@ -25,7 +25,7 @@ namespace OSFramework.Feature {
             rowNumber: number,
             column: OSFramework.Column.IColumn
         ): void;
-        validateRow(rowNumber: number): void;
+        validateRow(rowNumber: number): OSFramework.OSStructure.ReturnMessage;
         // clearByRow(row: number): void;
     }
 }
