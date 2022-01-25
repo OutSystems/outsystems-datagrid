@@ -114,7 +114,9 @@ namespace WijmoProvider.Feature {
             // clear existing items, because we want to override them with ours
             collectionView.itemsRemoved.clear();
             collectionView.trackChanges &&
-                collectionView.itemsRemoved.push(...undoableItems);
+                collectionView.itemsRemoved.push(
+                    ...undoableItems.map((undoable) => undoable.item)
+                );
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public applyState(state: any) {
