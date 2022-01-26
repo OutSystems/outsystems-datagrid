@@ -11,20 +11,22 @@ namespace GridAPI {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         export function GetViewLayout(gridID: string): string {
-            PerformanceAPI.SetMark('View.GetViewLayout');
-
             if (!OSFramework.Helper.IsGridReady(gridID)) return;
             const grid = GridManager.GetGridById(gridID);
+
+            PerformanceAPI.SetMark('View.GetViewLayout');
 
             let output = '';
 
             output = JSON.stringify(grid.getViewLayout());
+
             PerformanceAPI.SetMark('View.GetViewLayout-end');
             PerformanceAPI.GetMeasure(
                 '@datagrid-View.GetViewLayout',
                 'View.GetViewLayout',
                 'View.GetViewLayout-end'
             );
+
             return output;
         }
 
@@ -35,25 +37,23 @@ namespace GridAPI {
          */
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         export function SetViewLayout(gridID: string, config: any): any {
-            GridManager.Events.Subscribe(
-                gridID,
-                OSFramework.Event.Grid.GridEventType.Initialized,
-                (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
-                    PerformanceAPI.SetMark('View.SetViewLayout');
-                    let output = '';
+            if (!OSFramework.Helper.IsGridReady(gridID)) return;
+            const grid = GridManager.GetGridById(gridID);
 
-                    output = JSON.stringify(gridObj.setViewLayout(config));
+            PerformanceAPI.SetMark('View.SetViewLayout');
 
-                    PerformanceAPI.SetMark('View.SetViewLayout-end');
-                    PerformanceAPI.GetMeasure(
-                        '@datagrid-View.SetViewLayout',
-                        'View.SetViewLayout',
-                        'View.SetViewLayout-end'
-                    );
+            let output = '';
 
-                    return output;
-                }
+            output = JSON.stringify(grid.setViewLayout(config));
+
+            PerformanceAPI.SetMark('View.SetViewLayout-end');
+            PerformanceAPI.GetMeasure(
+                '@datagrid-View.SetViewLayout',
+                'View.SetViewLayout',
+                'View.SetViewLayout-end'
             );
+
+            return output;
         }
     }
 }
