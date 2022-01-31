@@ -38,8 +38,21 @@ namespace WijmoProvider.Feature {
             binding: string,
             rowNumber: number,
             className: string
-        ): void {
-            this.getMetadata(rowNumber).addClass(binding, className);
+        ): OSFramework.OSStructure.ReturnMessage {
+            try {
+                this.getMetadata(rowNumber).addClass(binding, className);
+                return {
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes.API_FailedSetCellCssClass
+                };
+            }
         }
 
         public build(): void {

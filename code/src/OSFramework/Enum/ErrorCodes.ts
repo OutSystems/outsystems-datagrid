@@ -19,8 +19,12 @@ namespace OSFramework.Enum {
         API_UnableToRemoveRow = 'GRID-API-02003',
         API_FailedRemoveRow = 'GRID-API-02004',
         API_FailedApplyRowValidation = 'GRID-API-02005',
+        API_FailedAddClass = 'GRID-API-02006',
         // VIEW
         API_FailedGetViewLayout = 'GRID-API-03001',
-        API_FailedSetViewLayout = 'GRID-API-03002'
+        API_FailedSetViewLayout = 'GRID-API-03002',
+        // STYLE
+        API_FailedSetCellCssClass = 'GRID-API-04001',
+        API_FailedSetColumnCssClass = 'GRID-API-04002'
     }
 }

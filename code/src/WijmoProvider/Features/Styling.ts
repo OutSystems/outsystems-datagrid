@@ -43,24 +43,39 @@ namespace WijmoProvider.Feature {
             columnID: string,
             className: string,
             includeHeader: boolean
-        ): void {
-            const column = this._grid.getColumn(columnID);
-            if (column) {
-                if (includeHeader) {
-                    const classList = this._getCssClassAll(columnID);
-                    const index = classList.indexOf(className);
-                    if (index === -1) {
-                        classList.push(className);
-                        column.provider.cssClassAll = classList.join(' ');
-                    }
-                } else {
-                    const classList = this._getCssClass(columnID);
-                    const index = classList.indexOf(className);
-                    if (index === -1) {
-                        classList.push(className);
-                        column.provider.cssClass = classList.join(' ');
+        ): OSFramework.OSStructure.ReturnMessage {
+            try {
+                const column = this._grid.getColumn(columnID);
+                if (column) {
+                    if (includeHeader) {
+                        const classList = this._getCssClassAll(columnID);
+                        const index = classList.indexOf(className);
+                        if (index === -1) {
+                            classList.push(className);
+                            column.provider.cssClassAll = classList.join(' ');
+                        }
+                    } else {
+                        const classList = this._getCssClass(columnID);
+                        const index = classList.indexOf(className);
+                        if (index === -1) {
+                            classList.push(className);
+                            column.provider.cssClass = classList.join(' ');
+                        }
                     }
                 }
+
+                return {
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedSetColumnCssClass
+                };
             }
         }
 

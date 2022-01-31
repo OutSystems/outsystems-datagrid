@@ -17,22 +17,30 @@ namespace GridAPI.Styling {
         columnID: string,
         rowIndex: number,
         className: string
-    ): void {
+    ): string {
         PerformanceAPI.SetMark('Styling.SetCellCssClass');
 
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const binding = ColumnManager.GetColumnById(columnID).config.binding;
-        GridManager.GetGridById(gridID).features.cellStyle.addClass(
-            binding,
-            rowIndex,
-            className
+
+        let output = '';
+
+        output = JSON.stringify(
+            GridManager.GetGridById(gridID).features.cellStyle.addClass(
+                binding,
+                rowIndex,
+                className
+            )
         );
+
         PerformanceAPI.SetMark('Styling.SetCellCssClass-end');
         PerformanceAPI.GetMeasure(
             '@datagrid-Styling.SetCellCssClass',
             'Styling.SetCellCssClass',
             'Styling.SetCellCssClass-end'
         );
+
+        return output;
     }
     /**
      * Function that will add a specific CSS class to the cells of a column.
@@ -49,21 +57,29 @@ namespace GridAPI.Styling {
         columnID: string,
         cssClass: string,
         applyToHeader: boolean
-    ): void {
+    ): string {
         PerformanceAPI.SetMark('Styling.SetColumnCssClass');
 
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
-        GridManager.GetGridById(gridID).features.styling.addColumnCssClass(
-            columnID,
-            cssClass,
-            applyToHeader
+
+        let output = '';
+
+        output = JSON.stringify(
+            GridManager.GetGridById(gridID).features.styling.addColumnCssClass(
+                columnID,
+                cssClass,
+                applyToHeader
+            )
         );
+
         PerformanceAPI.SetMark('Styling.SetColumnCssClass-end');
         PerformanceAPI.GetMeasure(
             '@datagrid-Styling.SetColumnCssClass',
             'Styling.SetColumnCssClass',
             'Styling.SetColumnCssClass-end'
         );
+
+        return output;
     }
     /**
      * Function that will remove all the CSS classes that were added to a Cell.
