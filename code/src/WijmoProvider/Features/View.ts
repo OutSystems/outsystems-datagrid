@@ -119,34 +119,74 @@ namespace WijmoProvider.Feature {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public getViewLayout(): any {
-            const state = {
-                columns: this._getColumnLayout(),
-                filterDefinition: this._grid.features.filter.getViewLayout(),
-                groupDescriptions:
-                    this._grid.features.groupPanel.getViewLayout(),
-                sortDescriptions: this._grid.features.sort.getViewLayout(),
-                groupColumns: this._getGroupDefinition(
-                    this._grid.provider.columnGroups
-                )
-            };
+        public getViewLayout(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                const state = {
+                    columns: this._getColumnLayout(),
+                    filterDefinition:
+                        this._grid.features.filter.getViewLayout(),
+                    groupDescriptions:
+                        this._grid.features.groupPanel.getViewLayout(),
+                    sortDescriptions: this._grid.features.sort.getViewLayout(),
+                    groupColumns: this._getGroupDefinition(
+                        this._grid.provider.columnGroups
+                    )
+                };
 
-            return JSON.stringify(state);
+                return {
+                    value: JSON.stringify(state),
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: '',
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes.API_FailedGetViewLayout
+                };
+            }
         }
 
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public setViewLayout(state: any): void {
-            const config = JSON.parse(state);
-            this._grid.provider.deferUpdate(() => {
-                this._reloadColumns(config);
-                this._grid.features.filter.setViewLayout(config);
-                this._grid.features.groupPanel.setViewLayout(config);
-                this._grid.features.sort.setViewLayout(config);
-                this._setGroups(
-                    this._grid.provider.columnGroups,
-                    config.groupColumns
-                );
-            });
+        public setViewLayout(
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+            state: any
+        ): OSFramework.OSStructure.ReturnMessage {
+            try {
+                if (state === '') {
+                    return {
+                        isSuccess: false,
+                        message: 'It seems you are not passing a valid config.',
+                        code: OSFramework.Enum.ErrorCodes
+                            .API_FailedSetViewLayout
+                    };
+                }
+
+                const config = JSON.parse(state);
+                this._grid.provider.deferUpdate(() => {
+                    this._reloadColumns(config);
+                    this._grid.features.filter.setViewLayout(config);
+                    this._grid.features.groupPanel.setViewLayout(config);
+                    this._grid.features.sort.setViewLayout(config);
+                    this._setGroups(
+                        this._grid.provider.columnGroups,
+                        config.groupColumns
+                    );
+                });
+
+                return {
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes.API_FailedSetViewLayout
+                };
+            }
         }
     }
 }

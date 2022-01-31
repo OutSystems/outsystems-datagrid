@@ -9,12 +9,18 @@ namespace OSFramework.Enum {
         CFG_GridNotFound = 'GRID-CFG-01001',
 
         // Error Codes - API errors - Specific errors generated when exposing the component client actions API/Framework.
+
+        // PAGINATION
         API_FailedPaginationGetCurrentPage = 'GRID-API-01001',
         API_FailedPaginationSetCurrentPage = 'GRID-API-01002',
+        // ROWS
         API_UnableToAddRow = 'GRID-API-02001',
         API_FailedAddRow = 'GRID-API-02002',
         API_UnableToRemoveRow = 'GRID-API-02003',
         API_FailedRemoveRow = 'GRID-API-02004',
-        API_FailedApplyRowValidation = 'GRID-API-02005'
+        API_FailedApplyRowValidation = 'GRID-API-02005',
+        // VIEW
+        API_FailedGetViewLayout = 'GRID-API-03001',
+        API_FailedSetViewLayout = 'GRID-API-03002'
     }
 }

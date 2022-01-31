@@ -219,9 +219,9 @@ namespace WijmoProvider.Grid {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public setViewLayout(state: any): void {
+        public setViewLayout(state: any): any {
             if (this.isReady) {
-                this._features.view.setViewLayout(state);
+                return this._features.view.setViewLayout(state);
             }
         }
     }
