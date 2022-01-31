@@ -25,6 +25,7 @@ namespace OSFramework.Enum {
         API_FailedSetViewLayout = 'GRID-API-03002',
         // STYLE
         API_FailedSetCellCssClass = 'GRID-API-04001',
-        API_FailedSetColumnCssClass = 'GRID-API-04002'
+        API_FailedSetColumnCssClass = 'GRID-API-04002',
+        API_FailedRemoveAllCssClassesFromCell = 'GRID-API-04003'
     }
 }

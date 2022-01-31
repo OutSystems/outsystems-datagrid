@@ -93,16 +93,20 @@ namespace GridAPI.Styling {
         gridID: string,
         columnID: string,
         rowIndex: number
-    ): void {
+    ): string {
         PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell');
 
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const column = ColumnManager.GetColumnById(columnID);
+        let output = '';
+
         if (column !== undefined) {
             const binding = column.config.binding;
-            GridManager.GetGridById(gridID).features.cellStyle.removeAllClasses(
-                rowIndex,
-                binding
+
+            output = JSON.stringify(
+                GridManager.GetGridById(
+                    gridID
+                ).features.cellStyle.removeAllClasses(rowIndex, binding)
             );
         }
         PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell-end');
@@ -111,6 +115,8 @@ namespace GridAPI.Styling {
             'Styling.RemoveAllCssClassesFromCell',
             'Styling.RemoveAllCssClassesFromCell-end'
         );
+
+        return output;
     }
     /**
      * Function that will remove a added CSS class from a column.

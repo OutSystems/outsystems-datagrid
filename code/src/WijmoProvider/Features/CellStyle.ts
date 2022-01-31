@@ -89,8 +89,24 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        public removeAllClasses(rowNumber: number, binding: string): void {
-            this.getMetadata(rowNumber).removeAllClasses(binding);
+        public removeAllClasses(
+            rowNumber: number,
+            binding: string
+        ): OSFramework.OSStructure.ReturnMessage {
+            try {
+                this.getMetadata(rowNumber).removeAllClasses(binding);
+                return {
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes.API_FailedSetCellCssClass
+                };
+            }
         }
 
         public removeClass(
