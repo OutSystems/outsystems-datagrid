@@ -228,10 +228,26 @@ namespace WijmoProvider.Feature {
             else return undefined;
         }
 
-        public getAllSelections(): OSFramework.OSStructure.CellRange[] {
-            return this.getProviderAllSelections().map((p) =>
-                Helper.CellRangeFactory.MakeFromProviderCellRange(p)
-            );
+        public getAllSelections(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                const getAllSelections = this.getProviderAllSelections().map(
+                    (p) => Helper.CellRangeFactory.MakeFromProviderCellRange(p)
+                );
+
+                return {
+                    value: getAllSelections,
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes.API_FailedGetAllSelections
+                };
+            } catch (error) {
+                return {
+                    value: [],
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes.API_FailedGetAllSelections
+                };
+            }
         }
 
         public getAllSelectionsData(): OSFramework.OSStructure.RowData[] {
@@ -388,7 +404,7 @@ namespace WijmoProvider.Feature {
         public getSelectedRowsCountByCellRange(): number {
             //Runs the equalize to garantee that the same row is not selected more than once
             this.equalizeSelection();
-            return this.getAllSelections().reduce(
+            return this.getAllSelections().value.reduce(
                 (acc, sel) => acc + (sel.bottomRowIndex - sel.topRowIndex + 1),
                 0
             );

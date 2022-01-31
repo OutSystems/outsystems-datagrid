@@ -41,7 +41,7 @@ namespace OSFramework.Feature {
         /**
          * Returns all selections (rows and ranges)
          */
-        getAllSelections(): OSStructure.CellRange[];
+        getAllSelections(): OSStructure.ReturnMessage;
         /**
          * Returns the Data of the selections
          */
