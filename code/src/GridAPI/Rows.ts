@@ -15,13 +15,17 @@ namespace GridAPI.Rows {
         gridID: string,
         rowNumber: number,
         className: string
-    ): void {
+    ): string {
         PerformanceAPI.SetMark('Rows.AddClass');
 
         const grid = GridManager.GetGridById(gridID);
 
+        let output = '';
+
         if (grid !== undefined) {
-            grid.features.rows.addClass(rowNumber, className, true);
+            output = JSON.stringify(
+                grid.features.rows.addClass(rowNumber, className, true)
+            );
         }
         PerformanceAPI.SetMark('Rows.AddClass-end');
         PerformanceAPI.GetMeasure(
@@ -29,6 +33,8 @@ namespace GridAPI.Rows {
             'Rows.AddClass',
             'Rows.AddClass-end'
         );
+
+        return output;
     }
 
     /**
