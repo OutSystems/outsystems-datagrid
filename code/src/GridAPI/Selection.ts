@@ -27,11 +27,7 @@ namespace GridAPI.Selection {
             'Selection.GetAllSelectionsData',
             'Selection.GetAllSelectionsData-end'
         );
-        return JSON.stringify(
-            grid.features.selection
-                .getAllSelectionsData()
-                .map((p) => p.serialize())
-        );
+        return JSON.stringify(grid.features.selection.getAllSelectionsData());
     }
 
     export function GetCheckedRowsData(gridID: string): string {

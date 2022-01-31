@@ -250,57 +250,73 @@ namespace WijmoProvider.Feature {
             }
         }
 
-        public getAllSelectionsData(): OSFramework.OSStructure.RowData[] {
-            const rowColumn = new Map<
-                number,
-                OSFramework.OSStructure.RowData
-            >();
-            const rowColumnArr = [];
+        public getAllSelectionsData(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                const rowColumn = new Map<
+                    number,
+                    OSFramework.OSStructure.RowData
+                >();
+                const rowColumnArr = [];
 
-            this.getProviderAllSelections().map((range) => {
-                const bindings = Array(range.rightCol - range.leftCol + 1)
-                    .fill(0)
-                    .map((_, idx) =>
-                        this._grid.provider.getColumn(range.leftCol + idx)
-                    )
-                    .filter((p) => p.isVisible)
-                    .map((p) => p.binding);
+                this.getProviderAllSelections().map((range) => {
+                    const bindings = Array(range.rightCol - range.leftCol + 1)
+                        .fill(0)
+                        .map((_, idx) =>
+                            this._grid.provider.getColumn(range.leftCol + idx)
+                        )
+                        .filter((p) => p.isVisible)
+                        .map((p) => p.binding);
 
-                Array(range.bottomRow - range.topRow + 1)
-                    .fill(0)
-                    .map((_, idx) => range.topRow + idx)
-                    .map((rowIndex) => {
-                        let curr = rowColumn.get(rowIndex);
+                    Array(range.bottomRow - range.topRow + 1)
+                        .fill(0)
+                        .map((_, idx) => range.topRow + idx)
+                        .map((rowIndex) => {
+                            let curr = rowColumn.get(rowIndex);
 
-                        if (!curr) {
-                            curr = new OSFramework.OSStructure.RowData(
-                                this._grid,
-                                rowIndex,
-                                this._grid.provider.rows[rowIndex].dataItem
-                            );
+                            if (!curr) {
+                                curr = new OSFramework.OSStructure.RowData(
+                                    this._grid,
+                                    rowIndex,
+                                    this._grid.provider.rows[rowIndex].dataItem
+                                );
 
-                            rowColumnArr.push(curr);
-                            rowColumn.set(rowIndex, curr);
-                        }
+                                rowColumnArr.push(curr);
+                                rowColumn.set(rowIndex, curr);
+                            }
 
-                        curr.selected.push(
-                            ...bindings.map(
-                                (binding) =>
-                                    new OSFramework.OSStructure.BindingValue(
-                                        binding,
-                                        this._grid.provider.getCellData(
-                                            rowIndex,
+                            curr.selected.push(
+                                ...bindings.map(
+                                    (binding) =>
+                                        new OSFramework.OSStructure.BindingValue(
                                             binding,
-                                            false
+                                            this._grid.provider.getCellData(
+                                                rowIndex,
+                                                binding,
+                                                false
+                                            )
                                         )
-                                    )
-                            )
-                        );
-                    });
-            });
+                                )
+                            );
+                        });
+                });
 
-            rowColumn.clear();
-            return rowColumnArr;
+                rowColumn.clear();
+                return {
+                    value: rowColumnArr.map((p) => p.serialize()),
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetAllSelectionsData
+                };
+            } catch (error) {
+                return {
+                    value: [],
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetAllSelectionsData
+                };
+            }
         }
 
         public getCheckedRowsData(): OSFramework.OSStructure.CheckedRowData[] {

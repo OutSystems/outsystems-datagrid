@@ -45,7 +45,7 @@ namespace OSFramework.Feature {
         /**
          * Returns the Data of the selections
          */
-        getAllSelectionsData(): OSStructure.RowData[];
+        getAllSelectionsData(): OSStructure.ReturnMessage;
 
         /**
          * Returns the Data of the checked rows
