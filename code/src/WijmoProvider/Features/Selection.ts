@@ -238,7 +238,7 @@ namespace WijmoProvider.Feature {
                     value: getAllSelections,
                     isSuccess: true,
                     message: 'Success',
-                    code: OSFramework.Enum.ErrorCodes.API_FailedGetAllSelections
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
@@ -305,8 +305,7 @@ namespace WijmoProvider.Feature {
                     value: rowColumnArr.map((p) => p.serialize()),
                     isSuccess: true,
                     message: 'Success',
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedGetAllSelectionsData
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
@@ -340,8 +339,7 @@ namespace WijmoProvider.Feature {
                     value: allCheckedRowsArr.map((p) => p.serialize()),
                     isSuccess: true,
                     message: 'Success',
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedGetCheckedRowsData
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
@@ -437,8 +435,7 @@ namespace WijmoProvider.Feature {
                     value: this.getSelectedRows().length,
                     isSuccess: true,
                     message: 'Success',
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedGetSelectedRowsCount
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
@@ -474,8 +471,7 @@ namespace WijmoProvider.Feature {
                     value: selectedRows.map((p) => p.serialize()),
                     isSuccess: true,
                     message: 'Success',
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedGetSelectedRowsData
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
@@ -505,7 +501,7 @@ namespace WijmoProvider.Feature {
                     value: this.getSelectedRows().length > 0,
                     isSuccess: true,
                     message: 'Success',
-                    code: OSFramework.Enum.ErrorCodes.API_FailedHasSelectedRows
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
