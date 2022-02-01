@@ -42,11 +42,7 @@ namespace GridAPI.Selection {
             'Selection.GetCheckedRowsData',
             'Selection.GetCheckedRowsData-end'
         );
-        return JSON.stringify(
-            grid.features.selection
-                .getCheckedRowsData()
-                .map((p) => p.serialize())
-        );
+        return JSON.stringify(grid.features.selection.getCheckedRowsData());
     }
 
     export function GetSelectedRowsCount(gridID: string): number {

@@ -50,7 +50,7 @@ namespace OSFramework.Feature {
         /**
          * Returns the Data of the checked rows
          */
-        getCheckedRowsData(): OSStructure.CheckedRowData[];
+        getCheckedRowsData(): OSStructure.ReturnMessage;
 
         /**
          * Returns the Indexes of the selected rows

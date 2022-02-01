@@ -319,21 +319,39 @@ namespace WijmoProvider.Feature {
             }
         }
 
-        public getCheckedRowsData(): OSFramework.OSStructure.CheckedRowData[] {
-            const allCheckedRows =
-                this._grid.provider.itemsSource.sourceCollection.filter(
-                    (item) =>
-                        item?.__osRowMetadata?.get(this._internalLabel)
-                            .isChecked === true
+        public getCheckedRowsData(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                const allCheckedRows =
+                    this._grid.provider.itemsSource.sourceCollection.filter(
+                        (item) =>
+                            item?.__osRowMetadata?.get(this._internalLabel)
+                                .isChecked === true
+                    );
+
+                const allCheckedRowsArr = allCheckedRows.map(
+                    (dataItem) =>
+                        new OSFramework.OSStructure.CheckedRowData(
+                            this._grid,
+                            dataItem
+                        )
                 );
 
-            return allCheckedRows.map(
-                (dataItem) =>
-                    new OSFramework.OSStructure.CheckedRowData(
-                        this._grid,
-                        dataItem
-                    )
-            );
+                return {
+                    value: allCheckedRowsArr.map((p) => p.serialize()),
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetCheckedRowsData
+                };
+            } catch (error) {
+                return {
+                    value: [],
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetCheckedRowsData
+                };
+            }
         }
 
         public getMetadata(
@@ -438,7 +456,7 @@ namespace WijmoProvider.Feature {
         }
 
         public hasCheckedRows(): boolean {
-            return this.getCheckedRowsData().length > 0;
+            return this.getCheckedRowsData().value.length > 0;
         }
 
         public hasMetadata(rowNumber: number): boolean {
