@@ -31,7 +31,7 @@ namespace GridAPI.Sort {
     /**
      * Function that sorts a Grid column based in its ID and on a sorting
      *
-     * @export 
+     * @export
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID
      * @param {OSFramework.OSStructure.Sorting} sorting
@@ -47,7 +47,9 @@ namespace GridAPI.Sort {
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
-        const output = JSON.stringify(grid.features.sort.sortColumn(columnID, sorting));
+        const output = JSON.stringify(
+            grid.features.sort.sortColumn(columnID, sorting)
+        );
 
         PerformanceAPI.SetMark('Sort.ColumnSort-end');
         PerformanceAPI.GetMeasure(

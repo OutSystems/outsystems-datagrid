@@ -162,15 +162,14 @@ namespace WijmoProvider.Feature {
             this.setState(this._enabled);
         }
 
-        
-        
         /**
          * Function that clears sort of grid
+         *
          * @returns {*}  {OSFramework.OSStructure.ReturnMessage} Return Message containing the resulting code from sorting columns and the error message in case of failure
          */
-        public clear(): OSFramework.OSStructure.ReturnMessage  {
+        public clear(): OSFramework.OSStructure.ReturnMessage {
             try {
-               this._grid.provider.collectionView.sortDescriptions.clear();
+                this._grid.provider.collectionView.sortDescriptions.clear();
                 return {
                     isSuccess: true,
                     message: 'Success',
@@ -233,24 +232,22 @@ namespace WijmoProvider.Feature {
             });
         }
 
-
-
         /**
          * Function that sorts a Grid column based in its ID and on a sorting
-         * @param  {string} columnID 
-         * @param {OSFramework.OSStructure.Sorting} sorting 
+         * @param  {string} columnID
+         * @param {OSFramework.OSStructure.Sorting} sorting
          * @returns {*}  {OSFramework.OSStructure.ReturnMessage} Return Message containing the resulting code from sorting columns and the error message in case of failure
          */
         public sortColumn(
             columnID: string,
             sorting: OSFramework.OSStructure.Sorting
-        ): OSFramework.OSStructure.ReturnMessage  {
+        ): OSFramework.OSStructure.ReturnMessage {
             try {
                 const column = this._grid.getColumn(columnID);
                 const ascending =
                     OSFramework.OSStructure.Sorting[sorting] ===
                     OSFramework.OSStructure.Sorting.Ascending;
-    
+
                 if (column) {
                     // check if column has sort active
                     const existingColumnSort =
@@ -283,7 +280,6 @@ namespace WijmoProvider.Feature {
                 };
             }
         }
-            
 
         public validateAction(
             action: OSFramework.Event.Grid.Actions /*, ctx: any*/

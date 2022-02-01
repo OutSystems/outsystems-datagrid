@@ -8,8 +8,8 @@ namespace OSFramework.Feature {
         clear(): OSStructure.ReturnMessage;
         isColumnSorted(columnID: string): boolean;
         sortColumn(
-            columnID: string, 
+            columnID: string,
             ascending: OSStructure.Sorting
-            ): OSStructure.ReturnMessage;
+        ): OSStructure.ReturnMessage;
     }
 }
