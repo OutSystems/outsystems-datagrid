@@ -265,18 +265,18 @@ namespace WijmoProvider.Feature {
                             ascending
                         )
                     );
+                    return {
+                        isSuccess: true,
+                        message: 'Success',
+                        code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                    };
                 } else {
                     return {
                         isSuccess: false,
-                        message: 'Error',
+                        message: 'It seems you are not passing a valid column.',
                         code: OSFramework.Enum.ErrorCodes.API_FailedColumnSort
                     };
                 }
-                return {
-                    isSuccess: true,
-                    message: 'Success',
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-                };
             } catch (error) {
                 return {
                     isSuccess: false,
