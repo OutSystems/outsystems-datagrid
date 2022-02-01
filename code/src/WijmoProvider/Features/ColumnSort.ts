@@ -162,8 +162,28 @@ namespace WijmoProvider.Feature {
             this.setState(this._enabled);
         }
 
-        public clear(): void {
-            this._grid.provider.collectionView.sortDescriptions.clear();
+        
+        
+        /**
+         * Function that clears sort of grid
+         * @returns {*}  {OSFramework.OSStructure.ReturnMessage} Return Message containing the resulting code from sorting columns and the error message in case of failure.
+         */
+        public clear(): OSFramework.OSStructure.ReturnMessage  {
+            try {
+               this._grid.provider.collectionView.sortDescriptions.clear();
+        
+                return {
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes.API_FailedClear
+                };
+            }
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
@@ -214,36 +234,58 @@ namespace WijmoProvider.Feature {
             });
         }
 
+
+
+        /**
+         * Function that sorts a Grid column based in its ID and on a sorting
+         * @param  {string} columnID 
+         * @param {OSFramework.OSStructure.Sorting} sorting 
+         * @returns {*}  {OSFramework.OSStructure.ReturnMessage} Return Message containing the resulting code from sorting columns and the error message in case of failure.
+         */
         public sortColumn(
             columnID: string,
             sorting: OSFramework.OSStructure.Sorting
-        ): void {
-            const column = this._grid.getColumn(columnID);
-            const ascending =
-                OSFramework.OSStructure.Sorting[sorting] ===
-                OSFramework.OSStructure.Sorting.Ascending;
-
-            if (column) {
-                // check if column has sort active
-                const existingColumnSort =
-                    this._grid.provider.itemsSource.sortDescriptions.find(
-                        (sd) => sd.property === column.config.binding
-                    );
-                // if there is sort active on column, we must remove it
-                if (existingColumnSort) {
-                    this._grid.provider.itemsSource.sortDescriptions.remove(
-                        existingColumnSort
+        ): OSFramework.OSStructure.ReturnMessage  {
+            try {
+                const column = this._grid.getColumn(columnID);
+                const ascending =
+                    OSFramework.OSStructure.Sorting[sorting] ===
+                    OSFramework.OSStructure.Sorting.Ascending;
+    
+                if (column) {
+                    // check if column has sort active
+                    const existingColumnSort =
+                        this._grid.provider.itemsSource.sortDescriptions.find(
+                            (sd) => sd.property === column.config.binding
+                        );
+                    // if there is sort active on column, we must remove it
+                    if (existingColumnSort) {
+                        this._grid.provider.itemsSource.sortDescriptions.remove(
+                            existingColumnSort
+                        );
+                    }
+    
+                    this._grid.provider.itemsSource.sortDescriptions.push(
+                        new wijmo.collections.SortDescription(
+                            column.config.binding,
+                            ascending
+                        )
                     );
                 }
-
-                this._grid.provider.itemsSource.sortDescriptions.push(
-                    new wijmo.collections.SortDescription(
-                        column.config.binding,
-                        ascending
-                    )
-                );
+                return {
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes.API_FailedColumnSort
+                };
             }
         }
+            
 
         public validateAction(
             action: OSFramework.Event.Grid.Actions /*, ctx: any*/

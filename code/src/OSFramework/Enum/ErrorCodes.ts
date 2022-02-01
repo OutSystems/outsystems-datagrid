@@ -21,6 +21,9 @@ namespace OSFramework.Enum {
         API_FailedApplyRowValidation = 'GRID-API-02005',
         // VIEW
         API_FailedGetViewLayout = 'GRID-API-03001',
-        API_FailedSetViewLayout = 'GRID-API-03002'
+        API_FailedSetViewLayout = 'GRID-API-03002',
+        //SORT
+        API_FailedClear = 'GRID-API-04001',
+        API_FailedColumnSort = 'GRID-API-04002'
     }
 }
