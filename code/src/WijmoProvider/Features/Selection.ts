@@ -460,15 +460,32 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        public getSelectedRowsData(): OSFramework.OSStructure.RowData[] {
-            return this.getSelectedRows().map(
-                (rowIndex) =>
-                    new OSFramework.OSStructure.RowData(
-                        this._grid,
-                        rowIndex,
-                        this._grid.provider.rows[rowIndex].dataItem
-                    )
-            );
+        public getSelectedRowsData(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                const selectedRows = this.getSelectedRows().map(
+                    (rowIndex) =>
+                        new OSFramework.OSStructure.RowData(
+                            this._grid,
+                            rowIndex,
+                            this._grid.provider.rows[rowIndex].dataItem
+                        )
+                );
+                return {
+                    value: selectedRows.map((p) => p.serialize()),
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetSelectedRowsData
+                };
+            } catch (error) {
+                return {
+                    value: [],
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetSelectedRowsData
+                };
+            }
         }
 
         public hasCheckedRows(): boolean {

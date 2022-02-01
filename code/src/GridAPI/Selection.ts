@@ -72,11 +72,7 @@ namespace GridAPI.Selection {
             'Selection.GetSelectedRowsData',
             'Selection.GetSelectedRowsData-end'
         );
-        return JSON.stringify(
-            grid.features.selection
-                .getSelectedRowsData()
-                .map((p) => p.serialize())
-        );
+        return JSON.stringify(grid.features.selection.getSelectedRowsData());
     }
 
     export function HasSelectedRows(gridID: string): boolean {

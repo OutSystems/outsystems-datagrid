@@ -26,6 +26,7 @@ namespace OSFramework.Enum {
         API_FailedGetAllSelections = 'GRID-API-04001',
         API_FailedGetAllSelectionsData = 'GRID-API-04002',
         API_FailedGetCheckedRowsData = 'GRID-API-04003',
-        API_FailedGetSelectedRowsCount = 'GRID-API-04004'
+        API_FailedGetSelectedRowsCount = 'GRID-API-04004',
+        API_FailedGetSelectedRowsData = 'GRID-API-04005'
     }
 }
