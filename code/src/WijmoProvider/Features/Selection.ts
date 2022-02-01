@@ -431,8 +431,24 @@ namespace WijmoProvider.Feature {
             return rows.filter((item, index) => rows.indexOf(item) === index);
         }
 
-        public getSelectedRowsCount(): number {
-            return this.getSelectedRows().length;
+        public getSelectedRowsCount(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                return {
+                    value: this.getSelectedRows().length,
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetSelectedRowsCount
+                };
+            } catch (error) {
+                return {
+                    value: null,
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetSelectedRowsCount
+                };
+            }
         }
 
         public getSelectedRowsCountByCellRange(): number {

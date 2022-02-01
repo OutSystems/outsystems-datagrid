@@ -45,10 +45,10 @@ namespace GridAPI.Selection {
         return JSON.stringify(grid.features.selection.getCheckedRowsData());
     }
 
-    export function GetSelectedRowsCount(gridID: string): number {
+    export function GetSelectedRowsCount(gridID: string): string {
         PerformanceAPI.SetMark('Selection.GetSelectedRowsCount');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return 0;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
         PerformanceAPI.SetMark('Selection.GetSelectedRowsCount-end');
@@ -57,7 +57,7 @@ namespace GridAPI.Selection {
             'Selection.GetSelectedRowsCount',
             'Selection.GetSelectedRowsCount-end'
         );
-        return grid.features.selection.getSelectedRowsCount();
+        return JSON.stringify(grid.features.selection.getSelectedRowsCount());
     }
 
     export function GetSelectedRowsData(gridID: string): string {

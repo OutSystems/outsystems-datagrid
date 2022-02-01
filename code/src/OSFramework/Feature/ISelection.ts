@@ -59,7 +59,7 @@ namespace OSFramework.Feature {
         /**
          * Returns how many rows are selected by row number or checkbox selection
          */
-        getSelectedRowsCount(): number;
+        getSelectedRowsCount(): OSStructure.ReturnMessage;
         /**
          * Returns how many rows are selected by cell range selection
          */
