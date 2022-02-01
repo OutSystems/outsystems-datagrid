@@ -8,7 +8,7 @@ namespace GridAPI.Sort {
      *
      * @export
      * @param {string} gridID ID of the Grid that is to be to check from results.
-     * @returns {*}  {string} Return Message containing the resulting code from sorting columns and the error message in case of failure.
+     * @returns {*}  {string} Return Message containing the resulting code from sorting columns and the error message in case of failure
      */
     export function Clear(gridID: string): string {
         PerformanceAPI.SetMark('Sort.Clear');
@@ -16,7 +16,7 @@ namespace GridAPI.Sort {
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
-        let output = JSON.stringify(grid.features.sort.clear());
+        const output = JSON.stringify(grid.features.sort.clear());
 
         PerformanceAPI.SetMark('Sort.Clear-end');
         PerformanceAPI.GetMeasure(
@@ -28,7 +28,6 @@ namespace GridAPI.Sort {
         return output;
     }
 
-
     /**
      * Function that sorts a Grid column based in its ID and on a sorting
      *
@@ -36,7 +35,7 @@ namespace GridAPI.Sort {
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID
      * @param {OSFramework.OSStructure.Sorting} sorting
-     * @return {*}  {string} Return Message containing the resulting code from sorting columns and the error message in case of failure.
+     * @return {*}  {string} Return Message containing the resulting code from sorting columns and the error message in case of failure
      */
     export function ColumnSort(
         gridID: string,
@@ -48,7 +47,7 @@ namespace GridAPI.Sort {
         if (!OSFramework.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
-        let output = JSON.stringify(grid.features.sort.sortColumn(columnID, sorting));
+        const output = JSON.stringify(grid.features.sort.sortColumn(columnID, sorting));
 
         PerformanceAPI.SetMark('Sort.ColumnSort-end');
         PerformanceAPI.GetMeasure(

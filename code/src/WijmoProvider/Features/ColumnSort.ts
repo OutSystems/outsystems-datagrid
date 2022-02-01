@@ -166,12 +166,11 @@ namespace WijmoProvider.Feature {
         
         /**
          * Function that clears sort of grid
-         * @returns {*}  {OSFramework.OSStructure.ReturnMessage} Return Message containing the resulting code from sorting columns and the error message in case of failure.
+         * @returns {*}  {OSFramework.OSStructure.ReturnMessage} Return Message containing the resulting code from sorting columns and the error message in case of failure
          */
         public clear(): OSFramework.OSStructure.ReturnMessage  {
             try {
                this._grid.provider.collectionView.sortDescriptions.clear();
-        
                 return {
                     isSuccess: true,
                     message: 'Success',
@@ -240,7 +239,7 @@ namespace WijmoProvider.Feature {
          * Function that sorts a Grid column based in its ID and on a sorting
          * @param  {string} columnID 
          * @param {OSFramework.OSStructure.Sorting} sorting 
-         * @returns {*}  {OSFramework.OSStructure.ReturnMessage} Return Message containing the resulting code from sorting columns and the error message in case of failure.
+         * @returns {*}  {OSFramework.OSStructure.ReturnMessage} Return Message containing the resulting code from sorting columns and the error message in case of failure
          */
         public sortColumn(
             columnID: string,
@@ -264,7 +263,6 @@ namespace WijmoProvider.Feature {
                             existingColumnSort
                         );
                     }
-    
                     this._grid.provider.itemsSource.sortDescriptions.push(
                         new wijmo.collections.SortDescription(
                             column.config.binding,
