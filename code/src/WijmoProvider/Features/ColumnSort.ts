@@ -265,6 +265,12 @@ namespace WijmoProvider.Feature {
                             ascending
                         )
                     );
+                } else {
+                    return {
+                        isSuccess: false,
+                        message: 'Error',
+                        code: OSFramework.Enum.ErrorCodes.API_FailedColumnSort
+                    };
                 }
                 return {
                     isSuccess: true,
