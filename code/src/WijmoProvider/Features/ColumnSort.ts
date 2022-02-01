@@ -164,7 +164,6 @@ namespace WijmoProvider.Feature {
 
         /**
          * Function that clears sort of grid
-         *
          * @returns {*}  {OSFramework.OSStructure.ReturnMessage} Return Message containing the resulting code from sorting columns and the error message in case of failure
          */
         public clear(): OSFramework.OSStructure.ReturnMessage {
