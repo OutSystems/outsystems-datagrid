@@ -77,7 +77,7 @@ namespace OSFramework.Feature {
         /**
          * Checks if there is a row selected on the grid
          */
-        hasSelectedRows(): boolean;
+        hasSelectedRows(): OSStructure.ReturnMessage;
 
         /**
          * Checks if there is anything selected in the grid

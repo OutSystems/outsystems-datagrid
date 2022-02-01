@@ -499,8 +499,22 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        public hasSelectedRows(): boolean {
-            return this.getSelectedRows().length > 0;
+        public hasSelectedRows(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                return {
+                    value: this.getSelectedRows().length > 0,
+                    isSuccess: true,
+                    message: 'Success',
+                    code: OSFramework.Enum.ErrorCodes.API_FailedHasSelectedRows
+                };
+            } catch (error) {
+                return {
+                    value: undefined,
+                    isSuccess: false,
+                    message: 'Error',
+                    code: OSFramework.Enum.ErrorCodes.API_FailedHasSelectedRows
+                };
+            }
         }
 
         public hasValidSelection(): boolean {

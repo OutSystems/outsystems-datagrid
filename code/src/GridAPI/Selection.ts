@@ -75,10 +75,10 @@ namespace GridAPI.Selection {
         return JSON.stringify(grid.features.selection.getSelectedRowsData());
     }
 
-    export function HasSelectedRows(gridID: string): boolean {
+    export function HasSelectedRows(gridID: string): string {
         PerformanceAPI.SetMark('Selection.HasSelectedRows');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return false;
+        if (!OSFramework.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
         PerformanceAPI.SetMark('Selection.HasSelectedRows-end');
@@ -87,6 +87,6 @@ namespace GridAPI.Selection {
             'Selection.HasSelectedRows',
             'Selection.HasSelectedRows-end'
         );
-        return grid.features.selection.hasSelectedRows();
+        return JSON.stringify(grid.features.selection.hasSelectedRows());
     }
 }
