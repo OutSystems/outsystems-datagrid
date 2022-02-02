@@ -164,7 +164,15 @@ namespace OSFramework.Grid {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         protected _parseNewItem(): any {
-            const parsedNewItem = _.cloneDeep(this._metadata);
+            if (!this.hasMetadata && this._ds.length === 0) {
+                throw new Error(
+                    `Unable to add row. Please use ArrangeData action to serialize your data.`
+                );
+            }
+            const parsedNewItem =
+                _.cloneDeep(this._metadata) ||
+                _.cloneDeep(_.omit(this._ds[0], '__osRowMetadata'));
+
             const converter = (object) => {
                 Object.keys(object).forEach((key) => {
                     if (typeof object[key] === 'object') converter(object[key]);
