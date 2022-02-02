@@ -5,7 +5,8 @@
 	"editor.wordWrapColumn": 170,
 	"editor.formatOnSave": false,
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": true
+		"source.fixAll.eslint": true,
+		"source.fixAll.stylelint": true
 	},
 	"css.lint.fontFaceProperties": "ignore",
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
