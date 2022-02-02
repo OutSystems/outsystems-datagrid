@@ -60,7 +60,7 @@ namespace GridAPI.Filter {
         } catch (error) {
             returnMessage = {
                 isSuccess: false,
-                message: 'Error',
+                message: error,
                 code: OSFramework.Enum.ErrorCodes.API_FailedFilterSearch
             };
         }
@@ -118,7 +118,7 @@ namespace GridAPI.Filter {
         } catch (error) {
             returnMessage = {
                 isSuccess: false,
-                message: 'Error',
+                message: error,
                 code: OSFramework.Enum.ErrorCodes.API_FailedFilterActivate
             };
         }
@@ -176,7 +176,7 @@ namespace GridAPI.Filter {
         } catch (error) {
             returnMessage = {
                 isSuccess: false,
-                message: 'Error',
+                message: error,
                 code: OSFramework.Enum.ErrorCodes.API_FailedFilterClear
             };
         }
@@ -233,7 +233,7 @@ namespace GridAPI.Filter {
         } catch (error) {
             returnMessage = {
                 isSuccess: false,
-                message: 'Error',
+                message: error,
                 code: OSFramework.Enum.ErrorCodes.API_FailedFilterDeactivate
             };
         }
@@ -296,7 +296,7 @@ namespace GridAPI.Filter {
         } catch (error) {
             returnMessage = {
                 isSuccess: false,
-                message: 'Error',
+                message: error,
                 code: OSFramework.Enum.ErrorCodes.API_FailedFilterByCondition
             };
         }
@@ -359,7 +359,7 @@ namespace GridAPI.Filter {
         } catch (error) {
             returnMessage = {
                 isSuccess: false,
-                message: 'Error',
+                message: error,
                 code: OSFramework.Enum.ErrorCodes.API_FailedFilterByValue
             };
         }
@@ -382,24 +382,57 @@ namespace GridAPI.Filter {
      * @param {string} columnID ID of the column block where the filter options will be set.
      * @param {string} options  Values that will be used on filter by value list.
      * @param {number} maxVisibleOptions Maximum number of elements on the filter list of display values.
-     * @returns {*}  {void}
+     * @returns {*}  {string}
      */
     export function SetColumnFilterOptions(
         gridID: string,
         columnID: string,
         options: string,
         maxVisibleOptions?: number
-    ): void {
+    ): string {
         PerformanceAPI.SetMark('Filter.SetColumnFilterOptions');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
-        const grid = GridManager.GetGridById(gridID);
+        let returnMessage = {
+            isSuccess: true,
+            message: 'Success',
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
 
-        grid.features.filter.setColumnFilterOptions(
-            columnID,
-            JSON.parse(options),
-            maxVisibleOptions
-        );
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Grid not found',
+                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+            };
+            return JSON.stringify(returnMessage);
+        }
+        try {
+            const grid = GridManager.GetGridById(gridID);
+
+            const column = grid.hasColumn(columnID);
+
+            if (column) {
+                grid.features.filter.setColumnFilterOptions(
+                    columnID,
+                    JSON.parse(options),
+                    maxVisibleOptions
+                );
+            } else {
+                returnMessage = {
+                    isSuccess: false,
+                    message: 'It seems you are not passing a valid column.',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedFilterCollumnNotFound
+                };
+            }
+        } catch (error) {
+            returnMessage = {
+                isSuccess: false,
+                message: error,
+                code: OSFramework.Enum.ErrorCodes
+                    .API_FailedFilterSetColumnFilterOptions
+            };
+        }
 
         PerformanceAPI.SetMark('Filter.SetColumnFilterOptions-end');
         PerformanceAPI.GetMeasure(
@@ -407,5 +440,7 @@ namespace GridAPI.Filter {
             'Filter.SetColumnFilterOptions',
             'Filter.SetColumnFilterOptions-end'
         );
+
+        return JSON.stringify(returnMessage);
     }
 }
