@@ -136,14 +136,14 @@ namespace WijmoProvider.Feature {
                 return {
                     value: JSON.stringify(state),
                     isSuccess: true,
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: '',
                     isSuccess: false,
-                    message: 'Error',
+                    message: error.message,
                     code: OSFramework.Enum.ErrorCodes.API_FailedGetViewLayout
                 };
             }
@@ -177,13 +177,13 @@ namespace WijmoProvider.Feature {
 
                 return {
                     isSuccess: true,
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     isSuccess: false,
-                    message: 'Error',
+                    message: error.message,
                     code: OSFramework.Enum.ErrorCodes.API_FailedSetViewLayout
                 };
             }

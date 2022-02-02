@@ -345,7 +345,7 @@ namespace WijmoProvider.Feature {
 
                 // Return success
                 return {
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     isSuccess: true,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
@@ -518,7 +518,7 @@ namespace WijmoProvider.Feature {
                 }
 
                 return {
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     isSuccess: true,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
