@@ -252,7 +252,9 @@ namespace WijmoProvider.Feature {
                     )
                 );
             } else {
-                throw new Error('It seems you are not passing a valid column.');
+                throw new Error(
+                    OSFramework.Enum.ErrorMessage.Sort_InvalidColumnIdentifier
+                );
             }
         }
 

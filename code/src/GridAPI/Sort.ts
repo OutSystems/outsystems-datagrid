@@ -22,7 +22,7 @@ namespace GridAPI.Sort {
         if (!OSFramework.Helper.IsGridReady(gridID)) {
             returnMessage = {
                 isSuccess: false,
-                message: 'Grid not found',
+                message: OSFramework.Enum.ErrorMessage.Grid_NotFound,
                 code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
             };
             return JSON.stringify(returnMessage);
@@ -72,7 +72,7 @@ namespace GridAPI.Sort {
         if (!OSFramework.Helper.IsGridReady(gridID)) {
             returnMessage = {
                 isSuccess: false,
-                message: 'Grid not found',
+                message: OSFramework.Enum.ErrorMessage.Grid_NotFound,
                 code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
             };
             return JSON.stringify(returnMessage);
