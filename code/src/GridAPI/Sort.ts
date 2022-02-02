@@ -13,10 +13,29 @@ namespace GridAPI.Sort {
     export function Clear(gridID: string): string {
         PerformanceAPI.SetMark('Sort.Clear');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
-        const grid = GridManager.GetGridById(gridID);
+        let returnMessage = {
+            isSuccess: true,
+            message: 'Success',
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
 
-        const output = JSON.stringify(grid.features.sort.clear());
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Grid not found',
+                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+            };
+            return JSON.stringify(returnMessage);
+        }
+        try {
+            GridManager.GetGridById(gridID).features.sort.clear();
+        } catch (error) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Error',
+                code: OSFramework.Enum.ErrorCodes.API_FailedClearSort
+            };
+        }
 
         PerformanceAPI.SetMark('Sort.Clear-end');
         PerformanceAPI.GetMeasure(
@@ -25,7 +44,7 @@ namespace GridAPI.Sort {
             'Sort.Clear-end'
         );
 
-        return output;
+        return JSON.stringify(returnMessage);
     }
 
     /**
@@ -44,12 +63,32 @@ namespace GridAPI.Sort {
     ): string {
         PerformanceAPI.SetMark('Sort.ColumnSort');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
-        const grid = GridManager.GetGridById(gridID);
+        let returnMessage = {
+            isSuccess: true,
+            message: 'Success',
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
 
-        const output = JSON.stringify(
-            grid.features.sort.sortColumn(columnID, sorting)
-        );
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Grid not found',
+                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+            };
+            return JSON.stringify(returnMessage);
+        }
+        try {
+            GridManager.GetGridById(gridID).features.sort.sortColumn(
+                columnID,
+                sorting
+            );
+        } catch (error) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Error',
+                code: OSFramework.Enum.ErrorCodes.API_FailedClearSort
+            };
+        }
 
         PerformanceAPI.SetMark('Sort.ColumnSort-end');
         PerformanceAPI.GetMeasure(
@@ -58,6 +97,6 @@ namespace GridAPI.Sort {
             'Sort.ColumnSort-end'
         );
 
-        return output;
+        return JSON.stringify(returnMessage);
     }
 }

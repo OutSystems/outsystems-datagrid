@@ -5,11 +5,8 @@ namespace OSFramework.Feature {
             Interface.IProviderConfig<boolean>,
             IView {
         isGridSorted: boolean;
-        clear(): OSStructure.ReturnMessage;
+        clear(): void;
         isColumnSorted(columnID: string): boolean;
-        sortColumn(
-            columnID: string,
-            ascending: OSStructure.Sorting
-        ): OSStructure.ReturnMessage;
+        sortColumn(columnID: string, ascending: OSStructure.Sorting): void;
     }
 }
