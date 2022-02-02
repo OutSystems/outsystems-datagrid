@@ -139,14 +139,47 @@ namespace GridAPI.Filter {
      * @export
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID ID of the column that will have filter cleared.
-     * @returns {*}  {void}
+     * @returns {*}  {string}
      */
-    export function Clear(gridID: string, columnID: string): void {
+    export function Clear(gridID: string, columnID: string): string {
         PerformanceAPI.SetMark('Filter.clear');
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
-        const grid = GridManager.GetGridById(gridID);
 
-        grid.features.filter.clear(columnID);
+        let returnMessage = {
+            isSuccess: true,
+            message: 'Success',
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Grid not found',
+                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+            };
+            return JSON.stringify(returnMessage);
+        }
+        try {
+            const grid = GridManager.GetGridById(gridID);
+
+            const column = grid.hasColumn(columnID);
+
+            if (column) {
+                grid.features.filter.clear(columnID);
+            } else {
+                returnMessage = {
+                    isSuccess: false,
+                    message: 'It seems you are not passing a valid column.',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedFilterFoundCollumn
+                };
+            }
+        } catch (error) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Error',
+                code: OSFramework.Enum.ErrorCodes.API_FailedFilterClear
+            };
+        }
 
         PerformanceAPI.SetMark('Filter.clear-end');
         PerformanceAPI.GetMeasure(
@@ -154,6 +187,8 @@ namespace GridAPI.Filter {
             'Filter.clear',
             'Filter.clear-end'
         );
+
+        return JSON.stringify(returnMessage);
     }
     /**
      * Function that deactivates filter of a given column
