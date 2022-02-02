@@ -81,14 +81,36 @@ namespace GridAPI.Filter {
      * @export
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID ID of the column that will have filter activated.
-     * @returns {*}  {void}
+     * @returns {*}  {string}
      */
-    export function Activate(gridID: string, columnID: string): void {
+    export function Activate(gridID: string, columnID: string): string {
         PerformanceAPI.SetMark('Filter.activate');
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
-        const grid = GridManager.GetGridById(gridID);
 
-        grid.features.filter.activate(columnID);
+        let returnMessage = {
+            isSuccess: true,
+            message: 'Success',
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Grid not found',
+                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+            };
+            return JSON.stringify(returnMessage);
+        }
+        try {
+            const grid = GridManager.GetGridById(gridID);
+
+            grid.features.filter.activate(columnID);
+        } catch (error) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Error',
+                code: OSFramework.Enum.ErrorCodes.API_FailedFilterActivate
+            };
+        }
 
         PerformanceAPI.SetMark('Filter.activate-end');
         PerformanceAPI.GetMeasure(
@@ -96,6 +118,8 @@ namespace GridAPI.Filter {
             'Filter.activate',
             'Filter.activate-end'
         );
+
+        return JSON.stringify(returnMessage);
     }
 
     /**
