@@ -289,7 +289,9 @@
     background: var(--datagrid-cell-background);
 }
 
-.wj-cells .wj-cell[aria-readonly='true']:not(.wj-group) > *:not(.wj-cell-maker){
+.wj-cells
+    .wj-cell[aria-readonly='true']:not(.wj-group)
+    > *:not(.wj-cell-maker) {
     pointer-events: none;
 }
 
