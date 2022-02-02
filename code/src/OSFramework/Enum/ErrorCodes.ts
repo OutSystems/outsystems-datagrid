@@ -31,6 +31,7 @@ namespace OSFramework.Enum {
         API_FailedHasSelectedRows = 'GRID-API-05006',
         // FILTER
         API_FailedFilterSearch = 'GRID-API-06001',
-        API_FailedFilterActivate = 'GRID-API-06002'
+        API_FailedFilterActivate = 'GRID-API-06002',
+        API_FailedFilterFoundCollumn = 'GRID-API-06003'
     }
 }

@@ -103,7 +103,18 @@ namespace GridAPI.Filter {
         try {
             const grid = GridManager.GetGridById(gridID);
 
-            grid.features.filter.activate(columnID);
+            const column = grid.hasColumn(columnID);
+
+            if (column) {
+                grid.features.filter.activate(columnID);
+            } else {
+                returnMessage = {
+                    isSuccess: false,
+                    message: 'It seems you are not passing a valid column.',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedFilterFoundCollumn
+                };
+            }
         } catch (error) {
             returnMessage = {
                 isSuccess: false,
