@@ -260,24 +260,10 @@ namespace WijmoProvider.Feature {
             rowNumber: number,
             className: string,
             refresh = false
-        ): OSFramework.OSStructure.ReturnMessage {
-            try {
-                this.getMetadata(rowNumber).addClass(className);
-                if (refresh) {
-                    this._grid.provider.invalidate(); //Mark to be refreshed
-                }
-
-                return {
-                    isSuccess: true,
-                    message: 'Success',
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    isSuccess: false,
-                    message: 'Error',
-                    code: OSFramework.Enum.ErrorCodes.API_FailedAddClass
-                };
+        ): void {
+            this.getMetadata(rowNumber).addClass(className);
+            if (refresh) {
+                this._grid.provider.invalidate(); //Mark to be refreshed
             }
         }
 

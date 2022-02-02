@@ -37,21 +37,14 @@ namespace WijmoProvider.Feature {
         public addClass(
             binding: string,
             rowNumber: number,
-            className: string
-        ): OSFramework.OSStructure.ReturnMessage {
-            try {
-                this.getMetadata(rowNumber).addClass(binding, className);
-                return {
-                    isSuccess: true,
-                    message: 'Success',
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    isSuccess: false,
-                    message: 'Error',
-                    code: OSFramework.Enum.ErrorCodes.API_FailedSetCellCssClass
-                };
+            className: string,
+            refresh = false
+        ): void {
+            this.getMetadata(rowNumber).addClass(binding, className);
+
+            // we only want to force refresh on specific cases, as this could cause infinite renders on grid
+            if (refresh) {
+                this._grid.provider.invalidate();
             }
         }
 
@@ -91,31 +84,30 @@ namespace WijmoProvider.Feature {
 
         public removeAllClasses(
             rowNumber: number,
-            binding: string
-        ): OSFramework.OSStructure.ReturnMessage {
-            try {
-                this.getMetadata(rowNumber).removeAllClasses(binding);
-                return {
-                    isSuccess: true,
-                    message: 'Success',
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    isSuccess: false,
-                    message: 'Error',
-                    code: OSFramework.Enum.ErrorCodes.API_FailedSetCellCssClass
-                };
+            binding: string,
+            refresh = false
+        ): void {
+            this.getMetadata(rowNumber).removeAllClasses(binding);
+
+            // we only want to force refresh on specific cases, as this could cause infinite renders on grid
+            if (refresh) {
+                this._grid.provider.invalidate();
             }
         }
 
         public removeClass(
             rowNumber: number,
             binding: string,
-            className: string
+            className: string,
+            refresh = false
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ): any {
             this.getMetadata(rowNumber).removeClass(binding, className);
+
+            // we only want to force refresh on specific cases, as this could cause infinite renders on grid
+            if (refresh) {
+                this._grid.provider.invalidate();
+            }
         }
     }
 }
