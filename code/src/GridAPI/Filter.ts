@@ -22,27 +22,48 @@ namespace GridAPI.Filter {
      * @export
      * @param {string} gridID
      * @param {string} searchedValue
-     * @returns {*}  {void}
+     * @returns {*}  {string}
      */
-    export function Search(gridID: string, searchedValue: string): void {
+    export function Search(gridID: string, searchedValue: string): string {
         PerformanceAPI.SetMark('Filter.search');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
-        const grid = GridManager.GetGridById(gridID);
+        let returnMessage = {
+            isSuccess: true,
+            message: 'Success',
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
 
-        //The method below can be removed after the implementation of wijmo.grid.search
-        grid.dataSource.search(searchedValue);
-
-        if (grid.features.selection.hasValidSelection() === false) {
-            if (grid.hasResults()) {
-                grid.features.selection.selectAndFocusFirstCell();
-            }
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Grid not found',
+                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+            };
+            return JSON.stringify(returnMessage);
         }
+        try {
+            const grid = GridManager.GetGridById(gridID);
 
-        grid.gridEvents.trigger(
-            OSFramework.Event.Grid.GridEventType.SearchEnded,
-            grid
-        );
+            //The method below can be removed after the implementation of wijmo.grid.search
+            grid.dataSource.search(searchedValue);
+
+            if (grid.features.selection.hasValidSelection() === false) {
+                if (grid.hasResults()) {
+                    grid.features.selection.selectAndFocusFirstCell();
+                }
+            }
+
+            grid.gridEvents.trigger(
+                OSFramework.Event.Grid.GridEventType.SearchEnded,
+                grid
+            );
+        } catch (error) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Error',
+                code: OSFramework.Enum.ErrorCodes.API_FailedFilterSearch
+            };
+        }
 
         PerformanceAPI.SetMark('Filter.search-end');
         PerformanceAPI.GetMeasure(
@@ -50,7 +71,8 @@ namespace GridAPI.Filter {
             'Filter.search',
             'Filter.search-end'
         );
-        //TODO: [RGRIDT-621] Give feedback if grid is not found
+
+        return JSON.stringify(returnMessage);
     }
 
     /**

@@ -28,6 +28,8 @@ namespace OSFramework.Enum {
         API_FailedGetCheckedRowsData = 'GRID-API-05003',
         API_FailedGetSelectedRowsCount = 'GRID-API-05004',
         API_FailedGetSelectedRowsData = 'GRID-API-05005',
-        API_FailedHasSelectedRows = 'GRID-API-05006'
+        API_FailedHasSelectedRows = 'GRID-API-05006',
+        // FILTER
+        API_FailedFilterSearch = 'GRID-API-06001'
     }
 }
