@@ -112,7 +112,7 @@ namespace GridAPI.Filter {
                     isSuccess: false,
                     message: 'It seems you are not passing a valid column.',
                     code: OSFramework.Enum.ErrorCodes
-                        .API_FailedFilterFoundCollumn
+                        .API_FailedFilterCollumnNotFound
                 };
             }
         } catch (error) {
@@ -170,7 +170,7 @@ namespace GridAPI.Filter {
                     isSuccess: false,
                     message: 'It seems you are not passing a valid column.',
                     code: OSFramework.Enum.ErrorCodes
-                        .API_FailedFilterFoundCollumn
+                        .API_FailedFilterCollumnNotFound
                 };
             }
         } catch (error) {
@@ -227,7 +227,7 @@ namespace GridAPI.Filter {
                     isSuccess: false,
                     message: 'It seems you are not passing a valid column.',
                     code: OSFramework.Enum.ErrorCodes
-                        .API_FailedFilterFoundCollumn
+                        .API_FailedFilterCollumnNotFound
                 };
             }
         } catch (error) {
@@ -255,19 +255,51 @@ namespace GridAPI.Filter {
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID ID of the column that will be filtered.
      * @param {string} values Values on which the column will be filtered by.
-     * @returns {*}  {void}
+     * @returns {*}  {string}
      */
     export function ByCondition(
         gridID: string,
         columnID: string,
         values: string
-    ): void {
+    ): string {
         PerformanceAPI.SetMark('Filter.ByCondition');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
-        const grid = GridManager.GetGridById(gridID);
+        let returnMessage = {
+            isSuccess: true,
+            message: 'Success',
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
 
-        grid.features.filter.byCondition(columnID, JSON.parse(values));
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Grid not found',
+                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+            };
+            return JSON.stringify(returnMessage);
+        }
+        try {
+            const grid = GridManager.GetGridById(gridID);
+
+            const column = grid.hasColumn(columnID);
+
+            if (column) {
+                grid.features.filter.byCondition(columnID, JSON.parse(values));
+            } else {
+                returnMessage = {
+                    isSuccess: false,
+                    message: 'It seems you are not passing a valid column.',
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedFilterCollumnNotFound
+                };
+            }
+        } catch (error) {
+            returnMessage = {
+                isSuccess: false,
+                message: 'Error',
+                code: OSFramework.Enum.ErrorCodes.API_FailedFilterByCondition
+            };
+        }
 
         PerformanceAPI.SetMark('Filter.ByCondition-end');
         PerformanceAPI.GetMeasure(
@@ -275,6 +307,8 @@ namespace GridAPI.Filter {
             'Filter.ByCondition',
             'Filter.ByCondition-end'
         );
+
+        return JSON.stringify(returnMessage);
     }
 
     /**
