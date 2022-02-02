@@ -15,14 +15,14 @@ namespace GridAPI.Sort {
 
         let returnMessage = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
             returnMessage = {
                 isSuccess: false,
-                message: OSFramework.Enum.ErrorMessage.Grid_NotFound,
+                message: OSFramework.Enum.ErrorMessages.Grid_NotFound,
                 code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
             };
             return JSON.stringify(returnMessage);
@@ -32,7 +32,7 @@ namespace GridAPI.Sort {
         } catch (error) {
             returnMessage = {
                 isSuccess: false,
-                message: 'Error',
+                message: error,
                 code: OSFramework.Enum.ErrorCodes.API_FailedClearSort
             };
         }
@@ -65,14 +65,14 @@ namespace GridAPI.Sort {
 
         let returnMessage = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
             returnMessage = {
                 isSuccess: false,
-                message: OSFramework.Enum.ErrorMessage.Grid_NotFound,
+                message: OSFramework.Enum.ErrorMessages.Grid_NotFound,
                 code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
             };
             return JSON.stringify(returnMessage);
@@ -85,7 +85,7 @@ namespace GridAPI.Sort {
         } catch (error) {
             returnMessage = {
                 isSuccess: false,
-                message: 'Error',
+                message: error,
                 code: OSFramework.Enum.ErrorCodes.API_FailedClearSort
             };
         }
