@@ -245,7 +245,7 @@ namespace WijmoProvider.Feature {
             const topRow = Math.min(
                 ...this._grid.features.selection
                     .getAllSelections()
-                    .map((cellRange) => cellRange.topRowIndex)
+                    .value.map((cellRange) => cellRange.topRowIndex)
             );
             // Consider the topRow 0 if there is no selection.
             return topRow === Infinity ? 0 : topRow;
