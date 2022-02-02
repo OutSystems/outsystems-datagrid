@@ -35,6 +35,7 @@ namespace OSFramework.Enum {
         API_FailedFilterActivate = 'GRID-API-06003',
         API_FailedFilterClear = 'GRID-API-06004',
         API_FailedFilterDeactivate = 'GRID-API-06005',
-        API_FailedFilterByCondition = 'GRID-API-06006'
+        API_FailedFilterByCondition = 'GRID-API-06006',
+        API_FailedFilterByValue = 'GRID-API-06007'
     }
 }
