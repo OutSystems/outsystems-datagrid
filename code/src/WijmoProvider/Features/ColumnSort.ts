@@ -251,6 +251,8 @@ namespace WijmoProvider.Feature {
                         ascending
                     )
                 );
+            } else {
+                throw new Error('It seems you are not passing a valid column.');
             }
         }
 
