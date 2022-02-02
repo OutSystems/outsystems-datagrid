@@ -41,16 +41,16 @@ namespace OSFramework.Feature {
         /**
          * Returns all selections (rows and ranges)
          */
-        getAllSelections(): OSStructure.CellRange[];
+        getAllSelections(): OSStructure.ReturnMessage;
         /**
          * Returns the Data of the selections
          */
-        getAllSelectionsData(): OSStructure.RowData[];
+        getAllSelectionsData(): OSStructure.ReturnMessage;
 
         /**
          * Returns the Data of the checked rows
          */
-        getCheckedRowsData(): OSStructure.CheckedRowData[];
+        getCheckedRowsData(): OSStructure.ReturnMessage;
 
         /**
          * Returns the Indexes of the selected rows
@@ -59,7 +59,7 @@ namespace OSFramework.Feature {
         /**
          * Returns how many rows are selected by row number or checkbox selection
          */
-        getSelectedRowsCount(): number;
+        getSelectedRowsCount(): OSStructure.ReturnMessage;
         /**
          * Returns how many rows are selected by cell range selection
          */
@@ -67,7 +67,7 @@ namespace OSFramework.Feature {
         /**
          * Returns the Data of the selected rows
          */
-        getSelectedRowsData(): OSStructure.RowData[];
+        getSelectedRowsData(): OSStructure.ReturnMessage;
 
         /**
          * Checks if there is any checked row on the grid
@@ -77,7 +77,7 @@ namespace OSFramework.Feature {
         /**
          * Checks if there is a row selected on the grid
          */
-        hasSelectedRows(): boolean;
+        hasSelectedRows(): OSStructure.ReturnMessage;
 
         /**
          * Checks if there is anything selected in the grid

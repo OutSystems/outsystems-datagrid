@@ -21,6 +21,13 @@ namespace OSFramework.Enum {
         API_FailedApplyRowValidation = 'GRID-API-02005',
         // VIEW
         API_FailedGetViewLayout = 'GRID-API-03001',
-        API_FailedSetViewLayout = 'GRID-API-03002'
+        API_FailedSetViewLayout = 'GRID-API-03002',
+        // SELECTION
+        API_FailedGetAllSelections = 'GRID-API-05001',
+        API_FailedGetAllSelectionsData = 'GRID-API-05002',
+        API_FailedGetCheckedRowsData = 'GRID-API-05003',
+        API_FailedGetSelectedRowsCount = 'GRID-API-05004',
+        API_FailedGetSelectedRowsData = 'GRID-API-05005',
+        API_FailedHasSelectedRows = 'GRID-API-05006'
     }
 }
