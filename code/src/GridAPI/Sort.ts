@@ -13,28 +13,24 @@ namespace GridAPI.Sort {
     export function Clear(gridID: string): string {
         PerformanceAPI.SetMark('Sort.Clear');
 
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
             message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: OSFramework.Enum.ErrorMessages.Grid_NotFound,
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
         try {
             GridManager.GetGridById(gridID).features.sort.clear();
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: error,
-                code: OSFramework.Enum.ErrorCodes.API_FailedClearSort
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code = OSFramework.Enum.ErrorCodes.API_FailedClearSort;
         }
 
         PerformanceAPI.SetMark('Sort.Clear-end');
@@ -44,7 +40,7 @@ namespace GridAPI.Sort {
             'Sort.Clear-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -63,19 +59,17 @@ namespace GridAPI.Sort {
     ): string {
         PerformanceAPI.SetMark('Sort.ColumnSort');
 
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
             message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: OSFramework.Enum.ErrorMessages.Grid_NotFound,
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
         try {
             GridManager.GetGridById(gridID).features.sort.sortColumn(
@@ -83,11 +77,9 @@ namespace GridAPI.Sort {
                 sorting
             );
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: error,
-                code: OSFramework.Enum.ErrorCodes.API_FailedClearSort
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code = OSFramework.Enum.ErrorCodes.API_FailedClearSort;
         }
 
         PerformanceAPI.SetMark('Sort.ColumnSort-end');
@@ -97,6 +89,6 @@ namespace GridAPI.Sort {
             'Sort.ColumnSort-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
 }
