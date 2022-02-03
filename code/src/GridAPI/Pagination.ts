@@ -75,7 +75,7 @@ namespace GridAPI.Pagination {
             returnMessage = {
                 value: -1,
                 isSuccess: false,
-                message: 'Grid not found',
+                message: OSFramework.Enum.ErrorMessages.Grid_NotFound,
                 code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
             };
             return JSON.stringify(returnMessage);
@@ -199,7 +199,7 @@ namespace GridAPI.Pagination {
         if (!OSFramework.Helper.IsGridReady(gridID)) {
             returnMessage = {
                 isSuccess: false,
-                message: 'Grid not found',
+                message: OSFramework.Enum.ErrorMessages.Grid_NotFound,
                 code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
             };
             return JSON.stringify(returnMessage);

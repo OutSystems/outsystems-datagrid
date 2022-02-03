@@ -22,6 +22,9 @@ namespace OSFramework.Enum {
         // VIEW
         API_FailedGetViewLayout = 'GRID-API-03001',
         API_FailedSetViewLayout = 'GRID-API-03002',
+        //SORT
+        API_FailedClearSort = 'GRID-API-04001',
+        API_FailedColumnSort = 'GRID-API-04002',
         // SELECTION
         API_FailedGetAllSelections = 'GRID-API-05001',
         API_FailedGetAllSelectionsData = 'GRID-API-05002',

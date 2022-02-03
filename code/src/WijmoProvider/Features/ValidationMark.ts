@@ -632,7 +632,7 @@ namespace WijmoProvider.Feature {
                     });
 
                 return {
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     isSuccess: true,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
@@ -640,7 +640,7 @@ namespace WijmoProvider.Feature {
                 return {
                     code: OSFramework.Enum.ErrorCodes
                         .API_FailedApplyRowValidation,
-                    message: 'Error',
+                    message: error.message,
                     isSuccess: false
                 };
             }
