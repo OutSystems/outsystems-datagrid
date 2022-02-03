@@ -237,14 +237,14 @@ namespace WijmoProvider.Feature {
                 return {
                     value: getAllSelections,
                     isSuccess: true,
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: [],
                     isSuccess: false,
-                    message: 'Error',
+                    message: error.message,
                     code: OSFramework.Enum.ErrorCodes.API_FailedGetAllSelections
                 };
             }
@@ -304,14 +304,14 @@ namespace WijmoProvider.Feature {
                 return {
                     value: rowColumnArr.map((p) => p.serialize()),
                     isSuccess: true,
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: [],
                     isSuccess: false,
-                    message: 'Error',
+                    message: error.message,
                     code: OSFramework.Enum.ErrorCodes
                         .API_FailedGetAllSelectionsData
                 };
@@ -338,14 +338,14 @@ namespace WijmoProvider.Feature {
                 return {
                     value: allCheckedRowsArr.map((p) => p.serialize()),
                     isSuccess: true,
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: [],
                     isSuccess: false,
-                    message: 'Error',
+                    message: error.message,
                     code: OSFramework.Enum.ErrorCodes
                         .API_FailedGetCheckedRowsData
                 };
@@ -434,14 +434,14 @@ namespace WijmoProvider.Feature {
                 return {
                     value: this.getSelectedRows().length,
                     isSuccess: true,
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: null,
                     isSuccess: false,
-                    message: 'Error',
+                    message: error.message,
                     code: OSFramework.Enum.ErrorCodes
                         .API_FailedGetSelectedRowsCount
                 };
@@ -470,14 +470,14 @@ namespace WijmoProvider.Feature {
                 return {
                     value: selectedRows.map((p) => p.serialize()),
                     isSuccess: true,
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: [],
                     isSuccess: false,
-                    message: 'Error',
+                    message: error.message,
                     code: OSFramework.Enum.ErrorCodes
                         .API_FailedGetSelectedRowsData
                 };
@@ -500,14 +500,14 @@ namespace WijmoProvider.Feature {
                 return {
                     value: this.getSelectedRows().length > 0,
                     isSuccess: true,
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: undefined,
                     isSuccess: false,
-                    message: 'Error',
+                    message: error.message,
                     code: OSFramework.Enum.ErrorCodes.API_FailedHasSelectedRows
                 };
             }
