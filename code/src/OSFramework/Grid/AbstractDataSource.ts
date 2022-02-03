@@ -165,9 +165,7 @@ namespace OSFramework.Grid {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         protected _parseNewItem(): any {
             if (!this.hasMetadata && this._ds.length === 0) {
-                throw new Error(
-                    `Unable to add row. Please use ArrangeData action to serialize your data.`
-                );
+                throw new Error(Enum.ErrorMessages.UnableToAddRow);
             }
             const parsedNewItem =
                 _.cloneDeep(this._metadata) ||
