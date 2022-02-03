@@ -60,12 +60,25 @@ namespace GridAPI.Rows {
      */
     export function AddRows(gridID: string): string {
         PerformanceAPI.SetMark('Rows.AddRows');
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
 
-        const grid = GridManager.GetGridById(gridID);
-        let output = '';
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
 
-        if (grid !== undefined) {
-            output = JSON.stringify(grid.features.rows.addNewRows());
+        try {
+            GridManager.GetGridById(gridID).features.rows.addNewRows();
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code = OSFramework.Enum.ErrorCodes.API_FailedAddRow;
         }
 
         PerformanceAPI.SetMark('Rows.AddRows-end');
@@ -74,7 +87,7 @@ namespace GridAPI.Rows {
             'Rows.AddRows',
             'Rows.AddRows-end'
         );
-        return output;
+        return JSON.stringify(responseObj);
     }
 
     /**
