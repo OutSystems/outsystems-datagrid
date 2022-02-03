@@ -15,20 +15,40 @@ namespace GridAPI.Rows {
         gridID: string,
         rowNumber: number,
         className: string
-    ): void {
+    ): string {
         PerformanceAPI.SetMark('Rows.AddClass');
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
 
-        const grid = GridManager.GetGridById(gridID);
-
-        if (grid !== undefined) {
-            grid.features.rows.addClass(rowNumber, className, true);
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
+        try {
+            GridManager.GetGridById(gridID).features.rows.addClass(
+                rowNumber,
+                className,
+                true
+            );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code = OSFramework.Enum.ErrorCodes.API_FailedAddClass;
+        }
+
         PerformanceAPI.SetMark('Rows.AddClass-end');
         PerformanceAPI.GetMeasure(
             '@datagrid-Rows.AddClass',
             'Rows.AddClass',
             'Rows.AddClass-end'
         );
+
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -106,20 +126,42 @@ namespace GridAPI.Rows {
      * @param {string} gridID ID of the Grid where the change will occur.
      * @param {number} rowNumber Number of the row in which all CSS classes are going to be removed.
      */
-    export function RemoveAllClasses(gridID: string, rowNumber: number): void {
+    export function RemoveAllClasses(
+        gridID: string,
+        rowNumber: number
+    ): string {
         PerformanceAPI.SetMark('Rows.RemoveAllClasses');
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
 
-        const grid = GridManager.GetGridById(gridID);
-
-        if (grid !== undefined) {
-            grid.features.rows.removeAllClasses(rowNumber);
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
+
+        try {
+            const grid = GridManager.GetGridById(gridID);
+            grid.features.rows.removeAllClasses(rowNumber);
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedRemoveAllClasses;
+        }
+
         PerformanceAPI.SetMark('Rows.RemoveAllClasses-end');
         PerformanceAPI.GetMeasure(
             '@datagrid-Rows.RemoveAllClasses',
             'Rows.RemoveAllClasses',
             'Rows.RemoveAllClasses-end'
         );
+
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -134,20 +176,42 @@ namespace GridAPI.Rows {
         gridID: string,
         rowNumber: number,
         className: string
-    ): void {
+    ): string {
         PerformanceAPI.SetMark('Rows.RemoveClass');
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
 
-        const grid = GridManager.GetGridById(gridID);
-
-        if (grid !== undefined) {
-            grid.features.rows.removeClass(rowNumber, className, true);
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
+
+        try {
+            GridManager.GetGridById(gridID).features.rows.removeClass(
+                rowNumber,
+                className,
+                true
+            );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedRemoveClass;
+        }
+
         PerformanceAPI.SetMark('Rows.RemoveClass-end');
         PerformanceAPI.GetMeasure(
             '@datagrid-Rows.RemoveClass',
             'Rows.RemoveClass',
             'Rows.RemoveClass-end'
         );
+
+        return JSON.stringify(responseObj);
     }
 
     /**

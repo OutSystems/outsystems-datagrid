@@ -31,6 +31,14 @@ namespace OSFramework.Enum {
         API_FailedGetCheckedRowsData = 'GRID-API-05003',
         API_FailedGetSelectedRowsCount = 'GRID-API-05004',
         API_FailedGetSelectedRowsData = 'GRID-API-05005',
-        API_FailedHasSelectedRows = 'GRID-API-05006'
+        API_FailedHasSelectedRows = 'GRID-API-05006',
+        // STYLE
+        API_FailedSetCellCssClass = 'GRID-API-06001',
+        API_FailedSetColumnCssClass = 'GRID-API-06002',
+        API_FailedRemoveAllCssClassesFromCell = 'GRID-API-06003',
+        API_FailedRemoveColumnCssClass = 'GRID-API-06004',
+        API_FailedRemoveClass = 'GRID-API-06005',
+        API_FailedRemoveAllClasses = 'GRID-API-06006',
+        API_FailedAddClass = 'GRID-API-06007'
     }
 }

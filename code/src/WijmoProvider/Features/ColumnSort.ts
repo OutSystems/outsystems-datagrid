@@ -253,7 +253,7 @@ namespace WijmoProvider.Feature {
                 );
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.Sort_InvalidColumnIdentifier
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
