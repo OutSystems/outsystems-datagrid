@@ -271,15 +271,11 @@ namespace WijmoProvider.Feature {
          * Add a new row to the grid with all cells empty.
          * @returns ReturnMessage containing the resulting code from the adding rows and the error message in case of failure.
          */
-        public addNewRows(): OSFramework.OSStructure.ReturnMessage {
+        public addNewRows(): void {
             if (!this._canAddRows()) {
-                // Return error
-                return {
-                    code: OSFramework.Enum.ErrorCodes.API_UnableToAddRow,
-                    message:
-                        'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
-                    isSuccess: false
-                };
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.AddRowWithActiveFilterOrSort
+                );
             }
 
             const providerGrid = this._grid.provider;
@@ -342,19 +338,10 @@ namespace WijmoProvider.Feature {
                         dataChanges
                     );
                 }
-
-                // Return success
-                return {
-                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-                    isSuccess: true,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-                };
             } else {
-                return {
-                    code: OSFramework.Enum.ErrorCodes.API_FailedAddRow,
-                    message: 'Error',
-                    isSuccess: false
-                };
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.AddRowErrorMessage
+                );
             }
         }
 
