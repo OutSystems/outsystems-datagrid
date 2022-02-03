@@ -17,7 +17,7 @@ namespace GridAPI.Filter {
     }
 
     /**
-     *
+     * Funtion that perform a Search at a given GridID by a given value
      *
      * @export
      * @param {string} gridID
@@ -27,19 +27,17 @@ namespace GridAPI.Filter {
     export function Search(gridID: string, searchedValue: string): string {
         PerformanceAPI.SetMark('Filter.search');
 
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Grid not found',
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
         try {
             const grid = GridManager.GetGridById(gridID);
@@ -58,11 +56,10 @@ namespace GridAPI.Filter {
                 grid
             );
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: error,
-                code: OSFramework.Enum.ErrorCodes.API_FailedFilterSearch
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedFilterSearch;
         }
 
         PerformanceAPI.SetMark('Filter.search-end');
@@ -72,7 +69,7 @@ namespace GridAPI.Filter {
             'Filter.search-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -86,19 +83,17 @@ namespace GridAPI.Filter {
     export function Activate(gridID: string, columnID: string): string {
         PerformanceAPI.SetMark('Filter.activate');
 
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Grid not found',
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
         try {
             const grid = GridManager.GetGridById(gridID);
@@ -108,19 +103,15 @@ namespace GridAPI.Filter {
             if (column) {
                 grid.features.filter.activate(columnID);
             } else {
-                returnMessage = {
-                    isSuccess: false,
-                    message: 'It seems you are not passing a valid column.',
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedFilterCollumnNotFound
-                };
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: error,
-                code: OSFramework.Enum.ErrorCodes.API_FailedFilterActivate
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedFilterActivate;
         }
 
         PerformanceAPI.SetMark('Filter.activate-end');
@@ -130,7 +121,7 @@ namespace GridAPI.Filter {
             'Filter.activate-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -144,19 +135,17 @@ namespace GridAPI.Filter {
     export function Clear(gridID: string, columnID: string): string {
         PerformanceAPI.SetMark('Filter.clear');
 
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Grid not found',
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
         try {
             const grid = GridManager.GetGridById(gridID);
@@ -166,19 +155,15 @@ namespace GridAPI.Filter {
             if (column) {
                 grid.features.filter.clear(columnID);
             } else {
-                returnMessage = {
-                    isSuccess: false,
-                    message: 'It seems you are not passing a valid column.',
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedFilterCollumnNotFound
-                };
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: error,
-                code: OSFramework.Enum.ErrorCodes.API_FailedFilterClear
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedFilterClear;
         }
 
         PerformanceAPI.SetMark('Filter.clear-end');
@@ -188,7 +173,7 @@ namespace GridAPI.Filter {
             'Filter.clear-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
     /**
      * Function that deactivates filter of a given column
@@ -201,19 +186,17 @@ namespace GridAPI.Filter {
     export function Deactivate(gridID: string, columnID: string): string {
         PerformanceAPI.SetMark('Filter.deactivate');
 
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Grid not found',
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
         try {
             const grid = GridManager.GetGridById(gridID);
@@ -223,19 +206,15 @@ namespace GridAPI.Filter {
             if (column) {
                 grid.features.filter.deactivate(columnID);
             } else {
-                returnMessage = {
-                    isSuccess: false,
-                    message: 'It seems you are not passing a valid column.',
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedFilterCollumnNotFound
-                };
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: error,
-                code: OSFramework.Enum.ErrorCodes.API_FailedFilterDeactivate
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedFilterDeactivate;
         }
 
         PerformanceAPI.SetMark('Filter.deactivate-end');
@@ -245,7 +224,7 @@ namespace GridAPI.Filter {
             'Filter.deactivate-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -264,19 +243,17 @@ namespace GridAPI.Filter {
     ): string {
         PerformanceAPI.SetMark('Filter.ByCondition');
 
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Grid not found',
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
         try {
             const grid = GridManager.GetGridById(gridID);
@@ -286,19 +263,15 @@ namespace GridAPI.Filter {
             if (column) {
                 grid.features.filter.byCondition(columnID, JSON.parse(values));
             } else {
-                returnMessage = {
-                    isSuccess: false,
-                    message: 'It seems you are not passing a valid column.',
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedFilterCollumnNotFound
-                };
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: error,
-                code: OSFramework.Enum.ErrorCodes.API_FailedFilterByCondition
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedFilterByCondition;
         }
 
         PerformanceAPI.SetMark('Filter.ByCondition-end');
@@ -308,7 +281,7 @@ namespace GridAPI.Filter {
             'Filter.ByCondition-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -327,19 +300,17 @@ namespace GridAPI.Filter {
     ): string {
         PerformanceAPI.SetMark('Filter.ByValue');
 
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Grid not found',
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
         try {
             const grid = GridManager.GetGridById(gridID);
@@ -349,19 +320,15 @@ namespace GridAPI.Filter {
             if (column) {
                 grid.features.filter.byValue(columnID, JSON.parse(values));
             } else {
-                returnMessage = {
-                    isSuccess: false,
-                    message: 'It seems you are not passing a valid column.',
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedFilterCollumnNotFound
-                };
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: error,
-                code: OSFramework.Enum.ErrorCodes.API_FailedFilterByValue
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedFilterByValue;
         }
 
         PerformanceAPI.SetMark('Filter.ByValue-end');
@@ -371,11 +338,11 @@ namespace GridAPI.Filter {
             'Filter.ByValue-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
 
     /**
-     * Function that sets column filter options
+     * Function that sets column filter options only used when Grid is on ServerSidePagination Mode!
      *
      * @export
      * @param {string} gridID ID of the Grid block.
@@ -392,19 +359,17 @@ namespace GridAPI.Filter {
     ): string {
         PerformanceAPI.SetMark('Filter.SetColumnFilterOptions');
 
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Grid not found',
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
         try {
             const grid = GridManager.GetGridById(gridID);
@@ -418,20 +383,15 @@ namespace GridAPI.Filter {
                     maxVisibleOptions
                 );
             } else {
-                returnMessage = {
-                    isSuccess: false,
-                    message: 'It seems you are not passing a valid column.',
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedFilterCollumnNotFound
-                };
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: error,
-                code: OSFramework.Enum.ErrorCodes
-                    .API_FailedFilterSetColumnFilterOptions
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedFilterSetColumnFilterOptions;
         }
 
         PerformanceAPI.SetMark('Filter.SetColumnFilterOptions-end');
@@ -441,6 +401,6 @@ namespace GridAPI.Filter {
             'Filter.SetColumnFilterOptions-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
 }
