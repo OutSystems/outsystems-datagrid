@@ -22,6 +22,9 @@ namespace OSFramework.Enum {
         // VIEW
         API_FailedGetViewLayout = 'GRID-API-03001',
         API_FailedSetViewLayout = 'GRID-API-03002',
+        //SORT
+        API_FailedClearSort = 'GRID-API-04001',
+        API_FailedColumnSort = 'GRID-API-04002',
         // SELECTION
         API_FailedGetAllSelections = 'GRID-API-05001',
         API_FailedGetAllSelectionsData = 'GRID-API-05002',
@@ -29,14 +32,22 @@ namespace OSFramework.Enum {
         API_FailedGetSelectedRowsCount = 'GRID-API-05004',
         API_FailedGetSelectedRowsData = 'GRID-API-05005',
         API_FailedHasSelectedRows = 'GRID-API-05006',
+        // STYLE
+        API_FailedSetCellCssClass = 'GRID-API-06001',
+        API_FailedSetColumnCssClass = 'GRID-API-06002',
+        API_FailedRemoveAllCssClassesFromCell = 'GRID-API-06003',
+        API_FailedRemoveColumnCssClass = 'GRID-API-06004',
+        API_FailedRemoveClass = 'GRID-API-06005',
+        API_FailedRemoveAllClasses = 'GRID-API-06006',
+        API_FailedAddClass = 'GRID-API-06007',
         // FILTER
-        API_FailedFilterCollumnNotFound = 'GRID-API-06001',
-        API_FailedFilterSearch = 'GRID-API-06002',
-        API_FailedFilterActivate = 'GRID-API-06003',
-        API_FailedFilterClear = 'GRID-API-06004',
-        API_FailedFilterDeactivate = 'GRID-API-06005',
-        API_FailedFilterByCondition = 'GRID-API-06006',
-        API_FailedFilterByValue = 'GRID-API-06007',
-        API_FailedFilterSetColumnFilterOptions = 'GRID-API-06008'
+        API_FailedFilterCollumnNotFound = 'GRID-API-07001',
+        API_FailedFilterSearch = 'GRID-API-07002',
+        API_FailedFilterActivate = 'GRID-API-07003',
+        API_FailedFilterClear = 'GRID-API-07004',
+        API_FailedFilterDeactivate = 'GRID-API-07005',
+        API_FailedFilterByCondition = 'GRID-API-07006',
+        API_FailedFilterByValue = 'GRID-API-07007',
+        API_FailedFilterSetColumnFilterOptions = 'GRID-API-07008'
     }
 }

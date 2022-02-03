@@ -162,6 +162,9 @@ namespace WijmoProvider.Feature {
             this.setState(this._enabled);
         }
 
+        /**
+         *Function that clears sort of grid
+         */
         public clear(): void {
             this._grid.provider.collectionView.sortDescriptions.clear();
         }
@@ -213,7 +216,13 @@ namespace WijmoProvider.Feature {
                 }
             });
         }
-
+        /**
+         *Function that sorts a Grid column based in its ID and on a sorting
+         *
+         * @param {string} columnID
+         * @param {OSFramework.OSStructure.Sorting} sorting
+         * @memberof ColumnSort
+         */
         public sortColumn(
             columnID: string,
             sorting: OSFramework.OSStructure.Sorting
@@ -241,6 +250,10 @@ namespace WijmoProvider.Feature {
                         column.config.binding,
                         ascending
                     )
+                );
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
