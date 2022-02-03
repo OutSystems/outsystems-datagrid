@@ -6,6 +6,6 @@ namespace OSFramework.Enum {
     export enum ErrorMessages {
         SuccessMessage = 'Success',
         Grid_NotFound = 'Grid not found',
-        Sort_InvalidColumnIdentifier = 'It seems you are not passing a valid column.'
+        InvalidColumnIdentifier = 'It seems you are not passing a valid column.'
     }
 }
