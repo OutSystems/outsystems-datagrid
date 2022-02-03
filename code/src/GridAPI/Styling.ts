@@ -19,19 +19,17 @@ namespace GridAPI.Styling {
         className: string
     ): string {
         PerformanceAPI.SetMark('Styling.SetCellCssClass');
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Grid not found',
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
         try {
             const column = ColumnManager.GetColumnById(columnID);
@@ -46,18 +44,17 @@ namespace GridAPI.Styling {
                     true
                 );
             } else {
-                returnMessage = {
-                    isSuccess: false,
-                    message: 'It seems you are not passing a valid column.',
-                    code: OSFramework.Enum.ErrorCodes.API_FailedSetCellCssClass
-                };
+                responseObj.isSuccess = false;
+                responseObj.message =
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier;
+                responseObj.code =
+                    OSFramework.Enum.ErrorCodes.API_FailedSetCellCssClass;
             }
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Error',
-                code: OSFramework.Enum.ErrorCodes.API_FailedSetCellCssClass
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedSetCellCssClass;
         }
 
         PerformanceAPI.SetMark('Styling.SetCellCssClass-end');
@@ -67,7 +64,7 @@ namespace GridAPI.Styling {
             'Styling.SetCellCssClass-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
     /**
      * Function that will add a specific CSS class to the cells of a column.
@@ -86,19 +83,17 @@ namespace GridAPI.Styling {
         applyToHeader: boolean
     ): string {
         PerformanceAPI.SetMark('Styling.SetColumnCssClass');
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Grid not found',
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
 
         try {
@@ -108,11 +103,10 @@ namespace GridAPI.Styling {
                 applyToHeader
             );
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Error',
-                code: OSFramework.Enum.ErrorCodes.API_FailedSetColumnCssClass
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedSetColumnCssClass;
         }
 
         PerformanceAPI.SetMark('Styling.SetColumnCssClass-end');
@@ -122,7 +116,7 @@ namespace GridAPI.Styling {
             'Styling.SetColumnCssClass-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
     /**
      * Function that will remove all the CSS classes that were added to a Cell.
@@ -138,19 +132,17 @@ namespace GridAPI.Styling {
         rowIndex: number
     ): string {
         PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell');
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Grid not found',
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
 
         try {
@@ -163,20 +155,17 @@ namespace GridAPI.Styling {
                     gridID
                 ).features.cellStyle.removeAllClasses(rowIndex, binding, true);
             } else {
-                returnMessage = {
-                    isSuccess: false,
-                    message: 'It seems you are not passing a valid column.',
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedRemoveAllCssClassesFromCell
-                };
+                responseObj.isSuccess = false;
+                responseObj.message =
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier;
+                responseObj.code =
+                    OSFramework.Enum.ErrorCodes.API_FailedRemoveAllCssClassesFromCell;
             }
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Error',
-                code: OSFramework.Enum.ErrorCodes
-                    .API_FailedRemoveAllCssClassesFromCell
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedRemoveAllCssClassesFromCell;
         }
 
         PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell-end');
@@ -186,7 +175,7 @@ namespace GridAPI.Styling {
             'Styling.RemoveAllCssClassesFromCell-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
     /**
      * Function that will remove a added CSS class from a column.
@@ -202,19 +191,17 @@ namespace GridAPI.Styling {
         cssClass: string
     ): string {
         PerformanceAPI.SetMark('Styling.RemoveColumnCssClass');
-        let returnMessage = {
+        const responseObj = {
             isSuccess: true,
-            message: 'Success',
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
             code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         if (!OSFramework.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Grid not found',
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
 
         try {
@@ -222,11 +209,10 @@ namespace GridAPI.Styling {
                 gridID
             ).features.styling.removeColumnCssClass(columnID, cssClass);
         } catch (error) {
-            returnMessage = {
-                isSuccess: false,
-                message: 'Error',
-                code: OSFramework.Enum.ErrorCodes.API_FailedRemoveColumnCssClass
-            };
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedRemoveColumnCssClass;
         }
 
         PerformanceAPI.SetMark('Styling.RemoveColumnCssClass-end');
@@ -236,6 +222,6 @@ namespace GridAPI.Styling {
             'Styling.RemoveColumnCssClass-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return JSON.stringify(responseObj);
     }
 }
