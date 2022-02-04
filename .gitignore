@@ -3,4 +3,4 @@ dist
 
 code/*.bat
 
-./src/package-lock.json
+code/package-lock.json
