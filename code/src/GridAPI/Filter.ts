@@ -22,7 +22,7 @@ namespace GridAPI.Filter {
      * @export
      * @param {string} gridID
      * @param {string} searchedValue
-     * @returns {*}  {string} Return Message Succes message of error info if it's the case
+     * @returns {*}  {string} Return Message Succes or message of error info if it's the case.
      */
     export function Search(gridID: string, searchedValue: string): string {
         PerformanceAPI.SetMark('Filter.search');
@@ -78,7 +78,7 @@ namespace GridAPI.Filter {
      * @export
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID ID of the column that will have filter activated.
-     * @returns {*}  {string} Return Message Succes message of error info if it's the case
+     * @returns {*}  {string} Return Message Succes or message of error info if it's the case.
      */
     export function Activate(gridID: string, columnID: string): string {
         PerformanceAPI.SetMark('Filter.activate');
@@ -130,7 +130,7 @@ namespace GridAPI.Filter {
      * @export
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID ID of the column that will have filter cleared.
-     * @returns {*}  {string} Return Message Succes message of error info if it's the case
+     * @returns {*}  {string} Return Message Succes or message of error info if it's the case.
      */
     export function Clear(gridID: string, columnID: string): string {
         PerformanceAPI.SetMark('Filter.clear');
@@ -181,7 +181,7 @@ namespace GridAPI.Filter {
      * @export
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID ID of the column that will have filter deactivated.
-     * @returns {*}  {string} Return Message Succes message of error info if it's the case
+     * @returns {*}  {string} Return Message Succes or message of error info if it's the case.
      */
     export function Deactivate(gridID: string, columnID: string): string {
         PerformanceAPI.SetMark('Filter.deactivate');
@@ -234,7 +234,7 @@ namespace GridAPI.Filter {
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID ID of the column that will be filtered.
      * @param {string} values Values on which the column will be filtered by.
-     * @returns {*}  {string} Return Message Succes message of error info if it's the case
+     * @returns {*}  {string} Return Message Succes or message of error info if it's the case.
      */
     export function ByCondition(
         gridID: string,
@@ -258,15 +258,7 @@ namespace GridAPI.Filter {
         try {
             const grid = GridManager.GetGridById(gridID);
 
-            const column = grid.hasColumn(columnID);
-
-            if (column) {
-                grid.features.filter.byCondition(columnID, JSON.parse(values));
-            } else {
-                throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
-                );
-            }
+            grid.features.filter.byCondition(columnID, JSON.parse(values));
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
@@ -291,7 +283,7 @@ namespace GridAPI.Filter {
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID ID of the column that will be filtered.
      * @param {string} values Values on which the column will be filtered by.
-     * @returns {*}  {string} Return Message Succes message of error info if it's the case
+     * @returns {*}  {string} Return Message Succes or message of error info if it's the case.
      */
     export function ByValue(
         gridID: string,
@@ -349,7 +341,7 @@ namespace GridAPI.Filter {
      * @param {string} columnID ID of the column block where the filter options will be set.
      * @param {string} options  Values that will be used on filter by value list.
      * @param {number} maxVisibleOptions Maximum number of elements on the filter list of display values.
-     * @returns {*}  {string} Return Message Succes message of error info if it's the case
+     * @returns {*}  {string} Return Message Succes or message of error info if it's the case.
      */
     export function SetColumnFilterOptions(
         gridID: string,

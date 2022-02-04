@@ -146,6 +146,10 @@ namespace WijmoProvider.Feature {
                     // trigger event
                     this._filterChangedHandler(this._filter);
                 }
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         }
 
@@ -165,6 +169,10 @@ namespace WijmoProvider.Feature {
                 this._filter.apply();
                 // trigger event
                 this._filterChangedHandler(this._filter);
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         }
 
@@ -177,14 +185,24 @@ namespace WijmoProvider.Feature {
             if (column) {
                 this._filter.getColumnFilter(column.provider).filterType =
                     filterType;
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         }
 
         public clear(columnID: string): void {
             const column = this._grid.getColumn(columnID);
 
-            this._filter.getColumnFilter(column.provider).clear();
-            this._grid.provider.collectionView.refresh();
+            if (column) {
+                this._filter.getColumnFilter(column.provider).clear();
+                this._grid.provider.collectionView.refresh();
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
+            }
         }
 
         public deactivate(columnID: string): void {
