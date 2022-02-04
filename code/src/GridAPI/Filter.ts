@@ -98,15 +98,7 @@ namespace GridAPI.Filter {
         try {
             const grid = GridManager.GetGridById(gridID);
 
-            const column = grid.hasColumn(columnID);
-
-            if (column) {
-                grid.features.filter.activate(columnID);
-            } else {
-                throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
-                );
-            }
+            grid.features.filter.activate(columnID);
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
@@ -150,15 +142,7 @@ namespace GridAPI.Filter {
         try {
             const grid = GridManager.GetGridById(gridID);
 
-            const column = grid.hasColumn(columnID);
-
-            if (column) {
-                grid.features.filter.clear(columnID);
-            } else {
-                throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
-                );
-            }
+            grid.features.filter.clear(columnID);
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
@@ -201,15 +185,7 @@ namespace GridAPI.Filter {
         try {
             const grid = GridManager.GetGridById(gridID);
 
-            const column = grid.hasColumn(columnID);
-
-            if (column) {
-                grid.features.filter.deactivate(columnID);
-            } else {
-                throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
-                );
-            }
+            grid.features.filter.deactivate(columnID);
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
@@ -307,15 +283,7 @@ namespace GridAPI.Filter {
         try {
             const grid = GridManager.GetGridById(gridID);
 
-            const column = grid.hasColumn(columnID);
-
-            if (column) {
-                grid.features.filter.byValue(columnID, JSON.parse(values));
-            } else {
-                throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
-                );
-            }
+            grid.features.filter.byValue(columnID, JSON.parse(values));
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
@@ -366,19 +334,11 @@ namespace GridAPI.Filter {
         try {
             const grid = GridManager.GetGridById(gridID);
 
-            const column = grid.hasColumn(columnID);
-
-            if (column) {
-                grid.features.filter.setColumnFilterOptions(
-                    columnID,
-                    JSON.parse(options),
-                    maxVisibleOptions
-                );
-            } else {
-                throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
-                );
-            }
+            grid.features.filter.setColumnFilterOptions(
+                columnID,
+                JSON.parse(options),
+                maxVisibleOptions
+            );
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;

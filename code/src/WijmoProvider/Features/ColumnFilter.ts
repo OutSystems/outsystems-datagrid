@@ -80,7 +80,14 @@ namespace WijmoProvider.Feature {
         }
 
         public activate(columnID: string): void {
-            this.changeFilterType(columnID, this.filterType);
+            const column = this._grid.getColumn(columnID);
+            if (column) {
+                this.changeFilterType(columnID, this.filterType);
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
+            }
         }
 
         public build(): void {
@@ -206,7 +213,17 @@ namespace WijmoProvider.Feature {
         }
 
         public deactivate(columnID: string): void {
-            this.changeFilterType(columnID, wijmo.grid.filter.FilterType.None);
+            const column = this._grid.getColumn(columnID);
+            if (column) {
+                this.changeFilterType(
+                    columnID,
+                    wijmo.grid.filter.FilterType.None
+                );
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
+            }
         }
 
         public dispose(): void {
@@ -230,30 +247,36 @@ namespace WijmoProvider.Feature {
 
             const column = this._grid.getColumn(columnID);
 
-            // for now we only want this to work on text or dropdown columns
-            if (
-                column.columnType === OSFramework.Enum.ColumnType.Text ||
-                column.columnType === OSFramework.Enum.ColumnType.Dropdown
-            ) {
-                // this column will have both filter types
-                this.changeFilterType(
-                    columnID,
-                    wijmo.grid.filter.FilterType.Both
-                );
+            if (column) {
+                // for now we only want this to work on text or dropdown columns
+                if (
+                    column.columnType === OSFramework.Enum.ColumnType.Text ||
+                    column.columnType === OSFramework.Enum.ColumnType.Dropdown
+                ) {
+                    // this column will have both filter types
+                    this.changeFilterType(
+                        columnID,
+                        wijmo.grid.filter.FilterType.Both
+                    );
 
-                this._filter.getColumnFilter(
-                    column.provider
-                ).valueFilter.uniqueValues = Array.from(
-                    new Set<string>(options) // we only want unique values
-                );
-
-                if (maxVisibleOptions > 0)
                     this._filter.getColumnFilter(
                         column.provider
-                    ).valueFilter.maxValues = maxVisibleOptions;
+                    ).valueFilter.uniqueValues = Array.from(
+                        new Set<string>(options) // we only want unique values
+                    );
+
+                    if (maxVisibleOptions > 0)
+                        this._filter.getColumnFilter(
+                            column.provider
+                        ).valueFilter.maxValues = maxVisibleOptions;
+                } else {
+                    throw new Error(
+                        `The SetColumnFilterOptions client action can only be applied to Text or Dropdowncolumns.`
+                    );
+                }
             } else {
                 throw new Error(
-                    `The SetColumnFilterOptions client action can only be applied to Text or Dropdowncolumns.`
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
