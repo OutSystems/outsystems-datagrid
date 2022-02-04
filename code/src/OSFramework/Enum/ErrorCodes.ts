@@ -7,6 +7,7 @@ namespace OSFramework.Enum {
         GRID_SUCCESS = 200,
         // Error Codes - CONFiguration errors - Any error related with missing or wrong configuration of the application.
         CFG_GridNotFound = 'GRID-CFG-01001',
+        CFG_ColumnNotFound = 'GRID-CFG-02001',
 
         // Error Codes - API errors - Specific errors generated when exposing the component client actions API/Framework.
 
@@ -22,7 +23,7 @@ namespace OSFramework.Enum {
         // VIEW
         API_FailedGetViewLayout = 'GRID-API-03001',
         API_FailedSetViewLayout = 'GRID-API-03002',
-        //SORT
+        // SORT
         API_FailedClearSort = 'GRID-API-04001',
         API_FailedColumnSort = 'GRID-API-04002',
         // SELECTION
@@ -39,6 +40,13 @@ namespace OSFramework.Enum {
         API_FailedRemoveColumnCssClass = 'GRID-API-06004',
         API_FailedRemoveClass = 'GRID-API-06005',
         API_FailedRemoveAllClasses = 'GRID-API-06006',
-        API_FailedAddClass = 'GRID-API-06007'
+        API_FailedAddClass = 'GRID-API-06007',
+        // DATA
+        API_FailedGetChangedLines = 'GRID-API-07001',
+        API_FailedMarkChangesAsSaved = 'GRID-API-07002',
+        API_FailedSetCellData = 'GRID-API-07003',
+        // VALIDATION
+        API_FailedSetValidationStatus = 'GRID-API-08001',
+        API_FailedSetValidationStatusByKey = 'GRID-API-08002'
     }
 }

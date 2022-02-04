@@ -5,6 +5,7 @@ namespace OSFramework.Enum {
      */
     export enum ErrorMessages {
         SuccessMessage = 'Success',
+        Column_NotFound = 'Column not found',
         Grid_NotFound = 'Grid not found',
         InvalidColumnIdentifier = 'It seems you are not passing a valid column.'
     }
