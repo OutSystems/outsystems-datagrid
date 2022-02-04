@@ -6,6 +6,9 @@ namespace OSFramework.Enum {
     export enum ErrorMessages {
         SuccessMessage = 'Success',
         Grid_NotFound = 'Grid not found',
-        InvalidColumnIdentifier = 'It seems you are not passing a valid column.'
+        InvalidColumnIdentifier = 'It seems you are not passing a valid column.',
+        AddRowWithActiveFilterOrSort = 'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
+        AddRowErrorMessage = 'An error occurred while trying to add a new row.',
+        UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.'
     }
 }
