@@ -316,16 +316,36 @@ namespace GridAPI.Rows {
         columnID: string,
         isValid: boolean,
         errorMessage: string
-    ): void {
-        const grid = GridManager.GetGridById(gridID);
+    ): string {
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
 
-        if (grid !== undefined) {
-            grid.features.validationMark.setCellStatusByKey(
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            GridManager.GetGridById(
+                gridID
+            ).features.validationMark.setCellStatusByKey(
                 rowKey,
                 columnID,
                 isValid,
                 errorMessage
             );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedSetValidationStatusByKey;
         }
+
+        return JSON.stringify(responseObj);
     }
 }

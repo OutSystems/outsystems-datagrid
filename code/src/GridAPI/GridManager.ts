@@ -147,12 +147,27 @@ namespace GridAPI.GridManager {
      */
     export function GetChangesInGrid(gridID: string): string {
         PerformanceAPI.SetMark('GridManager.GetChangesInGrid');
+        const responseObj = new OSFramework.OSStructure.ReturnMessage();
 
-        const grid = GridManager.GetGridById(gridID);
-        let output = '';
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
 
-        if (grid !== undefined) {
-            output = JSON.stringify(grid.getChangesMade());
+        try {
+            responseObj.value = JSON.stringify(
+                GetGridById(gridID).getChangesMade()
+            );
+            responseObj.isSuccess = true;
+            responseObj.message = OSFramework.Enum.ErrorMessages.SuccessMessage;
+            responseObj.code = OSFramework.Enum.ErrorCodes.GRID_SUCCESS;
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedGetChangedLines;
         }
 
         PerformanceAPI.SetMark('GridManager.GetChangesInGrid-end');
@@ -161,7 +176,7 @@ namespace GridAPI.GridManager {
             'GridManager.GetChangesInGrid',
             'GridManager.GetChangesInGrid-end'
         );
-        return output;
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -201,14 +216,29 @@ namespace GridAPI.GridManager {
     export function MarkChangesAsSaved(
         gridID: string,
         forceCleanInvalids = false
-    ): void {
+    ): string {
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
         PerformanceAPI.SetMark('GridManager.MarkChangesAsSaved');
 
-        // eslint-disable-next-line
-        const grid = GridManager.GetGridById(gridID);
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
 
-        if (grid !== undefined) {
-            grid.clearAllChanges(forceCleanInvalids);
+        try {
+            GetGridById(gridID).clearAllChanges(forceCleanInvalids);
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedMarkChangesAsSaved;
         }
 
         PerformanceAPI.SetMark('GridManager.MarkChangesAsSaved-end');
@@ -217,6 +247,8 @@ namespace GridAPI.GridManager {
             'GridManager.MarkChangesAsSaved',
             'GridManager.MarkChangesAsSaved-end'
         );
+
+        return JSON.stringify(responseObj);
     }
 
     /**
