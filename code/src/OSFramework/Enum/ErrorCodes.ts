@@ -56,6 +56,12 @@ namespace OSFramework.Enum {
         API_FailedFilterDeactivate = 'GRID-API-09005',
         API_FailedFilterByCondition = 'GRID-API-09006',
         API_FailedFilterByValue = 'GRID-API-09007',
-        API_FailedFilterSetColumnFilterOptions = 'GRID-API-09008'
+        API_FailedFilterSetColumnFilterOptions = 'GRID-API-09008',
+        //COLUMNS
+        API_FailedSetColumnAggregate = 'GRID-API-10001',
+        API_FailedFreezeColumns = 'GRID-API-10002',
+        API_FailedFreezeColumnsByActiveCell = 'GRID-API-10003',
+        API_FailedHasFrozenColumns = 'GRID-API-10004',
+        API_FailedUnfreezeColumns = 'GRID-API-10005',
     }
 }
