@@ -7,6 +7,7 @@ namespace OSFramework.Enum {
         GRID_SUCCESS = 200,
         // Error Codes - CONFiguration errors - Any error related with missing or wrong configuration of the application.
         CFG_GridNotFound = 'GRID-CFG-01001',
+        CFG_ColumnNotFound = 'GRID-CFG-02001',
 
         // Error Codes - API errors - Specific errors generated when exposing the component client actions API/Framework.
 
@@ -22,7 +23,7 @@ namespace OSFramework.Enum {
         // VIEW
         API_FailedGetViewLayout = 'GRID-API-03001',
         API_FailedSetViewLayout = 'GRID-API-03002',
-        //SORT
+        // SORT
         API_FailedClearSort = 'GRID-API-04001',
         API_FailedColumnSort = 'GRID-API-04002',
         // SELECTION
@@ -40,14 +41,21 @@ namespace OSFramework.Enum {
         API_FailedRemoveClass = 'GRID-API-06005',
         API_FailedRemoveAllClasses = 'GRID-API-06006',
         API_FailedAddClass = 'GRID-API-06007',
+        // DATA
+        API_FailedGetChangedLines = 'GRID-API-07001',
+        API_FailedMarkChangesAsSaved = 'GRID-API-07002',
+        API_FailedSetCellData = 'GRID-API-07003',
+        // VALIDATION
+        API_FailedSetValidationStatus = 'GRID-API-08001',
+        API_FailedSetValidationStatusByKey = 'GRID-API-08002',
         // FILTER
-        API_FailedFilterCollumnNotFound = 'GRID-API-07001',
-        API_FailedFilterSearch = 'GRID-API-07002',
-        API_FailedFilterActivate = 'GRID-API-07003',
-        API_FailedFilterClear = 'GRID-API-07004',
-        API_FailedFilterDeactivate = 'GRID-API-07005',
-        API_FailedFilterByCondition = 'GRID-API-07006',
-        API_FailedFilterByValue = 'GRID-API-07007',
-        API_FailedFilterSetColumnFilterOptions = 'GRID-API-07008'
+        API_FailedFilterCollumnNotFound = 'GRID-API-09001',
+        API_FailedFilterSearch = 'GRID-API-09002',
+        API_FailedFilterActivate = 'GRID-API-09003',
+        API_FailedFilterClear = 'GRID-API-09004',
+        API_FailedFilterDeactivate = 'GRID-API-09005',
+        API_FailedFilterByCondition = 'GRID-API-09006',
+        API_FailedFilterByValue = 'GRID-API-09007',
+        API_FailedFilterSetColumnFilterOptions = 'GRID-API-09008'
     }
 }

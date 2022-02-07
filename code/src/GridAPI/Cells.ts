@@ -19,22 +19,47 @@ namespace GridAPI.Cells {
         columnID: string,
         isValid: boolean,
         errorMessage: string
-    ): void {
-        PerformanceAPI.SetMark('Cells.setValidationStatus');
-        GridManager.GetGridById(gridID).features.validationMark.setCellStatus(
-            rowIndex,
-            columnID,
-            isValid,
-            errorMessage
-        );
+    ): string {
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
         PerformanceAPI.SetMark('Cells.setValidationStatus');
 
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            GridManager.GetGridById(
+                gridID
+            ).features.validationMark.setCellStatus(
+                rowIndex,
+                columnID,
+                isValid,
+                errorMessage
+            );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedSetValidationStatus;
+        }
+
+        PerformanceAPI.SetMark('Cells.setValidationStatus');
         PerformanceAPI.SetMark('Cells.setValidationStatus-end');
         PerformanceAPI.GetMeasure(
             '@datagrid-Cells.setValidationStatus',
             'Cells.setValidationStatus',
             'Cells.setValidationStatus-end'
         );
+
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -109,28 +134,54 @@ namespace GridAPI.Cells {
         // eslint-disable-next-line
         value: any,
         showDirtyMark = true
-    ): void {
+    ): string {
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
         PerformanceAPI.SetMark('Cells.setCellData');
-
-        if (OSFramework.Helper.IsGridReady(gridID) === false) return;
-        const grid = GridManager.GetGridById(gridID);
-        const column = ColumnManager.GetColumnById(columnID);
-        if (column === undefined) return;
-
-        if (showDirtyMark) {
-            grid.features.dirtyMark.saveOriginalValue(
-                rowIndex,
-                column.providerIndex
-            );
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
 
-        grid.features.cellData.setCellData(rowIndex, column, value);
-        grid.features.validationMark.validateCell(rowIndex, column);
+        const grid = GridManager.GetGridById(gridID);
+        const column = ColumnManager.GetColumnById(columnID);
+
+        if (column === undefined) {
+            responseObj.isSuccess = false;
+            responseObj.message =
+                OSFramework.Enum.ErrorMessages.Column_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_ColumnNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            if (showDirtyMark) {
+                grid.features.dirtyMark.saveOriginalValue(
+                    rowIndex,
+                    column.providerIndex
+                );
+            }
+            grid.features.cellData.setCellData(rowIndex, column, value);
+            grid.features.validationMark.validateCell(rowIndex, column);
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedSetCellData;
+        }
+
         PerformanceAPI.SetMark('Cells.setCellData-end');
         PerformanceAPI.GetMeasure(
             '@datagrid-Cells.setCellData',
             'Cells.setCellData',
             'Cells.setCellData-end'
         );
+        return JSON.stringify(responseObj);
     }
 }
