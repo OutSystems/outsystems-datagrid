@@ -47,6 +47,15 @@ namespace OSFramework.Enum {
         API_FailedSetCellData = 'GRID-API-07003',
         // VALIDATION
         API_FailedSetValidationStatus = 'GRID-API-08001',
-        API_FailedSetValidationStatusByKey = 'GRID-API-08002'
+        API_FailedSetValidationStatusByKey = 'GRID-API-08002',
+        // FILTER
+        API_FailedFilterCollumnNotFound = 'GRID-API-09001',
+        API_FailedFilterSearch = 'GRID-API-09002',
+        API_FailedFilterActivate = 'GRID-API-09003',
+        API_FailedFilterClear = 'GRID-API-09004',
+        API_FailedFilterDeactivate = 'GRID-API-09005',
+        API_FailedFilterByCondition = 'GRID-API-09006',
+        API_FailedFilterByValue = 'GRID-API-09007',
+        API_FailedFilterSetColumnFilterOptions = 'GRID-API-09008'
     }
 }

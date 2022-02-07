@@ -2,3 +2,5 @@ node_modules
 dist
 
 code/*.bat
+
+code/package-lock.json
