@@ -130,10 +130,16 @@ namespace WijmoProvider.Feature {
 
             if (column) {
                 if (!wijmo.Aggregate[aggregate]) {
-                    throw `The aggreagate you've passed does not exist.`;
+                    throw new Error(
+                        `The aggregate you've passed does not exist.`
+                    );
                 }
 
                 column.provider.aggregate = wijmo.Aggregate[aggregate];
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         }
 

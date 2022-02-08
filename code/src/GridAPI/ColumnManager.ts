@@ -176,13 +176,31 @@ namespace GridAPI.ColumnManager {
         gridID: string,
         columnID: string,
         aggregate: number
-    ): void {
+    ): string {
         PerformanceAPI.SetMark('ColumnManager.SetColumnAggregate');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
-        const grid = GridManager.GetGridById(gridID);
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
 
-        grid.features.groupPanel.setAggregate(columnID, aggregate);
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            const grid = GridManager.GetGridById(gridID);
+            grid.features.groupPanel.setAggregate(columnID, aggregate);
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedSetColumnAggregate;
+        }
 
         PerformanceAPI.SetMark('ColumnManager.SetColumnAggregate-end');
         PerformanceAPI.GetMeasure(
@@ -190,5 +208,7 @@ namespace GridAPI.ColumnManager {
             'ColumnManager.SetColumnAggregate',
             'ColumnManager.SetColumnAggregate-end'
         );
+
+        return JSON.stringify(responseObj);
     }
 }
