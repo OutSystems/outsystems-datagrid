@@ -26,6 +26,7 @@ namespace OSFramework.Enum {
         // SORT
         API_FailedClearSort = 'GRID-API-04001',
         API_FailedColumnSort = 'GRID-API-04002',
+        API_FailedSetUnsortState = 'GRID-API-04003',
         // SELECTION
         API_FailedGetAllSelections = 'GRID-API-05001',
         API_FailedGetAllSelectionsData = 'GRID-API-05002',

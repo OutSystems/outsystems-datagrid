@@ -33,6 +33,7 @@ namespace WijmoProvider.Feature {
     {
         private _enabled: boolean;
         private _grid: Grid.IGridWijmo;
+        private _hasUnsortState = true;
 
         constructor(grid: Grid.IGridWijmo, enabled: boolean) {
             this._grid = grid;
@@ -113,34 +114,38 @@ namespace WijmoProvider.Feature {
             const index = col.currentSortIndex;
             const sd = s.itemsSource.sortDescriptions[index];
 
-            s.itemsSource.deferUpdate(() => {
-                //Remove on the third click (or when its sort on desc mode)
-                if (sd && !sd.ascending) {
-                    //Add current state before remove it
-                    this._grid.features.undoStack.startAction(
-                        new ColumnSortAction(this._grid.provider)
-                    );
+            if (this._hasUnsortState) {
+                s.itemsSource.deferUpdate(() => {
+                    //Remove on the third click (or when its sort on desc mode)
+                    if (sd && !sd.ascending) {
+                        //Add current state before remove it
+                        this._grid.features.undoStack.startAction(
+                            new ColumnSortAction(this._grid.provider)
+                        );
 
-                    //Remove on the third click
-                    s.itemsSource.sortDescriptions.splice(index, 1);
+                        //Remove on the third click
+                        s.itemsSource.sortDescriptions.splice(index, 1);
 
-                    //Cancel the default behavior
-                    e.cancel = true;
+                        //Cancel the default behavior
+                        e.cancel = true;
 
-                    this._grid.gridEvents.trigger(
-                        OSFramework.Event.Grid.GridEventType.OnSortChange,
-                        this._grid,
-                        this._makeActiveSort(s.itemsSource.sortDescriptions)
-                    );
-                }
+                        this._grid.gridEvents.trigger(
+                            OSFramework.Event.Grid.GridEventType.OnSortChange,
+                            this._grid,
+                            this._makeActiveSort(s.itemsSource.sortDescriptions)
+                        );
+                    }
 
-                //Clean all others if shift isn't pressed
-                if (!e.data.shiftKey) {
-                    s.itemsSource.sortDescriptions
-                        .filter((x) => x !== sd)
-                        .map((x) => s.itemsSource.sortDescriptions.remove(x));
-                }
-            });
+                    //Clean all others if shift isn't pressed
+                    if (!e.data.shiftKey) {
+                        s.itemsSource.sortDescriptions
+                            .filter((x) => x !== sd)
+                            .map((x) =>
+                                s.itemsSource.sortDescriptions.remove(x)
+                            );
+                    }
+                });
+            }
 
             if (e.cancel) {
                 // Save the final state - When we cancel a sorting event, we need to force undoStack closing
@@ -198,6 +203,10 @@ namespace WijmoProvider.Feature {
                 ? wijmo.grid.AllowSorting.MultiColumn
                 : wijmo.grid.AllowSorting.None;
             this._enabled = value;
+        }
+
+        public setUnsortState(state: boolean): void {
+            this._hasUnsortState = state;
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
