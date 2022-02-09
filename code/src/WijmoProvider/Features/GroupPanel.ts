@@ -131,7 +131,7 @@ namespace WijmoProvider.Feature {
             if (column) {
                 if (!wijmo.Aggregate[aggregate]) {
                     throw new Error(
-                        `The aggregate you've passed does not exist.`
+                        OSFramework.Enum.ErrorMessages.Aggregate_NotFound
                     );
                 }
 
