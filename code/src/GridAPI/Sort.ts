@@ -91,4 +91,50 @@ namespace GridAPI.Sort {
 
         return JSON.stringify(responseObj);
     }
+    /**
+     * Function that defines whether or not Grid will have Unsort State
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @param {boolean} hasUnsortState Set to True to add a third state to columns sorting that unsorts the column.
+     * @return {*}  {string} Return Message containing the resulting code from sorting columns and the error message in case of failure
+     */
+    export function SetUnsortState(
+        gridID: string,
+        hasUnsortState: boolean
+    ): string {
+        PerformanceAPI.SetMark('Sort.SetUnsortState');
+
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+        try {
+            GridManager.GetGridById(gridID).features.sort.setUnsortState(
+                hasUnsortState
+            );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedSetUnsortState;
+        }
+
+        PerformanceAPI.SetMark('Sort.SetUnsortState-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Sort.SetUnsortState',
+            'Sort.SetUnsortState',
+            'Sort.SetUnsortState-end'
+        );
+
+        return JSON.stringify(responseObj);
+    }
 }

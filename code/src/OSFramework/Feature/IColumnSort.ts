@@ -7,6 +7,7 @@ namespace OSFramework.Feature {
         isGridSorted: boolean;
         clear(): void;
         isColumnSorted(columnID: string): boolean;
+        setUnsortState(state: boolean): void;
         sortColumn(columnID: string, ascending: OSStructure.Sorting): void;
     }
 }
