@@ -324,7 +324,7 @@ namespace WijmoProvider.Feature {
                     this._grid.provider.itemsSource.sourceCollection.filter(
                         (item) =>
                             item?.__osRowMetadata?.get(this._internalLabel)
-                                .isChecked === true
+                                ?.isChecked === true
                     );
 
                 const allCheckedRowsArr = allCheckedRows.map(
