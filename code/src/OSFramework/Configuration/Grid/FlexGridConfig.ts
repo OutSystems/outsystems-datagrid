@@ -20,6 +20,7 @@ namespace OSFramework.Configuration.Grid {
         public rowsPerPage: number;
         public selectionMode: number;
         public serverSidePagination: boolean;
+        public showAggregateValues: boolean;
         public uniqueId: string;
         public validateEdits: boolean;
 

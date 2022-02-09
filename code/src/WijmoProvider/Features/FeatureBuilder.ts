@@ -74,6 +74,15 @@ namespace WijmoProvider.Feature {
             this._features.cellStyle = this._makeItem(CellStyle);
             return this;
         }
+
+        private _makeColumnAggregate(enable: boolean): FeatureBuilder {
+            this._features.columnAggregate = this._makeItem(
+                ColumnAggregate,
+                enable
+            );
+            return this;
+        }
+
         private _makeColumnPicker(): FeatureBuilder {
             this._makeItem(ColumnPicker);
             return this;
@@ -224,7 +233,8 @@ namespace WijmoProvider.Feature {
                 ._makeConditionalFormat()
                 ._makeCalculatedField()
                 ._makeRowHeader(config.rowHeader)
-                ._makeColumnPicker();
+                ._makeColumnPicker()
+                ._makeColumnAggregate(config.showAggregateValues);
 
             super.build();
         }

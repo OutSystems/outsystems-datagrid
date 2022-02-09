@@ -155,6 +155,9 @@ namespace WijmoProvider.Grid {
                 case OSFramework.Enum.OS_Config_Grid.selectionMode:
                     this.features.selection.setState(value);
                     return;
+                case OSFramework.Enum.OS_Config_Grid.showAggregateValues:
+                    this.features.columnAggregate.setState(value);
+                    return;
                 default:
                     throw Error(
                         `changeProperty - Property '${propertyName}' can't be changed.`
