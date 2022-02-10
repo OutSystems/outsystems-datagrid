@@ -414,6 +414,10 @@
     background: var(--datagrid-column-picker-item-hover-background);
 }
 
+.wj-bottomleft .wj-cell.wj-header, .wj-colfooters .wj-cell.wj-header{
+    background-color: var(--color-neutral-3);
+}
+
 /**** DATAGRID STYLE CLASSES ****/
 
 * {
