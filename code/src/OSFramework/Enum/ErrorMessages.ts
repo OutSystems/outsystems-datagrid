@@ -7,6 +7,7 @@ namespace OSFramework.Enum {
         SuccessMessage = 'Success',
         Column_NotFound = 'Column not found',
         Grid_NotFound = 'Grid not found',
+        Aggregate_NotFound = 'The aggregate you have passed does not exist.',
         InvalidColumnIdentifier = 'It seems you are not passing a valid column.',
         AddRowWithActiveFilterOrSort = 'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
         AddRowErrorMessage = 'An error occurred while trying to add a new row.',
