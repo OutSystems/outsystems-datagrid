@@ -33,6 +33,11 @@ namespace WijmoProvider.Feature {
 
         public leftColumns(n?: number): void {
             if (n !== undefined) {
+                if (n < 0) {
+                    throw new Error(
+                        OSFramework.Enum.ErrorMessages.FreezeColumnPositiveNumberExpected
+                    );
+                }
                 this._grid.provider.frozenColumns = n;
             } else {
                 const activeCell =

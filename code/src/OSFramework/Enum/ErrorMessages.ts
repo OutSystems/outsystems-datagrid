@@ -11,6 +11,7 @@ namespace OSFramework.Enum {
         InvalidColumnIdentifier = 'It seems you are not passing a valid column.',
         AddRowWithActiveFilterOrSort = 'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
         AddRowErrorMessage = 'An error occurred while trying to add a new row.',
-        UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.'
+        UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.',
+        FreezeColumnPositiveNumberExpected = 'Unable to freeze column. Please use a positive number.'
     }
 }
