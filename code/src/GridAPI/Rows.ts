@@ -101,11 +101,30 @@ namespace GridAPI.Rows {
     export function GetRowData(gridID: string, rowNumber: number): string {
         PerformanceAPI.SetMark('Rows.GetRowData');
 
-        const grid = GridManager.GetGridById(gridID);
-        let output = '';
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS,
+            value: ''
+        };
 
-        if (grid !== undefined) {
-            output = JSON.stringify(grid.features.rows.getRowData(rowNumber));
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+        try {
+            GridManager.GetGridById(gridID).features.rows.getRowData(rowNumber);
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code = OSFramework.Enum.ErrorCodes.API_FailedClearSort;
+            responseObj.value = JSON.stringify(
+                GridManager.GetGridById(gridID).features.rows.getRowData(
+                    rowNumber
+                )
+            );
         }
 
         PerformanceAPI.SetMark('Rows.GetRowData-end');
@@ -114,7 +133,8 @@ namespace GridAPI.Rows {
             'Rows.GetRowData',
             'Rows.GetRowData-end'
         );
-        return output;
+
+        return JSON.stringify(responseObj.value);
     }
 
     /**
