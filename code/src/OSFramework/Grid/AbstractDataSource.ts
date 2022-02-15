@@ -51,15 +51,25 @@ namespace OSFramework.Grid {
 
                 if (match(value, regex.datetime)) {
                     saveConvertion('datetime', key);
-                    return new Date(
+                    const dateTime = new OSStructure.ExtendedDate(
                         Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6])
                     );
+                    dateTime.isDate = false;
+
+                    return dateTime;
                 } else if (match(value, regex.date)) {
                     //Considering that OS Date field do not consider GMT
                     //DataGrid also won't consider it for Date Columns
                     //PS: Datetime will consider GMT just like OS consider
                     saveConvertion('date', key);
-                    return new Date(+m[1], +m[2] - 1, +m[3]);
+
+                    const date = new OSStructure.ExtendedDate(
+                        +m[1],
+                        +m[2] - 1,
+                        +m[3]
+                    );
+                    date.isDate = true;
+                    return date;
                 } else if (value === '') {
                     return undefined;
                 }
@@ -75,30 +85,35 @@ namespace OSFramework.Grid {
      */
     // eslint-disable-next-line @typescript-eslint/naming-convention
     function ToOSFormat(
-        convertions: Map<string, Set<string>>,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: Array<any>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): void {
-        const columns = convertions.get('date') || [];
-
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const setDeepDate = (binding: string, object: any) => {
-            if (object[binding]) {
-                const dt = object[binding] as Date;
+        const setDeepDate = (object: any) => {
+            Object.keys(object).forEach((key) => {
+                // If property is object, we recurse it, going deep in the structure
+                if (object[key] === Object(object[key])) {
+                    setDeepDate(object[key]);
+                }
 
-                object[binding] = new Date(
-                    dt.getTime() - dt.getTimezoneOffset() * 60000
-                )
-                    .toISOString()
-                    .substr(0, 10);
-            }
+                // If property is ExtendedDate type, we check if is date
+                // If it is we remove the time stamp and return the formatted date yyyy-mm-dd
+                if (object[key] instanceof OSStructure.ExtendedDate) {
+                    if (object[key].isDate) {
+                        const dt = object[key] as Date;
+                        object[key] = new Date(
+                            dt.getTime() - dt.getTimezoneOffset() * 60000
+                        )
+                            .toISOString()
+                            .substring(0, 10);
+                    }
+                }
+            });
         };
 
-        columns.forEach((col) => {
-            data.forEach((item) => {
-                setDeepDate(col, item);
-            });
+        data.forEach((item) => {
+            setDeepDate(item);
         });
     }
 
@@ -147,7 +162,7 @@ namespace OSFramework.Grid {
             });
 
             //In-place convert data to Outsystems Format
-            ToOSFormat(this._convertions, tempArray);
+            ToOSFormat(tempArray);
 
             if (this.isSingleEntity) {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer
@@ -251,7 +266,6 @@ namespace OSFramework.Grid {
             const dataJson = ToJSONFormat(data, this._convertions);
 
             this._metadata = dataJson.metadata;
-
             this._isSingleEntity =
                 Object.keys(this._metadata || dataJson[0] || {}).length <= 1;
 
