@@ -12,6 +12,7 @@ namespace OSFramework.Enum {
         AddRowWithActiveFilterOrSort = 'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
         AddRowErrorMessage = 'An error occurred while trying to add a new row.',
         UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.',
-        FreezeColumnPositiveNumberExpected = 'Unable to freeze column. Please use a positive number.'
+        FreezeColumnPositiveNumberExpected = 'Unable to freeze column. Please use a positive number.',
+        Row_NotFound = 'Row not found'
     }
 }
