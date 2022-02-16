@@ -85,10 +85,13 @@ namespace OSFramework.Grid {
      */
     // eslint-disable-next-line @typescript-eslint/naming-convention
     function ToOSFormat(
+        convertions: Map<string, Set<string>>,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: Array<any>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): void {
+        const dateColumns = convertions.get('date') || new Set();
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const setDeepDate = (object: any) => {
             Object.keys(object).forEach((key) => {
@@ -99,15 +102,13 @@ namespace OSFramework.Grid {
 
                 // If property is ExtendedDate type, we check if is date
                 // If it is we remove the time stamp and return the formatted date yyyy-mm-dd
-                if (object[key] instanceof OSStructure.ExtendedDate) {
-                    if (object[key].isDate) {
-                        const dt = object[key] as Date;
-                        object[key] = new Date(
-                            dt.getTime() - dt.getTimezoneOffset() * 60000
-                        )
-                            .toISOString()
-                            .substring(0, 10);
-                    }
+                if (dateColumns.has(key)) {
+                    const dt = object[key] as Date;
+                    object[key] = new Date(
+                        dt.getTime() - dt.getTimezoneOffset() * 60000
+                    )
+                        .toISOString()
+                        .substring(0, 10);
                 }
             });
         };
@@ -162,7 +163,7 @@ namespace OSFramework.Grid {
             });
 
             //In-place convert data to Outsystems Format
-            ToOSFormat(tempArray);
+            ToOSFormat(this._convertions, tempArray);
 
             if (this.isSingleEntity) {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer
