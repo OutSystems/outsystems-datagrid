@@ -378,13 +378,11 @@ namespace WijmoProvider.Feature {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public getRowData(rowNumber: number): any {
             try {
-                const row = this._grid.isSingleEntity
+                return this._grid.isSingleEntity
                     ? OSFramework.Helper.Flatten(
                           this._grid.provider.rows[rowNumber].dataItem
                       )
                     : this._grid.provider.rows[rowNumber].dataItem;
-
-                return row;
             } catch (error) {
                 throw new Error(OSFramework.Enum.ErrorMessages.Row_NotFound);
             }
