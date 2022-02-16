@@ -227,27 +227,25 @@ namespace OSFramework.Grid {
         }
 
         public getRowNumberByKey(key: string): number {
-            const row = this.parentGrid.provider.rows.findIndex(
-                (item) =>
-                    _.get(
-                        item.dataItem,
-                        this.parentGrid.config.keyBinding
-                    ).toString() === key
-            );
-
-            // Validation of row to prevent the default row key
-            if (row === -1) {
-                throw new Error(Enum.ErrorMessages.Row_InvalidRowDataKey);
-            }
-
             // Throws the error when is invalid
             try {
-                row;
+                const row = this.parentGrid.provider.rows.findIndex(
+                    (item) =>
+                        _.get(
+                            item.dataItem,
+                            this.parentGrid.config.keyBinding
+                        ).toString() === key
+                );
+
+                // Validation of row to prevent the default row key
+                if (row === -1) {
+                    throw new Error(Enum.ErrorMessages.Row_InvalidRowDataKey);
+                }
+
+                return row;
             } catch (error) {
                 throw new Error(Enum.ErrorMessages.Row_NotFound);
             }
-
-            return row;
         }
 
         public removeRow(item: number | JSON): boolean {
