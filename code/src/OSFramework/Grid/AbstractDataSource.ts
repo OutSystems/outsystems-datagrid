@@ -94,9 +94,8 @@ namespace OSFramework.Grid {
                     setDeepDate(object[key]);
                 }
 
-                // If property is ExtendedDate type, we check if is date
-                // If it is we remove the time stamp and return the formatted date yyyy-mm-dd
-                if (dateColumns.has(key)) {
+                // If dateColumns has column and column value is defined, format date
+                if (dateColumns.has(key) && object[key]) {
                     const dt = object[key] as Date;
                     object[key] = new Date(
                         dt.getTime() - dt.getTimezoneOffset() * 60000
