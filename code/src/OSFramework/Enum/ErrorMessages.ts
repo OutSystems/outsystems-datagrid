@@ -13,6 +13,8 @@ namespace OSFramework.Enum {
         AddRowErrorMessage = 'An error occurred while trying to add a new row.',
         UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.',
         FreezeColumnPositiveNumberExpected = 'Unable to freeze column. Please use a positive number.',
-        Row_NotFound = 'Row not found'
+        Row_NotFound = 'Row not found',
+        Row_InvalidRowDataKey = 'The data key is invalid',
+        Row_InvalidStartingRowHeader = 'The starting row header is invalid'
     }
 }

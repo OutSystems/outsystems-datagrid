@@ -115,10 +115,11 @@ namespace GridAPI.Rows {
             return JSON.stringify(responseObj);
         }
         try {
-            responseObj.value =
+            responseObj.value = JSON.stringify(
                 GridManager.GetGridById(gridID).features.rows.getRowData(
                     rowNumber
-                );
+                )
+            );
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
@@ -160,10 +161,11 @@ namespace GridAPI.Rows {
             return JSON.stringify(responseObj);
         }
         try {
-            responseObj.value = GridManager.GetGridById(gridID)
-                .dataSource.getRowNumberByKey(key)
-                .toString();
-            GridManager.GetGridById(gridID).dataSource.getRowNumberByKey(key);
+            responseObj.value = JSON.stringify(
+                GridManager.GetGridById(gridID).dataSource.getRowNumberByKey(
+                    key
+                )
+            );
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
@@ -329,9 +331,12 @@ namespace GridAPI.Rows {
             return JSON.stringify(responseObj);
         }
         try {
-            responseObj.value = GridManager.GetGridById(gridID)
-                .dataSource.updateAddedRowKey(currentRowId, newKey)
-                .toString();
+            responseObj.value = JSON.stringify(
+                GridManager.GetGridById(gridID).dataSource.updateAddedRowKey(
+                    currentRowId,
+                    newKey
+                )
+            );
             GridManager.GetGridById(gridID).dataSource.updateAddedRowKey(
                 currentRowId,
                 newKey
@@ -378,6 +383,17 @@ namespace GridAPI.Rows {
             responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
             return JSON.stringify(responseObj);
         }
+
+        // Prevent to apply an index lower than 0
+        if (startIndex < 0) {
+            responseObj.isSuccess = false;
+            responseObj.message =
+                OSFramework.Enum.ErrorMessages.Row_InvalidStartingRowHeader;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedUpdateStartingRowHeader;
+            return JSON.stringify(responseObj);
+        }
+
         try {
             GridManager.GetGridById(
                 gridID
