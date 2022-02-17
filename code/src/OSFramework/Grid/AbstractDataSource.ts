@@ -233,11 +233,21 @@ namespace OSFramework.Grid {
         }
 
         public getRowNumberByKey(key: string): number {
-            return this.parentGrid.provider.rows.findIndex(
+            // Throws the error when is invalid
+            const row = this.parentGrid.provider.rows.findIndex(
                 (item) =>
-                    _.get(item.dataItem, this.parentGrid.config.keyBinding) ===
-                    key
+                    _.get(
+                        item.dataItem,
+                        this.parentGrid.config.keyBinding
+                    ).toString() === key
             );
+
+            // Validation of row to prevent the default row key
+            if (row < 0) {
+                throw new Error(Enum.ErrorMessages.Row_InvalidRowDataKey);
+            }
+
+            return row;
         }
 
         public removeRow(item: number | JSON): boolean {
@@ -289,7 +299,7 @@ namespace OSFramework.Grid {
             const row = this._getRowByKey(currentRowId);
 
             if (!row) {
-                return false;
+                throw new Error(Enum.ErrorMessages.Row_NotFound);
             }
 
             // set primary key with new value

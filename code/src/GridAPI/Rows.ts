@@ -101,11 +101,29 @@ namespace GridAPI.Rows {
     export function GetRowData(gridID: string, rowNumber: number): string {
         PerformanceAPI.SetMark('Rows.GetRowData');
 
-        const grid = GridManager.GetGridById(gridID);
-        let output = '';
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS,
+            value: ''
+        };
 
-        if (grid !== undefined) {
-            output = JSON.stringify(grid.features.rows.getRowData(rowNumber));
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+        try {
+            responseObj.value = JSON.stringify(
+                GridManager.GetGridById(gridID).features.rows.getRowData(
+                    rowNumber
+                )
+            );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code = OSFramework.Enum.ErrorCodes.API_FailedGetRowData;
         }
 
         PerformanceAPI.SetMark('Rows.GetRowData-end');
@@ -114,7 +132,8 @@ namespace GridAPI.Rows {
             'Rows.GetRowData',
             'Rows.GetRowData-end'
         );
-        return output;
+
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -125,12 +144,43 @@ namespace GridAPI.Rows {
      * @param {string} key Text set on keyBinding.
      * @returns {*}  {string} Resulting code and message in JSON format
      */
-    export function GetRowNumberByKey(gridID: string, key: string): number {
-        const grid = GridManager.GetGridById(gridID);
+    export function GetRowNumberByKey(gridID: string, key: string): string {
+        PerformanceAPI.SetMark('Rows.GetRowNumberByKey');
 
-        if (grid !== undefined) {
-            return grid.dataSource.getRowNumberByKey(key);
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS,
+            value: ''
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
+        try {
+            responseObj.value = JSON.stringify(
+                GridManager.GetGridById(gridID).dataSource.getRowNumberByKey(
+                    key
+                )
+            );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedGetRowNumberByKey;
+        }
+
+        PerformanceAPI.SetMark('Rows.GetRowNumberByKey-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Rows.GetRowNumberByKey',
+            'Rows.GetRowNumberByKey',
+            'Rows.GetRowNumberByKey-end'
+        );
+
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -264,13 +314,44 @@ namespace GridAPI.Rows {
         gridID: string,
         currentRowId: string,
         newKey: string
-    ): void {
-        // TODO: Add error structure
-        const grid = GridManager.GetGridById(gridID);
+    ): string {
+        PerformanceAPI.SetMark('Rows.UpdateAddedRowKey');
 
-        if (grid !== undefined) {
-            grid.dataSource.updateAddedRowKey(currentRowId, newKey);
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS,
+            value: ''
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
         }
+        try {
+            responseObj.value = JSON.stringify(
+                GridManager.GetGridById(gridID).dataSource.updateAddedRowKey(
+                    currentRowId,
+                    newKey
+                )
+            );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedUpdateAddedRowKey;
+        }
+
+        PerformanceAPI.SetMark('Rows.UpdateAddedRowKey-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Rows.UpdateAddedRowKey',
+            'Rows.UpdateAddedRowKey',
+            'Rows.UpdateAddedRowKey-end'
+        );
+
+        return JSON.stringify(responseObj);
     }
 
     /**
@@ -283,12 +364,31 @@ namespace GridAPI.Rows {
     export function UpdateStartingRowHeader(
         gridID: string,
         startIndex: number
-    ): void {
+    ): string {
         PerformanceAPI.SetMark('Rows.UpdateStartingRowHeader');
-        const grid = GridManager.GetGridById(gridID);
 
-        if (grid !== undefined) {
-            grid.features.autoRowNumber.setStartIndex(startIndex);
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            GridManager.GetGridById(
+                gridID
+            ).features.autoRowNumber.setStartIndex(startIndex);
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedUpdateStartingRowHeader;
         }
 
         PerformanceAPI.SetMark('Rows.UpdateStartingRowHeader-end');
@@ -297,6 +397,8 @@ namespace GridAPI.Rows {
             'Rows.UpdateStartingRowHeader',
             'Rows.UpdateStartingRowHeader-end'
         );
+
+        return JSON.stringify(responseObj);
     }
 
     /**
