@@ -38,6 +38,13 @@ namespace WijmoProvider.Feature {
          * @param value new row starting index
          */
         public setStartIndex(value: number): void {
+            // Prevent to apply an index lower than 0
+            if (value < 0) {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.Row_InvalidStartingRowHeader
+                );
+            }
+
             this._startIndex = value;
             this._grid.provider.invalidate(); // refresh grid with new index
         }

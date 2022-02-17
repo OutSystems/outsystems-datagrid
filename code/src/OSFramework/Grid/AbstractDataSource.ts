@@ -294,7 +294,7 @@ namespace OSFramework.Grid {
             const row = this._getRowByKey(currentRowId);
 
             if (!row) {
-                return false;
+                throw new Error(Enum.ErrorMessages.Row_NotFound);
             }
 
             // set primary key with new value

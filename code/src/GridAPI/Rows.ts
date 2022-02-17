@@ -380,16 +380,6 @@ namespace GridAPI.Rows {
             return JSON.stringify(responseObj);
         }
 
-        // Prevent to apply an index lower than 0
-        if (startIndex < 0) {
-            responseObj.isSuccess = false;
-            responseObj.message =
-                OSFramework.Enum.ErrorMessages.Row_InvalidStartingRowHeader;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedUpdateStartingRowHeader;
-            return JSON.stringify(responseObj);
-        }
-
         try {
             GridManager.GetGridById(
                 gridID

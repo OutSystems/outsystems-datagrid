@@ -377,15 +377,16 @@ namespace WijmoProvider.Feature {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public getRowData(rowNumber: number): any {
-            try {
-                return this._grid.isSingleEntity
-                    ? OSFramework.Helper.Flatten(
-                          this._grid.provider.rows[rowNumber].dataItem
-                      )
-                    : this._grid.provider.rows[rowNumber].dataItem;
-            } catch (error) {
+            const row = this._grid.isSingleEntity
+                ? OSFramework.Helper.Flatten(
+                      this._grid.provider.rows[rowNumber].dataItem
+                  )
+                : this._grid.provider.rows[rowNumber].dataItem;
+
+            if (!row) {
                 throw new Error(OSFramework.Enum.ErrorMessages.Row_NotFound);
             }
+            return row;
         }
 
         /**
