@@ -337,10 +337,6 @@ namespace GridAPI.Rows {
                     newKey
                 )
             );
-            GridManager.GetGridById(gridID).dataSource.updateAddedRowKey(
-                currentRowId,
-                newKey
-            );
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
