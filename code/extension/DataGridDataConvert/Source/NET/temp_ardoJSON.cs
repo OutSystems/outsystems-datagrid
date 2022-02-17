@@ -146,17 +146,23 @@ namespace OutSystems.NssDataGridDataConvert {
                 } else // if (dateFormat == 3) // smart iso 8061 - also default for all other values
                   {
                     DateTime dv = (DateTime)val;
+
                     if (dv.Year == 1900 && dv.Month == 1 && dv.Day == 1) // is a time?
                     {
                         if (dv.Hour == 0 && dv.Minute == 0 && dv.Second == 0) // 1900-01-01 00:00:00 this is likely a null date. So let's just dump the empty string.
                             json.WriteValue("");
                         else
                             json.WriteValue(dv.ToString("HH:mm:ss"));
-                    } else if (dv.Hour == 0 && dv.Minute == 0 && dv.Second == 0) // extra milisecond check ?
-                      {
-                        json.WriteValue(dv.ToString("yyyy-MM-dd'T00:00:00'"));
-                    } else {
-                        json.WriteValue(dv.ToString("yyyy-MM-dd'T'HH:mm:ss"));
+                    }
+                    else { 
+                        //Add dates from the ArrangeData action should be returned in UTC
+                        dv = dv.ToUniversalTime();
+                        if (dv.Hour == 0 && dv.Minute == 0 && dv.Second == 0) // extra milisecond check ?
+                        {
+                            json.WriteValue(dv.ToString("yyyy-MM-dd"));
+                        } else {
+                            json.WriteValue(dv.ToString("yyyy-MM-dd'T'HH:mm:ssZ"));
+                        }
                     }
                 }
             } else if (typeof(IRecord).IsAssignableFrom(type) || typeof(ISimpleRecord).IsAssignableFrom(type))
