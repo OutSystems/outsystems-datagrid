@@ -261,6 +261,7 @@ namespace WijmoProvider.Feature {
             className: string,
             refresh = false
         ): void {
+            this.getMetadata(rowNumber).addClass(className);
             if (refresh) {
                 this._grid.provider.invalidate(); //Mark to be refreshed
             }
