@@ -379,7 +379,7 @@ namespace WijmoProvider.Feature {
         public getRowData(rowNumber: number): any {
             const row = this._grid.isSingleEntity
                 ? OSFramework.Helper.Flatten(
-                      this._grid.provider.rows[rowNumber].dataItem
+                      this._grid.provider.rows[rowNumber]?.dataItem
                   )
                 : this._grid.provider.rows[rowNumber].dataItem;
 
