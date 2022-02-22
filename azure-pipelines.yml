@@ -104,7 +104,7 @@ stages:
 
           #Format branch name
           - powershell: |
-              $moduleName="DataGrid_"+"$(System.PullRequest.SourceBranch)"-replace '-', ''
+              $moduleName="OutSystemsDataGrid_"+"$(System.PullRequest.SourceBranch)"-replace '-', ''
               Write-Host "##vso[task.setvariable variable=module;]$moduleName"
 
           #Run Python script to publish code
