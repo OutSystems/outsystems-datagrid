@@ -85,8 +85,6 @@ namespace WijmoProvider.Grid {
         public build(): void {
             super.build();
 
-            console.log(`TESTING PIPELINE. DO NOT ACCEPT PULL REQUEST!`);
-
             this._provider = new wijmo.grid.FlexGrid(
                 OSFramework.Helper.GetElementByUniqueId(this.uniqueId),
                 this._getProviderConfig()
