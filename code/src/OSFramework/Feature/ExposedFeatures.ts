@@ -6,6 +6,7 @@ namespace OSFramework.Feature {
         public calculatedField: ICalculatedField;
         public cellData: ICellData;
         public cellStyle: ICellStyle;
+        public columnAggregate: IColumnAggregate;
         public columnFreeze: IColumnFreeze;
         public columnReorder: IColumnReorder;
         public columnResize: IColumnResize;

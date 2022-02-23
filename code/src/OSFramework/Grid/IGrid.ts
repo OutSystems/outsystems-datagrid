@@ -43,8 +43,8 @@ namespace OSFramework.Grid {
         getColumns(): Column.IColumn[];
         getData(): JSON[];
         /**
-         * Verifies grid has the given Column
-         * @param key key can be the uniqueId or a binding of a column
+         * Verifies grid has the given Column.
+         * @param key key must be the uniqueId or a binding of a column
          */
         hasColumn(key: string): boolean;
         /**

@@ -14,6 +14,7 @@ namespace OSFramework.Enum {
         rowsPerPage,
         selectionMode,
         serverSidePagination,
+        showAggregateValues,
         validateEdits
     }
 }

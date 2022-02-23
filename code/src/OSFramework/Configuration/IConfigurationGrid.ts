@@ -19,6 +19,10 @@ namespace OSFramework.Configuration {
         */
         serverSidePagination: boolean;
         /**
+         Indicates if the grid has row footer to show aggregate values
+        */
+        showAggregateValues: boolean;
+        /**
          * Represents the identifier created on OS and used as reference to find objects on screen
          */
         uniqueId: string;

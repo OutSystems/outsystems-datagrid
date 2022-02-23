@@ -61,6 +61,10 @@ namespace WijmoProvider.Feature {
                         column.provider.cssClass = classList.join(' ');
                     }
                 }
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         }
 
@@ -101,6 +105,10 @@ namespace WijmoProvider.Feature {
                 }
 
                 column.provider.cssClassAll = classList.join(' ');
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         }
     }

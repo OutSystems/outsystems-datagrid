@@ -59,6 +59,7 @@ namespace OSFramework.Grid {
                     //DataGrid also won't consider it for Date Columns
                     //PS: Datetime will consider GMT just like OS consider
                     saveConvertion('date', key);
+
                     return new Date(+m[1], +m[2] - 1, +m[3]);
                 } else if (value === '') {
                     return undefined;
@@ -80,25 +81,30 @@ namespace OSFramework.Grid {
         data: Array<any>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): void {
-        const columns = convertions.get('date') || [];
+        const dateColumns = convertions.get('date') || new Set();
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const setDeepDate = (binding: string, object: any) => {
-            if (object[binding]) {
-                const dt = object[binding] as Date;
+        const setDeepDate = (object: any) => {
+            Object.keys(object).forEach((key) => {
+                // If property is object, we recurse it, going deep in the structure
+                if (object[key] === Object(object[key])) {
+                    setDeepDate(object[key]);
+                }
 
-                object[binding] = new Date(
-                    dt.getTime() - dt.getTimezoneOffset() * 60000
-                )
-                    .toISOString()
-                    .substr(0, 10);
-            }
+                // If dateColumns has column and column value is defined, format date
+                if (dateColumns.has(key) && object[key]) {
+                    const dt = object[key] as Date;
+                    object[key] = new Date(
+                        dt.getTime() - dt.getTimezoneOffset() * 60000
+                    )
+                        .toISOString()
+                        .substring(0, 10);
+                }
+            });
         };
 
-        columns.forEach((col) => {
-            data.forEach((item) => {
-                setDeepDate(col, item);
-            });
+        data.forEach((item) => {
+            setDeepDate(item);
         });
     }
 
@@ -164,7 +170,13 @@ namespace OSFramework.Grid {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         protected _parseNewItem(): any {
-            const parsedNewItem = _.cloneDeep(this._metadata);
+            if (!this.hasMetadata && this._ds.length === 0) {
+                throw new Error(Enum.ErrorMessages.UnableToAddRow);
+            }
+            const parsedNewItem =
+                _.cloneDeep(this._metadata) ||
+                _.cloneDeep(_.omit(this._ds[0], '__osRowMetadata'));
+
             const converter = (object) => {
                 Object.keys(object).forEach((key) => {
                     if (typeof object[key] === 'object') converter(object[key]);
@@ -221,11 +233,21 @@ namespace OSFramework.Grid {
         }
 
         public getRowNumberByKey(key: string): number {
-            return this.parentGrid.provider.rows.findIndex(
+            // Throws the error when is invalid
+            const row = this.parentGrid.provider.rows.findIndex(
                 (item) =>
-                    _.get(item.dataItem, this.parentGrid.config.keyBinding) ===
-                    key
+                    _.get(
+                        item.dataItem,
+                        this.parentGrid.config.keyBinding
+                    ).toString() === key
             );
+
+            // Validation of row to prevent the default row key
+            if (row < 0) {
+                throw new Error(Enum.ErrorMessages.Row_InvalidRowDataKey);
+            }
+
+            return row;
         }
 
         public removeRow(item: number | JSON): boolean {
@@ -245,7 +267,6 @@ namespace OSFramework.Grid {
             const dataJson = ToJSONFormat(data, this._convertions);
 
             this._metadata = dataJson.metadata;
-
             this._isSingleEntity =
                 Object.keys(this._metadata || dataJson[0] || {}).length <= 1;
 
@@ -278,7 +299,7 @@ namespace OSFramework.Grid {
             const row = this._getRowByKey(currentRowId);
 
             if (!row) {
-                return false;
+                throw new Error(Enum.ErrorMessages.Row_NotFound);
             }
 
             // set primary key with new value

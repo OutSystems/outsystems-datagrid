@@ -289,7 +289,9 @@
     background: var(--datagrid-cell-background);
 }
 
-.wj-cells .wj-cell[aria-readonly='true']:not(.wj-group) *:not(.wj-cell-maker) {
+.wj-cells
+    .wj-cell[aria-readonly='true']:not(.wj-group)
+    > *:not(.wj-cell-maker) {
     pointer-events: none;
 }
 
@@ -410,6 +412,10 @@
 
 .wj-listbox.column-picker .wj-listbox-item:hover {
     background: var(--datagrid-column-picker-item-hover-background);
+}
+
+.wj-bottomleft .wj-cell.wj-header, .wj-colfooters .wj-cell.wj-header{
+    background-color: var(--color-neutral-3);
 }
 
 /**** DATAGRID STYLE CLASSES ****/

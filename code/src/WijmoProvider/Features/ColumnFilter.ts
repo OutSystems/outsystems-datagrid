@@ -79,10 +79,25 @@ namespace WijmoProvider.Feature {
                 : wijmo.grid.filter.FilterType.Both;
         }
 
+        /**
+         * Function that will activate the filter at a given column id.
+         *
+         * @param columnID Column Id where the Filter will be activated
+         */
         public activate(columnID: string): void {
-            this.changeFilterType(columnID, this.filterType);
+            const column = this._grid.getColumn(columnID);
+            if (column) {
+                this.changeFilterType(columnID, this.filterType);
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
+            }
         }
 
+        /**
+         * Builds the Filter feature.
+         */
         public build(): void {
             this._filter = new wijmo.grid.filter.FlexGridFilter(
                 this._grid.provider
@@ -112,6 +127,12 @@ namespace WijmoProvider.Feature {
             this.setState(this._enabled);
         }
 
+        /**
+         * Function that will perform a Filter based on a given Condition at a given ColumnID
+         *
+         * @param columnId Column Id where the Filter will be performed
+         * @param values Values to apply as column filter
+         */
         public byCondition(
             columnId: string,
             values: OSFramework.OSStructure.FilterCondition[]
@@ -146,9 +167,19 @@ namespace WijmoProvider.Feature {
                     // trigger event
                     this._filterChangedHandler(this._filter);
                 }
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         }
 
+        /**
+         * Function that will perform a Filter based on a given Value at a given ColumnID
+         *
+         * @param columnId Column Id where the Filter will be performed
+         * @param values Values to apply as column filter
+         */
         public byValue(columnId: string, values: Array<string>): void {
             const column = this._grid.getColumn(columnId);
             if (column) {
@@ -165,9 +196,19 @@ namespace WijmoProvider.Feature {
                 this._filter.apply();
                 // trigger event
                 this._filterChangedHandler(this._filter);
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         }
 
+        /**
+         * Function that will perform a Filter based on a given Filter Type at a given ColumnID
+         *
+         * @param columnId Column Id where the Filter will be performed
+         * @param filterType Filter type to apply as column filter
+         */
         public changeFilterType(
             columnID: string,
             filterType: wijmo.grid.filter.FilterType
@@ -177,29 +218,73 @@ namespace WijmoProvider.Feature {
             if (column) {
                 this._filter.getColumnFilter(column.provider).filterType =
                     filterType;
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
             }
         }
 
+        /**
+         * Function that will Clear a column Filter at a given ColumnID
+         *
+         * @param columnId Column Id where the Filter will be performed
+         */
         public clear(columnID: string): void {
             const column = this._grid.getColumn(columnID);
 
-            this._filter.getColumnFilter(column.provider).clear();
-            this._grid.provider.collectionView.refresh();
+            if (column) {
+                this._filter.getColumnFilter(column.provider).clear();
+                this._grid.provider.collectionView.refresh();
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
+            }
         }
 
+        /**
+         * Function that will deActivate the filter at a given column id.
+         *
+         * @param columnId Column Id where the Filter will be performed
+         */
         public deactivate(columnID: string): void {
-            this.changeFilterType(columnID, wijmo.grid.filter.FilterType.None);
+            const column = this._grid.getColumn(columnID);
+            if (column) {
+                this.changeFilterType(
+                    columnID,
+                    wijmo.grid.filter.FilterType.None
+                );
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
+            }
         }
 
+        /**
+         * Destroy Filter feature.
+         */
         public dispose(): void {
             this._filter = undefined;
         }
 
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public getViewLayout(): any {
+        /**
+         * Function that returns the active filters
+         *
+         * @returns JSON string with the active Filters
+         */
+        public getViewLayout(): string {
             return this._filter.filterDefinition;
         }
 
+        /**
+         * Function that perform a column filter based on given options.
+         *
+         * @param columnId Column Id where the Filter will be performed
+         * @param options Options that will be applied to the given column as a Filter
+         * @param maxVisibleOptions Set the amount of items returned by the given filter options
+         */
         public setColumnFilterOptions(
             columnID: string,
             options: Array<string>,
@@ -212,34 +297,45 @@ namespace WijmoProvider.Feature {
 
             const column = this._grid.getColumn(columnID);
 
-            // for now we only want this to work on text or dropdown columns
-            if (
-                column.columnType === OSFramework.Enum.ColumnType.Text ||
-                column.columnType === OSFramework.Enum.ColumnType.Dropdown
-            ) {
-                // this column will have both filter types
-                this.changeFilterType(
-                    columnID,
-                    wijmo.grid.filter.FilterType.Both
-                );
+            if (column) {
+                // for now we only want this to work on text or dropdown columns
+                if (
+                    column.columnType === OSFramework.Enum.ColumnType.Text ||
+                    column.columnType === OSFramework.Enum.ColumnType.Dropdown
+                ) {
+                    // this column will have both filter types
+                    this.changeFilterType(
+                        columnID,
+                        wijmo.grid.filter.FilterType.Both
+                    );
 
-                this._filter.getColumnFilter(
-                    column.provider
-                ).valueFilter.uniqueValues = Array.from(
-                    new Set<string>(options) // we only want unique values
-                );
-
-                if (maxVisibleOptions > 0)
                     this._filter.getColumnFilter(
                         column.provider
-                    ).valueFilter.maxValues = maxVisibleOptions;
+                    ).valueFilter.uniqueValues = Array.from(
+                        new Set<string>(options) // we only want unique values
+                    );
+
+                    if (maxVisibleOptions > 0)
+                        this._filter.getColumnFilter(
+                            column.provider
+                        ).valueFilter.maxValues = maxVisibleOptions;
+                } else {
+                    throw new Error(
+                        `The SetColumnFilterOptions client action can only be applied to Text or Dropdowncolumns.`
+                    );
+                }
             } else {
                 throw new Error(
-                    `The SetColumnFilterOptions client action can only be applied to Text or Dropdowncolumns.`
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
 
+        /**
+         * Fucntion that will (de)activate the filter for all columns at once.
+         *
+         * @param value {boolean} True => Enable columns filter, False => Disabel columns filter
+         */
         public setState(value: boolean): void {
             this._filter.defaultFilterType = value
                 ? this.filterType
@@ -248,11 +344,22 @@ namespace WijmoProvider.Feature {
             this._enabled = value;
         }
 
+        /**
+         * Function that will set the filters based on a given state
+         *
+         * @param state the filters state to be applied
+         */
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public setViewLayout(state: any): void {
             this._filter.filterDefinition = state.filterDefinition;
         }
 
+        /**
+         * Function that will validate if a given Action can be done.
+         *
+         * @param action Action to be validated
+         * @returns If action can't be done => A string with the Error info
+         */
         public validateAction(
             action: OSFramework.Event.Grid.Actions /*, ctx: any*/
         ): string {

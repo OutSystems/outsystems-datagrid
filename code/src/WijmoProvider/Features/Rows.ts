@@ -114,7 +114,9 @@ namespace WijmoProvider.Feature {
             // clear existing items, because we want to override them with ours
             collectionView.itemsRemoved.clear();
             collectionView.trackChanges &&
-                collectionView.itemsRemoved.push(...undoableItems);
+                collectionView.itemsRemoved.push(
+                    ...undoableItems.map((undoable) => undoable.item)
+                );
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public applyState(state: any) {
@@ -243,7 +245,7 @@ namespace WijmoProvider.Feature {
             const topRow = Math.min(
                 ...this._grid.features.selection
                     .getAllSelections()
-                    .map((cellRange) => cellRange.topRowIndex)
+                    .value.map((cellRange) => cellRange.topRowIndex)
             );
             // Consider the topRow 0 if there is no selection.
             return topRow === Infinity ? 0 : topRow;
@@ -269,15 +271,11 @@ namespace WijmoProvider.Feature {
          * Add a new row to the grid with all cells empty.
          * @returns ReturnMessage containing the resulting code from the adding rows and the error message in case of failure.
          */
-        public addNewRows(): OSFramework.OSStructure.ReturnMessage {
+        public addNewRows(): void {
             if (!this._canAddRows()) {
-                // Return error
-                return {
-                    code: OSFramework.Enum.ErrorCodes.API_UnableToAddRow,
-                    message:
-                        'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
-                    isSuccess: false
-                };
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.AddRowWithActiveFilterOrSort
+                );
             }
 
             const providerGrid = this._grid.provider;
@@ -340,19 +338,10 @@ namespace WijmoProvider.Feature {
                         dataChanges
                     );
                 }
-
-                // Return success
-                return {
-                    message: 'Success',
-                    isSuccess: true,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-                };
             } else {
-                return {
-                    code: OSFramework.Enum.ErrorCodes.API_FailedAddRow,
-                    message: 'Error',
-                    isSuccess: false
-                };
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.AddRowErrorMessage
+                );
             }
         }
 
@@ -389,11 +378,16 @@ namespace WijmoProvider.Feature {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public getRowData(rowNumber: number): any {
-            return this._grid.isSingleEntity
+            const row = this._grid.isSingleEntity
                 ? OSFramework.Helper.Flatten(
-                      this._grid.provider.rows[rowNumber].dataItem
+                      this._grid.provider.rows[rowNumber]?.dataItem
                   )
                 : this._grid.provider.rows[rowNumber].dataItem;
+
+            if (!row) {
+                throw new Error(OSFramework.Enum.ErrorMessages.Row_NotFound);
+            }
+            return row;
         }
 
         /**
@@ -413,7 +407,13 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row in which the class is going to be removed.
          */
         public removeAllClasses(rowNumber: number): void {
-            this.getMetadata(rowNumber).removeAllClasses();
+            const row = this.getMetadata(rowNumber);
+
+            if (!row) {
+                throw new Error(OSFramework.Enum.ErrorMessages.Row_NotFound);
+            }
+
+            row.removeAllClasses();
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
@@ -427,7 +427,11 @@ namespace WijmoProvider.Feature {
             className: string,
             refresh = false
         ): void {
-            this.getMetadata(rowNumber).removeClass(className);
+            const row = this.getMetadata(rowNumber);
+            if (!row) {
+                throw new Error(OSFramework.Enum.ErrorMessages.Row_NotFound);
+            }
+            row.removeClass(className);
             if (refresh) {
                 this._grid.provider.invalidate(); //Mark to be refreshed
             }
@@ -442,7 +446,8 @@ namespace WijmoProvider.Feature {
                 return {
                     code: OSFramework.Enum.ErrorCodes.API_UnableToRemoveRow,
                     message:
-                        'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
+                        OSFramework.Enum.ErrorMessages
+                            .AddRowWithActiveFilterOrSort,
                     isSuccess: false
                 };
             }
@@ -516,7 +521,7 @@ namespace WijmoProvider.Feature {
                 }
 
                 return {
-                    message: 'Success',
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     isSuccess: true,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
                 };

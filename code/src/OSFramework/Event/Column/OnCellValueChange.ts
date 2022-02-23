@@ -12,11 +12,12 @@ namespace OSFramework.Event.Column {
             columnID: string,
             rowNumber: number,
             oldValue: string,
-            newValue: string
+            newValue: string,
+            isAsync = true
         ): void {
-            this.handlers
-                .slice(0)
-                .forEach((h) =>
+            this.handlers.slice(0).forEach((h) => {
+                // RGRIDT-1122: if column is sorted, we want on cell change event to be handled syncronally, because in some cases our validation happens before sorting occurs.
+                if (isAsync) {
                     Helper.AsyncInvocation(
                         h,
                         gridID,
@@ -24,8 +25,18 @@ namespace OSFramework.Event.Column {
                         columnID,
                         oldValue,
                         newValue
-                    )
-                );
+                    );
+                } else {
+                    Helper.SyncInvocation(
+                        h,
+                        gridID,
+                        rowNumber,
+                        columnID,
+                        oldValue,
+                        newValue
+                    );
+                }
+            });
         }
     }
 }

@@ -228,80 +228,128 @@ namespace WijmoProvider.Feature {
             else return undefined;
         }
 
-        public getAllSelections(): OSFramework.OSStructure.CellRange[] {
-            return this.getProviderAllSelections().map((p) =>
-                Helper.CellRangeFactory.MakeFromProviderCellRange(p)
-            );
-        }
-
-        public getAllSelectionsData(): OSFramework.OSStructure.RowData[] {
-            const rowColumn = new Map<
-                number,
-                OSFramework.OSStructure.RowData
-            >();
-            const rowColumnArr = [];
-
-            this.getProviderAllSelections().map((range) => {
-                const bindings = Array(range.rightCol - range.leftCol + 1)
-                    .fill(0)
-                    .map((_, idx) =>
-                        this._grid.provider.getColumn(range.leftCol + idx)
-                    )
-                    .filter((p) => p.isVisible)
-                    .map((p) => p.binding);
-
-                Array(range.bottomRow - range.topRow + 1)
-                    .fill(0)
-                    .map((_, idx) => range.topRow + idx)
-                    .map((rowIndex) => {
-                        let curr = rowColumn.get(rowIndex);
-
-                        if (!curr) {
-                            curr = new OSFramework.OSStructure.RowData(
-                                this._grid,
-                                rowIndex,
-                                this._grid.provider.rows[rowIndex].dataItem
-                            );
-
-                            rowColumnArr.push(curr);
-                            rowColumn.set(rowIndex, curr);
-                        }
-
-                        curr.selected.push(
-                            ...bindings.map(
-                                (binding) =>
-                                    new OSFramework.OSStructure.BindingValue(
-                                        binding,
-                                        this._grid.provider.getCellData(
-                                            rowIndex,
-                                            binding,
-                                            false
-                                        )
-                                    )
-                            )
-                        );
-                    });
-            });
-
-            rowColumn.clear();
-            return rowColumnArr;
-        }
-
-        public getCheckedRowsData(): OSFramework.OSStructure.CheckedRowData[] {
-            const allCheckedRows =
-                this._grid.provider.itemsSource.sourceCollection.filter(
-                    (item) =>
-                        item?.__osRowMetadata?.get(this._internalLabel)
-                            .isChecked === true
+        public getAllSelections(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                const getAllSelections = this.getProviderAllSelections().map(
+                    (p) => Helper.CellRangeFactory.MakeFromProviderCellRange(p)
                 );
 
-            return allCheckedRows.map(
-                (dataItem) =>
-                    new OSFramework.OSStructure.CheckedRowData(
-                        this._grid,
-                        dataItem
-                    )
-            );
+                return {
+                    value: getAllSelections,
+                    isSuccess: true,
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: [],
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.Enum.ErrorCodes.API_FailedGetAllSelections
+                };
+            }
+        }
+
+        public getAllSelectionsData(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                const rowColumn = new Map<
+                    number,
+                    OSFramework.OSStructure.RowData
+                >();
+                const rowColumnArr = [];
+
+                this.getProviderAllSelections().map((range) => {
+                    const bindings = Array(range.rightCol - range.leftCol + 1)
+                        .fill(0)
+                        .map((_, idx) =>
+                            this._grid.provider.getColumn(range.leftCol + idx)
+                        )
+                        .filter((p) => p.isVisible)
+                        .map((p) => p.binding);
+
+                    Array(range.bottomRow - range.topRow + 1)
+                        .fill(0)
+                        .map((_, idx) => range.topRow + idx)
+                        .map((rowIndex) => {
+                            let curr = rowColumn.get(rowIndex);
+
+                            if (!curr) {
+                                curr = new OSFramework.OSStructure.RowData(
+                                    this._grid,
+                                    rowIndex,
+                                    this._grid.provider.rows[rowIndex].dataItem
+                                );
+
+                                rowColumnArr.push(curr);
+                                rowColumn.set(rowIndex, curr);
+                            }
+
+                            curr.selected.push(
+                                ...bindings.map(
+                                    (binding) =>
+                                        new OSFramework.OSStructure.BindingValue(
+                                            binding,
+                                            this._grid.provider.getCellData(
+                                                rowIndex,
+                                                binding,
+                                                false
+                                            )
+                                        )
+                                )
+                            );
+                        });
+                });
+
+                rowColumn.clear();
+                return {
+                    value: rowColumnArr.map((p) => p.serialize()),
+                    isSuccess: true,
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: [],
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetAllSelectionsData
+                };
+            }
+        }
+
+        public getCheckedRowsData(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                const allCheckedRows =
+                    this._grid.provider.itemsSource.sourceCollection.filter(
+                        (item) =>
+                            item?.__osRowMetadata?.get(this._internalLabel)
+                                ?.isChecked === true
+                    );
+
+                const allCheckedRowsArr = allCheckedRows.map(
+                    (dataItem) =>
+                        new OSFramework.OSStructure.CheckedRowData(
+                            this._grid,
+                            dataItem
+                        )
+                );
+
+                return {
+                    value: allCheckedRowsArr.map((p) => p.serialize()),
+                    isSuccess: true,
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: [],
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetCheckedRowsData
+                };
+            }
         }
 
         public getMetadata(
@@ -381,32 +429,63 @@ namespace WijmoProvider.Feature {
             return rows.filter((item, index) => rows.indexOf(item) === index);
         }
 
-        public getSelectedRowsCount(): number {
-            return this.getSelectedRows().length;
+        public getSelectedRowsCount(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                return {
+                    value: this.getSelectedRows().length,
+                    isSuccess: true,
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: null,
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetSelectedRowsCount
+                };
+            }
         }
 
         public getSelectedRowsCountByCellRange(): number {
             //Runs the equalize to garantee that the same row is not selected more than once
             this.equalizeSelection();
-            return this.getAllSelections().reduce(
+            return this.getAllSelections().value.reduce(
                 (acc, sel) => acc + (sel.bottomRowIndex - sel.topRowIndex + 1),
                 0
             );
         }
 
-        public getSelectedRowsData(): OSFramework.OSStructure.RowData[] {
-            return this.getSelectedRows().map(
-                (rowIndex) =>
-                    new OSFramework.OSStructure.RowData(
-                        this._grid,
-                        rowIndex,
-                        this._grid.provider.rows[rowIndex].dataItem
-                    )
-            );
+        public getSelectedRowsData(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                const selectedRows = this.getSelectedRows().map(
+                    (rowIndex) =>
+                        new OSFramework.OSStructure.RowData(
+                            this._grid,
+                            rowIndex,
+                            this._grid.provider.rows[rowIndex].dataItem
+                        )
+                );
+                return {
+                    value: selectedRows.map((p) => p.serialize()),
+                    isSuccess: true,
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: [],
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedGetSelectedRowsData
+                };
+            }
         }
 
         public hasCheckedRows(): boolean {
-            return this.getCheckedRowsData().length > 0;
+            return this.getCheckedRowsData().value.length > 0;
         }
 
         public hasMetadata(rowNumber: number): boolean {
@@ -416,8 +495,22 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        public hasSelectedRows(): boolean {
-            return this.getSelectedRows().length > 0;
+        public hasSelectedRows(): OSFramework.OSStructure.ReturnMessage {
+            try {
+                return {
+                    value: this.getSelectedRows().length > 0,
+                    isSuccess: true,
+                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: undefined,
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.Enum.ErrorCodes.API_FailedHasSelectedRows
+                };
+            }
         }
 
         public hasValidSelection(): boolean {
