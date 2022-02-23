@@ -1,7 +1,0 @@
-C:\Users\gna\Desktop\DataGridUtils\Source\NET\bin\OutSystems.NssDataGridUtils.dll
-C:\Users\gna\Desktop\DataGridUtils\Source\NET\bin\OutSystems.NssDataGridUtils.xml
-C:\Users\gna\Desktop\DataGridUtils\Source\NET\bin\Newtonsoft.Json.dll
-C:\Users\gna\Desktop\DataGridUtils\Source\NET\obj\Release\DataGridUtils.csprojAssemblyReference.cache
-C:\Users\gna\Desktop\DataGridUtils\Source\NET\obj\Release\DataGridUtils.csproj.CoreCompileInputs.cache
-C:\Users\gna\Desktop\DataGridUtils\Source\NET\obj\Release\DataGridUtils.csproj.CopyComplete
-C:\Users\gna\Desktop\DataGridUtils\Source\NET\obj\Release\OutSystems.NssDataGridUtils.dll
