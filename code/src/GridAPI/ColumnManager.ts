@@ -105,7 +105,8 @@ namespace GridAPI.ColumnManager {
     export function GetColumnById(
         columnID: string
     ): OSFramework.Column.IColumn {
-        return columnArr.find((p) => p && p.equalsToID(columnID));
+        // we want to return the last column in our array that matches our predicate
+        return _.findLast(columnArr, (p) => p && p.equalsToID(columnID));
     }
 
     /**
