@@ -67,6 +67,8 @@ namespace OSFramework.Enum {
         API_FailedFreezeColumns = 'GRID-API-10002',
         API_FailedFreezeColumnsByActiveCell = 'GRID-API-10003',
         API_FailedHasFrozenColumns = 'GRID-API-10004',
-        API_FailedUnfreezeColumns = 'GRID-API-10005'
+        API_FailedUnfreezeColumns = 'GRID-API-10005',
+        //EXPORT
+        API_FailedCustomizeExportingMessage = 'GRID-API-11001'
     }
 }

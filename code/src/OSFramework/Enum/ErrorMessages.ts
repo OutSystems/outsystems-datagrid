@@ -15,6 +15,7 @@ namespace OSFramework.Enum {
         FreezeColumnPositiveNumberExpected = 'Unable to freeze column. Please use a positive number.',
         Row_NotFound = 'Row not found',
         Row_InvalidRowDataKey = 'The data key is invalid',
-        Row_InvalidStartingRowHeader = 'The starting row header is invalid'
+        Row_InvalidStartingRowHeader = 'The starting row header is invalid',
+        CustomizeExportingMessageEmptyString = 'It seems you are passing an empty message. Please pass a valid message.'
     }
 }
