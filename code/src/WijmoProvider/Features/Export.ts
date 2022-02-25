@@ -81,11 +81,14 @@ namespace WijmoProvider.Feature {
             exportingMessage: string,
             showMessage = true
         ): void {
-            if (exportingMessage !== '' && exportingMessage !== undefined) {
-                this._loadingMessage =
-                    OSFramework.Helper.Sanitize(exportingMessage);
+            if (exportingMessage === '' || exportingMessage === undefined) {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.CustomizeExportingMessageEmptyString
+                );
             }
 
+            this._loadingMessage =
+                OSFramework.Helper.Sanitize(exportingMessage);
             this._hasLoadingMessage = showMessage;
         }
 
