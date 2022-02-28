@@ -96,13 +96,11 @@ namespace GridAPI.GridManager {
         if (gridMap.has(gridID)) {
             grid = gridMap.get(gridID);
         } else {
-            //Search for WidgetId
-            for (const p of gridMap.values()) {
-                if (p.equalsToID(gridID)) {
-                    grid = p;
-                    break;
-                }
-            }
+            //Search for last inserted grid containing widgetId
+            grid = _.findLast(
+                Array.from(gridMap.values()),
+                (p) => p && p.equalsToID(gridID)
+            );
         }
 
         if (grid === undefined && raiseError) {
