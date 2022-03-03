@@ -354,6 +354,7 @@ namespace WijmoProvider.Feature {
         /** Clears all the validation mark metadata associated to the rows */
         public clear(): void {
             this._metadata.clearProperty(this._internalLabel);
+            this._invalidRows = [];
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
