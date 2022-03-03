@@ -351,9 +351,30 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        /** Clears all the validation mark metadata associated to the rows */
+        /**
+         * Clears all the validation mark metadata associated to the rows
+         *
+         * @memberof ValidationMark
+         */
         public clear(): void {
             this._metadata.clearProperty(this._internalLabel);
+            this._grid.provider.invalidate(); //Mark to be refreshed
+        }
+        /**
+         * Clears validation marks in the given rows with the given keys list
+         *
+         * @param {Array<string>} rowKeys List of row identifiers on the KeyBinding field.
+         * @memberof ValidationMark
+         */
+        public clearByRowKeys(rowKeys: Array<string>): void {
+            rowKeys.forEach((element) => {
+                if (element !== '') {
+                    this._metadata.clearPropertyByRowKey(
+                        element,
+                        this._internalLabel
+                    );
+                }
+            });
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
@@ -489,6 +510,20 @@ namespace WijmoProvider.Feature {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public isInvalidRow(row: any): boolean {
             return Array.from(this.getMetadataByRow(row).validation).some(
+                (element) => {
+                    return element[1] === false;
+                }
+            );
+        }
+
+        /**
+         * Indicates if a specific cell value is valid or not by giving the row and the binding.
+         * @param key Row key to get the validation state.
+         * @returns Boolean that indicates whether a specific cell is valid or not.
+         */
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public isInvalidRowByKey(key: string): boolean {
+            return Array.from(this.getMetadataByRowKey(key).validation).some(
                 (element) => {
                     return element[1] === false;
                 }

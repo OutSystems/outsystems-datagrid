@@ -29,8 +29,14 @@ namespace OSFramework.Interface {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         clearPropertyByRow(dataItem: any, propertyName: string): void;
         /**
+         * Responsible for cleaning metadata information for a given row key and property
+         * @param row Key row reference
+         * @param propertyName Metadata property to be clear
+         */
+        clearPropertyByRowKey(key: string, propertyName: string): void;
+        /**
          * Responsible for cleaning metadata information for a given row number and property
-         * @param row Index row reference, works only in the current page
+         * @param key  Index row reference, works only in the current page
          * @param propertyName Metadata property to be clear
          */
         clearPropertyByRowNumber(row: number, propertyName: string): void;

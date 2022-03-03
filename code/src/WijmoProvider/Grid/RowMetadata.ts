@@ -113,6 +113,24 @@ namespace WijmoProvider.Grid {
             }
         }
 
+        /**
+         * Responsible for cleaning metadata information for a given row key and property
+         *
+         * @param {string} key Index row reference, works only in the current page
+         * @param {string} propertyName Metadata property to be clear
+         * @memberof RowMetadata
+         */
+        public clearPropertyByRowKey(key: string, propertyName: string): void {
+            this.hasOwnPropertyByRowKey(key, propertyName) &&
+                this._getRowMetadataByRowKey(key).delete(propertyName);
+        }
+        /**
+         * Responsible for cleaning metadata information for a given row number and property
+         *
+         * @param {number} rowNumber Index row reference, works only in the current page
+         * @param {string} propertyName Metadata property to be clear
+         * @memberof RowMetadata
+         */
         public clearPropertyByRowNumber(
             rowNumber: number,
             propertyName: string
@@ -120,7 +138,6 @@ namespace WijmoProvider.Grid {
             this.hasOwnPropertyByRowNumber(rowNumber, propertyName) &&
                 this._getRowMetadataByRowNumber(rowNumber).delete(propertyName);
         }
-
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public getMetadataByRowKey(key: string, propertyName: string): any {
             return this._getRowMetadataByRowKey(key).get(propertyName);

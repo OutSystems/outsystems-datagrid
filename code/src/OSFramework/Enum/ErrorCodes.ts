@@ -50,6 +50,7 @@ namespace OSFramework.Enum {
         API_FailedGetChangedLines = 'GRID-API-07001',
         API_FailedMarkChangesAsSaved = 'GRID-API-07002',
         API_FailedSetCellData = 'GRID-API-07003',
+        API_FailedMarkChangesAsSavedByKey = 'GRID-API-07004',
         // VALIDATION
         API_FailedSetValidationStatus = 'GRID-API-08001',
         API_FailedSetValidationStatusByKey = 'GRID-API-08002',
