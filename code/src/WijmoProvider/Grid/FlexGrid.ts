@@ -230,7 +230,11 @@ namespace WijmoProvider.Grid {
                                     this.config.keyBinding
                                 ).toString() === element
                         );
-
+                        if (row === -1) {
+                            throw new Error(
+                                OSFramework.Enum.ErrorMessages.Row_NotFound
+                            );
+                        }
                         if (!row) {
                             throw new Error(
                                 OSFramework.Enum.ErrorMessages.Row_NotFound
