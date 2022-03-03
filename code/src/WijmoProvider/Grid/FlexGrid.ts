@@ -52,6 +52,27 @@ namespace WijmoProvider.Grid {
             this.getColumns().forEach((col) => col.build());
         }
 
+        // Remove rows with given keys from data source
+        private _clearDataSourceByKeys(rowKeys) {
+            rowKeys.forEach((element) => {
+                const row = this.provider.rows.find(
+                    (item) =>
+                        _.get(
+                            item.dataItem,
+                            this.config.keyBinding
+                        ).toString() === element
+                );
+                if (!row) {
+                    throw new Error(
+                        OSFramework.Enum.ErrorMessages.Row_NotFound
+                    );
+                }
+                this._provider.itemsSource.itemsEdited.remove(row.dataItem);
+                this._provider.itemsSource.itemsRemoved.remove(row.dataItem);
+                this._provider.itemsSource.itemsAdded.remove(row.dataItem);
+            });
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _getProviderConfig(): any {
             if (this.hasColumnsDefined()) {
@@ -218,6 +239,8 @@ namespace WijmoProvider.Grid {
             }
 
             if (this.isReady) {
+                this._clearDataSourceByKeys(rowKeys);
+
                 if (forceClearValidationMarks) {
                     this.features.validationMark.clearByRowKeys(rowKeys);
                     this.features.dirtyMark.clearByRowKeys(rowKeys);
