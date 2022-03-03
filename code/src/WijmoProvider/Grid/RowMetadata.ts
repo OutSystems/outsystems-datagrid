@@ -61,6 +61,7 @@ namespace WijmoProvider.Grid {
             return row && row[this._extraData];
         }
 
+        //Note: This method should have the name changed since it used the row index/number instead of the row key
         private _hasMetadataByRowKey(row: number): boolean {
             return (
                 this._itemsSource.sourceCollection[row] &&
