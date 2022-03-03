@@ -231,7 +231,7 @@ namespace WijmoProvider.Grid {
                                 ).toString() === element
                         );
 
-                        if (!row) {
+                        if (row === -1) {
                             throw new Error(
                                 OSFramework.Enum.ErrorMessages.Row_NotFound
                             );
