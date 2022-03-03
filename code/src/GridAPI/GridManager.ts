@@ -209,7 +209,7 @@ namespace GridAPI.GridManager {
      *
      * @export
      * @param {string} gridID ID of the Grid where the change will occur.
-     * @param {boolean} forceCleanInvalids determines whether or not we should clean the validation marks.
+     * @param {boolean} [forceCleanInvalids=false] determines whether or not we should clean the validation marks.
      */
     export function MarkChangesAsSaved(
         gridID: string,
@@ -244,6 +244,56 @@ namespace GridAPI.GridManager {
             '@datagrid-GridManager.MarkChangesAsSaved',
             'GridManager.MarkChangesAsSaved',
             'GridManager.MarkChangesAsSaved-end'
+        );
+
+        return JSON.stringify(responseObj);
+    }
+    /**
+     * Mark a group of Data Grid lines with given keys (from the KeyBinding field) as saved in the database.
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {string} rowKeys List of row identifiers on the KeyBinding field.
+     * @param {boolean} [forceCleanInvalids=false] determines whether or not we should clean the validation marks.
+     * @return {*}  {string}
+     */
+    export function MarkChangesAsSavedByKey(
+        gridID: string,
+        rowKeys: string,
+        forceCleanInvalids = false
+    ): string {
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        PerformanceAPI.SetMark('GridManager.MarkChangesAsSavedByKey');
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            GetGridById(gridID).clearAllChangesByRowKeys(
+                JSON.parse(rowKeys),
+                forceCleanInvalids
+            );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedMarkChangesAsSavedByKey;
+        }
+
+        PerformanceAPI.SetMark('GridManager.MarkChangesAsSavedByKey-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-GridManager.MarkChangesAsSavedByKey',
+            'GridManager.MarkChangesAsSavedByKey',
+            'GridManager.MarkChangesAsSavedByKey-end'
         );
 
         return JSON.stringify(responseObj);

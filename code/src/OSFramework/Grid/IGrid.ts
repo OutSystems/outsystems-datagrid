@@ -30,6 +30,10 @@ namespace OSFramework.Grid {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         changeProperty(propertyName: string, propertyValue: any): void;
         clearAllChanges(forceClearValidationMarks: boolean): void;
+        clearAllChangesByRowKeys(
+            rowKeys: Array<string>,
+            forceClearValidationMarks: boolean
+        ): void;
         getChangesMade(): OSStructure.ChangesDone;
         /**
          * Get the column on the grid by giving a columnID or a binding.

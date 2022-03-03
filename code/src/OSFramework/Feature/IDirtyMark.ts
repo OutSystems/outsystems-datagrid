@@ -2,13 +2,10 @@
 namespace OSFramework.Feature {
     export interface IDirtyMark {
         clear(): void;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        /**
-         * Clears dirty marks in the given row.
-         * @param {*} row
-         */
+        clearByRowKeys(rowKeys: Array<string>): void;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         clearPropertyInRow(row: any): void;
+        clearPropertyInRowByKey(key: string): void;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getOldValue(rowNumber: number, binding: string): any;
         /**

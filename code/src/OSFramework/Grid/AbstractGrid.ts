@@ -299,6 +299,11 @@ namespace OSFramework.Grid {
             forceClearValidationMarks: boolean
         ): void;
 
+        public abstract clearAllChangesByRowKeys(
+            rowKeys: Array<string>,
+            forceClearValidationMarks: boolean
+        ): void;
+
         public abstract getChangesMade(): OSStructure.ChangesDone;
 
         // public abstract getData(): JSON[];

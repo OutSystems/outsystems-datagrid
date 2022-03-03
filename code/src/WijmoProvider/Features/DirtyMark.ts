@@ -164,10 +164,37 @@ namespace WijmoProvider.Feature {
             this._metadata.clearProperty(this._internalLabel);
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
+        /**
+         * Clears dirty marks in the given rows with the given keys list
+         *
+         * @param {Array<string>} rowKeys List of row identifiers on the KeyBinding field.
+         * @memberof DirtyMark
+         */
+        public clearByRowKeys(rowKeys: Array<string>): void {
+            rowKeys.forEach((element) => {
+                if (element !== '') {
+                    this._metadata.clearPropertyByRowKey(
+                        element,
+                        this._internalLabel
+                    );
+                }
+            });
+            this._grid.provider.invalidate(); //Mark to be refreshed
+        }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public clearPropertyInRow(row: any): void {
             this._metadata.clearPropertyByRow(row, this._internalLabel);
+            this._grid.provider.invalidate(); //Mark to be refreshed
+        }
+        /**
+         * Responsible for cleaning metadata information for a given row key and property
+         *
+         * @param {string} key Key row reference
+         * @memberof DirtyMark
+         */
+        public clearPropertyInRowByKey(key: string): void {
+            this._metadata.clearPropertyByRowKey(key, this._internalLabel);
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
