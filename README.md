@@ -80,7 +80,7 @@ To be accepted, a Pull Request needs to:
 * Download latest version in [OutSystems forge](https://www.outsystems.com/forge/component-versions/9764)
 * Test the latest changes in the [sample app](https://www.outsystems.com/forge/component-overview/9765/data-grid-sample-reactive)
 * Component [living documentation](https://personal-ww5hcsw8.outsystemscloud.com/DataGridSampleReactive/)
-* [Tutorial Data Grid in less than 4 minutes](https://www.youtube.com/watch?v=OFXOPrkRlrI)
+* [Tutorial OutSystems Data Grid in less than 4 minutes](https://www.youtube.com/watch?v=OFXOPrkRlrI)
 
 
 ## 📫&nbsp; Have a question? Want to chat? Ran into a problem?
