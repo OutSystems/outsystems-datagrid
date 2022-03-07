@@ -1,10 +1,10 @@
-# Data Grid for Reactive · [![GitHub license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/OutSystems/outsystems-datagrid-reactive/blob/master/LICENSE) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg) [![Build Status](https://dev.azure.com/OutSystemsRD/Data%20Grid/_apis/build/status/OutSystems.outsystems-datagrid-reactive?repoName=OutSystems%2Foutsystems-datagrid-reactive&branchName=dev)](https://dev.azure.com/OutSystemsRD/Data%20Grid/_build/latest?definitionId=427&repoName=OutSystems%2Foutsystems-datagrid-reactive&branchName=dev) ![Release Status](https://vsrm.dev.azure.com/OutSystemsRD/_apis/public/Release/badge/a4246f2c-63f1-4b1a-8070-9328d5d3ea38/2/2)
+# OutSystems Data Grid · [![GitHub license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/OutSystems/outsystems-datagrid-reactive/blob/master/LICENSE) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg) [![Build Status](https://dev.azure.com/OutSystemsRD/Data%20Grid/_apis/build/status/OutSystems.outsystems-datagrid-reactive?repoName=OutSystems%2Foutsystems-datagrid-reactive&branchName=dev)](https://dev.azure.com/OutSystemsRD/Data%20Grid/_build/latest?definitionId=427&repoName=OutSystems%2Foutsystems-datagrid-reactive&branchName=dev) ![Release Status](https://vsrm.dev.azure.com/OutSystemsRD/_apis/public/Release/badge/a4246f2c-63f1-4b1a-8070-9328d5d3ea38/2/2)
 View, explore, and edit large amounts of data in a familiar spreadsheet interface with the Data Grid component for **OutSystems Reactive Web apps**.
 
 ## About the component
-The goal for the Data Grid Reactive component is to help you develop applications that need data visualization and manipulation features that are not currently covered by other components.
+The goal for the OutSystems Data Grid component is to help you develop applications that need data visualization and manipulation features that are not currently covered by other components.
 
-Use the Data Grid to create enterprise-grade interfaces that are more suitable and time-effective than designing a custom solution every time you need to manipulate dense datasets.  
+Use the OutSystems Data Grid to create enterprise-grade interfaces that are more suitable and time-effective than designing a custom solution every time you need to manipulate dense datasets.  
 
 #### Key features 
 * Built for Reactive Web apps 
@@ -13,7 +13,7 @@ Use the Data Grid to create enterprise-grade interfaces that are more suitable a
 * Data grouping 
 * Virtual Scrolling 
 
-Please check the [tutorial Data Grid Reactive in less than 4 minutes](https://www.youtube.com/watch?v=OFXOPrkRlrI).
+Please check the [tutorial OutSystems Data Grid in less than 4 minutes](https://www.youtube.com/watch?v=OFXOPrkRlrI).
 
 ### Where can you find the component?
 The OutSystems component, like all components, can be found in [OutSystems forge](https://www.outsystems.com/forge/component-overview/9764/data-grid-reactive). 
