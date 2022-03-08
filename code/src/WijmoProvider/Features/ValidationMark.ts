@@ -39,7 +39,12 @@ namespace WijmoProvider.Feature {
             e: wijmo.grid.CellRangeEventArgs
         ): void {
             const binding = s.getColumn(e.col).binding;
-            const newValue = s.getCellData(e.row, e.col, false);
+            const newValue = s.getCellData(
+                e.row,
+                e.col,
+                this._grid.getColumn(binding).columnType ===
+                    OSFramework.Enum.ColumnType.Dropdown
+            );
             // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
             const oldValue = this._grid.features.dirtyMark.getOldValue(
                 e.row,
@@ -628,7 +633,7 @@ namespace WijmoProvider.Feature {
             const currValue = this._grid.provider.getCellData(
                 rowNumber,
                 column.provider.index,
-                false
+                column.columnType === OSFramework.Enum.ColumnType.Dropdown
             );
             // Triggers the events of OnCellValueChange associated to a specific column in OS
             this._triggerEventsFromColumn(
@@ -656,7 +661,8 @@ namespace WijmoProvider.Feature {
                         const currValue = this._grid.provider.getCellData(
                             rowNumber,
                             column.provider.index,
-                            false
+                            column.columnType ===
+                                OSFramework.Enum.ColumnType.Dropdown
                         );
                         // Triggers the events of OnCellValueChange associated to a specific column in OS
                         this._triggerEventsFromColumn(
