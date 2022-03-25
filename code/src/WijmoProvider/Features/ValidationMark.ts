@@ -250,7 +250,7 @@ namespace WijmoProvider.Feature {
         ) {
             const column = this._grid
                 .getColumns()
-                .find((column) => column.provider.index === columnIndex);
+                .find((item) => item.provider.index === columnIndex);
 
             if (column !== undefined) {
                 if (column.config.isMandatory) {
