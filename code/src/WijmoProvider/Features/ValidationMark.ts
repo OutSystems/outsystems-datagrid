@@ -3,8 +3,7 @@ namespace WijmoProvider.Feature {
     export class ValidationMark
         implements
             OSFramework.Feature.IValidationMark,
-            OSFramework.Interface.IBuilder
-    {
+            OSFramework.Interface.IBuilder {
         private _grid: Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
@@ -38,19 +37,27 @@ namespace WijmoProvider.Feature {
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
-            const binding = s.getColumn(e.col).binding;
+            const column = s.getColumn(e.col);
+            const OSColumn = this._grid
+                .getColumns()
+                .find((item) => item.provider.index === column.index);
+
             const newValue = s.getCellData(
                 e.row,
                 e.col,
-                this._grid.getColumn(binding).columnType ===
-                    OSFramework.Enum.ColumnType.Dropdown
+                OSColumn.columnType === OSFramework.Enum.ColumnType.Dropdown
             );
             // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
             const oldValue = this._grid.features.dirtyMark.getOldValue(
                 e.row,
-                binding
+                column.binding
             );
-            this._triggerEventsFromColumn(e.row, binding, oldValue, newValue);
+            this._triggerEventsFromColumn(
+                e.row,
+                column.index,
+                oldValue,
+                newValue
+            );
         }
 
         /** Helper to convert the formats of Date and DateTime columns to the format of OS */
@@ -164,16 +171,15 @@ namespace WijmoProvider.Feature {
                 action.dataItem !== undefined &&
                 typeof action._oldState !== 'object'
             ) {
-                const binding = this._grid.provider.getColumn(
-                    action.col
-                ).binding;
+                const binding = this._grid.provider.getColumn(action.col)
+                    .binding;
                 const oldValue = this._grid.features.dirtyMark.getOldValue(
                     action.row,
                     binding
                 );
                 this._triggerEventsFromColumn(
                     action.row,
-                    binding,
+                    action.col,
                     oldValue,
                     action._newState
                 );
@@ -209,8 +215,9 @@ namespace WijmoProvider.Feature {
          */
         private _setRowStatusByKey(rowKey: string, isValid: boolean): void {
             const rowIndex = this._metadata.getRowIndexByKey(rowKey);
-            const dataItem =
-                this._grid.provider.itemsSource.sourceCollection[rowIndex];
+            const dataItem = this._grid.provider.itemsSource.sourceCollection[
+                rowIndex
+            ];
 
             if (this._invalidRows.indexOf(dataItem) === -1) {
                 if (isValid === false) {
@@ -229,19 +236,22 @@ namespace WijmoProvider.Feature {
         /**
          * Triggers the events of OnCellValueChange associated to a specific column in OS
          * @param rowNumber Number of the row to trigger the events
-         * @param binding Binding of the column that contains the associated events
+         * @param columnIndex Index of the Column that contains the associated events
          * @param oldValue Value of the cell before its value has changed (Old)
          * @param newValue Value of the cell after its value has changed (New)
          */
         private _triggerEventsFromColumn(
             rowNumber: number,
-            binding: string,
+            columnIndex: number,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             oldValue: any,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newValue: any
         ) {
-            const column = this._grid.getColumn(binding);
+            const column = this._grid
+                .getColumns()
+                .find((column) => column.provider.index === columnIndex);
+
             if (column !== undefined) {
                 if (column.config.isMandatory) {
                     let isValid = true;
@@ -295,16 +305,15 @@ namespace WijmoProvider.Feature {
                 action.dataItem !== undefined &&
                 typeof action._oldState !== 'object'
             ) {
-                const binding = this._grid.provider.getColumn(
-                    action.col
-                ).binding;
+                const binding = this._grid.provider.getColumn(action.col)
+                    .binding;
                 const oldValue = this._grid.features.dirtyMark.getOldValue(
                     action.row,
                     binding
                 );
                 this._triggerEventsFromColumn(
                     action.row,
-                    binding,
+                    action.col,
                     oldValue,
                     action._oldState
                 );
@@ -549,8 +558,8 @@ namespace WijmoProvider.Feature {
             isValid: boolean,
             errorMessage: string
         ): void {
-            const column =
-                GridAPI.ColumnManager.GetColumnById(columnWidgetID).provider;
+            const column = GridAPI.ColumnManager.GetColumnById(columnWidgetID)
+                .provider;
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
             this.getMetadataByRowNumber(rowNumber).validation.set(
@@ -591,8 +600,8 @@ namespace WijmoProvider.Feature {
             isValid: boolean,
             errorMessage: string
         ): void {
-            const column =
-                GridAPI.ColumnManager.GetColumnById(columnWidgetID).provider;
+            const column = GridAPI.ColumnManager.GetColumnById(columnWidgetID)
+                .provider;
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
             this.getMetadataByRowKey(rowKey).validation.set(
@@ -680,8 +689,9 @@ namespace WijmoProvider.Feature {
                 };
             } catch (error) {
                 return {
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedApplyRowValidation,
+                    code:
+                        OSFramework.Enum.ErrorCodes
+                            .API_FailedApplyRowValidation,
                     message: error.message,
                     isSuccess: false
                 };

@@ -3,8 +3,7 @@ namespace WijmoProvider.Feature {
     export class DirtyMark
         implements
             OSFramework.Feature.IDirtyMark,
-            OSFramework.Interface.IBuilder
-    {
+            OSFramework.Interface.IBuilder {
         private _grid: Grid.IGridWijmo;
         private readonly _internalLabel = '__dirtyMarkFeature';
         private _metadata: OSFramework.Interface.IRowMetadata;
