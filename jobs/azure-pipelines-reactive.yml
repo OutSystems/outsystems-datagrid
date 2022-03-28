@@ -43,6 +43,10 @@ parameters:
   type: string
 - name: sourceBranch
   type: string
+- name: instances
+  displayName: Max driver instances
+  type: number
+  default: 2
 
 stages: 
 - stage: Tests
@@ -53,8 +57,6 @@ stages:
   - job: Tests
     displayName: 'Tests Job'
     timeoutInMinutes: 120
-    pool:
-      vmImage: 'windows-latest'
     steps:
     #Checkout repositories
     - checkout: self
