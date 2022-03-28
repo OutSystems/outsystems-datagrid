@@ -12,6 +12,9 @@ parameters:
     type: string
   - name: grid
     type: string
+  - name: instances
+    type: number
+    default: 1  
 
 steps:
   #Set Node version
