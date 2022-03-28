@@ -3,8 +3,7 @@ namespace WijmoProvider.Feature {
     export class ValidationMark
         implements
             OSFramework.Feature.IValidationMark,
-            OSFramework.Interface.IBuilder
-    {
+            OSFramework.Interface.IBuilder {
         private _grid: Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
@@ -55,7 +54,7 @@ namespace WijmoProvider.Feature {
             );
             this._triggerEventsFromColumn(
                 e.row,
-                column.index,
+                OSColumn.uniqueId,
                 oldValue,
                 newValue
             );
@@ -172,16 +171,19 @@ namespace WijmoProvider.Feature {
                 action.dataItem !== undefined &&
                 typeof action._oldState !== 'object'
             ) {
-                const binding = this._grid.provider.getColumn(
-                    action.col
-                ).binding;
+                const binding = this._grid.provider.getColumn(action.col)
+                    .binding;
+
+                const OSColumn = this._grid
+                    .getColumns()
+                    .find((item) => item.provider.index === action.col);
                 const oldValue = this._grid.features.dirtyMark.getOldValue(
                     action.row,
                     binding
                 );
                 this._triggerEventsFromColumn(
                     action.row,
-                    action.col,
+                    OSColumn.uniqueId,
                     oldValue,
                     action._newState
                 );
@@ -217,8 +219,9 @@ namespace WijmoProvider.Feature {
          */
         private _setRowStatusByKey(rowKey: string, isValid: boolean): void {
             const rowIndex = this._metadata.getRowIndexByKey(rowKey);
-            const dataItem =
-                this._grid.provider.itemsSource.sourceCollection[rowIndex];
+            const dataItem = this._grid.provider.itemsSource.sourceCollection[
+                rowIndex
+            ];
 
             if (this._invalidRows.indexOf(dataItem) === -1) {
                 if (isValid === false) {
@@ -237,13 +240,13 @@ namespace WijmoProvider.Feature {
         /**
          * Triggers the events of OnCellValueChange associated to a specific column in OS
          * @param rowNumber Number of the row to trigger the events
-         * @param columnIndex Index of the Column that contains the associated events
+         * @param columnUniqueID Id of the Column that contains the associated events
          * @param oldValue Value of the cell before its value has changed (Old)
          * @param newValue Value of the cell after its value has changed (New)
          */
         private _triggerEventsFromColumn(
             rowNumber: number,
-            columnIndex: number,
+            columnUniqueID: string,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             oldValue: any,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -251,7 +254,7 @@ namespace WijmoProvider.Feature {
         ) {
             const column = this._grid
                 .getColumns()
-                .find((item) => item.provider.index === columnIndex);
+                .find((item) => item.provider.uniqueId === columnUniqueID);
 
             if (column !== undefined) {
                 if (column.config.isMandatory) {
@@ -306,16 +309,18 @@ namespace WijmoProvider.Feature {
                 action.dataItem !== undefined &&
                 typeof action._oldState !== 'object'
             ) {
-                const binding = this._grid.provider.getColumn(
-                    action.col
-                ).binding;
+                const binding = this._grid.provider.getColumn(action.col)
+                    .binding;
                 const oldValue = this._grid.features.dirtyMark.getOldValue(
                     action.row,
                     binding
                 );
+                const OSColumn = this._grid
+                    .getColumns()
+                    .find((item) => item.provider.index === action.col);
                 this._triggerEventsFromColumn(
                     action.row,
-                    action.col,
+                    OSColumn.uniqueId,
                     oldValue,
                     action._oldState
                 );
@@ -560,8 +565,8 @@ namespace WijmoProvider.Feature {
             isValid: boolean,
             errorMessage: string
         ): void {
-            const column =
-                GridAPI.ColumnManager.GetColumnById(columnWidgetID).provider;
+            const column = GridAPI.ColumnManager.GetColumnById(columnWidgetID)
+                .provider;
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
             this.getMetadataByRowNumber(rowNumber).validation.set(
@@ -602,8 +607,8 @@ namespace WijmoProvider.Feature {
             isValid: boolean,
             errorMessage: string
         ): void {
-            const column =
-                GridAPI.ColumnManager.GetColumnById(columnWidgetID).provider;
+            const column = GridAPI.ColumnManager.GetColumnById(columnWidgetID)
+                .provider;
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
             this.getMetadataByRowKey(rowKey).validation.set(
@@ -649,7 +654,7 @@ namespace WijmoProvider.Feature {
             // Triggers the events of OnCellValueChange associated to a specific column in OS
             this._triggerEventsFromColumn(
                 rowNumber,
-                column.provider.binding,
+                column.provider.uniqueId,
                 currValue,
                 currValue
             );
@@ -678,7 +683,7 @@ namespace WijmoProvider.Feature {
                         // Triggers the events of OnCellValueChange associated to a specific column in OS
                         this._triggerEventsFromColumn(
                             rowNumber,
-                            column.provider.binding,
+                            column.provider.uniqueId,
                             currValue,
                             currValue
                         );
@@ -691,8 +696,9 @@ namespace WijmoProvider.Feature {
                 };
             } catch (error) {
                 return {
-                    code: OSFramework.Enum.ErrorCodes
-                        .API_FailedApplyRowValidation,
+                    code:
+                        OSFramework.Enum.ErrorCodes
+                            .API_FailedApplyRowValidation,
                     message: error.message,
                     isSuccess: false
                 };
