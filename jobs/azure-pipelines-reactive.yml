@@ -57,6 +57,8 @@ stages:
   - job: Tests
     displayName: 'Tests Job'
     timeoutInMinutes: 120
+    pool:
+          vmImage: 'windows-latest'
     steps:
     #Checkout repositories
     - checkout: self

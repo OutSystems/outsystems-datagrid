@@ -27,6 +27,8 @@ stages:
       - job: Build
         displayName: 'Build Job'
         timeoutInMinutes: 8
+        pool:
+          vmImage: 'windows-latest'
         steps:
           #Install dependencies
           - task: Npm@1
@@ -68,6 +70,8 @@ stages:
       - job: Deploy
         displayName: 'Deploy Job'
         timeoutInMinutes: 20
+        pool:
+          vmImage: 'windows-latest'
         steps:
           #Download artifact
           - task: DownloadBuildArtifacts@0
