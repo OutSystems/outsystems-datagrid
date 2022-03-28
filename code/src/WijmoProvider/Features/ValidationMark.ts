@@ -3,7 +3,8 @@ namespace WijmoProvider.Feature {
     export class ValidationMark
         implements
             OSFramework.Feature.IValidationMark,
-            OSFramework.Interface.IBuilder {
+            OSFramework.Interface.IBuilder
+    {
         private _grid: Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel = '__validationMarkFeature';
@@ -171,8 +172,9 @@ namespace WijmoProvider.Feature {
                 action.dataItem !== undefined &&
                 typeof action._oldState !== 'object'
             ) {
-                const binding = this._grid.provider.getColumn(action.col)
-                    .binding;
+                const binding = this._grid.provider.getColumn(
+                    action.col
+                ).binding;
                 const oldValue = this._grid.features.dirtyMark.getOldValue(
                     action.row,
                     binding
@@ -215,9 +217,8 @@ namespace WijmoProvider.Feature {
          */
         private _setRowStatusByKey(rowKey: string, isValid: boolean): void {
             const rowIndex = this._metadata.getRowIndexByKey(rowKey);
-            const dataItem = this._grid.provider.itemsSource.sourceCollection[
-                rowIndex
-            ];
+            const dataItem =
+                this._grid.provider.itemsSource.sourceCollection[rowIndex];
 
             if (this._invalidRows.indexOf(dataItem) === -1) {
                 if (isValid === false) {
@@ -305,8 +306,9 @@ namespace WijmoProvider.Feature {
                 action.dataItem !== undefined &&
                 typeof action._oldState !== 'object'
             ) {
-                const binding = this._grid.provider.getColumn(action.col)
-                    .binding;
+                const binding = this._grid.provider.getColumn(
+                    action.col
+                ).binding;
                 const oldValue = this._grid.features.dirtyMark.getOldValue(
                     action.row,
                     binding
@@ -558,8 +560,8 @@ namespace WijmoProvider.Feature {
             isValid: boolean,
             errorMessage: string
         ): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columnWidgetID)
-                .provider;
+            const column =
+                GridAPI.ColumnManager.GetColumnById(columnWidgetID).provider;
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
             this.getMetadataByRowNumber(rowNumber).validation.set(
@@ -600,8 +602,8 @@ namespace WijmoProvider.Feature {
             isValid: boolean,
             errorMessage: string
         ): void {
-            const column = GridAPI.ColumnManager.GetColumnById(columnWidgetID)
-                .provider;
+            const column =
+                GridAPI.ColumnManager.GetColumnById(columnWidgetID).provider;
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
             this.getMetadataByRowKey(rowKey).validation.set(
@@ -689,9 +691,8 @@ namespace WijmoProvider.Feature {
                 };
             } catch (error) {
                 return {
-                    code:
-                        OSFramework.Enum.ErrorCodes
-                            .API_FailedApplyRowValidation,
+                    code: OSFramework.Enum.ErrorCodes
+                        .API_FailedApplyRowValidation,
                     message: error.message,
                     isSuccess: false
                 };
