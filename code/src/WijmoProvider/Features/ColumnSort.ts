@@ -85,6 +85,16 @@ namespace WijmoProvider.Feature {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             e: wijmo.grid.CellRangeEventArgs
         ) {
+            const col = s.getColumn(e.col);
+            const index = col.currentSortIndex;
+            const sd = s.itemsSource.sortDescriptions[index];
+            //Clean all others if shift isn't pressed
+            if (!e.data.shiftKey) {
+                s.itemsSource.sortDescriptions
+                    .filter((x) => x !== sd)
+                    .map((x) => s.itemsSource.sortDescriptions.remove(x));
+            }
+
             if (
                 this._grid.gridEvents.hasHandlers(
                     OSFramework.Event.Grid.GridEventType.OnSortChange
@@ -134,15 +144,6 @@ namespace WijmoProvider.Feature {
                             this._grid,
                             this._makeActiveSort(s.itemsSource.sortDescriptions)
                         );
-                    }
-
-                    //Clean all others if shift isn't pressed
-                    if (!e.data.shiftKey) {
-                        s.itemsSource.sortDescriptions
-                            .filter((x) => x !== sd)
-                            .map((x) =>
-                                s.itemsSource.sortDescriptions.remove(x)
-                            );
                     }
                 });
             }
