@@ -253,9 +253,7 @@ namespace WijmoProvider.Feature {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newValue: any
         ) {
-            const column = this._grid
-                .getColumns()
-                .find((item) => item.provider.uniqueId === columnUniqueID);
+            const column = this._grid.getColumn(columnUniqueID);
 
             if (column !== undefined) {
                 if (column.config.isMandatory) {
