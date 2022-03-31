@@ -38,19 +38,27 @@ namespace WijmoProvider.Feature {
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
-            const binding = s.getColumn(e.col).binding;
+            const column = s.getColumn(e.col);
+            const OSColumn = this._grid
+                .getColumns()
+                .find((item) => item.provider.index === column.index);
+
             const newValue = s.getCellData(
                 e.row,
                 e.col,
-                this._grid.getColumn(binding).columnType ===
-                    OSFramework.Enum.ColumnType.Dropdown
+                OSColumn.columnType === OSFramework.Enum.ColumnType.Dropdown
             );
             // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
             const oldValue = this._grid.features.dirtyMark.getOldValue(
                 e.row,
-                binding
+                column.binding
             );
-            this._triggerEventsFromColumn(e.row, binding, oldValue, newValue);
+            this._triggerEventsFromColumn(
+                e.row,
+                OSColumn.uniqueId,
+                oldValue,
+                newValue
+            );
         }
 
         /** Helper to convert the formats of Date and DateTime columns to the format of OS */
@@ -167,13 +175,17 @@ namespace WijmoProvider.Feature {
                 const binding = this._grid.provider.getColumn(
                     action.col
                 ).binding;
+
+                const OSColumn = this._grid
+                    .getColumns()
+                    .find((item) => item.provider.index === action.col);
                 const oldValue = this._grid.features.dirtyMark.getOldValue(
                     action.row,
                     binding
                 );
                 this._triggerEventsFromColumn(
                     action.row,
-                    binding,
+                    OSColumn.uniqueId,
                     oldValue,
                     action._newState
                 );
@@ -229,19 +241,20 @@ namespace WijmoProvider.Feature {
         /**
          * Triggers the events of OnCellValueChange associated to a specific column in OS
          * @param rowNumber Number of the row to trigger the events
-         * @param binding Binding of the column that contains the associated events
+         * @param columnUniqueID Id of the Column that contains the associated events
          * @param oldValue Value of the cell before its value has changed (Old)
          * @param newValue Value of the cell after its value has changed (New)
          */
         private _triggerEventsFromColumn(
             rowNumber: number,
-            binding: string,
+            columnUniqueID: string,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             oldValue: any,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newValue: any
         ) {
-            const column = this._grid.getColumn(binding);
+            const column = this._grid.getColumn(columnUniqueID);
+
             if (column !== undefined) {
                 if (column.config.isMandatory) {
                     let isValid = true;
@@ -302,9 +315,12 @@ namespace WijmoProvider.Feature {
                     action.row,
                     binding
                 );
+                const OSColumn = this._grid
+                    .getColumns()
+                    .find((item) => item.provider.index === action.col);
                 this._triggerEventsFromColumn(
                     action.row,
-                    binding,
+                    OSColumn.uniqueId,
                     oldValue,
                     action._oldState
                 );
@@ -650,7 +666,7 @@ namespace WijmoProvider.Feature {
                 // Triggers the events of OnCellValueChange associated to a specific column in OS
                 this._triggerEventsFromColumn(
                     rowNumber,
-                    column.provider.binding,
+                    column.uniqueId,
                     currValue,
                     currValue
                 );
@@ -680,7 +696,7 @@ namespace WijmoProvider.Feature {
                         // Triggers the events of OnCellValueChange associated to a specific column in OS
                         this._triggerEventsFromColumn(
                             rowNumber,
-                            column.provider.binding,
+                            column.uniqueId,
                             currValue,
                             currValue
                         );
