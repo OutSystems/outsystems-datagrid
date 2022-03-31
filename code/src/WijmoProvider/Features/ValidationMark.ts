@@ -654,7 +654,7 @@ namespace WijmoProvider.Feature {
             // Triggers the events of OnCellValueChange associated to a specific column in OS
             this._triggerEventsFromColumn(
                 rowNumber,
-                column.provider.uniqueId,
+                column.uniqueId,
                 currValue,
                 currValue
             );
@@ -683,7 +683,7 @@ namespace WijmoProvider.Feature {
                         // Triggers the events of OnCellValueChange associated to a specific column in OS
                         this._triggerEventsFromColumn(
                             rowNumber,
-                            column.provider.uniqueId,
+                            column.uniqueId,
                             currValue,
                             currValue
                         );
