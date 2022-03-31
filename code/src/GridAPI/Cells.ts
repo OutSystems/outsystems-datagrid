@@ -68,11 +68,13 @@ namespace GridAPI.Cells {
      * @param {string} gridID ID of the Grid.
      * @param {number} rowIndex Index of the row that contains the cells to be validated.
      * @param {string} columnID ID of the Column block in which the action of validation should be triggered.
+     * @param {boolean} [triggerOnCellValueChange=true] Boolean that represents if we want to trigger the on value change event or not
      */
     export function ValidateCell(
         gridID: string,
         rowIndex: number,
-        columnID: string
+        columnID: string,
+        triggerOnCellValueChange = true
     ): void {
         PerformanceAPI.SetMark('Cells.validateCell');
 
@@ -80,7 +82,8 @@ namespace GridAPI.Cells {
         if (column === undefined) return;
         GridManager.GetGridById(gridID).features.validationMark.validateCell(
             rowIndex,
-            column
+            column,
+            triggerOnCellValueChange
         );
         PerformanceAPI.SetMark('Cells.validateCell-end');
         PerformanceAPI.GetMeasure(
@@ -126,6 +129,7 @@ namespace GridAPI.Cells {
      * @param {string} columnID ID of the Column block in which the cell should be updated.
      * @param {*} value New value to settled on the cell.
      * @param {boolean} [showDirtyMark=true] Boolean that represents if the action should also show a dirty mark.
+     * @param {boolean} [triggerOnCellValueChange=true] Boolean that represents if we want to trigger the on value change event or not
      */
     export function SetCellData(
         gridID: string,
@@ -133,7 +137,8 @@ namespace GridAPI.Cells {
         columnID: string,
         // eslint-disable-next-line
         value: any,
-        showDirtyMark = true
+        showDirtyMark = true,
+        triggerOnCellValueChange = true
     ): string {
         const responseObj = {
             isSuccess: true,
@@ -168,7 +173,11 @@ namespace GridAPI.Cells {
                 );
             }
             grid.features.cellData.setCellData(rowIndex, column, value);
-            grid.features.validationMark.validateCell(rowIndex, column);
+            grid.features.validationMark.validateCell(
+                rowIndex,
+                column,
+                triggerOnCellValueChange
+            );
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;

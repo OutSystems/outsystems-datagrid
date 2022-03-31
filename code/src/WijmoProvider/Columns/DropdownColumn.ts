@@ -49,7 +49,11 @@ namespace WijmoProvider.Column {
                     '',
                     true
                 );
-                this.grid.features.validationMark.validateCell(rowNumber, this);
+                this.grid.features.validationMark.validateCell(
+                    rowNumber,
+                    this,
+                    true
+                );
 
                 const column = this.grid.getColumn(columnID);
 
