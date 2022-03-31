@@ -25,7 +25,8 @@ namespace OSFramework.Feature {
         setRowStatus(rowNumber: number, isValid: boolean): void;
         validateCell(
             rowNumber: number,
-            column: OSFramework.Column.IColumn
+            column: OSFramework.Column.IColumn,
+            triggerOnCellValueChange: boolean
         ): void;
         validateRow(rowNumber: number): OSFramework.OSStructure.ReturnMessage;
         // clearByRow(row: number): void;

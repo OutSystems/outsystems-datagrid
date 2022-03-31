@@ -625,9 +625,18 @@ namespace WijmoProvider.Feature {
             this._setRowStatus(rowNumber, isValid);
         }
 
+        /**
+         * Method to validate a cell
+         *
+         * @param {number} rowNumber Number of the row in which the action of validation should be triggered.
+         * @param {OSFramework.Column.IColumn} column Column in which the action of validation should be triggered.
+         * @param {boolean} [triggerOnCellValueChange=true] Boolean that represents if we want to trigger the on value change event or not
+         * @memberof ValidationMark
+         */
         public validateCell(
             rowNumber: number,
-            column: OSFramework.Column.IColumn
+            column: OSFramework.Column.IColumn,
+            triggerOnCellValueChange = true
         ): void {
             // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
             const currValue = this._grid.provider.getCellData(
@@ -635,13 +644,17 @@ namespace WijmoProvider.Feature {
                 column.provider.index,
                 column.columnType === OSFramework.Enum.ColumnType.Dropdown
             );
-            // Triggers the events of OnCellValueChange associated to a specific column in OS
-            this._triggerEventsFromColumn(
-                rowNumber,
-                column.provider.binding,
-                currValue,
-                currValue
-            );
+
+            //If we decide not to trigger the column events we will skip this step
+            if (triggerOnCellValueChange) {
+                // Triggers the events of OnCellValueChange associated to a specific column in OS
+                this._triggerEventsFromColumn(
+                    rowNumber,
+                    column.provider.binding,
+                    currValue,
+                    currValue
+                );
+            }
         }
 
         /**
