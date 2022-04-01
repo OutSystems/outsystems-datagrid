@@ -2,9 +2,9 @@
 
 resources:
   repositories:
-    - repository: datagrid-reactive-tests
+    - repository: outsystems-datagrid-reactive-tests
       type: github
-      name: OutSystems/datagrid-reactive-tests
+      name: OutSystems/outsystems-datagrid-reactive-tests
       endpoint: OutSystems
 
 trigger:
