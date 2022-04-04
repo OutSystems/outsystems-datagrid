@@ -56,13 +56,13 @@ stages:
   jobs:
   - job: Tests
     displayName: 'Tests Job'
-    timeoutInMinutes: 120
+    timeoutInMinutes: 180
     pool:
           vmImage: 'windows-latest'
     steps:
     #Checkout repositories
     - checkout: self
-    - checkout: datagrid-reactive-tests 
+    - checkout: outsystems-datagrid-reactive-tests 
 
     - template: 'azure-pipelines-template.yml'
       parameters:
@@ -72,3 +72,4 @@ stages:
         environment: ${{ parameters.environment }}
         feature: ${{ parameters.feature }}
         priority: ${{ parameters.priority }}
+        instances: ${{ parameters.instances }}
