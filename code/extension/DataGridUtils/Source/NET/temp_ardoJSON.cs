@@ -163,14 +163,14 @@ namespace OutSystems.NssDataGridUtils {
                     }
                     else
                     {
-                        //Add dates from the ArrangeData action should be returned in UTC
-                        dv = dv.ToUniversalTime();
                         if (dv.Hour == 0 && dv.Minute == 0 && dv.Second == 0) // extra milisecond check ?
                         {
                             json.WriteValue(dv.ToString("yyyy-MM-dd"));
                         }
                         else
                         {
+                            //Add dates from the ArrangeData action should be returned in UTC
+                            dv = dv.ToUniversalTime();
                             json.WriteValue(dv.ToString("yyyy-MM-dd'T'HH:mm:ssZ"));
                         }
                     }
