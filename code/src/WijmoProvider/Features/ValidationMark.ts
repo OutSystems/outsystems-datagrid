@@ -156,16 +156,7 @@ namespace WijmoProvider.Feature {
             return false;
         }
 
-        /**
-         * Handler for the RedoingAction.
-         */
-        private _redoingActionHandler(
-            s: wijmo.undo.UndoStack,
-            e: wijmo.undo.UndoActionEventArgs
-        ): void {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const action: any = e.action;
-
+        private _redoActionHandler(action: any) {
             // we only want to redo on GridEditAction
             // we don't want to redo on GridRemoveRowAction
             if (
@@ -189,6 +180,25 @@ namespace WijmoProvider.Feature {
                     oldValue,
                     action._newState
                 );
+            }
+        }
+
+        /**
+         * Handler for the RedoingAction.
+         */
+        private _redoingActionHandler(
+            s: wijmo.undo.UndoStack,
+            e: wijmo.undo.UndoActionEventArgs
+        ): void {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const action: any = e.action;
+
+            this._redoActionHandler(action);
+
+            if (action?._actions?.length > 0) {
+                action._actions.forEach((element) => {
+                    this._redoActionHandler(element);
+                });
             }
         }
 
@@ -292,16 +302,7 @@ namespace WijmoProvider.Feature {
             }
         }
 
-        /**
-         * Handler for the UndoingAction.
-         */
-        private _undoingActionHandler(
-            s: wijmo.undo.UndoStack,
-            e: wijmo.undo.UndoActionEventArgs
-        ): void {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const action: any = e.action;
-
+        private _undoActionHandler(action: any) {
             // we only want to undo on GridEditAction
             // we don't want to undo on GridRemoveRowAction
             if (
@@ -318,12 +319,32 @@ namespace WijmoProvider.Feature {
                 const OSColumn = this._grid
                     .getColumns()
                     .find((item) => item.provider.index === action.col);
+
                 this._triggerEventsFromColumn(
                     action.row,
                     OSColumn.uniqueId,
                     oldValue,
                     action._oldState
                 );
+            }
+        }
+
+        /**
+         * Handler for the UndoingAction.
+         */
+        private _undoingActionHandler(
+            s: wijmo.undo.UndoStack,
+            e: wijmo.undo.UndoActionEventArgs
+        ): void {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const action: any = e.action;
+
+            this._undoActionHandler(action);
+
+            if (action?._actions?.length > 0) {
+                action._actions.forEach((element) => {
+                    this._undoActionHandler(element);
+                });
             }
         }
 
