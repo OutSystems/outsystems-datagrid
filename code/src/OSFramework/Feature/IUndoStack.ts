@@ -15,6 +15,7 @@ namespace OSFramework.Feature {
          * @param action Action to be pushed into the stack
          */
         pushAction(action: unknown);
+        addChildAction(action: wijmo.undo.UndoableAction): void;
         /**
          * Start an action, normally executed before the changes is made
          * @param action Instance of an action

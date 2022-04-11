@@ -160,8 +160,12 @@ namespace WijmoProvider.Feature {
             // we only want to redo on GridEditAction
             // we don't want to redo on GridRemoveRowAction
             if (
-                action.dataItem !== undefined &&
-                typeof action._oldState !== 'object'
+                (action.dataItem !== undefined &&
+                    !(
+                        action instanceof
+                        WijmoProvider.Feature.GridInsertRowAction
+                    )) ||
+                !(action instanceof WijmoProvider.Feature.GridRemoveRowAction)
             ) {
                 const binding = this._grid.provider.getColumn(
                     action.col
@@ -306,8 +310,12 @@ namespace WijmoProvider.Feature {
             // we only want to undo on GridEditAction
             // we don't want to undo on GridRemoveRowAction
             if (
-                action.dataItem !== undefined &&
-                typeof action._oldState !== 'object'
+                (action.dataItem !== undefined &&
+                    !(
+                        action instanceof
+                        WijmoProvider.Feature.GridInsertRowAction
+                    )) ||
+                !(action instanceof WijmoProvider.Feature.GridRemoveRowAction)
             ) {
                 const binding = this._grid.provider.getColumn(
                     action.col

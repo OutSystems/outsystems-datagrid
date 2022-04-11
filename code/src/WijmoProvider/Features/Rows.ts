@@ -37,7 +37,7 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    class GridInsertRowAction extends wijmo.undo.UndoableAction {
+    export class GridInsertRowAction extends wijmo.undo.UndoableAction {
         private _grid: Grid.IGridWijmo;
 
         constructor(
@@ -98,7 +98,7 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    class GridRemoveRowAction extends wijmo.undo.UndoableAction {
+    export class GridRemoveRowAction extends wijmo.undo.UndoableAction {
         private _grid: Grid.IGridWijmo;
 
         constructor(

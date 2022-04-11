@@ -40,6 +40,10 @@ namespace WijmoProvider.Feature {
             this._undoStack.pushAction(action);
         }
 
+        public addChildAction(action: wijmo.undo.UndoableAction): void {
+            action.addChildAction(action);
+        }
+
         public startAction(action: wijmo.undo.UndoableAction): void {
             this._undoStack._pendingAction = action;
         }
