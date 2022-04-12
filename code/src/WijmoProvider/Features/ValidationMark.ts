@@ -156,16 +156,15 @@ namespace WijmoProvider.Feature {
             return false;
         }
 
+        // eslint-disable-next-line
         private _redoActionHandler(action: any) {
             // we only want to redo on GridEditAction
             // we don't want to redo on GridRemoveRowAction
             if (
                 action.dataItem !== undefined &&
                 !_.isObject(action._oldState) &&
-                !(
-                    action instanceof WijmoProvider.Feature.GridInsertRowAction
-                ) &&
-                !(action instanceof WijmoProvider.Feature.GridRemoveRowAction)
+                !(action instanceof GridInsertRowAction) &&
+                !(action instanceof GridRemoveRowAction)
             ) {
                 const binding = this._grid.provider.getColumn(
                     action.col
@@ -306,19 +305,15 @@ namespace WijmoProvider.Feature {
             }
         }
 
+        // eslint-disable-next-line
         private _undoActionHandler(action: any) {
             // we only want to undo on GridEditAction
             // we don't want to undo on GridRemoveRowAction
             if (
                 action.dataItem !== undefined &&
                 !_.isObject(action._oldState) &&
-                (!(
-                    action instanceof WijmoProvider.Feature.GridInsertRowAction
-                ) ||
-                    !(
-                        action instanceof
-                        WijmoProvider.Feature.GridRemoveRowAction
-                    ))
+                (!(action instanceof GridInsertRowAction) ||
+                    !(action instanceof GridRemoveRowAction))
             ) {
                 const binding = this._grid.provider.getColumn(
                     action.col

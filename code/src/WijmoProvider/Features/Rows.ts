@@ -103,7 +103,7 @@ namespace WijmoProvider.Feature {
 
         constructor(
             grid: Grid.IGridWijmo,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line
             undoableItems: any
         ) {
             super(grid.provider);
@@ -118,8 +118,8 @@ namespace WijmoProvider.Feature {
                     ...undoableItems.map((undoable) => undoable.item)
                 );
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public applyState(state: any) {
+        // eslint-disable-next-line
+        public applyState(state: any): void {
             const collectionView = this._target.itemsSource;
             if (collectionView) {
                 if (state.action === 'insert') {
