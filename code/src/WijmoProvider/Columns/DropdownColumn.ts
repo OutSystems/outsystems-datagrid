@@ -45,7 +45,7 @@ namespace WijmoProvider.Column {
             return this._col;
         }
 
-        public get dataItem(): any {
+        public get dataItem(): unknown {
             return this._dataItems[0];
         }
 
@@ -53,22 +53,10 @@ namespace WijmoProvider.Column {
             return this._row;
         }
 
-        public close(): boolean {
-            var t = this._target.collectionView;
-            if (t && t.currentAddItem) return !1;
+        public applyState(e: unknown): void {
+            const o = this._target;
+            const i = o.editableCollectionView;
 
-            this._timeStamp = Date.now();
-            this._newState = this._target.getCellData(
-                this._row,
-                this._col,
-                false
-            );
-            return this._newState !== this._oldState;
-        }
-
-        public applyState(e): void {
-            let o = this._target,
-                i = o.editableCollectionView;
             if (i) {
                 i instanceof wijmo.collections.CollectionView &&
                     this._page > -1 &&
@@ -82,8 +70,13 @@ namespace WijmoProvider.Column {
                             r <= this._rng.rightCol;
                             r++
                         ) {
-                            let c = o.columns[r],
-                                a = o._getBindingColumn(o.cells, this._row, c);
+                            const c = o.columns[r];
+                            const a = o._getBindingColumn(
+                                o.cells,
+                                this._row,
+                                c
+                            );
+
                             a && a._binding && a._binding.setValue(t, e);
                         }
                         i.commitEdit();
@@ -94,10 +87,23 @@ namespace WijmoProvider.Column {
             this._focusScroll();
         }
 
-        public shouldAddAsChildAction(action): boolean {
+        public close(): boolean {
+            const t = this._target.collectionView;
+            if (t && t.currentAddItem) return !1;
+
+            this._timeStamp = Date.now();
+            this._newState = this._target.getCellData(
+                this._row,
+                this._col,
+                false
+            );
+            return this._newState !== this._oldState;
+        }
+
+        public shouldAddAsChildAction(action: any): boolean {
             return (
                 action instanceof GridEditAction &&
-                action.target == this.target &&
+                action.target === this.target &&
                 action._timeStamp - this._timeStamp < 100
             );
         }
