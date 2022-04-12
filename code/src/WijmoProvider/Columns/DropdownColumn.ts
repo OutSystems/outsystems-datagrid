@@ -47,6 +47,10 @@ namespace WijmoProvider.Column {
             return this._col;
         }
 
+        public get dataItem() {
+            return this._dataItems[0];
+        }
+
         public get row() {
             return this._row;
         }
@@ -152,16 +156,7 @@ namespace WijmoProvider.Column {
                     this.provider.index
                 );
 
-                // this.grid.features.undoStack.startAction(
-                //     new GridEditAction(
-                //         this.grid,
-                //         new wijmo.grid.CellRangeEventArgs(
-                //             this.grid.provider.cells,
-                //             cellRange
-                //         )
-                //     )
-                // );
-
+                // check if current parent cell has an undo action on undo stack
                 const existingUndoAction: any =
                     this.grid.features.undoStack.stack._stack.find(
                         (data: GridEditAction) =>
@@ -170,6 +165,7 @@ namespace WijmoProvider.Column {
                     );
 
                 if (existingUndoAction) {
+                    // check if current child cell has an undo action on undo stack
                     const existingEditActionForColRow =
                         existingUndoAction?._actions?.find(
                             (action: GridEditAction) =>
@@ -177,7 +173,9 @@ namespace WijmoProvider.Column {
                                 action.row === rowNumber
                         );
 
+                    // only add child undo action if it doesnt already exist. we don't want duplicated actions
                     if (!existingEditActionForColRow) {
+                        // add new child action into existing parent action in order
                         existingUndoAction.addChildAction(
                             new GridEditAction(
                                 this.grid,
@@ -196,15 +194,6 @@ namespace WijmoProvider.Column {
                     true
                 );
 
-                this.grid.features.undoStack.addChildAction(
-                    new GridEditAction(
-                        this.grid,
-                        new wijmo.grid.CellRangeEventArgs(
-                            this.grid.provider.cells,
-                            cellRange
-                        )
-                    )
-                );
                 this.grid.features.validationMark.validateCell(
                     rowNumber,
                     this,
