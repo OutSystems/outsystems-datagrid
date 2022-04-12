@@ -161,7 +161,7 @@ namespace WijmoProvider.Feature {
             // we don't want to redo on GridRemoveRowAction
             if (
                 action.dataItem !== undefined &&
-                typeof action._oldState !== 'object' &&
+                !_.isObject(action._oldState) &&
                 !(
                     action instanceof WijmoProvider.Feature.GridInsertRowAction
                 ) &&
@@ -306,13 +306,12 @@ namespace WijmoProvider.Feature {
             }
         }
 
-        // TODO: Check another way object
         private _undoActionHandler(action: any) {
             // we only want to undo on GridEditAction
             // we don't want to undo on GridRemoveRowAction
             if (
                 action.dataItem !== undefined &&
-                typeof action._oldState !== 'object' &&
+                !_.isObject(action._oldState) &&
                 (!(
                     action instanceof WijmoProvider.Feature.GridInsertRowAction
                 ) ||
