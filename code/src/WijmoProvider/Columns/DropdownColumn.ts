@@ -1,13 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Column {
     export class GridEditAction extends wijmo.undo.UndoableAction {
-        private _col: number;
-        private _dataItems;
         private _grid: Grid.IGridWijmo;
+        private _dataItems;
+        private _row: number;
+        private _col: number;
+        private _timeStamp: number;
         private _page: number;
         private _rng: wijmo.grid.CellRange;
-        private _row: number;
-        private _timeStamp: number;
 
         constructor(
             grid: Grid.IGridWijmo,
@@ -20,7 +20,9 @@ namespace WijmoProvider.Column {
             this._dataItems = [];
 
             for (
-                let c = (this._rng = e.range), a = c.topRow;
+                var r = this._grid.provider.collectionView,
+                    c = (this._rng = e.range),
+                    a = c.topRow;
                 a <= c.bottomRow;
                 a++
             )
@@ -41,19 +43,19 @@ namespace WijmoProvider.Column {
             this._col = e.col;
         }
 
-        public get col(): number {
+        public get col() {
             return this._col;
         }
 
-        public get dataItem(): any {
+        public get dataItem() {
             return this._dataItems[0];
         }
 
-        public get row(): number {
+        public get row() {
             return this._row;
         }
 
-        public close(): boolean {
+        public close() {
             var t = this._target.collectionView;
             if (t && t.currentAddItem) return !1;
 
@@ -63,11 +65,12 @@ namespace WijmoProvider.Column {
                 this._col,
                 false
             );
-            return this._newState !== this._oldState;
+            return this._newState != this._oldState;
         }
 
-        public applyState(e): void {
-            let o = this._target,
+        public applyState(e) {
+            var n = this,
+                o = this._target,
                 i = o.editableCollectionView;
             if (i) {
                 i instanceof wijmo.collections.CollectionView &&
@@ -75,15 +78,15 @@ namespace WijmoProvider.Column {
                     i.moveToPage(this._page);
 
                 o.deferUpdate(function () {
-                    this._dataItems.forEach(function (t) {
+                    n._dataItems.forEach(function (t) {
                         i.editItem(t);
                         for (
-                            let r = this._rng.leftCol;
-                            r <= this._rng.rightCol;
+                            var r = n._rng.leftCol;
+                            r <= n._rng.rightCol;
                             r++
                         ) {
-                            let c = o.columns[r],
-                                a = o._getBindingColumn(o.cells, this._row, c);
+                            var c = o.columns[r],
+                                a = o._getBindingColumn(o.cells, n._row, c);
                             a && a._binding && a._binding.setValue(t, e);
                         }
                         i.commitEdit();
@@ -94,7 +97,7 @@ namespace WijmoProvider.Column {
             this._focusScroll();
         }
 
-        public shouldAddAsChildAction(action): boolean {
+        public shouldAddAsChildAction(action) {
             return (
                 action instanceof GridEditAction &&
                 action.target == this.target &&
