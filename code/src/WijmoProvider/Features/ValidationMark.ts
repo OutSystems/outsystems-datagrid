@@ -306,6 +306,7 @@ namespace WijmoProvider.Feature {
             }
         }
 
+        // TODO: Check another way object
         private _undoActionHandler(action: any) {
             // we only want to undo on GridEditAction
             // we don't want to undo on GridRemoveRowAction

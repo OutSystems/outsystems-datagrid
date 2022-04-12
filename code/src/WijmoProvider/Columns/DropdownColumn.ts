@@ -1,13 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Column {
     export class GridEditAction extends wijmo.undo.UndoableAction {
-        private _grid: Grid.IGridWijmo;
-        private _dataItems;
-        private _row: number;
         private _col: number;
-        private _timeStamp: number;
+        private _dataItems;
+        private _grid: Grid.IGridWijmo;
         private _page: number;
         private _rng: wijmo.grid.CellRange;
+        private _row: number;
+        private _timeStamp: number;
 
         constructor(
             grid: Grid.IGridWijmo,
@@ -20,9 +20,7 @@ namespace WijmoProvider.Column {
             this._dataItems = [];
 
             for (
-                var r = this._grid.provider.collectionView,
-                    c = (this._rng = e.range),
-                    a = c.topRow;
+                let c = (this._rng = e.range), a = c.topRow;
                 a <= c.bottomRow;
                 a++
             )
@@ -43,7 +41,7 @@ namespace WijmoProvider.Column {
             this._col = e.col;
         }
 
-        public get col() {
+        public get col(): number {
             return this._col;
         }
 
@@ -51,25 +49,12 @@ namespace WijmoProvider.Column {
             return this._dataItems[0];
         }
 
-        public get row() {
+        public get row(): number {
             return this._row;
         }
 
-        public close() {
-            var t = this._target.collectionView;
-            if (t && t.currentAddItem) return !1;
-
-            this._timeStamp = Date.now();
-            this._newState = this._target.getCellData(
-                this._row,
-                this._col,
-                false
-            );
-            return this._newState != this._oldState;
-        }
-
-        public applyState(e) {
-            var n = this,
+        public applyState(e): void {
+            let n = this,
                 o = this._target,
                 i = o.editableCollectionView;
             if (i) {
@@ -81,7 +66,7 @@ namespace WijmoProvider.Column {
                     n._dataItems.forEach(function (t) {
                         i.editItem(t);
                         for (
-                            var r = n._rng.leftCol;
+                            let r = n._rng.leftCol;
                             r <= n._rng.rightCol;
                             r++
                         ) {
@@ -97,7 +82,21 @@ namespace WijmoProvider.Column {
             this._focusScroll();
         }
 
-        public shouldAddAsChildAction(action) {
+        public close(): boolean {
+            var t = this._target.collectionView;
+            if (t && t.currentAddItem) return !1;
+
+            this._timeStamp = Date.now();
+            this._newState = this._target.getCellData(
+                this._row,
+                this._col,
+                false
+            );
+            return this._newState != this._oldState;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public shouldAddAsChildAction(action: any): any {
             return (
                 action instanceof GridEditAction &&
                 action.target == this.target &&
@@ -157,6 +156,7 @@ namespace WijmoProvider.Column {
                 );
 
                 // check if current parent cell has an undo action on undo stack
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const existingUndoAction: any =
                     this.grid.features.undoStack.stack._stack.find(
                         (data: GridEditAction) =>
@@ -210,7 +210,6 @@ namespace WijmoProvider.Column {
                         rowNumber
                     );
                 }
-                // this.grid.features.undoStack.closeAction(GridEditAction);
             }
         }
 
