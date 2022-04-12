@@ -11,7 +11,7 @@ namespace WijmoProvider.Column {
 
         constructor(
             grid: Grid.IGridWijmo,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line
             e: any
         ) {
             super(grid.provider);
@@ -45,7 +45,8 @@ namespace WijmoProvider.Column {
             return this._col;
         }
 
-        public get dataItem() {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public get dataItem(): any {
             return this._dataItems[0];
         }
 
@@ -53,10 +54,12 @@ namespace WijmoProvider.Column {
             return this._row;
         }
 
-        public applyState(e): void {
-            let n = this,
-                o = this._target,
-                i = o.editableCollectionView;
+        // eslint-disable-next-line
+        public applyState(e: any): void {
+            // eslint-disable-next-line
+            const n = this;
+            const o = this._target;
+            const i = o.editableCollectionView;
             if (i) {
                 i instanceof wijmo.collections.CollectionView &&
                     this._page > -1 &&
@@ -70,8 +73,9 @@ namespace WijmoProvider.Column {
                             r <= n._rng.rightCol;
                             r++
                         ) {
-                            var c = o.columns[r],
-                                a = o._getBindingColumn(o.cells, n._row, c);
+                            const c = o.columns[r];
+                            const a = o._getBindingColumn(o.cells, n._row, c);
+
                             a && a._binding && a._binding.setValue(t, e);
                         }
                         i.commitEdit();
@@ -83,7 +87,7 @@ namespace WijmoProvider.Column {
         }
 
         public close(): boolean {
-            var t = this._target.collectionView;
+            const t = this._target.collectionView;
             if (t && t.currentAddItem) return !1;
 
             this._timeStamp = Date.now();
@@ -92,14 +96,14 @@ namespace WijmoProvider.Column {
                 this._col,
                 false
             );
-            return this._newState != this._oldState;
+            return this._newState !== this._oldState;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line
         public shouldAddAsChildAction(action: any): any {
             return (
                 action instanceof GridEditAction &&
-                action.target == this.target &&
+                action.target === this.target &&
                 action._timeStamp - this._timeStamp < 100
             );
         }
