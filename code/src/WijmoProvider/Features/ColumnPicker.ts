@@ -108,6 +108,7 @@ namespace WijmoProvider.Feature {
 
     export class ColumnPicker
         implements
+            OSFramework.Feature.IColumnPicker,
             OSFramework.Interface.IBuilder,
             OSFramework.Interface.IDisposable
     {
@@ -120,27 +121,33 @@ namespace WijmoProvider.Feature {
             this._grid = grid;
         }
 
-        private _getColumnsToBeDisplayedOnColumnPicker(): OSFramework.Column.IColumn[] {
-            const columns = this._grid.getColumns();
-
-            columns
-                .filter((col) => {
-                    // if user has set this to true,  we don't want to display
-                    // columns that are not visible and whose visibility cannot be changed
-                    if (this._showHiddenColumns) {
-                        return col.config.canBeHidden && col.config.visible;
-                    }
-                    return true;
-                })
-                // we don't want to display columns that are on group panel
+        private _getColumnsToBeDisplayedOnColumnPicker(): any[] {
+            const columns = this._grid
+                .getColumns()
                 .filter(
                     (col) =>
-                        this._grid.provider.itemsSource.groupDescriptions.filter(
-                            (q) => q.propertyName === col.config.binding
-                        ).length === 0
+                        col.columnType !== OSFramework.Enum.ColumnType.Group
                 );
 
-            return columns;
+            return (
+                columns
+                    .filter((col) => {
+                        // if user has set this to false, we don't want to display
+                        // columns that are not visible and whose visibility cannot be changed
+                        if (!this._showHiddenColumns) {
+                            return col.config.canBeHidden && col.config.visible;
+                        }
+                        return true;
+                    })
+                    // we don't want to display columns that are on group panel
+                    .filter(
+                        (col) =>
+                            this._grid.provider.itemsSource.groupDescriptions.filter(
+                                (q) => q.propertyName === col.config.binding
+                            ).length === 0
+                    )
+                    .map((col) => col.provider)
+            );
         }
 
         private _makeColumnPicker(): void {
