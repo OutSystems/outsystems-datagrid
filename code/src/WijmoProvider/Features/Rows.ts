@@ -37,7 +37,7 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    class GridInsertRowAction extends wijmo.undo.UndoableAction {
+    export class GridInsertRowAction extends wijmo.undo.UndoableAction {
         private _grid: Grid.IGridWijmo;
 
         constructor(
@@ -53,8 +53,8 @@ namespace WijmoProvider.Feature {
             collectionView.trackChanges &&
                 collectionView.itemsAdded.push(...undoableItems.items);
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public applyState(state: any) {
+        // eslint-disable-next-line
+        public applyState(state: any): void {
             const collectionView = this._target.itemsSource;
             if (collectionView) {
                 if (state.action === 'remove') {
@@ -98,12 +98,12 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    class GridRemoveRowAction extends wijmo.undo.UndoableAction {
+    export class GridRemoveRowAction extends wijmo.undo.UndoableAction {
         private _grid: Grid.IGridWijmo;
 
         constructor(
             grid: Grid.IGridWijmo,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line
             undoableItems: any
         ) {
             super(grid.provider);
@@ -118,8 +118,8 @@ namespace WijmoProvider.Feature {
                     ...undoableItems.map((undoable) => undoable.item)
                 );
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public applyState(state: any) {
+        // eslint-disable-next-line
+        public applyState(state: any): void {
             const collectionView = this._target.itemsSource;
             if (collectionView) {
                 if (state.action === 'insert') {
