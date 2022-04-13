@@ -113,10 +113,34 @@ namespace WijmoProvider.Feature {
     {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _theColumnPicker: wijmo.input.ListBox;
+        private _showHiddenColumns = false;
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
+        }
+
+        private _getColumnsToBeDisplayedOnColumnPicker(): OSFramework.Column.IColumn[] {
+            const columns = this._grid.getColumns();
+
+            columns
+                .filter((col) => {
+                    // if user has set this to true,  we don't want to display
+                    // columns that are not visible and whose visibility cannot be changed
+                    if (this._showHiddenColumns) {
+                        return col.config.canBeHidden && col.config.visible;
+                    }
+                    return true;
+                })
+                // we don't want to display columns that are on group panel
+                .filter(
+                    (col) =>
+                        this._grid.provider.itemsSource.groupDescriptions.filter(
+                            (q) => q.propertyName === col.config.binding
+                        ).length === 0
+                );
+
+            return columns;
         }
 
         private _makeColumnPicker(): void {
@@ -198,12 +222,8 @@ namespace WijmoProvider.Feature {
 
             span.onclick = (e: MouseEvent) => {
                 if (!host.offsetHeight) {
-                    this._theColumnPicker.itemsSource = theGrid.columns.filter(
-                        (p) =>
-                            theGrid.itemsSource.groupDescriptions.filter(
-                                (q) => q.propertyName === p.binding
-                            ).length === 0
-                    );
+                    this._theColumnPicker.itemsSource =
+                        this._getColumnsToBeDisplayedOnColumnPicker();
 
                     wijmo.showPopup(host, ref, false, true, false);
                     this._theColumnPicker.focus();
@@ -226,6 +246,10 @@ namespace WijmoProvider.Feature {
         public dispose(): void {
             this._theColumnPicker.dispose();
             this._theColumnPicker = undefined;
+        }
+
+        public setShowHiddenColumns(showHiddenColumns: boolean): void {
+            this._showHiddenColumns = showHiddenColumns;
         }
     }
 }
