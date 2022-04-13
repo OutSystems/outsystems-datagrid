@@ -114,7 +114,7 @@ namespace WijmoProvider.Feature {
     {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _theColumnPicker: wijmo.input.ListBox;
-        private _showHiddenColumns = false;
+        private _showHiddenColumns = true;
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {
