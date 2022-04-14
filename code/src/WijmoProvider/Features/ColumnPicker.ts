@@ -158,6 +158,19 @@ namespace WijmoProvider.Feature {
                     if (e && e.data && e.data.binding) {
                         const col = this._grid.getColumn(e.data.binding);
                         if (col !== undefined) {
+                            // if column is within a group, we want to display the group name as well
+                            // GROUP_NAME > COLUMN_NAME
+                            if (col.hasParentColumn) {
+                                const lastChildText =
+                                    e.item.querySelector('label').lastChild;
+
+                                if (lastChildText) {
+                                    const parentCol = this._grid.getColumn(
+                                        col.parentColumnId
+                                    );
+                                    lastChildText.textContent = `${parentCol.config.header} >${lastChildText.textContent}`;
+                                }
+                            }
                             if (col.config.canBeHidden === false) {
                                 const checkbox = e.item.querySelector(
                                     'input[type="checkbox"]'
