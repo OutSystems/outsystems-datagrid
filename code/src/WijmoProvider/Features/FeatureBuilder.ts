@@ -84,7 +84,7 @@ namespace WijmoProvider.Feature {
         }
 
         private _makeColumnPicker(): FeatureBuilder {
-            this._makeItem(ColumnPicker);
+            this._features.columnPicker = this._makeItem(ColumnPicker);
             return this;
         }
 
