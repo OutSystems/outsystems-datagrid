@@ -113,14 +113,15 @@ namespace WijmoProvider.Feature {
             OSFramework.Interface.IDisposable
     {
         private _grid: WijmoProvider.Grid.IGridWijmo;
-        private _theColumnPicker: wijmo.input.ListBox;
         private _showHiddenColumns = true;
+        private _theColumnPicker: wijmo.input.ListBox;
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
         }
 
+        // eslint-disable-next-line
         private _getColumnsToBeDisplayedOnColumnPicker(): any[] {
             const columns = this._grid
                 .getColumns()

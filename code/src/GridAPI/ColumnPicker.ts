@@ -1,19 +1,20 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace GridAPI {
     /**
-     * API used for saving and load View definitions
+     * API used defining column picker configs
      */
     export namespace ColumnPicker {
         /**
-         * Set the visibility of the hidden columns (Visible = False and CanBeHidden = True) on the grid Column Picker. 
+         * Set the visibility of the hidden columns (Visible = False and CanBeHidden = True) on the grid Column Picker.
          * By default, all columns are displayed in the Column Picker.
          * @param gridID Grid ID
          * @param showHiddenColumns Displays the name of the columns that are not visible and whose visibility cannot be changed.
          */
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+
         export function SetColumnVisibility(
             gridID: string,
             showHiddenColumns: boolean
+            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         ): any {
             PerformanceAPI.SetMark('ColumnPicker.SetColumnVisibility');
             const responseObj = {
