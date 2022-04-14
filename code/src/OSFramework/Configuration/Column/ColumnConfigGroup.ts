@@ -27,6 +27,7 @@ namespace OSFramework.Configuration.Column {
         public required: boolean;
         public uniqueId: string;
         public validateBinding: boolean;
+        public visible: boolean;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(config: any, extra: any) {
