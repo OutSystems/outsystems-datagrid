@@ -45,6 +45,7 @@ namespace OSFramework.Grid {
          * @returns Array of grid's columns
          */
         getColumns(): Column.IColumn[];
+        getColumnsKeyType(): Map<string, string>;
         getData(): JSON[];
         /**
          * Verifies grid has the given Column.
