@@ -120,7 +120,7 @@ namespace WijmoProvider.Feature {
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
         }
-      
+
         // if column is within a group, we want to display the group name as well
         // GROUP_NAME > COLUMN_NAME
         private _addGroupToColumnPicker(
@@ -148,6 +148,7 @@ namespace WijmoProvider.Feature {
                     checkbox.setAttribute('disabled', 'true');
                 }
             }
+        }
 
         // eslint-disable-next-line
         private _getColumnsToBeDisplayedOnColumnPicker(): any[] {
