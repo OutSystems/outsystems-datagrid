@@ -120,6 +120,34 @@ namespace WijmoProvider.Feature {
         constructor(grid: WijmoProvider.Grid.IGridWijmo) {
             this._grid = grid;
         }
+      
+        // if column is within a group, we want to display the group name as well
+        // GROUP_NAME > COLUMN_NAME
+        private _addGroupToColumnPicker(
+            col: OSFramework.Column.IColumn,
+            item: HTMLElement
+        ) {
+            if (col.hasParentColumn) {
+                const lastChildText = item.querySelector('label').lastChild;
+
+                if (lastChildText) {
+                    const parentCol = this._grid.getColumn(col.parentColumnId);
+                    lastChildText.textContent = `${parentCol.config.header} >${lastChildText.textContent}`;
+                }
+            }
+        }
+
+        // If column is hidden, we don't want it to be enabled
+        private _configureCheckbox(
+            col: OSFramework.Column.IColumn,
+            item: HTMLElement
+        ) {
+            if (col.config.canBeHidden === false) {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                if (checkbox) {
+                    checkbox.setAttribute('disabled', 'true');
+                }
+            }
 
         // eslint-disable-next-line
         private _getColumnsToBeDisplayedOnColumnPicker(): any[] {
@@ -194,14 +222,8 @@ namespace WijmoProvider.Feature {
                     if (e && e.data && e.data.binding) {
                         const col = this._grid.getColumn(e.data.binding);
                         if (col !== undefined) {
-                            if (col.config.canBeHidden === false) {
-                                const checkbox = e.item.querySelector(
-                                    'input[type="checkbox"]'
-                                );
-                                if (checkbox) {
-                                    checkbox.setAttribute('disabled', 'true');
-                                }
-                            }
+                            this._addGroupToColumnPicker(col, e.item);
+                            this._configureCheckbox(col, e.item);
                         }
                     }
                 },
