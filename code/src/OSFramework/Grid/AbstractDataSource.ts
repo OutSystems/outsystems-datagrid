@@ -297,14 +297,6 @@ namespace OSFramework.Grid {
         public setData(data: string): void {
             // Use with a Date reviver to restore date fields
             this._convertions.clear();
-
-            // const columns = this._parentGrid.getColumns();
-            // if (columns.length === 0) {
-            //     const metadata = JSON.parse(data).metadata;
-
-            //     const entries = Object.entries(metadata);
-            //     entriesToMap(entries);
-            // }
             const metadata = JSON.parse(data).metadata;
             const typeMap = this._getTypeMap(metadata) || new Map();
             const dataJson = ToJSONFormat(data, this._convertions, typeMap);
