@@ -280,9 +280,10 @@ namespace WijmoProvider.Feature {
 
             const providerGrid = this._grid.provider;
             const topRowIndex = this._getTopRow();
-            // The datasource index of the selection's top row. Requires the page index and the page size.
-            const dsTopRowIndex =
+            let dsTopRowIndex =
                 topRowIndex + this._grid.features.pagination.rowStart - 1;
+            // we don't want negative indices.
+            dsTopRowIndex = dsTopRowIndex > 0 ? dsTopRowIndex : 0;
             // Consider the quantity 1 if there is no selection.
             const quantity =
                 this._grid.features.selection.getSelectedRowsCountByCellRange() ||

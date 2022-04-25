@@ -136,7 +136,7 @@ namespace OSFramework.Grid {
                 ) {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     //@ts-ignore
-                    entriesToMap(Object.entries(value));
+                    this._entriesToMap(Object.entries(value), map);
                 } else {
                     map.set(key, value);
                 }
@@ -154,12 +154,13 @@ namespace OSFramework.Grid {
             });
         }
 
+        // retrieve map containing column key and type
         private _getTypeMap(metadata) {
             const colTypes = this._parentGrid.getColumnsKeyType();
             if (colTypes.size > 0) {
                 return colTypes;
             } else if (metadata !== undefined) {
-                let typeMap: Map<string, string>;
+                const typeMap = new Map<string, string>();
 
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore
