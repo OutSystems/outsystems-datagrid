@@ -139,6 +139,7 @@ namespace OSFramework.Grid {
             });
         }
 
+        // Retrieve column's binding key. (e.g Sample_product.Name -> Name)
         private _getKey(col: Column.IColumn): string {
             const binding = col.config.binding;
             const splittedBinding = binding.split('.');
