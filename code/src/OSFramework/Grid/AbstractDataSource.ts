@@ -52,13 +52,16 @@ namespace OSFramework.Grid {
                     convertions.set(type, done);
                 };
 
-                if (match(value, regex.datetime) && type === 'DateTime') {
+                if (
+                    (match(value, regex.datetime) || value === '') &&
+                    type === 'DateTime'
+                ) {
                     saveConvertion('datetime', key);
                     return new Date(
                         Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6])
                     );
                 } else if (
-                    match(value, regex.date) &&
+                    (match(value, regex.date) || value === '') &&
                     (type === 'DateTime' || type === 'Date')
                 ) {
                     //Considering that OS Date field do not consider GMT
