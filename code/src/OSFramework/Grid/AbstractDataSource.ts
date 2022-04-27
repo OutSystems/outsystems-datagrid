@@ -52,11 +52,7 @@ namespace OSFramework.Grid {
                     convertions.set(type, done);
                 };
 
-                // we want to change the value on date/datetime columns
-                // there are cases where the column is date/datetime, but it has no value ""
-                // on this case we want to return undefined
-                if (type === 'DateTime') {
-                    saveConvertion('datetime', key);
+                const handleValue = (value) => {
                     if (match(value, regex.datetime)) {
                         return new Date(
                             Date.UTC(
@@ -68,20 +64,26 @@ namespace OSFramework.Grid {
                                 +m[6]
                             )
                         );
+                    } else if (match(value, regex.date)) {
+                        return new Date(+m[1], +m[2] - 1, +m[3]);
+                    } else if (value === '') {
+                        return undefined;
                     }
-                    return value === '' ? undefined : value;
+                    return value;
+                };
+
+                // we want to change the value on date/datetime columns
+                // there are cases where the column is date/datetime, but it has no value ""
+                // on this case we want to return undefined
+                if (type === 'DateTime') {
+                    saveConvertion('datetime', key);
                 } else if (type === 'Date') {
                     //Considering that OS Date field do not consider GMT
                     //DataGrid also won't consider it for Date Columns
                     //PS: Datetime will consider GMT just like OS consider
                     saveConvertion('date', key);
-                    if (match(value, regex.date)) {
-                        return new Date(+m[1], +m[2] - 1, +m[3]);
-                    }
-                    return value === '' ? undefined : value;
-                } else if (value === '') {
-                    return undefined;
                 }
+                return handleValue(value);
             }
             return value;
         });
