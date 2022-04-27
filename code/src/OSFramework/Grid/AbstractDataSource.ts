@@ -58,8 +58,8 @@ namespace OSFramework.Grid {
                         Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6])
                     );
                 } else if (
-                    (match(value, regex.date) && type === 'DateTime') ||
-                    type === 'DateTime'
+                    match(value, regex.date) &&
+                    (type === 'DateTime' || type === 'Date')
                 ) {
                     //Considering that OS Date field do not consider GMT
                     //DataGrid also won't consider it for Date Columns
