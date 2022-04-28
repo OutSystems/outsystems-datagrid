@@ -53,7 +53,7 @@ namespace OSFramework.Grid {
                 };
 
                 const handleValue = (value) => {
-                    if (match(value, regex.datetime)) {
+                    if (match(value, regex.datetime) && type === 'DateTime') {
                         return new Date(
                             Date.UTC(
                                 +m[1],
@@ -64,7 +64,7 @@ namespace OSFramework.Grid {
                                 +m[6]
                             )
                         );
-                    } else if (match(value, regex.date)) {
+                    } else if (match(value, regex.date) && type === 'Date') {
                         return new Date(+m[1], +m[2] - 1, +m[3]);
                     } else if (value === '') {
                         return undefined;
