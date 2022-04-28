@@ -64,7 +64,10 @@ namespace OSFramework.Grid {
                                 +m[6]
                             )
                         );
-                    } else if (match(value, regex.date) && type === 'Date') {
+                    } else if (
+                        match(value, regex.date) &&
+                        (type === 'Date' || type === 'DateTime')
+                    ) {
                         return new Date(+m[1], +m[2] - 1, +m[3]);
                     } else if (value === '') {
                         return undefined;
