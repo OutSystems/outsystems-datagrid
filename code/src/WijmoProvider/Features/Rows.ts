@@ -110,13 +110,6 @@ namespace WijmoProvider.Feature {
             this._grid = grid;
             this._oldState = { action: 'insert', items: [...undoableItems] };
             this._newState = undoableItems;
-            const collectionView = grid.provider.itemsSource;
-            // clear existing items, because we want to override them with ours
-            collectionView.itemsRemoved.clear();
-            collectionView.trackChanges &&
-                collectionView.itemsRemoved.push(
-                    ...undoableItems.map((undoable) => undoable.item)
-                );
         }
         // eslint-disable-next-line
         public applyState(state: any): void {
@@ -141,8 +134,13 @@ namespace WijmoProvider.Feature {
                             item.datasourceIdx,
                             1
                         );
-                        collectionView.trackChanges &&
-                            collectionView.itemsRemoved.push(item);
+                        if (
+                            collectionView.itemsRemoved.indexOf(item.item) ===
+                            -1
+                        ) {
+                            collectionView.trackChanges &&
+                                collectionView.itemsRemoved.push(item.item);
+                        }
                     });
                 }
                 collectionView.refresh();
