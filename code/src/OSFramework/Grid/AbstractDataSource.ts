@@ -22,7 +22,9 @@ namespace OSFramework.Grid {
      */
     function ToJSONFormat(
         data: string,
-        convertions: Map<string, Set<string>>
+        convertions: Map<string, Set<string>>,
+        typeMap: Map<string, string>
+
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any
     ): any {
         //regex expressions for date and datetime should be described here
@@ -37,33 +39,54 @@ namespace OSFramework.Grid {
             if (typeof value === 'string') {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 let m: any;
+                const type = typeMap.get(key);
 
-                const match = (value: string, exp: RegExp) => {
-                    m = value.match(exp);
+                const match = (val: string, exp: RegExp) => {
+                    m = val.match(exp);
                     return m;
                 };
 
-                const saveConvertion = (type: string, key: string) => {
-                    const done = convertions.get(type) || new Set<string>();
-                    done.add(key);
-                    convertions.set(type, done);
+                const saveConvertion = (colType: string, keyProp: string) => {
+                    const done = convertions.get(colType) || new Set<string>();
+                    done.add(keyProp);
+                    convertions.set(colType, done);
                 };
 
-                if (match(value, regex.datetime)) {
+                const handleValue = (val) => {
+                    if (match(val, regex.datetime) && type === 'DateTime') {
+                        return new Date(
+                            Date.UTC(
+                                +m[1],
+                                +m[2] - 1,
+                                +m[3],
+                                +m[4],
+                                +m[5],
+                                +m[6]
+                            )
+                        );
+                    } else if (
+                        match(val, regex.date) &&
+                        (type === 'Date' || type === 'DateTime')
+                    ) {
+                        return new Date(+m[1], +m[2] - 1, +m[3]);
+                    } else if (val === '') {
+                        return undefined;
+                    }
+                    return val;
+                };
+
+                // we want to change the value on date/datetime columns
+                // there are cases where the column is date/datetime, but it has no value ""
+                // on this case we want to return undefined
+                if (type === 'DateTime') {
                     saveConvertion('datetime', key);
-                    return new Date(
-                        Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6])
-                    );
-                } else if (match(value, regex.date)) {
+                } else if (type === 'Date') {
                     //Considering that OS Date field do not consider GMT
                     //DataGrid also won't consider it for Date Columns
                     //PS: Datetime will consider GMT just like OS consider
                     saveConvertion('date', key);
-
-                    return new Date(+m[1], +m[2] - 1, +m[3]);
-                } else if (value === '') {
-                    return undefined;
                 }
+                return handleValue(value);
             }
             return value;
         });
@@ -124,6 +147,22 @@ namespace OSFramework.Grid {
             this._isSingleEntity = false;
         }
 
+        private _entriesToMap(entries, map) {
+            entries.forEach(([key, value]) => {
+                // innerObject
+                if (
+                    Object.keys(value).length > 0 &&
+                    typeof value !== 'string'
+                ) {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-ignore
+                    this._entriesToMap(Object.entries(value), map);
+                } else {
+                    map.set(key, value);
+                }
+            });
+        }
+
         private _getRowByKey(key: string) {
             return this._ds.find((item) => {
                 return (
@@ -133,6 +172,21 @@ namespace OSFramework.Grid {
                     ).toString() === key
                 );
             });
+        }
+
+        // retrieve map containing column key and type
+        private _getTypeMap(metadata) {
+            const colTypes = this._parentGrid.getColumnsKeyType();
+            if (colTypes.size > 0) {
+                return colTypes;
+            } else if (metadata !== undefined) {
+                const typeMap = new Map<string, string>();
+
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                this._entriesToMap(Object.entries(metadata), typeMap);
+                return typeMap;
+            }
         }
 
         // set primary key field of dataItem
@@ -264,7 +318,9 @@ namespace OSFramework.Grid {
         public setData(data: string): void {
             // Use with a Date reviver to restore date fields
             this._convertions.clear();
-            const dataJson = ToJSONFormat(data, this._convertions);
+            const metadata = JSON.parse(data).metadata;
+            const typeMap = this._getTypeMap(metadata) || new Map();
+            const dataJson = ToJSONFormat(data, this._convertions, typeMap);
 
             this._metadata = dataJson.metadata;
             this._isSingleEntity =

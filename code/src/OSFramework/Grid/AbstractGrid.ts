@@ -8,6 +8,7 @@ namespace OSFramework.Grid {
         private _addedRows: Event.Grid.AddNewRowEvent;
         private _columns: Map<string, Column.IColumn>;
         private _columnsGenerator: Column.IColumnGenerator;
+        private _columnsKeyType: Map<string, string>;
         private _columnsSet: Set<Column.IColumn>;
         private _configs: Z;
         private _dataSource: Grid.IDataSource;
@@ -28,6 +29,7 @@ namespace OSFramework.Grid {
             columnsGenerator: Column.IColumnGenerator
         ) {
             this._uniqueId = uniqueId;
+            this._columnsKeyType = new Map<string, string>();
             this._columns = new Map<string, Column.IColumn>();
             this._columnsSet = new Set<Column.IColumn>();
             this._columnsGenerator = columnsGenerator;
@@ -137,6 +139,14 @@ namespace OSFramework.Grid {
             });
         }
 
+        // Retrieve column's binding key. (e.g Sample_product.Name -> Name)
+        private _getKey(col: Column.IColumn): string {
+            const binding = col.config.binding;
+            const splittedBinding = binding.split('.');
+
+            return splittedBinding[splittedBinding.length - 1];
+        }
+
         private _validateBinding(bindingToValidate: string): void {
             // Split the binding of the column by every dot. (e.g Sample_product.Name -> ['Sample_Product', 'Name'])
             const bindingMatches = bindingToValidate.split('.');
@@ -185,6 +195,7 @@ namespace OSFramework.Grid {
             this._columns.set(col.config.binding, col);
             this._columns.set(col.uniqueId, col);
             this._columnsSet.add(col);
+            this._columnsKeyType.set(this._getKey(col), col.columnType);
         }
 
         public build(): void {
@@ -217,6 +228,10 @@ namespace OSFramework.Grid {
 
         public getColumns(): Column.IColumn[] {
             return Array.from(this._columnsSet);
+        }
+
+        public getColumnsKeyType(): Map<string, string> {
+            return this._columnsKeyType;
         }
 
         public getData(): JSON[] {
