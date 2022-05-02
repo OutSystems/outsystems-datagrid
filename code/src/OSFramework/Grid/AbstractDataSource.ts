@@ -41,15 +41,15 @@ namespace OSFramework.Grid {
                 let m: any;
                 const type = typeMap.get(key);
 
-                const match = (value: string, exp: RegExp) => {
-                    m = value.match(exp);
+                const match = (val: string, exp: RegExp) => {
+                    m = val.match(exp);
                     return m;
                 };
 
-                const saveConvertion = (type: string, keyProp: string) => {
-                    const done = convertions.get(type) || new Set<string>();
+                const saveConvertion = (colType: string, keyProp: string) => {
+                    const done = convertions.get(colType) || new Set<string>();
                     done.add(keyProp);
-                    convertions.set(type, done);
+                    convertions.set(colType, done);
                 };
 
                 const handleValue = (val) => {
