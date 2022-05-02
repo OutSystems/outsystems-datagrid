@@ -46,14 +46,14 @@ namespace OSFramework.Grid {
                     return m;
                 };
 
-                const saveConvertion = (type: string, key: string) => {
+                const saveConvertion = (type: string, keyProp: string) => {
                     const done = convertions.get(type) || new Set<string>();
-                    done.add(key);
+                    done.add(keyProp);
                     convertions.set(type, done);
                 };
 
-                const handleValue = (value) => {
-                    if (match(value, regex.datetime) && type === 'DateTime') {
+                const handleValue = (val) => {
+                    if (match(val, regex.datetime) && type === 'DateTime') {
                         return new Date(
                             Date.UTC(
                                 +m[1],
@@ -65,14 +65,14 @@ namespace OSFramework.Grid {
                             )
                         );
                     } else if (
-                        match(value, regex.date) &&
+                        match(val, regex.date) &&
                         (type === 'Date' || type === 'DateTime')
                     ) {
                         return new Date(+m[1], +m[2] - 1, +m[3]);
-                    } else if (value === '') {
+                    } else if (val === '') {
                         return undefined;
                     }
-                    return value;
+                    return val;
                 };
 
                 // we want to change the value on date/datetime columns
