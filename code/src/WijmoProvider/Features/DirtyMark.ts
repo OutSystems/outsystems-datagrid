@@ -69,7 +69,9 @@ namespace WijmoProvider.Feature {
                     //If the original value and new value are null and undefined we don't want to have dirty mark.
                     if (originalValue === undefined) {
                         return (
-                            originalValue !== cellValue && cellValue !== null
+                            originalValue !== cellValue &&
+                            cellValue !== null &&
+                            cellValue !== ''
                         );
                     } else {
                         //If the cellValue and the originalValue are different we want to add the dirty mark.
@@ -104,7 +106,11 @@ namespace WijmoProvider.Feature {
 
                     //If the original value and new value are null and undefined we don't want to have dirty mark on the cell
                     if (originalValue === undefined) {
-                        if (originalValue === cellValue || cellValue === null) {
+                        if (
+                            originalValue === cellValue ||
+                            cellValue === null ||
+                            cellValue === ''
+                        ) {
                             //Add 1 to the notDirtyCells
                             notDirtyCells++;
                         } else {
