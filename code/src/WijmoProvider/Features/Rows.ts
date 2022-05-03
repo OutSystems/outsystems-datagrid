@@ -119,25 +119,32 @@ namespace WijmoProvider.Feature {
                     state.items
                         .sort((a, b) => a.datasourceIdx - b.datasourceIdx)
                         .forEach((item) => {
-                            collectionView.sourceCollection.splice(
-                                item.datasourceIdx,
-                                0,
-                                item.item
-                            );
-                            collectionView.trackChanges &&
-                                collectionView.itemsRemoved.remove(item.item);
+                            if (
+                                collectionView.itemsRemoved.indexOf(item.item) >
+                                -1
+                            ) {
+                                collectionView.sourceCollection.splice(
+                                    item.datasourceIdx,
+                                    0,
+                                    item.item
+                                );
+                                collectionView.trackChanges &&
+                                    collectionView.itemsRemoved.remove(
+                                        item.item
+                                    );
+                            }
                         });
                 } else {
                     //redo
                     state.forEach((item) => {
-                        collectionView.sourceCollection.splice(
-                            item.datasourceIdx,
-                            1
-                        );
                         if (
                             collectionView.itemsRemoved.indexOf(item.item) ===
                             -1
                         ) {
+                            collectionView.sourceCollection.splice(
+                                item.datasourceIdx,
+                                1
+                            );
                             collectionView.trackChanges &&
                                 collectionView.itemsRemoved.push(item.item);
                         }
