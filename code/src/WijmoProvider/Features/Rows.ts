@@ -110,13 +110,26 @@ namespace WijmoProvider.Feature {
             this._grid = grid;
             this._oldState = { action: 'insert', items: [...undoableItems] };
             this._newState = undoableItems;
-            const collectionView = grid.provider.itemsSource;
-            // clear existing items, because we want to override them with ours
-            collectionView.itemsRemoved.clear();
-            collectionView.trackChanges &&
-                collectionView.itemsRemoved.push(
-                    ...undoableItems.map((undoable) => undoable.item)
+        }
+
+        private _addItemToCollectionView(collectionView, item) {
+            if (collectionView.itemsRemoved.indexOf(item.item) === -1) {
+                collectionView.sourceCollection.splice(item.datasourceIdx, 1);
+                collectionView.trackChanges &&
+                    collectionView.itemsRemoved.push(item.item);
+            }
+        }
+
+        private _removeItemFromCollectionView(collectionView, item) {
+            if (collectionView.itemsRemoved.indexOf(item.item) > -1) {
+                collectionView.sourceCollection.splice(
+                    item.datasourceIdx,
+                    0,
+                    item.item
                 );
+                collectionView.trackChanges &&
+                    collectionView.itemsRemoved.remove(item.item);
+            }
         }
         // eslint-disable-next-line
         public applyState(state: any): void {
@@ -126,23 +139,15 @@ namespace WijmoProvider.Feature {
                     state.items
                         .sort((a, b) => a.datasourceIdx - b.datasourceIdx)
                         .forEach((item) => {
-                            collectionView.sourceCollection.splice(
-                                item.datasourceIdx,
-                                0,
-                                item.item
+                            this._removeItemFromCollectionView(
+                                collectionView,
+                                item
                             );
-                            collectionView.trackChanges &&
-                                collectionView.itemsRemoved.remove(item.item);
                         });
                 } else {
                     //redo
                     state.forEach((item) => {
-                        collectionView.sourceCollection.splice(
-                            item.datasourceIdx,
-                            1
-                        );
-                        collectionView.trackChanges &&
-                            collectionView.itemsRemoved.push(item);
+                        this._addItemToCollectionView(collectionView, item);
                     });
                 }
                 collectionView.refresh();
