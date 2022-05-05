@@ -224,16 +224,28 @@ namespace OSFramework.Grid {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         protected _parseNewItem(): any {
-            if (!this.hasMetadata && this._ds.length === 0) {
+            if (
+                !this.hasMetadata &&
+                this._ds.length === 0 &&
+                this._parentGrid.getColumns().length === 0
+            ) {
                 throw new Error(Enum.ErrorMessages.UnableToAddRow);
             }
-            const parsedNewItem =
+            let parsedNewItem =
                 _.cloneDeep(this._metadata) ||
                 _.cloneDeep(_.omit(this._ds[0], '__osRowMetadata'));
 
+            parsedNewItem = Object.keys(parsedNewItem).length
+                ? parsedNewItem
+                : this._parentGrid.getStructureFromColumnBindings();
+
             const converter = (object) => {
                 Object.keys(object).forEach((key) => {
-                    if (typeof object[key] === 'object') converter(object[key]);
+                    if (
+                        _.isObject(object[key]) &&
+                        Object.keys(object[key]).length
+                    )
+                        converter(object[key]);
                     else object[key] = undefined;
                 });
             };

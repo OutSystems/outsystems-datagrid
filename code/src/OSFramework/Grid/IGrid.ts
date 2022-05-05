@@ -51,6 +51,13 @@ namespace OSFramework.Grid {
         getColumnsKeyType(): Map<string, string>;
         getData(): JSON[];
         /**
+         * This will be used on empty Grids with JSON Serialize
+         * Returns data structure from column bindings.
+         * eg.: Columns = ["Employee.Name", "Employee.Date"] => {Employee: {Name: "", Date: ""}}
+         */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        getStructureFromColumnBindings(): any;
+        /**
          * Verifies grid has the given Column.
          * @param key key must be the uniqueId or a binding of a column
          */
