@@ -139,6 +139,16 @@ namespace OSFramework.Grid {
             });
         }
 
+        private _createObjectFromString(obj, value: string) {
+            const tree = value.split('.');
+            let cur = obj;
+            while (tree.length) {
+                const name = tree.shift();
+                cur[name] = tree.length ? cur[name] || {} : undefined;
+                cur = cur[name];
+            }
+        }
+
         // Retrieve column's binding key. (e.g Sample_product.Name -> Name)
         private _getKey(col: Column.IColumn): string {
             const binding = col.config.binding;
@@ -236,6 +246,22 @@ namespace OSFramework.Grid {
 
         public getData(): JSON[] {
             return this.dataSource.getData();
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getStructureFromColumnBindings(): any {
+            const obj = {};
+            const columns = this.getColumns();
+
+            if (!columns.length) return;
+
+            columns
+                .map((col) => col.config.binding)
+                .filter((colBinding) => !colBinding.startsWith('$')) // remove Action/Calculated columns
+                .forEach((colBinding) =>
+                    this._createObjectFromString(obj, colBinding)
+                );
+            return obj;
         }
 
         public hasColumn(key: string): boolean {
