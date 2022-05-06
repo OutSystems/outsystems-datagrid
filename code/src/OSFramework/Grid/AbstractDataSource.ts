@@ -101,8 +101,8 @@ namespace OSFramework.Grid {
     function ToOSFormat(
         convertions: Map<string, Set<string>>,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        data: Array<any>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data: Array<any>,
+        columnsType: Map<string, string>
     ): void {
         const dateColumns = convertions.get('date') || new Set();
 
@@ -114,8 +114,11 @@ namespace OSFramework.Grid {
                     setDeepDate(object[key]);
                 }
 
-                // If dateColumns has column and column value is defined, format date
-                if (dateColumns.has(key) && object[key]) {
+                // If column type is date or dateColumns has column and column value is defined, format date
+                if (
+                    (columnsType.get(key) === 'Date' || dateColumns.has(key)) &&
+                    object[key]
+                ) {
                     const dt = object[key] as Date;
                     object[key] = new Date(
                         dt.getTime() - dt.getTimezoneOffset() * 60000
@@ -206,8 +209,9 @@ namespace OSFramework.Grid {
                 return clonedDataItem;
             });
 
+            const columnsType = this.parentGrid.getColumnsKeyType();
             //In-place convert data to Outsystems Format
-            ToOSFormat(this._convertions, tempArray);
+            ToOSFormat(this._convertions, tempArray, columnsType);
 
             if (this.isSingleEntity) {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer
