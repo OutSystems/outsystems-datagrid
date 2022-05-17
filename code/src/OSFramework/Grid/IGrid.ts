@@ -29,11 +29,21 @@ namespace OSFramework.Grid {
         ): void;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         changeProperty(propertyName: string, propertyValue: any): void;
+        /**
+         * Used to mark all changes as saved. Removes dirty and validation marks from grid.
+         */
         clearAllChanges(forceClearValidationMarks: boolean): void;
+        /**
+         * Used to mark all changes as saved. Removes dirty and validation marks from specific rows.
+         */
         clearAllChangesByRowKeys(
             rowKeys: Array<string>,
             forceClearValidationMarks: boolean
         ): void;
+        /**
+         * Clear all changes from Grid
+         */
+        clearChanges(): void;
         getChangesMade(): OSStructure.ChangesDone;
         /**
          * Get the column on the grid by giving a columnID or a binding.

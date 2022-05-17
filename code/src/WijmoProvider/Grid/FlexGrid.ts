@@ -274,6 +274,13 @@ namespace WijmoProvider.Grid {
             }
         }
 
+        public clearChanges(): void {
+            if (this.isReady) {
+                this.features.undoStack.undoAll();
+                this.dataSource.clear();
+            }
+        }
+
         public dispose(): void {
             super.dispose();
 

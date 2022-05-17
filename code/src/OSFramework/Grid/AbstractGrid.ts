@@ -345,6 +345,8 @@ namespace OSFramework.Grid {
             forceClearValidationMarks: boolean
         ): void;
 
+        public abstract clearChanges(): void;
+
         public abstract getChangesMade(): OSStructure.ChangesDone;
 
         // public abstract getData(): JSON[];
