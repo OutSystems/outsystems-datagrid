@@ -212,4 +212,47 @@ namespace GridAPI.ColumnManager {
 
         return JSON.stringify(responseObj);
     }
+
+    export function MergeColumnCells(
+        gridID: string,
+        columnID: string,
+        allowMerge: boolean
+    ): string {
+        PerformanceAPI.SetMark('ColumnManager.AllowCellMerging');
+
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            const grid = GridManager.GetGridById(gridID);
+            grid.features.columnMergeCells.mergeColumnCells(
+                columnID,
+                allowMerge
+            );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedAllowCellMerging;
+        }
+
+        PerformanceAPI.SetMark('ColumnManager.AllowCellMerging-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.AllowCellMerging',
+            'ColumnManager.AllowCellMerging',
+            'ColumnManager.AllowCellMerging-end'
+        );
+
+        return JSON.stringify(responseObj);
+    }
 }

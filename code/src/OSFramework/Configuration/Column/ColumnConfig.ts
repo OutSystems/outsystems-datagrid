@@ -10,6 +10,7 @@ namespace OSFramework.Configuration.Column {
     {
         public align: string;
         public allowEdit: boolean;
+        public allowMerging: boolean;
         public allowReorder: boolean;
         public allowResize: boolean;
         public allowSort: boolean;

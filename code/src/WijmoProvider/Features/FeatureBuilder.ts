@@ -83,6 +83,11 @@ namespace WijmoProvider.Feature {
             return this;
         }
 
+        private _makeColumnMergeCells(): FeatureBuilder {
+            this._features.columnMergeCells = this._makeItem(ColumnCellMerging);
+            return this;
+        }
+
         private _makeColumnPicker(): FeatureBuilder {
             this._features.columnPicker = this._makeItem(ColumnPicker);
             return this;
@@ -234,7 +239,8 @@ namespace WijmoProvider.Feature {
                 ._makeCalculatedField()
                 ._makeRowHeader(config.rowHeader)
                 ._makeColumnPicker()
-                ._makeColumnAggregate(config.showAggregateValues);
+                ._makeColumnAggregate(config.showAggregateValues)
+                ._makeColumnMergeCells();
 
             super.build();
         }
