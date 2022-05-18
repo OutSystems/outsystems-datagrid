@@ -76,8 +76,7 @@ namespace WijmoProvider.Feature {
             const columnList = JSON.parse(bindingList);
             const source = this._grid.provider.itemsSource;
             source.deferUpdate(() => {
-                for (let index = 0; index < columnList.length; index++) {
-                    const binding = columnList[index];
+                for (const binding of columnList) {
                     const column = this._grid.getColumn(binding);
                     if (column) {
                         if (this.columnInGroupPanel(binding) === false) {
