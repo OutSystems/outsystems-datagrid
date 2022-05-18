@@ -278,6 +278,7 @@ namespace WijmoProvider.Grid {
             if (this.isReady) {
                 this.features.undoStack.undoAll();
                 this.dataSource.clear();
+                this.features.validationMark.clear();
             }
         }
 
