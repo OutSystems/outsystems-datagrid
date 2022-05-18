@@ -70,6 +70,34 @@ namespace WijmoProvider.Feature {
                   this._dragCol && this._addGroup(this._dragCol, e);
         }
 
+        public addColumnsToGroupPanel(bindingList: string): void {
+            const groupDescriptions =
+                this._grid.provider.collectionView.groupDescriptions; // Group array
+            const columnList = JSON.parse(bindingList);
+            const source = this._grid.provider.itemsSource;
+            source.deferUpdate(() => {
+                for (let index = 0; index < columnList.length; index++) {
+                    const binding = columnList[index];
+                    const column = this._grid.getColumn(binding);
+                    if (column) {
+                        if (this.columnInGroupPanel(binding) === false) {
+                            const groupDescription =
+                                new wijmo.collections.PropertyGroupDescription(
+                                    binding
+                                );
+
+                            groupDescriptions.push(groupDescription);
+                            column.provider.visible = false;
+                        }
+                    } else {
+                        throw new Error(
+                            OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                        );
+                    }
+                }
+            });
+        }
+
         public build(): void {
             // override wijmo's group panel drop in order to prevent calculated columns being grouped
             wijmo.grid.grouppanel.GroupPanel.prototype._drop = this._drop;
@@ -106,8 +134,11 @@ namespace WijmoProvider.Feature {
         }
 
         public columnInGroupPanel(binding: string): boolean {
-            return this._groupPanel._hiddenCols.some(
-                (col) => col.binding === binding
+            const groupDescriptions =
+                this._grid.provider.collectionView.groupDescriptions; // Group array
+            return groupDescriptions.some(
+                (element: wijmo.collections.PropertyGroupDescription) =>
+                    element.propertyName === binding
             );
         }
 

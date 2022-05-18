@@ -7,6 +7,52 @@ namespace GridAPI.ColumnManager {
     const columnArr = new Array<OSFramework.Column.IColumn>();
 
     /**
+     * Add a given column to the grid group panel.
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {string} columnID ID of the Column block that will be programmatically added to the grid group panel.
+     */
+    export function AddColumnsToGroupPanel(
+        gridID: string,
+        ListOfColumnIDs: string
+    ): string {
+        PerformanceAPI.SetMark('ColumnManager.AddColumnToGroupPanel');
+
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            const grid = GridManager.GetGridById(gridID);
+            grid.features.groupPanel.addColumnsToGroupPanel(ListOfColumnIDs);
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedAddColumnToGroupPanel;
+        }
+
+        PerformanceAPI.SetMark('ColumnManager.AddColumnToGroupPanel-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.AddColumnToGroupPanel',
+            'ColumnManager.AddColumnToGroupPanel',
+            'ColumnManager.AddColumnToGroupPanel-end'
+        );
+
+        return JSON.stringify(responseObj);
+    }
+
+    /**
      * Creates the column for the provider with the given configurations.
      *
      * @param {string} columnID id of the column with which actions on the column can be performed.
