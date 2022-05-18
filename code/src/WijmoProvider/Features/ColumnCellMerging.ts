@@ -16,6 +16,13 @@ namespace WijmoProvider.Feature {
             //
         }
 
+        /**
+         * Update allowMerging's column config
+         *
+         * @param {string} columnID
+         * @param {boolean} allowMerge
+         * @memberof ColumnCellMerging
+         */
         public mergeColumnCells(columnID: string, allowMerge: boolean): void {
             const column = this._grid.getColumn(columnID);
             if (column) {

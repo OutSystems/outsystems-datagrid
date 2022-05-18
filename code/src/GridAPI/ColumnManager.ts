@@ -213,6 +213,15 @@ namespace GridAPI.ColumnManager {
         return JSON.stringify(responseObj);
     }
 
+    /**
+     *  Combines consecutive cells of a given grid column that have the same value into a single cell.
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} columnID
+     * @param {boolean} allowMerge
+     * @return {*}  {string}
+     */
     export function MergeColumnCells(
         gridID: string,
         columnID: string,
