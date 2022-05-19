@@ -16,10 +16,18 @@ namespace OSFramework.Feature {
          */
         pushAction(action: unknown);
         /**
+         * Redo all actions on undoStack.
+         */
+        redoAll(): void;
+        /**
          * Start an action, normally executed before the changes is made
          * @param action Instance of an action
          */
         startAction(action: unknown);
+        /**
+         * Undo all actions on undoStack.
+         */
+        undoAll(): void;
         /**
          * Getter for the undoStack
          */
