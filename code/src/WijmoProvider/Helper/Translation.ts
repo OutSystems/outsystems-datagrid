@@ -22,11 +22,19 @@ namespace WijmoProvider.Helper.Translation {
         return changedLang;
     }
 
-    export function SetLanguage(language: string, url: string): void {
-        // on wijmo version 5.20212.808 and prior, when importing english culture files, the grid has some different resources
-        // than if we used default translation. in order to prevent this, we don't want to import english culture files.
-        if (language === 'en-US' || language.includes('en')) return;
+    export function FormatDateOperators(): void {
+        const dateOperators =
+            wijmo.culture.FlexGridFilter.numberOperators.filter(function (
+                item
+            ) {
+                //Removing item "Does not Equal"
+                return item.op !== 1;
+            });
 
+        wijmo.culture.FlexGridFilter.dateOperators = dateOperators;
+    }
+
+    export function SetLanguage(language: string, url: string): void {
         const regex = new RegExp('culture.(.*)(?=.min)');
         const transposedLanguage = transposeLanguageFormat(language);
 
@@ -46,6 +54,7 @@ namespace WijmoProvider.Helper.Translation {
                         // @ts-ignore
                         gp.placeholder = culture.GroupPanel.dragDrop;
                     }
+                    FormatDateOperators();
                     wijmo.Control.invalidateAll();
                 });
             } else {

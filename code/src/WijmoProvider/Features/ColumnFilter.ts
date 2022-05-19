@@ -114,15 +114,7 @@ namespace WijmoProvider.Feature {
                 this.validateAction.bind(this)
             );
 
-            const dateOperators =
-                wijmo.culture.FlexGridFilter.numberOperators.filter(function (
-                    item
-                ) {
-                    //Removing item "Does not Equal"
-                    return item.op !== 1;
-                });
-
-            wijmo.culture.FlexGridFilter.dateOperators = dateOperators;
+            Helper.Translation.FormatDateOperators();
 
             this.setState(this._enabled);
         }
