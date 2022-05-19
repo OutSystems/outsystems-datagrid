@@ -4,6 +4,11 @@ namespace OSFramework.Feature {
         /** Boolean that indicates whether the grid is grouped or not */
         isGridGrouped: boolean;
         /**
+         * Add a given column to the grid group panel
+         * @param binding binding of the column
+         */
+        addColumnsToGroupPanel(binding: string): void;
+        /**
          * Check if the column is inside the Group Panel
          * @param binding binding of the column
          */
