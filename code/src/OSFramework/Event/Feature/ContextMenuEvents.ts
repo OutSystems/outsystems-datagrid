@@ -7,10 +7,16 @@ namespace OSFramework.Event.Feature {
      * @extends {OSFramework.Event.AbstractEvent<string>}
      */
     export class ToggleContextMenu extends Event.AbstractEvent<string> {
-        public trigger(gridID: string, isOpening: boolean): void {
+        public trigger(
+            gridID: string,
+            columnId: string,
+            isOpening: boolean
+        ): void {
             this.handlers
                 .slice(0)
-                .forEach((h) => Helper.AsyncInvocation(h, gridID, isOpening));
+                .forEach((h) =>
+                    Helper.AsyncInvocation(h, gridID, columnId, isOpening)
+                );
         }
     }
 }

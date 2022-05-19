@@ -18,6 +18,6 @@ namespace OSFramework.Callbacks.ContextMenu {
      * @param {string} isOpening defines if context menu is opening or closing
      */
     export type Toggle = {
-        (gridID: string, isOpening: boolean): void;
+        (gridID: string, columnId: string, isOpening: boolean): void;
     };
 }
