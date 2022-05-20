@@ -117,8 +117,8 @@ namespace WijmoProvider.Feature {
             const column = this._grid.getColumn(columnID);
             if (column) {
                 this._grid.provider.columns.find(
-                    (column) =>
-                        column.index ===
+                    (element) =>
+                        element.index ===
                         this._grid.getColumn(columnID).provider.index
                 ).wordWrap = value;
             } else {
