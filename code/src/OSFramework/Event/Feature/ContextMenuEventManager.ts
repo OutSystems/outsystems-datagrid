@@ -41,8 +41,8 @@ namespace OSFramework.Event.Feature {
                     .get(event)
                     .trigger(
                         this._contextMenu.grid.widgetId,
-                        this._contextMenu.columnUniqueId,
-                        this._contextMenu.isOpening
+                        this._contextMenu.isOpening,
+                        this._contextMenu.columnUniqueId
                     );
             }
         }

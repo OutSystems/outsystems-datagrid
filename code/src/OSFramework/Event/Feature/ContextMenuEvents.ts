@@ -9,13 +9,13 @@ namespace OSFramework.Event.Feature {
     export class ToggleContextMenu extends Event.AbstractEvent<string> {
         public trigger(
             gridID: string,
-            columnId: string,
-            isOpening: boolean
+            isOpening: boolean,
+            columnId: string
         ): void {
             this.handlers
                 .slice(0)
                 .forEach((h) =>
-                    Helper.AsyncInvocation(h, gridID, columnId, isOpening)
+                    Helper.AsyncInvocation(h, gridID, isOpening, columnId)
                 );
         }
     }
