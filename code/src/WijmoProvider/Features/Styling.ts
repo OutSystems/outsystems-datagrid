@@ -111,5 +111,21 @@ namespace WijmoProvider.Feature {
                 );
             }
         }
+
+        public setColumnWordWrap(columnID: string, value: boolean): void {
+            // validate if column exists
+            const column = this._grid.getColumn(columnID);
+            if (column) {
+                this._grid.provider.columns.find(
+                    (column) =>
+                        column.index ===
+                        this._grid.getColumn(columnID).provider.index
+                ).wordWrap = value;
+            } else {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                );
+            }
+        }
     }
 }
