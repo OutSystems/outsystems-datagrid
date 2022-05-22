@@ -62,13 +62,12 @@ namespace WijmoProvider.Feature {
         }
 
         public get isGridFiltered(): boolean {
-            // when filter is active, the filterDefinition object usually has filterType different than 0
-            // and it is currently active/applied
+            // When filter is active/applied, check isActive property
             return (
-                JSON.parse(this._filter.filterDefinition).filters.filter(
-                    (filterDefinition) =>
-                        filterDefinition.filterType !== 0 &&
-                        filterDefinition.isActive
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                this._filter._filters.filter(
+                    (columnFilter) => columnFilter.isActive
                 ).length > 0
             );
         }
