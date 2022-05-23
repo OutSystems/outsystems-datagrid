@@ -15,9 +15,10 @@ namespace OSFramework.Callbacks.ContextMenu {
     /**
      * This is the callback signature for events triggerend by column action.
      * @param {string} gridID which grid triggered the event
-     * @param {string} isOpening defines if context menu is opening or closing
+     * @param {boolean} isOpening defines if context menu is opening or closing
+     * @param {string} columnId which column was clicked
      */
     export type Toggle = {
-        (gridID: string, isOpening: boolean): void;
+        (gridID: string, isOpening: boolean, columnId: string): void;
     };
 }

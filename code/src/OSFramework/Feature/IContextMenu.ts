@@ -7,6 +7,8 @@ namespace OSFramework.Feature {
         /**
          * Getter for the contextMenu events
          */
+
+        columnUniqueId: string;
         contextMenuEvents: Event.Feature.ContextMenuEventManager;
         /**
          * Grid's reference
