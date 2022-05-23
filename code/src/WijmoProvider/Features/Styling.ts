@@ -116,11 +116,7 @@ namespace WijmoProvider.Feature {
             // validate if column exists
             const column = this._grid.getColumn(columnID);
             if (column) {
-                this._grid.provider.columns.find(
-                    (element) =>
-                        element.index ===
-                        this._grid.getColumn(columnID).provider.index
-                ).wordWrap = value;
+                column.provider.wordWrap = value;
             } else {
                 throw new Error(
                     OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
