@@ -21,7 +21,10 @@ namespace GridAPI.GridManager {
 
         let output = false;
         if (grid !== undefined) {
-            if (grid.isReady && data !== '' && data !== '{}') {
+            if (grid.isReady) {
+                // in case data comes as an empty string or an empty object, we change it to an empty array
+                // we do this in order to allow Grid to be updated with empty data.
+                data = data === '' || data === '{}' ? '[]' : data;
                 grid.setData(data);
             }
             output = true;
