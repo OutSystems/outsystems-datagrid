@@ -79,10 +79,13 @@ namespace WijmoProvider.Feature {
                 for (const binding of columnList) {
                     const column = this._grid.getColumn(binding);
                     if (column) {
-                        if (this.columnInGroupPanel(binding) === false) {
+                        if (
+                            this.columnInGroupPanel(column.config.binding) ===
+                            false
+                        ) {
                             const groupDescription =
                                 new wijmo.collections.PropertyGroupDescription(
-                                    binding
+                                    column.config.binding
                                 );
 
                             groupDescriptions.push(groupDescription);
