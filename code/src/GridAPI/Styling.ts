@@ -224,4 +224,55 @@ namespace GridAPI.Styling {
 
         return JSON.stringify(responseObj);
     }
+
+    /**
+     * Set column word wrap
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {string} columnID Id of the column with which the word wrap config should be applied.
+     * @param {boolean} wordWrapValue If true word wrap will be setted, if false it will be unset.
+     *
+     */
+    export function SetColumnWordWrap(
+        gridID: string,
+        columnID: string,
+        wordWrapValue: boolean
+    ): string {
+        PerformanceAPI.SetMark('ColumnManager.SetColumnWordWrap');
+
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            GridManager.GetGridById(gridID).features.styling.setColumnWordWrap(
+                columnID,
+                wordWrapValue
+            );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedSetColumnWordWrap;
+        }
+
+        PerformanceAPI.SetMark('ColumnManager.SetColumnWordWrap-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.SetColumnWordWrap',
+            'ColumnManager.SetColumnWordWrap',
+            'ColumnManager.SetColumnWordWrap-end'
+        );
+
+        return JSON.stringify(responseObj);
+    }
 }

@@ -72,6 +72,7 @@ namespace OSFramework.Enum {
         API_FailedUnfreezeColumns = 'GRID-API-10005',
         API_FailedAllowCellMerging = 'GRID-API-10006',
         API_FailedAddColumnToGroupPanel = 'GRID-API-10007',
+        API_FailedSetColumnWordWrap = 'GRID-API-10008',
         //EXPORT
         API_FailedCustomizeExportingMessage = 'GRID-API-11001',
         //COLUMNPICKER
