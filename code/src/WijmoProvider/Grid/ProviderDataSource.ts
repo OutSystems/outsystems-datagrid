@@ -38,7 +38,7 @@ namespace WijmoProvider.Grid {
 
             if (
                 itemsSource.itemsEdited.length > 0 &&
-                this.parentGrid.features.dirtyMark.isGridDirty()
+                this.parentGrid.features.dirtyMark.isGridDirty
             ) {
                 changes.hasChanges = true;
                 changes.editedLinesJSON = this._getChangesString(
