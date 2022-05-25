@@ -71,7 +71,7 @@ namespace WijmoProvider.Grid {
 
         private _hasMetadataByRowNumber(row: number): boolean {
             return (
-                this._grid.rows[row].dataItem &&
+                this._grid.rows[row]?.dataItem &&
                 this._grid.rows[row].dataItem[this._extraData]
             );
         }

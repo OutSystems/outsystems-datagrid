@@ -149,6 +149,12 @@ namespace WijmoProvider.Feature {
             return this.hasMetadata(row) && this.getMetadata(row).isNew;
         }
 
+        public get isGridDirty(): boolean {
+            return this._grid.provider.itemsSource.sourceCollection.some(
+                (_row, index) => this._isDirtyRow(index)
+            );
+        }
+
         public build(): void {
             // Responsible for saving the original values before edition of any cell.
             // Essencial for saving the value in case the content of the cell is deleted with keyboard events (del, backspace)
