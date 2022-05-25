@@ -244,6 +244,12 @@ namespace WijmoProvider.Feature {
             );
         }
 
+        public isGridDirty(): boolean {
+            return this._grid.provider.itemsSource.sourceCollection.some(
+                (row, index) => this._isDirtyRow(index)
+            );
+        }
+
         public saveOriginalValue(
             rowNumber: number,
             columnNumber: number
