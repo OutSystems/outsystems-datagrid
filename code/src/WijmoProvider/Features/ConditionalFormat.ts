@@ -175,33 +175,37 @@ namespace WijmoProvider.Feature {
                 const binding = grid.provider.getColumn(e.col).binding;
 
                 if (isTrue) {
-                    if (p.rowClass) {
-                        grid.features.rows.addClass(e.row, p.rowClass);
-                    }
-                    if (p.cellClass) {
-                        grid.features.cellStyle.addClass(
-                            binding,
-                            e.row,
-                            p.cellClass
-                        );
-                    }
+                    p.rowClass
+                        ? grid.features.rows.addClass(e.row, p.rowClass)
+                        : null;
+                    p.cellClass
+                        ? grid.features.cellStyle.addClass(
+                              binding,
+                              e.row,
+                              p.cellClass
+                          )
+                        : null;
                 } else {
-                    if (p.rowClass) {
-                        grid.features.rows.removeClass(e.row, p.rowClass);
-                    }
-                    if (p.cellClass) {
-                        grid.features.cellStyle.removeClass(
-                            e.row,
-                            binding,
-                            p.cellClass
-                        );
-                    }
+                    p.rowClass
+                        ? grid.features.rows.removeClass(e.row, p.rowClass)
+                        : null;
+                    p.cellClass
+                        ? grid.features.cellStyle.removeClass(
+                              e.row,
+                              binding,
+                              p.cellClass
+                          )
+                        : null;
                 }
-                const classes = grid.features.cellStyle
-                    .getMetadata(e.row)
-                    .getCssClassesByBinding(binding);
 
-                return isTrue && classes?.length === 0;
+                if (p.cellClass) {
+                    const classes = grid.features.cellStyle
+                        .getMetadata(e.row)
+                        .getCssClassesByBinding(binding);
+                    return isTrue && classes?.length === 0;
+                }
+
+                return isTrue;
             });
         }
     }
