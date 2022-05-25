@@ -151,7 +151,7 @@ namespace WijmoProvider.Feature {
 
         public get isGridDirty(): boolean {
             return this._grid.provider.itemsSource.sourceCollection.some(
-                (row, index) => this._isDirtyRow(index)
+                (_row, index) => this._isDirtyRow(index)
             );
         }
 
