@@ -230,9 +230,14 @@ namespace WijmoProvider.Feature {
 
             // Trigger to open
             this._isOpening = true;
-            this._columnUniqueId = this._grid.getColumns().find((x) => {
-                return x.config.binding === ht.getColumn().binding;
-            }).uniqueId;
+            const columns = this._grid.getColumns();
+
+            if (columns.length) {
+                this._columnUniqueId = this._grid.getColumns().find((x) => {
+                    return x.config.binding === ht.getColumn().binding;
+                }).uniqueId;
+            }
+
             this._contextMenuEvents.trigger(
                 OSFramework.Event.Feature.ContextMenuEventType.Toggle
             );
