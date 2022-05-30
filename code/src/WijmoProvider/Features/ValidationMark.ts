@@ -38,14 +38,27 @@ namespace WijmoProvider.Feature {
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
-            const binding = s.getColumn(e.col).binding;
-            const newValue = s.getCellData(e.row, e.col, false);
+            const column = s.getColumn(e.col);
+            const OSColumn = this._grid
+                .getColumns()
+                .find((item) => item.provider.index === column.index);
+
+            const newValue = s.getCellData(
+                e.row,
+                e.col,
+                OSColumn.columnType === OSFramework.Enum.ColumnType.Dropdown
+            );
             // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
             const oldValue = this._grid.features.dirtyMark.getOldValue(
                 e.row,
-                binding
+                column.binding
             );
-            this._triggerEventsFromColumn(e.row, binding, oldValue, newValue);
+            this._triggerEventsFromColumn(
+                e.row,
+                OSColumn.uniqueId,
+                oldValue,
+                newValue
+            );
         }
 
         /** Helper to convert the formats of Date and DateTime columns to the format of OS */
@@ -143,6 +156,36 @@ namespace WijmoProvider.Feature {
             return false;
         }
 
+        // eslint-disable-next-line
+        private _redoActionHandler(action: any) {
+            // we only want to redo on GridEditAction
+            // we don't want to redo on GridRemoveRowAction
+            if (
+                action.dataItem !== undefined &&
+                !_.isObject(action._oldState) &&
+                !(action instanceof GridInsertRowAction) &&
+                !(action instanceof GridRemoveRowAction)
+            ) {
+                const binding = this._grid.provider.getColumn(
+                    action.col
+                ).binding;
+
+                const OSColumn = this._grid
+                    .getColumns()
+                    .find((item) => item.provider.index === action.col);
+                const oldValue = this._grid.features.dirtyMark.getOldValue(
+                    action.row,
+                    binding
+                );
+                this._triggerEventsFromColumn(
+                    action.row,
+                    OSColumn.uniqueId,
+                    oldValue,
+                    action._newState
+                );
+            }
+        }
+
         /**
          * Handler for the RedoingAction.
          */
@@ -153,25 +196,12 @@ namespace WijmoProvider.Feature {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const action: any = e.action;
 
-            // we only want to redo on GridEditAction
-            // we don't want to redo on GridRemoveRowAction
-            if (
-                action.dataItem !== undefined &&
-                typeof action._oldState !== 'object'
-            ) {
-                const binding = this._grid.provider.getColumn(
-                    action.col
-                ).binding;
-                const oldValue = this._grid.features.dirtyMark.getOldValue(
-                    action.row,
-                    binding
-                );
-                this._triggerEventsFromColumn(
-                    action.row,
-                    binding,
-                    oldValue,
-                    action._newState
-                );
+            this._redoActionHandler(action);
+
+            if (action?._actions?.length > 0) {
+                action._actions.forEach((element) => {
+                    this._redoActionHandler(element);
+                });
             }
         }
 
@@ -224,19 +254,20 @@ namespace WijmoProvider.Feature {
         /**
          * Triggers the events of OnCellValueChange associated to a specific column in OS
          * @param rowNumber Number of the row to trigger the events
-         * @param binding Binding of the column that contains the associated events
+         * @param columnUniqueID Id of the Column that contains the associated events
          * @param oldValue Value of the cell before its value has changed (Old)
          * @param newValue Value of the cell after its value has changed (New)
          */
         private _triggerEventsFromColumn(
             rowNumber: number,
-            binding: string,
+            columnUniqueID: string,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             oldValue: any,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newValue: any
         ) {
-            const column = this._grid.getColumn(binding);
+            const column = this._grid.getColumn(columnUniqueID);
+
             if (column !== undefined) {
                 if (column.config.isMandatory) {
                     let isValid = true;
@@ -274,6 +305,36 @@ namespace WijmoProvider.Feature {
             }
         }
 
+        // eslint-disable-next-line
+        private _undoActionHandler(action: any) {
+            // we only want to undo on GridEditAction
+            // we don't want to undo on GridRemoveRowAction
+            if (
+                action.dataItem !== undefined &&
+                !_.isObject(action._oldState) &&
+                (!(action instanceof GridInsertRowAction) ||
+                    !(action instanceof GridRemoveRowAction))
+            ) {
+                const binding = this._grid.provider.getColumn(
+                    action.col
+                ).binding;
+                const oldValue = this._grid.features.dirtyMark.getOldValue(
+                    action.row,
+                    binding
+                );
+                const OSColumn = this._grid
+                    .getColumns()
+                    .find((item) => item.provider.index === action.col);
+
+                this._triggerEventsFromColumn(
+                    action.row,
+                    OSColumn.uniqueId,
+                    oldValue,
+                    action._oldState
+                );
+            }
+        }
+
         /**
          * Handler for the UndoingAction.
          */
@@ -284,25 +345,12 @@ namespace WijmoProvider.Feature {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const action: any = e.action;
 
-            // we only want to undo on GridEditAction
-            // we don't want to undo on GridRemoveRowAction
-            if (
-                action.dataItem !== undefined &&
-                typeof action._oldState !== 'object'
-            ) {
-                const binding = this._grid.provider.getColumn(
-                    action.col
-                ).binding;
-                const oldValue = this._grid.features.dirtyMark.getOldValue(
-                    action.row,
-                    binding
-                );
-                this._triggerEventsFromColumn(
-                    action.row,
-                    binding,
-                    oldValue,
-                    action._oldState
-                );
+            this._undoActionHandler(action);
+
+            if (action?._actions?.length > 0) {
+                action._actions.forEach((element) => {
+                    this._undoActionHandler(element);
+                });
             }
         }
 
@@ -351,9 +399,31 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        /** Clears all the validation mark metadata associated to the rows */
+        /**
+         * Clears all the validation mark metadata associated to the rows
+         *
+         * @memberof ValidationMark
+         */
         public clear(): void {
             this._metadata.clearProperty(this._internalLabel);
+            this._invalidRows = [];
+            this._grid.provider.invalidate(); //Mark to be refreshed
+        }
+        /**
+         * Clears validation marks in the given rows with the given keys list
+         *
+         * @param {Array<string>} rowKeys List of row identifiers on the KeyBinding field.
+         * @memberof ValidationMark
+         */
+        public clearByRowKeys(rowKeys: Array<string>): void {
+            rowKeys.forEach((element) => {
+                if (element !== '') {
+                    this._metadata.clearPropertyByRowKey(
+                        element,
+                        this._internalLabel
+                    );
+                }
+            });
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 
@@ -496,6 +566,20 @@ namespace WijmoProvider.Feature {
         }
 
         /**
+         * Indicates if a specific cell value is valid or not by giving the row and the binding.
+         * @param key Row key to get the validation state.
+         * @returns Boolean that indicates whether a specific cell is valid or not.
+         */
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public isInvalidRowByKey(key: string): boolean {
+            return Array.from(this.getMetadataByRowKey(key).validation).some(
+                (element) => {
+                    return element[1] === false;
+                }
+            );
+        }
+
+        /**
          * Used to validate a cell by defining its metadata with a state that indicates if it is valid or not.
          * @param rowNumber Number of the row in which the action of validation should be triggered.
          * @param columnWidgetID ID of the Column block in which the action of validation should be triggered.
@@ -584,23 +668,36 @@ namespace WijmoProvider.Feature {
             this._setRowStatus(rowNumber, isValid);
         }
 
+        /**
+         * Method to validate a cell
+         *
+         * @param {number} rowNumber Number of the row in which the action of validation should be triggered.
+         * @param {OSFramework.Column.IColumn} column Column in which the action of validation should be triggered.
+         * @param {boolean} [triggerOnCellValueChange=true] Boolean that represents if we want to trigger the on value change event or not
+         * @memberof ValidationMark
+         */
         public validateCell(
             rowNumber: number,
-            column: OSFramework.Column.IColumn
+            column: OSFramework.Column.IColumn,
+            triggerOnCellValueChange = true
         ): void {
             // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
             const currValue = this._grid.provider.getCellData(
                 rowNumber,
                 column.provider.index,
-                false
+                column.columnType === OSFramework.Enum.ColumnType.Dropdown
             );
-            // Triggers the events of OnCellValueChange associated to a specific column in OS
-            this._triggerEventsFromColumn(
-                rowNumber,
-                column.provider.binding,
-                currValue,
-                currValue
-            );
+
+            //If we decide not to trigger the column events we will skip this step
+            if (triggerOnCellValueChange) {
+                // Triggers the events of OnCellValueChange associated to a specific column in OS
+                this._triggerEventsFromColumn(
+                    rowNumber,
+                    column.uniqueId,
+                    currValue,
+                    currValue
+                );
+            }
         }
 
         /**
@@ -620,12 +717,13 @@ namespace WijmoProvider.Feature {
                         const currValue = this._grid.provider.getCellData(
                             rowNumber,
                             column.provider.index,
-                            false
+                            column.columnType ===
+                                OSFramework.Enum.ColumnType.Dropdown
                         );
                         // Triggers the events of OnCellValueChange associated to a specific column in OS
                         this._triggerEventsFromColumn(
                             rowNumber,
-                            column.provider.binding,
+                            column.uniqueId,
                             currValue,
                             currValue
                         );

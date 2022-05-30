@@ -4,10 +4,12 @@ namespace OSFramework.Feature {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         invalidRows: Array<any>;
         clear(): void;
+        clearByRowKeys(rowKeys: Array<string>): void;
         errorMessage(rowNumber: number, binding: string): string;
         isInvalid(rowNumber: number, binding: string): boolean;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         isInvalidRow(row: any): boolean;
+        isInvalidRowByKey(key: string): boolean;
         setCellStatus(
             rowNumber: number,
             columnID: string,
@@ -23,7 +25,8 @@ namespace OSFramework.Feature {
         setRowStatus(rowNumber: number, isValid: boolean): void;
         validateCell(
             rowNumber: number,
-            column: OSFramework.Column.IColumn
+            column: OSFramework.Column.IColumn,
+            triggerOnCellValueChange: boolean
         ): void;
         validateRow(rowNumber: number): OSFramework.OSStructure.ReturnMessage;
         // clearByRow(row: number): void;

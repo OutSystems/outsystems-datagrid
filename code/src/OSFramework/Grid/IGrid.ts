@@ -30,6 +30,10 @@ namespace OSFramework.Grid {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         changeProperty(propertyName: string, propertyValue: any): void;
         clearAllChanges(forceClearValidationMarks: boolean): void;
+        clearAllChangesByRowKeys(
+            rowKeys: Array<string>,
+            forceClearValidationMarks: boolean
+        ): void;
         getChangesMade(): OSStructure.ChangesDone;
         /**
          * Get the column on the grid by giving a columnID or a binding.
@@ -41,7 +45,18 @@ namespace OSFramework.Grid {
          * @returns Array of grid's columns
          */
         getColumns(): Column.IColumn[];
+        /**
+         * Return a map containing all grid's column key and types
+         */
+        getColumnsKeyType(): Map<string, string>;
         getData(): JSON[];
+        /**
+         * This will be used on empty Grids with JSON Serialize
+         * Returns data structure from column bindings.
+         * eg.: Columns = ["Employee.Name", "Employee.Date"] => {Employee: {Name: "", Date: ""}}
+         */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        getStructureFromColumnBindings(): any;
         /**
          * Verifies grid has the given Column.
          * @param key key must be the uniqueId or a binding of a column

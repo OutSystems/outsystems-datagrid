@@ -37,7 +37,7 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    class GridInsertRowAction extends wijmo.undo.UndoableAction {
+    export class GridInsertRowAction extends wijmo.undo.UndoableAction {
         private _grid: Grid.IGridWijmo;
 
         constructor(
@@ -53,8 +53,8 @@ namespace WijmoProvider.Feature {
             collectionView.trackChanges &&
                 collectionView.itemsAdded.push(...undoableItems.items);
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public applyState(state: any) {
+        // eslint-disable-next-line
+        public applyState(state: any): void {
             const collectionView = this._target.itemsSource;
             if (collectionView) {
                 if (state.action === 'remove') {
@@ -98,51 +98,56 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    class GridRemoveRowAction extends wijmo.undo.UndoableAction {
+    export class GridRemoveRowAction extends wijmo.undo.UndoableAction {
         private _grid: Grid.IGridWijmo;
 
         constructor(
             grid: Grid.IGridWijmo,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line
             undoableItems: any
         ) {
             super(grid.provider);
             this._grid = grid;
             this._oldState = { action: 'insert', items: [...undoableItems] };
             this._newState = undoableItems;
-            const collectionView = grid.provider.itemsSource;
-            // clear existing items, because we want to override them with ours
-            collectionView.itemsRemoved.clear();
-            collectionView.trackChanges &&
-                collectionView.itemsRemoved.push(
-                    ...undoableItems.map((undoable) => undoable.item)
-                );
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public applyState(state: any) {
+
+        private _addItemToCollectionView(collectionView, item) {
+            if (collectionView.itemsRemoved.indexOf(item.item) === -1) {
+                collectionView.sourceCollection.splice(item.datasourceIdx, 1);
+                collectionView.trackChanges &&
+                    collectionView.itemsRemoved.push(item.item);
+            }
+        }
+
+        private _removeItemFromCollectionView(collectionView, item) {
+            if (collectionView.itemsRemoved.indexOf(item.item) > -1) {
+                collectionView.sourceCollection.splice(
+                    item.datasourceIdx,
+                    0,
+                    item.item
+                );
+                collectionView.trackChanges &&
+                    collectionView.itemsRemoved.remove(item.item);
+            }
+        }
+        // eslint-disable-next-line
+        public applyState(state: any): void {
             const collectionView = this._target.itemsSource;
             if (collectionView) {
                 if (state.action === 'insert') {
                     state.items
                         .sort((a, b) => a.datasourceIdx - b.datasourceIdx)
                         .forEach((item) => {
-                            collectionView.sourceCollection.splice(
-                                item.datasourceIdx,
-                                0,
-                                item.item
+                            this._removeItemFromCollectionView(
+                                collectionView,
+                                item
                             );
-                            collectionView.trackChanges &&
-                                collectionView.itemsRemoved.remove(item.item);
                         });
                 } else {
                     //redo
                     state.forEach((item) => {
-                        collectionView.sourceCollection.splice(
-                            item.datasourceIdx,
-                            1
-                        );
-                        collectionView.trackChanges &&
-                            collectionView.itemsRemoved.push(item);
+                        this._addItemToCollectionView(collectionView, item);
                     });
                 }
                 collectionView.refresh();
@@ -281,8 +286,10 @@ namespace WijmoProvider.Feature {
             const providerGrid = this._grid.provider;
             const topRowIndex = this._getTopRow();
             // The datasource index of the selection's top row. Requires the page index and the page size.
-            const dsTopRowIndex =
+            let dsTopRowIndex =
                 topRowIndex + this._grid.features.pagination.rowStart - 1;
+            // we don't want negative indices.
+            dsTopRowIndex = dsTopRowIndex > 0 ? dsTopRowIndex : 0;
             // Consider the quantity 1 if there is no selection.
             const quantity =
                 this._grid.features.selection.getSelectedRowsCountByCellRange() ||

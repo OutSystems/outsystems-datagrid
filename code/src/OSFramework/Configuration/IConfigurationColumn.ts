@@ -49,6 +49,10 @@ namespace OSFramework.Configuration {
          */
         validateBinding: boolean;
         /**
+         * Determines whether or not the column is visible
+         */
+        visible: boolean;
+        /**
          * Refresh config
          * @param providerConfig The config based on provider, used to update our internal config
          */

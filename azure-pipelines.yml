@@ -2,9 +2,9 @@
 
 resources:
   repositories:
-    - repository: datagrid-reactive-tests
+    - repository: outsystems-datagrid-reactive-tests
       type: github
-      name: OutSystems/datagrid-reactive-tests
+      name: OutSystems/outsystems-datagrid-reactive-tests
       endpoint: OutSystems
 
 trigger:
@@ -104,7 +104,7 @@ stages:
 
           #Format branch name
           - powershell: |
-              $moduleName="DataGrid_"+"$(System.PullRequest.SourceBranch)"-replace '-', ''
+              $moduleName="OutSystemsDataGrid_"+"$(System.PullRequest.SourceBranch)"-replace '-', ''
               Write-Host "##vso[task.setvariable variable=module;]$moduleName"
 
           #Run Python script to publish code

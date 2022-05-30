@@ -76,12 +76,8 @@ namespace WijmoProvider.Column {
         private _setMaxValue(maxValue?: number) {
             const decimalPlaces = this.editorConfig.decimalPlaces;
             const maxPerDecPlaces = MaxNonDecimalValues[decimalPlaces];
-            maxValue =
-                maxValue === undefined ? this.editorConfig.maxValue : maxValue;
-            this.editorConfig.maxValue =
-                maxValue && maxValue < maxPerDecPlaces
-                    ? maxValue
-                    : maxPerDecPlaces;
+
+            this.editorConfig.maxValue = maxValue || maxPerDecPlaces;
         }
 
         /**
@@ -92,12 +88,8 @@ namespace WijmoProvider.Column {
         private _setMinValue(minValue?: number) {
             const decimalPlaces = this.editorConfig.decimalPlaces;
             const minPerDecPlaces = -MaxNonDecimalValues[decimalPlaces];
-            minValue =
-                minValue === undefined ? this.editorConfig.minValue : minValue;
-            this.editorConfig.minValue =
-                minValue && minValue > minPerDecPlaces
-                    ? minValue
-                    : minPerDecPlaces;
+
+            this.editorConfig.minValue = minValue || minPerDecPlaces;
         }
 
         /**

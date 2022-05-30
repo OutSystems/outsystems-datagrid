@@ -8,6 +8,7 @@ namespace OSFramework.Feature {
         public cellStyle: ICellStyle;
         public columnAggregate: IColumnAggregate;
         public columnFreeze: IColumnFreeze;
+        public columnPicker: IColumnPicker;
         public columnReorder: IColumnReorder;
         public columnResize: IColumnResize;
         public conditionalFormat: IConditionalFormat;

@@ -8,6 +8,7 @@ namespace OSFramework.Grid {
         private _addedRows: Event.Grid.AddNewRowEvent;
         private _columns: Map<string, Column.IColumn>;
         private _columnsGenerator: Column.IColumnGenerator;
+        private _columnsKeyType: Map<string, string>;
         private _columnsSet: Set<Column.IColumn>;
         private _configs: Z;
         private _dataSource: Grid.IDataSource;
@@ -28,6 +29,7 @@ namespace OSFramework.Grid {
             columnsGenerator: Column.IColumnGenerator
         ) {
             this._uniqueId = uniqueId;
+            this._columnsKeyType = new Map<string, string>();
             this._columns = new Map<string, Column.IColumn>();
             this._columnsSet = new Set<Column.IColumn>();
             this._columnsGenerator = columnsGenerator;
@@ -137,6 +139,24 @@ namespace OSFramework.Grid {
             });
         }
 
+        private _createObjectFromString(obj, value: string) {
+            const tree = value.split('.');
+            let cur = obj;
+            while (tree.length) {
+                const name = tree.shift();
+                cur[name] = tree.length ? cur[name] || {} : undefined;
+                cur = cur[name];
+            }
+        }
+
+        // Retrieve column's binding key. (e.g Sample_product.Name -> Name)
+        private _getKey(col: Column.IColumn): string {
+            const binding = col.config.binding;
+            const splittedBinding = binding.split('.');
+
+            return splittedBinding[splittedBinding.length - 1];
+        }
+
         private _validateBinding(bindingToValidate: string): void {
             // Split the binding of the column by every dot. (e.g Sample_product.Name -> ['Sample_Product', 'Name'])
             const bindingMatches = bindingToValidate.split('.');
@@ -185,6 +205,7 @@ namespace OSFramework.Grid {
             this._columns.set(col.config.binding, col);
             this._columns.set(col.uniqueId, col);
             this._columnsSet.add(col);
+            this._columnsKeyType.set(this._getKey(col), col.columnType);
         }
 
         public build(): void {
@@ -219,8 +240,28 @@ namespace OSFramework.Grid {
             return Array.from(this._columnsSet);
         }
 
+        public getColumnsKeyType(): Map<string, string> {
+            return this._columnsKeyType;
+        }
+
         public getData(): JSON[] {
             return this.dataSource.getData();
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public getStructureFromColumnBindings(): any {
+            const obj = {};
+            const columns = this.getColumns();
+
+            if (!columns.length) return;
+
+            columns
+                .map((col) => col.config.binding)
+                .filter((colBinding) => !colBinding.startsWith('$')) // remove Action/Calculated columns
+                .forEach((colBinding) =>
+                    this._createObjectFromString(obj, colBinding)
+                );
+            return obj;
         }
 
         public hasColumn(key: string): boolean {
@@ -296,6 +337,11 @@ namespace OSFramework.Grid {
         ): void;
 
         public abstract clearAllChanges(
+            forceClearValidationMarks: boolean
+        ): void;
+
+        public abstract clearAllChangesByRowKeys(
+            rowKeys: Array<string>,
             forceClearValidationMarks: boolean
         ): void;
 

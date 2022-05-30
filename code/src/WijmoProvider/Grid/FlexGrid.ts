@@ -52,6 +52,27 @@ namespace WijmoProvider.Grid {
             this.getColumns().forEach((col) => col.build());
         }
 
+        // Remove rows with given keys from data source
+        private _clearDataSourceByKeys(rowKeys) {
+            rowKeys.forEach((element) => {
+                const row = this.provider.rows.find(
+                    (item) =>
+                        _.get(
+                            item.dataItem,
+                            this.config.keyBinding
+                        ).toString() === element
+                );
+                if (!row) {
+                    throw new Error(
+                        OSFramework.Enum.ErrorMessages.Row_NotFound
+                    );
+                }
+                this._provider.itemsSource.itemsEdited.remove(row.dataItem);
+                this._provider.itemsSource.itemsRemoved.remove(row.dataItem);
+                this._provider.itemsSource.itemsAdded.remove(row.dataItem);
+            });
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _getProviderConfig(): any {
             if (this.hasColumnsDefined()) {
@@ -164,11 +185,16 @@ namespace WijmoProvider.Grid {
                     );
             }
         }
-
-        public clearAllChanges(clearValidationMark: boolean): void {
+        /**
+         * Function that will mark all changes as saved.
+         *
+         * @param {boolean} forceClearValidationMarks determines whether or not we should clean the validation marks.
+         * @memberof FlexGrid
+         */
+        public clearAllChanges(forceClearValidationMarks: boolean): void {
             if (this.isReady) {
                 this.dataSource.clear();
-                if (clearValidationMark) {
+                if (forceClearValidationMarks) {
                     this.features.validationMark.clear();
                     this.features.dirtyMark.clear();
                 } else {
@@ -181,6 +207,67 @@ namespace WijmoProvider.Grid {
                             ) === false
                         ) {
                             this.features.dirtyMark.clearPropertyInRow(element);
+                        }
+                    });
+                }
+            }
+        }
+        /**
+         * Mark a group of Data Grid lines with given keys (from the KeyBinding field) as saved in the database.
+         *
+         * @param {Array<string>} rowKeys List of row identifiers on the KeyBinding field.
+         * @param {boolean} forceClearValidationMarks determines whether or not we should clean the validation marks.
+         * @memberof FlexGrid
+         */
+        public clearAllChangesByRowKeys(
+            rowKeys: Array<string>,
+            forceClearValidationMarks: boolean
+        ): void {
+            //if the row keys array is empty we will throw an error
+            if (rowKeys.length === 0) {
+                throw new Error(OSFramework.Enum.ErrorMessages.Row_EmptyList);
+            }
+            //if the row keys array as empty keys we will throw an error
+            if (
+                rowKeys.indexOf('') > -1 ||
+                rowKeys.indexOf(null) > -1 ||
+                rowKeys.indexOf(undefined) > -1
+            ) {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.Row_ListEmptyValues
+                );
+            }
+
+            if (this.isReady) {
+                this._clearDataSourceByKeys(rowKeys);
+
+                if (forceClearValidationMarks) {
+                    this.features.validationMark.clearByRowKeys(rowKeys);
+                    this.features.dirtyMark.clearByRowKeys(rowKeys);
+                } else {
+                    rowKeys.forEach((element) => {
+                        const row = this.provider.rows.findIndex(
+                            (item) =>
+                                _.get(
+                                    item.dataItem,
+                                    this.config.keyBinding
+                                ).toString() === element
+                        );
+
+                        if (row === -1) {
+                            throw new Error(
+                                OSFramework.Enum.ErrorMessages.Row_NotFound
+                            );
+                        }
+
+                        if (
+                            this.features.validationMark.isInvalidRowByKey(
+                                element
+                            ) === false
+                        ) {
+                            this.features.dirtyMark.clearPropertyInRowByKey(
+                                element
+                            );
                         }
                     });
                 }

@@ -69,7 +69,9 @@ namespace WijmoProvider.Feature {
                     //If the original value and new value are null and undefined we don't want to have dirty mark.
                     if (originalValue === undefined) {
                         return (
-                            originalValue !== cellValue && cellValue !== null
+                            originalValue !== cellValue &&
+                            cellValue !== null &&
+                            cellValue !== ''
                         );
                     } else {
                         //If the cellValue and the originalValue are different we want to add the dirty mark.
@@ -104,7 +106,11 @@ namespace WijmoProvider.Feature {
 
                     //If the original value and new value are null and undefined we don't want to have dirty mark on the cell
                     if (originalValue === undefined) {
-                        if (originalValue === cellValue || cellValue === null) {
+                        if (
+                            originalValue === cellValue ||
+                            cellValue === null ||
+                            cellValue === ''
+                        ) {
                             //Add 1 to the notDirtyCells
                             notDirtyCells++;
                         } else {
@@ -164,10 +170,37 @@ namespace WijmoProvider.Feature {
             this._metadata.clearProperty(this._internalLabel);
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
+        /**
+         * Clears dirty marks in the given rows with the given keys list
+         *
+         * @param {Array<string>} rowKeys List of row identifiers on the KeyBinding field.
+         * @memberof DirtyMark
+         */
+        public clearByRowKeys(rowKeys: Array<string>): void {
+            rowKeys.forEach((element) => {
+                if (element !== '') {
+                    this._metadata.clearPropertyByRowKey(
+                        element,
+                        this._internalLabel
+                    );
+                }
+            });
+            this._grid.provider.invalidate(); //Mark to be refreshed
+        }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public clearPropertyInRow(row: any): void {
             this._metadata.clearPropertyByRow(row, this._internalLabel);
+            this._grid.provider.invalidate(); //Mark to be refreshed
+        }
+        /**
+         * Responsible for cleaning metadata information for a given row key and property
+         *
+         * @param {string} key Key row reference
+         * @memberof DirtyMark
+         */
+        public clearPropertyInRowByKey(key: string): void {
+            this._metadata.clearPropertyByRowKey(key, this._internalLabel);
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
 

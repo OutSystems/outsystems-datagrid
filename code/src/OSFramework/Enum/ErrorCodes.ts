@@ -50,6 +50,7 @@ namespace OSFramework.Enum {
         API_FailedGetChangedLines = 'GRID-API-07001',
         API_FailedMarkChangesAsSaved = 'GRID-API-07002',
         API_FailedSetCellData = 'GRID-API-07003',
+        API_FailedMarkChangesAsSavedByKey = 'GRID-API-07004',
         // VALIDATION
         API_FailedSetValidationStatus = 'GRID-API-08001',
         API_FailedSetValidationStatusByKey = 'GRID-API-08002',
@@ -67,6 +68,10 @@ namespace OSFramework.Enum {
         API_FailedFreezeColumns = 'GRID-API-10002',
         API_FailedFreezeColumnsByActiveCell = 'GRID-API-10003',
         API_FailedHasFrozenColumns = 'GRID-API-10004',
-        API_FailedUnfreezeColumns = 'GRID-API-10005'
+        API_FailedUnfreezeColumns = 'GRID-API-10005',
+        //EXPORT
+        API_FailedCustomizeExportingMessage = 'GRID-API-11001',
+        //COLUMNPICKER
+        API_FailedSetColumnVisibility = 'GRID-API-10001'
     }
 }
