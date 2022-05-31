@@ -10,13 +10,17 @@ namespace WijmoProvider.Feature {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             this.cssClass = new Map();
         }
+
         private _addClassName(className, binding) {
+            // if element exists, we'll add the class to our existing class Array
             if (this.cssClass.has(className)) {
                 const rowClasses = this.cssClass.get(className);
                 if (rowClasses.indexOf(binding) === -1) {
                     this.cssClass.set(className, [...rowClasses, binding]);
                 }
-            } else {
+            }
+            // otherwise, we'll create the element with an array containing the column binding
+            else {
                 this.cssClass.set(className, [binding]);
             }
         }
@@ -32,6 +36,8 @@ namespace WijmoProvider.Feature {
         private _removeClassName(className, binding) {
             if (this.cssClass.has(className)) {
                 const rowClass = this.cssClass.get(className);
+                // if rowClass array is empty or binding is empty, we want to delete the item from our Map
+                // an empty binding means that the class was added through our Styling APIs.
                 if (rowClass.length === 0 || binding === '') {
                     this.cssClass.delete(className);
                 } else {
