@@ -296,7 +296,7 @@ namespace WijmoProvider.Feature {
         public addClass(
             rowNumber: number,
             className: string,
-            refresh = false,
+            refresh: boolean,
             binding: string
         ): void {
             this.getMetadata(rowNumber).addClass(className, binding);
