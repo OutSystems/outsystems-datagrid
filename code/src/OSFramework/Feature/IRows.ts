@@ -21,7 +21,7 @@ namespace OSFramework.Feature {
          * Clears all the metadata associated to the cssClasses from the row
          */
         clear(): void;
-        getMetadata(rowNumber: number): any;
+        getMetadata(rowNumber: number): Feature.Auxiliar.RowStyleInfo;
         /**
          * Get data from a specific row.
          */

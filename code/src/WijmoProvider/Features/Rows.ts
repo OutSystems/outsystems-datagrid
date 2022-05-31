@@ -1,79 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    class CssClassInfo {
-        /**
-         * Contains all CSS classes from a specific row.
-         */
-        public cssClass: Map<string, Array<string>>;
-
-        constructor() {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            this.cssClass = new Map();
-        }
-
-        private _addClassName(className, binding) {
-            // if element exists, we'll add the class to our existing class Array
-            if (this.cssClass.has(className)) {
-                const rowClasses = this.cssClass.get(className);
-                if (rowClasses.indexOf(binding) === -1) {
-                    this.cssClass.set(className, [...rowClasses, binding]);
-                }
-            }
-            // otherwise, we'll create the element with an array containing the column binding
-            else {
-                this.cssClass.set(className, [binding]);
-            }
-        }
-
-        private _handleClassNames(className, binding, cb) {
-            const classNames = className.split(' ');
-
-            classNames.forEach((name) => {
-                cb(name, binding);
-            });
-        }
-
-        private _removeClassName(className, binding) {
-            if (this.cssClass.has(className)) {
-                const rowClass = this.cssClass.get(className);
-                // if rowClass array is empty or binding is empty, we want to delete the item from our Map
-                // an empty binding means that the class was added through our Styling APIs.
-                if (rowClass.length === 0 || binding === '') {
-                    this.cssClass.delete(className);
-                } else {
-                    if (rowClass.indexOf(binding) > -1) {
-                        rowClass.splice(rowClass.indexOf(binding), 1);
-                    }
-                }
-            }
-        }
-
-        /** Add class to the cssClass array */
-        public addClass(className: string, binding): void {
-            this._handleClassNames(
-                className,
-                binding,
-                this._addClassName.bind(this)
-            );
-        }
-
-        /** Remove all classes from the cssClass array */
-        public removeAllClasses(): void {
-            Array.from(this.cssClass.keys()).forEach((key) =>
-                this.cssClass.delete(key)
-            );
-        }
-
-        /** Remove a single class from the cssClass array */
-        public removeClass(className: string, binding: string): void {
-            this._handleClassNames(
-                className,
-                binding,
-                this._removeClassName.bind(this)
-            );
-        }
-    }
-
     export class GridInsertRowAction extends wijmo.undo.UndoableAction {
         private _grid: Grid.IGridWijmo;
 
@@ -408,18 +334,20 @@ namespace WijmoProvider.Feature {
          * @param rowNumber Number of the row to check if there is any metadata associated to the cssClasses.
          * @returns CssClass of the row specified.
          */
-        public getMetadata(rowNumber: number): CssClassInfo {
+        public getMetadata(
+            rowNumber: number
+        ): OSFramework.Feature.Auxiliar.RowStyleInfo {
             if (!this.hasMetadata(rowNumber))
                 this._metadata.setMetadataByRowNumber(
                     rowNumber,
                     this._internalLabel,
-                    new CssClassInfo()
+                    new OSFramework.Feature.Auxiliar.RowStyleInfo()
                 );
 
             return this._metadata.getMetadataByRowNumber(
                 rowNumber,
                 this._internalLabel
-            ) as CssClassInfo;
+            ) as OSFramework.Feature.Auxiliar.RowStyleInfo;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
