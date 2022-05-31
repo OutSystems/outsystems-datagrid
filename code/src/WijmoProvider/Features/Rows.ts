@@ -4,36 +4,67 @@ namespace WijmoProvider.Feature {
         /**
          * Contains all CSS classes from a specific row.
          */
-        public cssClass: Array<string>;
+        public cssClass: Map<string, Array<string>>;
 
         constructor() {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            this.cssClass = new Array<string>();
+            this.cssClass = new Map();
         }
-
-        /** Add class to the cssClass array */
-        public addClass(cssClass: string): void {
-            // If the className is not on the array of classes from the row, than push it to the array.
-            if (this.hasCssClass(cssClass) === false) {
-                this.cssClass.push(cssClass);
+        private _addClassName(className, binding) {
+            if (this.cssClass.has(className)) {
+                const rowClasses = this.cssClass.get(className);
+                if (rowClasses.indexOf(binding) === -1) {
+                    this.cssClass.set(className, [...rowClasses, binding]);
+                }
+            } else {
+                this.cssClass.set(className, [binding]);
             }
         }
 
-        /** Checks if class exists in the cssClass array */
-        public hasCssClass(cssClass: string): boolean {
-            return this.cssClass.indexOf(cssClass) !== -1;
+        private _handleClassNames(className, binding, cb) {
+            const classNames = className.split(' ');
+
+            classNames.forEach((name) => {
+                cb(name, binding);
+            });
+        }
+
+        private _removeClassName(className, binding) {
+            if (this.cssClass.has(className)) {
+                const rowClass = this.cssClass.get(className);
+                if (rowClass.length === 0 || binding === '') {
+                    this.cssClass.delete(className);
+                } else {
+                    if (rowClass.indexOf(binding) > -1) {
+                        rowClass.splice(rowClass.indexOf(binding), 1);
+                    }
+                }
+            }
+        }
+
+        /** Add class to the cssClass array */
+        public addClass(className: string, binding): void {
+            this._handleClassNames(
+                className,
+                binding,
+                this._addClassName.bind(this)
+            );
         }
 
         /** Remove all classes from the cssClass array */
         public removeAllClasses(): void {
-            this.cssClass = [];
+            Array.from(this.cssClass.keys()).forEach((key) =>
+                this.cssClass.delete(key)
+            );
         }
 
         /** Remove a single class from the cssClass array */
-        public removeClass(cssClass: string): void {
-            if (this.hasCssClass(cssClass)) {
-                this.cssClass.splice(this.cssClass.indexOf(cssClass), 1);
-            }
+        public removeClass(className: string, binding: string): void {
+            this._handleClassNames(
+                className,
+                binding,
+                this._removeClassName.bind(this)
+            );
         }
     }
 
@@ -225,12 +256,13 @@ namespace WijmoProvider.Feature {
         ) {
             if (
                 e.panel.cellType === wijmo.grid.CellType.Cell &&
-                this.getMetadata(e.row).cssClass.length > 0
+                this.getMetadata(e.row).cssClass.size > 0
             ) {
-                wijmo.addClass(
-                    e.cell,
-                    this.getMetadata(e.row).cssClass.join(' ')
-                );
+                for (const cssClass of this.getMetadata(
+                    e.row
+                ).cssClass.keys()) {
+                    wijmo.addClass(e.cell, cssClass);
+                }
             }
         }
 
@@ -264,9 +296,10 @@ namespace WijmoProvider.Feature {
         public addClass(
             rowNumber: number,
             className: string,
-            refresh = false
+            refresh = false,
+            binding: string
         ): void {
-            this.getMetadata(rowNumber).addClass(className);
+            this.getMetadata(rowNumber).addClass(className, binding);
             if (refresh) {
                 this._grid.provider.invalidate(); //Mark to be refreshed
             }
@@ -432,13 +465,14 @@ namespace WijmoProvider.Feature {
         public removeClass(
             rowNumber: number,
             className: string,
-            refresh = false
+            refresh = false,
+            binding = ''
         ): void {
             const row = this.getMetadata(rowNumber);
             if (!row) {
                 throw new Error(OSFramework.Enum.ErrorMessages.Row_NotFound);
             }
-            row.removeClass(className);
+            row.removeClass(className, binding);
             if (refresh) {
                 this._grid.provider.invalidate(); //Mark to be refreshed
             }

@@ -170,43 +170,50 @@ namespace WijmoProvider.Feature {
             e: any,
             columnType: OSFramework.Enum.ColumnType
         ) {
-            this.conditions.some((p) => {
-                const isTrue = p.evaluate(cellValue, columnType);
-                const binding = grid.provider.getColumn(e.col).binding;
-
-                if (isTrue) {
-                    p.rowClass
-                        ? grid.features.rows.addClass(e.row, p.rowClass)
-                        : null;
-                    p.cellClass
-                        ? grid.features.cellStyle.addClass(
-                              binding,
-                              e.row,
-                              p.cellClass
-                          )
-                        : null;
-                } else {
-                    p.rowClass
-                        ? grid.features.rows.removeClass(e.row, p.rowClass)
-                        : null;
-                    p.cellClass
-                        ? grid.features.cellStyle.removeClass(
-                              e.row,
-                              binding,
-                              p.cellClass
-                          )
-                        : null;
-                }
-
-                if (p.cellClass) {
-                    const classes = grid.features.cellStyle
-                        .getMetadata(e.row)
-                        .getCssClassesByBinding(binding);
-                    return isTrue && classes?.length === 0;
-                }
-
-                return isTrue;
-            });
+            this.conditions
+                .map((condition) => {
+                    return {
+                        isTrue: condition.evaluate(cellValue, columnType),
+                        ...condition
+                    };
+                })
+                .sort((a, b) => +a.isTrue - +b.isTrue) // sort conditions by true/false
+                .forEach((condition) => {
+                    const binding = grid.provider.getColumn(e.col).binding;
+                    if (condition.isTrue) {
+                        condition.rowClass
+                            ? grid.features.rows.addClass(
+                                  e.row,
+                                  condition.rowClass,
+                                  false,
+                                  binding
+                              )
+                            : null;
+                        condition.cellClass
+                            ? grid.features.cellStyle.addClass(
+                                  binding,
+                                  e.row,
+                                  condition.cellClass
+                              )
+                            : null;
+                    } else {
+                        condition.rowClass
+                            ? grid.features.rows.removeClass(
+                                  e.row,
+                                  condition.rowClass,
+                                  false,
+                                  binding
+                              )
+                            : null;
+                        condition.cellClass
+                            ? grid.features.cellStyle.removeClass(
+                                  e.row,
+                                  binding,
+                                  condition.cellClass
+                              )
+                            : null;
+                    }
+                });
         }
     }
 
