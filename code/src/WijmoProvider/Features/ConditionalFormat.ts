@@ -156,53 +156,110 @@ namespace WijmoProvider.Feature {
     }
 
     class ConditionExecuter {
+        private _grid: Grid.IGridWijmo;
         public conditions: Array<ConditionAnd>;
 
-        constructor(conditions: Array<ConditionAnd>) {
+        constructor(conditions: Array<ConditionAnd>, grid: Grid.IGridWijmo) {
             this.conditions = conditions;
+            this._grid = grid;
+        }
+
+        /**
+         * Adds or removes a cell class based on the condition. If the condition is true, we'll add the class, if it's false we'll remove it.
+         * @param columnBinding
+         * @param cellClass
+         * @param rowNumber
+         * @param shouldAdd
+         */
+        private _addOrRemoveCellClass(
+            columnBinding: string,
+            cellClass: string,
+            rowNumber: number,
+            shouldAdd: boolean
+        ) {
+            if (cellClass) {
+                if (shouldAdd) {
+                    this._grid.features.cellStyle.addClass(
+                        columnBinding,
+                        rowNumber,
+                        cellClass
+                    );
+                } else {
+                    this._grid.features.cellStyle.removeClass(
+                        rowNumber,
+                        columnBinding,
+                        cellClass
+                    );
+                }
+            }
+        }
+
+        /**
+         * Adds or removes a row class based on the condition. If the condition is true, we'll add the class, if it's false we'll remove it.
+         * @param columnBinding
+         * @param rowClass
+         * @param rowNumber
+         * @param shouldAdd
+         */
+        private _addOrRemoveRowClass(
+            columnBinding: string,
+            rowClass: string,
+            rowNumber: number,
+            shouldAdd: boolean
+        ) {
+            if (rowClass) {
+                if (shouldAdd) {
+                    this._grid.features.rows.addClass(
+                        rowNumber,
+                        rowClass,
+                        false,
+                        columnBinding
+                    );
+                } else {
+                    this._grid.features.rows.removeClass(
+                        rowNumber,
+                        rowClass,
+                        false,
+                        columnBinding
+                    );
+                }
+            }
         }
 
         public execute(
-            grid: Grid.IGridWijmo,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             cellValue: any,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             e: any,
             columnType: OSFramework.Enum.ColumnType
         ) {
-            this.conditions.some((p) => {
-                const isTrue = p.evaluate(cellValue, columnType);
-                const binding = grid.provider.getColumn(e.col).binding;
+            this.conditions
+                .map((condition) => {
+                    return {
+                        isTrue: condition.evaluate(cellValue, columnType), // add new property telling whether condition is true or false
+                        ...condition
+                    };
+                })
+                .sort((a, b) => +a.isTrue - +b.isTrue) // sort conditions by true/false
+                .forEach((condition) => {
+                    const binding = this._grid.provider.getColumn(
+                        e.col
+                    ).binding;
 
-                if (isTrue) {
-                    if (p.rowClass) {
-                        grid.features.rows.addClass(e.row, p.rowClass);
-                    }
-                    if (p.cellClass) {
-                        grid.features.cellStyle.addClass(
-                            binding,
-                            e.row,
-                            p.cellClass
-                        );
-                    }
-                } else {
-                    if (p.rowClass) {
-                        grid.features.rows.removeClass(e.row, p.rowClass);
-                    }
-                    if (p.cellClass) {
-                        grid.features.cellStyle.removeClass(
-                            e.row,
-                            binding,
-                            p.cellClass
-                        );
-                    }
-                }
-                const classes = grid.features.cellStyle
-                    .getMetadata(e.row)
-                    .getCssClassesByBinding(binding);
+                    this._addOrRemoveRowClass(
+                        binding,
+                        condition.rowClass,
+                        e.row,
+                        condition.isTrue
+                    );
 
-                return isTrue && classes?.length === 0;
-            });
+                    this._addOrRemoveCellClass(
+                        binding,
+                        condition.cellClass,
+                        e.row,
+                        condition.isTrue
+                    );
+                });
         }
     }
 
@@ -234,7 +291,7 @@ namespace WijmoProvider.Feature {
                 );
                 conditionExecuters.push(conditionAnds);
             });
-            return new ConditionExecuter(conditionExecuters);
+            return new ConditionExecuter(conditionExecuters, this._grid);
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
@@ -260,7 +317,6 @@ namespace WijmoProvider.Feature {
                     );
 
                     this._mappedRules.get(column.config.binding).execute(
-                        this._grid,
                         value,
                         {
                             row: index,
