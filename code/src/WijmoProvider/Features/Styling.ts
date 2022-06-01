@@ -112,11 +112,18 @@ namespace WijmoProvider.Feature {
             }
         }
 
-        public setColumnWordWrap(columnID: string, value: boolean): void {
+        public setColumnWordWrap(
+            columnID: string,
+            value: boolean,
+            dynamicHeight: boolean
+        ): void {
             // validate if column exists
             const column = this._grid.getColumn(columnID);
             if (column) {
                 column.provider.wordWrap = value;
+                if (dynamicHeight) {
+                    this._grid.provider.autoSizeRows();
+                }
             } else {
                 throw new Error(
                     OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
