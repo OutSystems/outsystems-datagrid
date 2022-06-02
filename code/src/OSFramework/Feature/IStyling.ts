@@ -23,6 +23,10 @@ namespace OSFramework.Feature {
          * Set Column word wrap to true
          * @param {string} columnID
          */
-        setColumnWordWrap(columnID: string, value: boolean): void;
+        setColumnWordWrap(
+            columnID: string,
+            value: boolean,
+            dynamicHeight: boolean
+        ): void;
     }
 }

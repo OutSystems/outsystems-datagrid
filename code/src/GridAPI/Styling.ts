@@ -237,7 +237,8 @@ namespace GridAPI.Styling {
     export function SetColumnWordWrap(
         gridID: string,
         columnID: string,
-        wordWrapValue: boolean
+        wordWrapValue: boolean,
+        dynamicHeight: boolean
     ): string {
         PerformanceAPI.SetMark('ColumnManager.SetColumnWordWrap');
 
@@ -257,7 +258,8 @@ namespace GridAPI.Styling {
         try {
             GridManager.GetGridById(gridID).features.styling.setColumnWordWrap(
                 columnID,
-                wordWrapValue
+                wordWrapValue,
+                dynamicHeight
             );
         } catch (error) {
             responseObj.isSuccess = false;
