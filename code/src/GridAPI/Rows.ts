@@ -58,7 +58,7 @@ namespace GridAPI.Rows {
      * @param {string} gridID ID of the Grid where the change will occur.
      * @returns {*}  {string} Resulting code and message in JSON format
      */
-    export function AddRows(gridID: string): string {
+    export function AddRows(gridID: string, numberOfRows = 1): string {
         PerformanceAPI.SetMark('Rows.AddRows');
         const responseObj = {
             isSuccess: true,
@@ -74,7 +74,9 @@ namespace GridAPI.Rows {
         }
 
         try {
-            GridManager.GetGridById(gridID).features.rows.addNewRows();
+            GridManager.GetGridById(gridID).features.rows.addNewRows(
+                numberOfRows
+            );
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;

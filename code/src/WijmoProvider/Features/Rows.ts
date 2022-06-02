@@ -220,6 +220,31 @@ namespace WijmoProvider.Feature {
             return topRow === Infinity ? 0 : topRow;
         }
 
+        private _validateAddNewRow(rowsAmount: number): void {
+            if (!this._canAddRows()) {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.AddRowWithActiveFilterOrSort
+                );
+            }
+
+            if (rowsAmount < 1) {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.AddRowLowerThanOne
+                );
+            }
+
+            // on serverSideGrids we don't have control of pageSize,
+            // therefore we only want this validation on client side grids.
+            if (
+                !this._grid.config.serverSidePagination &&
+                rowsAmount > this._grid.features.pagination.pageSize
+            ) {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.AddRowGreaterThanPageSize
+                );
+            }
+        }
+
         /**
          * Add a CSS class to a specific row from the grid.
          * @param rowNumber Number of the row in which the class is going to be added.
@@ -241,12 +266,8 @@ namespace WijmoProvider.Feature {
          * Add a new row to the grid with all cells empty.
          * @returns ReturnMessage containing the resulting code from the adding rows and the error message in case of failure.
          */
-        public addNewRows(): void {
-            if (!this._canAddRows()) {
-                throw new Error(
-                    OSFramework.Enum.ErrorMessages.AddRowWithActiveFilterOrSort
-                );
-            }
+        public addNewRows(rowsAmount: number): void {
+            this._validateAddNewRow(rowsAmount);
 
             const providerGrid = this._grid.provider;
             const topRowIndex = this._getTopRow();
@@ -255,10 +276,13 @@ namespace WijmoProvider.Feature {
                 topRowIndex + this._grid.features.pagination.rowStart - 1;
             // we don't want negative indices.
             dsTopRowIndex = dsTopRowIndex > 0 ? dsTopRowIndex : 0;
-            // Consider the quantity 1 if there is no selection.
+            // Consider the quantity of rowsAmount if it has a value greater than 1 if there is no selection.
             const quantity =
-                this._grid.features.selection.getSelectedRowsCountByCellRange() ||
-                1;
+                rowsAmount > 1
+                    ? rowsAmount
+                    : // Consider the quantity 1 if there is no selection.
+                      this._grid.features.selection.getSelectedRowsCountByCellRange() ||
+                      1;
             const expectedRowCount = this._getRowsCount() + quantity;
             //Take the selection off the grid so it is possible to add rows when a cell is in edit mode
             providerGrid.select(-1, -1);

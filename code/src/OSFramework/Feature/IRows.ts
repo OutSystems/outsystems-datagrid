@@ -16,7 +16,7 @@ namespace OSFramework.Feature {
         /**
          * Add new rows to the grid. If there is a selection it will add as many rows as selected. If not, it will add a row at the top.
          */
-        addNewRows(): void;
+        addNewRows(rowsAmount: number): void;
         /**
          * Clears all the metadata associated to the cssClasses from the row
          */
