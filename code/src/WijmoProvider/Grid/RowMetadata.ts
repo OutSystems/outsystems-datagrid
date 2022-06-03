@@ -3,7 +3,7 @@ namespace WijmoProvider.Grid {
     export class RowMetadata implements OSFramework.Interface.IRowMetadata {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _configs: any;
-        private readonly _extraData = '__osRowMetadata';
+        private readonly _extraData = OSFramework.Enum.RowMetadata.Key;
         private _grid: wijmo.grid.FlexGrid;
         private _itemsSource: wijmo.collections.CollectionView;
 

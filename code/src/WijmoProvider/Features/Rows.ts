@@ -146,7 +146,7 @@ namespace WijmoProvider.Feature {
         private _grid: Grid.IGridWijmo;
 
         /** This is going to be used as a label for the css classes saved on the metadata of the Row */
-        private readonly _internalLabel = '__rowCssClass';
+        private readonly _internalLabel = OSFramework.Enum.RowMetadata.RowCss;
 
         private _metadata: OSFramework.Interface.IRowMetadata;
 
@@ -196,6 +196,16 @@ namespace WijmoProvider.Feature {
                     wijmo.addClass(e.cell, cssClass);
                 }
             }
+        }
+
+        private _getDataItemFromRow(rowNumber: number) {
+            const row = this._grid.isSingleEntity
+                ? OSFramework.Helper.Flatten(
+                      this._grid.provider.rows[rowNumber]?.dataItem
+                  )
+                : this._grid.provider.rows[rowNumber].dataItem;
+
+            return row;
         }
 
         /**
@@ -376,16 +386,13 @@ namespace WijmoProvider.Feature {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public getRowData(rowNumber: number): any {
-            const row = this._grid.isSingleEntity
-                ? OSFramework.Helper.Flatten(
-                      this._grid.provider.rows[rowNumber]?.dataItem
-                  )
-                : this._grid.provider.rows[rowNumber].dataItem;
+            const row = this._getDataItemFromRow(rowNumber);
 
             if (!row) {
                 throw new Error(OSFramework.Enum.ErrorMessages.Row_NotFound);
             }
-            return row;
+            const result = _.omit(row, OSFramework.Enum.RowMetadata.Key); // we must remove our metadata from returned object
+            return result;
         }
 
         /**

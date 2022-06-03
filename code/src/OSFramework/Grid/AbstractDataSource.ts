@@ -251,7 +251,7 @@ namespace OSFramework.Grid {
             }
             let parsedNewItem =
                 _.cloneDeep(this._metadata) ||
-                _.cloneDeep(_.omit(this._ds[0], '__osRowMetadata'));
+                _.cloneDeep(_.omit(this._ds[0], Enum.RowMetadata.Key));
 
             parsedNewItem = Object.keys(parsedNewItem).length
                 ? parsedNewItem
