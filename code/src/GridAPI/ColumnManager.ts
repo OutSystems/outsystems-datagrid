@@ -310,4 +310,53 @@ namespace GridAPI.ColumnManager {
 
         return JSON.stringify(responseObj);
     }
+
+    /**
+     *  Changes column header
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} columnID
+     * @param {string} header
+     * @return {*}  {string}
+     */
+    export function SetColumnHeader(
+        gridID: string,
+        columnID: string,
+        header: string
+    ): string {
+        PerformanceAPI.SetMark('ColumnManager.SetColumnHeader');
+
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            const grid = GridManager.GetGridById(gridID);
+            grid.features.column.setColumnHeader(columnID, header);
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedSetColumnHeader;
+        }
+
+        PerformanceAPI.SetMark('ColumnManager.SetColumnHeader-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.SetColumnHeader',
+            'ColumnManager.SetColumnHeader',
+            'ColumnManager.SetColumnHeader-end'
+        );
+
+        return JSON.stringify(responseObj);
+    }
 }

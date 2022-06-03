@@ -75,6 +75,10 @@ namespace WijmoProvider.Feature {
             return this;
         }
 
+        private _makeColumn(): FeatureBuilder {
+            this._features.column = this._makeItem(Column);
+            return this;
+        }
         private _makeColumnAggregate(enable: boolean): FeatureBuilder {
             this._features.columnAggregate = this._makeItem(
                 ColumnAggregate,
@@ -240,7 +244,8 @@ namespace WijmoProvider.Feature {
                 ._makeRowHeader(config.rowHeader)
                 ._makeColumnPicker()
                 ._makeColumnAggregate(config.showAggregateValues)
-                ._makeColumnMergeCells();
+                ._makeColumnMergeCells()
+                ._makeColumn();
 
             super.build();
         }
