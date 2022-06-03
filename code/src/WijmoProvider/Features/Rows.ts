@@ -199,13 +199,11 @@ namespace WijmoProvider.Feature {
         }
 
         private _getDataItemFromRow(rowNumber: number) {
-            const row = this._grid.isSingleEntity
+            return this._grid.isSingleEntity
                 ? OSFramework.Helper.Flatten(
                       this._grid.provider.rows[rowNumber]?.dataItem
                   )
                 : this._grid.provider.rows[rowNumber].dataItem;
-
-            return row;
         }
 
         /**
@@ -391,8 +389,8 @@ namespace WijmoProvider.Feature {
             if (!row) {
                 throw new Error(OSFramework.Enum.ErrorMessages.Row_NotFound);
             }
-            const result = _.omit(row, OSFramework.Enum.RowMetadata.Key); // we must remove our metadata from returned object
-            return result;
+
+            return _.omit(row, OSFramework.Enum.RowMetadata.Key); // we must remove our metadata from returned object;
         }
 
         /**
