@@ -122,6 +122,7 @@ namespace WijmoProvider.Feature {
             if (column) {
                 column.provider.wordWrap = value;
                 if (dynamicHeight) {
+                    this._grid.provider.autoRowHeights = dynamicHeight;
                     this._grid.provider.autoSizeRows();
                 }
             } else {
