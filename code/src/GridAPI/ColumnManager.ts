@@ -347,7 +347,7 @@ namespace GridAPI.ColumnManager {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
             responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedAllowCellMerging;
+                OSFramework.Enum.ErrorCodes.API_FailedSetColumnHeader;
         }
 
         PerformanceAPI.SetMark('ColumnManager.SetColumnHeader-end');
