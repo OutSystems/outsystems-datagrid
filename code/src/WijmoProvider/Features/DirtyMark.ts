@@ -6,9 +6,9 @@ namespace WijmoProvider.Feature {
             OSFramework.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
-        private readonly _internalLabel = '__dirtyMarkFeature';
+        private readonly _internalLabel =
+            OSFramework.Enum.RowMetadata.DirtyMark;
         private _metadata: OSFramework.Interface.IRowMetadata;
-        private readonly _validationLabel = '__validationMarkFeature';
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;

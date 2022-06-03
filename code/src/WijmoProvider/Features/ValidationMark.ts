@@ -7,7 +7,8 @@ namespace WijmoProvider.Feature {
     {
         private _grid: Grid.IGridWijmo;
         /** Internal label for the validation marks */
-        private readonly _internalLabel = '__validationMarkFeature';
+        private readonly _internalLabel =
+            OSFramework.Enum.RowMetadata.Validation;
         /** Array containing all invalid rows */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _invalidRows: Array<any>;

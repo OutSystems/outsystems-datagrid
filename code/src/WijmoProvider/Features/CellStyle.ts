@@ -6,7 +6,8 @@ namespace WijmoProvider.Feature {
             OSFramework.Feature.ICellStyle
     {
         private _grid: Grid.IGridWijmo;
-        private readonly _internalLabel = '__cellStyle';
+        private readonly _internalLabel =
+            OSFramework.Enum.RowMetadata.CellStyle;
         private _metadata: OSFramework.Interface.IRowMetadata;
 
         constructor(grid: Grid.IGridWijmo) {
