@@ -81,14 +81,14 @@ namespace WijmoProvider.Feature {
             this.setState(this._allowColumnDragging);
 
             // keep track of group being dragged
-            this._grid.provider.draggingColumn.addHandler((s, e) => {
+            this._grid.provider.draggingColumn.addHandler((_s, e) => {
                 this._draggedColumn = e.getColumn(
                     true
                 ) as wijmo.grid.ColumnGroup;
             });
 
             // We want to limit dragging to columns within groups
-            this._grid.provider.draggingColumnOver.addHandler((s, e) => {
+            this._grid.provider.draggingColumnOver.addHandler((_s, e) => {
                 const col = e.getColumn(true) as wijmo.grid.ColumnGroup;
                 e.cancel = col.parentGroup !== this._draggedColumn.parentGroup; // check if column belongs to its own group
             });
