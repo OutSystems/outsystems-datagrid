@@ -40,7 +40,7 @@ namespace OSFramework.Helper {
     /**
      * Responsible for parsing Maps on JSON.parse
      */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line
     export function JsonReviver(_: string, value: any): any {
         if (typeof value === 'object' && value !== null) {
             if (value.dataType === 'Map') {

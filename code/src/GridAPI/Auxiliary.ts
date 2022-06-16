@@ -4,6 +4,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace GridAPI.Auxiliary {
     type APIHandler = {
+        // eslint-disable-next-line
         callback: any;
         errorCode: OSFramework.Enum.ErrorCodes;
         gridID: string;
@@ -14,6 +15,7 @@ namespace GridAPI.Auxiliary {
         code: OSFramework.Enum.ErrorCodes;
         isSuccess: boolean;
         message: OSFramework.Enum.ErrorMessages;
+        // eslint-disable-next-line
         value?: any;
     };
 

@@ -106,7 +106,7 @@ namespace WijmoProvider.Feature {
             this._setAllowDragging();
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line
         public setViewLayout(state: any): void {
             if (state.rows) {
                 this._grid.provider.collectionView.sourceCollection =
