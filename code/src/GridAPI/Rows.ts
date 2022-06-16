@@ -452,4 +452,37 @@ namespace GridAPI.Rows {
 
         return JSON.stringify(responseObj);
     }
+
+    /**
+     * Function that toggle row dragging.
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {boolean} allowRowDragging Allow the rows to be dragged.
+     */
+    export function ToggleRowDragging(
+        gridID: string,
+        allowRowDragging: boolean
+    ): string {
+        PerformanceAPI.SetMark('Rows.ToggleRowDragging');
+
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedToggleRowDragging,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.gridReorder.toggleRowDragging(allowRowDragging);
+            }
+        });
+
+        PerformanceAPI.SetMark('Rows.ToggleRowDragging-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Rows.ToggleRowDragging',
+            'Rows.ToggleRowDragging',
+            'Rows.ToggleRowDragging-end'
+        );
+
+        return result;
+    }
 }

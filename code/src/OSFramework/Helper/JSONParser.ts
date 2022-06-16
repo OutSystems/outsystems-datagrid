@@ -21,4 +21,32 @@ namespace OSFramework.Helper {
             .toISOString()
             .substr(0, 10);
     }
+
+    /**
+     * Responsible for stringifying Maps on JSON.stringify
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    export function JsonReplacer(_: string, value: unknown): any {
+        if (value instanceof Map) {
+            return {
+                dataType: 'Map',
+                value: Array.from(value.entries())
+            };
+        } else {
+            return value;
+        }
+    }
+
+    /**
+     * Responsible for parsing Maps on JSON.parse
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    export function JsonReviver(_: string, value: any): any {
+        if (typeof value === 'object' && value !== null) {
+            if (value.dataType === 'Map') {
+                return new Map(value.value);
+            }
+        }
+        return value;
+    }
 }
