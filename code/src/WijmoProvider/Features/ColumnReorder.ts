@@ -29,6 +29,23 @@ namespace WijmoProvider.Feature {
                 const col = e.getColumn(true) as wijmo.grid.ColumnGroup;
                 e.cancel = col.parentGroup !== this._draggedColumn.parentGroup; // check if column belongs to its own group
             });
+
+            this._grid.provider.draggedColumn.addHandler((s, e) => {
+                const col = e.getColumn(true);
+                const column = this._grid.getColumn(col.binding);
+                if (
+                    column.hasEvents &&
+                    column.columnEvents.events.has(
+                        OSFramework.Event.Column.ColumnEventType.OnColumnReorder
+                    )
+                ) {
+                    column.columnEvents.trigger(
+                        OSFramework.Event.Column.ColumnEventType
+                            .OnColumnReorder,
+                        null
+                    );
+                }
+            });
         }
 
         public setState(value: boolean): void {
