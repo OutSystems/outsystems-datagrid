@@ -130,7 +130,8 @@ namespace WijmoProvider.Feature {
                     sortDescriptions: this._grid.features.sort.getViewLayout(),
                     groupColumns: this._getGroupDefinition(
                         this._grid.provider.columnGroups
-                    )
+                    ),
+                    rows: this._grid.features.gridReorder.getViewLayout()
                 };
 
                 return {
@@ -173,6 +174,7 @@ namespace WijmoProvider.Feature {
                         this._grid.provider.columnGroups,
                         config.groupColumns
                     );
+                    this._grid.features.gridReorder.setViewLayout(config);
                 });
 
                 return {

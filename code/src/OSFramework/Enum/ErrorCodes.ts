@@ -24,6 +24,7 @@ namespace OSFramework.Enum {
         API_FailedGetRowNumberByKey = 'GRID-API-02007',
         API_FailedUpdateAddedRowKey = 'GRID-API-02008',
         API_FailedUpdateStartingRowHeader = 'GRID-API-02009',
+        API_FailedToggleRowDragging = 'GRID-API-02010',
         // VIEW
         API_FailedGetViewLayout = 'GRID-API-03001',
         API_FailedSetViewLayout = 'GRID-API-03002',
