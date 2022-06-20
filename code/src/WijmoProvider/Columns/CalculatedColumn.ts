@@ -24,7 +24,7 @@ namespace WijmoProvider.Column {
             // eg.: $Average_423432413123
             this.config.binding =
                 '$' +
-                this.config.header.replace(/[^a-zA-Z]+/g, '') +
+                this.config.header.replace(/[^a-zA-Z_0-9-]/g, '') +
                 '_' +
                 extraConfig.formula.function;
         }

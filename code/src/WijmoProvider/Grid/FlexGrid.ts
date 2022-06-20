@@ -165,7 +165,7 @@ namespace WijmoProvider.Grid {
                 case OSFramework.Enum.OS_Config_Grid.rowHeight:
                     return this.features.styling.changeRowHeight(value);
                 case OSFramework.Enum.OS_Config_Grid.allowColumnReorder:
-                    return this.features.columnReorder.setState(value);
+                    return this.features.gridReorder.setState(value);
                 case OSFramework.Enum.OS_Config_Grid.allowColumnResize:
                     return this.features.columnResize.setState(value);
                 case OSFramework.Enum.OS_Config_Grid.allowKeyTabNavigation:
