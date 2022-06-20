@@ -16,6 +16,18 @@ namespace WijmoProvider.Feature {
             this._allowColumnDragging = enabled;
         }
 
+        private _addColumnDragEvents(): void {
+            this._grid.provider.draggingColumn.addHandler(
+                this._draggingColumnHandler.bind(this)
+            );
+            this._grid.provider.draggingColumnOver.addHandler(
+                this._draggingColumnOverHandler.bind(this)
+            );
+            this._grid.provider.draggedColumn.addHandler(
+                this._draggedColumnHandler.bind(this)
+            );
+        }
+
         private _addRowDragEvents(): void {
             this._grid.provider.draggingRow.addHandler(
                 this._draggingRowHandler.bind(this)
@@ -23,6 +35,25 @@ namespace WijmoProvider.Feature {
             this._grid.provider.draggedRow.addHandler(
                 this._draggedRowHandler.bind(this)
             );
+        }
+
+        private _draggedColumnHandler(
+            _s: wijmo.grid.FlexGrid,
+            e: wijmo.grid.CellRangeEventArgs
+        ) {
+            const col = e.getColumn(true);
+            const column = this._grid.getColumn(col.binding);
+            if (
+                column.hasEvents &&
+                column.columnEvents.events.has(
+                    OSFramework.Event.Column.ColumnEventType.OnColumnReorder
+                )
+            ) {
+                column.columnEvents.trigger(
+                    OSFramework.Event.Column.ColumnEventType.OnColumnReorder,
+                    null
+                );
+            }
         }
 
         private _draggedRowHandler(
@@ -38,6 +69,17 @@ namespace WijmoProvider.Feature {
                 arr.splice(dropIndex, 0, item);
                 s.collectionView.moveCurrentToPosition(dropIndex);
             });
+        }
+
+        private _draggingColumnHandler(_s, e) {
+            // keep track of group being dragged
+            this._draggedColumn = e.getColumn(true) as wijmo.grid.ColumnGroup;
+        }
+
+        private _draggingColumnOverHandler(_s, e) {
+            // We want to limit dragging to columns within groups
+            const col = e.getColumn(true) as wijmo.grid.ColumnGroup;
+            e.cancel = col.parentGroup !== this._draggedColumn.parentGroup; // check if column belongs to its own group
         }
 
         private _draggingRowHandler(
@@ -80,18 +122,7 @@ namespace WijmoProvider.Feature {
         public build(): void {
             this.setState(this._allowColumnDragging);
 
-            // keep track of group being dragged
-            this._grid.provider.draggingColumn.addHandler((_s, e) => {
-                this._draggedColumn = e.getColumn(
-                    true
-                ) as wijmo.grid.ColumnGroup;
-            });
-
-            // We want to limit dragging to columns within groups
-            this._grid.provider.draggingColumnOver.addHandler((_s, e) => {
-                const col = e.getColumn(true) as wijmo.grid.ColumnGroup;
-                e.cancel = col.parentGroup !== this._draggedColumn.parentGroup; // check if column belongs to its own group
-            });
+            this._addColumnDragEvents();
         }
 
         public getViewLayout(): string {

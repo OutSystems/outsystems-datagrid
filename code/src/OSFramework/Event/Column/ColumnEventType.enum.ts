@@ -8,6 +8,7 @@ namespace OSFramework.Event.Column {
      */
     export enum ColumnEventType {
         ActionClick = 'ActionClick',
-        OnCellValueChange = 'OnCellValueChange'
+        OnCellValueChange = 'OnCellValueChange',
+        OnColumnReorder = 'OnColumnReorder'
     }
 }
