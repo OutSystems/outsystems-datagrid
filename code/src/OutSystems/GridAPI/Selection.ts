@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace GridAPI.Selection {
+namespace OutSystems.GridAPI.Selection {
     export function GetAllSelections(gridID: string): string {
         PerformanceAPI.SetMark('Selection.GetAllSelections');
 
@@ -88,5 +87,50 @@ namespace GridAPI.Selection {
             'Selection.HasSelectedRows-end'
         );
         return JSON.stringify(grid.features.selection.hasSelectedRows());
+    }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+namespace GridAPI.Selection {
+    export function GetAllSelections(gridID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetAllSelections()'`
+        );
+        return OutSystems.GridAPI.Selection.GetAllSelections(gridID);
+    }
+
+    export function GetAllSelectionsData(gridID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetAllSelectionsData()'`
+        );
+        return OutSystems.GridAPI.Selection.GetAllSelectionsData(gridID);
+    }
+
+    export function GetCheckedRowsData(gridID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetCheckedRowsData()'`
+        );
+        return OutSystems.GridAPI.Selection.GetCheckedRowsData(gridID);
+    }
+
+    export function GetSelectedRowsCount(gridID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetSelectedRowsCount()'`
+        );
+        return OutSystems.GridAPI.Selection.GetSelectedRowsCount(gridID);
+    }
+
+    export function GetSelectedRowsData(gridID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetSelectedRowsData()'`
+        );
+        return OutSystems.GridAPI.Selection.GetSelectedRowsData(gridID);
+    }
+
+    export function HasSelectedRows(gridID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.HasSelectedRows()'`
+        );
+        return OutSystems.GridAPI.Selection.HasSelectedRows(gridID);
     }
 }

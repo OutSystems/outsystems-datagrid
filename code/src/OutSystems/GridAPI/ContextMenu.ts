@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace GridAPI.ContextMenu {
+namespace OutSystems.GridAPI.ContextMenu {
     /**
      * Map a MenuItem.UniqueId to its Grid.UniqueId
      * Help us to know where to add/remove items
@@ -169,5 +168,81 @@ namespace GridAPI.ContextMenu {
             'ContextMenu.removeItem',
             'ContextMenu.removeItem-end'
         );
+    }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+namespace GridAPI.ContextMenu {
+    /**
+     * Returns the GridId based on the menuItemId
+     * @param menuItemId UniqueId of our MenuItem
+     * @param lookUpDOM Search in DOM by the parent Grid
+     */
+    export function GetGridByMenuId(
+        menuItemId: string,
+        lookUpDOM = true
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.GetGridByMenuId()'`
+        );
+        return OutSystems.GridAPI.ContextMenu.GetGridByMenuId(
+            menuItemId,
+            lookUpDOM
+        );
+    }
+
+    /**
+     * Responsible for adding menu items
+     * @param menuItemId UniqueId defined on OS side
+     * @param label Label presented on menu
+     * @param enabled Flag used to enable the menu item
+     * @param clickEvent Function executed by the menu item
+     */
+    export function AddItem(
+        menuItemId: string,
+        label: string,
+        enabled: boolean,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        clickEvent: OSFramework.Callbacks.ContextMenu.OSClickEvent
+    ): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.AddItem()'`
+        );
+        return OutSystems.GridAPI.ContextMenu.AddItem(
+            menuItemId,
+            label,
+            enabled,
+            clickEvent
+        );
+    }
+
+    export function AddSeparator(menuItemId: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.AddSeparator()'`
+        );
+        return OutSystems.GridAPI.ContextMenu.AddSeparator(menuItemId);
+    }
+
+    export function ChangeProperty(
+        menuItemId: string,
+        propertyName: string,
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        propertyValue: any
+    ): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.ChangeProperty()'`
+        );
+        return OutSystems.GridAPI.ContextMenu.ChangeProperty(
+            menuItemId,
+            propertyName,
+            propertyValue
+        );
+    }
+
+    export function RemoveItem(menuItemId: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.RemoveItem()'`
+        );
+        return OutSystems.GridAPI.ContextMenu.RemoveItem(menuItemId);
     }
 }

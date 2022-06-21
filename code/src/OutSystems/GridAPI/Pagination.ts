@@ -1,8 +1,4 @@
-/**
- *
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace GridAPI.Pagination {
+namespace OutSystems.GridAPI.Pagination {
     /**
      *
      *
@@ -430,6 +426,236 @@ namespace GridAPI.Pagination {
                     'Pagination.RegisterRowTotalLabel-end'
                 );
             }
+        );
+    }
+}
+/**
+ *
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+namespace GridAPI.Pagination {
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @param {number} n
+     * @returns {*}  {void}
+     */
+    export function ChangePageSize(gridID: string, n: number): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.ChangePageSize()'`
+        );
+        return OutSystems.GridAPI.Pagination.ChangePageSize(gridID, n);
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} phID
+     * @param {number} buttonQuantity
+     */
+    export function CreatePageButtons(
+        gridID: string,
+        phID: string,
+        buttonQuantity: number
+    ): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.CreatePageButtons()'`
+        );
+        return OutSystems.GridAPI.Pagination.CreatePageButtons(
+            gridID,
+            phID,
+            buttonQuantity
+        );
+    }
+
+    /**
+     * Gets the current page Index of the DataGrid.
+     *
+     * @export
+     * @param {string} gridID Id of the Grid from which to obtain the pagination Index
+     * @return {*}  {string} Stringified JSON structure containing Index of the current page, error message and code, and success boolean
+     */
+    export function GetCurrentPage(gridID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.GetCurrentPage()'`
+        );
+        return OutSystems.GridAPI.Pagination.GetCurrentPage(gridID);
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @returns {*}  {void}
+     */
+    export function MoveToFirstPage(gridID: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToFirstPage()'`
+        );
+        return OutSystems.GridAPI.Pagination.MoveToFirstPage(gridID);
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @returns {*}  {void}
+     */
+    export function MoveToLastPage(gridID: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToLastPage()'`
+        );
+        return OutSystems.GridAPI.Pagination.MoveToLastPage(gridID);
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @returns {*}  {void}
+     */
+    export function MoveToNextPage(gridID: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToNextPage()'`
+        );
+        return OutSystems.GridAPI.Pagination.MoveToNextPage(gridID);
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @param {number} n
+     * @returns {*}  {string} Stringified JSON structure containing error message and code, and success boolean
+     */
+    export function MoveToPage(gridID: string, n: number): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToPage()'`
+        );
+        return OutSystems.GridAPI.Pagination.MoveToPage(gridID, n);
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @returns {*}  {void}
+     */
+    export function MoveToPreviousPage(gridID: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToPreviousPage()'`
+        );
+        return OutSystems.GridAPI.Pagination.MoveToPreviousPage(gridID);
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} phID
+     */
+    export function RegisterCurrentPageLabel(
+        gridID: string,
+        phID: string
+    ): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterCurrentPageLabel()'`
+        );
+        return OutSystems.GridAPI.Pagination.RegisterCurrentPageLabel(
+            gridID,
+            phID
+        );
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} phID
+     */
+    export function RegisterPageCountLabel(gridID: string, phID: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterPageCountLabel()'`
+        );
+        return OutSystems.GridAPI.Pagination.RegisterPageCountLabel(
+            gridID,
+            phID
+        );
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} phID
+     */
+    export function RegisterPageSizeLabel(gridID: string, phID: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterPageSizeLabel()'`
+        );
+        return OutSystems.GridAPI.Pagination.RegisterPageSizeLabel(
+            gridID,
+            phID
+        );
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} phID
+     */
+    export function RegisterRowEndLabel(gridID: string, phID: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterRowEndLabel()'`
+        );
+        return OutSystems.GridAPI.Pagination.RegisterRowEndLabel(gridID, phID);
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} phID
+     */
+    export function RegisterRowStartLabel(gridID: string, phID: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterRowStartLabel()'`
+        );
+        return OutSystems.GridAPI.Pagination.RegisterRowStartLabel(
+            gridID,
+            phID
+        );
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} phID
+     */
+    export function RegisterRowTotalLabel(gridID: string, phID: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterRowTotalLabel()'`
+        );
+        return OutSystems.GridAPI.Pagination.RegisterRowTotalLabel(
+            gridID,
+            phID
         );
     }
 }

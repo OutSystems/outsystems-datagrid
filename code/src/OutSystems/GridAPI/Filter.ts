@@ -1,8 +1,4 @@
-/**
- *
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace GridAPI.Filter {
+namespace OutSystems.GridAPI.Filter {
     /**
      * Function that returns a boolean if the grid has data visible
      *
@@ -354,5 +350,151 @@ namespace GridAPI.Filter {
         );
 
         return JSON.stringify(responseObj);
+    }
+}
+
+/**
+ *
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+namespace GridAPI.Filter {
+    /**
+     * Function that returns a boolean if the grid has data visible
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @returns {*}  {boolean} true if there are visible results.
+     */
+    export function HasResults(gridID: string): boolean {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.HasResults()'`
+        );
+        return OutSystems.GridAPI.Filter.HasResults(gridID);
+    }
+
+    /**
+     * Funtion that perform a Search at a given GridID by a given value
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} searchedValue
+     * @returns {*}  {string} Return Message Success or message of error info if it's the case.
+     */
+    export function Search(gridID: string, searchedValue: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Search()'`
+        );
+        return OutSystems.GridAPI.Filter.Search(gridID, searchedValue);
+    }
+
+    /**
+     * Function that activates filter of a given column
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @param {string} columnID ID of the column that will have filter activated.
+     * @returns {*}  {string} Return Message Success or message of error info if it's the case.
+     */
+    export function Activate(gridID: string, columnID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Activate()'`
+        );
+        return OutSystems.GridAPI.Filter.Activate(gridID, columnID);
+    }
+
+    /**
+     * Function that clears filter of a given column
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @param {string} columnID ID of the column that will have filter cleared.
+     * @returns {*}  {string} Return Message Success or message of error info if it's the case.
+     */
+    export function Clear(gridID: string, columnID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Clear()'`
+        );
+        return OutSystems.GridAPI.Filter.Clear(gridID, columnID);
+    }
+    /**
+     * Function that deactivates filter of a given column
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @param {string} columnID ID of the column that will have filter deactivated.
+     * @returns {*}  {string} Return Message Success or message of error info if it's the case.
+     */
+    export function Deactivate(gridID: string, columnID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Deactivate()'`
+        );
+        return OutSystems.GridAPI.Filter.Deactivate(gridID, columnID);
+    }
+
+    /**
+     * Function that filters a column by condition
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @param {string} columnID ID of the column that will be filtered.
+     * @param {string} values Values on which the column will be filtered by.
+     * @returns {*}  {string} Return Message Success or message of error info if it's the case.
+     */
+    export function ByCondition(
+        gridID: string,
+        columnID: string,
+        values: string
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.ByCondition()'`
+        );
+        return OutSystems.GridAPI.Filter.ByCondition(gridID, columnID, values);
+    }
+
+    /**
+     * Function that filters a column by value
+     *
+     * @export
+     * @param {string} gridID ID of the Grid that is to be to check from results.
+     * @param {string} columnID ID of the column that will be filtered.
+     * @param {string} values Values on which the column will be filtered by.
+     * @returns {*}  {string} Return Message Success or message of error info if it's the case.
+     */
+    export function ByValue(
+        gridID: string,
+        columnID: string,
+        values: string
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.ByValue()'`
+        );
+        return OutSystems.GridAPI.Filter.ByValue(gridID, columnID, values);
+    }
+
+    /**
+     * Function that sets column filter options only used when Grid is on ServerSidePagination Mode!
+     *
+     * @export
+     * @param {string} gridID ID of the Grid block.
+     * @param {string} columnID ID of the column block where the filter options will be set.
+     * @param {string} options  Values that will be used on filter by value list.
+     * @param {number} maxVisibleOptions Maximum number of elements on the filter list of display values.
+     * @returns {*}  {string} Return Message Success or message of error info if it's the case.
+     */
+    export function SetColumnFilterOptions(
+        gridID: string,
+        columnID: string,
+        options: string,
+        maxVisibleOptions?: number
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.SetColumnFilterOptions()'`
+        );
+        return OutSystems.GridAPI.Filter.SetColumnFilterOptions(
+            gridID,
+            columnID,
+            options,
+            maxVisibleOptions
+        );
     }
 }

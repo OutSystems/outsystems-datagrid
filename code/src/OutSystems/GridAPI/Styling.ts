@@ -1,8 +1,4 @@
-/**
- * Namespace responsible for all API methods associated to the styling of cells in the Data Grid.
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace GridAPI.Styling {
+namespace OutSystems.GridAPI.Styling {
     /**
      * Function that will add a specific CSS class to a cell
      *
@@ -276,5 +272,101 @@ namespace GridAPI.Styling {
         );
 
         return JSON.stringify(responseObj);
+    }
+}
+
+/**
+ * Namespace responsible for all API methods associated to the styling of cells in the Data Grid.
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+namespace GridAPI.Styling {
+    /**
+     * Function that will add a specific CSS class to a cell
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} columnID
+     * @param {number} rowIndex
+     * @param {string} className
+     */
+    export function SetCellCssClass(
+        gridID: string,
+        columnID: string,
+        rowIndex: number,
+        className: string
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetCellCssClass()'`
+        );
+        return OutSystems.GridAPI.Styling.SetCellCssClass(
+            gridID,
+            columnID,
+            rowIndex,
+            className
+        );
+    }
+
+    export function SetColumnCssClass(
+        gridID: string,
+        columnID: string,
+        cssClass: string,
+        applyToHeader: boolean
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetColumnCssClass()'`
+        );
+        return OutSystems.GridAPI.Styling.SetColumnCssClass(
+            gridID,
+            columnID,
+            cssClass,
+            applyToHeader
+        );
+    }
+
+    export function RemoveAllCssClassesFromCell(
+        gridID: string,
+        columnID: string,
+        rowIndex: number
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.RemoveAllCssClassesFromCell()'`
+        );
+        return OutSystems.GridAPI.Styling.RemoveAllCssClassesFromCell(
+            gridID,
+            columnID,
+            rowIndex
+        );
+    }
+
+    export function RemoveColumnCssClass(
+        gridID: string,
+        columnID: string,
+        cssClass: string
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.RemoveColumnCssClass()'`
+        );
+        return OutSystems.GridAPI.Styling.RemoveColumnCssClass(
+            gridID,
+            columnID,
+            cssClass
+        );
+    }
+
+    export function SetColumnWordWrap(
+        gridID: string,
+        columnID: string,
+        wordWrapValue: boolean,
+        dynamicHeight: boolean
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetColumnWordWrap()'`
+        );
+        return OutSystems.GridAPI.Styling.SetColumnWordWrap(
+            gridID,
+            columnID,
+            wordWrapValue,
+            dynamicHeight
+        );
     }
 }

@@ -2,7 +2,7 @@
  *
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace GridAPI.Auxiliary {
+namespace OutSystems.GridAPI.Auxiliary {
     type APIHandler = {
         // eslint-disable-next-line
         callback: any;
@@ -60,5 +60,47 @@ namespace GridAPI.Auxiliary {
      */
     export function GetHashCode(str: string): number {
         return OSFramework.Helper.GenerateHashCode(str);
+    }
+}
+/// Overrides for the old namespace - calls the new one, lets users know this is no longer in use
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+namespace GridAPI.Auxiliary {
+    type APIHandler = {
+        // eslint-disable-next-line
+        callback: any;
+        errorCode: OSFramework.Enum.ErrorCodes;
+        gridID: string;
+        hasValue?: boolean;
+    };
+
+    export function CreateApiResponse({
+        gridID,
+        callback,
+        errorCode,
+        hasValue = false
+    }: APIHandler): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Auxiliary.CreateApiResponse()'`
+        );
+
+        return OutSystems.GridAPI.Auxiliary.CreateApiResponse({
+            gridID,
+            callback,
+            errorCode,
+            hasValue
+        });
+    }
+
+    /**
+     * Receives a string and generates the hashcode of it.
+     * @param str - string, typically the data to be showed in the grid.
+     * @returns hashcode to the str
+     */
+    export function GetHashCode(str: string): number {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Auxiliary.GetHashCode()'`
+        );
+        return OutSystems.GridAPI.Auxiliary.GetHashCode(str);
     }
 }
