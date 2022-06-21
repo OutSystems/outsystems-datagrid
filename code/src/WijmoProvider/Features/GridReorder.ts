@@ -94,24 +94,9 @@ namespace WijmoProvider.Feature {
             });
         }
 
-        public getViewLayout(): string {
-            return JSON.stringify(
-                this._grid.provider.collectionView.sourceCollection,
-                OSFramework.Helper.JsonReplacer
-            );
-        }
-
         public setState(value: boolean): void {
             this._allowColumnDragging = value;
             this._setAllowDragging();
-        }
-
-        // eslint-disable-next-line
-        public setViewLayout(state: any): void {
-            if (state.rows) {
-                this._grid.provider.collectionView.sourceCollection =
-                    JSON.parse(state.rows, OSFramework.Helper.JsonReviver);
-            }
         }
 
         public toggleRowDragging(allowRowDragging: boolean): void {
