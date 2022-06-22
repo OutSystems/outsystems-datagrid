@@ -18,7 +18,7 @@ namespace OutSystems.GridAPI.ContextMenu.Events {
         GridManager.Events.Subscribe(
             gridId,
             OSFramework.Event.Grid.GridEventType.Initialized,
-            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 gridObj.features.contextMenu.contextMenuEvents.addHandler(
                     eventName,
                     callback

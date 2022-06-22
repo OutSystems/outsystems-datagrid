@@ -1,7 +1,3 @@
-/**
- *
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OutSystems.GridAPI.Cells {
     /**
      * Responsible for defining a specific cell as valid/invalid and showing an error message to the user when the content of that same cell is invalid.

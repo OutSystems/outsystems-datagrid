@@ -39,7 +39,7 @@ namespace OutSystems.GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
-            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.CreatePageButtons');
                 gridObj.features.pagination.createPageButtons(
                     phID,
@@ -270,7 +270,7 @@ namespace OutSystems.GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
-            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterCurrentPageLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.PageIndex,
@@ -300,7 +300,7 @@ namespace OutSystems.GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
-            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterPageCountLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.PageCount,
@@ -328,7 +328,7 @@ namespace OutSystems.GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
-            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterPageSizeLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.PageSize,
@@ -356,7 +356,7 @@ namespace OutSystems.GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
-            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterRowEndLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.RowEnd,
@@ -384,7 +384,7 @@ namespace OutSystems.GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
-            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterRowStartLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.RowStart,
@@ -412,7 +412,7 @@ namespace OutSystems.GridAPI.Pagination {
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
-            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterRowTotalLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.Enum.PageLabel.RowTotal,

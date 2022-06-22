@@ -15,7 +15,7 @@ namespace OutSystems.GridAPI.ConditionalFormat {
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
-            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 PerformanceAPI.SetMark(
                     'ConditionalFormat.AddConditionalFormat'
                 );
@@ -47,7 +47,7 @@ namespace OutSystems.GridAPI.ConditionalFormat {
         GridManager.Events.Subscribe(
             gridID,
             OSFramework.Event.Grid.GridEventType.Initialized,
-            (gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
                 PerformanceAPI.SetMark(
                     'ConditionalFormat.RemoveConditionalFormat'
                 );
