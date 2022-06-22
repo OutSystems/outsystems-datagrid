@@ -448,7 +448,7 @@ namespace OutSystems.GridAPI.GridManager {
      */
     export function SetDateSample(date: string): void {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        GridAPI.dateFormat = date
+        OutSystems.GridAPI.dateFormat = date
             .replace('13', 'dd')
             .replace('10', 'MM')
             .replace('1900', 'yyyy');
