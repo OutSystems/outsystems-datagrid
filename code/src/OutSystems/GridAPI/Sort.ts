@@ -1,8 +1,4 @@
-/**
- *
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace GridAPI.Sort {
+namespace OutSystems.GridAPI.Sort {
     /**
      * Function that clears sort of grid
      *
@@ -136,5 +132,39 @@ namespace GridAPI.Sort {
         );
 
         return JSON.stringify(responseObj);
+    }
+}
+
+/**
+ *
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+namespace GridAPI.Sort {
+    export function Clear(gridID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Sort.Clear()'`
+        );
+        return OutSystems.GridAPI.Sort.Clear(gridID);
+    }
+
+    export function ColumnSort(
+        gridID: string,
+        columnID: string,
+        sorting: OSFramework.OSStructure.Sorting
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Sort.ColumnSort()'`
+        );
+        return OutSystems.GridAPI.Sort.ColumnSort(gridID, columnID, sorting);
+    }
+
+    export function SetUnsortState(
+        gridID: string,
+        hasUnsortState: boolean
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Sort.SetUnsortState()'`
+        );
+        return OutSystems.GridAPI.Sort.SetUnsortState(gridID, hasUnsortState);
     }
 }

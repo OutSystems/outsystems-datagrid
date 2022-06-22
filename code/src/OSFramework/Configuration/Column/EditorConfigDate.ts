@@ -12,7 +12,7 @@ namespace OSFramework.Configuration.Column {
         // eslint-disable-next-line
         constructor(config: any, isDateTime: boolean) {
             super(config);
-            this.defaultFormat = `${GridAPI.dateFormat}${
+            this.defaultFormat = `${OutSystems.GridAPI.dateFormat}${
                 isDateTime ? ' HH:mm' : ''
             }`;
 

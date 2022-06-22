@@ -1,5 +1,8 @@
+/**
+ *
+ */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace GridAPI.ColumnFreeze {
+namespace OutSystems.GridAPI.ColumnFreeze {
     /**
      * Responsable for freeze columns
      * @param gridID The grid where the action will be performed
@@ -119,5 +122,42 @@ namespace GridAPI.ColumnFreeze {
         );
 
         return JSON.stringify(responseObj);
+    }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+namespace GridAPI.ColumnFreeze {
+    /**
+     * Responsable for freeze columns
+     * @param gridID The grid where the action will be performed
+     * @param n Number of columns to freeze, when omitted the active cell will be used, and everything to its left will be freeze
+     */
+    export function Freeze(gridID: string, n?: number): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnFreeze.Freeze()'`
+        );
+        return OutSystems.GridAPI.ColumnFreeze.Freeze(gridID, n);
+    }
+
+    /**
+     * Verifies if Grid has or not freezed columns
+     * @param gridID The grid where the action will be performed
+     */
+    export function IsFrozen(gridID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnFreeze.IsFrozen()'`
+        );
+        return OutSystems.GridAPI.ColumnFreeze.IsFrozen(gridID);
+    }
+
+    /**
+     * Responsable for free-up all columns freezed
+     * @param gridID The grid where the action will be performed
+     */
+    export function Unfreeze(gridID: string): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnFreeze.Unfreeze()'`
+        );
+        return OutSystems.GridAPI.ColumnFreeze.Unfreeze(gridID);
     }
 }
