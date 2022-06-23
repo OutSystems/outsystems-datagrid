@@ -23,40 +23,27 @@ namespace OutSystems.GridAPI.Filter {
     export function Search(gridID: string, searchedValue: string): string {
         PerformanceAPI.SetMark('Filter.search');
 
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterSearch,
+            callback: () => {
+                const grid = GridManager.GetGridById(gridID);
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            const grid = GridManager.GetGridById(gridID);
+                //The method below can be removed after the implementation of wijmo.grid.search
+                grid.dataSource.search(searchedValue);
 
-            //The method below can be removed after the implementation of wijmo.grid.search
-            grid.dataSource.search(searchedValue);
-
-            if (grid.features.selection.hasValidSelection() === false) {
-                if (grid.hasResults()) {
-                    grid.features.selection.selectAndFocusFirstCell();
+                if (grid.features.selection.hasValidSelection() === false) {
+                    if (grid.hasResults()) {
+                        grid.features.selection.selectAndFocusFirstCell();
+                    }
                 }
-            }
 
-            grid.gridEvents.trigger(
-                OSFramework.Event.Grid.GridEventType.SearchEnded,
-                grid
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedFilterSearch;
-        }
+                grid.gridEvents.trigger(
+                    OSFramework.Event.Grid.GridEventType.SearchEnded,
+                    grid
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Filter.search-end');
         PerformanceAPI.GetMeasure(
@@ -65,7 +52,7 @@ namespace OutSystems.GridAPI.Filter {
             'Filter.search-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -78,29 +65,15 @@ namespace OutSystems.GridAPI.Filter {
      */
     export function Activate(gridID: string, columnID: string): string {
         PerformanceAPI.SetMark('Filter.activate');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            const grid = GridManager.GetGridById(gridID);
-
-            grid.features.filter.activate(columnID);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedFilterActivate;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterActivate,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.filter.activate(
+                    columnID
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Filter.activate-end');
         PerformanceAPI.GetMeasure(
@@ -109,7 +82,7 @@ namespace OutSystems.GridAPI.Filter {
             'Filter.activate-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -122,29 +95,13 @@ namespace OutSystems.GridAPI.Filter {
      */
     export function Clear(gridID: string, columnID: string): string {
         PerformanceAPI.SetMark('Filter.clear');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            const grid = GridManager.GetGridById(gridID);
-
-            grid.features.filter.clear(columnID);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedFilterClear;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterClear,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.filter.clear(columnID);
+            }
+        });
 
         PerformanceAPI.SetMark('Filter.clear-end');
         PerformanceAPI.GetMeasure(
@@ -153,7 +110,7 @@ namespace OutSystems.GridAPI.Filter {
             'Filter.clear-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
     /**
      * Function that deactivates filter of a given column
@@ -165,29 +122,15 @@ namespace OutSystems.GridAPI.Filter {
      */
     export function Deactivate(gridID: string, columnID: string): string {
         PerformanceAPI.SetMark('Filter.deactivate');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            const grid = GridManager.GetGridById(gridID);
-
-            grid.features.filter.deactivate(columnID);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedFilterDeactivate;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterDeactivate,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.filter.deactivate(
+                    columnID
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Filter.deactivate-end');
         PerformanceAPI.GetMeasure(
@@ -196,7 +139,7 @@ namespace OutSystems.GridAPI.Filter {
             'Filter.deactivate-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -214,29 +157,16 @@ namespace OutSystems.GridAPI.Filter {
         values: string
     ): string {
         PerformanceAPI.SetMark('Filter.ByCondition');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            const grid = GridManager.GetGridById(gridID);
-
-            grid.features.filter.byCondition(columnID, JSON.parse(values));
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedFilterByCondition;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterByCondition,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.filter.byCondition(
+                    columnID,
+                    JSON.parse(values)
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Filter.ByCondition-end');
         PerformanceAPI.GetMeasure(
@@ -245,7 +175,7 @@ namespace OutSystems.GridAPI.Filter {
             'Filter.ByCondition-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -263,29 +193,16 @@ namespace OutSystems.GridAPI.Filter {
         values: string
     ): string {
         PerformanceAPI.SetMark('Filter.ByValue');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            const grid = GridManager.GetGridById(gridID);
-
-            grid.features.filter.byValue(columnID, JSON.parse(values));
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedFilterByValue;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterByValue,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.filter.byValue(
+                    columnID,
+                    JSON.parse(values)
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Filter.ByValue-end');
         PerformanceAPI.GetMeasure(
@@ -294,7 +211,7 @@ namespace OutSystems.GridAPI.Filter {
             'Filter.ByValue-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -314,33 +231,21 @@ namespace OutSystems.GridAPI.Filter {
         maxVisibleOptions?: number
     ): string {
         PerformanceAPI.SetMark('Filter.SetColumnFilterOptions');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            const grid = GridManager.GetGridById(gridID);
-
-            grid.features.filter.setColumnFilterOptions(
-                columnID,
-                JSON.parse(options),
-                maxVisibleOptions
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedFilterSetColumnFilterOptions;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.Enum.ErrorCodes
+                    .API_FailedFilterSetColumnFilterOptions,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.filter.setColumnFilterOptions(
+                    columnID,
+                    JSON.parse(options),
+                    maxVisibleOptions
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Filter.SetColumnFilterOptions-end');
         PerformanceAPI.GetMeasure(
@@ -349,7 +254,7 @@ namespace OutSystems.GridAPI.Filter {
             'Filter.SetColumnFilterOptions-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 }
 

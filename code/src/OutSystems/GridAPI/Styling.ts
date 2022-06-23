@@ -79,31 +79,19 @@ namespace OutSystems.GridAPI.Styling {
         applyToHeader: boolean
     ): string {
         PerformanceAPI.SetMark('Styling.SetColumnCssClass');
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(gridID).features.styling.addColumnCssClass(
-                columnID,
-                cssClass,
-                applyToHeader
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetColumnCssClass;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetColumnCssClass,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.styling.addColumnCssClass(
+                    columnID,
+                    cssClass,
+                    applyToHeader
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Styling.SetColumnCssClass-end');
         PerformanceAPI.GetMeasure(
@@ -112,7 +100,7 @@ namespace OutSystems.GridAPI.Styling {
             'Styling.SetColumnCssClass-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
     /**
      * Function that will remove all the CSS classes that were added to a Cell.
@@ -187,29 +175,16 @@ namespace OutSystems.GridAPI.Styling {
         cssClass: string
     ): string {
         PerformanceAPI.SetMark('Styling.RemoveColumnCssClass');
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(
-                gridID
-            ).features.styling.removeColumnCssClass(columnID, cssClass);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedRemoveColumnCssClass;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.Enum.ErrorCodes.API_FailedRemoveColumnCssClass,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.styling.removeColumnCssClass(columnID, cssClass);
+            }
+        });
 
         PerformanceAPI.SetMark('Styling.RemoveColumnCssClass-end');
         PerformanceAPI.GetMeasure(
@@ -218,7 +193,7 @@ namespace OutSystems.GridAPI.Styling {
             'Styling.RemoveColumnCssClass-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -237,32 +212,19 @@ namespace OutSystems.GridAPI.Styling {
         dynamicHeight: boolean
     ): string {
         PerformanceAPI.SetMark('ColumnManager.SetColumnWordWrap');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(gridID).features.styling.setColumnWordWrap(
-                columnID,
-                wordWrapValue,
-                dynamicHeight
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetColumnWordWrap;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetColumnWordWrap,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.styling.setColumnWordWrap(
+                    columnID,
+                    wordWrapValue,
+                    dynamicHeight
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnManager.SetColumnWordWrap-end');
         PerformanceAPI.GetMeasure(
@@ -271,7 +233,7 @@ namespace OutSystems.GridAPI.Styling {
             'ColumnManager.SetColumnWordWrap-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 }
 

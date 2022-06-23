@@ -141,28 +141,14 @@ namespace OutSystems.GridAPI.GridManager {
      */
     export function GetChangesInGrid(gridID: string): string {
         PerformanceAPI.SetMark('GridManager.GetChangesInGrid');
-        const responseObj = new OSFramework.OSStructure.ReturnMessage();
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            responseObj.value = JSON.stringify(
-                GetGridById(gridID).getChangesMade()
-            );
-            responseObj.isSuccess = true;
-            responseObj.message = OSFramework.Enum.ErrorMessages.SuccessMessage;
-            responseObj.code = OSFramework.Enum.ErrorCodes.GRID_SUCCESS;
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedGetChangedLines;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedGetChangedLines,
+            callback: () => {
+                return JSON.stringify(GetGridById(gridID).getChangesMade());
+            },
+            hasValue: true
+        });
 
         PerformanceAPI.SetMark('GridManager.GetChangesInGrid-end');
         PerformanceAPI.GetMeasure(
@@ -170,7 +156,7 @@ namespace OutSystems.GridAPI.GridManager {
             'GridManager.GetChangesInGrid',
             'GridManager.GetChangesInGrid-end'
         );
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -211,29 +197,14 @@ namespace OutSystems.GridAPI.GridManager {
         gridID: string,
         forceCleanInvalids = false
     ): string {
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
         PerformanceAPI.SetMark('GridManager.MarkChangesAsSaved');
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GetGridById(gridID).clearAllChanges(forceCleanInvalids);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedMarkChangesAsSaved;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedMarkChangesAsSaved,
+            callback: () => {
+                GetGridById(gridID).clearAllChanges(forceCleanInvalids);
+            }
+        });
 
         PerformanceAPI.SetMark('GridManager.MarkChangesAsSaved-end');
         PerformanceAPI.GetMeasure(
@@ -242,7 +213,7 @@ namespace OutSystems.GridAPI.GridManager {
             'GridManager.MarkChangesAsSaved-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
     /**
      * Mark a group of Data Grid lines with given keys (from the KeyBinding field) as saved in the database.
@@ -258,32 +229,18 @@ namespace OutSystems.GridAPI.GridManager {
         rowKeys: string,
         forceCleanInvalids = false
     ): string {
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
         PerformanceAPI.SetMark('GridManager.MarkChangesAsSavedByKey');
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GetGridById(gridID).clearAllChangesByRowKeys(
-                JSON.parse(rowKeys),
-                forceCleanInvalids
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedMarkChangesAsSavedByKey;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.Enum.ErrorCodes.API_FailedMarkChangesAsSavedByKey,
+            callback: () => {
+                GetGridById(gridID).clearAllChangesByRowKeys(
+                    JSON.parse(rowKeys),
+                    forceCleanInvalids
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('GridManager.MarkChangesAsSavedByKey-end');
         PerformanceAPI.GetMeasure(
@@ -292,7 +249,7 @@ namespace OutSystems.GridAPI.GridManager {
             'GridManager.MarkChangesAsSavedByKey-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -382,26 +339,13 @@ namespace OutSystems.GridAPI.GridManager {
      */
     export function ClearChanges(gridID: string): string {
         PerformanceAPI.SetMark('GridManager.ClearChanges');
-        const responseObj = new OSFramework.OSStructure.ReturnMessage();
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GetGridById(gridID).clearChanges();
-            responseObj.isSuccess = true;
-            responseObj.message = OSFramework.Enum.ErrorMessages.SuccessMessage;
-            responseObj.code = OSFramework.Enum.ErrorCodes.GRID_SUCCESS;
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedClearChanges;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedClearChanges,
+            callback: () => {
+                GetGridById(gridID).clearChanges();
+            }
+        });
 
         PerformanceAPI.SetMark('GridManager.ClearChanges-end');
         PerformanceAPI.GetMeasure(
@@ -409,7 +353,7 @@ namespace OutSystems.GridAPI.GridManager {
             'GridManager.ClearChanges',
             'GridManager.ClearChanges-end'
         );
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**

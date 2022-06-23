@@ -13,29 +13,17 @@ namespace OutSystems.GridAPI.Rows {
         className: string
     ): string {
         PerformanceAPI.SetMark('Rows.AddClass');
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            GridManager.GetGridById(gridID).features.rows.addClass(
-                rowNumber,
-                className,
-                true
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code = OSFramework.Enum.ErrorCodes.API_FailedAddClass;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedAddClass,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.rows.addClass(
+                    rowNumber,
+                    className,
+                    true
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Rows.AddClass-end');
         PerformanceAPI.GetMeasure(
@@ -44,7 +32,7 @@ namespace OutSystems.GridAPI.Rows {
             'Rows.AddClass-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -56,28 +44,15 @@ namespace OutSystems.GridAPI.Rows {
      */
     export function AddRows(gridID: string, numberOfRows = 1): string {
         PerformanceAPI.SetMark('Rows.AddRows');
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(gridID).features.rows.addNewRows(
-                numberOfRows
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code = OSFramework.Enum.ErrorCodes.API_FailedAddRow;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedAddRow,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.rows.addNewRows(
+                    numberOfRows
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Rows.AddRows-end');
         PerformanceAPI.GetMeasure(
@@ -85,7 +60,7 @@ namespace OutSystems.GridAPI.Rows {
             'Rows.AddRows',
             'Rows.AddRows-end'
         );
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -98,31 +73,18 @@ namespace OutSystems.GridAPI.Rows {
      */
     export function GetRowData(gridID: string, rowNumber: number): string {
         PerformanceAPI.SetMark('Rows.GetRowData');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS,
-            value: ''
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            responseObj.value = JSON.stringify(
-                GridManager.GetGridById(gridID).features.rows.getRowData(
-                    rowNumber
-                )
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code = OSFramework.Enum.ErrorCodes.API_FailedGetRowData;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedGetRowData,
+            callback: () => {
+                return JSON.stringify(
+                    GridManager.GetGridById(gridID).features.rows.getRowData(
+                        rowNumber
+                    )
+                );
+            },
+            hasValue: true
+        });
 
         PerformanceAPI.SetMark('Rows.GetRowData-end');
         PerformanceAPI.GetMeasure(
@@ -131,7 +93,7 @@ namespace OutSystems.GridAPI.Rows {
             'Rows.GetRowData-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -144,32 +106,18 @@ namespace OutSystems.GridAPI.Rows {
      */
     export function GetRowNumberByKey(gridID: string, key: string): string {
         PerformanceAPI.SetMark('Rows.GetRowNumberByKey');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS,
-            value: ''
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            responseObj.value = JSON.stringify(
-                GridManager.GetGridById(gridID).dataSource.getRowNumberByKey(
-                    key
-                )
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedGetRowNumberByKey;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedGetRowNumberByKey,
+            callback: () => {
+                return JSON.stringify(
+                    GridManager.GetGridById(
+                        gridID
+                    ).dataSource.getRowNumberByKey(key)
+                );
+            },
+            hasValue: true
+        });
 
         PerformanceAPI.SetMark('Rows.GetRowNumberByKey-end');
         PerformanceAPI.GetMeasure(
@@ -178,7 +126,7 @@ namespace OutSystems.GridAPI.Rows {
             'Rows.GetRowNumberByKey-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -192,28 +140,15 @@ namespace OutSystems.GridAPI.Rows {
         rowNumber: number
     ): string {
         PerformanceAPI.SetMark('Rows.RemoveAllClasses');
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            const grid = GridManager.GetGridById(gridID);
-            grid.features.rows.removeAllClasses(rowNumber);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedRemoveAllClasses;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedRemoveAllClasses,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.rows.removeAllClasses(
+                    rowNumber
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Rows.RemoveAllClasses-end');
         PerformanceAPI.GetMeasure(
@@ -222,7 +157,7 @@ namespace OutSystems.GridAPI.Rows {
             'Rows.RemoveAllClasses-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -239,31 +174,17 @@ namespace OutSystems.GridAPI.Rows {
         className: string
     ): string {
         PerformanceAPI.SetMark('Rows.RemoveClass');
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(gridID).features.rows.removeClass(
-                rowNumber,
-                className,
-                true
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedRemoveClass;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedRemoveClass,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.rows.removeClass(
+                    rowNumber,
+                    className,
+                    true
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Rows.RemoveClass-end');
         PerformanceAPI.GetMeasure(
@@ -271,8 +192,7 @@ namespace OutSystems.GridAPI.Rows {
             'Rows.RemoveClass',
             'Rows.RemoveClass-end'
         );
-
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -315,32 +235,18 @@ namespace OutSystems.GridAPI.Rows {
     ): string {
         PerformanceAPI.SetMark('Rows.UpdateAddedRowKey');
 
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS,
-            value: ''
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            responseObj.value = JSON.stringify(
-                GridManager.GetGridById(gridID).dataSource.updateAddedRowKey(
-                    currentRowId,
-                    newKey
-                )
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedUpdateAddedRowKey;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedUpdateAddedRowKey,
+            callback: () => {
+                return JSON.stringify(
+                    GridManager.GetGridById(
+                        gridID
+                    ).dataSource.updateAddedRowKey(currentRowId, newKey)
+                );
+            },
+            hasValue: true
+        });
 
         PerformanceAPI.SetMark('Rows.UpdateAddedRowKey-end');
         PerformanceAPI.GetMeasure(
@@ -349,7 +255,7 @@ namespace OutSystems.GridAPI.Rows {
             'Rows.UpdateAddedRowKey-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -365,29 +271,16 @@ namespace OutSystems.GridAPI.Rows {
     ): string {
         PerformanceAPI.SetMark('Rows.UpdateStartingRowHeader');
 
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(
-                gridID
-            ).features.autoRowNumber.setStartIndex(startIndex);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedUpdateStartingRowHeader;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.Enum.ErrorCodes.API_FailedUpdateStartingRowHeader,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.autoRowNumber.setStartIndex(startIndex);
+            }
+        });
 
         PerformanceAPI.SetMark('Rows.UpdateStartingRowHeader-end');
         PerformanceAPI.GetMeasure(
@@ -396,7 +289,7 @@ namespace OutSystems.GridAPI.Rows {
             'Rows.UpdateStartingRowHeader-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -417,36 +310,30 @@ namespace OutSystems.GridAPI.Rows {
         isValid: boolean,
         errorMessage: string
     ): string {
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
+        PerformanceAPI.SetMark('Rows.SetValidationStatusByKey');
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.Enum.ErrorCodes.API_FailedSetValidationStatusByKey,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.validationMark.setCellStatusByKey(
+                    rowKey,
+                    columnID,
+                    isValid,
+                    errorMessage
+                );
+            }
+        });
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(
-                gridID
-            ).features.validationMark.setCellStatusByKey(
-                rowKey,
-                columnID,
-                isValid,
-                errorMessage
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetValidationStatusByKey;
-        }
-
-        return JSON.stringify(responseObj);
+        PerformanceAPI.SetMark('Rows.SetValidationStatusByKey-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Rows.SetValidationStatusByKey',
+            'Rows.SetValidationStatusByKey',
+            'Rows.SetValidationStatusByKey-end'
+        );
+        return result;
     }
 
     /**
