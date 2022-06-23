@@ -145,7 +145,7 @@ namespace OutSystems.GridAPI.GridManager {
             gridID,
             errorCode: OSFramework.Enum.ErrorCodes.API_FailedGetChangedLines,
             callback: () => {
-                JSON.stringify(GetGridById(gridID).getChangesMade());
+                return JSON.stringify(GetGridById(gridID).getChangesMade());
             },
             hasValue: true
         });

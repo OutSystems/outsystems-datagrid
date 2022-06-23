@@ -77,7 +77,7 @@ namespace OutSystems.GridAPI.Rows {
             gridID,
             errorCode: OSFramework.Enum.ErrorCodes.API_FailedGetRowData,
             callback: () => {
-                JSON.stringify(
+                return JSON.stringify(
                     GridManager.GetGridById(gridID).features.rows.getRowData(
                         rowNumber
                     )
@@ -110,7 +110,7 @@ namespace OutSystems.GridAPI.Rows {
             gridID,
             errorCode: OSFramework.Enum.ErrorCodes.API_FailedGetRowNumberByKey,
             callback: () => {
-                JSON.stringify(
+                return JSON.stringify(
                     GridManager.GetGridById(
                         gridID
                     ).dataSource.getRowNumberByKey(key)
@@ -239,7 +239,7 @@ namespace OutSystems.GridAPI.Rows {
             gridID,
             errorCode: OSFramework.Enum.ErrorCodes.API_FailedUpdateAddedRowKey,
             callback: () => {
-                JSON.stringify(
+                return JSON.stringify(
                     GridManager.GetGridById(
                         gridID
                     ).dataSource.updateAddedRowKey(currentRowId, newKey)
