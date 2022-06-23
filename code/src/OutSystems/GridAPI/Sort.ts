@@ -8,26 +8,13 @@ namespace OutSystems.GridAPI.Sort {
      */
     export function Clear(gridID: string): string {
         PerformanceAPI.SetMark('Sort.Clear');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            GridManager.GetGridById(gridID).features.sort.clear();
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code = OSFramework.Enum.ErrorCodes.API_FailedClearSort;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedClearSort,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.sort.clear();
+            }
+        });
 
         PerformanceAPI.SetMark('Sort.Clear-end');
         PerformanceAPI.GetMeasure(
@@ -36,7 +23,7 @@ namespace OutSystems.GridAPI.Sort {
             'Sort.Clear-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -54,29 +41,16 @@ namespace OutSystems.GridAPI.Sort {
         sorting: OSFramework.OSStructure.Sorting
     ): string {
         PerformanceAPI.SetMark('Sort.ColumnSort');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            GridManager.GetGridById(gridID).features.sort.sortColumn(
-                columnID,
-                sorting
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code = OSFramework.Enum.ErrorCodes.API_FailedClearSort;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedColumnSort,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.sort.sortColumn(
+                    columnID,
+                    sorting
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Sort.ColumnSort-end');
         PerformanceAPI.GetMeasure(
@@ -85,7 +59,7 @@ namespace OutSystems.GridAPI.Sort {
             'Sort.ColumnSort-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
     /**
      * Function that defines whether or not Grid will have Unsort State
@@ -100,29 +74,15 @@ namespace OutSystems.GridAPI.Sort {
         hasUnsortState: boolean
     ): string {
         PerformanceAPI.SetMark('Sort.SetUnsortState');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            GridManager.GetGridById(gridID).features.sort.setUnsortState(
-                hasUnsortState
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetUnsortState;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetUnsortState,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.sort.setUnsortState(
+                    hasUnsortState
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Sort.SetUnsortState-end');
         PerformanceAPI.GetMeasure(
@@ -131,7 +91,7 @@ namespace OutSystems.GridAPI.Sort {
             'Sort.SetUnsortState-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 }
 
