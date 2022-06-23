@@ -16,36 +16,21 @@ namespace OutSystems.GridAPI.Cells {
         isValid: boolean,
         errorMessage: string
     ): string {
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        PerformanceAPI.SetMark('Cells.setValidationStatus');
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(
-                gridID
-            ).features.validationMark.setCellStatus(
-                rowIndex,
-                columnID,
-                isValid,
-                errorMessage
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetValidationStatus;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.Enum.ErrorCodes.API_FailedSetValidationStatus,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.validationMark.setCellStatus(
+                    rowIndex,
+                    columnID,
+                    isValid,
+                    errorMessage
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Cells.setValidationStatus');
         PerformanceAPI.SetMark('Cells.setValidationStatus-end');
@@ -55,7 +40,7 @@ namespace OutSystems.GridAPI.Cells {
             'Cells.setValidationStatus-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
