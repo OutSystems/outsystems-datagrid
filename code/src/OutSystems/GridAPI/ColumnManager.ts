@@ -14,29 +14,16 @@ namespace OutSystems.GridAPI.ColumnManager {
         ListOfColumnIDs: string
     ): string {
         PerformanceAPI.SetMark('ColumnManager.AddColumnToGroupPanel');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            const grid = GridManager.GetGridById(gridID);
-            grid.features.groupPanel.addColumnsToGroupPanel(ListOfColumnIDs);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedAddColumnToGroupPanel;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.Enum.ErrorCodes.API_FailedAddColumnToGroupPanel,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.groupPanel.addColumnsToGroupPanel(ListOfColumnIDs);
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnManager.AddColumnToGroupPanel-end');
         PerformanceAPI.GetMeasure(
@@ -45,7 +32,7 @@ namespace OutSystems.GridAPI.ColumnManager {
             'ColumnManager.AddColumnToGroupPanel-end'
         );
 
-        return JSON.stringify(responseObj);
+        return JSON.stringify(result);
     }
 
     /**
@@ -221,29 +208,15 @@ namespace OutSystems.GridAPI.ColumnManager {
         aggregate: number
     ): string {
         PerformanceAPI.SetMark('ColumnManager.SetColumnAggregate');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            const grid = GridManager.GetGridById(gridID);
-            grid.features.groupPanel.setAggregate(columnID, aggregate);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetColumnAggregate;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetColumnAggregate,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.groupPanel.setAggregate(columnID, aggregate);
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnManager.SetColumnAggregate-end');
         PerformanceAPI.GetMeasure(
@@ -252,7 +225,7 @@ namespace OutSystems.GridAPI.ColumnManager {
             'ColumnManager.SetColumnAggregate-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -270,32 +243,18 @@ namespace OutSystems.GridAPI.ColumnManager {
         allowMerge: boolean
     ): string {
         PerformanceAPI.SetMark('ColumnManager.AllowCellMerging');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            const grid = GridManager.GetGridById(gridID);
-            grid.features.columnMergeCells.mergeColumnCells(
-                columnID,
-                allowMerge
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedAllowCellMerging;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedAllowCellMerging,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.columnMergeCells.mergeColumnCells(
+                    columnID,
+                    allowMerge
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnManager.AllowCellMerging-end');
         PerformanceAPI.GetMeasure(
@@ -304,7 +263,7 @@ namespace OutSystems.GridAPI.ColumnManager {
             'ColumnManager.AllowCellMerging-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -322,29 +281,16 @@ namespace OutSystems.GridAPI.ColumnManager {
         header: string
     ): string {
         PerformanceAPI.SetMark('ColumnManager.SetColumnHeader');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            const grid = GridManager.GetGridById(gridID);
-            grid.features.column.setColumnHeader(columnID, header);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetColumnHeader;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetColumnHeader,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.column.setColumnHeader(
+                    columnID,
+                    header
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnManager.SetColumnHeader-end');
         PerformanceAPI.GetMeasure(
@@ -353,7 +299,7 @@ namespace OutSystems.GridAPI.ColumnManager {
             'ColumnManager.SetColumnHeader-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 }
 
