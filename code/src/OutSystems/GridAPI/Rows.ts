@@ -310,6 +310,7 @@ namespace OutSystems.GridAPI.Rows {
         isValid: boolean,
         errorMessage: string
     ): string {
+        PerformanceAPI.SetMark('Rows.SetValidationStatusByKey');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -325,6 +326,13 @@ namespace OutSystems.GridAPI.Rows {
                 );
             }
         });
+
+        PerformanceAPI.SetMark('Rows.SetValidationStatusByKey-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-Rows.SetValidationStatusByKey',
+            'Rows.SetValidationStatusByKey',
+            'Rows.SetValidationStatusByKey-end'
+        );
         return result;
     }
 

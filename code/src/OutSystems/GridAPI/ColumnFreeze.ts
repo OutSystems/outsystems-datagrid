@@ -40,7 +40,8 @@ namespace OutSystems.GridAPI.ColumnFreeze {
             gridID,
             errorCode: OSFramework.Enum.ErrorCodes.API_FailedHasFrozenColumns,
             callback: () => {
-                GridManager.GetGridById(gridID).features.columnFreeze.isFrozen;
+                return GridManager.GetGridById(gridID).features.columnFreeze
+                    .isFrozen;
             },
             hasValue: true
         });
