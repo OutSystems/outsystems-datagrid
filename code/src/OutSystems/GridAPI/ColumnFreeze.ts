@@ -10,29 +10,15 @@ namespace OutSystems.GridAPI.ColumnFreeze {
      */
     export function Freeze(gridID: string, n?: number): string {
         PerformanceAPI.SetMark('ColumnFreeze.freeze');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            const grid = GridManager.GetGridById(gridID);
-            grid.features.columnFreeze.leftColumns(n);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedFreezeColumns;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFreezeColumns,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.columnFreeze.leftColumns(n);
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnFreeze.freeze-end');
         PerformanceAPI.GetMeasure(
@@ -41,7 +27,7 @@ namespace OutSystems.GridAPI.ColumnFreeze {
             'ColumnFreeze.freeze-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -50,31 +36,14 @@ namespace OutSystems.GridAPI.ColumnFreeze {
      */
     export function IsFrozen(gridID: string): string {
         PerformanceAPI.SetMark('ColumnFreeze.isFrozen');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS,
-            value: false
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            if (!OSFramework.Helper.IsGridReady(gridID)) return;
-            const grid = GridManager.GetGridById(gridID);
-            responseObj.value = grid.features.columnFreeze.isFrozen;
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedHasFrozenColumns;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedHasFrozenColumns,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.columnFreeze.isFrozen;
+            },
+            hasValue: true
+        });
 
         PerformanceAPI.SetMark('ColumnFreeze.isFrozen-end');
         PerformanceAPI.GetMeasure(
@@ -82,7 +51,7 @@ namespace OutSystems.GridAPI.ColumnFreeze {
             'ColumnFreeze.isFrozen',
             'ColumnFreeze.isFrozen-end'
         );
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -91,28 +60,15 @@ namespace OutSystems.GridAPI.ColumnFreeze {
      */
     export function Unfreeze(gridID: string): string {
         PerformanceAPI.SetMark('ColumnFreeze.unfreeze');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            const grid = GridManager.GetGridById(gridID);
-            grid.features.columnFreeze.unfreeze();
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedUnfreezeColumns;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedUnfreezeColumns,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.columnFreeze.unfreeze();
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnFreeze.unfreeze-end');
         PerformanceAPI.GetMeasure(
@@ -121,7 +77,7 @@ namespace OutSystems.GridAPI.ColumnFreeze {
             'ColumnFreeze.unfreeze-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 }
 
