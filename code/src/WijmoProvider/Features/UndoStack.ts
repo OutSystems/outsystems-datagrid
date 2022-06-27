@@ -16,6 +16,12 @@ namespace WijmoProvider.Feature {
             this._grid = grid;
         }
 
+        private _actionHandler(cb) {
+            for (let index = 0; index < this._undoStack.actionCount; index++) {
+                cb();
+            }
+        }
+
         public get stack(): wijmo.undo.UndoStack {
             return this._undoStack;
         }
@@ -40,8 +46,20 @@ namespace WijmoProvider.Feature {
             this._undoStack.pushAction(action);
         }
 
+        public redoAll(): void {
+            this._actionHandler(() => {
+                this._undoStack.redo();
+            });
+        }
+
         public startAction(action: wijmo.undo.UndoableAction): void {
             this._undoStack._pendingAction = action;
+        }
+
+        public undoAll(): void {
+            this._actionHandler(() => {
+                this._undoStack.undo();
+            });
         }
     }
 }

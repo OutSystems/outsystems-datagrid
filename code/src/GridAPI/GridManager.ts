@@ -379,6 +379,44 @@ namespace GridAPI.GridManager {
     }
 
     /**
+     * Function that clear all changes in grid
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     */
+    export function ClearChanges(gridID: string): string {
+        PerformanceAPI.SetMark('GridManager.ClearChanges');
+        const responseObj = new OSFramework.OSStructure.ReturnMessage();
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            GetGridById(gridID).clearChanges();
+            responseObj.isSuccess = true;
+            responseObj.message = OSFramework.Enum.ErrorMessages.SuccessMessage;
+            responseObj.code = OSFramework.Enum.ErrorCodes.GRID_SUCCESS;
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedClearChanges;
+        }
+
+        PerformanceAPI.SetMark('GridManager.ClearChanges-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-GridManager.ClearChanges',
+            'GridManager.ClearChanges',
+            'GridManager.ClearChanges-end'
+        );
+        return JSON.stringify(responseObj);
+    }
+
+    /**
      *
      *
      * @export

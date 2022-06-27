@@ -7,6 +7,52 @@ namespace GridAPI.ColumnManager {
     const columnArr = new Array<OSFramework.Column.IColumn>();
 
     /**
+     * Add a given column to the grid group panel.
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {string} columnID ID of the Column block that will be programmatically added to the grid group panel.
+     */
+    export function AddColumnsToGroupPanel(
+        gridID: string,
+        ListOfColumnIDs: string
+    ): string {
+        PerformanceAPI.SetMark('ColumnManager.AddColumnToGroupPanel');
+
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            const grid = GridManager.GetGridById(gridID);
+            grid.features.groupPanel.addColumnsToGroupPanel(ListOfColumnIDs);
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedAddColumnToGroupPanel;
+        }
+
+        PerformanceAPI.SetMark('ColumnManager.AddColumnToGroupPanel-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.AddColumnToGroupPanel',
+            'ColumnManager.AddColumnToGroupPanel',
+            'ColumnManager.AddColumnToGroupPanel-end'
+        );
+
+        return JSON.stringify(responseObj);
+    }
+
+    /**
      * Creates the column for the provider with the given configurations.
      *
      * @param {string} columnID id of the column with which actions on the column can be performed.
@@ -208,6 +254,107 @@ namespace GridAPI.ColumnManager {
             '@datagrid-ColumnManager.SetColumnAggregate',
             'ColumnManager.SetColumnAggregate',
             'ColumnManager.SetColumnAggregate-end'
+        );
+
+        return JSON.stringify(responseObj);
+    }
+
+    /**
+     *  Combines consecutive cells of a given grid column that have the same value into a single cell.
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} columnID
+     * @param {boolean} allowMerge
+     * @return {*}  {string}
+     */
+    export function MergeColumnCells(
+        gridID: string,
+        columnID: string,
+        allowMerge: boolean
+    ): string {
+        PerformanceAPI.SetMark('ColumnManager.AllowCellMerging');
+
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            const grid = GridManager.GetGridById(gridID);
+            grid.features.columnMergeCells.mergeColumnCells(
+                columnID,
+                allowMerge
+            );
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedAllowCellMerging;
+        }
+
+        PerformanceAPI.SetMark('ColumnManager.AllowCellMerging-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.AllowCellMerging',
+            'ColumnManager.AllowCellMerging',
+            'ColumnManager.AllowCellMerging-end'
+        );
+
+        return JSON.stringify(responseObj);
+    }
+
+    /**
+     *  Changes column header
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} columnID
+     * @param {string} header
+     * @return {*}  {string}
+     */
+    export function SetColumnHeader(
+        gridID: string,
+        columnID: string,
+        header: string
+    ): string {
+        PerformanceAPI.SetMark('ColumnManager.SetColumnHeader');
+
+        const responseObj = {
+            isSuccess: true,
+            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+        };
+
+        if (!OSFramework.Helper.IsGridReady(gridID)) {
+            responseObj.isSuccess = false;
+            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            return JSON.stringify(responseObj);
+        }
+
+        try {
+            const grid = GridManager.GetGridById(gridID);
+            grid.features.column.setColumnHeader(columnID, header);
+        } catch (error) {
+            responseObj.isSuccess = false;
+            responseObj.message = error.message;
+            responseObj.code =
+                OSFramework.Enum.ErrorCodes.API_FailedSetColumnHeader;
+        }
+
+        PerformanceAPI.SetMark('ColumnManager.SetColumnHeader-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-ColumnManager.SetColumnHeader',
+            'ColumnManager.SetColumnHeader',
+            'ColumnManager.SetColumnHeader-end'
         );
 
         return JSON.stringify(responseObj);

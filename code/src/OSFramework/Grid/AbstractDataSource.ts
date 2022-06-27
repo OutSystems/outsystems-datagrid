@@ -166,6 +166,20 @@ namespace OSFramework.Grid {
             });
         }
 
+        // remove null date time values from data, as we do not wish to display them.
+        private _formatData(data) {
+            const nullDateTime = ':"1900-01-01T00:00:00"';
+            const nullDate = ':"1900-01-01"';
+            const emptyString = ':""';
+
+            const replaceDateTime = new RegExp(nullDateTime, 'g');
+            const replaceDate = new RegExp(nullDate, 'g');
+
+            return data
+                .replace(replaceDateTime, emptyString)
+                .replace(replaceDate, emptyString);
+        }
+
         private _getRowByKey(key: string) {
             return this._ds.find((item) => {
                 return (
@@ -237,7 +251,7 @@ namespace OSFramework.Grid {
             }
             let parsedNewItem =
                 _.cloneDeep(this._metadata) ||
-                _.cloneDeep(_.omit(this._ds[0], '__osRowMetadata'));
+                _.cloneDeep(_.omit(this._ds[0], Enum.RowMetadata.Key));
 
             parsedNewItem = Object.keys(parsedNewItem).length
                 ? parsedNewItem
@@ -336,7 +350,12 @@ namespace OSFramework.Grid {
             this._convertions.clear();
             const metadata = JSON.parse(data).metadata;
             const typeMap = this._getTypeMap(metadata) || new Map();
-            const dataJson = ToJSONFormat(data, this._convertions, typeMap);
+            const formatedData = this._formatData(data);
+            const dataJson = ToJSONFormat(
+                formatedData,
+                this._convertions,
+                typeMap
+            );
 
             this._metadata = dataJson.metadata;
             this._isSingleEntity =

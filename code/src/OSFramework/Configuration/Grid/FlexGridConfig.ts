@@ -34,6 +34,7 @@ namespace OSFramework.Configuration.Grid {
             // eslint-disable-next-line prefer-const
             let provider = {
                 autoGenerateColumns: this.autoGenerateColumns,
+                allowMerging: 'Cells', // allow mergeCells API. This option does nothing, without the proper column config.
                 isReadOnly: this.allowEdit === false,
                 validateEdits: this.validateEdits,
                 showSelectedHeaders: 'All' // highlight row/column header

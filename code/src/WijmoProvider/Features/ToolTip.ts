@@ -27,7 +27,10 @@ namespace WijmoProvider.Feature {
                 _currTarget.innerText
             );
 
-            if (ht.cellType === wijmo.grid.CellType.Cell) {
+            if (
+                ht.cellType === wijmo.grid.CellType.Cell ||
+                ht.cellType === wijmo.grid.CellType.ColumnFooter
+            ) {
                 const isInvalid =
                     _currTarget.classList.contains('wj-state-invalid');
 

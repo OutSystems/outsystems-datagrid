@@ -37,9 +37,7 @@ namespace WijmoProvider.Feature {
 
                 // we only want to remove the row, if it exists
                 if (aggregateRow)
-                    GridAPI.GridManager.GetActiveGrid().provider.columnFooters.rows.remove(
-                        aggregateRow
-                    );
+                    this._grid.provider.columnFooters.rows.remove(aggregateRow);
             }
         }
     }

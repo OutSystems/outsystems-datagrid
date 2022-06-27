@@ -6,9 +6,9 @@ namespace WijmoProvider.Feature {
             OSFramework.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
-        private readonly _internalLabel = '__dirtyMarkFeature';
+        private readonly _internalLabel =
+            OSFramework.Enum.RowMetadata.DirtyMark;
         private _metadata: OSFramework.Interface.IRowMetadata;
-        private readonly _validationLabel = '__validationMarkFeature';
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
@@ -147,6 +147,12 @@ namespace WijmoProvider.Feature {
 
         private _isNewRow(row: number): boolean {
             return this.hasMetadata(row) && this.getMetadata(row).isNew;
+        }
+
+        public get isGridDirty(): boolean {
+            return this._grid.provider.itemsSource.sourceCollection.some(
+                (_row, index) => this._isDirtyRow(index)
+            );
         }
 
         public build(): void {

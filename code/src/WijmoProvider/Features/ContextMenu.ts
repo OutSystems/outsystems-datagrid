@@ -10,6 +10,7 @@ namespace WijmoProvider.Feature {
             OSFramework.Feature.IContextMenu
     {
         /** Events from the Context Menu  */
+        private _columnUniqueId: string;
         private _contextMenuEvents: OSFramework.Event.Feature.ContextMenuEventManager;
         private _grid: Grid.IGridWijmo;
         private _isOpening: boolean;
@@ -214,6 +215,7 @@ namespace WijmoProvider.Feature {
          */
         private _handleRightClick(e: MouseEvent): void {
             // select the cell/column that was clicked
+
             const ht = this._grid.provider.hitTest(e);
             // Verify it action occurred over an already selected range
             const isOverSelection = this._grid.features.selection.contains(
@@ -225,6 +227,20 @@ namespace WijmoProvider.Feature {
                 this._grid.features.selection.clear();
                 this._grid.provider.select(ht.range);
             }
+
+            // Trigger to open
+            this._isOpening = true;
+            const columns = this._grid.getColumns();
+
+            if (columns.length) {
+                this._columnUniqueId = this._grid.getColumns().find((x) => {
+                    return x.config.binding === ht.getColumn().binding;
+                }).uniqueId;
+            }
+
+            this._contextMenuEvents.trigger(
+                OSFramework.Event.Feature.ContextMenuEventType.Toggle
+            );
 
             //Filtering menuItem based on the clicked area =D
             this._provider.collectionView.filter = this._filterMenuItem.bind(
@@ -270,6 +286,10 @@ namespace WijmoProvider.Feature {
 
         public get isOpening(): boolean {
             return this._isOpening;
+        }
+
+        public get columnUniqueId(): string {
+            return this._columnUniqueId;
         }
 
         public get grid(): OSFramework.Grid.IGrid {

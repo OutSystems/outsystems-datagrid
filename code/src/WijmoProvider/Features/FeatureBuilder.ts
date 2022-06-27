@@ -75,11 +75,20 @@ namespace WijmoProvider.Feature {
             return this;
         }
 
+        private _makeColumn(): FeatureBuilder {
+            this._features.column = this._makeItem(Column);
+            return this;
+        }
         private _makeColumnAggregate(enable: boolean): FeatureBuilder {
             this._features.columnAggregate = this._makeItem(
                 ColumnAggregate,
                 enable
             );
+            return this;
+        }
+
+        private _makeColumnMergeCells(): FeatureBuilder {
+            this._features.columnMergeCells = this._makeItem(ColumnCellMerging);
             return this;
         }
 
@@ -234,7 +243,9 @@ namespace WijmoProvider.Feature {
                 ._makeCalculatedField()
                 ._makeRowHeader(config.rowHeader)
                 ._makeColumnPicker()
-                ._makeColumnAggregate(config.showAggregateValues);
+                ._makeColumnAggregate(config.showAggregateValues)
+                ._makeColumnMergeCells()
+                ._makeColumn();
 
             super.build();
         }

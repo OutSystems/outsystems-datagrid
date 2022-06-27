@@ -18,6 +18,8 @@ namespace OSFramework.Enum {
         Row_ListEmptyValues = 'Rows list has empty values.',
         Row_NotFound = 'Row not found.',
         SuccessMessage = 'Success',
-        UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.'
+        UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.',
+        AddRowGreaterThanPageSize = 'It seems that you are trying to add an invalid amount of rows. The NumberOfRows must be less or equal to the RowsPerPage.',
+        AddRowLowerThanOne = 'It seems that you are trying to add an invalid amount of rows. The NumberOfRows must greater than 0.'
     }
 }
