@@ -44,11 +44,7 @@ namespace WijmoProvider.Feature {
                 .getColumns()
                 .find((item) => item.provider.index === column.index);
 
-            const newValue = s.getCellData(
-                e.row,
-                e.col,
-                OSColumn.columnType === OSFramework.Enum.ColumnType.Dropdown
-            );
+            const newValue = s.getCellData(e.row, e.col, false);
             // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
             const oldValue = this._grid.features.dirtyMark.getOldValue(
                 e.row,
@@ -103,6 +99,27 @@ namespace WijmoProvider.Feature {
                 this._isInvalidRowByRowNumber(e.row)
             ) {
                 wijmo.addClass(e.cell, 'wj-state-invalid');
+            }
+        }
+
+        private _handleOnCellChangeEvent(
+            column: OSFramework.Column.IColumn,
+            rowNumber: number,
+            newValue: string,
+            oldValue: string
+        ): void {
+            if (
+                column.hasEvents &&
+                column.columnEvents.events.has(
+                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange
+                )
+            ) {
+                column.columnEvents.trigger(
+                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange,
+                    this._convertToFormat(column, newValue),
+                    this._convertToFormat(column, oldValue),
+                    rowNumber
+                );
             }
         }
 
@@ -206,6 +223,30 @@ namespace WijmoProvider.Feature {
             }
         }
 
+        private _setCellStatus(
+            column: OSFramework.Column.IColumn,
+            rowNumber: number,
+            newValue: string
+        ): void {
+            if (column.config.isMandatory) {
+                let isValid = true;
+                if (
+                    newValue === '' ||
+                    newValue === undefined ||
+                    newValue === null
+                ) {
+                    isValid = false;
+                }
+                // Sets cell as valid or invalid depending on the newValue
+                this.setCellStatus(
+                    rowNumber,
+                    column.widgetId,
+                    isValid,
+                    column.config.errorMessage
+                );
+            }
+        }
+
         /**
          * Set invalid rows
          * @param rowNumber Number of the row to trigger the events
@@ -270,38 +311,13 @@ namespace WijmoProvider.Feature {
             const column = this._grid.getColumn(columnUniqueID);
 
             if (column !== undefined) {
-                if (column.config.isMandatory) {
-                    let isValid = true;
-                    if (
-                        newValue === '' ||
-                        newValue === undefined ||
-                        newValue === null
-                    ) {
-                        isValid = false;
-                    }
-                    // Sets cell as valid or invalid depending on the newValue
-                    this.setCellStatus(
-                        rowNumber,
-                        column.widgetId,
-                        isValid,
-                        column.config.errorMessage
-                    );
-                }
-                if (
-                    column.hasEvents &&
-                    column.columnEvents.events.has(
-                        OSFramework.Event.Column.ColumnEventType
-                            .OnCellValueChange
-                    )
-                ) {
-                    column.columnEvents.trigger(
-                        OSFramework.Event.Column.ColumnEventType
-                            .OnCellValueChange,
-                        this._convertToFormat(column, newValue),
-                        this._convertToFormat(column, oldValue),
-                        rowNumber
-                    );
-                }
+                this._setCellStatus(column, rowNumber, newValue);
+                this._handleOnCellChangeEvent(
+                    column,
+                    rowNumber,
+                    newValue,
+                    oldValue
+                );
             }
         }
 
