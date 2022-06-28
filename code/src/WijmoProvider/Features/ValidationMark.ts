@@ -50,12 +50,14 @@ namespace WijmoProvider.Feature {
                 e.row,
                 column.binding
             );
-            this._triggerEventsFromColumn(
-                e.row,
-                OSColumn.uniqueId,
-                oldValue,
-                newValue
-            );
+            if (oldValue !== newValue) {
+                this._triggerEventsFromColumn(
+                    e.row,
+                    OSColumn.uniqueId,
+                    oldValue,
+                    newValue
+                );
+            }
         }
 
         /** Helper to convert the formats of Date and DateTime columns to the format of OS */
