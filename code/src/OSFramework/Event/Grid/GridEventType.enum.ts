@@ -8,9 +8,10 @@ namespace OSFramework.Event.Grid {
      */
     export enum GridEventType {
         Initialized = 'Initialized',
+        OnColumnPickerChange = 'OnColumnPickerChange',
+        OnDataChange = 'OnDataChange',
         OnFiltersChange = 'OnFiltersChange',
         OnSortChange = 'OnSortChange',
-        OnDataChange = 'OnDataChange',
         SearchEnded = 'SearchEnded'
     }
 }
