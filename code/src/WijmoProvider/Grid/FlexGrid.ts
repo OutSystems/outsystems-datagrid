@@ -94,12 +94,14 @@ namespace WijmoProvider.Grid {
             return this._rowMetadata;
         }
 
-        public addColumn(col: OSFramework.Column.IColumn): void {
+        public addColumn(col: OSFramework.Column.IColumn): Promise<void> {
             super.addColumn(col);
 
             if (this.isReady) {
                 //OS takes a while to set the WidgetId
-                OSFramework.Helper.AsyncInvocation(col.build.bind(col));
+                return OSFramework.Helper.AsyncInvocationPromise(
+                    col.build.bind(col)
+                );
             }
         }
 
