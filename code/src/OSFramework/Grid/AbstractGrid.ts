@@ -101,14 +101,14 @@ namespace OSFramework.Grid {
                     this.config.allowEdit
                 );
                 const newColumns = this._checkForNewColumns();
-                // remove existing columns if new dataSource has different columns
-                if (this._columns.size > 0 && newColumns) {
-                    this._columns.forEach((p) => this.removeColumn(p.uniqueId));
-                    generated.forEach((p) => this.addColumn(p));
-                }
-                // generate new columns
-                if (this._columns.size === 0 && newColumns) {
-                    generated.forEach((p) => this.addColumn(p));
+                if (newColumns) {
+                    // remove existing columns if new dataSource has different columns
+                    if (this._columns.size > 0) {
+                        this._columns.forEach((p) =>
+                            this.removeColumn(p.uniqueId)
+                        );
+                    }
+                    this._buildColumnsAndTriggerInitializedEvent(generated);
                 }
             } else {
                 //if the grid is read-only, then we'll flatten the array and use wijmo generator
@@ -121,6 +121,16 @@ namespace OSFramework.Grid {
                     );
                 }
             }
+        }
+
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        private _buildColumnsAndTriggerInitializedEvent(columns: any[]): void {
+            Promise.all(columns.map((p) => this.addColumn(p))).then(() => {
+                this.gridEvents.trigger(
+                    Event.Grid.GridEventType.Initialized,
+                    this
+                );
+            });
         }
 
         private _checkForNewColumns(): boolean {
@@ -194,14 +204,18 @@ namespace OSFramework.Grid {
                 });
             }
         }
+
         protected finishBuild(): void {
             this._isReady = true;
-
-            this.gridEvents.trigger(Event.Grid.GridEventType.Initialized, this);
+            if (this.hasColumnsDefined()) {
+                this.gridEvents.trigger(
+                    Event.Grid.GridEventType.Initialized,
+                    this
+                );
+            }
         }
 
         public addColumn(col: Column.IColumn): void {
-            console.log(`Add column '${col.uniqueId}': '${col.config.header}'`);
             this._columns.set(col.config.binding, col);
             this._columns.set(col.uniqueId, col);
             this._columnsSet.add(col);
@@ -313,7 +327,6 @@ namespace OSFramework.Grid {
                 } else {
                     this._validateBindings();
                 }
-
                 return true;
             }
 
