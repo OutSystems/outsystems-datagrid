@@ -123,6 +123,7 @@ namespace OSFramework.Grid {
             }
         }
 
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         private _buildColumnsAndTriggerInitializedEvent(columns: any[]): void {
             Promise.all(columns.map((p) => this.addColumn(p))).then(() => {
                 this.gridEvents.trigger(
