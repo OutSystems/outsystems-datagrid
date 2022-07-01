@@ -114,6 +114,10 @@ namespace OSFramework.Grid {
                 //if the grid is read-only, then we'll flatten the array and use wijmo generator
                 if (!this.config.allowEdit) {
                     this.dataSource.flatten();
+                    this.gridEvents.trigger(
+                        Event.Grid.GridEventType.Initialized,
+                        this
+                    );
                 } else {
                     //if the grid is marked as editable, and is to be auto generated, we do not support (because of the save)
                     throw new Error(
