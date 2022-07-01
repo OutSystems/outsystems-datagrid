@@ -14,6 +14,21 @@ namespace WijmoProvider.Feature {
             //
         }
 
+        public getColumnsOrder(): OSFramework.OSStructure.IColumnOrder[] {
+            const columns = this._grid.getColumns();
+
+            const columnsOrder: OSFramework.OSStructure.IColumnOrder[] =
+                columns.map((col: OSFramework.Column.IColumn) => {
+                    return {
+                        binding: col.config.binding,
+                        position: col.provider.index,
+                        widgetId: col.widgetId
+                    };
+                });
+
+            return columnsOrder;
+        }
+
         public setColumnHeader(columnBinding: string, header: string): void {
             const column = this._grid.getColumn(columnBinding);
 
