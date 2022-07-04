@@ -201,6 +201,25 @@ namespace WijmoProvider.Feature {
             );
         }
 
+        private _handleColumnPickerChangeEvent(
+            column: wijmo.grid.Column
+        ): void {
+            if (
+                this._grid.gridEvents.hasHandlers(
+                    OSFramework.Event.Grid.GridEventType.OnColumnPickerChange
+                )
+            ) {
+                const _column = this._grid.getColumn(column.binding);
+                this._grid.gridEvents.trigger(
+                    OSFramework.Event.Grid.GridEventType.OnColumnPickerChange,
+                    this._grid,
+                    _column.widgetId,
+                    column.binding,
+                    column.isVisible
+                );
+            }
+        }
+
         private _makeColumnPicker(): void {
             const theGrid = this._grid.provider;
             const picker = document.createElement('div');
@@ -248,7 +267,7 @@ namespace WijmoProvider.Feature {
                 //Undo Stack Enable
                 itemChecked: (s: wijmo.input.ListBox) => {
                     const _item = s.selectedItem;
-
+                    this._handleColumnPickerChangeEvent(_item);
                     this._grid.features.undoStack.startAction(
                         new ColumnPickerAction(
                             this._grid.provider,
