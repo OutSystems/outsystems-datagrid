@@ -56,7 +56,6 @@ namespace OutSystems.GridAPI.View {
      * @param gridID Grid ID
      * @returns A JSON representing the current grid configuration
      */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     export function GetColumnsOrder(gridID: string): string {
         PerformanceAPI.SetMark('View.GetColumnsOrder');
 
