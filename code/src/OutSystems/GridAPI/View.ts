@@ -50,6 +50,35 @@ namespace OutSystems.GridAPI.View {
 
         return output;
     }
+
+    /**
+     * Get the current layout of a given grid
+     * @param gridID Grid ID
+     * @returns A JSON representing the current grid configuration
+     */
+    export function GetColumnsOrder(gridID: string): string {
+        PerformanceAPI.SetMark('View.GetColumnsOrder');
+
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedAddClass,
+            callback: () => {
+                return GridManager.GetGridById(
+                    gridID
+                ).features.column.getColumnsOrder();
+            },
+            hasValue: true
+        });
+
+        PerformanceAPI.SetMark('View.GetColumnsOrder-end');
+        PerformanceAPI.GetMeasure(
+            '@datagrid-View.GetColumnsOrder',
+            'View.GetColumnsOrder',
+            'View.GetColumnsOrder-end'
+        );
+
+        return result;
+    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

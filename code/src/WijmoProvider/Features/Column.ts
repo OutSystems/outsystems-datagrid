@@ -14,6 +14,28 @@ namespace WijmoProvider.Feature {
             //
         }
 
+        public getColumnsOrder(): OSFramework.OSStructure.IColumnOrder[] {
+            const gridColumns = this._grid.getColumns();
+            let columnsOrder: OSFramework.OSStructure.IColumnOrder[];
+            if (gridColumns.length > 0) {
+                columnsOrder = gridColumns.map((col) => {
+                    return {
+                        binding: col.config.binding,
+                        position: col.provider.index,
+                        widgetId: col.widgetId
+                    };
+                });
+            } else {
+                columnsOrder = this._grid.provider.columns.map((col) => {
+                    return {
+                        binding: col.binding,
+                        position: col.index
+                    };
+                });
+            }
+            return columnsOrder;
+        }
+
         public setColumnHeader(columnBinding: string, header: string): void {
             const column = this._grid.getColumn(columnBinding);
 
