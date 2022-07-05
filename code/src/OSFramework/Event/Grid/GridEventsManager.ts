@@ -39,6 +39,9 @@ namespace OSFramework.Event.Grid {
                 case GridEventType.OnDataChange:
                     event = new GridOnDataChangeEvent();
                     break;
+                case GridEventType.OnColumnPickerChange:
+                    event = new OnColumnPickerChangeEvent();
+                    break;
                 default:
                     throw `The event '${eventType}' is not supported in a grid`;
                     break;
