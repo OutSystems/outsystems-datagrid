@@ -33,8 +33,9 @@ namespace WijmoProvider.Feature {
          * @memberof ColumnPickerAction
          */
         public applyState(state: boolean): void {
-            this._col.visible = state;
-            this._col.provider.visible = state;
+            this._col.visible = state !== undefined ? state : !this._oldState;
+            this._col.provider.visible =
+                state !== undefined ? state : !this._oldState;
             this._listBox.loadList();
             this._grid.features.columnPicker.handleColumnPickerChangeEvent(
                 this._col.provider
@@ -259,7 +260,7 @@ namespace WijmoProvider.Feature {
                             this._grid,
                             this._theColumnPicker,
                             _item.binding,
-                            !_item[s.checkedMemberPath]
+                            !_item.visible
                         )
                     );
                     this._grid.features.undoStack.closeAction(
