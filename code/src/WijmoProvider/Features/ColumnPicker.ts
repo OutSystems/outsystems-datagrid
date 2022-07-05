@@ -11,16 +11,17 @@ namespace WijmoProvider.Feature {
     class ColumnPickerAction extends wijmo.undo.UndoableAction {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _col: any;
+        private _grid: Grid.IGridWijmo;
         private _listBox: wijmo.input.ListBox;
 
         constructor(
-            grid: wijmo.grid.FlexGrid,
+            grid: Grid.IGridWijmo,
             listBox: wijmo.input.ListBox,
             binding: string,
             state: boolean
         ) {
-            super(grid);
-
+            super(grid.provider);
+            this._grid = grid;
             this._listBox = listBox;
             this._col = grid.getColumn(binding);
             this._oldState = state;
@@ -33,7 +34,11 @@ namespace WijmoProvider.Feature {
          */
         public applyState(state: boolean): void {
             this._col.visible = state;
+            this._col.provider.visible = state;
             this._listBox.loadList();
+            this._grid.features.columnPicker.handleColumnPickerChangeEvent(
+                this._col.provider
+            );
             this.target.focus();
         }
 
@@ -201,25 +206,6 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        private _handleColumnPickerChangeEvent(
-            column: wijmo.grid.Column
-        ): void {
-            if (
-                this._grid.gridEvents.hasHandlers(
-                    OSFramework.Event.Grid.GridEventType.OnColumnPickerChange
-                )
-            ) {
-                const _column = this._grid.getColumn(column.binding);
-                this._grid.gridEvents.trigger(
-                    OSFramework.Event.Grid.GridEventType.OnColumnPickerChange,
-                    this._grid,
-                    _column.widgetId,
-                    column.binding,
-                    column.isVisible
-                );
-            }
-        }
-
         private _makeColumnPicker(): void {
             const theGrid = this._grid.provider;
             const picker = document.createElement('div');
@@ -267,10 +253,10 @@ namespace WijmoProvider.Feature {
                 //Undo Stack Enable
                 itemChecked: (s: wijmo.input.ListBox) => {
                     const _item = s.selectedItem;
-                    this._handleColumnPickerChangeEvent(_item);
+                    this.handleColumnPickerChangeEvent(_item);
                     this._grid.features.undoStack.startAction(
                         new ColumnPickerAction(
-                            this._grid.provider,
+                            this._grid,
                             this._theColumnPicker,
                             _item.binding,
                             !_item[s.checkedMemberPath]
@@ -317,6 +303,23 @@ namespace WijmoProvider.Feature {
         public dispose(): void {
             this._theColumnPicker.dispose();
             this._theColumnPicker = undefined;
+        }
+
+        public handleColumnPickerChangeEvent(column: wijmo.grid.Column): void {
+            if (
+                this._grid.gridEvents.hasHandlers(
+                    OSFramework.Event.Grid.GridEventType.OnColumnPickerChange
+                )
+            ) {
+                const _column = this._grid.getColumn(column.binding);
+                this._grid.gridEvents.trigger(
+                    OSFramework.Event.Grid.GridEventType.OnColumnPickerChange,
+                    this._grid,
+                    _column.widgetId,
+                    column.binding,
+                    column.isVisible
+                );
+            }
         }
 
         public setShowHiddenColumns(showHiddenColumns: boolean): void {

@@ -4,6 +4,7 @@ namespace OSFramework.Feature {
      * Interface for freezing columns
      */
     export interface IColumnPicker {
+        handleColumnPickerChangeEvent(column: wijmo.grid.Column): void;
         /**
          * Responsible for defining whether or not non visible columns will be shown on column picker
          */
