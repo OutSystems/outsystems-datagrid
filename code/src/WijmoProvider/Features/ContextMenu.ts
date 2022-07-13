@@ -231,10 +231,11 @@ namespace WijmoProvider.Feature {
             // Trigger to open
             this._isOpening = true;
             const columns = this._grid.getColumns();
+            const htColumn = ht.getColumn();
 
-            if (columns.length) {
+            if (columns.length && htColumn) {
                 this._columnUniqueId = this._grid.getColumns().find((x) => {
-                    return x.config.binding === ht.getColumn().binding;
+                    return x.config.binding === htColumn.binding;
                 }).uniqueId;
             }
 
