@@ -20,7 +20,7 @@ namespace WijmoProvider.Feature {
         }
 
         private _cellEditHandler(
-            grid: wijmo.grid.FlexGrid,
+            _grid: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
             this.saveOriginalValue(e.row, e.col);
@@ -242,6 +242,10 @@ namespace WijmoProvider.Feature {
                 rowNumber,
                 this._internalLabel
             );
+        }
+
+        public isRowDirty(row: number): boolean {
+            return this._isDirtyRow(row);
         }
 
         public saveOriginalValue(
