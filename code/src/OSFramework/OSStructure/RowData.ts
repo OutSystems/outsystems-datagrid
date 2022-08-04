@@ -32,6 +32,7 @@ namespace OSFramework.OSStructure {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public serialize(hasDataItem = true): any {
+            // there are cases where we don't need to return dataItem
             if (!hasDataItem) {
                 return {
                     rowIndex: this.rowIndex,
