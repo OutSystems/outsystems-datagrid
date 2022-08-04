@@ -244,7 +244,7 @@ namespace WijmoProvider.Feature {
             // on serverSideGrids we don't have control of pageSize,
             // therefore we only want this validation on client side grids.
             if (
-                this._grid.config.serverSidePagination &&
+                this._grid.features.pagination.pageSize > 0 &&
                 rowsAmount > this._grid.features.pagination.pageSize
             ) {
                 throw new Error(

@@ -256,7 +256,7 @@ namespace WijmoProvider.Feature {
                     number,
                     OSFramework.OSStructure.RowData
                 >();
-                const rowColumnArr = [];
+                const rowColumnArr: OSFramework.OSStructure.RowData[] = [];
 
                 this.getProviderAllSelections().map((range) => {
                     const bindings = Array(range.rightCol - range.leftCol + 1)
@@ -468,7 +468,18 @@ namespace WijmoProvider.Feature {
                         )
                 );
                 return {
-                    value: selectedRows.map((p) => p.serialize()),
+                    value: selectedRows
+                        .map((p) => p.serialize())
+                        // we want to return dataItem as an object instead of an array,
+                        .map(({ rowIndex, selected, dataItem }) => {
+                            const _dataItem = { ...dataItem[0] };
+
+                            return {
+                                rowIndex,
+                                selected,
+                                dataItem: JSON.stringify(_dataItem)
+                            };
+                        }),
                     isSuccess: true,
                     message: OSFramework.Enum.ErrorMessages.SuccessMessage,
                     code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS

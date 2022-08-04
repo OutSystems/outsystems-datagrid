@@ -82,7 +82,7 @@ namespace OSFramework.Grid {
          * @param dataItem
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        toOSFormat(dataItem: any): any;
+        toOSFormat(dataItem: any, stringify?: boolean): any;
         /**
          * Removes the second to dates in string format because the Datetime picker format is HH:mm
          * @param value
