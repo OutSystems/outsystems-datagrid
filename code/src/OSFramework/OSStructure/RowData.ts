@@ -31,11 +31,18 @@ namespace OSFramework.OSStructure {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public serialize(): any {
+        public serialize(hasDataItem = true): any {
+            if (!hasDataItem) {
+                return {
+                    rowIndex: this.rowIndex,
+                    selected: this.selected
+                };
+            }
+
             return {
                 rowIndex: this.rowIndex,
                 selected: this.selected,
-                dataItem: this._grid.dataSource.toOSFormat(this.dataItem)
+                dataItem: this._grid.dataSource.toOSFormat(this.dataItem, false)
             };
         }
     }
