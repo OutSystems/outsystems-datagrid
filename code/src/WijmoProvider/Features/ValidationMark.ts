@@ -11,7 +11,7 @@ namespace WijmoProvider.Feature {
             OSFramework.Enum.RowMetadata.Validation;
         /** Array containing all invalid rows */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        private _invalidRows: Array<any>;
+        private _invalidRows: Set<any>;
         /** Exposed methods to manipulate RowMetadata */
         private _metadata: OSFramework.Interface.IRowMetadata;
 
@@ -19,7 +19,7 @@ namespace WijmoProvider.Feature {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            this._invalidRows = new Array<any>();
+            this._invalidRows = new Set<any>();
         }
 
         /**
@@ -257,16 +257,13 @@ namespace WijmoProvider.Feature {
         private _setRowStatus(rowNumber: number, isValid: boolean): void {
             const dataItem = this._grid.provider.rows[rowNumber].dataItem;
 
-            if (this._invalidRows.indexOf(dataItem) === -1) {
+            if (!this._invalidRows.has(dataItem)) {
                 if (isValid === false) {
-                    this._invalidRows.push(dataItem);
+                    this._invalidRows.add(dataItem);
                 }
             } else {
                 if (isValid === true) {
-                    this._invalidRows.splice(
-                        this._invalidRows.indexOf(dataItem),
-                        1
-                    );
+                    this._invalidRows.delete(dataItem);
                 }
             }
         }
@@ -281,16 +278,13 @@ namespace WijmoProvider.Feature {
             const dataItem =
                 this._grid.provider.itemsSource.sourceCollection[rowIndex];
 
-            if (this._invalidRows.indexOf(dataItem) === -1) {
+            if (!this._invalidRows.has(dataItem)) {
                 if (isValid === false) {
-                    this._invalidRows.push(dataItem);
+                    this._invalidRows.add(dataItem);
                 }
             } else {
                 if (isValid === true) {
-                    this._invalidRows.splice(
-                        this._invalidRows.indexOf(dataItem),
-                        1
-                    );
+                    this._invalidRows.delete(dataItem);
                 }
             }
         }
@@ -391,7 +385,7 @@ namespace WijmoProvider.Feature {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public get invalidRows(): Array<any> {
+        public get invalidRows(): Set<any> {
             return this._invalidRows;
         }
 
@@ -424,7 +418,7 @@ namespace WijmoProvider.Feature {
          */
         public clear(): void {
             this._metadata.clearProperty(this._internalLabel);
-            this._invalidRows = [];
+            this._invalidRows = new Set();
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
         /**
@@ -608,18 +602,17 @@ namespace WijmoProvider.Feature {
             rowNumber: number,
             columnWidgetID: string,
             isValid: boolean,
-            errorMessage: string
+            errorMessage: string,
+            refresh = true
         ): void {
             const column = this._grid.getColumn(columnWidgetID).provider;
+            const metadata = this.getMetadataByRowNumber(rowNumber);
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
-            this.getMetadataByRowNumber(rowNumber).validation.set(
-                column.binding,
-                isValid
-            );
+            metadata.validation.set(column.binding, isValid);
 
             // Sets the errorMessage map by matching the binding of the columns with the error that indicates the error of the validation to be shown when this one is not valid.
-            this.getMetadataByRowNumber(rowNumber).errorMessage.set(
+            metadata.errorMessage.set(
                 column.binding,
                 // If the error message is empty we want to return the message -> Invalid [Column Name]
                 // Make sure all the end of lines from the error that comes from OS are replaced with <br>
@@ -634,8 +627,10 @@ namespace WijmoProvider.Feature {
                 isValid && !this._isInvalidRowByRowNumber(rowNumber)
             );
 
-            // Makes sure the grid gets refreshed after validation
-            this._grid.provider.invalidate();
+            if (refresh) {
+                // Makes sure the grid gets refreshed after validation
+                this._grid.provider.invalidate();
+            }
         }
 
         /**

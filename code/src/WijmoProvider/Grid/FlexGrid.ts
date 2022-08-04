@@ -299,10 +299,10 @@ namespace WijmoProvider.Grid {
                 OSFramework.OSStructure.GridChanges
             );
 
-            if (this._features.validationMark.invalidRows.length > 0) {
+            if (this._features.validationMark.invalidRows.size > 0) {
                 changes.hasInvalidLines = true;
                 changes.invalidLinesJSON = this.dataSource.toOSFormat(
-                    this._features.validationMark.invalidRows
+                    Array.from(this._features.validationMark.invalidRows)
                 );
             }
 
