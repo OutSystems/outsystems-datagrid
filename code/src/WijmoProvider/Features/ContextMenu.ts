@@ -233,7 +233,8 @@ namespace WijmoProvider.Feature {
             const columns = this._grid.getColumns();
             const htColumn = ht.getColumn();
 
-            if (columns.length && htColumn) {
+            // Will need to have an extra validation looking at the binding because of the column picker column
+            if (columns.length && htColumn && htColumn.binding !== null) {
                 this._columnUniqueId = this._grid.getColumns().find((x) => {
                     return x.config.binding === htColumn.binding;
                 }).uniqueId;
