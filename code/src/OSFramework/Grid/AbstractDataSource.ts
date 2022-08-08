@@ -215,7 +215,8 @@ namespace OSFramework.Grid {
             }
         }
 
-        protected _converter(object): void {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+        protected _converter(object: any): void {
             Object.keys(object).forEach((key) => {
                 if (_.isObject(object[key]) && Object.keys(object[key]).length)
                     this._converter(object[key]);
