@@ -311,10 +311,6 @@ namespace WijmoProvider.Feature {
             for (let index = 0; index < quantity; index++) {
                 this._grid.addedRows.trigger(topRowIndex + index);
             }
-
-            // Trigger the method responsible for setting the row as new in the metadata of the row
-            this._grid.addedRows.trigger(topRowIndex);
-
             // Makes sure the first cell from the recently added top row is selected.
             this._grid.features.selection.selectAndFocusFirstCell(topRowIndex);
 
