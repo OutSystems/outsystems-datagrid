@@ -215,6 +215,10 @@ namespace OSFramework.Grid {
             }
         }
 
+        /**
+         * Set all values of object to be undefined.
+         * @param object Object to be changed
+         */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         protected _converter(object: any): void {
             Object.keys(object).forEach((key) => {
