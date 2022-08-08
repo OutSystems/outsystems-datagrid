@@ -154,7 +154,11 @@ namespace OSFramework.Column {
             if (this.config.hasOwnProperty(propertyName)) {
                 this.config[propertyName] = propertyValue;
 
-                if (this.hasConditionalFormat) {
+                if (
+                    this.hasConditionalFormat &&
+                    propertyName ===
+                        OSStructure.ColumnProperties.ConditionalFormat
+                ) {
                     this.setConditionalFormat(JSON.parse(propertyValue), true);
                     this.grid.provider.invalidate(); // reapply classes
                 }

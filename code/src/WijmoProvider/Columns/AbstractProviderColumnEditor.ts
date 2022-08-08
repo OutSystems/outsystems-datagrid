@@ -91,7 +91,12 @@ namespace WijmoProvider.Column {
             if (this.editorConfig.hasOwnProperty(propertyName)) {
                 this.editorConfig[propertyName] = propertyValue;
 
-                if (this.hasConditionalFormat) {
+                if (
+                    this.hasConditionalFormat &&
+                    propertyName ===
+                        OSFramework.OSStructure.ColumnProperties
+                            .ConditionalFormat
+                ) {
                     this.setConditionalFormat(JSON.parse(propertyValue), true);
                     this.grid.provider.invalidate(); // reapply classes
                 }

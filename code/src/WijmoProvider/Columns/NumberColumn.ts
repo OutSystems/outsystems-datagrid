@@ -127,20 +127,21 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
-                case 'decimalPlaces':
+                case OSFramework.OSStructure.ColumnProperties.DecimalPlaces:
                     this._setFormat(propertyValue);
                     this.applyConfigs();
                     break;
-                case 'hasThousandSeparator':
+                case OSFramework.OSStructure.ColumnProperties
+                    .HasThousandSeparator:
                     this.editorConfig.hasThousandSeparator = propertyValue;
                     this._setEditorFormat(propertyValue);
                     this.applyConfigs();
                     break;
-                case 'minValue':
+                case OSFramework.OSStructure.ColumnProperties.MinValue:
                     this._setMinValue(propertyValue);
                     this.applyConfigs();
                     break;
-                case 'maxValue':
+                case OSFramework.OSStructure.ColumnProperties.MaxValue:
                     this._setMaxValue(propertyValue);
                     this.applyConfigs();
                     break;
