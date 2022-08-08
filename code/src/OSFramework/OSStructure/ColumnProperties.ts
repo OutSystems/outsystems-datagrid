@@ -1,13 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.OSStructure {
     export enum ColumnProperties {
+        ConditionalFormat = 'conditionalFormat',
         DecimalPlaces = 'decimalPlaces',
-        HasThousandSeparator = 'hasThousandSeparator',
-        MinValue = 'minValue',
-        MaxValue = 'maxValue',
         DropdownOptions = 'dropdownOptions',
         Format = 'format',
-        Symbol = 'symbol',
-        ConditionalFormat = 'conditionalFormat'
+        HasThousandSeparator = 'hasThousandSeparator',
+        MaxValue = 'maxValue',
+        MinValue = 'minValue',
+        Symbol = 'symbol'
     }
 }
