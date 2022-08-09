@@ -215,6 +215,19 @@ namespace OSFramework.Grid {
             }
         }
 
+        /**
+         * Set all values of object to be undefined.
+         * @param object Object to be changed
+         */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+        protected _converter(object: any): void {
+            Object.keys(object).forEach((key) => {
+                if (_.isObject(object[key]) && Object.keys(object[key]).length)
+                    this._converter(object[key]);
+                else object[key] = undefined;
+            });
+        }
+
         protected _getChangesString(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
             itemsChanged: any,
@@ -264,18 +277,7 @@ namespace OSFramework.Grid {
                 ? parsedNewItem
                 : this._parentGrid.getStructureFromColumnBindings();
 
-            const converter = (object) => {
-                Object.keys(object).forEach((key) => {
-                    if (
-                        _.isObject(object[key]) &&
-                        Object.keys(object[key]).length
-                    )
-                        converter(object[key]);
-                    else object[key] = undefined;
-                });
-            };
-
-            converter(parsedNewItem);
+            this._converter(parsedNewItem);
 
             return parsedNewItem;
         }
@@ -306,7 +308,9 @@ namespace OSFramework.Grid {
                 this._setKeyBinding(data[i]);
             }
 
-            this._ds.splice(position, 0, ...data);
+            Helper.BatchArray(data, (chunk) =>
+                this._ds.splice(position, 0, ...chunk)
+            );
         }
 
         public flatten(): void {

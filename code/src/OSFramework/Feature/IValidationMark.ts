@@ -2,7 +2,7 @@
 namespace OSFramework.Feature {
     export interface IValidationMark {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        invalidRows: Array<any>;
+        invalidRows: Set<any>;
         clear(): void;
         clearByRowKeys(rowKeys: Array<string>): void;
         errorMessage(rowNumber: number, binding: string): string;

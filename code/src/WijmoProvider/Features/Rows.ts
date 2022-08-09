@@ -13,8 +13,10 @@ namespace WijmoProvider.Feature {
             this._oldState = { action: 'remove', ...undoableItems };
             this._newState = undoableItems;
             const collectionView = grid.provider.itemsSource;
-            collectionView.trackChanges &&
-                collectionView.itemsAdded.push(...undoableItems.items);
+
+            OSFramework.Helper.BatchArray(undoableItems.items, (chunk) =>
+                collectionView.itemsAdded.push(...chunk)
+            );
         }
         // eslint-disable-next-line
         public applyState(state: any): void {
@@ -22,10 +24,14 @@ namespace WijmoProvider.Feature {
             if (collectionView) {
                 if (state.action === 'remove') {
                     //undo
-                    state.items.forEach((item) => {
-                        collectionView.remove(item);
-                        collectionView.trackChanges &&
+                    OSFramework.Helper.BatchArray(state.items, (chunk) => {
+                        collectionView.sourceCollection.splice(
+                            state.datasourceIdx,
+                            chunk.length
+                        );
+                        chunk.forEach((item) => {
                             collectionView.itemsAdded.remove(item);
+                        });
                     });
                 } else {
                     //redo
@@ -305,10 +311,6 @@ namespace WijmoProvider.Feature {
             for (let index = 0; index < quantity; index++) {
                 this._grid.addedRows.trigger(topRowIndex + index);
             }
-
-            // Trigger the method responsible for setting the row as new in the metadata of the row
-            this._grid.addedRows.trigger(topRowIndex);
-
             // Makes sure the first cell from the recently added top row is selected.
             this._grid.features.selection.selectAndFocusFirstCell(topRowIndex);
 
