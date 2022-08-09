@@ -234,7 +234,7 @@ namespace WijmoProvider.Feature {
             return topRow === Infinity ? 0 : topRow;
         }
 
-        private _validateAddNewRow(rowsAmount: number): void {
+        private _validateAddNewRow(rowsAmount: number, topRowIndex: number): void {
             if (!this._canAddRows()) {
                 throw new Error(
                     OSFramework.Enum.ErrorMessages.AddRowWithActiveFilterOrSort
@@ -245,6 +245,10 @@ namespace WijmoProvider.Feature {
                 throw new Error(
                     OSFramework.Enum.ErrorMessages.AddRowLowerThanOne
                 );
+            }
+
+            if(rowsAmount + topRowIndex > this._grid.features.pagination.pageSize){
+                throw new Error(OSFramework.Enum.ErrorMessages.AddRowExceedingPageSize);
             }
 
             // on serverSideGrids we don't have control of pageSize,
@@ -281,10 +285,10 @@ namespace WijmoProvider.Feature {
          * @returns ReturnMessage containing the resulting code from the adding rows and the error message in case of failure.
          */
         public addNewRows(rowsAmount: number): void {
-            this._validateAddNewRow(rowsAmount);
-
             const providerGrid = this._grid.provider;
             const topRowIndex = this._getTopRow();
+            
+            this._validateAddNewRow(rowsAmount, topRowIndex);
             // The datasource index of the selection's top row. Requires the page index and the page size.
             let dsTopRowIndex =
                 topRowIndex + this._grid.features.pagination.rowStart - 1;
