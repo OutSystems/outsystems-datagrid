@@ -56,7 +56,7 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
-                case 'format':
+                case OSFramework.OSStructure.ColumnProperties.Format:
                     this.editorConfig.format =
                         propertyValue || this.editorConfig.defaultFormat;
                     this.applyConfigs();
