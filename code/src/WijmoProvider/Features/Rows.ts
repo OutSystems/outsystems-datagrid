@@ -292,7 +292,7 @@ namespace WijmoProvider.Feature {
 
         /**
          * Add a new row to the grid with all cells empty.
-         * @returns Array containing the indeces of the newly added rows.
+         * @returns Array containing the indices of the newly added rows.
          */
         public addNewRows(rowsAmount: number): number[] {
             const providerGrid = this._grid.provider;
