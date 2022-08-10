@@ -250,10 +250,11 @@ namespace WijmoProvider.Feature {
                 );
             }
 
-            // verifies if the amount of new rows exceeds in the current page
+            // in client side validates if the amount of new rows exceeds in the current page
             if (
+                this._grid.features.pagination.pageSize > 0 &&
                 rowsAmount + topRowIndex >
-                this._grid.features.pagination.pageSize
+                    this._grid.features.pagination.pageSize
             ) {
                 throw new Error(
                     OSFramework.Enum.ErrorMessages.AddRowExceedingPageSize
