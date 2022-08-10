@@ -597,6 +597,8 @@ namespace WijmoProvider.Feature {
          * @param columnWidgetID ID of the Column block in which the action of validation should be triggered.
          * @param isValid Boolean that indicates whether the cell value meets a validation or data type rule. True, if the value conforms to the rule. False, otherwise.
          * @param errorMessage Message to be shown to the user when the value introduced is not valid.
+         * @param refresh Whether or not grid should be refreshed after validation. On use cases where this method is called multiple times, it's indicated to pass it as false
+         * and call Refresh after all validation.
          */
         public setCellStatus(
             rowNumber: number,
