@@ -297,7 +297,7 @@ namespace WijmoProvider.Feature {
         public addNewRows(rowsAmount: number): number[] {
             const providerGrid = this._grid.provider;
             const topRowIndex = this._getTopRow();
-            
+
             this._validateAddNewRow(rowsAmount, topRowIndex);
             // The datasource index of the selection's top row. Requires the page index and the page size.
             let dsTopRowIndex =
