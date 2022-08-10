@@ -48,10 +48,13 @@ namespace OutSystems.GridAPI.Rows {
             gridID,
             errorCode: OSFramework.Enum.ErrorCodes.API_FailedAddRow,
             callback: () => {
-                GridManager.GetGridById(gridID).features.rows.addNewRows(
-                    numberOfRows
+                return JSON.stringify(
+                    GridManager.GetGridById(gridID).features.rows.addNewRows(
+                        numberOfRows
+                    )
                 );
-            }
+            },
+            hasValue: true
         });
 
         PerformanceAPI.SetMark('Rows.AddRows-end');

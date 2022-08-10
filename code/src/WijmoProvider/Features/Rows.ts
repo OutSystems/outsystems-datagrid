@@ -292,9 +292,9 @@ namespace WijmoProvider.Feature {
 
         /**
          * Add a new row to the grid with all cells empty.
-         * @returns ReturnMessage containing the resulting code from the adding rows and the error message in case of failure.
+         * @returns Array containing the indices of the newly added rows.
          */
-        public addNewRows(rowsAmount: number): void {
+        public addNewRows(rowsAmount: number): number[] {
             const providerGrid = this._grid.provider;
             const topRowIndex = this._getTopRow();
 
@@ -321,9 +321,12 @@ namespace WijmoProvider.Feature {
 
             this._grid.dataSource.addRow(dsTopRowIndex, items);
 
+            const addedRowsNumber = [];
+
             // Trigger the event of adding the new row that will add the dirty mark to the added row
             for (let index = 0; index < quantity; index++) {
                 this._grid.addedRows.trigger(topRowIndex + index);
+                addedRowsNumber.push(topRowIndex + index);
             }
             // Makes sure the first cell from the recently added top row is selected.
             this._grid.features.selection.selectAndFocusFirstCell(topRowIndex);
@@ -363,6 +366,7 @@ namespace WijmoProvider.Feature {
                     OSFramework.Enum.ErrorMessages.AddRowErrorMessage
                 );
             }
+            return addedRowsNumber;
         }
 
         public build(): void {
