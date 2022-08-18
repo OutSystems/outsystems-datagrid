@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Column {
+namespace Providers.DataGrid.Wijmo.Column {
     export class GridEditAction extends wijmo.undo.UndoableAction {
         private _col: number;
         private _dataItems;

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Helper.FilterFactory {
+namespace Providers.DataGrid.Wijmo.Helper.FilterFactory {
     /**
      * The type below is a mapper of the serialized object sent by wijmo to facilitate our usage of it, while mapping to OutSystems structure.
      */

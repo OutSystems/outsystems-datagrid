@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     function Evaluate(formula: OSFramework.DataGrid.OSStructure.Formula) {
         const fn: OSFramework.DataGrid.OSStructure.Functions = formula.function;
 

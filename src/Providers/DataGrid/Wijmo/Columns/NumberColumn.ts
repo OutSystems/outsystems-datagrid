@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Column {
+namespace Providers.DataGrid.Wijmo.Column {
     /**
      * Defines limites (positive and negative) based on decimal places
      */

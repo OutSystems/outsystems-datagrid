@@ -10,7 +10,10 @@ namespace OutSystems.GridAPI.Language {
         PerformanceAPI.SetMark('Language.SetLanguage');
 
         if (language !== '') {
-            WijmoProvider.Helper.Translation.SetLanguage(language, url);
+            Providers.DataGrid.Wijmo.Helper.Translation.SetLanguage(
+                language,
+                url
+            );
         }
 
         PerformanceAPI.SetMark('Language.SetLanguage-end');

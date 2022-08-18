@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     // export class Builder extends Validation implements OSFramework.DataGrid.Interface.IBuilder {
     export class ColumnCellMerging
         implements

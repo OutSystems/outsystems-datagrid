@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     export class ColumnFreeze
         implements
             OSFramework.DataGrid.Feature.IColumnFreeze,

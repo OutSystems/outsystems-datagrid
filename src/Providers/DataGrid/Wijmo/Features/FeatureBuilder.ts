@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     export interface IFeatures {
         features: OSFramework.DataGrid.Feature.ExposedFeatures;
         dispose();

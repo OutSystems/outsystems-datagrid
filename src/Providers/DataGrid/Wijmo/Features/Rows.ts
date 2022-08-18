@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     export class GridInsertRowAction extends wijmo.undo.UndoableAction {
         private _grid: Grid.IGridWijmo;
 

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Column {
+namespace Providers.DataGrid.Wijmo.Column {
     export class CheckboxColumn extends AbstractProviderColumn<OSFramework.DataGrid.Configuration.Column.ColumnConfigCheckbox> {
         constructor(
             grid: OSFramework.DataGrid.Grid.IGrid,

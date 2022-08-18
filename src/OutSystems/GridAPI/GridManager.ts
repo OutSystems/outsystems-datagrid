@@ -46,7 +46,7 @@ namespace OutSystems.GridAPI.GridManager {
     ): OSFramework.DataGrid.Grid.IGrid {
         PerformanceAPI.SetMark('GridManager.CreateGrid');
 
-        const _grid = WijmoProvider.Grid.GridFactory.MakeGrid(
+        const _grid = Providers.DataGrid.Wijmo.Grid.GridFactory.MakeGrid(
             OSFramework.DataGrid.Enum.GridType.FlexGrid,
             gridID,
             JSON.parse(configs)

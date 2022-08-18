@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     export class AutoRowNumber
         implements
             OSFramework.DataGrid.Feature.IRowNumber,

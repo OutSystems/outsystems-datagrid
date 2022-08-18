@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Grid {
+namespace Providers.DataGrid.Wijmo.Grid {
     export namespace GridFactory {
         export function MakeGrid(
             type: OSFramework.DataGrid.Enum.GridType,

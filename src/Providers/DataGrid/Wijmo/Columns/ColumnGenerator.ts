@@ -1,4 +1,4 @@
-namespace WijmoProvider.Column {
+namespace Providers.DataGrid.Wijmo.Column {
     function _columnGeneratorInternal(
         grid: OSFramework.DataGrid.Grid.IGrid,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,7 +61,7 @@ namespace WijmoProvider.Column {
 
                     createdColumns.push(
                         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                        WijmoProvider.Column.ColumnFactory.MakeColumn(
+                        Providers.DataGrid.Wijmo.Column.ColumnFactory.MakeColumn(
                             grid,
                             columnType,
                             parentRecord + key,

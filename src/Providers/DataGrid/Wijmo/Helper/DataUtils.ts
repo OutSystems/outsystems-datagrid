@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Helper.DataUtils {
+namespace Providers.DataGrid.Wijmo.Helper.DataUtils {
     export function GetTicksFromDate(
         value: Date,
         hasTimeZone: boolean

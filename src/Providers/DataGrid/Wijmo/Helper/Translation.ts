@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Helper.Translation {
+namespace Providers.DataGrid.Wijmo.Helper.Translation {
     function transposeLanguageFormat(language: string): string {
         let changedLang = language;
 

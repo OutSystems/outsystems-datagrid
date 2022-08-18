@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     export class CellData implements OSFramework.DataGrid.Feature.ICellData {
         private _data: OSFramework.DataGrid.Grid.AbstractDataSource;
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Providers.DataGrid.Wijmo.Grid.IGridWijmo;
 
         constructor(
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            grid: WijmoProvider.Grid.IGridWijmo,
+            grid: Providers.DataGrid.Wijmo.Grid.IGridWijmo,
             data: OSFramework.DataGrid.Grid.AbstractDataSource
         ) {
             this._grid = grid;

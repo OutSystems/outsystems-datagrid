@@ -61,7 +61,7 @@ namespace OutSystems.GridAPI.ColumnManager {
         const jsonEditorConfigs = JSON.parse(editorConfig);
 
         if (grid !== undefined) {
-            column = WijmoProvider.Column.ColumnFactory.MakeColumn(
+            column = Providers.DataGrid.Wijmo.Column.ColumnFactory.MakeColumn(
                 grid,
                 type,
                 columnID,

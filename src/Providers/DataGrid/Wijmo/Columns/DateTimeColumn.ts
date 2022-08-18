@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Column {
+namespace Providers.DataGrid.Wijmo.Column {
     /**
      * Representation of OS Datetime Column
      * Responsible to instantiate the custom editor (calendar and time dropdown) and all the features of a Datetime column

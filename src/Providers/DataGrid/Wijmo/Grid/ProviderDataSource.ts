@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Grid {
+namespace Providers.DataGrid.Wijmo.Grid {
     export class ProviderDataSource extends OSFramework.DataGrid.Grid
         .AbstractDataSource {
         private _provider: wijmo.collections.CollectionView;

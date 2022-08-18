@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     /**
      * Undo stack won't work when the ColumnPicker is opened.
      * The wijmo.showPopup -> _addPopupToDOM moves the element to the body element
@@ -118,12 +118,12 @@ namespace WijmoProvider.Feature {
             OSFramework.DataGrid.Interface.IBuilder,
             OSFramework.DataGrid.Interface.IDisposable
     {
-        private _grid: WijmoProvider.Grid.IGridWijmo;
+        private _grid: Providers.DataGrid.Wijmo.Grid.IGridWijmo;
         private _showHiddenColumns = true;
         private _theColumnPicker: wijmo.input.ListBox;
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        constructor(grid: WijmoProvider.Grid.IGridWijmo) {
+        constructor(grid: Providers.DataGrid.Wijmo.Grid.IGridWijmo) {
             this._grid = grid;
         }
 

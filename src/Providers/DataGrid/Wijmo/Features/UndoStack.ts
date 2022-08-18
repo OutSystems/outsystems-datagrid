@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     export interface IProviderUndoStack
         extends OSFramework.DataGrid.Feature.IUndoStack {
         closeAction<T>(T);

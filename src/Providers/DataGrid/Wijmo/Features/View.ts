@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     class GroupDefinition {
         public align: string;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

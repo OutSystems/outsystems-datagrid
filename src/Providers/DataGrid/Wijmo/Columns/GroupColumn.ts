@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Column {
+namespace Providers.DataGrid.Wijmo.Column {
     export class GroupColumn
         extends AbstractProviderColumn<OSFramework.DataGrid.Configuration.Column.ColumnConfigGroup>
         implements OSFramework.DataGrid.Column.IColumnGroup

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     class GroupPanelAction extends wijmo.undo.UndoableAction {
         private _grid: wijmo.grid.FlexGrid;
 

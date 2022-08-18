@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace WijmoProvider.Feature {
+namespace Providers.DataGrid.Wijmo.Feature {
     class ColumnSortAction extends wijmo.undo.UndoableAction {
         constructor(s: wijmo.grid.FlexGrid) {
             super(s);
