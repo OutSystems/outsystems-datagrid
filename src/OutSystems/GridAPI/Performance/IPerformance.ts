@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace PerformanceAPI {
+namespace OutSystems.GridAPI.Performance {
     export interface IPerformance {
         isDebug: boolean;
 

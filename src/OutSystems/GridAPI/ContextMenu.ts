@@ -14,7 +14,7 @@ namespace OutSystems.GridAPI.ContextMenu {
         menuItemId: string,
         lookUpDOM = true
     ): string {
-        PerformanceAPI.SetMark('ContextMenu.getGridByMenuId');
+        Performance.SetMark('ContextMenu.getGridByMenuId');
 
         //Try to find in DOM only if not present on Map
         if (lookUpDOM && !_menuItemsToGridId.has(menuItemId)) {
@@ -28,8 +28,8 @@ namespace OutSystems.GridAPI.ContextMenu {
             }
         }
 
-        PerformanceAPI.SetMark('ContextMenu.getGridByMenuId-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ContextMenu.getGridByMenuId-end');
+        Performance.GetMeasure(
             '@datagrid-ContextMenu.getGridByMenuId',
             'ContextMenu.getGridByMenuId',
             'ContextMenu.getGridByMenuId-end'
@@ -51,7 +51,7 @@ namespace OutSystems.GridAPI.ContextMenu {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         clickEvent: OSFramework.DataGrid.Callbacks.ContextMenu.OSClickEvent
     ): void {
-        PerformanceAPI.SetMark('ContextMenu.addItem');
+        Performance.SetMark('ContextMenu.addItem');
 
         const gridID = GetGridByMenuId(menuItemId);
 
@@ -75,8 +75,8 @@ namespace OutSystems.GridAPI.ContextMenu {
                     }
                 );
 
-                PerformanceAPI.SetMark('ContextMenu.addItem-end');
-                PerformanceAPI.GetMeasure(
+                Performance.SetMark('ContextMenu.addItem-end');
+                Performance.GetMeasure(
                     '@datagrid-ContextMenu.addItem',
                     'ContextMenu.addItem',
                     'ContextMenu.addItem-end'
@@ -92,7 +92,7 @@ namespace OutSystems.GridAPI.ContextMenu {
     }
 
     export function AddSeparator(menuItemId: string): void {
-        PerformanceAPI.SetMark('ContextMenu.addSeparator');
+        Performance.SetMark('ContextMenu.addSeparator');
 
         const gridID = GetGridByMenuId(menuItemId);
 
@@ -113,8 +113,8 @@ namespace OutSystems.GridAPI.ContextMenu {
                     }
                 );
 
-                PerformanceAPI.SetMark('ContextMenu.addSeparator-end');
-                PerformanceAPI.GetMeasure(
+                Performance.SetMark('ContextMenu.addSeparator-end');
+                Performance.GetMeasure(
                     '@datagrid-ContextMenu.addSeparator',
                     'ContextMenu.addSeparator',
                     'ContextMenu.addSeparator-end'
@@ -138,7 +138,7 @@ namespace OutSystems.GridAPI.ContextMenu {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         propertyValue: any
     ): void {
-        PerformanceAPI.SetMark('ContextMenu.ChangeProperty');
+        Performance.SetMark('ContextMenu.ChangeProperty');
 
         const gridID = GetGridByMenuId(menuItemId, false);
 
@@ -153,8 +153,8 @@ namespace OutSystems.GridAPI.ContextMenu {
                 );
         }
 
-        PerformanceAPI.SetMark('ContextMenu.ChangeProperty-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ContextMenu.ChangeProperty-end');
+        Performance.GetMeasure(
             '@datagrid-ContextMenu.ChangeProperty',
             'ContextMenu.ChangeProperty',
             'ContextMenu.ChangeProperty-end'
@@ -162,7 +162,7 @@ namespace OutSystems.GridAPI.ContextMenu {
     }
 
     export function RemoveItem(menuItemId: string): void {
-        PerformanceAPI.SetMark('ContextMenu.removeItem');
+        Performance.SetMark('ContextMenu.removeItem');
 
         const gridID = GetGridByMenuId(menuItemId, false);
 
@@ -173,8 +173,8 @@ namespace OutSystems.GridAPI.ContextMenu {
             _menuItemsToGridId.delete(menuItemId);
         }
 
-        PerformanceAPI.SetMark('ContextMenu.removeItem-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ContextMenu.removeItem-end');
+        Performance.GetMeasure(
             '@datagrid-ContextMenu.removeItem',
             'ContextMenu.removeItem',
             'ContextMenu.removeItem-end'

@@ -16,15 +16,13 @@ namespace OutSystems.GridAPI.ConditionalFormat {
             gridID,
             OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
             (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
-                PerformanceAPI.SetMark(
-                    'ConditionalFormat.AddConditionalFormat'
-                );
+                Performance.SetMark('ConditionalFormat.AddConditionalFormat');
                 gridObj.features.conditionalFormat.addRules(binding, rules);
 
-                PerformanceAPI.SetMark(
+                Performance.SetMark(
                     'ConditionalFormat.AddConditionalFormat-end'
                 );
-                PerformanceAPI.GetMeasure(
+                Performance.GetMeasure(
                     '@datagrid-ConditionalFormat.AddConditionalFormat',
                     'ConditionalFormat.AddConditionalFormat',
                     'ConditionalFormat.AddConditionalFormat-end'
@@ -48,15 +46,15 @@ namespace OutSystems.GridAPI.ConditionalFormat {
             gridID,
             OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
             (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
-                PerformanceAPI.SetMark(
+                Performance.SetMark(
                     'ConditionalFormat.RemoveConditionalFormat'
                 );
                 gridObj.features.conditionalFormat.removeRules(binding);
 
-                PerformanceAPI.SetMark(
+                Performance.SetMark(
                     'ConditionalFormat.RemoveConditionalFormat-end'
                 );
-                PerformanceAPI.GetMeasure(
+                Performance.GetMeasure(
                     '@datagrid-ConditionalFormat.RemoveConditionalFormat',
                     'ConditionalFormat.RemoveConditionalFormat',
                     'ConditionalFormat.RemoveConditionalFormat-end'

@@ -14,7 +14,7 @@ namespace OutSystems.GridAPI.Styling {
         rowIndex: number,
         className: string
     ): string {
-        PerformanceAPI.SetMark('Styling.SetCellCssClass');
+        Performance.SetMark('Styling.SetCellCssClass');
         const responseObj = {
             isSuccess: true,
             message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
@@ -55,8 +55,8 @@ namespace OutSystems.GridAPI.Styling {
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellCssClass;
         }
 
-        PerformanceAPI.SetMark('Styling.SetCellCssClass-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Styling.SetCellCssClass-end');
+        Performance.GetMeasure(
             '@datagrid-Styling.SetCellCssClass',
             'Styling.SetCellCssClass',
             'Styling.SetCellCssClass-end'
@@ -80,7 +80,7 @@ namespace OutSystems.GridAPI.Styling {
         cssClass: string,
         applyToHeader: boolean
     ): string {
-        PerformanceAPI.SetMark('Styling.SetColumnCssClass');
+        Performance.SetMark('Styling.SetColumnCssClass');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -97,8 +97,8 @@ namespace OutSystems.GridAPI.Styling {
             }
         });
 
-        PerformanceAPI.SetMark('Styling.SetColumnCssClass-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Styling.SetColumnCssClass-end');
+        Performance.GetMeasure(
             '@datagrid-Styling.SetColumnCssClass',
             'Styling.SetColumnCssClass',
             'Styling.SetColumnCssClass-end'
@@ -119,7 +119,7 @@ namespace OutSystems.GridAPI.Styling {
         columnID: string,
         rowIndex: number
     ): string {
-        PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell');
+        Performance.SetMark('Styling.RemoveAllCssClassesFromCell');
         const responseObj = {
             isSuccess: true,
             message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
@@ -158,8 +158,8 @@ namespace OutSystems.GridAPI.Styling {
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveAllCssClassesFromCell;
         }
 
-        PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Styling.RemoveAllCssClassesFromCell-end');
+        Performance.GetMeasure(
             '@datagrid-Styling.RemoveAllCssClassesFromCell',
             'Styling.RemoveAllCssClassesFromCell',
             'Styling.RemoveAllCssClassesFromCell-end'
@@ -180,7 +180,7 @@ namespace OutSystems.GridAPI.Styling {
         columnID: string,
         cssClass: string
     ): string {
-        PerformanceAPI.SetMark('Styling.RemoveColumnCssClass');
+        Performance.SetMark('Styling.RemoveColumnCssClass');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -193,8 +193,8 @@ namespace OutSystems.GridAPI.Styling {
             }
         });
 
-        PerformanceAPI.SetMark('Styling.RemoveColumnCssClass-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Styling.RemoveColumnCssClass-end');
+        Performance.GetMeasure(
             '@datagrid-Styling.RemoveColumnCssClass',
             'Styling.RemoveColumnCssClass',
             'Styling.RemoveColumnCssClass-end'
@@ -218,7 +218,7 @@ namespace OutSystems.GridAPI.Styling {
         wordWrapValue: boolean,
         dynamicHeight: boolean
     ): string {
-        PerformanceAPI.SetMark('ColumnManager.SetColumnWordWrap');
+        Performance.SetMark('ColumnManager.SetColumnWordWrap');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -235,8 +235,8 @@ namespace OutSystems.GridAPI.Styling {
             }
         });
 
-        PerformanceAPI.SetMark('ColumnManager.SetColumnWordWrap-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnManager.SetColumnWordWrap-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnManager.SetColumnWordWrap',
             'ColumnManager.SetColumnWordWrap',
             'ColumnManager.SetColumnWordWrap-end'

@@ -10,7 +10,7 @@ namespace OutSystems.GridAPI.ColumnPicker {
         showHiddenColumns: boolean
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     ): any {
-        PerformanceAPI.SetMark('ColumnPicker.SetColumnVisibility');
+        Performance.SetMark('ColumnPicker.SetColumnVisibility');
         const responseObj = {
             isSuccess: true,
             message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
@@ -37,8 +37,8 @@ namespace OutSystems.GridAPI.ColumnPicker {
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetColumnVisibility;
         }
 
-        PerformanceAPI.SetMark('ColumnPicker.SetColumnVisibility-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnPicker.SetColumnVisibility-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnPicker.SetColumnVisibility',
             'ColumnPicker.SetColumnVisibility',
             'ColumnPicker.SetColumnVisibility-end'

@@ -7,7 +7,7 @@ namespace OutSystems.GridAPI.Sort {
      * @returns {*}  {string} Return Message containing the resulting code from sorting columns and the error message in case of failure
      */
     export function Clear(gridID: string): string {
-        PerformanceAPI.SetMark('Sort.Clear');
+        Performance.SetMark('Sort.Clear');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedClearSort,
@@ -16,8 +16,8 @@ namespace OutSystems.GridAPI.Sort {
             }
         });
 
-        PerformanceAPI.SetMark('Sort.Clear-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Sort.Clear-end');
+        Performance.GetMeasure(
             '@datagrid-Sort.Clear',
             'Sort.Clear',
             'Sort.Clear-end'
@@ -40,7 +40,7 @@ namespace OutSystems.GridAPI.Sort {
         columnID: string,
         sorting: OSFramework.DataGrid.OSStructure.Sorting
     ): string {
-        PerformanceAPI.SetMark('Sort.ColumnSort');
+        Performance.SetMark('Sort.ColumnSort');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -53,8 +53,8 @@ namespace OutSystems.GridAPI.Sort {
             }
         });
 
-        PerformanceAPI.SetMark('Sort.ColumnSort-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Sort.ColumnSort-end');
+        Performance.GetMeasure(
             '@datagrid-Sort.ColumnSort',
             'Sort.ColumnSort',
             'Sort.ColumnSort-end'
@@ -74,7 +74,7 @@ namespace OutSystems.GridAPI.Sort {
         gridID: string,
         hasUnsortState: boolean
     ): string {
-        PerformanceAPI.SetMark('Sort.SetUnsortState');
+        Performance.SetMark('Sort.SetUnsortState');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -86,8 +86,8 @@ namespace OutSystems.GridAPI.Sort {
             }
         });
 
-        PerformanceAPI.SetMark('Sort.SetUnsortState-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Sort.SetUnsortState-end');
+        Performance.GetMeasure(
             '@datagrid-Sort.SetUnsortState',
             'Sort.SetUnsortState',
             'Sort.SetUnsortState-end'

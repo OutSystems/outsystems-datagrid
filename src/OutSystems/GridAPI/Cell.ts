@@ -33,9 +33,9 @@ namespace OutSystems.GridAPI.Cells {
             }
         });
 
-        PerformanceAPI.SetMark('Cells.setValidationStatus');
-        PerformanceAPI.SetMark('Cells.setValidationStatus-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Cells.setValidationStatus');
+        Performance.SetMark('Cells.setValidationStatus-end');
+        Performance.GetMeasure(
             '@datagrid-Cells.setValidationStatus',
             'Cells.setValidationStatus',
             'Cells.setValidationStatus-end'
@@ -58,7 +58,7 @@ namespace OutSystems.GridAPI.Cells {
         columnID: string,
         triggerOnCellValueChange = true
     ): void {
-        PerformanceAPI.SetMark('Cells.validateCell');
+        Performance.SetMark('Cells.validateCell');
 
         const column = ColumnManager.GetColumnById(columnID);
         if (column === undefined) return;
@@ -67,8 +67,8 @@ namespace OutSystems.GridAPI.Cells {
             column,
             triggerOnCellValueChange
         );
-        PerformanceAPI.SetMark('Cells.validateCell-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Cells.validateCell-end');
+        Performance.GetMeasure(
             '@datagrid-Cells.validateCell',
             'Cells.validateCell',
             'Cells.validateCell-end'
@@ -83,7 +83,7 @@ namespace OutSystems.GridAPI.Cells {
      * @param {number} rowIndex Index of the row that contains the cells to be validated.
      */
     export function ValidateRow(gridID: string, rowIndex: number): string {
-        PerformanceAPI.SetMark('Cells.validateRow');
+        Performance.SetMark('Cells.validateRow');
 
         let output = '';
 
@@ -93,8 +93,8 @@ namespace OutSystems.GridAPI.Cells {
             )
         );
 
-        PerformanceAPI.SetMark('Cells.validateRow-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Cells.validateRow-end');
+        Performance.GetMeasure(
             '@datagrid-Cells.validateRow',
             'Cells.validateRow',
             'Cells.validateRow-end'
@@ -128,7 +128,7 @@ namespace OutSystems.GridAPI.Cells {
             code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
         };
 
-        PerformanceAPI.SetMark('Cells.setCellData');
+        Performance.SetMark('Cells.setCellData');
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
             responseObj.isSuccess = false;
             responseObj.message =
@@ -170,8 +170,8 @@ namespace OutSystems.GridAPI.Cells {
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellData;
         }
 
-        PerformanceAPI.SetMark('Cells.setCellData-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Cells.setCellData-end');
+        Performance.GetMeasure(
             '@datagrid-Cells.setCellData',
             'Cells.setCellData',
             'Cells.setCellData-end'

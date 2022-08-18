@@ -9,7 +9,7 @@ namespace OutSystems.GridAPI.ColumnFreeze {
      * @param n Number of columns to freeze, when omitted the active cell will be used, and everything to its left will be freeze
      */
     export function Freeze(gridID: string, n?: number): string {
-        PerformanceAPI.SetMark('ColumnFreeze.freeze');
+        Performance.SetMark('ColumnFreeze.freeze');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -21,8 +21,8 @@ namespace OutSystems.GridAPI.ColumnFreeze {
             }
         });
 
-        PerformanceAPI.SetMark('ColumnFreeze.freeze-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnFreeze.freeze-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnFreeze.freeze',
             'ColumnFreeze.freeze',
             'ColumnFreeze.freeze-end'
@@ -36,7 +36,7 @@ namespace OutSystems.GridAPI.ColumnFreeze {
      * @param gridID The grid where the action will be performed
      */
     export function IsFrozen(gridID: string): string {
-        PerformanceAPI.SetMark('ColumnFreeze.isFrozen');
+        Performance.SetMark('ColumnFreeze.isFrozen');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -48,8 +48,8 @@ namespace OutSystems.GridAPI.ColumnFreeze {
             hasValue: true
         });
 
-        PerformanceAPI.SetMark('ColumnFreeze.isFrozen-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnFreeze.isFrozen-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnFreeze.isFrozen',
             'ColumnFreeze.isFrozen',
             'ColumnFreeze.isFrozen-end'
@@ -62,7 +62,7 @@ namespace OutSystems.GridAPI.ColumnFreeze {
      * @param gridID The grid where the action will be performed
      */
     export function Unfreeze(gridID: string): string {
-        PerformanceAPI.SetMark('ColumnFreeze.unfreeze');
+        Performance.SetMark('ColumnFreeze.unfreeze');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -74,8 +74,8 @@ namespace OutSystems.GridAPI.ColumnFreeze {
             }
         });
 
-        PerformanceAPI.SetMark('ColumnFreeze.unfreeze-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnFreeze.unfreeze-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnFreeze.unfreeze',
             'ColumnFreeze.unfreeze',
             'ColumnFreeze.unfreeze-end'

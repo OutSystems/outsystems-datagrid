@@ -8,15 +8,15 @@ namespace OutSystems.GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function ChangePageSize(gridID: string, n: number): void {
-        PerformanceAPI.SetMark('Pagination.ChangePageSize');
+        Performance.SetMark('Pagination.ChangePageSize');
 
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.changePageSize(n);
 
-        PerformanceAPI.SetMark('Pagination.ChangePageSize-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Pagination.ChangePageSize-end');
+        Performance.GetMeasure(
             '@datagrid-Pagination.ChangePageSize',
             'Pagination.ChangePageSize',
             'Pagination.ChangePageSize-end'
@@ -40,14 +40,14 @@ namespace OutSystems.GridAPI.Pagination {
             gridID,
             OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
             (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
-                PerformanceAPI.SetMark('Pagination.CreatePageButtons');
+                Performance.SetMark('Pagination.CreatePageButtons');
                 gridObj.features.pagination.createPageButtons(
                     phID,
                     buttonQuantity
                 );
 
-                PerformanceAPI.SetMark('Pagination.CreatePageButtons-end');
-                PerformanceAPI.GetMeasure(
+                Performance.SetMark('Pagination.CreatePageButtons-end');
+                Performance.GetMeasure(
                     '@datagrid-Pagination.CreatePageButtons',
                     'Pagination.CreatePageButtons',
                     'Pagination.CreatePageButtons-end'
@@ -64,7 +64,7 @@ namespace OutSystems.GridAPI.Pagination {
      * @return {*}  {string} Stringified JSON structure containing Index of the current page, error message and code, and success boolean
      */
     export function GetCurrentPage(gridID: string): string {
-        PerformanceAPI.SetMark('Pagination.GetCurrentPage');
+        Performance.SetMark('Pagination.GetCurrentPage');
         let returnMessage =
             new OSFramework.DataGrid.OSStructure.ReturnMessage();
 
@@ -103,8 +103,8 @@ namespace OutSystems.GridAPI.Pagination {
             code
         };
 
-        PerformanceAPI.SetMark('Pagination.GetCurrentPage-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Pagination.GetCurrentPage-end');
+        Performance.GetMeasure(
             '@datagrid-Pagination.GetCurrentPage',
             'Pagination.GetCurrentPage',
             'Pagination.GetCurrentPage-end'
@@ -121,15 +121,15 @@ namespace OutSystems.GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToFirstPage(gridID: string): void {
-        PerformanceAPI.SetMark('Pagination.MoveToFirstPage');
+        Performance.SetMark('Pagination.MoveToFirstPage');
 
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToFirstPage();
 
-        PerformanceAPI.SetMark('Pagination.MoveToFirstPage-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Pagination.MoveToFirstPage-end');
+        Performance.GetMeasure(
             '@datagrid-Pagination.MoveToFirstPage',
             'Pagination.MoveToFirstPage',
             'Pagination.MoveToFirstPage-end'
@@ -144,15 +144,15 @@ namespace OutSystems.GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToLastPage(gridID: string): void {
-        PerformanceAPI.SetMark('Pagination.MoveToLastPage');
+        Performance.SetMark('Pagination.MoveToLastPage');
 
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToLastPage();
 
-        PerformanceAPI.SetMark('Pagination.MoveToLastPage-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Pagination.MoveToLastPage-end');
+        Performance.GetMeasure(
             '@datagrid-Pagination.MoveToLastPage',
             'Pagination.MoveToLastPage',
             'Pagination.MoveToLastPage-end'
@@ -167,15 +167,15 @@ namespace OutSystems.GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToNextPage(gridID: string): void {
-        PerformanceAPI.SetMark('Pagination.MoveToNextPage');
+        Performance.SetMark('Pagination.MoveToNextPage');
 
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToNextPage();
 
-        PerformanceAPI.SetMark('Pagination.MoveToNextPage-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Pagination.MoveToNextPage-end');
+        Performance.GetMeasure(
             '@datagrid-Pagination.MoveToNextPage',
             'Pagination.MoveToNextPage',
             'Pagination.MoveToNextPage-end'
@@ -191,7 +191,7 @@ namespace OutSystems.GridAPI.Pagination {
      * @returns {*}  {string} Stringified JSON structure containing error message and code, and success boolean
      */
     export function MoveToPage(gridID: string, n: number): string {
-        PerformanceAPI.SetMark('Pagination.MoveToPage');
+        Performance.SetMark('Pagination.MoveToPage');
         let returnMessage =
             new OSFramework.DataGrid.OSStructure.ReturnMessage();
 
@@ -227,8 +227,8 @@ namespace OutSystems.GridAPI.Pagination {
             code
         };
 
-        PerformanceAPI.SetMark('Pagination.MoveToPage-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Pagination.MoveToPage-end');
+        Performance.GetMeasure(
             '@datagrid-Pagination.MoveToPage',
             'Pagination.MoveToPage',
             'Pagination.MoveToPage-end'
@@ -245,15 +245,15 @@ namespace OutSystems.GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToPreviousPage(gridID: string): void {
-        PerformanceAPI.SetMark('Pagination.MoveToPreviousPage');
+        Performance.SetMark('Pagination.MoveToPreviousPage');
 
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToPreviousPage();
 
-        PerformanceAPI.SetMark('Pagination.MoveToPreviousPage-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Pagination.MoveToPreviousPage-end');
+        Performance.GetMeasure(
             '@datagrid-Pagination.MoveToPreviousPage',
             'Pagination.MoveToPreviousPage',
             'Pagination.MoveToPreviousPage-end'
@@ -275,16 +275,14 @@ namespace OutSystems.GridAPI.Pagination {
             gridID,
             OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
             (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
-                PerformanceAPI.SetMark('Pagination.RegisterCurrentPageLabel');
+                Performance.SetMark('Pagination.RegisterCurrentPageLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.DataGrid.Enum.PageLabel.PageIndex,
                     phID
                 );
 
-                PerformanceAPI.SetMark(
-                    'Pagination.RegisterCurrentPageLabel-end'
-                );
-                PerformanceAPI.GetMeasure(
+                Performance.SetMark('Pagination.RegisterCurrentPageLabel-end');
+                Performance.GetMeasure(
                     '@datagrid-Pagination.RegisterCurrentPageLabel',
                     'Pagination.RegisterCurrentPageLabel',
                     'Pagination.RegisterCurrentPageLabel-end'
@@ -305,14 +303,14 @@ namespace OutSystems.GridAPI.Pagination {
             gridID,
             OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
             (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
-                PerformanceAPI.SetMark('Pagination.RegisterPageCountLabel');
+                Performance.SetMark('Pagination.RegisterPageCountLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.DataGrid.Enum.PageLabel.PageCount,
                     phID
                 );
 
-                PerformanceAPI.SetMark('Pagination.RegisterPageCountLabel-end');
-                PerformanceAPI.GetMeasure(
+                Performance.SetMark('Pagination.RegisterPageCountLabel-end');
+                Performance.GetMeasure(
                     '@datagrid-Pagination.RegisterPageCountLabel',
                     'Pagination.RegisterPageCountLabel',
                     'Pagination.RegisterPageCountLabel-end'
@@ -333,14 +331,14 @@ namespace OutSystems.GridAPI.Pagination {
             gridID,
             OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
             (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
-                PerformanceAPI.SetMark('Pagination.RegisterPageSizeLabel');
+                Performance.SetMark('Pagination.RegisterPageSizeLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.DataGrid.Enum.PageLabel.PageSize,
                     phID
                 );
 
-                PerformanceAPI.SetMark('Pagination.RegisterPageSizeLabel-end');
-                PerformanceAPI.GetMeasure(
+                Performance.SetMark('Pagination.RegisterPageSizeLabel-end');
+                Performance.GetMeasure(
                     '@datagrid-Pagination.RegisterPageSizeLabel',
                     'Pagination.RegisterPageSizeLabel',
                     'Pagination.RegisterPageSizeLabel-end'
@@ -361,14 +359,14 @@ namespace OutSystems.GridAPI.Pagination {
             gridID,
             OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
             (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
-                PerformanceAPI.SetMark('Pagination.RegisterRowEndLabel');
+                Performance.SetMark('Pagination.RegisterRowEndLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.DataGrid.Enum.PageLabel.RowEnd,
                     phID
                 );
 
-                PerformanceAPI.SetMark('Pagination.RegisterRowEndLabel-end');
-                PerformanceAPI.GetMeasure(
+                Performance.SetMark('Pagination.RegisterRowEndLabel-end');
+                Performance.GetMeasure(
                     '@datagrid-Pagination.RegisterRowEndLabel',
                     'Pagination.RegisterRowEndLabel',
                     'Pagination.RegisterRowEndLabel-end'
@@ -389,14 +387,14 @@ namespace OutSystems.GridAPI.Pagination {
             gridID,
             OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
             (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
-                PerformanceAPI.SetMark('Pagination.RegisterRowStartLabel');
+                Performance.SetMark('Pagination.RegisterRowStartLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.DataGrid.Enum.PageLabel.RowStart,
                     phID
                 );
 
-                PerformanceAPI.SetMark('Pagination.RegisterRowStartLabel-end');
-                PerformanceAPI.GetMeasure(
+                Performance.SetMark('Pagination.RegisterRowStartLabel-end');
+                Performance.GetMeasure(
                     '@datagrid-Pagination.RegisterRowStartLabel',
                     'Pagination.RegisterRowStartLabel',
                     'Pagination.RegisterRowStartLabel-end'
@@ -417,14 +415,14 @@ namespace OutSystems.GridAPI.Pagination {
             gridID,
             OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
             (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
-                PerformanceAPI.SetMark('Pagination.RegisterRowTotalLabel');
+                Performance.SetMark('Pagination.RegisterRowTotalLabel');
                 gridObj.features.pagination.registerLabel(
                     OSFramework.DataGrid.Enum.PageLabel.RowTotal,
                     phID
                 );
 
-                PerformanceAPI.SetMark('Pagination.RegisterRowTotalLabel-end');
-                PerformanceAPI.GetMeasure(
+                Performance.SetMark('Pagination.RegisterRowTotalLabel-end');
+                Performance.GetMeasure(
                     '@datagrid-Pagination.RegisterRowTotalLabel',
                     'Pagination.RegisterRowTotalLabel',
                     'Pagination.RegisterRowTotalLabel-end'

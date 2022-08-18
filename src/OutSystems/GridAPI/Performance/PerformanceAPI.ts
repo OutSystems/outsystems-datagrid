@@ -2,7 +2,7 @@
  *  Namespace that contains functions responsible for interactions with the grid.
  */
 // eslint-disable-next-line
-namespace PerformanceAPI {
+namespace OutSystems.GridAPI.Performance {
     let performanceObj: IPerformance;
 
     (function () {

@@ -12,7 +12,7 @@ namespace OutSystems.GridAPI.Export {
         exportingMessage: string,
         showMessage: boolean
     ): string {
-        PerformanceAPI.SetMark('Export.CustomizeExportingMessage');
+        Performance.SetMark('Export.CustomizeExportingMessage');
 
         const responseObj = {
             isSuccess: true,
@@ -42,8 +42,8 @@ namespace OutSystems.GridAPI.Export {
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedCustomizeExportingMessage;
         }
 
-        PerformanceAPI.SetMark('Export.CustomizeExportingMessage-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Export.CustomizeExportingMessage-end');
+        Performance.GetMeasure(
             '@datagrid-Export.CustomizeExportingMessage',
             'Export.CustomizeExportingMessage',
             'Export.CustomizeExportingMessage-end'

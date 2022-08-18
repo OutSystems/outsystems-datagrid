@@ -2,7 +2,7 @@
  * Namespace for all public methods to access and use the OutSystemsUI components.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OutSystems.Grid {
+namespace OutSystems.GridAPI {
     /**
      * Function that returns the OutSystems DataGrid version value
      *

@@ -12,7 +12,7 @@ namespace OutSystems.GridAPI.Rows {
         rowNumber: number,
         className: string
     ): string {
-        PerformanceAPI.SetMark('Rows.AddClass');
+        Performance.SetMark('Rows.AddClass');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedAddClass,
@@ -25,8 +25,8 @@ namespace OutSystems.GridAPI.Rows {
             }
         });
 
-        PerformanceAPI.SetMark('Rows.AddClass-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Rows.AddClass-end');
+        Performance.GetMeasure(
             '@datagrid-Rows.AddClass',
             'Rows.AddClass',
             'Rows.AddClass-end'
@@ -43,7 +43,7 @@ namespace OutSystems.GridAPI.Rows {
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function AddRows(gridID: string, numberOfRows = 1): string {
-        PerformanceAPI.SetMark('Rows.AddRows');
+        Performance.SetMark('Rows.AddRows');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedAddRow,
@@ -57,8 +57,8 @@ namespace OutSystems.GridAPI.Rows {
             hasValue: true
         });
 
-        PerformanceAPI.SetMark('Rows.AddRows-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Rows.AddRows-end');
+        Performance.GetMeasure(
             '@datagrid-Rows.AddRows',
             'Rows.AddRows',
             'Rows.AddRows-end'
@@ -75,7 +75,7 @@ namespace OutSystems.GridAPI.Rows {
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function GetRowData(gridID: string, rowNumber: number): string {
-        PerformanceAPI.SetMark('Rows.GetRowData');
+        Performance.SetMark('Rows.GetRowData');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -90,8 +90,8 @@ namespace OutSystems.GridAPI.Rows {
             hasValue: true
         });
 
-        PerformanceAPI.SetMark('Rows.GetRowData-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Rows.GetRowData-end');
+        Performance.GetMeasure(
             '@datagrid-Rows.GetRowData',
             'Rows.GetRowData',
             'Rows.GetRowData-end'
@@ -109,7 +109,7 @@ namespace OutSystems.GridAPI.Rows {
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function GetRowNumberByKey(gridID: string, key: string): string {
-        PerformanceAPI.SetMark('Rows.GetRowNumberByKey');
+        Performance.SetMark('Rows.GetRowNumberByKey');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -125,8 +125,8 @@ namespace OutSystems.GridAPI.Rows {
             hasValue: true
         });
 
-        PerformanceAPI.SetMark('Rows.GetRowNumberByKey-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Rows.GetRowNumberByKey-end');
+        Performance.GetMeasure(
             '@datagrid-Rows.GetRowNumberByKey',
             'Rows.GetRowNumberByKey',
             'Rows.GetRowNumberByKey-end'
@@ -145,7 +145,7 @@ namespace OutSystems.GridAPI.Rows {
         gridID: string,
         rowNumber: number
     ): string {
-        PerformanceAPI.SetMark('Rows.RemoveAllClasses');
+        Performance.SetMark('Rows.RemoveAllClasses');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -157,8 +157,8 @@ namespace OutSystems.GridAPI.Rows {
             }
         });
 
-        PerformanceAPI.SetMark('Rows.RemoveAllClasses-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Rows.RemoveAllClasses-end');
+        Performance.GetMeasure(
             '@datagrid-Rows.RemoveAllClasses',
             'Rows.RemoveAllClasses',
             'Rows.RemoveAllClasses-end'
@@ -180,7 +180,7 @@ namespace OutSystems.GridAPI.Rows {
         rowNumber: number,
         className: string
     ): string {
-        PerformanceAPI.SetMark('Rows.RemoveClass');
+        Performance.SetMark('Rows.RemoveClass');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -194,8 +194,8 @@ namespace OutSystems.GridAPI.Rows {
             }
         });
 
-        PerformanceAPI.SetMark('Rows.RemoveClass-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Rows.RemoveClass-end');
+        Performance.GetMeasure(
             '@datagrid-Rows.RemoveClass',
             'Rows.RemoveClass',
             'Rows.RemoveClass-end'
@@ -211,7 +211,7 @@ namespace OutSystems.GridAPI.Rows {
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function RemoveRows(gridID: string): string {
-        PerformanceAPI.SetMark('Rows.RemoveRows');
+        Performance.SetMark('Rows.RemoveRows');
 
         const grid = GridManager.GetGridById(gridID);
         let output = '';
@@ -220,8 +220,8 @@ namespace OutSystems.GridAPI.Rows {
             output = JSON.stringify(grid.features.rows.removeSelectedRows());
         }
 
-        PerformanceAPI.SetMark('Rows.RemoveRows-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Rows.RemoveRows-end');
+        Performance.GetMeasure(
             '@datagrid-Rows.RemoveRows',
             'Rows.RemoveRows',
             'Rows.RemoveRows-end'
@@ -241,7 +241,7 @@ namespace OutSystems.GridAPI.Rows {
         currentRowId: string,
         newKey: string
     ): string {
-        PerformanceAPI.SetMark('Rows.UpdateAddedRowKey');
+        Performance.SetMark('Rows.UpdateAddedRowKey');
 
         const result = Auxiliary.CreateApiResponse({
             gridID,
@@ -258,8 +258,8 @@ namespace OutSystems.GridAPI.Rows {
             hasValue: true
         });
 
-        PerformanceAPI.SetMark('Rows.UpdateAddedRowKey-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Rows.UpdateAddedRowKey-end');
+        Performance.GetMeasure(
             '@datagrid-Rows.UpdateAddedRowKey',
             'Rows.UpdateAddedRowKey',
             'Rows.UpdateAddedRowKey-end'
@@ -279,7 +279,7 @@ namespace OutSystems.GridAPI.Rows {
         gridID: string,
         startIndex: number
     ): string {
-        PerformanceAPI.SetMark('Rows.UpdateStartingRowHeader');
+        Performance.SetMark('Rows.UpdateStartingRowHeader');
 
         const result = Auxiliary.CreateApiResponse({
             gridID,
@@ -293,8 +293,8 @@ namespace OutSystems.GridAPI.Rows {
             }
         });
 
-        PerformanceAPI.SetMark('Rows.UpdateStartingRowHeader-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Rows.UpdateStartingRowHeader-end');
+        Performance.GetMeasure(
             '@datagrid-Rows.UpdateStartingRowHeader',
             'Rows.UpdateStartingRowHeader',
             'Rows.UpdateStartingRowHeader-end'
@@ -321,7 +321,7 @@ namespace OutSystems.GridAPI.Rows {
         isValid: boolean,
         errorMessage: string
     ): string {
-        PerformanceAPI.SetMark('Rows.SetValidationStatusByKey');
+        Performance.SetMark('Rows.SetValidationStatusByKey');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -339,8 +339,8 @@ namespace OutSystems.GridAPI.Rows {
             }
         });
 
-        PerformanceAPI.SetMark('Rows.SetValidationStatusByKey-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Rows.SetValidationStatusByKey-end');
+        Performance.GetMeasure(
             '@datagrid-Rows.SetValidationStatusByKey',
             'Rows.SetValidationStatusByKey',
             'Rows.SetValidationStatusByKey-end'
@@ -359,7 +359,7 @@ namespace OutSystems.GridAPI.Rows {
         gridID: string,
         allowRowDragging: boolean
     ): string {
-        PerformanceAPI.SetMark('Rows.ToggleRowDragging');
+        Performance.SetMark('Rows.ToggleRowDragging');
 
         const result = Auxiliary.CreateApiResponse({
             gridID,
@@ -373,8 +373,8 @@ namespace OutSystems.GridAPI.Rows {
             }
         });
 
-        PerformanceAPI.SetMark('Rows.ToggleRowDragging-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Rows.ToggleRowDragging-end');
+        Performance.GetMeasure(
             '@datagrid-Rows.ToggleRowDragging',
             'Rows.ToggleRowDragging',
             'Rows.ToggleRowDragging-end'

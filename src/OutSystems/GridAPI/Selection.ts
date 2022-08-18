@@ -1,12 +1,12 @@
 namespace OutSystems.GridAPI.Selection {
     export function GetAllSelections(gridID: string): string {
-        PerformanceAPI.SetMark('Selection.GetAllSelections');
+        Performance.SetMark('Selection.GetAllSelections');
 
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
-        PerformanceAPI.SetMark('Selection.GetAllSelections-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Selection.GetAllSelections-end');
+        Performance.GetMeasure(
             '@datagrid-Selection.GetAllSelections',
             'Selection.GetAllSelections',
             'Selection.GetAllSelections-end'
@@ -15,13 +15,13 @@ namespace OutSystems.GridAPI.Selection {
     }
 
     export function GetAllSelectionsData(gridID: string): string {
-        PerformanceAPI.SetMark('Selection.GetAllSelectionsData');
+        Performance.SetMark('Selection.GetAllSelectionsData');
 
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
-        PerformanceAPI.SetMark('Selection.GetAllSelectionsData-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Selection.GetAllSelectionsData-end');
+        Performance.GetMeasure(
             '@datagrid-Selection.GetAllSelectionsData',
             'Selection.GetAllSelectionsData',
             'Selection.GetAllSelectionsData-end'
@@ -30,13 +30,13 @@ namespace OutSystems.GridAPI.Selection {
     }
 
     export function GetCheckedRowsData(gridID: string): string {
-        PerformanceAPI.SetMark('Selection.GetCheckedRowsData');
+        Performance.SetMark('Selection.GetCheckedRowsData');
 
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
-        PerformanceAPI.SetMark('Selection.GetCheckedRowsData-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Selection.GetCheckedRowsData-end');
+        Performance.GetMeasure(
             '@datagrid-Selection.GetCheckedRowsData',
             'Selection.GetCheckedRowsData',
             'Selection.GetCheckedRowsData-end'
@@ -45,13 +45,13 @@ namespace OutSystems.GridAPI.Selection {
     }
 
     export function GetSelectedRowsCount(gridID: string): string {
-        PerformanceAPI.SetMark('Selection.GetSelectedRowsCount');
+        Performance.SetMark('Selection.GetSelectedRowsCount');
 
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
-        PerformanceAPI.SetMark('Selection.GetSelectedRowsCount-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Selection.GetSelectedRowsCount-end');
+        Performance.GetMeasure(
             '@datagrid-Selection.GetSelectedRowsCount',
             'Selection.GetSelectedRowsCount',
             'Selection.GetSelectedRowsCount-end'
@@ -60,13 +60,13 @@ namespace OutSystems.GridAPI.Selection {
     }
 
     export function GetSelectedRowsData(gridID: string): string {
-        PerformanceAPI.SetMark('Selection.GetSelectedRowsData');
+        Performance.SetMark('Selection.GetSelectedRowsData');
 
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
-        PerformanceAPI.SetMark('Selection.GetSelectedRowsData-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Selection.GetSelectedRowsData-end');
+        Performance.GetMeasure(
             '@datagrid-Selection.GetSelectedRowsData',
             'Selection.GetSelectedRowsData',
             'Selection.GetSelectedRowsData-end'
@@ -75,13 +75,13 @@ namespace OutSystems.GridAPI.Selection {
     }
 
     export function HasSelectedRows(gridID: string): string {
-        PerformanceAPI.SetMark('Selection.HasSelectedRows');
+        Performance.SetMark('Selection.HasSelectedRows');
 
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
-        PerformanceAPI.SetMark('Selection.HasSelectedRows-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Selection.HasSelectedRows-end');
+        Performance.GetMeasure(
             '@datagrid-Selection.HasSelectedRows',
             'Selection.HasSelectedRows',
             'Selection.HasSelectedRows-end'

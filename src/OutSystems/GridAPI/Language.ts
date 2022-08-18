@@ -7,7 +7,7 @@ namespace OutSystems.GridAPI.Language {
      * @param {string} url
      */
     export function SetLanguage(language: string, url: string): void {
-        PerformanceAPI.SetMark('Language.SetLanguage');
+        Performance.SetMark('Language.SetLanguage');
 
         if (language !== '') {
             Providers.DataGrid.Wijmo.Helper.Translation.SetLanguage(
@@ -16,8 +16,8 @@ namespace OutSystems.GridAPI.Language {
             );
         }
 
-        PerformanceAPI.SetMark('Language.SetLanguage-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Language.SetLanguage-end');
+        Performance.GetMeasure(
             '@datagrid-Language.SetLanguage',
             'Language.SetLanguage',
             'Language.SetLanguage-end'

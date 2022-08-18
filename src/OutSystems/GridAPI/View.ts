@@ -9,14 +9,14 @@ namespace OutSystems.GridAPI.View {
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
-        PerformanceAPI.SetMark('View.GetViewLayout');
+        Performance.SetMark('View.GetViewLayout');
 
         let output = '';
 
         output = JSON.stringify(grid.getViewLayout());
 
-        PerformanceAPI.SetMark('View.GetViewLayout-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('View.GetViewLayout-end');
+        Performance.GetMeasure(
             '@datagrid-View.GetViewLayout',
             'View.GetViewLayout',
             'View.GetViewLayout-end'
@@ -35,14 +35,14 @@ namespace OutSystems.GridAPI.View {
         if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
-        PerformanceAPI.SetMark('View.SetViewLayout');
+        Performance.SetMark('View.SetViewLayout');
 
         let output = '';
 
         output = JSON.stringify(grid.setViewLayout(config));
 
-        PerformanceAPI.SetMark('View.SetViewLayout-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('View.SetViewLayout-end');
+        Performance.GetMeasure(
             '@datagrid-View.SetViewLayout',
             'View.SetViewLayout',
             'View.SetViewLayout-end'
@@ -57,7 +57,7 @@ namespace OutSystems.GridAPI.View {
      * @returns A JSON representing the current grid configuration
      */
     export function GetColumnsOrder(gridID: string): string {
-        PerformanceAPI.SetMark('View.GetColumnsOrder');
+        Performance.SetMark('View.GetColumnsOrder');
 
         const result = Auxiliary.CreateApiResponse({
             gridID,
@@ -70,8 +70,8 @@ namespace OutSystems.GridAPI.View {
             hasValue: true
         });
 
-        PerformanceAPI.SetMark('View.GetColumnsOrder-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('View.GetColumnsOrder-end');
+        Performance.GetMeasure(
             '@datagrid-View.GetColumnsOrder',
             'View.GetColumnsOrder',
             'View.GetColumnsOrder-end'

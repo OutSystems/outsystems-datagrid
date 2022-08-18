@@ -13,7 +13,7 @@ namespace OutSystems.GridAPI.ColumnManager {
         gridID: string,
         ListOfColumnIDs: string
     ): string {
-        PerformanceAPI.SetMark('ColumnManager.AddColumnToGroupPanel');
+        Performance.SetMark('ColumnManager.AddColumnToGroupPanel');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -26,8 +26,8 @@ namespace OutSystems.GridAPI.ColumnManager {
             }
         });
 
-        PerformanceAPI.SetMark('ColumnManager.AddColumnToGroupPanel-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnManager.AddColumnToGroupPanel-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnManager.AddColumnToGroupPanel',
             'ColumnManager.AddColumnToGroupPanel',
             'ColumnManager.AddColumnToGroupPanel-end'
@@ -51,7 +51,7 @@ namespace OutSystems.GridAPI.ColumnManager {
         configs = '{}',
         editorConfig = '{}'
     ): boolean {
-        PerformanceAPI.SetMark('ColumnManager.createColumn');
+        Performance.SetMark('ColumnManager.createColumn');
 
         editorConfig = editorConfig === '' ? '{}' : editorConfig;
         let output = false;
@@ -76,8 +76,8 @@ namespace OutSystems.GridAPI.ColumnManager {
             output = true;
         }
 
-        PerformanceAPI.SetMark('ColumnManager.createColumn-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnManager.createColumn-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnManager.createColumn',
             'ColumnManager.createColumn',
             'ColumnManager.createColumn-end'
@@ -94,7 +94,7 @@ namespace OutSystems.GridAPI.ColumnManager {
     function GetGridByColumnId(
         columnID: string
     ): OSFramework.DataGrid.Grid.IGrid {
-        PerformanceAPI.SetMark('ColumnManager.getGridByColumnId');
+        Performance.SetMark('ColumnManager.getGridByColumnId');
 
         let grid: OSFramework.DataGrid.Grid.IGrid;
 
@@ -121,8 +121,8 @@ namespace OutSystems.GridAPI.ColumnManager {
             }
         }
 
-        PerformanceAPI.SetMark('ColumnManager.getGridByColumnId-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnManager.getGridByColumnId-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnManager.getGridByColumnId',
             'ColumnManager.getGridByColumnId',
             'ColumnManager.getGridByColumnId-end'
@@ -155,15 +155,15 @@ namespace OutSystems.GridAPI.ColumnManager {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         propertyValue: any
     ): void {
-        PerformanceAPI.SetMark('ColumnManager.changeProperty');
+        Performance.SetMark('ColumnManager.changeProperty');
 
         const grid = GetGridByColumnId(columnID);
 
         if (grid !== undefined) {
             grid.changeColumnProperty(columnID, propertyName, propertyValue);
         }
-        PerformanceAPI.SetMark('ColumnManager.changeProperty-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnManager.changeProperty-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnManager.changeProperty',
             'ColumnManager.changeProperty',
             'ColumnManager.changeProperty-end'
@@ -177,7 +177,7 @@ namespace OutSystems.GridAPI.ColumnManager {
      * @param {string} columnID id of the column with which actions on the column can be performed.
      */
     export function DestroyColumn(columnID: string): void {
-        PerformanceAPI.SetMark('ColumnManager.destroyColumn');
+        Performance.SetMark('ColumnManager.destroyColumn');
 
         const grid = GetGridByColumnId(columnID);
 
@@ -189,8 +189,8 @@ namespace OutSystems.GridAPI.ColumnManager {
             }),
             1
         );
-        PerformanceAPI.SetMark('ColumnManager.destroyColumn-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnManager.destroyColumn-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnManager.destroyColumn',
             'ColumnManager.destroyColumn',
             'ColumnManager.destroyColumn-end'
@@ -210,7 +210,7 @@ namespace OutSystems.GridAPI.ColumnManager {
         columnID: string,
         aggregate: number
     ): string {
-        PerformanceAPI.SetMark('ColumnManager.SetColumnAggregate');
+        Performance.SetMark('ColumnManager.SetColumnAggregate');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -223,8 +223,8 @@ namespace OutSystems.GridAPI.ColumnManager {
             }
         });
 
-        PerformanceAPI.SetMark('ColumnManager.SetColumnAggregate-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnManager.SetColumnAggregate-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnManager.SetColumnAggregate',
             'ColumnManager.SetColumnAggregate',
             'ColumnManager.SetColumnAggregate-end'
@@ -247,7 +247,7 @@ namespace OutSystems.GridAPI.ColumnManager {
         columnID: string,
         allowMerge: boolean
     ): string {
-        PerformanceAPI.SetMark('ColumnManager.AllowCellMerging');
+        Performance.SetMark('ColumnManager.AllowCellMerging');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -262,8 +262,8 @@ namespace OutSystems.GridAPI.ColumnManager {
             }
         });
 
-        PerformanceAPI.SetMark('ColumnManager.AllowCellMerging-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnManager.AllowCellMerging-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnManager.AllowCellMerging',
             'ColumnManager.AllowCellMerging',
             'ColumnManager.AllowCellMerging-end'
@@ -286,7 +286,7 @@ namespace OutSystems.GridAPI.ColumnManager {
         columnID: string,
         header: string
     ): string {
-        PerformanceAPI.SetMark('ColumnManager.SetColumnHeader');
+        Performance.SetMark('ColumnManager.SetColumnHeader');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -299,8 +299,8 @@ namespace OutSystems.GridAPI.ColumnManager {
             }
         });
 
-        PerformanceAPI.SetMark('ColumnManager.SetColumnHeader-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('ColumnManager.SetColumnHeader-end');
+        Performance.GetMeasure(
             '@datagrid-ColumnManager.SetColumnHeader',
             'ColumnManager.SetColumnHeader',
             'ColumnManager.SetColumnHeader-end'

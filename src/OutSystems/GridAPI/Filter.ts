@@ -21,7 +21,7 @@ namespace OutSystems.GridAPI.Filter {
      * @returns {*}  {string} Return Message Success or message of error info if it's the case.
      */
     export function Search(gridID: string, searchedValue: string): string {
-        PerformanceAPI.SetMark('Filter.search');
+        Performance.SetMark('Filter.search');
 
         const result = Auxiliary.CreateApiResponse({
             gridID,
@@ -46,8 +46,8 @@ namespace OutSystems.GridAPI.Filter {
             }
         });
 
-        PerformanceAPI.SetMark('Filter.search-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Filter.search-end');
+        Performance.GetMeasure(
             '@datagrid-Filter.search',
             'Filter.search',
             'Filter.search-end'
@@ -65,7 +65,7 @@ namespace OutSystems.GridAPI.Filter {
      * @returns {*}  {string} Return Message Success or message of error info if it's the case.
      */
     export function Activate(gridID: string, columnID: string): string {
-        PerformanceAPI.SetMark('Filter.activate');
+        Performance.SetMark('Filter.activate');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -77,8 +77,8 @@ namespace OutSystems.GridAPI.Filter {
             }
         });
 
-        PerformanceAPI.SetMark('Filter.activate-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Filter.activate-end');
+        Performance.GetMeasure(
             '@datagrid-Filter.activate',
             'Filter.activate',
             'Filter.activate-end'
@@ -96,7 +96,7 @@ namespace OutSystems.GridAPI.Filter {
      * @returns {*}  {string} Return Message Success or message of error info if it's the case.
      */
     export function Clear(gridID: string, columnID: string): string {
-        PerformanceAPI.SetMark('Filter.clear');
+        Performance.SetMark('Filter.clear');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -106,8 +106,8 @@ namespace OutSystems.GridAPI.Filter {
             }
         });
 
-        PerformanceAPI.SetMark('Filter.clear-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Filter.clear-end');
+        Performance.GetMeasure(
             '@datagrid-Filter.clear',
             'Filter.clear',
             'Filter.clear-end'
@@ -124,7 +124,7 @@ namespace OutSystems.GridAPI.Filter {
      * @returns {*}  {string} Return Message Success or message of error info if it's the case.
      */
     export function Deactivate(gridID: string, columnID: string): string {
-        PerformanceAPI.SetMark('Filter.deactivate');
+        Performance.SetMark('Filter.deactivate');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -136,8 +136,8 @@ namespace OutSystems.GridAPI.Filter {
             }
         });
 
-        PerformanceAPI.SetMark('Filter.deactivate-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Filter.deactivate-end');
+        Performance.GetMeasure(
             '@datagrid-Filter.deactivate',
             'Filter.deactivate',
             'Filter.deactivate-end'
@@ -160,7 +160,7 @@ namespace OutSystems.GridAPI.Filter {
         columnID: string,
         values: string
     ): string {
-        PerformanceAPI.SetMark('Filter.ByCondition');
+        Performance.SetMark('Filter.ByCondition');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -174,8 +174,8 @@ namespace OutSystems.GridAPI.Filter {
             }
         });
 
-        PerformanceAPI.SetMark('Filter.ByCondition-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Filter.ByCondition-end');
+        Performance.GetMeasure(
             '@datagrid-Filter.ByCondition',
             'Filter.ByCondition',
             'Filter.ByCondition-end'
@@ -198,7 +198,7 @@ namespace OutSystems.GridAPI.Filter {
         columnID: string,
         values: string
     ): string {
-        PerformanceAPI.SetMark('Filter.ByValue');
+        Performance.SetMark('Filter.ByValue');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -211,8 +211,8 @@ namespace OutSystems.GridAPI.Filter {
             }
         });
 
-        PerformanceAPI.SetMark('Filter.ByValue-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Filter.ByValue-end');
+        Performance.GetMeasure(
             '@datagrid-Filter.ByValue',
             'Filter.ByValue',
             'Filter.ByValue-end'
@@ -237,7 +237,7 @@ namespace OutSystems.GridAPI.Filter {
         options: string,
         maxVisibleOptions?: number
     ): string {
-        PerformanceAPI.SetMark('Filter.SetColumnFilterOptions');
+        Performance.SetMark('Filter.SetColumnFilterOptions');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -254,8 +254,8 @@ namespace OutSystems.GridAPI.Filter {
             }
         });
 
-        PerformanceAPI.SetMark('Filter.SetColumnFilterOptions-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('Filter.SetColumnFilterOptions-end');
+        Performance.GetMeasure(
             '@datagrid-Filter.SetColumnFilterOptions',
             'Filter.SetColumnFilterOptions',
             'Filter.SetColumnFilterOptions-end'

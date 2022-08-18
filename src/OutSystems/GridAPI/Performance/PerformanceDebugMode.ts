@@ -1,7 +1,7 @@
 /// <reference path="AbstractPerformance.ts" />
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace PerformanceAPI {
+namespace OutSystems.GridAPI.Performance {
     export class PerformanceDebugMode extends AbstractPerformance {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor() {

@@ -13,7 +13,7 @@ namespace OutSystems.GridAPI.GridManager {
         grid: OSFramework.DataGrid.Grid.IGrid,
         data: string
     ): boolean {
-        PerformanceAPI.SetMark('GridManager.setDataInGrid');
+        Performance.SetMark('GridManager.setDataInGrid');
 
         let output = false;
         if (grid !== undefined) {
@@ -23,8 +23,8 @@ namespace OutSystems.GridAPI.GridManager {
             output = true;
         }
 
-        PerformanceAPI.SetMark('GridManager.setDataInGrid-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.setDataInGrid-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.setDataInGrid',
             'GridManager.setDataInGrid',
             'GridManager.setDataInGrid-end'
@@ -44,7 +44,7 @@ namespace OutSystems.GridAPI.GridManager {
         gridID: string,
         configs: string
     ): OSFramework.DataGrid.Grid.IGrid {
-        PerformanceAPI.SetMark('GridManager.CreateGrid');
+        Performance.SetMark('GridManager.CreateGrid');
 
         const _grid = Providers.DataGrid.Wijmo.Grid.GridFactory.MakeGrid(
             OSFramework.DataGrid.Enum.GridType.FlexGrid,
@@ -63,8 +63,8 @@ namespace OutSystems.GridAPI.GridManager {
 
         Events.CheckPendingEvents(gridID);
 
-        PerformanceAPI.SetMark('GridManager.CreateGrid-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.CreateGrid-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.CreateGrid',
             'GridManager.CreateGrid',
             'GridManager.CreateGrid-end'
@@ -84,7 +84,7 @@ namespace OutSystems.GridAPI.GridManager {
         gridID: string,
         raiseError = true
     ): OSFramework.DataGrid.Grid.IGrid {
-        PerformanceAPI.SetMark('GridManager.GetGridById');
+        Performance.SetMark('GridManager.GetGridById');
 
         let grid: OSFramework.DataGrid.Grid.IGrid;
 
@@ -103,8 +103,8 @@ namespace OutSystems.GridAPI.GridManager {
             throw new Error(`Grid id:${gridID} not found`);
         }
 
-        PerformanceAPI.SetMark('GridManager.GetGridById-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.GetGridById-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.GetGridById',
             'GridManager.GetGridById',
             'GridManager.GetGridById-end'
@@ -140,7 +140,7 @@ namespace OutSystems.GridAPI.GridManager {
      * @returns {*}  {string} Changed lines in JSON format.
      */
     export function GetChangesInGrid(gridID: string): string {
-        PerformanceAPI.SetMark('GridManager.GetChangesInGrid');
+        Performance.SetMark('GridManager.GetChangesInGrid');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -151,8 +151,8 @@ namespace OutSystems.GridAPI.GridManager {
             hasValue: true
         });
 
-        PerformanceAPI.SetMark('GridManager.GetChangesInGrid-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.GetChangesInGrid-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.GetChangesInGrid',
             'GridManager.GetChangesInGrid',
             'GridManager.GetChangesInGrid-end'
@@ -169,7 +169,7 @@ namespace OutSystems.GridAPI.GridManager {
      * @returns {*}  {boolean} true if the grid was initialized.
      */
     export function InitializeGrid(gridID: string, data = '{}'): boolean {
-        PerformanceAPI.SetMark('GridManager.InitializeGrid');
+        Performance.SetMark('GridManager.InitializeGrid');
 
         let output = false;
         const grid = GetGridById(gridID);
@@ -178,8 +178,8 @@ namespace OutSystems.GridAPI.GridManager {
 
         output = setDataInGrid(grid, data);
 
-        PerformanceAPI.SetMark('GridManager.InitializeGrid-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.InitializeGrid-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.InitializeGrid',
             'GridManager.InitializeGrid',
             'GridManager.InitializeGrid-end'
@@ -198,7 +198,7 @@ namespace OutSystems.GridAPI.GridManager {
         gridID: string,
         forceCleanInvalids = false
     ): string {
-        PerformanceAPI.SetMark('GridManager.MarkChangesAsSaved');
+        Performance.SetMark('GridManager.MarkChangesAsSaved');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -209,8 +209,8 @@ namespace OutSystems.GridAPI.GridManager {
             }
         });
 
-        PerformanceAPI.SetMark('GridManager.MarkChangesAsSaved-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.MarkChangesAsSaved-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.MarkChangesAsSaved',
             'GridManager.MarkChangesAsSaved',
             'GridManager.MarkChangesAsSaved-end'
@@ -232,7 +232,7 @@ namespace OutSystems.GridAPI.GridManager {
         rowKeys: string,
         forceCleanInvalids = false
     ): string {
-        PerformanceAPI.SetMark('GridManager.MarkChangesAsSavedByKey');
+        Performance.SetMark('GridManager.MarkChangesAsSavedByKey');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -246,8 +246,8 @@ namespace OutSystems.GridAPI.GridManager {
             }
         });
 
-        PerformanceAPI.SetMark('GridManager.MarkChangesAsSavedByKey-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.MarkChangesAsSavedByKey-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.MarkChangesAsSavedByKey',
             'GridManager.MarkChangesAsSavedByKey',
             'GridManager.MarkChangesAsSavedByKey-end'
@@ -265,13 +265,13 @@ namespace OutSystems.GridAPI.GridManager {
      * @returns {*}  {boolean} true if the data was changed in the grid.
      */
     export function SetGridData(gridID: string, data: string): boolean {
-        PerformanceAPI.SetMark('GridManager.SetGridData');
+        Performance.SetMark('GridManager.SetGridData');
 
         const grid = GetGridById(gridID);
         const output = setDataInGrid(grid, data);
 
-        PerformanceAPI.SetMark('GridManager.SetGridData-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.SetGridData-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.SetGridData',
             'GridManager.SetGridData',
             'GridManager.SetGridData-end'
@@ -286,7 +286,7 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {string} gridID ID of the Grid to be destroyed.
      */
     export function RemoveGrid(gridID: string): void {
-        PerformanceAPI.SetMark('GridManager.RemoveGrid');
+        Performance.SetMark('GridManager.RemoveGrid');
 
         const grid = GetGridById(gridID);
 
@@ -299,8 +299,8 @@ namespace OutSystems.GridAPI.GridManager {
 
         grid.dispose();
 
-        PerformanceAPI.SetMark('GridManager.RemoveGrid-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.RemoveGrid-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.RemoveGrid',
             'GridManager.RemoveGrid',
             'GridManager.RemoveGrid-end'
@@ -321,14 +321,14 @@ namespace OutSystems.GridAPI.GridManager {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         propertyValue: any
     ): void {
-        PerformanceAPI.SetMark('GridManager.ChangeProperty');
+        Performance.SetMark('GridManager.ChangeProperty');
 
         const grid = GetGridById(gridID);
 
         grid.changeProperty(propertyName, propertyValue);
 
-        PerformanceAPI.SetMark('GridManager.ChangeProperty-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.ChangeProperty-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.ChangeProperty',
             'GridManager.ChangeProperty',
             'GridManager.ChangeProperty-end'
@@ -342,7 +342,7 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {string} gridID ID of the Grid where the change will occur.
      */
     export function ClearChanges(gridID: string): string {
-        PerformanceAPI.SetMark('GridManager.ClearChanges');
+        Performance.SetMark('GridManager.ClearChanges');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -352,8 +352,8 @@ namespace OutSystems.GridAPI.GridManager {
             }
         });
 
-        PerformanceAPI.SetMark('GridManager.ClearChanges-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.ClearChanges-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.ClearChanges',
             'GridManager.ClearChanges',
             'GridManager.ClearChanges-end'
@@ -368,7 +368,7 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {string} gridID
      */
     export function DestroyGrid(gridID: string): void {
-        PerformanceAPI.SetMark('GridManager.DestroyGrid');
+        Performance.SetMark('GridManager.DestroyGrid');
 
         const grid = GetGridById(gridID);
 
@@ -381,8 +381,8 @@ namespace OutSystems.GridAPI.GridManager {
 
         grid.dispose();
 
-        PerformanceAPI.SetMark('GridManager.DestroyGrid-end');
-        PerformanceAPI.GetMeasure(
+        Performance.SetMark('GridManager.DestroyGrid-end');
+        Performance.GetMeasure(
             '@datagrid-GridManager.DestroyGrid',
             'GridManager.DestroyGrid',
             'GridManager.DestroyGrid-end'
