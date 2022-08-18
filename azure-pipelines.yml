@@ -34,14 +34,14 @@ stages:
           - task: Npm@1
             displayName: 'npm install'
             inputs:
-              workingDir: './code'
+              workingDir: './'
               verbose: false
 
           #Compile typescript files
           - task: Npm@1
             displayName: 'npm run build'
             inputs:
-              workingDir: './code'
+              workingDir: './'
               command: custom
               verbose: false
               customCommand: 'run build'
@@ -50,7 +50,7 @@ stages:
           - task: PublishBuildArtifacts@1
             displayName: 'Publish GridFramework.js'
             inputs:
-              PathtoPublish: './code/dist/GridFramework.js'
+              PathtoPublish: './dist/GridFramework.js'
               ArtifactName: 'GridFramework.js'
               publishLocation: 'Container'
 
@@ -58,7 +58,7 @@ stages:
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Grid.css'
             inputs:
-              PathtoPublish: './code/styles/Grid.css'
+              PathtoPublish: './styles/Grid.css'
               ArtifactName: 'Grid.css'
               publishLocation: 'Container'
 
