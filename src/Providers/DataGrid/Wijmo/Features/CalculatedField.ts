@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    function Evaluate(formula: OSFramework.OSStructure.Formula) {
-        const fn: OSFramework.OSStructure.Functions = formula.function;
+    function Evaluate(formula: OSFramework.DataGrid.OSStructure.Formula) {
+        const fn: OSFramework.DataGrid.OSStructure.Functions = formula.function;
 
         const parsedValues = formula.values.map((val) => {
             if (isNaN(parseInt(val))) return `$.${val}`;
@@ -9,19 +9,19 @@ namespace WijmoProvider.Feature {
         });
 
         switch (fn) {
-            case OSFramework.OSStructure.Functions.Avg:
+            case OSFramework.DataGrid.OSStructure.Functions.Avg:
                 return `(${parsedValues.join(' + ')}) / ${parsedValues.length}`;
-            case OSFramework.OSStructure.Functions.Diff:
+            case OSFramework.DataGrid.OSStructure.Functions.Diff:
                 return parsedValues.join(' - ');
-            case OSFramework.OSStructure.Functions.Div:
+            case OSFramework.DataGrid.OSStructure.Functions.Div:
                 return parsedValues.join(' / ');
-            case OSFramework.OSStructure.Functions.Max:
+            case OSFramework.DataGrid.OSStructure.Functions.Max:
                 return `Math.max(${parsedValues.join(', ')})`;
-            case OSFramework.OSStructure.Functions.Min:
+            case OSFramework.DataGrid.OSStructure.Functions.Min:
                 return `Math.min(${parsedValues.join(', ')})`;
-            case OSFramework.OSStructure.Functions.Mult:
+            case OSFramework.DataGrid.OSStructure.Functions.Mult:
                 return parsedValues.join(' * ');
-            case OSFramework.OSStructure.Functions.Sum:
+            case OSFramework.DataGrid.OSStructure.Functions.Sum:
                 return parsedValues.join(' + ');
             default:
                 return '';
@@ -30,8 +30,8 @@ namespace WijmoProvider.Feature {
 
     export class CalculatedField
         implements
-            OSFramework.Feature.ICalculatedField,
-            OSFramework.Interface.IBuilder
+            OSFramework.DataGrid.Feature.ICalculatedField,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _calculatedFields: any;
@@ -54,9 +54,11 @@ namespace WijmoProvider.Feature {
                             .filter(
                                 (col) =>
                                     col.columnType ===
-                                        OSFramework.Enum.ColumnType.Currency ||
+                                        OSFramework.DataGrid.Enum.ColumnType
+                                            .Currency ||
                                     col.columnType ===
-                                        OSFramework.Enum.ColumnType.Number
+                                        OSFramework.DataGrid.Enum.ColumnType
+                                            .Number
                             )
                             // get binding
                             .map((col) => col.config.binding)
@@ -76,7 +78,7 @@ namespace WijmoProvider.Feature {
         public addFormula(
             binding: string,
             header: string,
-            formula: OSFramework.OSStructure.Formula
+            formula: OSFramework.DataGrid.OSStructure.Formula
         ): void {
             this._validateValues(formula.values, header);
 

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Enum {
+namespace OSFramework.DataGrid.Enum {
     export enum GridType {
         FlexGrid = 'FlexGrid',
         PivotGrid = 'PivotGrid',

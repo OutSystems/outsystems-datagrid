@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Feature {
+namespace OSFramework.DataGrid.Feature {
     export interface IStyling {
         /**
          * Add a specific CSS Class to the content of a column.

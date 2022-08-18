@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Interface {
+namespace OSFramework.DataGrid.Interface {
     /**
      * Used to configure a feature. For example turnning on and off
      */

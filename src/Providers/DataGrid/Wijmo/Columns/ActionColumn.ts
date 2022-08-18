@@ -1,27 +1,29 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Column {
-    export class ActionColumn extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfig> {
+    export class ActionColumn extends AbstractProviderColumn<OSFramework.DataGrid.Configuration.Column.ColumnConfig> {
         constructor(
-            grid: OSFramework.Grid.IGrid,
+            grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
             configs: JSON
         ) {
             super(
                 grid,
                 columnID,
-                new OSFramework.Configuration.Column.ColumnConfig(configs)
+                new OSFramework.DataGrid.Configuration.Column.ColumnConfig(
+                    configs
+                )
             );
             this._columnEvents =
-                new OSFramework.Event.Column.ColumnEventsManager(this);
+                new OSFramework.DataGrid.Event.Column.ColumnEventsManager(this);
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
+        public get columnEvents(): OSFramework.DataGrid.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): OSFramework.Enum.ColumnType {
-            return OSFramework.Enum.ColumnType.Action;
+        public get columnType(): OSFramework.DataGrid.Enum.ColumnType {
+            return OSFramework.DataGrid.Enum.ColumnType.Action;
         }
 
         public get providerType(): wijmo.DataType {
@@ -46,10 +48,13 @@ namespace WijmoProvider.Column {
                     this.grid.rowMetadata.clear(clonedDataItem);
 
                     this._columnEvents.trigger(
-                        OSFramework.Event.Column.ColumnEventType.ActionClick,
+                        OSFramework.DataGrid.Event.Column.ColumnEventType
+                            .ActionClick,
                         JSON.stringify(
                             this.grid.isSingleEntity
-                                ? OSFramework.Helper.Flatten(clonedDataItem)
+                                ? OSFramework.DataGrid.Helper.Flatten(
+                                      clonedDataItem
+                                  )
                                 : clonedDataItem
                         )
                     );

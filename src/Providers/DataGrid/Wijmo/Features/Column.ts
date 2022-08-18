@@ -1,8 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    // export class Builder extends Validation implements OSFramework.Interface.IBuilder {
+    // export class Builder extends Validation implements OSFramework.DataGrid.Interface.IBuilder {
     export class Column
-        implements OSFramework.Feature.IColumn, OSFramework.Interface.IBuilder
+        implements
+            OSFramework.DataGrid.Feature.IColumn,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
 
@@ -14,9 +16,9 @@ namespace WijmoProvider.Feature {
             //
         }
 
-        public getColumnsOrder(): OSFramework.OSStructure.IColumnOrder[] {
+        public getColumnsOrder(): OSFramework.DataGrid.OSStructure.IColumnOrder[] {
             const gridColumns = this._grid.getColumns();
-            let columnsOrder: OSFramework.OSStructure.IColumnOrder[];
+            let columnsOrder: OSFramework.DataGrid.OSStructure.IColumnOrder[];
             if (gridColumns.length > 0) {
                 columnsOrder = gridColumns.map((col) => {
                     return {
@@ -42,7 +44,9 @@ namespace WijmoProvider.Feature {
             if (column) {
                 column.provider.header = header;
             } else {
-                throw new Error(OSFramework.Enum.ErrorMessages.Column_NotFound);
+                throw new Error(
+                    OSFramework.DataGrid.Enum.ErrorMessages.Column_NotFound
+                );
             }
         }
     }

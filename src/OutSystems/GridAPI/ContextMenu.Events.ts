@@ -9,16 +9,16 @@ namespace OutSystems.GridAPI.ContextMenu.Events {
      */
     export function Subscribe(
         menuItemID: string,
-        eventName: OSFramework.Event.Feature.ContextMenuEventType,
+        eventName: OSFramework.DataGrid.Event.Feature.ContextMenuEventType,
         // eslint-disable-next-line
-        callback: OSFramework.Callbacks.ContextMenu.Toggle
+        callback: OSFramework.DataGrid.Callbacks.ContextMenu.Toggle
     ): void {
         const gridId = GetGridByMenuId(menuItemID);
         // We need to make sure the grid already exists and it is intialized before subscribing to any context menu event.
         GridManager.Events.Subscribe(
             gridId,
-            OSFramework.Event.Grid.GridEventType.Initialized,
-            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+            (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
                 gridObj.features.contextMenu.contextMenuEvents.addHandler(
                     eventName,
                     callback
@@ -40,12 +40,12 @@ namespace GridAPI.ContextMenu.Events {
      */
     export function Subscribe(
         menuItemID: string,
-        eventName: OSFramework.Event.Feature.ContextMenuEventType,
+        eventName: OSFramework.DataGrid.Event.Feature.ContextMenuEventType,
         // eslint-disable-next-line
-        callback: OSFramework.Callbacks.ContextMenu.Toggle
+        callback: OSFramework.DataGrid.Callbacks.ContextMenu.Toggle
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.Events.Subscribe()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.Events.Subscribe()'`
         );
         return OutSystems.GridAPI.ContextMenu.Events.Subscribe(
             menuItemID,

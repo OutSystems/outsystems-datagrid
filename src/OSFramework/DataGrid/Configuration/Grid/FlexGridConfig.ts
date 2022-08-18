@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Configuration.Grid {
+namespace OSFramework.DataGrid.Configuration.Grid {
     export class FlexGridConfig
         extends AbstractConfiguration
         implements IConfigurationGrid

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Configuration {
+namespace OSFramework.DataGrid.Configuration {
     /**
      * Defines a basic interface for Custom column Editors
      */

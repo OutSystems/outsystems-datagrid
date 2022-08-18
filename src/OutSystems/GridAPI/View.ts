@@ -6,7 +6,7 @@ namespace OutSystems.GridAPI.View {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     export function GetViewLayout(gridID: string): string {
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         PerformanceAPI.SetMark('View.GetViewLayout');
@@ -32,7 +32,7 @@ namespace OutSystems.GridAPI.View {
      */
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     export function SetViewLayout(gridID: string, config: any): any {
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         PerformanceAPI.SetMark('View.SetViewLayout');
@@ -61,7 +61,7 @@ namespace OutSystems.GridAPI.View {
 
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedAddClass,
+            errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedAddClass,
             callback: () => {
                 return GridManager.GetGridById(
                     gridID
@@ -89,16 +89,16 @@ namespace GridAPI {
     export namespace View {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         export function GetViewLayout(gridID: string): string {
-            OSFramework.Helper.LogWarningMessage(
-                `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.View.GetViewLayout()'`
+            OSFramework.DataGrid.Helper.LogWarningMessage(
+                `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.View.GetViewLayout()'`
             );
             return OutSystems.GridAPI.View.GetViewLayout(gridID);
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         export function SetViewLayout(gridID: string, config: any): any {
-            OSFramework.Helper.LogWarningMessage(
-                `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.View.SetViewLayout()'`
+            OSFramework.DataGrid.Helper.LogWarningMessage(
+                `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.View.SetViewLayout()'`
             );
             return OutSystems.GridAPI.View.SetViewLayout(gridID, config);
         }

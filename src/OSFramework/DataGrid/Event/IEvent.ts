@@ -1,4 +1,4 @@
-namespace OSFramework.Event {
+namespace OSFramework.DataGrid.Event {
     /**
      * This interface is the base to all events. All events (both internal or external)
      * need to implement it.
@@ -9,10 +9,10 @@ namespace OSFramework.Event {
      */
     export interface IEvent<D> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        addHandler(handler: OSFramework.Callbacks.Generic, ...args);
+        addHandler(handler: OSFramework.DataGrid.Callbacks.Generic, ...args);
         hasHandlers(): boolean;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        removeHandler(handler: OSFramework.Callbacks.Generic);
+        removeHandler(handler: OSFramework.DataGrid.Callbacks.Generic);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         trigger(data: D, ...args): any;
     }

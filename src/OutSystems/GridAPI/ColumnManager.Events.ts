@@ -4,14 +4,14 @@ namespace OutSystems.GridAPI.ColumnManager.Events {
      *
      * @export
      * @param {string} columnID column in which to attach to an event.
-     * @param {OSFramework.Event.Column.ColumnEventType} eventName event to which attach to.
-     * @param {OSFramework.Callbacks.OSColumn.ClickEvent} callback to be invoked qhen the event occurs.
+     * @param {OSFramework.DataGrid.Event.Column.ColumnEventType} eventName event to which attach to.
+     * @param {OSFramework.DataGrid.Callbacks.OSColumn.ClickEvent} callback to be invoked qhen the event occurs.
      */
     export function Subscribe(
         columnID: string,
-        eventName: OSFramework.Event.Column.ColumnEventType,
+        eventName: OSFramework.DataGrid.Event.Column.ColumnEventType,
         // eslint-disable-next-line
-        callback: OSFramework.Callbacks.OSColumn.ClickEvent
+        callback: OSFramework.DataGrid.Callbacks.OSColumn.ClickEvent
     ): void {
         const column = GetColumnById(columnID);
         column.columnEvents.addHandler(eventName, callback);
@@ -26,17 +26,17 @@ namespace GridAPI.ColumnManager.Events {
      *
      * @export
      * @param {string} columnID column in which to attach to an event.
-     * @param {OSFramework.Event.Column.ColumnEventType} eventName event to which attach to.
-     * @param {OSFramework.Callbacks.OSColumn.ClickEvent} callback to be invoked qhen the event occurs.
+     * @param {OSFramework.DataGrid.Event.Column.ColumnEventType} eventName event to which attach to.
+     * @param {OSFramework.DataGrid.Callbacks.OSColumn.ClickEvent} callback to be invoked qhen the event occurs.
      */
     export function Subscribe(
         columnID: string,
-        eventName: OSFramework.Event.Column.ColumnEventType,
+        eventName: OSFramework.DataGrid.Event.Column.ColumnEventType,
         // eslint-disable-next-line
-        callback: OSFramework.Callbacks.OSColumn.ClickEvent
+        callback: OSFramework.DataGrid.Callbacks.OSColumn.ClickEvent
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnManager.Events.Subscribe()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ColumnManager.Events.Subscribe()'`
         );
         return OutSystems.GridAPI.ColumnManager.Events.Subscribe(
             columnID,

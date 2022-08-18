@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Helper {
+namespace OSFramework.DataGrid.Helper {
     /**
      * Receives an array, splits it into smaller arrays and executes a callback.
      * @param data Array to be split

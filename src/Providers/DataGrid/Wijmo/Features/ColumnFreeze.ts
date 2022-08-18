@@ -2,8 +2,8 @@
 namespace WijmoProvider.Feature {
     export class ColumnFreeze
         implements
-            OSFramework.Feature.IColumnFreeze,
-            OSFramework.Interface.IBuilder
+            OSFramework.DataGrid.Feature.IColumnFreeze,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
 
@@ -23,7 +23,9 @@ namespace WijmoProvider.Feature {
             this.leftColumns();
         }
 
-        public bySelection(cell: OSFramework.OSStructure.CellRange): void {
+        public bySelection(
+            cell: OSFramework.DataGrid.OSStructure.CellRange
+        ): void {
             this.leftColumns(cell.topRowIndex);
         }
 
@@ -35,7 +37,7 @@ namespace WijmoProvider.Feature {
             if (n !== undefined) {
                 if (n < 0) {
                     throw new Error(
-                        OSFramework.Enum.ErrorMessages.FreezeColumnPositiveNumberExpected
+                        OSFramework.DataGrid.Enum.ErrorMessages.FreezeColumnPositiveNumberExpected
                     );
                 }
                 this._grid.provider.frozenColumns = n;

@@ -12,7 +12,8 @@ namespace OutSystems.GridAPI.ColumnFreeze {
         PerformanceAPI.SetMark('ColumnFreeze.freeze');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFreezeColumns,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFreezeColumns,
             callback: () => {
                 GridManager.GetGridById(
                     gridID
@@ -38,7 +39,8 @@ namespace OutSystems.GridAPI.ColumnFreeze {
         PerformanceAPI.SetMark('ColumnFreeze.isFrozen');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedHasFrozenColumns,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedHasFrozenColumns,
             callback: () => {
                 return GridManager.GetGridById(gridID).features.columnFreeze
                     .isFrozen;
@@ -63,7 +65,8 @@ namespace OutSystems.GridAPI.ColumnFreeze {
         PerformanceAPI.SetMark('ColumnFreeze.unfreeze');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedUnfreezeColumns,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedUnfreezeColumns,
             callback: () => {
                 GridManager.GetGridById(
                     gridID
@@ -90,8 +93,8 @@ namespace GridAPI.ColumnFreeze {
      * @param n Number of columns to freeze, when omitted the active cell will be used, and everything to its left will be freeze
      */
     export function Freeze(gridID: string, n?: number): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnFreeze.Freeze()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ColumnFreeze.Freeze()'`
         );
         return OutSystems.GridAPI.ColumnFreeze.Freeze(gridID, n);
     }
@@ -101,8 +104,8 @@ namespace GridAPI.ColumnFreeze {
      * @param gridID The grid where the action will be performed
      */
     export function IsFrozen(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnFreeze.IsFrozen()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ColumnFreeze.IsFrozen()'`
         );
         return OutSystems.GridAPI.ColumnFreeze.IsFrozen(gridID);
     }
@@ -112,8 +115,8 @@ namespace GridAPI.ColumnFreeze {
      * @param gridID The grid where the action will be performed
      */
     export function Unfreeze(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnFreeze.Unfreeze()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ColumnFreeze.Unfreeze()'`
         );
         return OutSystems.GridAPI.ColumnFreeze.Unfreeze(gridID);
     }

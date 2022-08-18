@@ -36,8 +36,9 @@ namespace WijmoProvider.Helper.FilterFactory {
     function _createCondition(
         condition: WijmoFilterCondition,
         filterAnd: boolean
-    ): OSFramework.OSStructure.FilterCondition {
-        const filterCondition = new OSFramework.OSStructure.FilterCondition();
+    ): OSFramework.DataGrid.OSStructure.FilterCondition {
+        const filterCondition =
+            new OSFramework.DataGrid.OSStructure.FilterCondition();
         filterCondition.and = filterAnd;
         filterCondition.operatorTypeId = _getOperatorString(condition.operator);
         filterCondition.value = condition.value;
@@ -71,18 +72,19 @@ namespace WijmoProvider.Helper.FilterFactory {
      * Function that will transform the structure received from the provider, into the OutSystems structure format.
      *
      * @export
-     * @param {OSFramework.Grid.IGrid} grid
+     * @param {OSFramework.DataGrid.Grid.IGrid} grid
      * @param {string} serializedActiveFilters
      * @returns {*}  {GridAPI.Structures.ActiveFilter[]}
      */
     export function MakeFromActiveFilters(
-        grid: OSFramework.Grid.IGrid,
+        grid: OSFramework.DataGrid.Grid.IGrid,
         serializedActiveFilters: string
-    ): Array<OSFramework.OSStructure.ActiveFilter> {
+    ): Array<OSFramework.DataGrid.OSStructure.ActiveFilter> {
         const wijmoActiveFilters: WijmoActiveFilters = JSON.parse(
             serializedActiveFilters
         );
-        const activeFilters = new Array<OSFramework.OSStructure.ActiveFilter>();
+        const activeFilters =
+            new Array<OSFramework.DataGrid.OSStructure.ActiveFilter>();
 
         wijmoActiveFilters.filters
             .filter(
@@ -93,7 +95,8 @@ namespace WijmoProvider.Helper.FilterFactory {
                     (activeFilters.type === 'value' && activeFilters.showValues)
             )
             .forEach((filter) => {
-                const activeFilter = new OSFramework.OSStructure.ActiveFilter();
+                const activeFilter =
+                    new OSFramework.DataGrid.OSStructure.ActiveFilter();
                 const column = grid.getColumn(filter.binding);
 
                 activeFilter.binding = filter.binding;

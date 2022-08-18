@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Event.Feature {
+namespace OSFramework.DataGrid.Event.Feature {
     /**
      * Class that will be responsible for managing the events of the context menu.
      *
@@ -11,10 +11,10 @@ namespace OSFramework.Event.Feature {
         ContextMenuEventType,
         string
     > {
-        private _contextMenu: OSFramework.Feature.IContextMenu;
+        private _contextMenu: OSFramework.DataGrid.Feature.IContextMenu;
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        constructor(contextMenu: OSFramework.Feature.IContextMenu) {
+        constructor(contextMenu: OSFramework.DataGrid.Feature.IContextMenu) {
             super();
             this._contextMenu = contextMenu;
         }

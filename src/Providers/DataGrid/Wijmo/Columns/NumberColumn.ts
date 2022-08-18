@@ -19,13 +19,13 @@ namespace WijmoProvider.Column {
     ];
 
     export class NumberColumn<
-        T extends OSFramework.Configuration.Column.EditorConfigNumber
+        T extends OSFramework.DataGrid.Configuration.Column.EditorConfigNumber
     > extends AbstractProviderColumnEditor<
-        OSFramework.Configuration.Column.ColumnConfig,
+        OSFramework.DataGrid.Configuration.Column.ColumnConfig,
         T
     > {
         constructor(
-            grid: OSFramework.Grid.IGrid,
+            grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
             configs: JSON,
             editorConfig: T
@@ -33,20 +33,22 @@ namespace WijmoProvider.Column {
             super(
                 grid,
                 columnID,
-                new OSFramework.Configuration.Column.ColumnConfig(configs),
+                new OSFramework.DataGrid.Configuration.Column.ColumnConfig(
+                    configs
+                ),
                 editorConfig
             );
             this._columnEvents =
-                new OSFramework.Event.Column.ColumnEventsManager(this);
+                new OSFramework.DataGrid.Event.Column.ColumnEventsManager(this);
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
+        public get columnEvents(): OSFramework.DataGrid.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): OSFramework.Enum.ColumnType {
-            return OSFramework.Enum.ColumnType.Number;
+        public get columnType(): OSFramework.DataGrid.Enum.ColumnType {
+            return OSFramework.DataGrid.Enum.ColumnType.Number;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -127,21 +129,22 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
-                case OSFramework.OSStructure.ColumnProperties.DecimalPlaces:
+                case OSFramework.DataGrid.OSStructure.ColumnProperties
+                    .DecimalPlaces:
                     this._setFormat(propertyValue);
                     this.applyConfigs();
                     break;
-                case OSFramework.OSStructure.ColumnProperties
+                case OSFramework.DataGrid.OSStructure.ColumnProperties
                     .HasThousandSeparator:
                     this.editorConfig.hasThousandSeparator = propertyValue;
                     this._setEditorFormat(propertyValue);
                     this.applyConfigs();
                     break;
-                case OSFramework.OSStructure.ColumnProperties.MinValue:
+                case OSFramework.DataGrid.OSStructure.ColumnProperties.MinValue:
                     this._setMinValue(propertyValue);
                     this.applyConfigs();
                     break;
-                case OSFramework.OSStructure.ColumnProperties.MaxValue:
+                case OSFramework.DataGrid.OSStructure.ColumnProperties.MaxValue:
                     this._setMaxValue(propertyValue);
                     this.applyConfigs();
                     break;

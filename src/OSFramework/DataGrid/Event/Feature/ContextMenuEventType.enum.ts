@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Event.Feature {
+namespace OSFramework.DataGrid.Event.Feature {
     /**
      * Events currently supported in the Context Menu element.
      *

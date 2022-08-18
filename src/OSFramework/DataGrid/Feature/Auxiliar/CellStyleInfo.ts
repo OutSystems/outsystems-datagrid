@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Feature.Auxiliar {
+namespace OSFramework.DataGrid.Feature.Auxiliar {
     export class CellStyleInfo {
         public cssClass: Map<string, Array<string>>;
 

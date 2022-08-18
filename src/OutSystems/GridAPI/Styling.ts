@@ -17,14 +17,16 @@ namespace OutSystems.GridAPI.Styling {
         PerformanceAPI.SetMark('Styling.SetCellCssClass');
         const responseObj = {
             isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+            message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
         };
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
             responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            responseObj.message =
+                OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code =
+                OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
             return JSON.stringify(responseObj);
         }
         try {
@@ -42,15 +44,15 @@ namespace OutSystems.GridAPI.Styling {
             } else {
                 responseObj.isSuccess = false;
                 responseObj.message =
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier;
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier;
                 responseObj.code =
-                    OSFramework.Enum.ErrorCodes.API_FailedSetCellCssClass;
+                    OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellCssClass;
             }
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
             responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetCellCssClass;
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellCssClass;
         }
 
         PerformanceAPI.SetMark('Styling.SetCellCssClass-end');
@@ -81,7 +83,9 @@ namespace OutSystems.GridAPI.Styling {
         PerformanceAPI.SetMark('Styling.SetColumnCssClass');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetColumnCssClass,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedSetColumnCssClass,
             callback: () => {
                 GridManager.GetGridById(
                     gridID
@@ -118,14 +122,16 @@ namespace OutSystems.GridAPI.Styling {
         PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell');
         const responseObj = {
             isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+            message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
         };
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
             responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            responseObj.message =
+                OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code =
+                OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
             return JSON.stringify(responseObj);
         }
 
@@ -141,15 +147,15 @@ namespace OutSystems.GridAPI.Styling {
             } else {
                 responseObj.isSuccess = false;
                 responseObj.message =
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier;
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier;
                 responseObj.code =
-                    OSFramework.Enum.ErrorCodes.API_FailedRemoveAllCssClassesFromCell;
+                    OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveAllCssClassesFromCell;
             }
         } catch (error) {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
             responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedRemoveAllCssClassesFromCell;
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveAllCssClassesFromCell;
         }
 
         PerformanceAPI.SetMark('Styling.RemoveAllCssClassesFromCell-end');
@@ -178,7 +184,8 @@ namespace OutSystems.GridAPI.Styling {
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
-                OSFramework.Enum.ErrorCodes.API_FailedRemoveColumnCssClass,
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedRemoveColumnCssClass,
             callback: () => {
                 GridManager.GetGridById(
                     gridID
@@ -214,7 +221,9 @@ namespace OutSystems.GridAPI.Styling {
         PerformanceAPI.SetMark('ColumnManager.SetColumnWordWrap');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetColumnWordWrap,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedSetColumnWordWrap,
             callback: () => {
                 GridManager.GetGridById(
                     gridID
@@ -257,8 +266,8 @@ namespace GridAPI.Styling {
         rowIndex: number,
         className: string
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetCellCssClass()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetCellCssClass()'`
         );
         return OutSystems.GridAPI.Styling.SetCellCssClass(
             gridID,
@@ -274,8 +283,8 @@ namespace GridAPI.Styling {
         cssClass: string,
         applyToHeader: boolean
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetColumnCssClass()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetColumnCssClass()'`
         );
         return OutSystems.GridAPI.Styling.SetColumnCssClass(
             gridID,
@@ -290,8 +299,8 @@ namespace GridAPI.Styling {
         columnID: string,
         rowIndex: number
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.RemoveAllCssClassesFromCell()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Styling.RemoveAllCssClassesFromCell()'`
         );
         return OutSystems.GridAPI.Styling.RemoveAllCssClassesFromCell(
             gridID,
@@ -305,8 +314,8 @@ namespace GridAPI.Styling {
         columnID: string,
         cssClass: string
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.RemoveColumnCssClass()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Styling.RemoveColumnCssClass()'`
         );
         return OutSystems.GridAPI.Styling.RemoveColumnCssClass(
             gridID,
@@ -321,8 +330,8 @@ namespace GridAPI.Styling {
         wordWrapValue: boolean,
         dynamicHeight: boolean
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetColumnWordWrap()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetColumnWordWrap()'`
         );
         return OutSystems.GridAPI.Styling.SetColumnWordWrap(
             gridID,

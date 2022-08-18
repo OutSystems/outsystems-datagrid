@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Feature {
+namespace OSFramework.DataGrid.Feature {
     export interface IConditionalFormat {
         /**
          * Adds new conditional format rules to the desired binding.
          */
         addRules(
             binding: string,
-            rules: Array<OSFramework.OSStructure.ConditionalFormat>,
+            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>,
             refresh?: boolean
         ): void;
 

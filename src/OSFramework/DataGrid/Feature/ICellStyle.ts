@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Feature {
+namespace OSFramework.DataGrid.Feature {
     export interface ICellStyle {
         /**
          * Add a CSS class to a specific cell from the grid.

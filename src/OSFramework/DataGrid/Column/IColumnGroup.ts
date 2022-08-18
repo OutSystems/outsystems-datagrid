@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Column {
+namespace OSFramework.DataGrid.Column {
     /**
      * Representation of a ColumnGroup
      */

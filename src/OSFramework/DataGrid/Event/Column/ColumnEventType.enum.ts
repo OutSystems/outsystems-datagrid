@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Event.Column {
+namespace OSFramework.DataGrid.Event.Column {
     /**
      * Events currently supported in the Column element.
      *

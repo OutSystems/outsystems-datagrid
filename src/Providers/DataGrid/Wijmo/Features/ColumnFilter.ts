@@ -20,12 +20,12 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    // export class Builder extends Validation implements OSFramework.Interface.IBuilder {
+    // export class Builder extends Validation implements OSFramework.DataGrid.Interface.IBuilder {
     export class ColumnFilter
         implements
-            OSFramework.Feature.IColumnFilter,
-            OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable
+            OSFramework.DataGrid.Feature.IColumnFilter,
+            OSFramework.DataGrid.Interface.IBuilder,
+            OSFramework.DataGrid.Interface.IDisposable
     {
         private _enabled: boolean;
         private _filter: wijmo.grid.filter.FlexGridFilter;
@@ -41,11 +41,13 @@ namespace WijmoProvider.Feature {
 
             if (
                 this._grid.gridEvents.hasHandlers(
-                    OSFramework.Event.Grid.GridEventType.OnFiltersChange
+                    OSFramework.DataGrid.Event.Grid.GridEventType
+                        .OnFiltersChange
                 )
             ) {
                 this._grid.gridEvents.trigger(
-                    OSFramework.Event.Grid.GridEventType.OnFiltersChange,
+                    OSFramework.DataGrid.Event.Grid.GridEventType
+                        .OnFiltersChange,
                     this._grid,
                     Helper.FilterFactory.MakeFromActiveFilters(
                         this._grid,
@@ -89,7 +91,7 @@ namespace WijmoProvider.Feature {
                 this.changeFilterType(columnID, this.filterType);
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
@@ -126,7 +128,7 @@ namespace WijmoProvider.Feature {
          */
         public byCondition(
             columnId: string,
-            values: OSFramework.OSStructure.FilterCondition[]
+            values: OSFramework.DataGrid.OSStructure.FilterCondition[]
         ): void {
             const column = this._grid.getColumn(columnId);
             if (column) {
@@ -139,7 +141,8 @@ namespace WijmoProvider.Feature {
                     const condition2 = values[1];
 
                     columnFilter.condition1.value =
-                        column.columnType === OSFramework.Enum.ColumnType.Number
+                        column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Number
                             ? parseFloat(condition1.value)
                             : condition1.value;
                     columnFilter.condition1.operator =
@@ -160,7 +163,7 @@ namespace WijmoProvider.Feature {
                 }
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
@@ -194,7 +197,7 @@ namespace WijmoProvider.Feature {
                 this._filterChangedHandler(this._filter);
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
@@ -216,7 +219,7 @@ namespace WijmoProvider.Feature {
                     filterType;
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
@@ -234,7 +237,7 @@ namespace WijmoProvider.Feature {
                 this._grid.provider.collectionView.refresh();
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
@@ -253,7 +256,7 @@ namespace WijmoProvider.Feature {
                 );
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
@@ -296,8 +299,10 @@ namespace WijmoProvider.Feature {
             if (column) {
                 // for now we only want this to work on text or dropdown columns
                 if (
-                    column.columnType === OSFramework.Enum.ColumnType.Text ||
-                    column.columnType === OSFramework.Enum.ColumnType.Dropdown
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Text ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Dropdown
                 ) {
                     // this column will have both filter types
                     this.changeFilterType(
@@ -322,7 +327,7 @@ namespace WijmoProvider.Feature {
                 }
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
@@ -357,10 +362,10 @@ namespace WijmoProvider.Feature {
          * @returns If action can't be done => A string with the Error info
          */
         public validateAction(
-            action: OSFramework.Event.Grid.Actions /*, ctx: any*/
+            action: OSFramework.DataGrid.Event.Grid.Actions /*, ctx: any*/
         ): string {
             if (this.isGridFiltered) {
-                if (action === OSFramework.Event.Grid.Actions.AddRow) {
+                if (action === OSFramework.DataGrid.Event.Grid.Actions.AddRow) {
                     return "Can't add rows when filter is On!";
                 }
             }

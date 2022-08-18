@@ -138,12 +138,13 @@ namespace WijmoProvider.Feature {
         public evaluate(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             cellValue: any,
-            columnType: OSFramework.Enum.ColumnType
+            columnType: OSFramework.DataGrid.Enum.ColumnType
         ): boolean {
             const evaluated = this.rules.map((rule) => {
                 if (
-                    columnType === OSFramework.Enum.ColumnType.Dropdown ||
-                    columnType === OSFramework.Enum.ColumnType.Text
+                    columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Dropdown ||
+                    columnType === OSFramework.DataGrid.Enum.ColumnType.Text
                 ) {
                     return EvaluateText(rule.condition, rule.value, cellValue);
                 } else {
@@ -231,7 +232,7 @@ namespace WijmoProvider.Feature {
             cellValue: any,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             e: any,
-            columnType: OSFramework.Enum.ColumnType
+            columnType: OSFramework.DataGrid.Enum.ColumnType
         ) {
             this.conditions
                 .map((condition) => {
@@ -265,8 +266,8 @@ namespace WijmoProvider.Feature {
 
     export class ConditionalFormat
         implements
-            OSFramework.Feature.IConditionalFormat,
-            OSFramework.Interface.IBuilder
+            OSFramework.DataGrid.Feature.IConditionalFormat,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
         private _mappedRules: Map<string, ConditionExecuter>;
@@ -277,7 +278,7 @@ namespace WijmoProvider.Feature {
         }
 
         private _parseRule(
-            rules: Array<OSFramework.OSStructure.ConditionalFormat>
+            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>
         ): ConditionExecuter {
             const conditionExecuters = [];
             rules.forEach((element) => {
@@ -305,7 +306,7 @@ namespace WijmoProvider.Feature {
                 columns.forEach((column) => {
                     const isDropdown =
                         column.columnType ===
-                        OSFramework.Enum.ColumnType.Dropdown;
+                        OSFramework.DataGrid.Enum.ColumnType.Dropdown;
 
                     const colIndex = this._grid.provider.columns.find(
                         (x) => x.binding === column.provider.binding
@@ -330,7 +331,7 @@ namespace WijmoProvider.Feature {
 
         public addRules(
             binding: string,
-            rules: Array<OSFramework.OSStructure.ConditionalFormat>,
+            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>,
             refresh?: boolean
         ): void {
             // clear classes previously added

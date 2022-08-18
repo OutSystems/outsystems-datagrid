@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Grid {
+namespace OSFramework.DataGrid.Grid {
     export interface IGrid
         extends Interface.IBuilder,
             Interface.IDisposable,

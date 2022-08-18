@@ -12,7 +12,9 @@ namespace WijmoProvider.Feature {
      * Defines the Save and Load layout feature
      */
     export class View
-        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IView
+        implements
+            OSFramework.DataGrid.Interface.IBuilder,
+            OSFramework.DataGrid.Feature.IView
     {
         private _grid: Grid.IGridWijmo;
 
@@ -119,7 +121,7 @@ namespace WijmoProvider.Feature {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public getViewLayout(): OSFramework.OSStructure.ReturnMessage {
+        public getViewLayout(): OSFramework.DataGrid.OSStructure.ReturnMessage {
             try {
                 const state = {
                     columns: this._getColumnLayout(),
@@ -136,15 +138,17 @@ namespace WijmoProvider.Feature {
                 return {
                     value: JSON.stringify(state),
                     isSuccess: true,
-                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: '',
                     isSuccess: false,
                     message: error.message,
-                    code: OSFramework.Enum.ErrorCodes.API_FailedGetViewLayout
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedGetViewLayout
                 };
             }
         }
@@ -152,13 +156,13 @@ namespace WijmoProvider.Feature {
         public setViewLayout(
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             state: any
-        ): OSFramework.OSStructure.ReturnMessage {
+        ): OSFramework.DataGrid.OSStructure.ReturnMessage {
             try {
                 if (state === '') {
                     return {
                         isSuccess: false,
                         message: 'It seems you are not passing a valid config.',
-                        code: OSFramework.Enum.ErrorCodes
+                        code: OSFramework.DataGrid.Enum.ErrorCodes
                             .API_FailedSetViewLayout
                     };
                 }
@@ -177,14 +181,16 @@ namespace WijmoProvider.Feature {
 
                 return {
                     isSuccess: true,
-                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     isSuccess: false,
                     message: error.message,
-                    code: OSFramework.Enum.ErrorCodes.API_FailedSetViewLayout
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedSetViewLayout
                 };
             }
         }

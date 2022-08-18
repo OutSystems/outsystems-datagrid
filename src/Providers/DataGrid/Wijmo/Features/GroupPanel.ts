@@ -38,12 +38,12 @@ namespace WijmoProvider.Feature {
         }
     }
 
-    // export class Builder extends Validation implements OSFramework.Interface.IBuilder {
+    // export class Builder extends Validation implements OSFramework.DataGrid.Interface.IBuilder {
     export class GroupPanel
         implements
-            OSFramework.Feature.IGroupPanel,
-            OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable
+            OSFramework.DataGrid.Feature.IGroupPanel,
+            OSFramework.DataGrid.Interface.IBuilder,
+            OSFramework.DataGrid.Interface.IDisposable
     {
         private _currGroupDescription: Array<wijmo.collections.PropertyGroupDescription>;
         private _grid: Grid.IGridWijmo;
@@ -93,7 +93,7 @@ namespace WijmoProvider.Feature {
                         }
                     } else {
                         throw new Error(
-                            OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                            OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                         );
                     }
                 }
@@ -105,7 +105,7 @@ namespace WijmoProvider.Feature {
             wijmo.grid.grouppanel.GroupPanel.prototype._drop = this._drop;
 
             this._groupPanel = new wijmo.grid.grouppanel.GroupPanel(
-                OSFramework.Helper.GetElementByUniqueId(this._panelId)
+                OSFramework.DataGrid.Helper.GetElementByUniqueId(this._panelId)
             );
             this._groupPanel.grid = this._grid.provider;
             this._groupPanel.maxGroups = -1;
@@ -164,14 +164,14 @@ namespace WijmoProvider.Feature {
             if (column) {
                 if (!wijmo.Aggregate[aggregate]) {
                     throw new Error(
-                        OSFramework.Enum.ErrorMessages.Aggregate_NotFound
+                        OSFramework.DataGrid.Enum.ErrorMessages.Aggregate_NotFound
                     );
                 }
 
                 column.provider.aggregate = wijmo.Aggregate[aggregate];
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
@@ -193,10 +193,10 @@ namespace WijmoProvider.Feature {
         }
 
         public validateAction(
-            action: OSFramework.Event.Grid.Actions /*, ctx: any*/
+            action: OSFramework.DataGrid.Event.Grid.Actions /*, ctx: any*/
         ): string {
             if (this.isGridGrouped) {
-                if (action === OSFramework.Event.Grid.Actions.AddRow) {
+                if (action === OSFramework.DataGrid.Event.Grid.Actions.AddRow) {
                     return "Can't add rows when group is On!";
                 }
             }

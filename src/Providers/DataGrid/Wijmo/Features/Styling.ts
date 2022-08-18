@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
     export class Styling
-        implements OSFramework.Feature.IStyling, OSFramework.Interface.IBuilder
+        implements
+            OSFramework.DataGrid.Feature.IStyling,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
         private _rowHeight: number;
@@ -63,7 +65,7 @@ namespace WijmoProvider.Feature {
                 }
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
@@ -107,7 +109,7 @@ namespace WijmoProvider.Feature {
                 column.provider.cssClassAll = classList.join(' ');
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
@@ -127,7 +129,7 @@ namespace WijmoProvider.Feature {
                 }
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }

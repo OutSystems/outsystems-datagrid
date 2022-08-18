@@ -6,17 +6,17 @@ namespace WijmoProvider.Column {
      * @example Date and Datetime columns has a custom editor which is calendar
      */
     export abstract class AbstractProviderColumnEditor<
-            T extends OSFramework.Configuration.IConfigurationColumn,
-            K extends OSFramework.Configuration.IConfigurationColumnEditor
+            T extends OSFramework.DataGrid.Configuration.IConfigurationColumn,
+            K extends OSFramework.DataGrid.Configuration.IConfigurationColumnEditor
         >
         extends AbstractProviderColumn<T>
-        implements OSFramework.Column.IColumnCustom
+        implements OSFramework.DataGrid.Column.IColumnCustom
     {
         private _editor: wijmo.Control;
         private _editorConfigs: K;
 
         constructor(
-            grid: OSFramework.Grid.IGrid,
+            grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
             configs: T,
             editorConfigs: K
@@ -94,7 +94,7 @@ namespace WijmoProvider.Column {
                 if (
                     this.hasConditionalFormat &&
                     propertyName ===
-                        OSFramework.OSStructure.ColumnProperties
+                        OSFramework.DataGrid.OSStructure.ColumnProperties
                             .ConditionalFormat
                 ) {
                     this.setConditionalFormat(JSON.parse(propertyValue), true);

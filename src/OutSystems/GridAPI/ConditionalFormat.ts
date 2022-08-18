@@ -5,17 +5,17 @@ namespace OutSystems.GridAPI.ConditionalFormat {
      * @export
      * @param {string} gridID
      * @param {string} binding Column binding
-     * @param {Array<OSFramework.OSStructure.ConditionalFormat>} rules Rules for conditional formatting.
+     * @param {Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>} rules Rules for conditional formatting.
      */
     export function AddConditionalFormat(
         gridID: string,
         binding: string,
-        rules: Array<OSFramework.OSStructure.ConditionalFormat>
+        rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>
     ): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.Grid.GridEventType.Initialized,
-            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+            (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
                 PerformanceAPI.SetMark(
                     'ConditionalFormat.AddConditionalFormat'
                 );
@@ -46,8 +46,8 @@ namespace OutSystems.GridAPI.ConditionalFormat {
     ): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.Grid.GridEventType.Initialized,
-            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+            (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
                 PerformanceAPI.SetMark(
                     'ConditionalFormat.RemoveConditionalFormat'
                 );
@@ -74,15 +74,15 @@ namespace GridAPI.ConditionalFormat {
      * @export
      * @param {string} gridID
      * @param {string} binding Column binding
-     * @param {Array<OSFramework.OSStructure.ConditionalFormat>} rules Rules for conditional formatting.
+     * @param {Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>} rules Rules for conditional formatting.
      */
     export function AddConditionalFormat(
         gridID: string,
         binding: string,
-        rules: Array<OSFramework.OSStructure.ConditionalFormat>
+        rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ConditionalFormat.AddConditionalFormat()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ConditionalFormat.AddConditionalFormat()'`
         );
         return OutSystems.GridAPI.ConditionalFormat.AddConditionalFormat(
             gridID,
@@ -102,8 +102,8 @@ namespace GridAPI.ConditionalFormat {
         gridID: string,
         binding: string
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ConditionalFormat.RemoveConditionalFormat()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ConditionalFormat.RemoveConditionalFormat()'`
         );
         return OutSystems.GridAPI.ConditionalFormat.RemoveConditionalFormat(
             gridID,

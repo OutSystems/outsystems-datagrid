@@ -1,7 +1,7 @@
 /// <reference path="./ColumnConfigConditionalFormat.ts" />
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Configuration.Column {
+namespace OSFramework.DataGrid.Configuration.Column {
     /**
      * Defines the configuration for Calculated Columns
      */

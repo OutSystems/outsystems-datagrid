@@ -19,8 +19,9 @@ namespace OutSystems.GridAPI.ContextMenu {
         //Try to find in DOM only if not present on Map
         if (lookUpDOM && !_menuItemsToGridId.has(menuItemId)) {
             const menuOptionElement =
-                OSFramework.Helper.GetElementByUniqueId(menuItemId);
-            const grid = OSFramework.Helper.GetClosestGrid(menuOptionElement);
+                OSFramework.DataGrid.Helper.GetElementByUniqueId(menuItemId);
+            const grid =
+                OSFramework.DataGrid.Helper.GetClosestGrid(menuOptionElement);
 
             if (grid) {
                 _menuItemsToGridId.set(menuItemId, grid.uniqueId);
@@ -48,7 +49,7 @@ namespace OutSystems.GridAPI.ContextMenu {
         label: string,
         enabled: boolean,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        clickEvent: OSFramework.Callbacks.ContextMenu.OSClickEvent
+        clickEvent: OSFramework.DataGrid.Callbacks.ContextMenu.OSClickEvent
     ): void {
         PerformanceAPI.SetMark('ContextMenu.addItem');
 
@@ -60,8 +61,11 @@ namespace OutSystems.GridAPI.ContextMenu {
             if (grid !== undefined) {
                 GridManager.Events.Subscribe(
                     gridID,
-                    OSFramework.Event.Grid.GridEventType.Initialized,
-                    (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                    OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+                    (
+                        _gridId: string,
+                        gridObj: OSFramework.DataGrid.Grid.IGrid
+                    ) => {
                         gridObj.features.contextMenu.addMenuItem(
                             menuItemId,
                             label,
@@ -98,8 +102,11 @@ namespace OutSystems.GridAPI.ContextMenu {
             if (grid !== undefined) {
                 GridManager.Events.Subscribe(
                     gridID,
-                    OSFramework.Event.Grid.GridEventType.Initialized,
-                    (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+                    OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+                    (
+                        _gridId: string,
+                        gridObj: OSFramework.DataGrid.Grid.IGrid
+                    ) => {
                         gridObj.features.contextMenu.addMenuItemSeparator(
                             menuItemId
                         );
@@ -186,8 +193,8 @@ namespace GridAPI.ContextMenu {
         menuItemId: string,
         lookUpDOM = true
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.GetGridByMenuId()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.GetGridByMenuId()'`
         );
         return OutSystems.GridAPI.ContextMenu.GetGridByMenuId(
             menuItemId,
@@ -207,10 +214,10 @@ namespace GridAPI.ContextMenu {
         label: string,
         enabled: boolean,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        clickEvent: OSFramework.Callbacks.ContextMenu.OSClickEvent
+        clickEvent: OSFramework.DataGrid.Callbacks.ContextMenu.OSClickEvent
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.AddItem()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.AddItem()'`
         );
         return OutSystems.GridAPI.ContextMenu.AddItem(
             menuItemId,
@@ -221,8 +228,8 @@ namespace GridAPI.ContextMenu {
     }
 
     export function AddSeparator(menuItemId: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.AddSeparator()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.AddSeparator()'`
         );
         return OutSystems.GridAPI.ContextMenu.AddSeparator(menuItemId);
     }
@@ -233,8 +240,8 @@ namespace GridAPI.ContextMenu {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         propertyValue: any
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.ChangeProperty()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.ChangeProperty()'`
         );
         return OutSystems.GridAPI.ContextMenu.ChangeProperty(
             menuItemId,
@@ -244,8 +251,8 @@ namespace GridAPI.ContextMenu {
     }
 
     export function RemoveItem(menuItemId: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.RemoveItem()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ContextMenu.RemoveItem()'`
         );
         return OutSystems.GridAPI.ContextMenu.RemoveItem(menuItemId);
     }

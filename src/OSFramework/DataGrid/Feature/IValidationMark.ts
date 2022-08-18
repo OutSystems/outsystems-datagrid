@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Feature {
+namespace OSFramework.DataGrid.Feature {
     export interface IValidationMark {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         invalidRows: Set<any>;
@@ -25,10 +25,10 @@ namespace OSFramework.Feature {
         setRowStatus(rowNumber: number, isValid: boolean): void;
         validateCell(
             rowNumber: number,
-            column: OSFramework.Column.IColumn,
+            column: OSFramework.DataGrid.Column.IColumn,
             triggerOnCellValueChange: boolean
         ): void;
-        validateRow(rowNumber: number): OSFramework.OSStructure.ReturnMessage;
+        validateRow(rowNumber: number): OSFramework.DataGrid.OSStructure.ReturnMessage;
         // clearByRow(row: number): void;
     }
 }

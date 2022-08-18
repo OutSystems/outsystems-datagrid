@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Feature {
+namespace OSFramework.DataGrid.Feature {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     export class ExposedFeatures {
         public autoRowNumber: IRowNumber;

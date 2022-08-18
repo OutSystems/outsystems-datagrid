@@ -6,15 +6,15 @@ namespace OutSystems.GridAPI.Auxiliary {
     type APIHandler = {
         // eslint-disable-next-line
         callback: any;
-        errorCode: OSFramework.Enum.ErrorCodes;
+        errorCode: OSFramework.DataGrid.Enum.ErrorCodes;
         gridID: string;
         hasValue?: boolean;
     };
 
     type APIResponse = {
-        code: OSFramework.Enum.ErrorCodes;
+        code: OSFramework.DataGrid.Enum.ErrorCodes;
         isSuccess: boolean;
-        message: OSFramework.Enum.ErrorMessages;
+        message: OSFramework.DataGrid.Enum.ErrorMessages;
         // eslint-disable-next-line
         value?: any;
     };
@@ -27,14 +27,16 @@ namespace OutSystems.GridAPI.Auxiliary {
     }: APIHandler): string {
         const responseObj: APIResponse = {
             isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+            message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
         };
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
             responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            responseObj.message =
+                OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code =
+                OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
             return JSON.stringify(responseObj);
         }
 
@@ -59,7 +61,7 @@ namespace OutSystems.GridAPI.Auxiliary {
      * @returns hashcode to the str
      */
     export function GetHashCode(str: string): number {
-        return OSFramework.Helper.GenerateHashCode(str);
+        return OSFramework.DataGrid.Helper.GenerateHashCode(str);
     }
 }
 /// Overrides for the old namespace - calls the new one, lets users know this is no longer in use
@@ -69,7 +71,7 @@ namespace GridAPI.Auxiliary {
     type APIHandler = {
         // eslint-disable-next-line
         callback: any;
-        errorCode: OSFramework.Enum.ErrorCodes;
+        errorCode: OSFramework.DataGrid.Enum.ErrorCodes;
         gridID: string;
         hasValue?: boolean;
     };
@@ -80,8 +82,8 @@ namespace GridAPI.Auxiliary {
         errorCode,
         hasValue = false
     }: APIHandler): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Auxiliary.CreateApiResponse()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Auxiliary.CreateApiResponse()'`
         );
 
         return OutSystems.GridAPI.Auxiliary.CreateApiResponse({
@@ -98,8 +100,8 @@ namespace GridAPI.Auxiliary {
      * @returns hashcode to the str
      */
     export function GetHashCode(str: string): number {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Auxiliary.GetHashCode()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Auxiliary.GetHashCode()'`
         );
         return OutSystems.GridAPI.Auxiliary.GetHashCode(str);
     }

@@ -2,7 +2,7 @@ namespace OutSystems.GridAPI.Selection {
     export function GetAllSelections(gridID: string): string {
         PerformanceAPI.SetMark('Selection.GetAllSelections');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return '[]';
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
         PerformanceAPI.SetMark('Selection.GetAllSelections-end');
@@ -17,7 +17,7 @@ namespace OutSystems.GridAPI.Selection {
     export function GetAllSelectionsData(gridID: string): string {
         PerformanceAPI.SetMark('Selection.GetAllSelectionsData');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return '[]';
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
         PerformanceAPI.SetMark('Selection.GetAllSelectionsData-end');
@@ -32,7 +32,7 @@ namespace OutSystems.GridAPI.Selection {
     export function GetCheckedRowsData(gridID: string): string {
         PerformanceAPI.SetMark('Selection.GetCheckedRowsData');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return '[]';
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
         PerformanceAPI.SetMark('Selection.GetCheckedRowsData-end');
@@ -47,7 +47,7 @@ namespace OutSystems.GridAPI.Selection {
     export function GetSelectedRowsCount(gridID: string): string {
         PerformanceAPI.SetMark('Selection.GetSelectedRowsCount');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return '[]';
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
         PerformanceAPI.SetMark('Selection.GetSelectedRowsCount-end');
@@ -62,7 +62,7 @@ namespace OutSystems.GridAPI.Selection {
     export function GetSelectedRowsData(gridID: string): string {
         PerformanceAPI.SetMark('Selection.GetSelectedRowsData');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return '[]';
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
         PerformanceAPI.SetMark('Selection.GetSelectedRowsData-end');
@@ -77,7 +77,7 @@ namespace OutSystems.GridAPI.Selection {
     export function HasSelectedRows(gridID: string): string {
         PerformanceAPI.SetMark('Selection.HasSelectedRows');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return '[]';
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
         const grid = GridManager.GetGridById(gridID);
 
         PerformanceAPI.SetMark('Selection.HasSelectedRows-end');
@@ -93,43 +93,43 @@ namespace OutSystems.GridAPI.Selection {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace GridAPI.Selection {
     export function GetAllSelections(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetAllSelections()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetAllSelections()'`
         );
         return OutSystems.GridAPI.Selection.GetAllSelections(gridID);
     }
 
     export function GetAllSelectionsData(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetAllSelectionsData()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetAllSelectionsData()'`
         );
         return OutSystems.GridAPI.Selection.GetAllSelectionsData(gridID);
     }
 
     export function GetCheckedRowsData(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetCheckedRowsData()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetCheckedRowsData()'`
         );
         return OutSystems.GridAPI.Selection.GetCheckedRowsData(gridID);
     }
 
     export function GetSelectedRowsCount(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetSelectedRowsCount()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetSelectedRowsCount()'`
         );
         return OutSystems.GridAPI.Selection.GetSelectedRowsCount(gridID);
     }
 
     export function GetSelectedRowsData(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetSelectedRowsData()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Selection.GetSelectedRowsData()'`
         );
         return OutSystems.GridAPI.Selection.GetSelectedRowsData(gridID);
     }
 
     export function HasSelectedRows(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Selection.HasSelectedRows()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Selection.HasSelectedRows()'`
         );
         return OutSystems.GridAPI.Selection.HasSelectedRows(gridID);
     }

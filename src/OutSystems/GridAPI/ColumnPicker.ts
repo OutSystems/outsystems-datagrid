@@ -13,14 +13,16 @@ namespace OutSystems.GridAPI.ColumnPicker {
         PerformanceAPI.SetMark('ColumnPicker.SetColumnVisibility');
         const responseObj = {
             isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+            message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
         };
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
             responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            responseObj.message =
+                OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code =
+                OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
             return JSON.stringify(responseObj);
         }
 
@@ -32,7 +34,7 @@ namespace OutSystems.GridAPI.ColumnPicker {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
             responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetColumnVisibility;
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetColumnVisibility;
         }
 
         PerformanceAPI.SetMark('ColumnPicker.SetColumnVisibility-end');
@@ -64,8 +66,8 @@ namespace GridAPI {
             showHiddenColumns: boolean
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         ): any {
-            OSFramework.Helper.LogWarningMessage(
-                `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnPicker.SetColumnVisibility()'`
+            OSFramework.DataGrid.Helper.LogWarningMessage(
+                `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.ColumnPicker.SetColumnVisibility()'`
             );
             return OutSystems.GridAPI.ColumnPicker.SetColumnVisibility(
                 gridID,

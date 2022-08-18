@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Helper {
+namespace OSFramework.DataGrid.Helper {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     export function Flatten(obj: JSON): any {
         if (obj !== undefined) {

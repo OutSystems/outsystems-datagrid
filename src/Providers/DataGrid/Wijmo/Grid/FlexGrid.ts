@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Grid {
     export class FlexGrid
-        extends OSFramework.Grid.AbstractGrid<
+        extends OSFramework.DataGrid.Grid.AbstractGrid<
             wijmo.grid.FlexGrid,
-            OSFramework.Configuration.Grid.FlexGridConfig
+            OSFramework.DataGrid.Configuration.Grid.FlexGridConfig
         >
         implements IGridWijmo
     {
@@ -14,7 +14,9 @@ namespace WijmoProvider.Grid {
         constructor(gridID: string, configs: any) {
             super(
                 gridID,
-                new OSFramework.Configuration.Grid.FlexGridConfig(configs),
+                new OSFramework.DataGrid.Configuration.Grid.FlexGridConfig(
+                    configs
+                ),
                 new Grid.ProviderDataSource(),
                 new Column.ColumnGenerator()
             );
@@ -64,7 +66,7 @@ namespace WijmoProvider.Grid {
                 );
                 if (!row) {
                     throw new Error(
-                        OSFramework.Enum.ErrorMessages.Row_NotFound
+                        OSFramework.DataGrid.Enum.ErrorMessages.Row_NotFound
                     );
                 }
                 this._provider.itemsSource.itemsEdited.remove(row.dataItem);
@@ -90,16 +92,18 @@ namespace WijmoProvider.Grid {
             this.provider.autoGenerateColumns = value;
         }
 
-        public get rowMetadata(): OSFramework.Interface.IRowMetadata {
+        public get rowMetadata(): OSFramework.DataGrid.Interface.IRowMetadata {
             return this._rowMetadata;
         }
 
-        public addColumn(col: OSFramework.Column.IColumn): Promise<void> {
+        public addColumn(
+            col: OSFramework.DataGrid.Column.IColumn
+        ): Promise<void> {
             super.addColumn(col);
 
             if (this.isReady) {
                 //OS takes a while to set the WidgetId
-                return OSFramework.Helper.AsyncInvocationPromise(
+                return OSFramework.DataGrid.Helper.AsyncInvocationPromise(
                     col.build.bind(col)
                 );
             }
@@ -109,7 +113,7 @@ namespace WijmoProvider.Grid {
             super.build();
 
             this._provider = new wijmo.grid.FlexGrid(
-                OSFramework.Helper.GetElementByUniqueId(this.uniqueId),
+                OSFramework.DataGrid.Helper.GetElementByUniqueId(this.uniqueId),
                 this._getProviderConfig()
             );
             this._provider.itemsSource =
@@ -155,30 +159,34 @@ namespace WijmoProvider.Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public changeProperty(propertyName: string, value: any): void {
-            const propValue = OSFramework.Enum.OS_Config_Grid[propertyName];
+            const propValue =
+                OSFramework.DataGrid.Enum.OS_Config_Grid[propertyName];
 
             switch (propValue) {
-                case OSFramework.Enum.OS_Config_Grid.allowColumnSort:
+                case OSFramework.DataGrid.Enum.OS_Config_Grid.allowColumnSort:
                     return this.features.sort.setState(value);
-                case OSFramework.Enum.OS_Config_Grid.allowFiltering:
+                case OSFramework.DataGrid.Enum.OS_Config_Grid.allowFiltering:
                     return this.features.filter.setState(value);
-                case OSFramework.Enum.OS_Config_Grid.rowsPerPage:
+                case OSFramework.DataGrid.Enum.OS_Config_Grid.rowsPerPage:
                     return this.features.pagination.changePageSize(value);
-                case OSFramework.Enum.OS_Config_Grid.rowHeight:
+                case OSFramework.DataGrid.Enum.OS_Config_Grid.rowHeight:
                     return this.features.styling.changeRowHeight(value);
-                case OSFramework.Enum.OS_Config_Grid.allowColumnReorder:
+                case OSFramework.DataGrid.Enum.OS_Config_Grid
+                    .allowColumnReorder:
                     return this.features.gridReorder.setState(value);
-                case OSFramework.Enum.OS_Config_Grid.allowColumnResize:
+                case OSFramework.DataGrid.Enum.OS_Config_Grid.allowColumnResize:
                     return this.features.columnResize.setState(value);
-                case OSFramework.Enum.OS_Config_Grid.allowKeyTabNavigation:
+                case OSFramework.DataGrid.Enum.OS_Config_Grid
+                    .allowKeyTabNavigation:
                     return this.features.tabNavigation.setState(value);
-                case OSFramework.Enum.OS_Config_Grid.allowEdit:
+                case OSFramework.DataGrid.Enum.OS_Config_Grid.allowEdit:
                     this._provider.isReadOnly = value === false;
                     return;
-                case OSFramework.Enum.OS_Config_Grid.selectionMode:
+                case OSFramework.DataGrid.Enum.OS_Config_Grid.selectionMode:
                     this.features.selection.setState(value);
                     return;
-                case OSFramework.Enum.OS_Config_Grid.showAggregateValues:
+                case OSFramework.DataGrid.Enum.OS_Config_Grid
+                    .showAggregateValues:
                     this.features.columnAggregate.setState(value);
                     return;
                 default:
@@ -227,7 +235,9 @@ namespace WijmoProvider.Grid {
         ): void {
             //if the row keys array is empty we will throw an error
             if (rowKeys.length === 0) {
-                throw new Error(OSFramework.Enum.ErrorMessages.Row_EmptyList);
+                throw new Error(
+                    OSFramework.DataGrid.Enum.ErrorMessages.Row_EmptyList
+                );
             }
             //if the row keys array as empty keys we will throw an error
             if (
@@ -236,7 +246,7 @@ namespace WijmoProvider.Grid {
                 rowKeys.indexOf(undefined) > -1
             ) {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.Row_ListEmptyValues
+                    OSFramework.DataGrid.Enum.ErrorMessages.Row_ListEmptyValues
                 );
             }
 
@@ -258,7 +268,7 @@ namespace WijmoProvider.Grid {
 
                         if (row === -1) {
                             throw new Error(
-                                OSFramework.Enum.ErrorMessages.Row_NotFound
+                                OSFramework.DataGrid.Enum.ErrorMessages.Row_NotFound
                             );
                         }
 
@@ -293,10 +303,10 @@ namespace WijmoProvider.Grid {
             this._provider = undefined;
         }
 
-        public getChangesMade(): OSFramework.OSStructure.GridChanges {
+        public getChangesMade(): OSFramework.DataGrid.OSStructure.GridChanges {
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             const changes = this.dataSource.getChanges(
-                OSFramework.OSStructure.GridChanges
+                OSFramework.DataGrid.OSStructure.GridChanges
             );
 
             if (this._features.validationMark.invalidRows.size > 0) {

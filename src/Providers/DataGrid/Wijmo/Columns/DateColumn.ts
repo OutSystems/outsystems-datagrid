@@ -8,11 +8,11 @@ namespace WijmoProvider.Column {
      * If GMT need to be consider, use the DateTimeColumn.
      */
     export class DateColumn extends AbstractProviderColumnEditor<
-        OSFramework.Configuration.Column.ColumnConfig,
-        OSFramework.Configuration.Column.EditorConfigDate
+        OSFramework.DataGrid.Configuration.Column.ColumnConfig,
+        OSFramework.DataGrid.Configuration.Column.EditorConfigDate
     > {
         constructor(
-            grid: OSFramework.Grid.IGrid,
+            grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
             configs: JSON,
             editorConfig: JSON
@@ -20,23 +20,25 @@ namespace WijmoProvider.Column {
             super(
                 grid,
                 columnID,
-                new OSFramework.Configuration.Column.ColumnConfig(configs),
-                new OSFramework.Configuration.Column.EditorConfigDate(
+                new OSFramework.DataGrid.Configuration.Column.ColumnConfig(
+                    configs
+                ),
+                new OSFramework.DataGrid.Configuration.Column.EditorConfigDate(
                     editorConfig,
                     false
                 )
             );
             this._columnEvents =
-                new OSFramework.Event.Column.ColumnEventsManager(this);
+                new OSFramework.DataGrid.Event.Column.ColumnEventsManager(this);
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
+        public get columnEvents(): OSFramework.DataGrid.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): OSFramework.Enum.ColumnType {
-            return OSFramework.Enum.ColumnType.Date;
+        public get columnType(): OSFramework.DataGrid.Enum.ColumnType {
+            return OSFramework.DataGrid.Enum.ColumnType.Date;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -56,7 +58,7 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
-                case OSFramework.OSStructure.ColumnProperties.Format:
+                case OSFramework.DataGrid.OSStructure.ColumnProperties.Format:
                     this.editorConfig.format =
                         propertyValue || this.editorConfig.defaultFormat;
                     this.applyConfigs();

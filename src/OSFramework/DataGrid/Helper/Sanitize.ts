@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Helper {
+namespace OSFramework.DataGrid.Helper {
     export function Sanitize(value: string): string {
         if (typeof value === 'string') {
             if (value !== undefined && value !== null && value !== '') {

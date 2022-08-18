@@ -2,8 +2,8 @@
 namespace WijmoProvider.Feature {
     export class TabNavigation
         implements
-            OSFramework.Feature.ITabNavigation,
-            OSFramework.Interface.IBuilder
+            OSFramework.DataGrid.Feature.ITabNavigation,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _enabled: boolean;
         private _grid: Grid.IGridWijmo;

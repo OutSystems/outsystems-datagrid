@@ -2,8 +2,8 @@
 namespace WijmoProvider.Feature {
     export class GridReorder
         implements
-            OSFramework.Feature.IGridReorder,
-            OSFramework.Interface.IBuilder
+            OSFramework.DataGrid.Feature.IGridReorder,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _allowColumnDragging: boolean;
         private _allowRowDragging = false;
@@ -46,11 +46,13 @@ namespace WijmoProvider.Feature {
             if (
                 column.hasEvents &&
                 column.columnEvents.events.has(
-                    OSFramework.Event.Column.ColumnEventType.OnColumnReorder
+                    OSFramework.DataGrid.Event.Column.ColumnEventType
+                        .OnColumnReorder
                 )
             ) {
                 column.columnEvents.trigger(
-                    OSFramework.Event.Column.ColumnEventType.OnColumnReorder,
+                    OSFramework.DataGrid.Event.Column.ColumnEventType
+                        .OnColumnReorder,
                     null
                 );
             }
@@ -88,7 +90,7 @@ namespace WijmoProvider.Feature {
         ): void {
             if (this._grid.features.sort.isGridSorted) {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.ReorderRowWithActiveSort
+                    OSFramework.DataGrid.Enum.ErrorMessages.ReorderRowWithActiveSort
                 );
             }
             this._dragIndex = e.row;
@@ -135,7 +137,7 @@ namespace WijmoProvider.Feature {
                 this._addRowDragEvents();
                 if (this._grid.features.rowHeader.hasCheckbox) {
                     throw new Error(
-                        OSFramework.Enum.ErrorMessages.ReorderRowOnGridWithCheckbox
+                        OSFramework.DataGrid.Enum.ErrorMessages.ReorderRowOnGridWithCheckbox
                     );
                 }
             } else {

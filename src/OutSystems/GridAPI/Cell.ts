@@ -19,7 +19,8 @@ namespace OutSystems.GridAPI.Cells {
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
-                OSFramework.Enum.ErrorCodes.API_FailedSetValidationStatus,
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedSetValidationStatus,
             callback: () => {
                 GridManager.GetGridById(
                     gridID
@@ -123,15 +124,17 @@ namespace OutSystems.GridAPI.Cells {
     ): string {
         const responseObj = {
             isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+            message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
         };
 
         PerformanceAPI.SetMark('Cells.setCellData');
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
             responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            responseObj.message =
+                OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code =
+                OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
             return JSON.stringify(responseObj);
         }
 
@@ -141,8 +144,9 @@ namespace OutSystems.GridAPI.Cells {
         if (column === undefined) {
             responseObj.isSuccess = false;
             responseObj.message =
-                OSFramework.Enum.ErrorMessages.Column_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_ColumnNotFound;
+                OSFramework.DataGrid.Enum.ErrorMessages.Column_NotFound;
+            responseObj.code =
+                OSFramework.DataGrid.Enum.ErrorCodes.CFG_ColumnNotFound;
             return JSON.stringify(responseObj);
         }
 
@@ -163,7 +167,7 @@ namespace OutSystems.GridAPI.Cells {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
             responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetCellData;
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellData;
         }
 
         PerformanceAPI.SetMark('Cells.setCellData-end');
@@ -198,8 +202,8 @@ namespace GridAPI.Cells {
         isValid: boolean,
         errorMessage: string
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Cells.SetValidationStatus()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Cells.SetValidationStatus()'`
         );
         return OutSystems.GridAPI.Cells.SetValidationStatus(
             gridID,
@@ -224,8 +228,8 @@ namespace GridAPI.Cells {
         columnID: string,
         triggerOnCellValueChange = true
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Cells.ValidateCell()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Cells.ValidateCell()'`
         );
         return OutSystems.GridAPI.Cells.ValidateCell(
             gridID,
@@ -243,8 +247,8 @@ namespace GridAPI.Cells {
      * @param {number} rowIndex Index of the row that contains the cells to be validated.
      */
     export function ValidateRow(gridID: string, rowIndex: number): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Cells.ValidateRow()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Cells.ValidateRow()'`
         );
         return OutSystems.GridAPI.Cells.ValidateRow(gridID, rowIndex);
     }
@@ -268,8 +272,8 @@ namespace GridAPI.Cells {
         showDirtyMark = true,
         triggerOnCellValueChange = true
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Cells.SetCellData()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Cells.SetCellData()'`
         );
         return OutSystems.GridAPI.Cells.SetCellData(
             gridID,

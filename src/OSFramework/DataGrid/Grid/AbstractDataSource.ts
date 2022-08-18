@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Grid {
+namespace OSFramework.DataGrid.Grid {
     /**
      * Used to flatten the data array
      * @param dataArray

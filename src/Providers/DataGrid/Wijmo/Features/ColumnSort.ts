@@ -28,8 +28,8 @@ namespace WijmoProvider.Feature {
 
     export class ColumnSort
         implements
-            OSFramework.Feature.IColumnSort,
-            OSFramework.Interface.IBuilder
+            OSFramework.DataGrid.Feature.IColumnSort,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _enabled: boolean;
         private _grid: Grid.IGridWijmo;
@@ -52,18 +52,20 @@ namespace WijmoProvider.Feature {
         private _makeActiveSort(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             sortDescriptions: any
-        ): Array<OSFramework.OSStructure.ActiveSort> {
-            const activeSorts = new Array<OSFramework.OSStructure.ActiveSort>();
+        ): Array<OSFramework.DataGrid.OSStructure.ActiveSort> {
+            const activeSorts =
+                new Array<OSFramework.DataGrid.OSStructure.ActiveSort>();
 
             if (sortDescriptions && sortDescriptions.length) {
                 sortDescriptions.map((sd) => {
-                    const sort = new OSFramework.OSStructure.ActiveSort();
+                    const sort =
+                        new OSFramework.DataGrid.OSStructure.ActiveSort();
                     const column = this._grid.getColumn(sd.property);
                     sort.binding = sd.property;
                     sort.columnId = (column && column.widgetId) || '';
                     sort.sorting = sd.ascending
-                        ? OSFramework.OSStructure.Sorting.Ascending
-                        : OSFramework.OSStructure.Sorting.Descending;
+                        ? OSFramework.DataGrid.OSStructure.Sorting.Ascending
+                        : OSFramework.DataGrid.OSStructure.Sorting.Descending;
 
                     activeSorts.push(sort);
                 });
@@ -97,11 +99,11 @@ namespace WijmoProvider.Feature {
 
             if (
                 this._grid.gridEvents.hasHandlers(
-                    OSFramework.Event.Grid.GridEventType.OnSortChange
+                    OSFramework.DataGrid.Event.Grid.GridEventType.OnSortChange
                 )
             ) {
                 this._grid.gridEvents.trigger(
-                    OSFramework.Event.Grid.GridEventType.OnSortChange,
+                    OSFramework.DataGrid.Event.Grid.GridEventType.OnSortChange,
                     this._grid,
                     this._makeActiveSort(s.itemsSource.sortDescriptions)
                 );
@@ -140,7 +142,8 @@ namespace WijmoProvider.Feature {
                         e.cancel = true;
 
                         this._grid.gridEvents.trigger(
-                            OSFramework.Event.Grid.GridEventType.OnSortChange,
+                            OSFramework.DataGrid.Event.Grid.GridEventType
+                                .OnSortChange,
                             this._grid,
                             this._makeActiveSort(s.itemsSource.sortDescriptions)
                         );
@@ -230,17 +233,17 @@ namespace WijmoProvider.Feature {
          *Function that sorts a Grid column based in its ID and on a sorting
          *
          * @param {string} columnID
-         * @param {OSFramework.OSStructure.Sorting} sorting
+         * @param {OSFramework.DataGrid.OSStructure.Sorting} sorting
          * @memberof ColumnSort
          */
         public sortColumn(
             columnID: string,
-            sorting: OSFramework.OSStructure.Sorting
+            sorting: OSFramework.DataGrid.OSStructure.Sorting
         ): void {
             const column = this._grid.getColumn(columnID);
             const ascending =
-                OSFramework.OSStructure.Sorting[sorting] ===
-                OSFramework.OSStructure.Sorting.Ascending;
+                OSFramework.DataGrid.OSStructure.Sorting[sorting] ===
+                OSFramework.DataGrid.OSStructure.Sorting.Ascending;
 
             if (column) {
                 // check if column has sort active
@@ -263,16 +266,16 @@ namespace WijmoProvider.Feature {
                 );
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.InvalidColumnIdentifier
+                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
                 );
             }
         }
 
         public validateAction(
-            action: OSFramework.Event.Grid.Actions /*, ctx: any*/
+            action: OSFramework.DataGrid.Event.Grid.Actions /*, ctx: any*/
         ): string {
             if (this.isGridSorted) {
-                if (action === OSFramework.Event.Grid.Actions.AddRow) {
+                if (action === OSFramework.DataGrid.Event.Grid.Actions.AddRow) {
                     return "Can't add rows when sort mode is On!";
                 }
             }

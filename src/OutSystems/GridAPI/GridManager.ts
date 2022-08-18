@@ -1,16 +1,16 @@
 namespace OutSystems.GridAPI.GridManager {
-    const gridMap = new Map<string, OSFramework.Grid.IGrid>(); //grid.uniqueId -> Grid obj
-    let activeGrid: OSFramework.Grid.IGrid = undefined;
+    const gridMap = new Map<string, OSFramework.DataGrid.Grid.IGrid>(); //grid.uniqueId -> Grid obj
+    let activeGrid: OSFramework.DataGrid.Grid.IGrid = undefined;
 
     /**
      * Function that will change the data source in the respective grid.
      *
-     * @param {OSFramework.Grid.IGrid} grid Grid where the change will occur.
+     * @param {OSFramework.DataGrid.Grid.IGrid} grid Grid where the change will occur.
      * @param {string} data Data to be set in the data grid in JSON format. If the action ArrangeData is used, metadata will also be present and used to generate the columns of the grid.
      * @returns {*}  {boolean} true if the data was changed in the grid.
      */
     function setDataInGrid(
-        grid: OSFramework.Grid.IGrid,
+        grid: OSFramework.DataGrid.Grid.IGrid,
         data: string
     ): boolean {
         PerformanceAPI.SetMark('GridManager.setDataInGrid');
@@ -43,11 +43,11 @@ namespace OutSystems.GridAPI.GridManager {
     export function CreateGrid(
         gridID: string,
         configs: string
-    ): OSFramework.Grid.IGrid {
+    ): OSFramework.DataGrid.Grid.IGrid {
         PerformanceAPI.SetMark('GridManager.CreateGrid');
 
         const _grid = WijmoProvider.Grid.GridFactory.MakeGrid(
-            OSFramework.Enum.GridType.FlexGrid,
+            OSFramework.DataGrid.Enum.GridType.FlexGrid,
             gridID,
             JSON.parse(configs)
         );
@@ -83,10 +83,10 @@ namespace OutSystems.GridAPI.GridManager {
     export function GetGridById(
         gridID: string,
         raiseError = true
-    ): OSFramework.Grid.IGrid {
+    ): OSFramework.DataGrid.Grid.IGrid {
         PerformanceAPI.SetMark('GridManager.GetGridById');
 
-        let grid: OSFramework.Grid.IGrid;
+        let grid: OSFramework.DataGrid.Grid.IGrid;
 
         //gridID is the UniqueId
         if (gridMap.has(gridID)) {
@@ -116,7 +116,7 @@ namespace OutSystems.GridAPI.GridManager {
      * Function that returns all Ids of the grids in the page.
      *
      * @export
-     * @returns {*}  {Map<string, OSFramework.Grid.IGrid>}
+     * @returns {*}  {Map<string, OSFramework.DataGrid.Grid.IGrid>}
      */
     export function GetAllGridIdsInPage(): Array<string> {
         return Array.from(gridMap.keys());
@@ -128,7 +128,7 @@ namespace OutSystems.GridAPI.GridManager {
      * @export
      * @returns {*}  {Grid.IGrid} instance of the active grid.
      */
-    export function GetActiveGrid(): OSFramework.Grid.IGrid {
+    export function GetActiveGrid(): OSFramework.DataGrid.Grid.IGrid {
         return activeGrid;
     }
 
@@ -143,7 +143,8 @@ namespace OutSystems.GridAPI.GridManager {
         PerformanceAPI.SetMark('GridManager.GetChangesInGrid');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedGetChangedLines,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetChangedLines,
             callback: () => {
                 return JSON.stringify(GetGridById(gridID).getChangesMade());
             },
@@ -200,7 +201,9 @@ namespace OutSystems.GridAPI.GridManager {
         PerformanceAPI.SetMark('GridManager.MarkChangesAsSaved');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedMarkChangesAsSaved,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedMarkChangesAsSaved,
             callback: () => {
                 GetGridById(gridID).clearAllChanges(forceCleanInvalids);
             }
@@ -233,7 +236,8 @@ namespace OutSystems.GridAPI.GridManager {
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
-                OSFramework.Enum.ErrorCodes.API_FailedMarkChangesAsSavedByKey,
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedMarkChangesAsSavedByKey,
             callback: () => {
                 GetGridById(gridID).clearAllChangesByRowKeys(
                     JSON.parse(rowKeys),
@@ -341,7 +345,8 @@ namespace OutSystems.GridAPI.GridManager {
         PerformanceAPI.SetMark('GridManager.ClearChanges');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedClearChanges,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedClearChanges,
             callback: () => {
                 GetGridById(gridID).clearChanges();
             }
@@ -415,9 +420,9 @@ namespace GridAPI.GridManager {
     export function CreateGrid(
         gridID: string,
         configs: string
-    ): OSFramework.Grid.IGrid {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.CreateGrid()'`
+    ): OSFramework.DataGrid.Grid.IGrid {
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.CreateGrid()'`
         );
         return OutSystems.GridAPI.GridManager.CreateGrid(gridID, configs);
     }
@@ -433,9 +438,9 @@ namespace GridAPI.GridManager {
     export function GetGridById(
         gridID: string,
         raiseError = true
-    ): OSFramework.Grid.IGrid {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.GetGridById()'`
+    ): OSFramework.DataGrid.Grid.IGrid {
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.GetGridById()'`
         );
         return OutSystems.GridAPI.GridManager.GetGridById(gridID, raiseError);
     }
@@ -444,11 +449,11 @@ namespace GridAPI.GridManager {
      * Function that returns all Ids of the grids in the page.
      *
      * @export
-     * @returns {*}  {Map<string, OSFramework.Grid.IGrid>}
+     * @returns {*}  {Map<string, OSFramework.DataGrid.Grid.IGrid>}
      */
     export function GetAllGridIdsInPage(): Array<string> {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.GetAllGridIdsInPage()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.GetAllGridIdsInPage()'`
         );
         return OutSystems.GridAPI.GridManager.GetAllGridIdsInPage();
     }
@@ -459,9 +464,9 @@ namespace GridAPI.GridManager {
      * @export
      * @returns {*}  {Grid.IGrid} instance of the active grid.
      */
-    export function GetActiveGrid(): OSFramework.Grid.IGrid {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.GetActiveGrid()'`
+    export function GetActiveGrid(): OSFramework.DataGrid.Grid.IGrid {
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.GetActiveGrid()'`
         );
         return OutSystems.GridAPI.GridManager.GetActiveGrid();
     }
@@ -474,8 +479,8 @@ namespace GridAPI.GridManager {
      * @returns {*}  {string} Changed lines in JSON format.
      */
     export function GetChangesInGrid(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.GetChangesInGrid()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.GetChangesInGrid()'`
         );
         return OutSystems.GridAPI.GridManager.GetChangesInGrid(gridID);
     }
@@ -489,8 +494,8 @@ namespace GridAPI.GridManager {
      * @returns {*}  {boolean} true if the grid was initialized.
      */
     export function InitializeGrid(gridID: string, data = '{}'): boolean {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.InitializeGrid()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.InitializeGrid()'`
         );
         return OutSystems.GridAPI.GridManager.InitializeGrid(gridID, data);
     }
@@ -506,8 +511,8 @@ namespace GridAPI.GridManager {
         gridID: string,
         forceCleanInvalids = false
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.MarkChangesAsSaved()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.MarkChangesAsSaved()'`
         );
         return OutSystems.GridAPI.GridManager.MarkChangesAsSaved(
             gridID,
@@ -528,8 +533,8 @@ namespace GridAPI.GridManager {
         rowKeys: string,
         forceCleanInvalids = false
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.MarkChangesAsSavedByKey()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.MarkChangesAsSavedByKey()'`
         );
         return OutSystems.GridAPI.GridManager.MarkChangesAsSavedByKey(
             gridID,
@@ -547,8 +552,8 @@ namespace GridAPI.GridManager {
      * @returns {*}  {boolean} true if the data was changed in the grid.
      */
     export function SetGridData(gridID: string, data: string): boolean {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.SetGridData()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.SetGridData()'`
         );
         return OutSystems.GridAPI.GridManager.SetGridData(gridID, data);
     }
@@ -560,8 +565,8 @@ namespace GridAPI.GridManager {
      * @param {string} gridID ID of the Grid to be destroyed.
      */
     export function RemoveGrid(gridID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.RemoveGrid()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.RemoveGrid()'`
         );
         return OutSystems.GridAPI.GridManager.RemoveGrid(gridID);
     }
@@ -580,8 +585,8 @@ namespace GridAPI.GridManager {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         propertyValue: any
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.ChangeProperty()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.ChangeProperty()'`
         );
         return OutSystems.GridAPI.GridManager.ChangeProperty(
             gridID,
@@ -597,8 +602,8 @@ namespace GridAPI.GridManager {
      * @param {string} gridID ID of the Grid where the change will occur.
      */
     export function ClearChanges(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.ClearChanges()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.ClearChanges()'`
         );
         return OutSystems.GridAPI.GridManager.ClearChanges(gridID);
     }
@@ -610,8 +615,8 @@ namespace GridAPI.GridManager {
      * @param {string} gridID
      */
     export function DestroyGrid(gridID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.DestroyGrid()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.DestroyGrid()'`
         );
         return OutSystems.GridAPI.GridManager.DestroyGrid(gridID);
     }
@@ -623,8 +628,8 @@ namespace GridAPI.GridManager {
      * @param {string} date example of date.
      */
     export function SetDateSample(date: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.SetDateSample()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.SetDateSample()'`
         );
         return OutSystems.GridAPI.GridManager.SetDateSample(date);
     }

@@ -2,7 +2,7 @@
  * Namespace that contains the signatures of the callbacks in OutSystems code.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Callbacks {
+namespace OSFramework.DataGrid.Callbacks {
     /**
      * This is the most generic callback signature and can be used even for internal events
      */

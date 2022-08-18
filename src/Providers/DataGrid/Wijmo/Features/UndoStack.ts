@@ -1,13 +1,14 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    export interface IProviderUndoStack extends OSFramework.Feature.IUndoStack {
+    export interface IProviderUndoStack
+        extends OSFramework.DataGrid.Feature.IUndoStack {
         closeAction<T>(T);
         pushAction(action: wijmo.undo.UndoableAction);
         startAction(action: wijmo.undo.UndoableAction);
     }
 
     export class UndoStack
-        implements IProviderUndoStack, OSFramework.Interface.IBuilder
+        implements IProviderUndoStack, OSFramework.DataGrid.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
         private _undoStack: wijmo.undo.UndoStack;
@@ -28,7 +29,9 @@ namespace WijmoProvider.Feature {
 
         public build(): void {
             this._undoStack = new wijmo.undo.UndoStack(
-                OSFramework.Helper.GetElementByWidgetId(this._grid.widgetId),
+                OSFramework.DataGrid.Helper.GetElementByWidgetId(
+                    this._grid.widgetId
+                ),
                 {
                     maxActions: 50
                 }

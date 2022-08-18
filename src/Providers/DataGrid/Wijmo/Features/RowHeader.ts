@@ -2,35 +2,36 @@
 namespace WijmoProvider.Feature {
     export class RowHeader
         implements
-            OSFramework.Feature.IRowHeader,
-            OSFramework.Interface.IBuilder
+            OSFramework.DataGrid.Feature.IRowHeader,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
-        private _rowHeaderType: OSFramework.Enum.RowHeader;
+        private _rowHeaderType: OSFramework.DataGrid.Enum.RowHeader;
 
         constructor(grid: Grid.IGridWijmo, rowHeaderType: number) {
             this._grid = grid;
             this._rowHeaderType = rowHeaderType;
         }
 
-        public get type(): OSFramework.Enum.RowHeader {
+        public get type(): OSFramework.DataGrid.Enum.RowHeader {
             return this._rowHeaderType;
         }
 
         public get hasRowNumber(): boolean {
             return (
-                this._rowHeaderType === OSFramework.Enum.RowHeader.RowNumber ||
                 this._rowHeaderType ===
-                    OSFramework.Enum.RowHeader.RowNumberAndCheckbox
+                    OSFramework.DataGrid.Enum.RowHeader.RowNumber ||
+                this._rowHeaderType ===
+                    OSFramework.DataGrid.Enum.RowHeader.RowNumberAndCheckbox
             );
         }
 
         public get hasCheckbox(): boolean {
             return (
                 this._rowHeaderType ===
-                    OSFramework.Enum.RowHeader.RowCheckbox ||
+                    OSFramework.DataGrid.Enum.RowHeader.RowCheckbox ||
                 this._rowHeaderType ===
-                    OSFramework.Enum.RowHeader.RowNumberAndCheckbox
+                    OSFramework.DataGrid.Enum.RowHeader.RowNumberAndCheckbox
             );
         }
 

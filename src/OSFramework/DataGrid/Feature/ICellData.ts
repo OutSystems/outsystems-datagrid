@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Feature {
+namespace OSFramework.DataGrid.Feature {
     export interface ICellData {
         /**
          * Responsible for updating a specific cell -
@@ -10,7 +10,7 @@ namespace OSFramework.Feature {
          */
         setCellData(
             rowNumber: number,
-            column: OSFramework.Column.IColumn,
+            column: OSFramework.DataGrid.Column.IColumn,
             // eslint-disable-next-line
             value: string
         ): void;

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Event.Grid {
+namespace OSFramework.DataGrid.Event.Grid {
     /**
      *Class that represents the Filter Change event.
      *
@@ -17,7 +17,7 @@ namespace OSFramework.Event.Grid {
          */
         public trigger(
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            gridObj: OSFramework.Grid.IGrid,
+            gridObj: OSFramework.DataGrid.Grid.IGrid,
             gridID: string,
             activeFilters: Array<OSStructure.ActiveFilter>
         ): void {

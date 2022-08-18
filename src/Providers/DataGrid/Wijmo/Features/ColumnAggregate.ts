@@ -1,10 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
-    // export class Builder extends Validation implements OSFramework.Interface.IBuilder {
+    // export class Builder extends Validation implements OSFramework.DataGrid.Interface.IBuilder {
     export class ColumnAggregate
         implements
-            OSFramework.Feature.IColumnAggregate,
-            OSFramework.Interface.IBuilder
+            OSFramework.DataGrid.Feature.IColumnAggregate,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _aggregateRow: wijmo.grid.GroupRow;
         private _grid: Grid.IGridWijmo;

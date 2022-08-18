@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Grid {
-    export class ProviderDataSource extends OSFramework.Grid
+    export class ProviderDataSource extends OSFramework.DataGrid.Grid
         .AbstractDataSource {
         private _provider: wijmo.collections.CollectionView;
 
@@ -34,9 +34,9 @@ namespace WijmoProvider.Grid {
             this._provider.refresh();
         }
 
-        public getChanges<T extends OSFramework.OSStructure.ChangesDone>(
-            c: new () => T
-        ): T {
+        public getChanges<
+            T extends OSFramework.DataGrid.OSStructure.ChangesDone
+        >(c: new () => T): T {
             const changes = new c();
             const itemsSource = this._provider;
 

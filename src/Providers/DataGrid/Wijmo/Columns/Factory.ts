@@ -2,76 +2,76 @@
 namespace WijmoProvider.Column {
     export namespace ColumnFactory {
         export function MakeColumn(
-            grid: OSFramework.Grid.IGrid,
-            type: OSFramework.Enum.ColumnType,
+            grid: OSFramework.DataGrid.Grid.IGrid,
+            type: OSFramework.DataGrid.Enum.ColumnType,
             columnID: string,
             configs: JSON,
             extraConfigs: JSON
-        ): OSFramework.Column.IColumn {
+        ): OSFramework.DataGrid.Column.IColumn {
             switch (type) {
-                case OSFramework.Enum.ColumnType.Action:
+                case OSFramework.DataGrid.Enum.ColumnType.Action:
                     return new ActionColumn(grid, columnID, configs);
-                case OSFramework.Enum.ColumnType.Checkbox:
+                case OSFramework.DataGrid.Enum.ColumnType.Checkbox:
                     return new CheckboxColumn(
                         grid,
                         columnID,
                         configs,
                         extraConfigs
                     );
-                case OSFramework.Enum.ColumnType.Currency:
+                case OSFramework.DataGrid.Enum.ColumnType.Currency:
                     return new CurrencyColumn(
                         grid,
                         columnID,
                         configs,
-                        new OSFramework.Configuration.Column.EditorConfigCurrency(
+                        new OSFramework.DataGrid.Configuration.Column.EditorConfigCurrency(
                             extraConfigs
                         )
                     );
-                case OSFramework.Enum.ColumnType.Date:
+                case OSFramework.DataGrid.Enum.ColumnType.Date:
                     return new DateColumn(
                         grid,
                         columnID,
                         configs,
                         extraConfigs
                     );
-                case OSFramework.Enum.ColumnType.DateTime:
+                case OSFramework.DataGrid.Enum.ColumnType.DateTime:
                     return new DateTimeColumn(
                         grid,
                         columnID,
                         configs,
                         extraConfigs
                     );
-                case OSFramework.Enum.ColumnType.Dropdown:
+                case OSFramework.DataGrid.Enum.ColumnType.Dropdown:
                     return new DropdownColumn(
                         grid,
                         columnID,
                         configs,
                         extraConfigs
                     );
-                case OSFramework.Enum.ColumnType.Group:
+                case OSFramework.DataGrid.Enum.ColumnType.Group:
                     return new GroupColumn(
                         grid,
                         columnID,
                         configs,
                         extraConfigs
                     );
-                case OSFramework.Enum.ColumnType.Number:
+                case OSFramework.DataGrid.Enum.ColumnType.Number:
                     return new NumberColumn(
                         grid,
                         columnID,
                         configs,
-                        new OSFramework.Configuration.Column.EditorConfigNumber(
+                        new OSFramework.DataGrid.Configuration.Column.EditorConfigNumber(
                             extraConfigs
                         )
                     );
-                case OSFramework.Enum.ColumnType.Calculated:
+                case OSFramework.DataGrid.Enum.ColumnType.Calculated:
                     return new CalculatedColumn(
                         grid,
                         columnID,
                         configs,
                         extraConfigs
                     );
-                case OSFramework.Enum.ColumnType.Text:
+                case OSFramework.DataGrid.Enum.ColumnType.Text:
                     return new TextColumn(
                         grid,
                         columnID,

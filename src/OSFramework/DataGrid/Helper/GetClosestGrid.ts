@@ -1,25 +1,33 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Helper {
+namespace OSFramework.DataGrid.Helper {
     /**
      * Returns the closest IGrid based on an element
      * @param elem Element used as reference or its uniqueId
      */
     export function GetClosestGrid(
         elem: Element | string
-    ): OSFramework.Grid.IGrid {
+    ): OSFramework.DataGrid.Grid.IGrid {
         let child: Element;
 
         if (typeof elem === 'string' || elem instanceof String)
-            child = OSFramework.Helper.GetElementByUniqueId(elem as string);
+            child = OSFramework.DataGrid.Helper.GetElementByUniqueId(
+                elem as string
+            );
         else child = elem;
 
-        const domGrid = child.closest(OSFramework.Helper.Constants.gridTag);
+        const domGrid = child.closest(
+            OSFramework.DataGrid.Helper.Constants.gridTag
+        );
 
         if (domGrid) {
             const uniqueId = domGrid
-                .querySelector(OSFramework.Helper.Constants.gridUniqueIdCss)
+                .querySelector(
+                    OSFramework.DataGrid.Helper.Constants.gridUniqueIdCss
+                )
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                .getAttribute(OSFramework.Helper.Constants.uniqueIdAttribute);
+                .getAttribute(
+                    OSFramework.DataGrid.Helper.Constants.uniqueIdAttribute
+                );
 
             return OutSystems.GridAPI.GridManager.GetGridById(uniqueId);
         }

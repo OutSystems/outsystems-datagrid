@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.OSStructure {
+namespace OSFramework.DataGrid.OSStructure {
     export enum Sorting {
         Ascending = 'ASC',
         Descending = 'DESC'

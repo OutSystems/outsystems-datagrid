@@ -2,8 +2,8 @@
 namespace WijmoProvider.Feature {
     export class ToolTip
         implements
-            OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable
+            OSFramework.DataGrid.Interface.IBuilder,
+            OSFramework.DataGrid.Interface.IDisposable
     {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _eventMouseEnter: any;
@@ -23,7 +23,7 @@ namespace WijmoProvider.Feature {
             let _currTarget: HTMLElement = e.currentTarget as HTMLElement;
             const ht = this._grid.provider.hitTest(e);
 
-            const sanitizedValue = OSFramework.Helper.Sanitize(
+            const sanitizedValue = OSFramework.DataGrid.Helper.Sanitize(
                 _currTarget.innerText
             );
 

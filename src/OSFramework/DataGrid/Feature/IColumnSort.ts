@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Feature {
+namespace OSFramework.DataGrid.Feature {
     export interface IColumnSort
         extends Interface.IValidation,
             Interface.IProviderConfig<boolean>,

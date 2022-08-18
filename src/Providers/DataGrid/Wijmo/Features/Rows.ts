@@ -14,8 +14,9 @@ namespace WijmoProvider.Feature {
             this._newState = undoableItems;
             const collectionView = grid.provider.itemsSource;
 
-            OSFramework.Helper.BatchArray(undoableItems.items, (chunk) =>
-                collectionView.itemsAdded.push(...chunk)
+            OSFramework.DataGrid.Helper.BatchArray(
+                undoableItems.items,
+                (chunk) => collectionView.itemsAdded.push(...chunk)
             );
         }
         // eslint-disable-next-line
@@ -24,15 +25,18 @@ namespace WijmoProvider.Feature {
             if (collectionView) {
                 if (state.action === 'remove') {
                     //undo
-                    OSFramework.Helper.BatchArray(state.items, (chunk) => {
-                        collectionView.sourceCollection.splice(
-                            state.datasourceIdx,
-                            chunk.length
-                        );
-                        chunk.forEach((item) => {
-                            collectionView.itemsAdded.remove(item);
-                        });
-                    });
+                    OSFramework.DataGrid.Helper.BatchArray(
+                        state.items,
+                        (chunk) => {
+                            collectionView.sourceCollection.splice(
+                                state.datasourceIdx,
+                                chunk.length
+                            );
+                            chunk.forEach((item) => {
+                                collectionView.itemsAdded.remove(item);
+                            });
+                        }
+                    );
                 } else {
                     //redo
                     collectionView.sourceCollection.splice(
@@ -49,16 +53,18 @@ namespace WijmoProvider.Feature {
 
                 if (
                     this._grid.gridEvents.hasHandlers(
-                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                        OSFramework.DataGrid.Event.Grid.GridEventType
+                            .OnDataChange
                     )
                 ) {
                     const dataChanges =
-                        new OSFramework.OSStructure.DataChanges();
+                        new OSFramework.DataGrid.OSStructure.DataChanges();
                     dataChanges.changedRows = state.items;
                     dataChanges.totalRows =
                         this._grid.features.pagination.rowTotal;
                     this._grid.gridEvents.trigger(
-                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        OSFramework.DataGrid.Event.Grid.GridEventType
+                            .OnDataChange,
                         this._grid,
                         dataChanges
                     );
@@ -127,17 +133,19 @@ namespace WijmoProvider.Feature {
 
                 if (
                     this._grid.gridEvents.hasHandlers(
-                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                        OSFramework.DataGrid.Event.Grid.GridEventType
+                            .OnDataChange
                     )
                 ) {
                     const dataChanges =
-                        new OSFramework.OSStructure.DataChanges();
+                        new OSFramework.DataGrid.OSStructure.DataChanges();
                     dataChanges.changedRows =
                         state.items || state.map((state) => state.item);
                     dataChanges.totalRows =
                         this._grid.features.pagination.rowTotal;
                     this._grid.gridEvents.trigger(
-                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        OSFramework.DataGrid.Event.Grid.GridEventType
+                            .OnDataChange,
                         this._grid,
                         dataChanges
                     );
@@ -147,14 +155,17 @@ namespace WijmoProvider.Feature {
     }
 
     export class Rows
-        implements OSFramework.Interface.IBuilder, OSFramework.Feature.IRows
+        implements
+            OSFramework.DataGrid.Interface.IBuilder,
+            OSFramework.DataGrid.Feature.IRows
     {
         private _grid: Grid.IGridWijmo;
 
         /** This is going to be used as a label for the css classes saved on the metadata of the Row */
-        private readonly _internalLabel = OSFramework.Enum.RowMetadata.RowCss;
+        private readonly _internalLabel =
+            OSFramework.DataGrid.Enum.RowMetadata.RowCss;
 
-        private _metadata: OSFramework.Interface.IRowMetadata;
+        private _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
@@ -206,7 +217,7 @@ namespace WijmoProvider.Feature {
 
         private _getDataItemFromRow(rowNumber: number) {
             return this._grid.isSingleEntity
-                ? OSFramework.Helper.Flatten(
+                ? OSFramework.DataGrid.Helper.Flatten(
                       this._grid.provider.rows[rowNumber]?.dataItem
                   )
                 : this._grid.provider.rows[rowNumber].dataItem;
@@ -240,13 +251,13 @@ namespace WijmoProvider.Feature {
         ): void {
             if (!this._canAddRows()) {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.AddRowWithActiveFilterOrSort
+                    OSFramework.DataGrid.Enum.ErrorMessages.AddRowWithActiveFilterOrSort
                 );
             }
 
             if (rowsAmount < 1) {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.AddRowLowerThanOne
+                    OSFramework.DataGrid.Enum.ErrorMessages.AddRowLowerThanOne
                 );
             }
 
@@ -257,7 +268,7 @@ namespace WijmoProvider.Feature {
                     this._grid.features.pagination.pageSize
             ) {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.AddRowExceedingPageSize
+                    OSFramework.DataGrid.Enum.ErrorMessages.AddRowExceedingPageSize
                 );
             }
 
@@ -268,7 +279,7 @@ namespace WijmoProvider.Feature {
                 rowsAmount > this._grid.features.pagination.pageSize
             ) {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.AddRowGreaterThanPageSize
+                    OSFramework.DataGrid.Enum.ErrorMessages.AddRowGreaterThanPageSize
                 );
             }
         }
@@ -346,24 +357,26 @@ namespace WijmoProvider.Feature {
             if (this._getRowsCount() === expectedRowCount) {
                 if (
                     this._grid.gridEvents.hasHandlers(
-                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                        OSFramework.DataGrid.Event.Grid.GridEventType
+                            .OnDataChange
                     )
                 ) {
                     const dataChanges =
-                        new OSFramework.OSStructure.DataChanges();
+                        new OSFramework.DataGrid.OSStructure.DataChanges();
 
                     dataChanges.changedRows = items;
                     dataChanges.totalRows = this._getRowsCount();
 
                     this._grid.gridEvents.trigger(
-                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        OSFramework.DataGrid.Event.Grid.GridEventType
+                            .OnDataChange,
                         this._grid,
                         dataChanges
                     );
                 }
             } else {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.AddRowErrorMessage
+                    OSFramework.DataGrid.Enum.ErrorMessages.AddRowErrorMessage
                 );
             }
             return addedRowsNumber;
@@ -388,18 +401,18 @@ namespace WijmoProvider.Feature {
          */
         public getMetadata(
             rowNumber: number
-        ): OSFramework.Feature.Auxiliar.RowStyleInfo {
+        ): OSFramework.DataGrid.Feature.Auxiliar.RowStyleInfo {
             if (!this.hasMetadata(rowNumber))
                 this._metadata.setMetadataByRowNumber(
                     rowNumber,
                     this._internalLabel,
-                    new OSFramework.Feature.Auxiliar.RowStyleInfo()
+                    new OSFramework.DataGrid.Feature.Auxiliar.RowStyleInfo()
                 );
 
             return this._metadata.getMetadataByRowNumber(
                 rowNumber,
                 this._internalLabel
-            ) as OSFramework.Feature.Auxiliar.RowStyleInfo;
+            ) as OSFramework.DataGrid.Feature.Auxiliar.RowStyleInfo;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -407,10 +420,12 @@ namespace WijmoProvider.Feature {
             const row = this._getDataItemFromRow(rowNumber);
 
             if (!row) {
-                throw new Error(OSFramework.Enum.ErrorMessages.Row_NotFound);
+                throw new Error(
+                    OSFramework.DataGrid.Enum.ErrorMessages.Row_NotFound
+                );
             }
 
-            return _.omit(row, OSFramework.Enum.RowMetadata.Key); // we must remove our metadata from returned object;
+            return _.omit(row, OSFramework.DataGrid.Enum.RowMetadata.Key); // we must remove our metadata from returned object;
         }
 
         /**
@@ -433,7 +448,9 @@ namespace WijmoProvider.Feature {
             const row = this.getMetadata(rowNumber);
 
             if (!row) {
-                throw new Error(OSFramework.Enum.ErrorMessages.Row_NotFound);
+                throw new Error(
+                    OSFramework.DataGrid.Enum.ErrorMessages.Row_NotFound
+                );
             }
 
             row.removeAllClasses();
@@ -453,7 +470,9 @@ namespace WijmoProvider.Feature {
         ): void {
             const row = this.getMetadata(rowNumber);
             if (!row) {
-                throw new Error(OSFramework.Enum.ErrorMessages.Row_NotFound);
+                throw new Error(
+                    OSFramework.DataGrid.Enum.ErrorMessages.Row_NotFound
+                );
             }
             row.removeClass(className, binding);
             if (refresh) {
@@ -465,12 +484,13 @@ namespace WijmoProvider.Feature {
          * Remove all selected rows from the grid.
          * @returns ReturnMessage containing the resulting code from the removing rows and the error message in case of failure.
          */
-        public removeSelectedRows(): OSFramework.OSStructure.ReturnMessage {
+        public removeSelectedRows(): OSFramework.DataGrid.OSStructure.ReturnMessage {
             if (!this._canRemoveRows()) {
                 return {
-                    code: OSFramework.Enum.ErrorCodes.API_UnableToRemoveRow,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_UnableToRemoveRow,
                     message:
-                        OSFramework.Enum.ErrorMessages
+                        OSFramework.DataGrid.Enum.ErrorMessages
                             .AddRowWithActiveFilterOrSort,
                     isSuccess: false
                 };
@@ -528,30 +548,34 @@ namespace WijmoProvider.Feature {
             if (this._getRowsCount() === expectedRowCount) {
                 if (
                     this._grid.gridEvents.hasHandlers(
-                        OSFramework.Event.Grid.GridEventType.OnDataChange
+                        OSFramework.DataGrid.Event.Grid.GridEventType
+                            .OnDataChange
                     )
                 ) {
                     const dataChanges =
-                        new OSFramework.OSStructure.DataChanges();
+                        new OSFramework.DataGrid.OSStructure.DataChanges();
 
                     dataChanges.changedRows = deletedRowsList;
                     dataChanges.totalRows = this._getRowsCount();
 
                     this._grid.gridEvents.trigger(
-                        OSFramework.Event.Grid.GridEventType.OnDataChange,
+                        OSFramework.DataGrid.Event.Grid.GridEventType
+                            .OnDataChange,
                         this._grid,
                         dataChanges
                     );
                 }
 
                 return {
-                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
                     isSuccess: true,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } else {
                 return {
-                    code: OSFramework.Enum.ErrorCodes.API_FailedRemoveRow,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedRemoveRow,
                     message: 'Error',
                     isSuccess: false
                 };

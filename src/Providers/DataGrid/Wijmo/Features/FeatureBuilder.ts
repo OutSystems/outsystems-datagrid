@@ -1,32 +1,32 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
     export interface IFeatures {
-        features: OSFramework.Feature.ExposedFeatures;
+        features: OSFramework.DataGrid.Feature.ExposedFeatures;
         dispose();
     }
 
     export abstract class AbstractFactoryBuilder
-        implements IFeatures, OSFramework.Interface.IBuilder
+        implements IFeatures, OSFramework.DataGrid.Interface.IBuilder
     {
-        protected _features: OSFramework.Feature.ExposedFeatures;
-        protected _grid: OSFramework.Grid.IGrid;
-        public _featureList: OSFramework.Interface.IBuilder[];
+        protected _features: OSFramework.DataGrid.Feature.ExposedFeatures;
+        protected _grid: OSFramework.DataGrid.Grid.IGrid;
+        public _featureList: OSFramework.DataGrid.Interface.IBuilder[];
 
-        constructor(grid: OSFramework.Grid.IGrid) {
+        constructor(grid: OSFramework.DataGrid.Grid.IGrid) {
             this._grid = grid;
             this._featureList = [];
-            this._features = new OSFramework.Feature.ExposedFeatures();
+            this._features = new OSFramework.DataGrid.Feature.ExposedFeatures();
         }
 
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any
         private _instanceOfIDisposable(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             object: any
-        ): object is OSFramework.Interface.IDisposable {
+        ): object is OSFramework.DataGrid.Interface.IDisposable {
             return 'dispose' in object;
         }
 
-        protected _makeItem<T extends OSFramework.Interface.IBuilder>(
+        protected _makeItem<T extends OSFramework.DataGrid.Interface.IBuilder>(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             c: new (...args: any) => T,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -37,7 +37,7 @@ namespace WijmoProvider.Feature {
             return o;
         }
 
-        public get features(): OSFramework.Feature.ExposedFeatures {
+        public get features(): OSFramework.DataGrid.Feature.ExposedFeatures {
             return this._features;
         }
 
@@ -48,7 +48,7 @@ namespace WijmoProvider.Feature {
         public dispose(): void {
             this._featureList.forEach((p) => {
                 this._instanceOfIDisposable(p) &&
-                    (p as OSFramework.Interface.IDisposable).dispose();
+                    (p as OSFramework.DataGrid.Interface.IDisposable).dispose();
                 p = undefined;
             });
         }
@@ -213,7 +213,7 @@ namespace WijmoProvider.Feature {
 
         public build(): void {
             const config = this._grid
-                .config as OSFramework.Configuration.Grid.FlexGridConfig;
+                .config as OSFramework.DataGrid.Configuration.Grid.FlexGridConfig;
 
             this._makeDirtyMark()
                 ._makeFilter(config.allowFiltering)

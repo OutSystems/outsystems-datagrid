@@ -4,12 +4,12 @@ namespace WijmoProvider.Column {
      * An extension of AbstractColumn, used to handle the grid's provider
      */
     export abstract class AbstractProviderColumn<
-        T extends OSFramework.Configuration.IConfigurationColumn
-    > extends OSFramework.Column.AbstractColumn<T> {
+        T extends OSFramework.DataGrid.Configuration.IConfigurationColumn
+    > extends OSFramework.DataGrid.Column.AbstractColumn<T> {
         // to use group columns on grid, all columns must be column group
         private _provider: wijmo.grid.ColumnGroup;
 
-        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
+        public get columnEvents(): OSFramework.DataGrid.Event.Column.ColumnEventsManager {
             throw `The column ${this.columnType.toString()} does not support events`;
         }
 
@@ -82,7 +82,7 @@ namespace WijmoProvider.Column {
             if (this.hasParentColumn) {
                 const parent = this.grid.getColumn(
                     this.parentColumnId
-                ) as OSFramework.Column.IColumnGroup;
+                ) as OSFramework.DataGrid.Column.IColumnGroup;
                 parent.addChild(this);
 
                 if (parent.isReady) {
@@ -128,7 +128,7 @@ namespace WijmoProvider.Column {
             if (this.hasParentColumn) {
                 const parent = this.grid.getColumn(
                     this.parentColumnId
-                ) as OSFramework.Column.IColumnGroup;
+                ) as OSFramework.DataGrid.Column.IColumnGroup;
                 parent && parent.removeChild(this);
             }
 

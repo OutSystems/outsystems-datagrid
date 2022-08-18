@@ -10,7 +10,7 @@ namespace OutSystems.GridAPI.Pagination {
     export function ChangePageSize(gridID: string, n: number): void {
         PerformanceAPI.SetMark('Pagination.ChangePageSize');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.changePageSize(n);
@@ -38,8 +38,8 @@ namespace OutSystems.GridAPI.Pagination {
     ): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.Grid.GridEventType.Initialized,
-            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+            (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.CreatePageButtons');
                 gridObj.features.pagination.createPageButtons(
                     phID,
@@ -65,14 +65,15 @@ namespace OutSystems.GridAPI.Pagination {
      */
     export function GetCurrentPage(gridID: string): string {
         PerformanceAPI.SetMark('Pagination.GetCurrentPage');
-        let returnMessage = new OSFramework.OSStructure.ReturnMessage();
+        let returnMessage =
+            new OSFramework.DataGrid.OSStructure.ReturnMessage();
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
             returnMessage = {
                 value: -1,
                 isSuccess: false,
-                message: OSFramework.Enum.ErrorMessages.Grid_NotFound,
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+                message: OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound,
+                code: OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound
             };
             return JSON.stringify(returnMessage);
         }
@@ -82,7 +83,7 @@ namespace OutSystems.GridAPI.Pagination {
         let value = grid.features.pagination.pageIndex;
         let isSuccess = true;
         let message: string;
-        let code: OSFramework.Enum.ErrorCodes;
+        let code: OSFramework.DataGrid.Enum.ErrorCodes;
 
         // we don't want to return page index if there is server side pagination
         if (grid.config.serverSidePagination) {
@@ -91,7 +92,8 @@ namespace OutSystems.GridAPI.Pagination {
             message =
                 'It seems that you have server side pagination turned on. Switch it off and try again';
             code =
-                OSFramework.Enum.ErrorCodes.API_FailedPaginationGetCurrentPage;
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedPaginationGetCurrentPage;
         }
 
         returnMessage = {
@@ -121,7 +123,7 @@ namespace OutSystems.GridAPI.Pagination {
     export function MoveToFirstPage(gridID: string): void {
         PerformanceAPI.SetMark('Pagination.MoveToFirstPage');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToFirstPage();
@@ -144,7 +146,7 @@ namespace OutSystems.GridAPI.Pagination {
     export function MoveToLastPage(gridID: string): void {
         PerformanceAPI.SetMark('Pagination.MoveToLastPage');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToLastPage();
@@ -167,7 +169,7 @@ namespace OutSystems.GridAPI.Pagination {
     export function MoveToNextPage(gridID: string): void {
         PerformanceAPI.SetMark('Pagination.MoveToNextPage');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToNextPage();
@@ -190,13 +192,14 @@ namespace OutSystems.GridAPI.Pagination {
      */
     export function MoveToPage(gridID: string, n: number): string {
         PerformanceAPI.SetMark('Pagination.MoveToPage');
-        let returnMessage = new OSFramework.OSStructure.ReturnMessage();
+        let returnMessage =
+            new OSFramework.DataGrid.OSStructure.ReturnMessage();
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
             returnMessage = {
                 isSuccess: false,
-                message: OSFramework.Enum.ErrorMessages.Grid_NotFound,
-                code: OSFramework.Enum.ErrorCodes.CFG_GridNotFound
+                message: OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound,
+                code: OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound
             };
             return JSON.stringify(returnMessage);
         }
@@ -204,7 +207,7 @@ namespace OutSystems.GridAPI.Pagination {
         const grid = GridManager.GetGridById(gridID);
         let isSuccess = true;
         let message: string;
-        let code: OSFramework.Enum.ErrorCodes;
+        let code: OSFramework.DataGrid.Enum.ErrorCodes;
 
         // we don't want to set page index if there is server side pagination
         if (grid.config.serverSidePagination) {
@@ -212,7 +215,8 @@ namespace OutSystems.GridAPI.Pagination {
             message =
                 'It seems that you have server side pagination turned on. Switch it off and try again';
             code =
-                OSFramework.Enum.ErrorCodes.API_FailedPaginationSetCurrentPage;
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedPaginationSetCurrentPage;
         }
 
         isSuccess = grid.features.pagination.moveToPage(n);
@@ -243,7 +247,7 @@ namespace OutSystems.GridAPI.Pagination {
     export function MoveToPreviousPage(gridID: string): void {
         PerformanceAPI.SetMark('Pagination.MoveToPreviousPage');
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
 
         grid.features.pagination.moveToPreviousPage();
@@ -269,11 +273,11 @@ namespace OutSystems.GridAPI.Pagination {
     ): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.Grid.GridEventType.Initialized,
-            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+            (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterCurrentPageLabel');
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Enum.PageLabel.PageIndex,
+                    OSFramework.DataGrid.Enum.PageLabel.PageIndex,
                     phID
                 );
 
@@ -299,11 +303,11 @@ namespace OutSystems.GridAPI.Pagination {
     export function RegisterPageCountLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.Grid.GridEventType.Initialized,
-            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+            (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterPageCountLabel');
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Enum.PageLabel.PageCount,
+                    OSFramework.DataGrid.Enum.PageLabel.PageCount,
                     phID
                 );
 
@@ -327,11 +331,11 @@ namespace OutSystems.GridAPI.Pagination {
     export function RegisterPageSizeLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.Grid.GridEventType.Initialized,
-            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+            (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterPageSizeLabel');
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Enum.PageLabel.PageSize,
+                    OSFramework.DataGrid.Enum.PageLabel.PageSize,
                     phID
                 );
 
@@ -355,11 +359,11 @@ namespace OutSystems.GridAPI.Pagination {
     export function RegisterRowEndLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.Grid.GridEventType.Initialized,
-            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+            (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterRowEndLabel');
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Enum.PageLabel.RowEnd,
+                    OSFramework.DataGrid.Enum.PageLabel.RowEnd,
                     phID
                 );
 
@@ -383,11 +387,11 @@ namespace OutSystems.GridAPI.Pagination {
     export function RegisterRowStartLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.Grid.GridEventType.Initialized,
-            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+            (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterRowStartLabel');
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Enum.PageLabel.RowStart,
+                    OSFramework.DataGrid.Enum.PageLabel.RowStart,
                     phID
                 );
 
@@ -411,11 +415,11 @@ namespace OutSystems.GridAPI.Pagination {
     export function RegisterRowTotalLabel(gridID: string, phID: string): void {
         GridManager.Events.Subscribe(
             gridID,
-            OSFramework.Event.Grid.GridEventType.Initialized,
-            (_gridId: string, gridObj: OSFramework.Grid.IGrid) => {
+            OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+            (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
                 PerformanceAPI.SetMark('Pagination.RegisterRowTotalLabel');
                 gridObj.features.pagination.registerLabel(
-                    OSFramework.Enum.PageLabel.RowTotal,
+                    OSFramework.DataGrid.Enum.PageLabel.RowTotal,
                     phID
                 );
 
@@ -443,8 +447,8 @@ namespace GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function ChangePageSize(gridID: string, n: number): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.ChangePageSize()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.ChangePageSize()'`
         );
         return OutSystems.GridAPI.Pagination.ChangePageSize(gridID, n);
     }
@@ -462,8 +466,8 @@ namespace GridAPI.Pagination {
         phID: string,
         buttonQuantity: number
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.CreatePageButtons()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.CreatePageButtons()'`
         );
         return OutSystems.GridAPI.Pagination.CreatePageButtons(
             gridID,
@@ -480,8 +484,8 @@ namespace GridAPI.Pagination {
      * @return {*}  {string} Stringified JSON structure containing Index of the current page, error message and code, and success boolean
      */
     export function GetCurrentPage(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.GetCurrentPage()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.GetCurrentPage()'`
         );
         return OutSystems.GridAPI.Pagination.GetCurrentPage(gridID);
     }
@@ -494,8 +498,8 @@ namespace GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToFirstPage(gridID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToFirstPage()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToFirstPage()'`
         );
         return OutSystems.GridAPI.Pagination.MoveToFirstPage(gridID);
     }
@@ -508,8 +512,8 @@ namespace GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToLastPage(gridID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToLastPage()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToLastPage()'`
         );
         return OutSystems.GridAPI.Pagination.MoveToLastPage(gridID);
     }
@@ -522,8 +526,8 @@ namespace GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToNextPage(gridID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToNextPage()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToNextPage()'`
         );
         return OutSystems.GridAPI.Pagination.MoveToNextPage(gridID);
     }
@@ -537,8 +541,8 @@ namespace GridAPI.Pagination {
      * @returns {*}  {string} Stringified JSON structure containing error message and code, and success boolean
      */
     export function MoveToPage(gridID: string, n: number): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToPage()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToPage()'`
         );
         return OutSystems.GridAPI.Pagination.MoveToPage(gridID, n);
     }
@@ -551,8 +555,8 @@ namespace GridAPI.Pagination {
      * @returns {*}  {void}
      */
     export function MoveToPreviousPage(gridID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToPreviousPage()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.MoveToPreviousPage()'`
         );
         return OutSystems.GridAPI.Pagination.MoveToPreviousPage(gridID);
     }
@@ -568,8 +572,8 @@ namespace GridAPI.Pagination {
         gridID: string,
         phID: string
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterCurrentPageLabel()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterCurrentPageLabel()'`
         );
         return OutSystems.GridAPI.Pagination.RegisterCurrentPageLabel(
             gridID,
@@ -585,8 +589,8 @@ namespace GridAPI.Pagination {
      * @param {string} phID
      */
     export function RegisterPageCountLabel(gridID: string, phID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterPageCountLabel()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterPageCountLabel()'`
         );
         return OutSystems.GridAPI.Pagination.RegisterPageCountLabel(
             gridID,
@@ -602,8 +606,8 @@ namespace GridAPI.Pagination {
      * @param {string} phID
      */
     export function RegisterPageSizeLabel(gridID: string, phID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterPageSizeLabel()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterPageSizeLabel()'`
         );
         return OutSystems.GridAPI.Pagination.RegisterPageSizeLabel(
             gridID,
@@ -619,8 +623,8 @@ namespace GridAPI.Pagination {
      * @param {string} phID
      */
     export function RegisterRowEndLabel(gridID: string, phID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterRowEndLabel()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterRowEndLabel()'`
         );
         return OutSystems.GridAPI.Pagination.RegisterRowEndLabel(gridID, phID);
     }
@@ -633,8 +637,8 @@ namespace GridAPI.Pagination {
      * @param {string} phID
      */
     export function RegisterRowStartLabel(gridID: string, phID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterRowStartLabel()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterRowStartLabel()'`
         );
         return OutSystems.GridAPI.Pagination.RegisterRowStartLabel(
             gridID,
@@ -650,8 +654,8 @@ namespace GridAPI.Pagination {
      * @param {string} phID
      */
     export function RegisterRowTotalLabel(gridID: string, phID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterRowTotalLabel()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Pagination.RegisterRowTotalLabel()'`
         );
         return OutSystems.GridAPI.Pagination.RegisterRowTotalLabel(
             gridID,

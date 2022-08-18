@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Feature {
+namespace OSFramework.DataGrid.Feature {
     /**
      * Defines the interface of communication for ContextMenu feature
      */
@@ -30,7 +30,7 @@ namespace OSFramework.Feature {
             menuItemId: string,
             label: string,
             enabled: boolean,
-            clickEvent: OSFramework.Callbacks.ContextMenu.OSClickEvent
+            clickEvent: OSFramework.DataGrid.Callbacks.ContextMenu.OSClickEvent
         ): void;
 
         /**

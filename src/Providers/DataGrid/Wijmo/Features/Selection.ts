@@ -3,17 +3,18 @@ namespace WijmoProvider.Feature {
     /**
      * Define non-generic methods containing provider code
      */
-    export interface IProviderSelection extends OSFramework.Feature.ISelection {
+    export interface IProviderSelection
+        extends OSFramework.DataGrid.Feature.ISelection {
         getProviderAllSelections(): wijmo.grid.CellRange[];
     }
 
     export class Selection
-        implements IProviderSelection, OSFramework.Interface.IBuilder
+        implements IProviderSelection, OSFramework.DataGrid.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
         private _hasSelectors: boolean;
         private readonly _internalLabel = '__rowSelection';
-        private _metadata: OSFramework.Interface.IRowMetadata;
+        private _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
         private _selectionMode: wijmo.grid.SelectionMode;
 
         /**
@@ -145,7 +146,7 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        public equalizeSelection(): OSFramework.OSStructure.CellRange[] {
+        public equalizeSelection(): OSFramework.DataGrid.OSStructure.CellRange[] {
             //This method just makes sense for MultiRange or for grid's without checked rows
             if (
                 this._grid.provider.selectionMode !==
@@ -215,7 +216,7 @@ namespace WijmoProvider.Feature {
                 );
         }
 
-        public getActiveCell(): OSFramework.OSStructure.CellRange {
+        public getActiveCell(): OSFramework.DataGrid.OSStructure.CellRange {
             const currSelection = this._grid.provider.selection;
 
             if (currSelection && currSelection.isValid)
@@ -228,7 +229,7 @@ namespace WijmoProvider.Feature {
             else return undefined;
         }
 
-        public getAllSelections(): OSFramework.OSStructure.ReturnMessage {
+        public getAllSelections(): OSFramework.DataGrid.OSStructure.ReturnMessage {
             try {
                 const getAllSelections = this.getProviderAllSelections().map(
                     (p) => Helper.CellRangeFactory.MakeFromProviderCellRange(p)
@@ -237,26 +238,29 @@ namespace WijmoProvider.Feature {
                 return {
                     value: getAllSelections,
                     isSuccess: true,
-                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: [],
                     isSuccess: false,
                     message: error.message,
-                    code: OSFramework.Enum.ErrorCodes.API_FailedGetAllSelections
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedGetAllSelections
                 };
             }
         }
 
-        public getAllSelectionsData(): OSFramework.OSStructure.ReturnMessage {
+        public getAllSelectionsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
             try {
                 const rowColumn = new Map<
                     number,
-                    OSFramework.OSStructure.RowData
+                    OSFramework.DataGrid.OSStructure.RowData
                 >();
-                const rowColumnArr: OSFramework.OSStructure.RowData[] = [];
+                const rowColumnArr: OSFramework.DataGrid.OSStructure.RowData[] =
+                    [];
 
                 this.getProviderAllSelections().map((range) => {
                     const bindings = Array(range.rightCol - range.leftCol + 1)
@@ -274,11 +278,14 @@ namespace WijmoProvider.Feature {
                             let curr = rowColumn.get(rowIndex);
 
                             if (!curr) {
-                                curr = new OSFramework.OSStructure.RowData(
-                                    this._grid,
-                                    rowIndex,
-                                    this._grid.provider.rows[rowIndex].dataItem
-                                );
+                                curr =
+                                    new OSFramework.DataGrid.OSStructure.RowData(
+                                        this._grid,
+                                        rowIndex,
+                                        this._grid.provider.rows[
+                                            rowIndex
+                                        ].dataItem
+                                    );
 
                                 rowColumnArr.push(curr);
                                 rowColumn.set(rowIndex, curr);
@@ -287,7 +294,7 @@ namespace WijmoProvider.Feature {
                             curr.selected.push(
                                 ...bindings.map(
                                     (binding) =>
-                                        new OSFramework.OSStructure.BindingValue(
+                                        new OSFramework.DataGrid.OSStructure.BindingValue(
                                             binding,
                                             this._grid.provider.getCellData(
                                                 rowIndex,
@@ -304,21 +311,22 @@ namespace WijmoProvider.Feature {
                 return {
                     value: rowColumnArr.map((p) => p.serialize()),
                     isSuccess: true,
-                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: [],
                     isSuccess: false,
                     message: error.message,
-                    code: OSFramework.Enum.ErrorCodes
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
                         .API_FailedGetAllSelectionsData
                 };
             }
         }
 
-        public getCheckedRowsData(): OSFramework.OSStructure.ReturnMessage {
+        public getCheckedRowsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
             try {
                 const allCheckedRows =
                     this._grid.provider.itemsSource.sourceCollection.filter(
@@ -329,7 +337,7 @@ namespace WijmoProvider.Feature {
 
                 const allCheckedRowsArr = allCheckedRows.map(
                     (dataItem) =>
-                        new OSFramework.OSStructure.CheckedRowData(
+                        new OSFramework.DataGrid.OSStructure.CheckedRowData(
                             this._grid,
                             dataItem
                         )
@@ -338,15 +346,16 @@ namespace WijmoProvider.Feature {
                 return {
                     value: allCheckedRowsArr.map((p) => p.serialize()),
                     isSuccess: true,
-                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: [],
                     isSuccess: false,
                     message: error.message,
-                    code: OSFramework.Enum.ErrorCodes
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
                         .API_FailedGetCheckedRowsData
                 };
             }
@@ -354,18 +363,18 @@ namespace WijmoProvider.Feature {
 
         public getMetadata(
             rowNumber: number
-        ): OSFramework.Feature.Auxiliar.RowSelection {
+        ): OSFramework.DataGrid.Feature.Auxiliar.RowSelection {
             if (!this.hasMetadata(rowNumber)) {
                 this._metadata.setMetadataByRowNumber(
                     rowNumber,
                     this._internalLabel,
-                    new OSFramework.Feature.Auxiliar.RowSelection()
+                    new OSFramework.DataGrid.Feature.Auxiliar.RowSelection()
                 );
             }
             return this._metadata.getMetadataByRowNumber(
                 rowNumber,
                 this._internalLabel
-            ) as OSFramework.Feature.Auxiliar.RowSelection;
+            ) as OSFramework.DataGrid.Feature.Auxiliar.RowSelection;
         }
 
         public getProviderAllSelections(): wijmo.grid.CellRange[] {
@@ -429,20 +438,21 @@ namespace WijmoProvider.Feature {
             return rows.filter((item, index) => rows.indexOf(item) === index);
         }
 
-        public getSelectedRowsCount(): OSFramework.OSStructure.ReturnMessage {
+        public getSelectedRowsCount(): OSFramework.DataGrid.OSStructure.ReturnMessage {
             try {
                 return {
                     value: this.getSelectedRows().length,
                     isSuccess: true,
-                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: null,
                     isSuccess: false,
                     message: error.message,
-                    code: OSFramework.Enum.ErrorCodes
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
                         .API_FailedGetSelectedRowsCount
                 };
             }
@@ -457,11 +467,11 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        public getSelectedRowsData(): OSFramework.OSStructure.ReturnMessage {
+        public getSelectedRowsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
             try {
                 const selectedRows = this.getSelectedRows().map(
                     (rowIndex) =>
-                        new OSFramework.OSStructure.RowData(
+                        new OSFramework.DataGrid.OSStructure.RowData(
                             this._grid,
                             rowIndex,
                             this._grid.provider.rows[rowIndex].dataItem
@@ -481,15 +491,16 @@ namespace WijmoProvider.Feature {
                             };
                         }),
                     isSuccess: true,
-                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: [],
                     isSuccess: false,
                     message: error.message,
-                    code: OSFramework.Enum.ErrorCodes
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
                         .API_FailedGetSelectedRowsData
                 };
             }
@@ -506,20 +517,22 @@ namespace WijmoProvider.Feature {
             );
         }
 
-        public hasSelectedRows(): OSFramework.OSStructure.ReturnMessage {
+        public hasSelectedRows(): OSFramework.DataGrid.OSStructure.ReturnMessage {
             try {
                 return {
                     value: this.getSelectedRows().length > 0,
                     isSuccess: true,
-                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
                     value: undefined,
                     isSuccess: false,
                     message: error.message,
-                    code: OSFramework.Enum.ErrorCodes.API_FailedHasSelectedRows
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedHasSelectedRows
                 };
             }
         }

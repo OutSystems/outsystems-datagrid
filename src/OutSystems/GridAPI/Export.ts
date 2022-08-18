@@ -16,14 +16,16 @@ namespace OutSystems.GridAPI.Export {
 
         const responseObj = {
             isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+            message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+            code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
         };
 
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
             responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
+            responseObj.message =
+                OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
+            responseObj.code =
+                OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
             return JSON.stringify(responseObj);
         }
         try {
@@ -37,7 +39,7 @@ namespace OutSystems.GridAPI.Export {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
             responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedCustomizeExportingMessage;
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedCustomizeExportingMessage;
         }
 
         PerformanceAPI.SetMark('Export.CustomizeExportingMessage-end');
@@ -70,8 +72,8 @@ namespace GridAPI {
             exportingMessage: string,
             showMessage: boolean
         ): string {
-            OSFramework.Helper.LogWarningMessage(
-                `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Export.CustomizeExportingMessage()'`
+            OSFramework.DataGrid.Helper.LogWarningMessage(
+                `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Export.CustomizeExportingMessage()'`
             );
             return OutSystems.GridAPI.Export.CustomizeExportingMessage(
                 gridID,

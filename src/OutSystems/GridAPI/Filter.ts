@@ -7,7 +7,7 @@ namespace OutSystems.GridAPI.Filter {
      * @returns {*}  {boolean} true if there are visible results.
      */
     export function HasResults(gridID: string): boolean {
-        if (!OSFramework.Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
         const grid = GridManager.GetGridById(gridID);
         return grid.hasResults();
     }
@@ -25,7 +25,8 @@ namespace OutSystems.GridAPI.Filter {
 
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterSearch,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterSearch,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
@@ -39,7 +40,7 @@ namespace OutSystems.GridAPI.Filter {
                 }
 
                 grid.gridEvents.trigger(
-                    OSFramework.Event.Grid.GridEventType.SearchEnded,
+                    OSFramework.DataGrid.Event.Grid.GridEventType.SearchEnded,
                     grid
                 );
             }
@@ -67,7 +68,8 @@ namespace OutSystems.GridAPI.Filter {
         PerformanceAPI.SetMark('Filter.activate');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterActivate,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterActivate,
             callback: () => {
                 GridManager.GetGridById(gridID).features.filter.activate(
                     columnID
@@ -97,7 +99,8 @@ namespace OutSystems.GridAPI.Filter {
         PerformanceAPI.SetMark('Filter.clear');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterClear,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterClear,
             callback: () => {
                 GridManager.GetGridById(gridID).features.filter.clear(columnID);
             }
@@ -124,7 +127,8 @@ namespace OutSystems.GridAPI.Filter {
         PerformanceAPI.SetMark('Filter.deactivate');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterDeactivate,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterDeactivate,
             callback: () => {
                 GridManager.GetGridById(gridID).features.filter.deactivate(
                     columnID
@@ -159,7 +163,9 @@ namespace OutSystems.GridAPI.Filter {
         PerformanceAPI.SetMark('Filter.ByCondition');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterByCondition,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedFilterByCondition,
             callback: () => {
                 GridManager.GetGridById(gridID).features.filter.byCondition(
                     columnID,
@@ -195,7 +201,8 @@ namespace OutSystems.GridAPI.Filter {
         PerformanceAPI.SetMark('Filter.ByValue');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedFilterByValue,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterByValue,
             callback: () => {
                 GridManager.GetGridById(gridID).features.filter.byValue(
                     columnID,
@@ -234,7 +241,7 @@ namespace OutSystems.GridAPI.Filter {
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
-                OSFramework.Enum.ErrorCodes
+                OSFramework.DataGrid.Enum.ErrorCodes
                     .API_FailedFilterSetColumnFilterOptions,
             callback: () => {
                 GridManager.GetGridById(
@@ -271,8 +278,8 @@ namespace GridAPI.Filter {
      * @returns {*}  {boolean} true if there are visible results.
      */
     export function HasResults(gridID: string): boolean {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.HasResults()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Filter.HasResults()'`
         );
         return OutSystems.GridAPI.Filter.HasResults(gridID);
     }
@@ -286,8 +293,8 @@ namespace GridAPI.Filter {
      * @returns {*}  {string} Return Message Success or message of error info if it's the case.
      */
     export function Search(gridID: string, searchedValue: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Search()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Search()'`
         );
         return OutSystems.GridAPI.Filter.Search(gridID, searchedValue);
     }
@@ -301,8 +308,8 @@ namespace GridAPI.Filter {
      * @returns {*}  {string} Return Message Success or message of error info if it's the case.
      */
     export function Activate(gridID: string, columnID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Activate()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Activate()'`
         );
         return OutSystems.GridAPI.Filter.Activate(gridID, columnID);
     }
@@ -316,8 +323,8 @@ namespace GridAPI.Filter {
      * @returns {*}  {string} Return Message Success or message of error info if it's the case.
      */
     export function Clear(gridID: string, columnID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Clear()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Clear()'`
         );
         return OutSystems.GridAPI.Filter.Clear(gridID, columnID);
     }
@@ -330,8 +337,8 @@ namespace GridAPI.Filter {
      * @returns {*}  {string} Return Message Success or message of error info if it's the case.
      */
     export function Deactivate(gridID: string, columnID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Deactivate()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Filter.Deactivate()'`
         );
         return OutSystems.GridAPI.Filter.Deactivate(gridID, columnID);
     }
@@ -350,8 +357,8 @@ namespace GridAPI.Filter {
         columnID: string,
         values: string
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.ByCondition()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Filter.ByCondition()'`
         );
         return OutSystems.GridAPI.Filter.ByCondition(gridID, columnID, values);
     }
@@ -370,8 +377,8 @@ namespace GridAPI.Filter {
         columnID: string,
         values: string
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.ByValue()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Filter.ByValue()'`
         );
         return OutSystems.GridAPI.Filter.ByValue(gridID, columnID, values);
     }
@@ -392,8 +399,8 @@ namespace GridAPI.Filter {
         options: string,
         maxVisibleOptions?: number
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Filter.SetColumnFilterOptions()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Filter.SetColumnFilterOptions()'`
         );
         return OutSystems.GridAPI.Filter.SetColumnFilterOptions(
             gridID,

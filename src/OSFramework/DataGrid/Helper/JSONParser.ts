@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Helper {
+namespace OSFramework.DataGrid.Helper {
     /**
      * Formats the date into an ISOString and then returns it with the format 'YYY-MM-DDT00:00:000Z'.
      * @param data Data to format

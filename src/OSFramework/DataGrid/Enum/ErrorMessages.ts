@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Enum {
+namespace OSFramework.DataGrid.Enum {
     /**
      * Available messages indicating wheter an action was not successful or not
      */

@@ -10,7 +10,7 @@ namespace OutSystems.GridAPI.Sort {
         PerformanceAPI.SetMark('Sort.Clear');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedClearSort,
+            errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedClearSort,
             callback: () => {
                 GridManager.GetGridById(gridID).features.sort.clear();
             }
@@ -32,18 +32,19 @@ namespace OutSystems.GridAPI.Sort {
      * @export
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID
-     * @param {OSFramework.OSStructure.Sorting} sorting
+     * @param {OSFramework.DataGrid.OSStructure.Sorting} sorting
      * @return {*}  {string} Return Message containing the resulting code from sorting columns and the error message in case of failure
      */
     export function ColumnSort(
         gridID: string,
         columnID: string,
-        sorting: OSFramework.OSStructure.Sorting
+        sorting: OSFramework.DataGrid.OSStructure.Sorting
     ): string {
         PerformanceAPI.SetMark('Sort.ColumnSort');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedColumnSort,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedColumnSort,
             callback: () => {
                 GridManager.GetGridById(gridID).features.sort.sortColumn(
                     columnID,
@@ -76,7 +77,8 @@ namespace OutSystems.GridAPI.Sort {
         PerformanceAPI.SetMark('Sort.SetUnsortState');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetUnsortState,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetUnsortState,
             callback: () => {
                 GridManager.GetGridById(gridID).features.sort.setUnsortState(
                     hasUnsortState
@@ -101,8 +103,8 @@ namespace OutSystems.GridAPI.Sort {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace GridAPI.Sort {
     export function Clear(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Sort.Clear()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Sort.Clear()'`
         );
         return OutSystems.GridAPI.Sort.Clear(gridID);
     }
@@ -110,10 +112,10 @@ namespace GridAPI.Sort {
     export function ColumnSort(
         gridID: string,
         columnID: string,
-        sorting: OSFramework.OSStructure.Sorting
+        sorting: OSFramework.DataGrid.OSStructure.Sorting
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Sort.ColumnSort()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Sort.ColumnSort()'`
         );
         return OutSystems.GridAPI.Sort.ColumnSort(gridID, columnID, sorting);
     }
@@ -122,8 +124,8 @@ namespace GridAPI.Sort {
         gridID: string,
         hasUnsortState: boolean
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Sort.SetUnsortState()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Sort.SetUnsortState()'`
         );
         return OutSystems.GridAPI.Sort.SetUnsortState(gridID, hasUnsortState);
     }

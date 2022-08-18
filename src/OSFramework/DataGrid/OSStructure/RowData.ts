@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.OSStructure {
+namespace OSFramework.DataGrid.OSStructure {
     /**
      * Representation of Row-Data, used to OS communication
      */

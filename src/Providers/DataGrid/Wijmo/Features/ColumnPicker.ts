@@ -59,10 +59,10 @@ namespace WijmoProvider.Feature {
      * Used to merge topLeftCells
      */
     class CustomMergeManager extends wijmo.grid.MergeManager {
-        private _grid: OSFramework.Grid.IGrid;
+        private _grid: OSFramework.DataGrid.Grid.IGrid;
         private _topLeftPanel: wijmo.grid.GridPanel;
 
-        constructor(grid: OSFramework.Grid.IGrid) {
+        constructor(grid: OSFramework.DataGrid.Grid.IGrid) {
             super();
             this._grid = grid;
             this._topLeftPanel = grid.provider.topLeftCells;
@@ -114,9 +114,9 @@ namespace WijmoProvider.Feature {
 
     export class ColumnPicker
         implements
-            OSFramework.Feature.IColumnPicker,
-            OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable
+            OSFramework.DataGrid.Feature.IColumnPicker,
+            OSFramework.DataGrid.Interface.IBuilder,
+            OSFramework.DataGrid.Interface.IDisposable
     {
         private _grid: WijmoProvider.Grid.IGridWijmo;
         private _showHiddenColumns = true;
@@ -130,7 +130,7 @@ namespace WijmoProvider.Feature {
         // if column is within a group, we want to display the group name as well
         // GROUP_NAME > COLUMN_NAME
         private _addGroupToColumnPicker(
-            col: OSFramework.Column.IColumn,
+            col: OSFramework.DataGrid.Column.IColumn,
             item: HTMLElement
         ) {
             if (col.hasParentColumn) {
@@ -145,7 +145,7 @@ namespace WijmoProvider.Feature {
 
         // If column is hidden, we don't want it to be enabled
         private _configureCheckbox(
-            col: OSFramework.Column.IColumn,
+            col: OSFramework.DataGrid.Column.IColumn,
             item: HTMLElement
         ) {
             if (col.config.canBeHidden === false) {
@@ -166,7 +166,9 @@ namespace WijmoProvider.Feature {
 
         private _filterColumnsToBeDisplayedOnColumnPicker(column) {
             // we don't want group columns
-            if (column.columnType === OSFramework.Enum.ColumnType.Group) {
+            if (
+                column.columnType === OSFramework.DataGrid.Enum.ColumnType.Group
+            ) {
                 return false;
             }
 
@@ -309,12 +311,14 @@ namespace WijmoProvider.Feature {
         public handleColumnPickerChangeEvent(column: wijmo.grid.Column): void {
             if (
                 this._grid.gridEvents.hasHandlers(
-                    OSFramework.Event.Grid.GridEventType.OnColumnPickerChange
+                    OSFramework.DataGrid.Event.Grid.GridEventType
+                        .OnColumnPickerChange
                 )
             ) {
                 const _column = this._grid.getColumn(column.binding);
                 this._grid.gridEvents.trigger(
-                    OSFramework.Event.Grid.GridEventType.OnColumnPickerChange,
+                    OSFramework.DataGrid.Event.Grid.GridEventType
+                        .OnColumnPickerChange,
                     this._grid,
                     _column.widgetId,
                     column.binding,

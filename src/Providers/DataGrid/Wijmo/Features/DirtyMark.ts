@@ -2,13 +2,13 @@
 namespace WijmoProvider.Feature {
     export class DirtyMark
         implements
-            OSFramework.Feature.IDirtyMark,
-            OSFramework.Interface.IBuilder
+            OSFramework.DataGrid.Feature.IDirtyMark,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
         private readonly _internalLabel =
-            OSFramework.Enum.RowMetadata.DirtyMark;
-        private _metadata: OSFramework.Interface.IRowMetadata;
+            OSFramework.DataGrid.Enum.RowMetadata.DirtyMark;
+        private _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
@@ -206,18 +206,18 @@ namespace WijmoProvider.Feature {
 
         public getMetadata(
             row: number
-        ): OSFramework.Feature.Auxiliar.DirtyMarksInfo {
+        ): OSFramework.DataGrid.Feature.Auxiliar.DirtyMarksInfo {
             if (!this.hasMetadata(row))
                 this._metadata.setMetadataByRowNumber(
                     row,
                     this._internalLabel,
-                    new OSFramework.Feature.Auxiliar.DirtyMarksInfo()
+                    new OSFramework.DataGrid.Feature.Auxiliar.DirtyMarksInfo()
                 );
 
             return this._metadata.getMetadataByRowNumber(
                 row,
                 this._internalLabel
-            ) as OSFramework.Feature.Auxiliar.DirtyMarksInfo;
+            ) as OSFramework.DataGrid.Feature.Auxiliar.DirtyMarksInfo;
         }
 
         /**

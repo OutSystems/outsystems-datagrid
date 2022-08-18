@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Column {
-    export class CalculatedColumn extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfigAdditional> {
+    export class CalculatedColumn extends AbstractProviderColumn<OSFramework.DataGrid.Configuration.Column.ColumnConfigAdditional> {
         constructor(
-            grid: OSFramework.Grid.IGrid,
+            grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             configs: any,
@@ -12,13 +12,13 @@ namespace WijmoProvider.Column {
             super(
                 grid,
                 columnID,
-                new OSFramework.Configuration.Column.ColumnConfigAdditional(
+                new OSFramework.DataGrid.Configuration.Column.ColumnConfigAdditional(
                     configs,
                     extraConfig
                 )
             );
             this._columnEvents =
-                new OSFramework.Event.Column.ColumnEventsManager(this);
+                new OSFramework.DataGrid.Event.Column.ColumnEventsManager(this);
 
             // set custom binding with this format: $ColumnHeader_timestamp
             // eg.: $Average_423432413123
@@ -30,12 +30,12 @@ namespace WijmoProvider.Column {
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
+        public get columnEvents(): OSFramework.DataGrid.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): OSFramework.Enum.ColumnType {
-            return OSFramework.Enum.ColumnType.Calculated;
+        public get columnType(): OSFramework.DataGrid.Enum.ColumnType {
+            return OSFramework.DataGrid.Enum.ColumnType.Calculated;
         }
 
         public get providerType(): wijmo.DataType {

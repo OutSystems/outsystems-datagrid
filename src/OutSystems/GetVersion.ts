@@ -10,6 +10,6 @@ namespace OutSystems.Grid {
      * @return {*}  {string}
      */
     export function GetVersion(): string {
-        return OSFramework.Constants.OSDataGridVersion;
+        return OSFramework.DataGrid.Constants.OSDataGridVersion;
     }
 }

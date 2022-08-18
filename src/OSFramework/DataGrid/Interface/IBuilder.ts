@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Interface {
+namespace OSFramework.DataGrid.Interface {
     /**
      * Defines the interface for buildable objects
      */

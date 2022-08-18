@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Configuration {
+namespace OSFramework.DataGrid.Configuration {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     export abstract class AbstractConfiguration implements IConfiguration {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Event.Column {
+namespace OSFramework.DataGrid.Event.Column {
     /**
      * Class that will be responsible for managing the events of grid columns.
      *
@@ -11,10 +11,10 @@ namespace OSFramework.Event.Column {
         ColumnEventType,
         string
     > {
-        private _column: OSFramework.Column.IColumn;
+        private _column: OSFramework.DataGrid.Column.IColumn;
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        constructor(column: OSFramework.Column.IColumn) {
+        constructor(column: OSFramework.DataGrid.Column.IColumn) {
             super();
             this._column = column;
         }

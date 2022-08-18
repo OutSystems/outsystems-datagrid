@@ -2,7 +2,7 @@
  * Namespace used to aggregate Columns definition
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Column {
+namespace OSFramework.DataGrid.Column {
     /**
      * Base behavior of a Column
      * @description By inheritance each new Column will have base behavior like building the provider.

@@ -1,4 +1,4 @@
-namespace OSFramework.Feature {
+namespace OSFramework.DataGrid.Feature {
     /**
      * Interface for freezing columns
      */
@@ -16,7 +16,7 @@ namespace OSFramework.Feature {
          *
          * @param cell Used as reference to freeze everything up and left
          */
-        bySelection(cell: OSFramework.OSStructure.CellRange): void;
+        bySelection(cell: OSFramework.DataGrid.OSStructure.CellRange): void;
         /**
          * Freeze the first column
          */

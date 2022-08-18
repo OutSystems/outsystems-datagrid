@@ -109,10 +109,10 @@ namespace WijmoProvider.Column {
         }
     }
 
-    export class DropdownColumn extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfigDropdown> {
+    export class DropdownColumn extends AbstractProviderColumn<OSFramework.DataGrid.Configuration.Column.ColumnConfigDropdown> {
         private _handlerAdded: boolean;
         constructor(
-            grid: OSFramework.Grid.IGrid,
+            grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
             configs: JSON,
             extraConfig: JSON
@@ -120,14 +120,14 @@ namespace WijmoProvider.Column {
             super(
                 grid,
                 columnID,
-                new OSFramework.Configuration.Column.ColumnConfigDropdown(
+                new OSFramework.DataGrid.Configuration.Column.ColumnConfigDropdown(
                     configs,
                     extraConfig
                 )
             );
             this.config.dataMap = new wijmo.grid.DataMap([], 'key', 'text');
             this._columnEvents =
-                new OSFramework.Event.Column.ColumnEventsManager(this);
+                new OSFramework.DataGrid.Event.Column.ColumnEventsManager(this);
             this._handlerAdded = false;
         }
 
@@ -207,7 +207,7 @@ namespace WijmoProvider.Column {
                 // trigger cell value change event
                 if (column) {
                     this.columnEvents.trigger(
-                        OSFramework.Event.Column.ColumnEventType
+                        OSFramework.DataGrid.Event.Column.ColumnEventType
                             .OnCellValueChange,
                         '',
                         currentValue,
@@ -227,7 +227,7 @@ namespace WijmoProvider.Column {
 
                     // on parent cell change subscription, to set child cell's to blank
                     column.columnEvents.addHandler(
-                        OSFramework.Event.Column.ColumnEventType
+                        OSFramework.DataGrid.Event.Column.ColumnEventType
                             .OnCellValueChange,
                         this._parentCellValueChangeHandler.bind(this)
                     );
@@ -236,12 +236,12 @@ namespace WijmoProvider.Column {
         }
 
         /** Returns all the events associated to the column */
-        public get columnEvents(): OSFramework.Event.Column.ColumnEventsManager {
+        public get columnEvents(): OSFramework.DataGrid.Event.Column.ColumnEventsManager {
             return this._columnEvents;
         }
 
-        public get columnType(): OSFramework.Enum.ColumnType {
-            return OSFramework.Enum.ColumnType.Dropdown;
+        public get columnType(): OSFramework.DataGrid.Enum.ColumnType {
+            return OSFramework.DataGrid.Enum.ColumnType.Dropdown;
         }
 
         public get providerType(): wijmo.DataType {
@@ -299,7 +299,8 @@ namespace WijmoProvider.Column {
 
             if (
                 parentColumn &&
-                parentColumn.columnType === OSFramework.Enum.ColumnType.Dropdown
+                parentColumn.columnType ===
+                    OSFramework.DataGrid.Enum.ColumnType.Dropdown
             ) {
                 // override getDisplayValues method to get values that
                 // correspond to the parent
@@ -331,7 +332,8 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
-                case OSFramework.OSStructure.ColumnProperties.DropdownOptions:
+                case OSFramework.DataGrid.OSStructure.ColumnProperties
+                    .DropdownOptions:
                     // eslint-disable-next-line
                     const dataMap = this.config.dataMap as wijmo.grid.DataMap;
                     // eslint-disable-next-line

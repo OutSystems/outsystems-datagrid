@@ -1,11 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Event.Column {
+namespace OSFramework.DataGrid.Event.Column {
     /**
      * Abstract class that encapsulates the basic logic of triggering the events with the right parameters order.
      *
      * @abstract
      * @class AbstractColumnEvent
-     * @extends {OSFramework.Event.AbstractEvent<string>}
+     * @extends {OSFramework.DataGrid.Event.AbstractEvent<string>}
      */
     export abstract class AbstractColumnEvent extends Event.AbstractEvent<string> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types

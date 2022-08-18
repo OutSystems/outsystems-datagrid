@@ -1,27 +1,27 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Event.Grid {
+namespace OSFramework.DataGrid.Event.Grid {
     /**
      * Class that will be responsible for managing the events of the grid.
      *
      * @export
      * @class GridEventsManager
-     * @extends {AbstractEventsManager<GridEventType, OSFramework.Grid.IGrid>}
+     * @extends {AbstractEventsManager<GridEventType, OSFramework.DataGrid.Grid.IGrid>}
      */
     export class GridEventsManager extends AbstractEventsManager<
         GridEventType,
-        OSFramework.Grid.IGrid
+        OSFramework.DataGrid.Grid.IGrid
     > {
-        private _grid: OSFramework.Grid.IGrid;
+        private _grid: OSFramework.DataGrid.Grid.IGrid;
 
-        constructor(grid: OSFramework.Grid.IGrid) {
+        constructor(grid: OSFramework.DataGrid.Grid.IGrid) {
             super();
             this._grid = grid;
         }
 
         protected getInstanceOfEventType(
             eventType: GridEventType
-        ): OSFramework.Event.IEvent<OSFramework.Grid.IGrid> {
-            let event: OSFramework.Event.IEvent<OSFramework.Grid.IGrid>;
+        ): OSFramework.DataGrid.Event.IEvent<OSFramework.DataGrid.Grid.IGrid> {
+            let event: OSFramework.DataGrid.Event.IEvent<OSFramework.DataGrid.Grid.IGrid>;
 
             switch (eventType) {
                 case GridEventType.Initialized:
@@ -51,7 +51,7 @@ namespace OSFramework.Event.Grid {
 
         public addHandler(
             eventType: GridEventType,
-            handler: OSFramework.Callbacks.OSGrid.Event
+            handler: OSFramework.DataGrid.Callbacks.OSGrid.Event
         ): void {
             //if the grid is already ready, fire immediatly the event.
             if (eventType === GridEventType.Initialized && this._grid.isReady) {
@@ -69,7 +69,7 @@ namespace OSFramework.Event.Grid {
         public trigger(
             event: GridEventType,
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            gridObj: OSFramework.Grid.IGrid,
+            gridObj: OSFramework.DataGrid.Grid.IGrid,
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
             ...args
         ): void {

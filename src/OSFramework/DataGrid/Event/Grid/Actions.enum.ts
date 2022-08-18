@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Event.Grid {
+namespace OSFramework.DataGrid.Event.Grid {
     export enum Actions {
         AddRow
     }

@@ -2,18 +2,18 @@
 namespace WijmoProvider.Feature {
     export class ValidationMark
         implements
-            OSFramework.Feature.IValidationMark,
-            OSFramework.Interface.IBuilder
+            OSFramework.DataGrid.Feature.IValidationMark,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
         /** Internal label for the validation marks */
         private readonly _internalLabel =
-            OSFramework.Enum.RowMetadata.Validation;
+            OSFramework.DataGrid.Enum.RowMetadata.Validation;
         /** Array containing all invalid rows */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _invalidRows: Set<any>;
         /** Exposed methods to manipulate RowMetadata */
-        private _metadata: OSFramework.Interface.IRowMetadata;
+        private _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
@@ -63,23 +63,23 @@ namespace WijmoProvider.Feature {
         /** Helper to convert the formats of Date and DateTime columns to the format of OS */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _convertToFormat(
-            column: OSFramework.Column.IColumn,
+            column: OSFramework.DataGrid.Column.IColumn,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             value: any
         ) {
             switch (column.columnType) {
-                case OSFramework.Enum.ColumnType.Number:
-                case OSFramework.Enum.ColumnType.Currency:
+                case OSFramework.DataGrid.Enum.ColumnType.Number:
+                case OSFramework.DataGrid.Enum.ColumnType.Currency:
                     return parseFloat(value ?? 0);
-                case OSFramework.Enum.ColumnType.Date:
-                    return OSFramework.Helper.ToOSDate(
+                case OSFramework.DataGrid.Enum.ColumnType.Date:
+                    return OSFramework.DataGrid.Helper.ToOSDate(
                         value ?? new Date(1900, 0, 1)
                     );
-                case OSFramework.Enum.ColumnType.DateTime:
-                    return OSFramework.Helper.ToOSDatetime(
+                case OSFramework.DataGrid.Enum.ColumnType.DateTime:
+                    return OSFramework.DataGrid.Helper.ToOSDatetime(
                         value ?? new Date(1900, 0, 1)
                     );
-                case OSFramework.Enum.ColumnType.Checkbox:
+                case OSFramework.DataGrid.Enum.ColumnType.Checkbox:
                     return value ?? false;
                 default:
                     return value ?? '';
@@ -105,7 +105,7 @@ namespace WijmoProvider.Feature {
         }
 
         private _handleOnCellChangeEvent(
-            column: OSFramework.Column.IColumn,
+            column: OSFramework.DataGrid.Column.IColumn,
             rowNumber: number,
             newValue: string,
             oldValue: string
@@ -113,11 +113,13 @@ namespace WijmoProvider.Feature {
             if (
                 column.hasEvents &&
                 column.columnEvents.events.has(
-                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange
+                    OSFramework.DataGrid.Event.Column.ColumnEventType
+                        .OnCellValueChange
                 )
             ) {
                 column.columnEvents.trigger(
-                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange,
+                    OSFramework.DataGrid.Event.Column.ColumnEventType
+                        .OnCellValueChange,
                     this._convertToFormat(column, newValue),
                     this._convertToFormat(column, oldValue),
                     rowNumber
@@ -226,7 +228,7 @@ namespace WijmoProvider.Feature {
         }
 
         private _setCellStatus(
-            column: OSFramework.Column.IColumn,
+            column: OSFramework.DataGrid.Column.IColumn,
             rowNumber: number,
             newValue: string
         ): void {
@@ -367,7 +369,7 @@ namespace WijmoProvider.Feature {
         }
 
         private _validateMetadata(
-            metadata: OSFramework.Feature.Auxiliar.ValidationMarkInfo
+            metadata: OSFramework.DataGrid.Feature.Auxiliar.ValidationMarkInfo
         ): boolean {
             let notInvalidCells = 0;
 
@@ -459,18 +461,18 @@ namespace WijmoProvider.Feature {
         public getMetadataByRow(
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             row: any
-        ): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
+        ): OSFramework.DataGrid.Feature.Auxiliar.ValidationMarkInfo {
             if (!this.hasMetadataByRow(row))
                 this._metadata.setMetadataByRow(
                     row,
                     this._internalLabel,
-                    new OSFramework.Feature.Auxiliar.ValidationMarkInfo()
+                    new OSFramework.DataGrid.Feature.Auxiliar.ValidationMarkInfo()
                 );
 
             return this._metadata.getMetadataInRow(
                 row,
                 this._internalLabel
-            ) as OSFramework.Feature.Auxiliar.ValidationMarkInfo;
+            ) as OSFramework.DataGrid.Feature.Auxiliar.ValidationMarkInfo;
         }
 
         /**
@@ -480,18 +482,18 @@ namespace WijmoProvider.Feature {
          */
         public getMetadataByRowKey(
             rowKey: string
-        ): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
+        ): OSFramework.DataGrid.Feature.Auxiliar.ValidationMarkInfo {
             if (!this.hasMetadataByRowKey(rowKey))
                 this._metadata.setMetadataByRowKey(
                     rowKey,
                     this._internalLabel,
-                    new OSFramework.Feature.Auxiliar.ValidationMarkInfo()
+                    new OSFramework.DataGrid.Feature.Auxiliar.ValidationMarkInfo()
                 );
 
             return this._metadata.getMetadataByRowKey(
                 rowKey,
                 this._internalLabel
-            ) as OSFramework.Feature.Auxiliar.ValidationMarkInfo;
+            ) as OSFramework.DataGrid.Feature.Auxiliar.ValidationMarkInfo;
         }
 
         /**
@@ -501,18 +503,18 @@ namespace WijmoProvider.Feature {
          */
         public getMetadataByRowNumber(
             rowNumber: number
-        ): OSFramework.Feature.Auxiliar.ValidationMarkInfo {
+        ): OSFramework.DataGrid.Feature.Auxiliar.ValidationMarkInfo {
             if (!this.hasMetadataByRowNumber(rowNumber))
                 this._metadata.setMetadataByRowNumber(
                     rowNumber,
                     this._internalLabel,
-                    new OSFramework.Feature.Auxiliar.ValidationMarkInfo()
+                    new OSFramework.DataGrid.Feature.Auxiliar.ValidationMarkInfo()
                 );
 
             return this._metadata.getMetadataByRowNumber(
                 rowNumber,
                 this._internalLabel
-            ) as OSFramework.Feature.Auxiliar.ValidationMarkInfo;
+            ) as OSFramework.DataGrid.Feature.Auxiliar.ValidationMarkInfo;
         }
 
         /**
@@ -685,20 +687,21 @@ namespace WijmoProvider.Feature {
          * Method to validate a cell
          *
          * @param {number} rowNumber Number of the row in which the action of validation should be triggered.
-         * @param {OSFramework.Column.IColumn} column Column in which the action of validation should be triggered.
+         * @param {OSFramework.DataGrid.Column.IColumn} column Column in which the action of validation should be triggered.
          * @param {boolean} [triggerOnCellValueChange=true] Boolean that represents if we want to trigger the on value change event or not
          * @memberof ValidationMark
          */
         public validateCell(
             rowNumber: number,
-            column: OSFramework.Column.IColumn,
+            column: OSFramework.DataGrid.Column.IColumn,
             triggerOnCellValueChange = true
         ): void {
             // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
             const currValue = this._grid.provider.getCellData(
                 rowNumber,
                 column.provider.index,
-                column.columnType === OSFramework.Enum.ColumnType.Dropdown
+                column.columnType ===
+                    OSFramework.DataGrid.Enum.ColumnType.Dropdown
             );
 
             //If we decide not to trigger the column events we will skip this step
@@ -720,18 +723,18 @@ namespace WijmoProvider.Feature {
          */
         public validateRow(
             rowNumber: number
-        ): OSFramework.OSStructure.ReturnMessage {
+        ): OSFramework.DataGrid.OSStructure.ReturnMessage {
             try {
                 // Triggers the validation method per column
                 this._grid
                     .getColumns()
-                    .forEach((column: OSFramework.Column.IColumn) => {
+                    .forEach((column: OSFramework.DataGrid.Column.IColumn) => {
                         // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
                         const currValue = this._grid.provider.getCellData(
                             rowNumber,
                             column.provider.index,
                             column.columnType ===
-                                OSFramework.Enum.ColumnType.Dropdown
+                                OSFramework.DataGrid.Enum.ColumnType.Dropdown
                         );
                         // Triggers the events of OnCellValueChange associated to a specific column in OS
                         this._triggerEventsFromColumn(
@@ -743,13 +746,14 @@ namespace WijmoProvider.Feature {
                     });
 
                 return {
-                    message: OSFramework.Enum.ErrorMessages.SuccessMessage,
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
                     isSuccess: true,
-                    code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
                 };
             } catch (error) {
                 return {
-                    code: OSFramework.Enum.ErrorCodes
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
                         .API_FailedApplyRowValidation,
                     message: error.message,
                     isSuccess: false

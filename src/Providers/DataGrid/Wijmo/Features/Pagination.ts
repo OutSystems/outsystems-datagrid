@@ -25,9 +25,9 @@ namespace WijmoProvider.Feature {
 
     export class Pagination
         implements
-            OSFramework.Feature.IPagination,
-            OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IDisposable
+            OSFramework.DataGrid.Feature.IPagination,
+            OSFramework.DataGrid.Interface.IBuilder,
+            OSFramework.DataGrid.Interface.IDisposable
     {
         private _grid: Grid.IGridWijmo;
         private _pageSize: number;
@@ -45,12 +45,12 @@ namespace WijmoProvider.Feature {
          * in the placeholder.
          *
          * @private
-         * @param {OSFramework.Enum.PageLabel} label
+         * @param {OSFramework.DataGrid.Enum.PageLabel} label
          * @param {string} phId
          * @memberof Pagination
          */
         private _setValueInPh(
-            label: OSFramework.Enum.PageLabel,
+            label: OSFramework.DataGrid.Enum.PageLabel,
             phId: string
         ): void {
             const element = document.getElementById(phId);
@@ -200,35 +200,39 @@ namespace WijmoProvider.Feature {
             this._view = undefined;
         }
 
-        public executeAction(action: OSFramework.Enum.PageAction): boolean {
+        public executeAction(
+            action: OSFramework.DataGrid.Enum.PageAction
+        ): boolean {
             switch (action) {
-                case OSFramework.Enum.PageAction.FirstPage:
+                case OSFramework.DataGrid.Enum.PageAction.FirstPage:
                     return this.moveToFirstPage();
-                case OSFramework.Enum.PageAction.Previous:
+                case OSFramework.DataGrid.Enum.PageAction.Previous:
                     return this.moveToPreviousPage();
-                case OSFramework.Enum.PageAction.Forward:
+                case OSFramework.DataGrid.Enum.PageAction.Forward:
                     return this.moveToNextPage();
-                case OSFramework.Enum.PageAction.LastPage:
+                case OSFramework.DataGrid.Enum.PageAction.LastPage:
                     return this.moveToLastPage();
                 default:
                     break;
             }
         }
 
-        public getValueByLabel(label: OSFramework.Enum.PageLabel): number {
+        public getValueByLabel(
+            label: OSFramework.DataGrid.Enum.PageLabel
+        ): number {
             if (this._view) {
                 switch (label) {
-                    case OSFramework.Enum.PageLabel.PageCount:
+                    case OSFramework.DataGrid.Enum.PageLabel.PageCount:
                         return this.pageCount;
-                    case OSFramework.Enum.PageLabel.PageIndex:
+                    case OSFramework.DataGrid.Enum.PageLabel.PageIndex:
                         return this.pageIndex + 1;
-                    case OSFramework.Enum.PageLabel.PageSize:
+                    case OSFramework.DataGrid.Enum.PageLabel.PageSize:
                         return this.pageSize;
-                    case OSFramework.Enum.PageLabel.RowEnd:
+                    case OSFramework.DataGrid.Enum.PageLabel.RowEnd:
                         return this.rowEnd;
-                    case OSFramework.Enum.PageLabel.RowStart:
+                    case OSFramework.DataGrid.Enum.PageLabel.RowStart:
                         return this.rowStart;
-                    case OSFramework.Enum.PageLabel.RowTotal:
+                    case OSFramework.DataGrid.Enum.PageLabel.RowTotal:
                         return this.rowTotal;
                 }
             }
@@ -260,12 +264,12 @@ namespace WijmoProvider.Feature {
          * placeholder in which we'll want to add the number
          * corresponding to the pagination.
          *
-         * @param {OSFramework.Enum.PageLabel} label
+         * @param {OSFramework.DataGrid.Enum.PageLabel} label
          * @param {string} phId
          * @memberof Pagination
          */
         public registerLabel(
-            label: OSFramework.Enum.PageLabel,
+            label: OSFramework.DataGrid.Enum.PageLabel,
             phId: string
         ): void {
             //Since the register can happen at any moment in time,

@@ -2,13 +2,13 @@
 namespace WijmoProvider.Feature {
     export class CellStyle
         implements
-            OSFramework.Interface.IBuilder,
-            OSFramework.Feature.ICellStyle
+            OSFramework.DataGrid.Interface.IBuilder,
+            OSFramework.DataGrid.Feature.ICellStyle
     {
         private _grid: Grid.IGridWijmo;
         private readonly _internalLabel =
-            OSFramework.Enum.RowMetadata.CellStyle;
-        private _metadata: OSFramework.Interface.IRowMetadata;
+            OSFramework.DataGrid.Enum.RowMetadata.CellStyle;
+        private _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
@@ -62,18 +62,18 @@ namespace WijmoProvider.Feature {
 
         public getMetadata(
             rowNumber: number
-        ): OSFramework.Feature.Auxiliar.CellStyleInfo {
+        ): OSFramework.DataGrid.Feature.Auxiliar.CellStyleInfo {
             if (!this.hasMetadata(rowNumber))
                 this._metadata.setMetadataByRowNumber(
                     rowNumber,
                     this._internalLabel,
-                    new OSFramework.Feature.Auxiliar.CellStyleInfo()
+                    new OSFramework.DataGrid.Feature.Auxiliar.CellStyleInfo()
                 );
 
             return this._metadata.getMetadataByRowNumber(
                 rowNumber,
                 this._internalLabel
-            ) as OSFramework.Feature.Auxiliar.CellStyleInfo;
+            ) as OSFramework.DataGrid.Feature.Auxiliar.CellStyleInfo;
         }
 
         public hasMetadata(rowNumber: number): boolean {

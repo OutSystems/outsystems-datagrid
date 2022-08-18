@@ -2,7 +2,7 @@
  * Used to store the tags used to find DOM elements
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Helper.Constants {
+namespace OSFramework.DataGrid.Helper.Constants {
     /** Tag used to find Columns */
     export const columnCss = '.datagrid-column';
     /** Tag used to find ColumnGroups */

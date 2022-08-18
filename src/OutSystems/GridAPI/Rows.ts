@@ -15,7 +15,7 @@ namespace OutSystems.GridAPI.Rows {
         PerformanceAPI.SetMark('Rows.AddClass');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedAddClass,
+            errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedAddClass,
             callback: () => {
                 GridManager.GetGridById(gridID).features.rows.addClass(
                     rowNumber,
@@ -46,7 +46,7 @@ namespace OutSystems.GridAPI.Rows {
         PerformanceAPI.SetMark('Rows.AddRows');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedAddRow,
+            errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedAddRow,
             callback: () => {
                 return JSON.stringify(
                     GridManager.GetGridById(gridID).features.rows.addNewRows(
@@ -78,7 +78,8 @@ namespace OutSystems.GridAPI.Rows {
         PerformanceAPI.SetMark('Rows.GetRowData');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedGetRowData,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetRowData,
             callback: () => {
                 return JSON.stringify(
                     GridManager.GetGridById(gridID).features.rows.getRowData(
@@ -111,7 +112,9 @@ namespace OutSystems.GridAPI.Rows {
         PerformanceAPI.SetMark('Rows.GetRowNumberByKey');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedGetRowNumberByKey,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedGetRowNumberByKey,
             callback: () => {
                 return JSON.stringify(
                     GridManager.GetGridById(
@@ -145,7 +148,8 @@ namespace OutSystems.GridAPI.Rows {
         PerformanceAPI.SetMark('Rows.RemoveAllClasses');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedRemoveAllClasses,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveAllClasses,
             callback: () => {
                 GridManager.GetGridById(gridID).features.rows.removeAllClasses(
                     rowNumber
@@ -179,7 +183,8 @@ namespace OutSystems.GridAPI.Rows {
         PerformanceAPI.SetMark('Rows.RemoveClass');
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedRemoveClass,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveClass,
             callback: () => {
                 GridManager.GetGridById(gridID).features.rows.removeClass(
                     rowNumber,
@@ -240,7 +245,9 @@ namespace OutSystems.GridAPI.Rows {
 
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedUpdateAddedRowKey,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedUpdateAddedRowKey,
             callback: () => {
                 return JSON.stringify(
                     GridManager.GetGridById(
@@ -277,7 +284,8 @@ namespace OutSystems.GridAPI.Rows {
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
-                OSFramework.Enum.ErrorCodes.API_FailedUpdateStartingRowHeader,
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedUpdateStartingRowHeader,
             callback: () => {
                 GridManager.GetGridById(
                     gridID
@@ -317,7 +325,8 @@ namespace OutSystems.GridAPI.Rows {
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
-                OSFramework.Enum.ErrorCodes.API_FailedSetValidationStatusByKey,
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedSetValidationStatusByKey,
             callback: () => {
                 GridManager.GetGridById(
                     gridID
@@ -354,7 +363,9 @@ namespace OutSystems.GridAPI.Rows {
 
         const result = Auxiliary.CreateApiResponse({
             gridID,
-            errorCode: OSFramework.Enum.ErrorCodes.API_FailedToggleRowDragging,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedToggleRowDragging,
             callback: () => {
                 GridManager.GetGridById(
                     gridID
@@ -391,8 +402,8 @@ namespace GridAPI.Rows {
         rowNumber: number,
         className: string
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Rows.AddClass()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.AddClass()'`
         );
         return OutSystems.GridAPI.Rows.AddClass(gridID, rowNumber, className);
     }
@@ -405,8 +416,8 @@ namespace GridAPI.Rows {
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function AddRows(gridID: string, numberOfRows = 1): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Rows.AddRows()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.AddRows()'`
         );
         return OutSystems.GridAPI.Rows.AddRows(gridID, numberOfRows);
     }
@@ -420,8 +431,8 @@ namespace GridAPI.Rows {
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function GetRowData(gridID: string, rowNumber: number): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Rows.GetRowData()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.GetRowData()'`
         );
         return OutSystems.GridAPI.Rows.GetRowData(gridID, rowNumber);
     }
@@ -435,8 +446,8 @@ namespace GridAPI.Rows {
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function GetRowNumberByKey(gridID: string, key: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Rows.GetRowNumberByKey()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.GetRowNumberByKey()'`
         );
         return OutSystems.GridAPI.Rows.GetRowNumberByKey(gridID, key);
     }
@@ -451,8 +462,8 @@ namespace GridAPI.Rows {
         gridID: string,
         rowNumber: number
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveAllClasses()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveAllClasses()'`
         );
         return OutSystems.GridAPI.Rows.RemoveAllClasses(gridID, rowNumber);
     }
@@ -470,8 +481,8 @@ namespace GridAPI.Rows {
         rowNumber: number,
         className: string
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveClass()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveClass()'`
         );
         return OutSystems.GridAPI.Rows.RemoveClass(
             gridID,
@@ -488,8 +499,8 @@ namespace GridAPI.Rows {
      * @returns {*}  {string} Resulting code and message in JSON format
      */
     export function RemoveRows(gridID: string): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveRows()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveRows()'`
         );
         return OutSystems.GridAPI.Rows.RemoveRows(gridID);
     }
@@ -506,8 +517,8 @@ namespace GridAPI.Rows {
         currentRowId: string,
         newKey: string
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Rows.UpdateAddedRowKey()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.UpdateAddedRowKey()'`
         );
         return OutSystems.GridAPI.Rows.UpdateAddedRowKey(
             gridID,
@@ -527,8 +538,8 @@ namespace GridAPI.Rows {
         gridID: string,
         startIndex: number
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Rows.UpdateStartingRowHeader()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.UpdateStartingRowHeader()'`
         );
         return OutSystems.GridAPI.Rows.UpdateStartingRowHeader(
             gridID,
@@ -554,8 +565,8 @@ namespace GridAPI.Rows {
         isValid: boolean,
         errorMessage: string
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Rows.SetValidationStatusByKey()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.SetValidationStatusByKey()'`
         );
         return OutSystems.GridAPI.Rows.SetValidationStatusByKey(
             gridID,
@@ -577,8 +588,8 @@ namespace GridAPI.Rows {
         gridID: string,
         allowRowDragging: boolean
     ): string {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Rows.ToggleRowDragging()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.ToggleRowDragging()'`
         );
         return OutSystems.GridAPI.Rows.ToggleRowDragging(
             gridID,

@@ -3,11 +3,11 @@ namespace OutSystems.GridAPI.GridManager.Events {
     const _pendingEvents: Map<
         string,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { cb: any; event: OSFramework.Event.Grid.GridEventType }[]
+        { cb: any; event: OSFramework.DataGrid.Event.Grid.GridEventType }[]
     > = new Map<
         string,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        { cb: any; event: OSFramework.Event.Grid.GridEventType }[]
+        { cb: any; event: OSFramework.DataGrid.Event.Grid.GridEventType }[]
     >();
 
     /**
@@ -15,14 +15,14 @@ namespace OutSystems.GridAPI.GridManager.Events {
      *
      * @export
      * @param {string} gridID grid in which to attach to an event.
-     * @param {OSFramework.Event.Grid.GridEventType} eventName event to which attach to.
+     * @param {OSFramework.DataGrid.Event.Grid.GridEventType} eventName event to which attach to.
      * @param {GridAPI.Callbacks.OSGrid.Event} callback to be invoked qhen the event occurs.
      */
     export function Subscribe(
         gridID: string,
-        eventName: OSFramework.Event.Grid.GridEventType,
+        eventName: OSFramework.DataGrid.Event.Grid.GridEventType,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        callback: OSFramework.Callbacks.OSGrid.Event
+        callback: OSFramework.DataGrid.Callbacks.OSGrid.Event
     ): void {
         const grid = GetGridById(gridID);
         if (grid === undefined) {
@@ -62,9 +62,9 @@ namespace OutSystems.GridAPI.GridManager.Events {
 
     export function Unsubscribe(
         gridID: string,
-        eventName: OSFramework.Event.Grid.GridEventType,
+        eventName: OSFramework.DataGrid.Event.Grid.GridEventType,
         // eslint-disable-next-line
-        callback: OSFramework.Callbacks.OSGrid.Event
+        callback: OSFramework.DataGrid.Callbacks.OSGrid.Event
     ): void {
         const grid = GetGridById(gridID, false);
         if (grid !== undefined) {
@@ -94,17 +94,17 @@ namespace GridAPI.GridManager.Events {
      *
      * @export
      * @param {string} gridID grid in which to attach to an event.
-     * @param {OSFramework.Event.Grid.GridEventType} eventName event to which attach to.
+     * @param {OSFramework.DataGrid.Event.Grid.GridEventType} eventName event to which attach to.
      * @param {GridAPI.Callbacks.OSGrid.Event} callback to be invoked qhen the event occurs.
      */
     export function Subscribe(
         gridID: string,
-        eventName: OSFramework.Event.Grid.GridEventType,
+        eventName: OSFramework.DataGrid.Event.Grid.GridEventType,
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        callback: OSFramework.Callbacks.OSGrid.Event
+        callback: OSFramework.DataGrid.Callbacks.OSGrid.Event
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.Events.Subscribe()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.Events.Subscribe()'`
         );
         return OutSystems.GridAPI.GridManager.Events.Subscribe(
             gridID,
@@ -120,20 +120,20 @@ namespace GridAPI.GridManager.Events {
      * @param {string} gridID grid that is ready for events to be attached to.
      */
     export function CheckPendingEvents(gridID: string): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.Events.CheckPendingEvents()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.Events.CheckPendingEvents()'`
         );
         return OutSystems.GridAPI.GridManager.Events.CheckPendingEvents(gridID);
     }
 
     export function Unsubscribe(
         gridID: string,
-        eventName: OSFramework.Event.Grid.GridEventType,
+        eventName: OSFramework.DataGrid.Event.Grid.GridEventType,
         // eslint-disable-next-line
-        callback: OSFramework.Callbacks.OSGrid.Event
+        callback: OSFramework.DataGrid.Callbacks.OSGrid.Event
     ): void {
-        OSFramework.Helper.LogWarningMessage(
-            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.Events.Unsubscribe()'`
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.GridManager.Events.Unsubscribe()'`
         );
         return OutSystems.GridAPI.GridManager.Events.Unsubscribe(
             gridID,

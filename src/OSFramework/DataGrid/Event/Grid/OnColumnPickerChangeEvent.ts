@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Event.Grid {
+namespace OSFramework.DataGrid.Event.Grid {
     export class OnColumnPickerChangeEvent extends AbstractGridEvent {
         public trigger(
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            _gridObj: OSFramework.Grid.IGrid,
+            _gridObj: OSFramework.DataGrid.Grid.IGrid,
             gridID: string,
             columnWidgetId: string,
             binding: string,

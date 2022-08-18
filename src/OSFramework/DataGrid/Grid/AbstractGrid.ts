@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Grid {
+namespace OSFramework.DataGrid.Grid {
     export abstract class AbstractGrid<
         W,
         Z extends Configuration.IConfigurationGrid

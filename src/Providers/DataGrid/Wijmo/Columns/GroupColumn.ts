@@ -1,13 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Column {
     export class GroupColumn
-        extends AbstractProviderColumn<OSFramework.Configuration.Column.ColumnConfigGroup>
-        implements OSFramework.Column.IColumnGroup
+        extends AbstractProviderColumn<OSFramework.DataGrid.Configuration.Column.ColumnConfigGroup>
+        implements OSFramework.DataGrid.Column.IColumnGroup
     {
-        private _columns: OSFramework.Column.IColumn[];
+        private _columns: OSFramework.DataGrid.Column.IColumn[];
 
         constructor(
-            grid: OSFramework.Grid.IGrid,
+            grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
             configs: JSON,
             specific: JSON
@@ -15,7 +15,7 @@ namespace WijmoProvider.Column {
             super(
                 grid,
                 columnID,
-                new OSFramework.Configuration.Column.ColumnConfigGroup(
+                new OSFramework.DataGrid.Configuration.Column.ColumnConfigGroup(
                     configs,
                     specific
                 )
@@ -23,8 +23,8 @@ namespace WijmoProvider.Column {
             this._columns = [];
         }
 
-        public get columnType(): OSFramework.Enum.ColumnType {
-            return OSFramework.Enum.ColumnType.Group;
+        public get columnType(): OSFramework.DataGrid.Enum.ColumnType {
+            return OSFramework.DataGrid.Enum.ColumnType.Group;
         }
 
         public get provider(): wijmo.grid.ColumnGroup {
@@ -87,7 +87,7 @@ namespace WijmoProvider.Column {
          * Adds child to group
          * @param column column which will be added to group
          */
-        public addChild(column: OSFramework.Column.IColumn): void {
+        public addChild(column: OSFramework.DataGrid.Column.IColumn): void {
             if (this._columns.indexOf(column) === -1) {
                 this._columns.push(column);
             }
@@ -136,7 +136,7 @@ namespace WijmoProvider.Column {
             return providerConfig;
         }
 
-        public removeChild(column: OSFramework.Column.IColumn): void {
+        public removeChild(column: OSFramework.DataGrid.Column.IColumn): void {
             // remove column from internal group columns array
             this._columns = this._columns.filter(function (item) {
                 return item !== column;

@@ -1,7 +1,7 @@
 /// <reference path="../AbstractConfiguration.ts" />
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Configuration.Column {
+namespace OSFramework.DataGrid.Configuration.Column {
     /**
      * Abstract class for columns with Custom Editors
      */

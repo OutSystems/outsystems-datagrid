@@ -2,9 +2,9 @@
 namespace WijmoProvider.Feature {
     export class AutoRowNumber
         implements
-            OSFramework.Feature.IRowNumber,
-            OSFramework.Interface.IBuilder,
-            OSFramework.Interface.IProviderConfig<boolean>
+            OSFramework.DataGrid.Feature.IRowNumber,
+            OSFramework.DataGrid.Interface.IBuilder,
+            OSFramework.DataGrid.Interface.IProviderConfig<boolean>
     {
         private _enabled: boolean; //Indicates where the feature is activate or not
         private _grid: Grid.IGridWijmo;
@@ -41,7 +41,7 @@ namespace WijmoProvider.Feature {
             // Prevent to apply an index lower than 0
             if (value < 0) {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.Row_InvalidStartingRowHeader
+                    OSFramework.DataGrid.Enum.ErrorMessages.Row_InvalidStartingRowHeader
                 );
             }
 

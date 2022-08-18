@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace OSFramework.Feature {
+namespace OSFramework.DataGrid.Feature {
     export interface IColumnFilter
         extends Interface.IBuilder,
             Interface.IValidation,
@@ -9,7 +9,7 @@ namespace OSFramework.Feature {
         activate(columnID: string): void;
         byCondition(
             columnId: string,
-            values: Array<OSFramework.OSStructure.FilterCondition>
+            values: Array<OSFramework.DataGrid.OSStructure.FilterCondition>
         ): void;
         byValue(columnId: string, values: Array<string>): void;
         changeFilterType(

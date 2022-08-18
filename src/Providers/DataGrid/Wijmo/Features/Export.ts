@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace WijmoProvider.Feature {
     export class Export
-        implements OSFramework.Feature.IExport, OSFramework.Interface.IBuilder
+        implements
+            OSFramework.DataGrid.Feature.IExport,
+            OSFramework.DataGrid.Interface.IBuilder
     {
         private _curPage: number;
         private _grid: Grid.IGridWijmo;
@@ -39,11 +41,14 @@ namespace WijmoProvider.Feature {
         }
 
         private _removeLoadingMessage() {
-            const loadingMessageElem = OSFramework.Helper.GetElementByUniqueId(
-                this._grid.uniqueId
-            ).parentElement.querySelector(
-                '.' + OSFramework.Helper.Constants.overlayExportFeedbackCss
-            );
+            const loadingMessageElem =
+                OSFramework.DataGrid.Helper.GetElementByUniqueId(
+                    this._grid.uniqueId
+                ).parentElement.querySelector(
+                    '.' +
+                        OSFramework.DataGrid.Helper.Constants
+                            .overlayExportFeedbackCss
+                );
             if (loadingMessageElem) loadingMessageElem.remove();
         }
 
@@ -56,14 +61,15 @@ namespace WijmoProvider.Feature {
         }
 
         private _showLoadingMessage() {
-            const parentPlaceholder = OSFramework.Helper.GetElementByUniqueId(
-                this._grid.uniqueId
-            ).parentElement;
+            const parentPlaceholder =
+                OSFramework.DataGrid.Helper.GetElementByUniqueId(
+                    this._grid.uniqueId
+                ).parentElement;
 
             const loadingPlaceholderContent = `<div class="datagrid-loading heading4 OSInline" style="width: 100%; height: 100%;"><i class="icon fa-spin fa fa-spinner fa-1x"></i><div class="OSInline" style="margin-left: 10px;">${this._loadingMessage}</div></div>`;
             const createdDivElem = document.createElement('div');
             createdDivElem.className =
-                OSFramework.Helper.Constants.overlayExportFeedbackCss;
+                OSFramework.DataGrid.Helper.Constants.overlayExportFeedbackCss;
             createdDivElem.innerHTML = loadingPlaceholderContent;
             parentPlaceholder.appendChild(createdDivElem);
         }
@@ -78,12 +84,12 @@ namespace WijmoProvider.Feature {
         ): void {
             if (exportingMessage === '' || exportingMessage === undefined) {
                 throw new Error(
-                    OSFramework.Enum.ErrorMessages.CustomizeExportingMessageEmptyString
+                    OSFramework.DataGrid.Enum.ErrorMessages.CustomizeExportingMessageEmptyString
                 );
             }
 
             this._loadingMessage =
-                OSFramework.Helper.Sanitize(exportingMessage);
+                OSFramework.DataGrid.Helper.Sanitize(exportingMessage);
             this._hasLoadingMessage = showMessage;
         }
 
