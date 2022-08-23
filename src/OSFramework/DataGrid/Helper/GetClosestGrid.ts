@@ -6,28 +6,20 @@ namespace OSFramework.DataGrid.Helper {
      */
     export function GetClosestGrid(
         elem: Element | string
-    ): OSFramework.DataGrid.Grid.IGrid {
+    ): DataGrid.Grid.IGrid {
         let child: Element;
 
         if (typeof elem === 'string' || elem instanceof String)
-            child = OSFramework.DataGrid.Helper.GetElementByUniqueId(
-                elem as string
-            );
+            child = DataGrid.Helper.GetElementByUniqueId(elem as string);
         else child = elem;
 
-        const domGrid = child.closest(
-            OSFramework.DataGrid.Helper.Constants.gridTag
-        );
+        const domGrid = child.closest(DataGrid.Helper.Constants.gridTag);
 
         if (domGrid) {
             const uniqueId = domGrid
-                .querySelector(
-                    OSFramework.DataGrid.Helper.Constants.gridUniqueIdCss
-                )
+                .querySelector(DataGrid.Helper.Constants.gridUniqueIdCss)
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                .getAttribute(
-                    OSFramework.DataGrid.Helper.Constants.uniqueIdAttribute
-                );
+                .getAttribute(DataGrid.Helper.Constants.uniqueIdAttribute);
 
             return OutSystems.GridAPI.GridManager.GetGridById(uniqueId);
         }
