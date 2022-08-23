@@ -1,6 +1,5 @@
 node_modules
 dist
 
-code/*.bat
+/*.bat
 
-code/package-lock.json
