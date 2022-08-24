@@ -4,7 +4,7 @@ namespace Providers.DataGrid.Wijmo.Column {
         constructor(
             grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
-            configs: JSON,
+            configs: OSFramework.DataGrid.Configuration.Column.ColumnConfigType,
             extraConfig: JSON
         ) {
             super(

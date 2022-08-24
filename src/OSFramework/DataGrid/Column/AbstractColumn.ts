@@ -224,16 +224,13 @@ namespace OSFramework.DataGrid.Column {
 
         abstract get columnType(): Enum.ColumnType;
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        abstract get provider(): any;
+        abstract get provider(): wijmo.grid.ColumnGroup;
 
         abstract get providerIndex(): number;
 
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        abstract set provider(provider: any);
+        abstract set provider(provider: wijmo.grid.ColumnGroup);
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        abstract get providerType(): any;
+        abstract get providerType(): wijmo.DataType;
 
         /** Responsable for applying config definitions to the current provider */
         abstract applyConfigs(): void;

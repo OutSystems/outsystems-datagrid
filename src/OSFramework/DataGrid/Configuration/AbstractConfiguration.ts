@@ -4,8 +4,7 @@ namespace OSFramework.DataGrid.Configuration {
     export abstract class AbstractConfiguration implements IConfiguration {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(config: any) {
-            // eslint-disable-next-line prefer-const
-            for (let key in config) {
+            for (const key in config) {
                 if (config[key] !== undefined) this[key] = config[key];
             }
         }

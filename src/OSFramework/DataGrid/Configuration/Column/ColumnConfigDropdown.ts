@@ -21,7 +21,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): ColumnProviderConfigType {
             const provider = super.getProviderConfig();
             provider.dataMap = this.dataMap;
             provider.dataMapEditor = this.dataMapEditor;

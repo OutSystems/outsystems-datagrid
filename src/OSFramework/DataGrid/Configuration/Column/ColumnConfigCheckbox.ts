@@ -10,7 +10,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): ColumnProviderConfigType {
             const config = super.getProviderConfig();
 
             return config;

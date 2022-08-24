@@ -5,7 +5,7 @@ namespace Providers.DataGrid.Wijmo.Column {
             grid: OSFramework.DataGrid.Grid.IGrid,
             type: OSFramework.DataGrid.Enum.ColumnType,
             columnID: string,
-            configs: JSON,
+            configs: OSFramework.DataGrid.Configuration.Column.ColumnConfigType,
             extraConfigs: JSON
         ): OSFramework.DataGrid.Column.IColumn {
             switch (type) {
