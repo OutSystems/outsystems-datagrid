@@ -114,8 +114,8 @@ namespace Providers.DataGrid.Wijmo.Column {
         constructor(
             grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
-            configs: OSFramework.DataGrid.Configuration.Column.ColumnConfigType,
-            extraConfig: JSON
+            configs: OSFramework.DataGrid.Types.ColumnConfigs,
+            extraConfig: OSFramework.DataGrid.Types.DropdownColumnExtraConfigs
         ) {
             super(
                 grid,

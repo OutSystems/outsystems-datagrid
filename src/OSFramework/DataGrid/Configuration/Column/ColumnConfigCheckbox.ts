@@ -5,12 +5,12 @@ namespace OSFramework.DataGrid.Configuration.Column {
      */
     export class ColumnConfigCheckbox extends ColumnConfigConditionalFormat {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        constructor(config: any, extra: any) {
+        constructor(config: DataGrid.Types.ColumnConfigs, extra: any) {
             super(config, extra);
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): ColumnProviderConfigType {
+        public getProviderConfig(): DataGrid.Types.ColumnProviderConfigs {
             const config = super.getProviderConfig();
 
             return config;

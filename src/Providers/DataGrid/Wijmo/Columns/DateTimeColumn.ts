@@ -13,8 +13,8 @@ namespace Providers.DataGrid.Wijmo.Column {
         constructor(
             grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
-            configs: OSFramework.DataGrid.Configuration.Column.ColumnConfigType,
-            editorConfig: JSON
+            configs: OSFramework.DataGrid.Types.ColumnConfigs,
+            editorConfig: OSFramework.DataGrid.Types.DateColumnExtraConfigs
         ) {
             super(
                 grid,

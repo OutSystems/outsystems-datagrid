@@ -13,7 +13,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public parentBinding: string;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        constructor(config: any, extra: any) {
+        constructor(config: DataGrid.Types.ColumnConfigs, extra: any) {
             super(config, extra);
             this.dataMap = undefined;
             this.dropdownOptions = extra.datamap;
@@ -21,7 +21,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): ColumnProviderConfigType {
+        public getProviderConfig(): DataGrid.Types.ColumnProviderConfigs {
             const provider = super.getProviderConfig();
             provider.dataMap = this.dataMap;
             provider.dataMapEditor = this.dataMapEditor;

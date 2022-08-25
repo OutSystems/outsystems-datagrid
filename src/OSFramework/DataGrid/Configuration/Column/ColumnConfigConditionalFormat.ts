@@ -9,7 +9,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public conditionalFormat: Array<OSStructure.ConditionalFormat>;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        constructor(config: any, extraConfig: any) {
+        constructor(config: DataGrid.Types.ColumnConfigs, extraConfig: any) {
             super(config);
             this.conditionalFormat = extraConfig.conditionalFormat;
         }

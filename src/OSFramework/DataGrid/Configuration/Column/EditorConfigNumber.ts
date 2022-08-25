@@ -11,7 +11,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public step: number;
 
         // eslint-disable-next-line
-        constructor(config: any) {
+        constructor(config: DataGrid.Types.NumberColumnExtraConfigs | OSFramework.DataGrid.Types.CurrencyColumnExtraConfigs) {
             super(config);
 
             //When both are 0, seems that we receive the default value from OS

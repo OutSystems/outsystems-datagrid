@@ -10,7 +10,10 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public mask: string;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        constructor(config: any, extra: any) {
+        constructor(
+            config: DataGrid.Types.ColumnConfigs,
+            extra: DataGrid.Types.TextColumnExtraConfigs
+        ) {
             super(config, extra);
         }
 
