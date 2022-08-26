@@ -1,8 +1,4 @@
-/**
- * Namespace responsible for all API methods associated to the styling of cells in the Data Grid.
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace GridAPI.Styling {
+namespace OutSystems.GridAPI.Styling {
     /**
      * Function that will add a specific CSS class to a cell
      *
@@ -83,31 +79,19 @@ namespace GridAPI.Styling {
         applyToHeader: boolean
     ): string {
         PerformanceAPI.SetMark('Styling.SetColumnCssClass');
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(gridID).features.styling.addColumnCssClass(
-                columnID,
-                cssClass,
-                applyToHeader
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetColumnCssClass;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetColumnCssClass,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.styling.addColumnCssClass(
+                    columnID,
+                    cssClass,
+                    applyToHeader
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('Styling.SetColumnCssClass-end');
         PerformanceAPI.GetMeasure(
@@ -116,7 +100,7 @@ namespace GridAPI.Styling {
             'Styling.SetColumnCssClass-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
     /**
      * Function that will remove all the CSS classes that were added to a Cell.
@@ -191,29 +175,16 @@ namespace GridAPI.Styling {
         cssClass: string
     ): string {
         PerformanceAPI.SetMark('Styling.RemoveColumnCssClass');
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(
-                gridID
-            ).features.styling.removeColumnCssClass(columnID, cssClass);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedRemoveColumnCssClass;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.Enum.ErrorCodes.API_FailedRemoveColumnCssClass,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.styling.removeColumnCssClass(columnID, cssClass);
+            }
+        });
 
         PerformanceAPI.SetMark('Styling.RemoveColumnCssClass-end');
         PerformanceAPI.GetMeasure(
@@ -222,7 +193,7 @@ namespace GridAPI.Styling {
             'Styling.RemoveColumnCssClass-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -241,32 +212,19 @@ namespace GridAPI.Styling {
         dynamicHeight: boolean
     ): string {
         PerformanceAPI.SetMark('ColumnManager.SetColumnWordWrap');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(gridID).features.styling.setColumnWordWrap(
-                columnID,
-                wordWrapValue,
-                dynamicHeight
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetColumnWordWrap;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetColumnWordWrap,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.styling.setColumnWordWrap(
+                    columnID,
+                    wordWrapValue,
+                    dynamicHeight
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnManager.SetColumnWordWrap-end');
         PerformanceAPI.GetMeasure(
@@ -275,6 +233,102 @@ namespace GridAPI.Styling {
             'ColumnManager.SetColumnWordWrap-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
+    }
+}
+
+/**
+ * Namespace responsible for all API methods associated to the styling of cells in the Data Grid.
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+namespace GridAPI.Styling {
+    /**
+     * Function that will add a specific CSS class to a cell
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} columnID
+     * @param {number} rowIndex
+     * @param {string} className
+     */
+    export function SetCellCssClass(
+        gridID: string,
+        columnID: string,
+        rowIndex: number,
+        className: string
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetCellCssClass()'`
+        );
+        return OutSystems.GridAPI.Styling.SetCellCssClass(
+            gridID,
+            columnID,
+            rowIndex,
+            className
+        );
+    }
+
+    export function SetColumnCssClass(
+        gridID: string,
+        columnID: string,
+        cssClass: string,
+        applyToHeader: boolean
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetColumnCssClass()'`
+        );
+        return OutSystems.GridAPI.Styling.SetColumnCssClass(
+            gridID,
+            columnID,
+            cssClass,
+            applyToHeader
+        );
+    }
+
+    export function RemoveAllCssClassesFromCell(
+        gridID: string,
+        columnID: string,
+        rowIndex: number
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.RemoveAllCssClassesFromCell()'`
+        );
+        return OutSystems.GridAPI.Styling.RemoveAllCssClassesFromCell(
+            gridID,
+            columnID,
+            rowIndex
+        );
+    }
+
+    export function RemoveColumnCssClass(
+        gridID: string,
+        columnID: string,
+        cssClass: string
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.RemoveColumnCssClass()'`
+        );
+        return OutSystems.GridAPI.Styling.RemoveColumnCssClass(
+            gridID,
+            columnID,
+            cssClass
+        );
+    }
+
+    export function SetColumnWordWrap(
+        gridID: string,
+        columnID: string,
+        wordWrapValue: boolean,
+        dynamicHeight: boolean
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.Styling.SetColumnWordWrap()'`
+        );
+        return OutSystems.GridAPI.Styling.SetColumnWordWrap(
+            gridID,
+            columnID,
+            wordWrapValue,
+            dynamicHeight
+        );
     }
 }

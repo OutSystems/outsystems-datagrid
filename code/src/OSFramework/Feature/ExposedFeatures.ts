@@ -11,13 +11,13 @@ namespace OSFramework.Feature {
         public columnFreeze: IColumnFreeze;
         public columnMergeCells: IColumnCellMerging;
         public columnPicker: IColumnPicker;
-        public columnReorder: IColumnReorder;
         public columnResize: IColumnResize;
         public conditionalFormat: IConditionalFormat;
         public contextMenu: IContextMenu;
         public dirtyMark: IDirtyMark;
         public export: IExport;
         public filter: IColumnFilter;
+        public gridReorder: IGridReorder;
         public groupPanel: IGroupPanel;
         public pagination: IPagination;
         public rowHeader: IRowHeader;

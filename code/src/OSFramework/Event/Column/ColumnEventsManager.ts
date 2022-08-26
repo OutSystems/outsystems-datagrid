@@ -31,6 +31,9 @@ namespace OSFramework.Event.Column {
                 case ColumnEventType.OnCellValueChange:
                     event = new OnCellValueChange();
                     break;
+                case ColumnEventType.OnColumnReorder:
+                    event = new OnColumnReorder();
+                    break;
                 default:
                     throw `The event '${eventType}' is not supported in a column`;
                     break;
@@ -68,6 +71,13 @@ namespace OSFramework.Event.Column {
                             rowNumber, // Number of the row in which the cell value has changed.
                             oldValue, // Value of the cell before its value has changed (Old)
                             value // Value of the cell after its value has changed (New)
+                        );
+                        break;
+                    case ColumnEventType.OnColumnReorder:
+                        handlerEvent.trigger(
+                            this._column.grid.widgetId, // ID of Grid block where the cell value has changed.
+                            this._column.widgetId, // ID of the Column block in which the cell value has changed.
+                            this._column.provider.index // Number of the row in which the cell value has changed.
                         );
                         break;
                     default:

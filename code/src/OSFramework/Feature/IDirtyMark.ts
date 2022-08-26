@@ -9,6 +9,7 @@ namespace OSFramework.Feature {
         clearPropertyInRowByKey(key: string): void;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getOldValue(rowNumber: number, binding: string): any;
+        isRowDirty(row: number): boolean;
         /**
          * Saves cell original value
          * @param rowNumber Cell's row number

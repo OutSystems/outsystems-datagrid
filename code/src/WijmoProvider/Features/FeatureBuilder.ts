@@ -97,14 +97,6 @@ namespace WijmoProvider.Feature {
             return this;
         }
 
-        private _makeColumnReorder(enable: boolean): FeatureBuilder {
-            this._features.columnReorder = this._makeItem(
-                ColumnReorder,
-                enable
-            );
-            return this;
-        }
-
         private _makeColumnResize(enable: boolean): FeatureBuilder {
             this._features.columnResize = this._makeItem(ColumnResize, enable);
             return this;
@@ -138,6 +130,11 @@ namespace WijmoProvider.Feature {
 
         private _makeFreezePanes(): FeatureBuilder {
             this._features.columnFreeze = this._makeItem(ColumnFreeze);
+            return this;
+        }
+
+        private _makeGridReorder(enable: boolean): FeatureBuilder {
+            this._features.gridReorder = this._makeItem(GridReorder, enable);
             return this;
         }
 
@@ -230,7 +227,7 @@ namespace WijmoProvider.Feature {
                 ._makeToolTip()
                 ._makePagination(config.rowsPerPage)
                 ._makeSort(config.allowColumnSort)
-                ._makeColumnReorder(config.allowColumnReorder)
+                ._makeGridReorder(config.allowColumnReorder)
                 ._makeColumnResize(config.allowColumnResize)
                 ._makeTabNavigation(config.allowKeyTabNavigation)
                 ._makeAutoRowNumber()

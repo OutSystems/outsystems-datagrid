@@ -94,12 +94,14 @@ namespace WijmoProvider.Grid {
             return this._rowMetadata;
         }
 
-        public addColumn(col: OSFramework.Column.IColumn): void {
+        public addColumn(col: OSFramework.Column.IColumn): Promise<void> {
             super.addColumn(col);
 
             if (this.isReady) {
                 //OS takes a while to set the WidgetId
-                OSFramework.Helper.AsyncInvocation(col.build.bind(col));
+                return OSFramework.Helper.AsyncInvocationPromise(
+                    col.build.bind(col)
+                );
             }
         }
 
@@ -165,7 +167,7 @@ namespace WijmoProvider.Grid {
                 case OSFramework.Enum.OS_Config_Grid.rowHeight:
                     return this.features.styling.changeRowHeight(value);
                 case OSFramework.Enum.OS_Config_Grid.allowColumnReorder:
-                    return this.features.columnReorder.setState(value);
+                    return this.features.gridReorder.setState(value);
                 case OSFramework.Enum.OS_Config_Grid.allowColumnResize:
                     return this.features.columnResize.setState(value);
                 case OSFramework.Enum.OS_Config_Grid.allowKeyTabNavigation:
@@ -297,10 +299,10 @@ namespace WijmoProvider.Grid {
                 OSFramework.OSStructure.GridChanges
             );
 
-            if (this._features.validationMark.invalidRows.length > 0) {
+            if (this._features.validationMark.invalidRows.size > 0) {
                 changes.hasInvalidLines = true;
                 changes.invalidLinesJSON = this.dataSource.toOSFormat(
-                    this._features.validationMark.invalidRows
+                    Array.from(this._features.validationMark.invalidRows)
                 );
             }
 

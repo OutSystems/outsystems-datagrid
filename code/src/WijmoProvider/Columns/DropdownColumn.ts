@@ -132,7 +132,7 @@ namespace WijmoProvider.Column {
         }
 
         private _parentCellValueChangeHandler(
-            gridID: string,
+            _gridID: string,
             rowNumber: number,
             columnID: string,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -146,7 +146,7 @@ namespace WijmoProvider.Column {
                 const currentValue = this.grid.provider.getCellData(
                     rowNumber,
                     this.provider.index,
-                    true
+                    false
                 );
 
                 this.grid.features.dirtyMark.saveOriginalValue(
@@ -331,7 +331,7 @@ namespace WijmoProvider.Column {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public changeProperty(propertyName: string, propertyValue: any): void {
             switch (propertyName) {
-                case 'dropdownOptions':
+                case OSFramework.OSStructure.ColumnProperties.DropdownOptions:
                     // eslint-disable-next-line
                     const dataMap = this.config.dataMap as wijmo.grid.DataMap;
                     // eslint-disable-next-line

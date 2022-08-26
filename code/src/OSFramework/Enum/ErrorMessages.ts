@@ -20,6 +20,9 @@ namespace OSFramework.Enum {
         SuccessMessage = 'Success',
         UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.',
         AddRowGreaterThanPageSize = 'It seems that you are trying to add an invalid amount of rows. The NumberOfRows must be less or equal to the RowsPerPage.',
-        AddRowLowerThanOne = 'It seems that you are trying to add an invalid amount of rows. The NumberOfRows must greater than 0.'
+        AddRowExceedingPageSize = "You can't add this amount of rows on the selected row, because this client action only works with the visible page. You can either change the NumberOfRows amount or select another row.",
+        AddRowLowerThanOne = 'It seems that you are trying to add an invalid amount of rows. The NumberOfRows must greater than 0.',
+        ReorderRowWithActiveSort = "It seems you are trying to reorder rows when grid is sorted. Grid can't be sorted.",
+        ReorderRowOnGridWithCheckbox = 'It seems you are trying to reorder rows on a grid with checkboxes. This is not allowed'
     }
 }

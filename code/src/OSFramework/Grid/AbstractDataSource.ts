@@ -215,8 +215,24 @@ namespace OSFramework.Grid {
             }
         }
 
+        /**
+         * Set all values of object to be undefined.
+         * @param object Object to be changed
+         */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-        protected _getChangesString(itemsChanged: any): string {
+        protected _converter(object: any): void {
+            Object.keys(object).forEach((key) => {
+                if (_.isObject(object[key]) && Object.keys(object[key]).length)
+                    this._converter(object[key]);
+                else object[key] = undefined;
+            });
+        }
+
+        protected _getChangesString(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+            itemsChanged: any,
+            stringify = true
+        ): string {
             let tempArray = itemsChanged.map((p) => {
                 const clonedDataItem = _.cloneDeep(p);
                 this._parentGrid.rowMetadata.clear(clonedDataItem);
@@ -231,6 +247,10 @@ namespace OSFramework.Grid {
                 //if the line has a single entity or structure, let's flatten it, so that we avoid the developer
                 //when deserializing to need to put in the JSONDeserialize in the target "List Record {ENTITY}" -> would require extra step.
                 tempArray = FlattenArray(tempArray);
+            }
+
+            if (!stringify) {
+                return tempArray;
             }
 
             return JSON.stringify(tempArray);
@@ -257,18 +277,7 @@ namespace OSFramework.Grid {
                 ? parsedNewItem
                 : this._parentGrid.getStructureFromColumnBindings();
 
-            const converter = (object) => {
-                Object.keys(object).forEach((key) => {
-                    if (
-                        _.isObject(object[key]) &&
-                        Object.keys(object[key]).length
-                    )
-                        converter(object[key]);
-                    else object[key] = undefined;
-                });
-            };
-
-            converter(parsedNewItem);
+            this._converter(parsedNewItem);
 
             return parsedNewItem;
         }
@@ -299,7 +308,9 @@ namespace OSFramework.Grid {
                 this._setKeyBinding(data[i]);
             }
 
-            this._ds.splice(position, 0, ...data);
+            Helper.BatchArray(data, (chunk) =>
+                this._ds.splice(position, 0, ...chunk)
+            );
         }
 
         public flatten(): void {
@@ -369,8 +380,8 @@ namespace OSFramework.Grid {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public toOSFormat(dataItem: any): any {
-            return this._getChangesString([dataItem]);
+        public toOSFormat(dataItem: any, stringify = true): any {
+            return this._getChangesString([dataItem], stringify);
         }
 
         public trimSecondsFromDate(value: string): string {

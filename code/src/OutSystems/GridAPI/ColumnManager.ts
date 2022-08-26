@@ -1,8 +1,4 @@
-/**
- * Namespace that contains functions responsible for interactions with columns.
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace GridAPI.ColumnManager {
+namespace OutSystems.GridAPI.ColumnManager {
     const columnMap = new Map<string, string>(); //column.uniqueId -> grid.uniqueId
     const columnArr = new Array<OSFramework.Column.IColumn>();
 
@@ -18,29 +14,16 @@ namespace GridAPI.ColumnManager {
         ListOfColumnIDs: string
     ): string {
         PerformanceAPI.SetMark('ColumnManager.AddColumnToGroupPanel');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            const grid = GridManager.GetGridById(gridID);
-            grid.features.groupPanel.addColumnsToGroupPanel(ListOfColumnIDs);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedAddColumnToGroupPanel;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.Enum.ErrorCodes.API_FailedAddColumnToGroupPanel,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.groupPanel.addColumnsToGroupPanel(ListOfColumnIDs);
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnManager.AddColumnToGroupPanel-end');
         PerformanceAPI.GetMeasure(
@@ -49,7 +32,7 @@ namespace GridAPI.ColumnManager {
             'ColumnManager.AddColumnToGroupPanel-end'
         );
 
-        return JSON.stringify(responseObj);
+        return JSON.stringify(result);
     }
 
     /**
@@ -225,29 +208,15 @@ namespace GridAPI.ColumnManager {
         aggregate: number
     ): string {
         PerformanceAPI.SetMark('ColumnManager.SetColumnAggregate');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            const grid = GridManager.GetGridById(gridID);
-            grid.features.groupPanel.setAggregate(columnID, aggregate);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetColumnAggregate;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetColumnAggregate,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.groupPanel.setAggregate(columnID, aggregate);
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnManager.SetColumnAggregate-end');
         PerformanceAPI.GetMeasure(
@@ -256,7 +225,7 @@ namespace GridAPI.ColumnManager {
             'ColumnManager.SetColumnAggregate-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -274,32 +243,18 @@ namespace GridAPI.ColumnManager {
         allowMerge: boolean
     ): string {
         PerformanceAPI.SetMark('ColumnManager.AllowCellMerging');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            const grid = GridManager.GetGridById(gridID);
-            grid.features.columnMergeCells.mergeColumnCells(
-                columnID,
-                allowMerge
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedAllowCellMerging;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedAllowCellMerging,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.columnMergeCells.mergeColumnCells(
+                    columnID,
+                    allowMerge
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnManager.AllowCellMerging-end');
         PerformanceAPI.GetMeasure(
@@ -308,7 +263,7 @@ namespace GridAPI.ColumnManager {
             'ColumnManager.AllowCellMerging-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 
     /**
@@ -326,29 +281,16 @@ namespace GridAPI.ColumnManager {
         header: string
     ): string {
         PerformanceAPI.SetMark('ColumnManager.SetColumnHeader');
-
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message = OSFramework.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code = OSFramework.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            const grid = GridManager.GetGridById(gridID);
-            grid.features.column.setColumnHeader(columnID, header);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.Enum.ErrorCodes.API_FailedSetColumnHeader;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode: OSFramework.Enum.ErrorCodes.API_FailedSetColumnHeader,
+            callback: () => {
+                GridManager.GetGridById(gridID).features.column.setColumnHeader(
+                    columnID,
+                    header
+                );
+            }
+        });
 
         PerformanceAPI.SetMark('ColumnManager.SetColumnHeader-end');
         PerformanceAPI.GetMeasure(
@@ -357,6 +299,179 @@ namespace GridAPI.ColumnManager {
             'ColumnManager.SetColumnHeader-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
+    }
+}
+
+/**
+ * Namespace that contains functions responsible for interactions with columns.
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+namespace GridAPI.ColumnManager {
+    /**
+     * Add a given column to the grid group panel.
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {string} columnID ID of the Column block that will be programmatically added to the grid group panel.
+     */
+    export function AddColumnsToGroupPanel(
+        gridID: string,
+        ListOfColumnIDs: string
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnManager.AddColumnsToGroupPanel()'`
+        );
+        return OutSystems.GridAPI.ColumnManager.AddColumnsToGroupPanel(
+            gridID,
+            ListOfColumnIDs
+        );
+    }
+
+    /**
+     * Creates the column for the provider with the given configurations.
+     *
+     * @param {string} columnID id of the column with which actions on the column can be performed.
+     * @param {OSFramework.Enum.ColumnType} type type of column to be created.
+     * @param {string} [configs='{}'] configurations in JSON format.
+     * @param {string} [editorConfig='{}'] configurations to be used when the column is in edit mode.
+     * @returns {*}  {boolean} true if the column got created.
+     */
+    export function CreateColumn(
+        columnID: string,
+        type: OSFramework.Enum.ColumnType,
+        configs = '{}',
+        editorConfig = '{}'
+    ): boolean {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnManager.CreateColumn()'`
+        );
+        return OutSystems.GridAPI.ColumnManager.CreateColumn(
+            columnID,
+            type,
+            configs,
+            editorConfig
+        );
+    }
+
+    /**
+     * Returns a column based on ID
+     * @param columnID Column Id
+     */
+    export function GetColumnById(
+        columnID: string
+    ): OSFramework.Column.IColumn {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnManager.GetColumnById()'`
+        );
+        return OutSystems.GridAPI.ColumnManager.GetColumnById(columnID);
+    }
+
+    /**
+     * Changes the property of a given column.
+     *
+     * @export
+     * @param {string} columnID id of the column with which actions on the column can be performed.
+     * @param {string} propertyName name of the property to be changed - some properties of the provider might not work out of be box.
+     * @param {*} propertyValue value to which the property should be changed to.
+     */
+    export function ChangeProperty(
+        columnID: string,
+        propertyName: string,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+        propertyValue: any
+    ): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnManager.ChangeProperty()'`
+        );
+        return OutSystems.GridAPI.ColumnManager.ChangeProperty(
+            columnID,
+            propertyName,
+            propertyValue
+        );
+    }
+
+    /**
+     * Destroys the column
+     *
+     * @export
+     * @param {string} columnID id of the column with which actions on the column can be performed.
+     */
+    export function DestroyColumn(columnID: string): void {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnManager.DestroyColumn()'`
+        );
+        return OutSystems.GridAPI.ColumnManager.DestroyColumn(columnID);
+    }
+
+    /**
+     * Set column aggregate in group panel
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {string} columnID id of the column with which actions on the column can be performed.
+     * @param {number} aggregate aggregate that will be applied on group panel.
+     */
+    export function SetColumnAggregate(
+        gridID: string,
+        columnID: string,
+        aggregate: number
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnManager.SetColumnAggregate()'`
+        );
+        return OutSystems.GridAPI.ColumnManager.SetColumnAggregate(
+            gridID,
+            columnID,
+            aggregate
+        );
+    }
+
+    /**
+     *  Combines consecutive cells of a given grid column that have the same value into a single cell.
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} columnID
+     * @param {boolean} allowMerge
+     * @return {*}  {string}
+     */
+    export function MergeColumnCells(
+        gridID: string,
+        columnID: string,
+        allowMerge: boolean
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnManager.MergeColumnCells()'`
+        );
+        return OutSystems.GridAPI.ColumnManager.MergeColumnCells(
+            gridID,
+            columnID,
+            allowMerge
+        );
+    }
+
+    /**
+     *  Changes column header
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} columnID
+     * @param {string} header
+     * @return {*}  {string}
+     */
+    export function SetColumnHeader(
+        gridID: string,
+        columnID: string,
+        header: string
+    ): string {
+        OSFramework.Helper.LogWarningMessage(
+            `${OSFramework.Helper.warningMessage} 'OutSystems.GridAPI.ColumnManager.SetColumnHeader()'`
+        );
+        return OutSystems.GridAPI.ColumnManager.SetColumnHeader(
+            gridID,
+            columnID,
+            header
+        );
     }
 }

@@ -11,7 +11,7 @@ namespace WijmoProvider.Feature {
             OSFramework.Enum.RowMetadata.Validation;
         /** Array containing all invalid rows */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        private _invalidRows: Array<any>;
+        private _invalidRows: Set<any>;
         /** Exposed methods to manipulate RowMetadata */
         private _metadata: OSFramework.Interface.IRowMetadata;
 
@@ -19,7 +19,7 @@ namespace WijmoProvider.Feature {
             this._grid = grid;
             this._metadata = this._grid.rowMetadata;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            this._invalidRows = new Array<any>();
+            this._invalidRows = new Set<any>();
         }
 
         /**
@@ -44,22 +44,20 @@ namespace WijmoProvider.Feature {
                 .getColumns()
                 .find((item) => item.provider.index === column.index);
 
-            const newValue = s.getCellData(
-                e.row,
-                e.col,
-                OSColumn.columnType === OSFramework.Enum.ColumnType.Dropdown
-            );
+            const newValue = s.getCellData(e.row, e.col, false);
             // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
             const oldValue = this._grid.features.dirtyMark.getOldValue(
                 e.row,
                 column.binding
             );
-            this._triggerEventsFromColumn(
-                e.row,
-                OSColumn.uniqueId,
-                oldValue,
-                newValue
-            );
+            if (oldValue !== newValue) {
+                this._triggerEventsFromColumn(
+                    e.row,
+                    OSColumn.uniqueId,
+                    oldValue,
+                    newValue
+                );
+            }
         }
 
         /** Helper to convert the formats of Date and DateTime columns to the format of OS */
@@ -103,6 +101,27 @@ namespace WijmoProvider.Feature {
                 this._isInvalidRowByRowNumber(e.row)
             ) {
                 wijmo.addClass(e.cell, 'wj-state-invalid');
+            }
+        }
+
+        private _handleOnCellChangeEvent(
+            column: OSFramework.Column.IColumn,
+            rowNumber: number,
+            newValue: string,
+            oldValue: string
+        ): void {
+            if (
+                column.hasEvents &&
+                column.columnEvents.events.has(
+                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange
+                )
+            ) {
+                column.columnEvents.trigger(
+                    OSFramework.Event.Column.ColumnEventType.OnCellValueChange,
+                    this._convertToFormat(column, newValue),
+                    this._convertToFormat(column, oldValue),
+                    rowNumber
+                );
             }
         }
 
@@ -206,6 +225,30 @@ namespace WijmoProvider.Feature {
             }
         }
 
+        private _setCellStatus(
+            column: OSFramework.Column.IColumn,
+            rowNumber: number,
+            newValue: string
+        ): void {
+            if (column.config.isMandatory) {
+                let isValid = true;
+                if (
+                    newValue === '' ||
+                    newValue === undefined ||
+                    newValue === null
+                ) {
+                    isValid = false;
+                }
+                // Sets cell as valid or invalid depending on the newValue
+                this.setCellStatus(
+                    rowNumber,
+                    column.widgetId,
+                    isValid,
+                    column.config.errorMessage
+                );
+            }
+        }
+
         /**
          * Set invalid rows
          * @param rowNumber Number of the row to trigger the events
@@ -214,16 +257,13 @@ namespace WijmoProvider.Feature {
         private _setRowStatus(rowNumber: number, isValid: boolean): void {
             const dataItem = this._grid.provider.rows[rowNumber].dataItem;
 
-            if (this._invalidRows.indexOf(dataItem) === -1) {
+            if (!this._invalidRows.has(dataItem)) {
                 if (isValid === false) {
-                    this._invalidRows.push(dataItem);
+                    this._invalidRows.add(dataItem);
                 }
             } else {
                 if (isValid === true) {
-                    this._invalidRows.splice(
-                        this._invalidRows.indexOf(dataItem),
-                        1
-                    );
+                    this._invalidRows.delete(dataItem);
                 }
             }
         }
@@ -238,16 +278,13 @@ namespace WijmoProvider.Feature {
             const dataItem =
                 this._grid.provider.itemsSource.sourceCollection[rowIndex];
 
-            if (this._invalidRows.indexOf(dataItem) === -1) {
+            if (!this._invalidRows.has(dataItem)) {
                 if (isValid === false) {
-                    this._invalidRows.push(dataItem);
+                    this._invalidRows.add(dataItem);
                 }
             } else {
                 if (isValid === true) {
-                    this._invalidRows.splice(
-                        this._invalidRows.indexOf(dataItem),
-                        1
-                    );
+                    this._invalidRows.delete(dataItem);
                 }
             }
         }
@@ -270,39 +307,13 @@ namespace WijmoProvider.Feature {
             const column = this._grid.getColumn(columnUniqueID);
 
             if (column !== undefined) {
-                if (column.config.isMandatory) {
-                    let isValid = true;
-                    if (
-                        newValue === '' ||
-                        newValue === undefined ||
-                        newValue === null
-                    ) {
-                        isValid = false;
-                    }
-                    // Sets cell as valid or invalid depending on the newValue
-                    GridAPI.Cells.SetValidationStatus(
-                        this._grid.uniqueId,
-                        rowNumber,
-                        column.widgetId,
-                        isValid,
-                        column.config.errorMessage
-                    );
-                }
-                if (
-                    column.hasEvents &&
-                    column.columnEvents.events.has(
-                        OSFramework.Event.Column.ColumnEventType
-                            .OnCellValueChange
-                    )
-                ) {
-                    column.columnEvents.trigger(
-                        OSFramework.Event.Column.ColumnEventType
-                            .OnCellValueChange,
-                        this._convertToFormat(column, newValue),
-                        this._convertToFormat(column, oldValue),
-                        rowNumber
-                    );
-                }
+                this._setCellStatus(column, rowNumber, newValue);
+                this._handleOnCellChangeEvent(
+                    column,
+                    rowNumber,
+                    newValue,
+                    oldValue
+                );
             }
         }
 
@@ -374,7 +385,7 @@ namespace WijmoProvider.Feature {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public get invalidRows(): Array<any> {
+        public get invalidRows(): Set<any> {
             return this._invalidRows;
         }
 
@@ -407,7 +418,7 @@ namespace WijmoProvider.Feature {
          */
         public clear(): void {
             this._metadata.clearProperty(this._internalLabel);
-            this._invalidRows = [];
+            this._invalidRows = new Set();
             this._grid.provider.invalidate(); //Mark to be refreshed
         }
         /**
@@ -586,24 +597,24 @@ namespace WijmoProvider.Feature {
          * @param columnWidgetID ID of the Column block in which the action of validation should be triggered.
          * @param isValid Boolean that indicates whether the cell value meets a validation or data type rule. True, if the value conforms to the rule. False, otherwise.
          * @param errorMessage Message to be shown to the user when the value introduced is not valid.
+         * @param refresh Whether or not grid should be refreshed after validation. On use cases where this method is called multiple times, it's indicated to pass it as false
+         * and call Refresh after all validation.
          */
         public setCellStatus(
             rowNumber: number,
             columnWidgetID: string,
             isValid: boolean,
-            errorMessage: string
+            errorMessage: string,
+            refresh = true
         ): void {
-            const column =
-                GridAPI.ColumnManager.GetColumnById(columnWidgetID).provider;
+            const column = this._grid.getColumn(columnWidgetID).provider;
+            const metadata = this.getMetadataByRowNumber(rowNumber);
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
-            this.getMetadataByRowNumber(rowNumber).validation.set(
-                column.binding,
-                isValid
-            );
+            metadata.validation.set(column.binding, isValid);
 
             // Sets the errorMessage map by matching the binding of the columns with the error that indicates the error of the validation to be shown when this one is not valid.
-            this.getMetadataByRowNumber(rowNumber).errorMessage.set(
+            metadata.errorMessage.set(
                 column.binding,
                 // If the error message is empty we want to return the message -> Invalid [Column Name]
                 // Make sure all the end of lines from the error that comes from OS are replaced with <br>
@@ -618,8 +629,10 @@ namespace WijmoProvider.Feature {
                 isValid && !this._isInvalidRowByRowNumber(rowNumber)
             );
 
-            // Makes sure the grid gets refreshed after validation
-            this._grid.provider.invalidate();
+            if (refresh) {
+                // Makes sure the grid gets refreshed after validation
+                this._grid.provider.invalidate();
+            }
         }
 
         /**
@@ -635,8 +648,7 @@ namespace WijmoProvider.Feature {
             isValid: boolean,
             errorMessage: string
         ): void {
-            const column =
-                GridAPI.ColumnManager.GetColumnById(columnWidgetID).provider;
+            const column = this._grid.getColumn(columnWidgetID).provider;
 
             // Sets the validation map by matching the binding of the columns with the boolean that indicates whether theres is an invalid cell in the row or not.
             this.getMetadataByRowKey(rowKey).validation.set(

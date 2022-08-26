@@ -20,7 +20,7 @@ namespace WijmoProvider.Feature {
         }
 
         private _cellEditHandler(
-            grid: wijmo.grid.FlexGrid,
+            _grid: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
             this.saveOriginalValue(e.row, e.col);
@@ -54,10 +54,7 @@ namespace WijmoProvider.Feature {
             const grid = this._grid.provider;
             if (this.hasMetadata(row)) {
                 const binding = grid.getColumn(col).binding;
-                const columnType = this._grid.getColumn(binding)?.columnType;
-                const isDropdown =
-                    columnType === OSFramework.Enum.ColumnType.Dropdown;
-                const cellValue = grid.getCellData(row, col, isDropdown); // on dropdown columns we want formatted value
+                const cellValue = grid.getCellData(row, col, false);
                 const metadata = this.getMetadata(row);
 
                 //If the cell isNew we want to have the dirty mark
@@ -93,14 +90,11 @@ namespace WijmoProvider.Feature {
                 let notDirtyCells = 0;
 
                 for (const k of metadata.originalValues.keys()) {
-                    const columnType = this._grid.getColumn(k)?.columnType;
-                    const isDropdown =
-                        columnType === OSFramework.Enum.ColumnType.Dropdown;
                     // on dropdown columns we want formatted value
                     const cellValue = this._grid.provider.getCellData(
                         row,
                         k,
-                        isDropdown
+                        false
                     );
                     const originalValue = metadata.originalValues.get(k);
 
@@ -250,6 +244,10 @@ namespace WijmoProvider.Feature {
             );
         }
 
+        public isRowDirty(row: number): boolean {
+            return this._isDirtyRow(row);
+        }
+
         public saveOriginalValue(
             rowNumber: number,
             columnNumber: number
@@ -260,15 +258,12 @@ namespace WijmoProvider.Feature {
                 !this._isNewRow(rowNumber) &&
                 !this._hasCellInitialValue(rowNumber, binding)
             ) {
-                const columnType = this._grid.getColumn(binding)?.columnType;
-                const isDropdown =
-                    columnType === OSFramework.Enum.ColumnType.Dropdown;
                 this.getMetadata(rowNumber).originalValues.set(
                     binding,
                     this._grid.provider.getCellData(
                         rowNumber,
                         columnNumber,
-                        isDropdown
+                        false
                     )
                 );
             }

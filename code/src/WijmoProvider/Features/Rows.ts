@@ -13,8 +13,10 @@ namespace WijmoProvider.Feature {
             this._oldState = { action: 'remove', ...undoableItems };
             this._newState = undoableItems;
             const collectionView = grid.provider.itemsSource;
-            collectionView.trackChanges &&
-                collectionView.itemsAdded.push(...undoableItems.items);
+
+            OSFramework.Helper.BatchArray(undoableItems.items, (chunk) =>
+                collectionView.itemsAdded.push(...chunk)
+            );
         }
         // eslint-disable-next-line
         public applyState(state: any): void {
@@ -22,10 +24,14 @@ namespace WijmoProvider.Feature {
             if (collectionView) {
                 if (state.action === 'remove') {
                     //undo
-                    state.items.forEach((item) => {
-                        collectionView.remove(item);
-                        collectionView.trackChanges &&
+                    OSFramework.Helper.BatchArray(state.items, (chunk) => {
+                        collectionView.sourceCollection.splice(
+                            state.datasourceIdx,
+                            chunk.length
+                        );
+                        chunk.forEach((item) => {
                             collectionView.itemsAdded.remove(item);
+                        });
                     });
                 } else {
                     //redo
@@ -228,7 +234,10 @@ namespace WijmoProvider.Feature {
             return topRow === Infinity ? 0 : topRow;
         }
 
-        private _validateAddNewRow(rowsAmount: number): void {
+        private _validateAddNewRow(
+            rowsAmount: number,
+            topRowIndex: number
+        ): void {
             if (!this._canAddRows()) {
                 throw new Error(
                     OSFramework.Enum.ErrorMessages.AddRowWithActiveFilterOrSort
@@ -241,10 +250,21 @@ namespace WijmoProvider.Feature {
                 );
             }
 
+            // in client side validates if the amount of new rows exceeds in the current page
+            if (
+                this._grid.features.pagination.pageSize > 0 &&
+                rowsAmount + topRowIndex >
+                    this._grid.features.pagination.pageSize
+            ) {
+                throw new Error(
+                    OSFramework.Enum.ErrorMessages.AddRowExceedingPageSize
+                );
+            }
+
             // on serverSideGrids we don't have control of pageSize,
             // therefore we only want this validation on client side grids.
             if (
-                !this._grid.config.serverSidePagination &&
+                this._grid.features.pagination.pageSize > 0 &&
                 rowsAmount > this._grid.features.pagination.pageSize
             ) {
                 throw new Error(
@@ -272,13 +292,13 @@ namespace WijmoProvider.Feature {
 
         /**
          * Add a new row to the grid with all cells empty.
-         * @returns ReturnMessage containing the resulting code from the adding rows and the error message in case of failure.
+         * @returns Array containing the indices of the newly added rows.
          */
-        public addNewRows(rowsAmount: number): void {
-            this._validateAddNewRow(rowsAmount);
-
+        public addNewRows(rowsAmount: number): number[] {
             const providerGrid = this._grid.provider;
             const topRowIndex = this._getTopRow();
+
+            this._validateAddNewRow(rowsAmount, topRowIndex);
             // The datasource index of the selection's top row. Requires the page index and the page size.
             let dsTopRowIndex =
                 topRowIndex + this._grid.features.pagination.rowStart - 1;
@@ -301,14 +321,13 @@ namespace WijmoProvider.Feature {
 
             this._grid.dataSource.addRow(dsTopRowIndex, items);
 
+            const addedRowsNumber = [];
+
             // Trigger the event of adding the new row that will add the dirty mark to the added row
             for (let index = 0; index < quantity; index++) {
                 this._grid.addedRows.trigger(topRowIndex + index);
+                addedRowsNumber.push(topRowIndex + index);
             }
-
-            // Trigger the method responsible for setting the row as new in the metadata of the row
-            this._grid.addedRows.trigger(topRowIndex);
-
             // Makes sure the first cell from the recently added top row is selected.
             this._grid.features.selection.selectAndFocusFirstCell(topRowIndex);
 
@@ -347,6 +366,7 @@ namespace WijmoProvider.Feature {
                     OSFramework.Enum.ErrorMessages.AddRowErrorMessage
                 );
             }
+            return addedRowsNumber;
         }
 
         public build(): void {

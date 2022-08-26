@@ -4,6 +4,17 @@ namespace WijmoProvider.Grid {
         .AbstractDataSource {
         private _provider: wijmo.collections.CollectionView;
 
+        private _getDirtyEditedItems() {
+            const itemsSource = this._provider;
+            return itemsSource.itemsEdited.filter((editedItem) => {
+                const rowIndex = itemsSource.sourceCollection.findIndex(
+                    (item) => item === editedItem
+                );
+
+                return this._parentGrid.features.dirtyMark.isRowDirty(rowIndex);
+            });
+        }
+
         public addRow(position?: number, data?: JSON[]): void {
             super.addRow(position, data);
             this._provider.refresh();
@@ -40,10 +51,10 @@ namespace WijmoProvider.Grid {
                 itemsSource.itemsEdited.length > 0 &&
                 this.parentGrid.features.dirtyMark.isGridDirty
             ) {
+                const dirtyEditedItems = this._getDirtyEditedItems();
                 changes.hasChanges = true;
-                changes.editedLinesJSON = this._getChangesString(
-                    itemsSource.itemsEdited
-                );
+                changes.editedLinesJSON =
+                    this._getChangesString(dirtyEditedItems);
             }
 
             if (itemsSource.itemsRemoved.length > 0) {
