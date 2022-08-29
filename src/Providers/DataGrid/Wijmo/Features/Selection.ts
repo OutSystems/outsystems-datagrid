@@ -110,9 +110,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 this._selectionChanged.bind(this)
             );
 
-            this._grid.provider.updatingView.addHandler(
-                this._updatingView.bind(this)
-            );
+            if (this._grid.features.rowHeader.hasCheckbox) {
+                this._grid.provider.updatingView.addHandler(
+                    this._updatingView.bind(this)
+                );
+            }
 
             this._grid.provider.copying.addHandler(
                 this.equalizeSelection.bind(this)
