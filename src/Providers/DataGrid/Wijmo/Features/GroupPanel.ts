@@ -168,7 +168,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     );
                 }
 
-                column.provider.aggregate = wijmo.Aggregate[aggregate];
+                column.provider.aggregate = aggregate;
             } else {
                 throw new Error(
                     OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier

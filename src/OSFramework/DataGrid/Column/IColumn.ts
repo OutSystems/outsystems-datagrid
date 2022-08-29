@@ -23,13 +23,11 @@ namespace OSFramework.DataGrid.Column {
         /** Stores the uniqueId of the ParentColumn */
         parentColumnId: string;
         /** Stores the reference to the Provider's column instance */
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        provider: any;
+        provider: wijmo.grid.ColumnGroup;
         /** Returns the column index in the provider */
         providerIndex: number;
         /** Gets the provider's column type */
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        providerType: any;
+        providerType: wijmo.DataType;
         /** Gets the unique identifier */
         uniqueId: string;
         /** Gets the OS-Widget Id */
@@ -39,7 +37,7 @@ namespace OSFramework.DataGrid.Column {
         changeProperty(propertyName: string, propertyValue: any): void;
         /** Returns the configuration used to build column provider */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        getProviderConfig(): any;
+        getProviderConfig(): DataGrid.Types.IColumnProviderConfigs;
         /** Look to DOM searching for OS widget index inside the Structures.Grid
          * @returns -1 for no relation
          */

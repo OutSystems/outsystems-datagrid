@@ -9,7 +9,6 @@ namespace OSFramework.DataGrid.Configuration.Column {
          */
         public mask: string;
 
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(
             config: DataGrid.Types.IColumnConfigs,
             extra: DataGrid.Types.ITextColumnExtraConfigs
@@ -17,8 +16,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
             super(config, extra);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
             const config = super.getProviderConfig();
 
             //Mask and format can't have different values

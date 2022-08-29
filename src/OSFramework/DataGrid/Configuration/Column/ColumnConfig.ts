@@ -19,7 +19,6 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public canBeHidden: boolean;
         public conditionalFormat: Array<OSStructure.ConditionalFormat>;
         public cssClass: string;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public dataType: wijmo.DataType;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public editor: any;
@@ -44,7 +43,6 @@ namespace OSFramework.DataGrid.Configuration.Column {
             super(config);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
             // eslint-disable-next-line prefer-const
             let provider = {
@@ -74,7 +72,6 @@ namespace OSFramework.DataGrid.Configuration.Column {
             return provider;
         }
 
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public updateConfig(
             providerConfig: DataGrid.Types.IColumnProviderConfigs
         ): void {

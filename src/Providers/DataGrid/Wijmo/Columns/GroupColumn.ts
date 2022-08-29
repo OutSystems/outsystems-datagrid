@@ -126,13 +126,6 @@ namespace Providers.DataGrid.Wijmo.Column {
                     this.config.collapseTo
                 );
             }
-
-            providerConfig.columns = this._columns
-                //Sort based on index position
-                .sort((a, b) => a.indexPosition() - b.indexPosition())
-                //Return provider config
-                .map((p) => p.getProviderConfig());
-
             return providerConfig;
         }
 

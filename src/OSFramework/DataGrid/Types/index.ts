@@ -17,6 +17,10 @@ namespace OSFramework.DataGrid.Types {
         wordWrap: boolean;
     }
 
+    export interface IConfiguration {
+        [key: string]: any;
+    }
+
     /**
      * Provider Column confings
      */
@@ -24,8 +28,11 @@ namespace OSFramework.DataGrid.Types {
         allowDragging: boolean;
         allowResizing: boolean;
         allowSorting: boolean;
+        cellTemplate?: wijmo.grid.ICellTemplateFunction;
+        collapseTo?: string;
         dataMap?: any;
         dataMapEditor?: any;
+        isCollapsed?: boolean;
         isReadOnly: boolean;
         isRequired: boolean;
     }
@@ -98,7 +105,7 @@ namespace OSFramework.DataGrid.Types {
      * Dropdown column extra configs
      */
     export interface IDropdownColumnExtraConfigs extends ICommonExtraConfigs {
-        dataMap: { key: string; parentKey: string; text: string };
+        datamap: { key: string; parentKey: string; text: string };
         parentBinding: string;
     }
 
@@ -115,4 +122,11 @@ namespace OSFramework.DataGrid.Types {
      * Text column extra configs
      */
     export interface ITextColumnExtraConfigs extends ICommonExtraConfigs {}
+
+    /**
+     * Text column extra configs
+     */
+    export interface ICalculatedColumnExtraConfigs extends ICommonExtraConfigs {
+        formula: DataGrid.OSStructure.Formula;
+    }
 }
