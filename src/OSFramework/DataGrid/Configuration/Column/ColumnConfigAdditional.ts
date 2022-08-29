@@ -9,7 +9,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public formula: OSStructure.Formula;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        constructor(config: DataGrid.Types.ColumnConfigs, extraConfig: any) {
+        constructor(config: DataGrid.Types.IColumnConfigs, extraConfig: any) {
             super(config, extraConfig);
             this.formula = extraConfig.formula;
         }

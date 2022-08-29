@@ -6,7 +6,7 @@ namespace Providers.DataGrid.Wijmo.Column {
         constructor(
             grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
-            configs: OSFramework.DataGrid.Types.ColumnConfigs,
+            configs: OSFramework.DataGrid.Types.IColumnConfigs,
             editorConfig: OSFramework.DataGrid.Configuration.Column.EditorConfigCurrency
         ) {
             super(grid, columnID, configs, editorConfig);

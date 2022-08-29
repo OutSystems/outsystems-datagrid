@@ -27,7 +27,7 @@ namespace Providers.DataGrid.Wijmo.Column {
         constructor(
             grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
-            configs: OSFramework.DataGrid.Types.ColumnConfigs,
+            configs: OSFramework.DataGrid.Types.IColumnConfigs,
             editorConfig: T
         ) {
             super(

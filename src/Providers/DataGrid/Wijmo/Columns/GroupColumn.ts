@@ -9,8 +9,8 @@ namespace Providers.DataGrid.Wijmo.Column {
         constructor(
             grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
-            configs: OSFramework.DataGrid.Types.ColumnConfigs,
-            specific: OSFramework.DataGrid.Types.GroupColumnExtraConfigs
+            configs: OSFramework.DataGrid.Types.IColumnConfigs,
+            specific: OSFramework.DataGrid.Types.IGroupColumnExtraConfigs
         ) {
             super(
                 grid,

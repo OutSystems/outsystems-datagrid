@@ -11,8 +11,8 @@ namespace OSFramework.DataGrid.Configuration.Column {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(
-            config: DataGrid.Types.ColumnConfigs,
-            extra: DataGrid.Types.TextColumnExtraConfigs
+            config: DataGrid.Types.IColumnConfigs,
+            extra: DataGrid.Types.ITextColumnExtraConfigs
         ) {
             super(config, extra);
         }

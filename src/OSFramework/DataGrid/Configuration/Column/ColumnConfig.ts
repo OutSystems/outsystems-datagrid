@@ -38,14 +38,14 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public wordWrap: boolean;
 
         // eslint-disable-next-line
-        constructor(config: DataGrid.Types.ColumnConfigs) {
+        constructor(config: DataGrid.Types.IColumnConfigs) {
             // Remove any {} or [] that exist on the binding. In order to accept any format "{EntityName}.[FieldName]" or "EntityName.FieldName"
             config.binding = config.binding.replace(/[{}[\]]+/g, '');
             super(config);
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): DataGrid.Types.ColumnProviderConfigs {
+        public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
             // eslint-disable-next-line prefer-const
             let provider = {
                 binding: this.binding,
@@ -76,7 +76,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public updateConfig(
-            providerConfig: DataGrid.Types.ColumnProviderConfigs
+            providerConfig: DataGrid.Types.IColumnProviderConfigs
         ): void {
             this.visible = providerConfig.visible;
             this.width = providerConfig.width;

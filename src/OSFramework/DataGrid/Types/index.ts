@@ -3,7 +3,7 @@ namespace OSFramework.DataGrid.Types {
     /**
      * Column configs common properties between provider and OS
      */
-    type ColumnCommonConfigs = {
+    interface IColumnCommonConfigs {
         align: string;
         binding: string;
         cssClass: string;
@@ -15,12 +15,12 @@ namespace OSFramework.DataGrid.Types {
         visible: boolean;
         width: number;
         wordWrap: boolean;
-    };
+    }
 
     /**
      * Provider Column confings
      */
-    export type ColumnProviderConfigs = ColumnCommonConfigs & {
+    export interface IColumnProviderConfigs extends IColumnCommonConfigs {
         allowDragging: boolean;
         allowResizing: boolean;
         allowSorting: boolean;
@@ -28,12 +28,12 @@ namespace OSFramework.DataGrid.Types {
         dataMapEditor?: any;
         isReadOnly: boolean;
         isRequired: boolean;
-    };
+    }
 
     /**
      * OS column configs
      */
-    export type ColumnConfigs = ColumnCommonConfigs & {
+    export interface IColumnConfigs extends IColumnCommonConfigs {
         allowEdit: boolean;
         allowMerging: boolean;
         allowReorder: boolean;
@@ -49,65 +49,70 @@ namespace OSFramework.DataGrid.Types {
         required: boolean;
         uniqueId: string;
         validateBinding: boolean;
-    };
+    }
 
     /**
      * Base column extra configs
      */
-    export type ColumnExtraConfigs = {
+    export interface IColumnExtraConfigs {}
+
+    /**
+     * Base column extra configs
+     */
+    export interface ICommonExtraConfigs extends IColumnExtraConfigs {
         conditionalFormat: Array<OSStructure.ConditionalFormat>;
-    };
+    }
 
     /**
      * Checkbox column extra configs
      */
-    export type CheckboxColumnExtraConfigs = ColumnExtraConfigs;
+    export interface ICheckboxColumnExtraConfigs extends ICommonExtraConfigs {}
 
     /**
      * Currency column extra configs
      */
-    export type CurrencyColumnExtraConfigs = ColumnExtraConfigs & {
+    export interface ICurrencyColumnExtraConfigs extends ICommonExtraConfigs {
         decimalPlaces: number;
         symbol: boolean;
-    };
+    }
 
     /**
      * Number column extra configs
      */
-    export type NumberColumnExtraConfigs = ColumnExtraConfigs & {
+    export interface INumberColumnExtraConfigs extends ICommonExtraConfigs {
         decimalPlaces: number;
         hasThousandSeparator: boolean;
         maxValue: number;
         minValue: number;
         step: number;
-    };
+    }
 
     /**
      * Date/Datetime column extra configs
      */
-    export type DateColumnExtraConfigs = ColumnExtraConfigs & {
+    export interface IDateColumnExtraConfigs extends ICommonExtraConfigs {
         format: string;
-    };
+    }
 
     /**
      * Dropdown column extra configs
      */
-    export type DropdownColumnExtraConfigs = ColumnExtraConfigs & {
+    export interface IDropdownColumnExtraConfigs extends ICommonExtraConfigs {
         dataMap: { key: string; parentKey: string; text: string };
         parentBinding: string;
-    };
+    }
 
     /**
      * Group column extra configs
      */
-    export type GroupColumnExtraConfigs = ColumnExtraConfigs & {
+    export interface IGroupColumnExtraConfigs extends ICommonExtraConfigs {
         align: string;
         collapseTo: string;
         isCollapsed: boolean;
-    };
+    }
 
     /**
      * Text column extra configs
      */
-    export type TextColumnExtraConfigs = ColumnExtraConfigs;
+    export interface ITextColumnExtraConfigs extends ICommonExtraConfigs {}
 }
