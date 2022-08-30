@@ -24,13 +24,11 @@ namespace OSFramework.DataGrid.Configuration.Grid {
         public uniqueId: string;
         public validateEdits: boolean;
 
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        constructor(config: any) {
+        constructor(config: DataGrid.Types.IConfiguration) {
             super(config);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): DataGrid.Types.IGridProviderConfigs {
             // eslint-disable-next-line prefer-const
             let provider = {
                 autoGenerateColumns: this.autoGenerateColumns,

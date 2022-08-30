@@ -8,6 +8,6 @@ namespace OSFramework.DataGrid.Configuration {
         /**
          * Method responsible for the translation of configuration from OS to Provider
          */
-        getProviderConfig(): DataGrid.Types.IColumnProviderConfigs;
+        getProviderConfig(): DataGrid.Types.IProviderConfiguration;
     }
 }

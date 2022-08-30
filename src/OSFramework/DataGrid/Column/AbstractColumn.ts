@@ -186,9 +186,8 @@ namespace OSFramework.DataGrid.Column {
             );
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
-            return this._configs.getProviderConfig();
+        public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
+            return this._configs.getProviderConfig() as DataGrid.Types.IColumnProviderConfigs;
         }
 
         public indexPosition(): number {

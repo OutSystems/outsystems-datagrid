@@ -117,8 +117,7 @@ namespace Providers.DataGrid.Wijmo.Column {
             super.dispose();
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): OSFramework.DataGrid.Types.IColumnProviderConfigs {
             const providerConfig = super.getProviderConfig();
 
             if (this.config.collapseTo !== undefined) {

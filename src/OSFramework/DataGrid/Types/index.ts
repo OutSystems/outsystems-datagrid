@@ -18,7 +18,21 @@ namespace OSFramework.DataGrid.Types {
     }
 
     export interface IConfiguration {
+        //TODO: retornar IColumnConfig ou IGridConfig
         [key: string]: any;
+    }
+
+    export type IProviderConfiguration =
+        | IGridProviderConfigs
+        | IColumnProviderConfigs
+        | IEditorProviderConfigs;
+
+    export interface IGridProviderConfigs {
+        allowMerging: string;
+        autoGenerateColumns: boolean;
+        isReadOnly: boolean;
+        showSelectedHeaders: string;
+        validateEdits: boolean;
     }
 
     /**
@@ -35,6 +49,29 @@ namespace OSFramework.DataGrid.Types {
         isCollapsed?: boolean;
         isReadOnly: boolean;
         isRequired: boolean;
+    }
+
+    export interface IEditorProviderConfigs {}
+
+    /**
+     * Provider Column confings
+     */
+    export interface INumberColumnProviderConfigs
+        extends IEditorProviderConfigs {
+        format: string;
+        isRequired: boolean;
+        max: number;
+        min: number;
+        step: number;
+    }
+    /**
+     * Provider Column confings
+     */
+    export interface IDateColumnProviderConfigs extends IEditorProviderConfigs {
+        format: string;
+        isRequired: boolean;
+        max: Date;
+        min: Date;
     }
 
     /**

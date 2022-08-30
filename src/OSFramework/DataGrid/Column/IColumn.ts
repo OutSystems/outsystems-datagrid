@@ -36,7 +36,6 @@ namespace OSFramework.DataGrid.Column {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         changeProperty(propertyName: string, propertyValue: any): void;
         /** Returns the configuration used to build column provider */
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getProviderConfig(): DataGrid.Types.IColumnProviderConfigs;
         /** Look to DOM searching for OS widget index inside the Structures.Grid
          * @returns -1 for no relation

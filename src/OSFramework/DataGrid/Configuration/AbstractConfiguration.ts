@@ -6,7 +6,6 @@ namespace OSFramework.DataGrid.Configuration {
                 if (config[key] !== undefined) this[key] = config[key];
             }
         }
-
-        abstract getProviderConfig(): DataGrid.Types.IColumnProviderConfigs;
+        abstract getProviderConfig(): DataGrid.Types.IProviderConfiguration;
     }
 }
