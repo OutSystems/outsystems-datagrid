@@ -22,10 +22,7 @@ namespace OSFramework.DataGrid.Types {
         [key: string]: any;
     }
 
-    export type IProviderConfiguration =
-        | IGridProviderConfigs
-        | IColumnProviderConfigs
-        | IEditorProviderConfigs;
+    export type IProviderConfiguration<T> = T;
 
     export interface IGridProviderConfigs {
         allowMerging: string;
@@ -56,7 +53,7 @@ namespace OSFramework.DataGrid.Types {
     /**
      * Provider Column confings
      */
-    export interface INumberColumnProviderConfigs
+    export interface INumberEditorProviderConfigs
         extends IEditorProviderConfigs {
         format: string;
         isRequired: boolean;

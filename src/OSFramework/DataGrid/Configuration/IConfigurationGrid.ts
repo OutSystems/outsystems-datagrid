@@ -4,7 +4,8 @@ namespace OSFramework.DataGrid.Configuration {
      * Used to translate configurations from OS to Provider
      * Defines the basic structure for grid objects
      */
-    export interface IConfigurationGrid extends IConfiguration {
+    export interface IConfigurationGrid
+        extends IConfiguration<DataGrid.Types.IGridProviderConfigs> {
         /**
          Indicates if the grid is in editable mode
         */

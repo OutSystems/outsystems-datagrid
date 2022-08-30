@@ -5,7 +5,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
      * Defines the generic properties for a Column
      */
     export class ColumnConfig
-        extends AbstractConfiguration
+        extends AbstractConfiguration<DataGrid.Types.IColumnProviderConfigs>
         implements IConfigurationColumn
     {
         public align: string;
@@ -45,7 +45,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
 
         public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
             // eslint-disable-next-line prefer-const
-            let provider = {
+            let provider: DataGrid.Types.IColumnProviderConfigs = {
                 binding: this.binding,
                 header: this.header,
                 format: this.format,

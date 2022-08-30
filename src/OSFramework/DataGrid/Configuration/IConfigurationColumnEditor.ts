@@ -3,7 +3,8 @@ namespace OSFramework.DataGrid.Configuration {
     /**
      * Defines a basic interface for Custom column Editors
      */
-    export interface IConfigurationColumnEditor extends IConfiguration {
+    export interface IConfigurationColumnEditor
+        extends IConfiguration<DataGrid.Types.IEditorProviderConfigs> {
         conditionalFormat: Array<OSStructure.ConditionalFormat>;
         /** The format used to print data on screen.
          * This property is used only for data visualization.

@@ -4,7 +4,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
      * Defines the configuration for Group Columns
      */
     export class ColumnConfigGroup
-        extends AbstractConfiguration
+        extends AbstractConfiguration<DataGrid.Types.IColumnProviderConfigs>
         implements IConfigurationColumn
     {
         public align: string;
