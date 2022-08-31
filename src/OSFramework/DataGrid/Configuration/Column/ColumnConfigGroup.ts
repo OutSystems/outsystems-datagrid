@@ -39,7 +39,8 @@ namespace OSFramework.DataGrid.Configuration.Column {
             this.align = config.align;
         }
 
-        public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public getProviderConfig(): any {
             return {
                 header: this.header,
                 isCollapsed: this.isCollapsed,

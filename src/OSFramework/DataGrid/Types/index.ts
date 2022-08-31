@@ -3,19 +3,19 @@ namespace OSFramework.DataGrid.Types {
     /**
      * Column configs common properties between provider and OS
      */
-    type IColumnCommonConfigs = {
-        align?: string;
-        binding?: string;
-        cssClass?: string;
-        dataType?: wijmo.DataType;
-        editor?: any;
-        format?: string;
-        header?: string;
-        multiLine?: boolean;
-        visible?: boolean;
-        width?: number;
-        wordWrap?: boolean;
-    };
+    interface IColumnCommonConfigs {
+        align: string;
+        binding: string;
+        cssClass: string;
+        dataType: wijmo.DataType;
+        editor: any;
+        format: string;
+        header: string;
+        multiLine: boolean;
+        visible: boolean;
+        width: number;
+        wordWrap: boolean;
+    }
 
     export interface IConfiguration {
         //TODO: retornar IColumnConfig ou IGridConfig
@@ -35,18 +35,18 @@ namespace OSFramework.DataGrid.Types {
     /**
      * Provider Column confings
      */
-    export type IColumnProviderConfigs = IColumnCommonConfigs & {
-        allowDragging?: boolean;
-        allowResizing?: boolean;
-        allowSorting?: boolean;
+    export interface IColumnProviderConfigs extends IColumnCommonConfigs {
+        allowDragging: boolean;
+        allowResizing: boolean;
+        allowSorting: boolean;
         cellTemplate?: wijmo.grid.ICellTemplateFunction;
         collapseTo?: string;
         dataMap?: any;
         dataMapEditor?: any;
         isCollapsed?: boolean;
-        isReadOnly?: boolean;
-        isRequired?: boolean;
-    };
+        isReadOnly: boolean;
+        isRequired: boolean;
+    }
 
     export interface IEditorProviderConfigs {}
 
