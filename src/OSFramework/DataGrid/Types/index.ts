@@ -8,6 +8,7 @@ namespace OSFramework.DataGrid.Types {
         binding: string;
         cssClass: string;
         dataType: wijmo.DataType;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         editor: any;
         format: string;
         header: string;
