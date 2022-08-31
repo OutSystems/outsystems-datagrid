@@ -20,7 +20,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): DataGrid.Types.IDateColumnProviderConfigs {
+        public getProviderConfig(): DataGrid.Types.IDateEditorProviderConfigs {
             // eslint-disable-next-line prefer-const
             let provider = {
                 format: this.format,

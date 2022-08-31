@@ -4,7 +4,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
      * Defines the configuration for Group Columns
      */
     export class ColumnConfigGroup
-        extends AbstractConfiguration<DataGrid.Types.IColumnProviderConfigs>
+        extends AbstractConfiguration<DataGrid.Types.IColumnProviderConfiguration>
         implements IConfigurationColumn
     {
         public align: string;
@@ -40,7 +40,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): DataGrid.Types.IColumnGroupProviderConfigs {
             return {
                 header: this.header,
                 isCollapsed: this.isCollapsed,

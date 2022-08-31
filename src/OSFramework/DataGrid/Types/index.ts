@@ -22,8 +22,14 @@ namespace OSFramework.DataGrid.Types {
         [key: string]: any;
     }
 
+    /**
+     * Basic structure for all provider configuration
+     */
     export type IProviderConfiguration<T> = T;
 
+    /**
+     * Structure for grid provider configuration
+     */
     export interface IGridProviderConfigs {
         allowMerging: string;
         autoGenerateColumns: boolean;
@@ -33,9 +39,16 @@ namespace OSFramework.DataGrid.Types {
     }
 
     /**
-     * Provider Column confings
+     * Basic structure for all column provider configuration
      */
-    export interface IColumnProviderConfigs extends IColumnCommonConfigs {
+    export interface IColumnProviderConfiguration {}
+
+    /**
+     * Specific structure for Column provider configuration
+     */
+    export interface IColumnProviderConfigs
+        extends IColumnProviderConfiguration,
+            IColumnCommonConfigs {
         allowDragging: boolean;
         allowResizing: boolean;
         allowSorting: boolean;
@@ -47,11 +60,24 @@ namespace OSFramework.DataGrid.Types {
         isReadOnly: boolean;
         isRequired: boolean;
     }
+    /**
+     * Specific structure for group column provider configuration
+     */
+    export interface IColumnGroupProviderConfigs
+        extends IColumnProviderConfiguration {
+        align: string;
+        collapseTo: string;
+        header: string;
+        isCollapsed: boolean;
+    }
 
+    /**
+     * Specific structure for Column editor provider configuration
+     */
     export interface IEditorProviderConfigs {}
 
     /**
-     * Provider Column confings
+     * Specific structure for number column editor provider configuration
      */
     export interface INumberEditorProviderConfigs
         extends IEditorProviderConfigs {
@@ -61,10 +87,11 @@ namespace OSFramework.DataGrid.Types {
         min: number;
         step: number;
     }
+
     /**
-     * Provider Column confings
+     * Specific structure for date column editor provider configuration
      */
-    export interface IDateColumnProviderConfigs extends IEditorProviderConfigs {
+    export interface IDateEditorProviderConfigs extends IEditorProviderConfigs {
         format: string;
         isRequired: boolean;
         max: Date;
