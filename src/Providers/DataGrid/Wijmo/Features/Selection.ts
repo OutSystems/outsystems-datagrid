@@ -551,6 +551,43 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
+        public setRowAsSelected(
+            rowsIndex: number[],
+            isSelected = true
+        ): OSFramework.DataGrid.OSStructure.ReturnMessage {
+            try {
+                if (this._grid.features.rowHeader.hasCheckbox) {
+                    return {
+                        value: undefined,
+                        isSuccess: false,
+                        message: `Grids with RowCheckbox as RowHeader has this capability disabled.`,
+                        code: OSFramework.DataGrid.Enum.ErrorCodes
+                            .API_FailedSetRowAsSelected
+                    };
+                }
+
+                rowsIndex.forEach((index) => {
+                    this._grid.provider.rows[index].isSelected = isSelected;
+                });
+
+                return {
+                    value: rowsIndex,
+                    isSuccess: true,
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: undefined,
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedSetRowAsSelected
+                };
+            }
+        }
+
         public setState(value: wijmo.grid.SelectionMode): void {
             // wijmo.grid.SelectionMode.ListBox, Row and RowRange not supported yet,
             // there is a conflict with wijmo.grid.selector.Selector
