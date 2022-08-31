@@ -560,7 +560,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     return {
                         value: undefined,
                         isSuccess: false,
-                        message: `Grids with RowCheckbox as RowHeader has this capability disabled.`,
+                        message:
+                            OSFramework.DataGrid.Enum.ErrorMessages
+                                .SetRowAsSelected,
                         code: OSFramework.DataGrid.Enum.ErrorCodes
                             .API_FailedSetRowAsSelected
                     };
