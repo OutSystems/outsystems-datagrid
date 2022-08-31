@@ -24,7 +24,7 @@ namespace OSFramework.DataGrid.Configuration.Grid {
         public uniqueId: string;
         public validateEdits: boolean;
 
-        constructor(config: DataGrid.Types.IConfiguration) {
+        constructor(config: DataGrid.Types.IGridConfig) {
             super(config);
         }
 

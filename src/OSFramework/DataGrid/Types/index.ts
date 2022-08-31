@@ -17,9 +17,30 @@ namespace OSFramework.DataGrid.Types {
         wordWrap: boolean;
     }
 
-    export interface IConfiguration {
-        //TODO: retornar IColumnConfig ou IGridConfig
+    export type IConfiguration = {
         [key: string]: any;
+    };
+
+    export interface IGridConfig extends IConfiguration {
+        allowColumnReorder: boolean;
+        allowColumnResize: boolean;
+        allowColumnSort: boolean;
+        allowEdit: boolean;
+        allowFiltering: boolean;
+        allowGrouping: boolean;
+        allowKeyTabNavigation: boolean;
+        allowRowSelector: boolean;
+        autoGenerateColumns: boolean;
+        groupPanelId: string;
+        keyBinding: string;
+        rowHeader: number;
+        rowHeight: number;
+        rowsPerPage: number;
+        selectionMode: number;
+        serverSidePagination: boolean;
+        showAggregateValues: boolean;
+        uniqueId: string;
+        validateEdits: boolean;
     }
 
     /**
@@ -55,7 +76,7 @@ namespace OSFramework.DataGrid.Types {
         cellTemplate?: wijmo.grid.ICellTemplateFunction;
         collapseTo?: string;
         dataMap?: any;
-        dataMapEditor?: any;
+        dataMapEditor?: wijmo.grid.DataMapEditor;
         isCollapsed?: boolean;
         isReadOnly: boolean;
         isRequired: boolean;
@@ -166,8 +187,14 @@ namespace OSFramework.DataGrid.Types {
      * Dropdown column extra configs
      */
     export interface IDropdownColumnExtraConfigs extends ICommonExtraConfigs {
-        datamap: { key: string; parentKey: string; text: string };
+        datamap: IDropdownDataMap;
         parentBinding: string;
+    }
+
+    export interface IDropdownDataMap {
+        key: string;
+        parentKey: string;
+        text: string;
     }
 
     /**
@@ -185,7 +212,7 @@ namespace OSFramework.DataGrid.Types {
     export interface ITextColumnExtraConfigs extends ICommonExtraConfigs {}
 
     /**
-     * Text column extra configs
+     * Calculated column extra configs
      */
     export interface ICalculatedColumnExtraConfigs extends ICommonExtraConfigs {
         formula: DataGrid.OSStructure.Formula;
