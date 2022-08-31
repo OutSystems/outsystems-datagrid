@@ -18,6 +18,7 @@ namespace OSFramework.DataGrid.Types {
     }
 
     export type IConfiguration = {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         [key: string]: any;
     };
 
@@ -75,6 +76,7 @@ namespace OSFramework.DataGrid.Types {
         allowSorting: boolean;
         cellTemplate?: wijmo.grid.ICellTemplateFunction;
         collapseTo?: string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         dataMap?: any;
         dataMapEditor?: wijmo.grid.DataMapEditor;
         isCollapsed?: boolean;
