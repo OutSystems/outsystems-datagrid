@@ -88,6 +88,27 @@ namespace OutSystems.GridAPI.Selection {
         );
         return JSON.stringify(grid.features.selection.hasSelectedRows());
     }
+
+    export function SetRowAsSelected(
+        gridID: string,
+        rowsIndex: number[],
+        isSelected = true
+    ): string {
+        Performance.SetMark('Selection.SelectRows');
+
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
+        const grid = GridManager.GetGridById(gridID);
+
+        Performance.SetMark('Selection.SelectRows-end');
+        Performance.GetMeasure(
+            '@datagrid-Selection.SelectRows',
+            'Selection.SelectRows',
+            'Selection.SelectRows-end'
+        );
+        return JSON.stringify(
+            grid.features.selection.setRowAsSelected(rowsIndex, isSelected)
+        );
+    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -89,5 +89,16 @@ namespace OSFramework.DataGrid.Feature {
          * @param rowIndex index of the row where the first cell should be selected. If empty, the default value is the first row.
          */
         selectAndFocusFirstCell(rowIndex?: number): void;
+
+        /**
+         * Set a list of Grid rows as selected.
+         *
+         * @param rowsIndex list of rows index that will be set as selected
+         * @param isSelected Toggle selected to the given list of rows
+         */
+        setRowAsSelected(
+            rowsIndex: number[],
+            isSelected: boolean
+        ): OSStructure.ReturnMessage;
     }
 }
