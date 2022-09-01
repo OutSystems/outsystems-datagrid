@@ -11,7 +11,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public step: number;
 
         // eslint-disable-next-line
-        constructor(config: any) {
+        constructor(config: DataGrid.Types.INumberColumnExtraConfigs | OSFramework.DataGrid.Types.ICurrencyColumnExtraConfigs) {
             super(config);
 
             //When both are 0, seems that we receive the default value from OS
@@ -23,7 +23,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): DataGrid.Types.INumberEditorProviderConfigs {
             // eslint-disable-next-line prefer-const
             let provider = {
                 format: this.format,

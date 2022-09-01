@@ -4,7 +4,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
      * Defines the configuration for Group Columns
      */
     export class ColumnConfigGroup
-        extends AbstractConfiguration
+        extends AbstractConfiguration<DataGrid.Types.IColumnProviderConfiguration>
         implements IConfigurationColumn
     {
         public align: string;
@@ -29,8 +29,10 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public validateBinding: boolean;
         public visible: boolean;
 
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        constructor(config: any, extra: any) {
+        constructor(
+            config: DataGrid.Types.IColumnConfigs,
+            extra: DataGrid.Types.IGroupColumnExtraConfigs
+        ) {
             super(config);
             this.isCollapsed = extra.isCollapsed;
             this.collapseTo = extra.collapseTo;
@@ -38,7 +40,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): DataGrid.Types.IColumnGroupProviderConfigs {
             return {
                 header: this.header,
                 isCollapsed: this.isCollapsed,

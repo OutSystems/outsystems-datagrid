@@ -22,7 +22,6 @@ namespace Providers.DataGrid.Wijmo.Column {
             return this._provider;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         public set provider(provider: wijmo.grid.ColumnGroup) {
             this._provider = provider;
         }

@@ -5,8 +5,8 @@ namespace Providers.DataGrid.Wijmo.Column {
             grid: OSFramework.DataGrid.Grid.IGrid,
             type: OSFramework.DataGrid.Enum.ColumnType,
             columnID: string,
-            configs: JSON,
-            extraConfigs: JSON
+            configs: OSFramework.DataGrid.Types.IColumnConfigs,
+            extraConfigs: OSFramework.DataGrid.Types.IColumnExtraConfigs
         ): OSFramework.DataGrid.Column.IColumn {
             switch (type) {
                 case OSFramework.DataGrid.Enum.ColumnType.Action:
@@ -16,7 +16,7 @@ namespace Providers.DataGrid.Wijmo.Column {
                         grid,
                         columnID,
                         configs,
-                        extraConfigs
+                        extraConfigs as OSFramework.DataGrid.Types.ICheckboxColumnExtraConfigs
                     );
                 case OSFramework.DataGrid.Enum.ColumnType.Currency:
                     return new CurrencyColumn(
@@ -24,7 +24,7 @@ namespace Providers.DataGrid.Wijmo.Column {
                         columnID,
                         configs,
                         new OSFramework.DataGrid.Configuration.Column.EditorConfigCurrency(
-                            extraConfigs
+                            extraConfigs as OSFramework.DataGrid.Types.ICurrencyColumnExtraConfigs
                         )
                     );
                 case OSFramework.DataGrid.Enum.ColumnType.Date:
@@ -32,28 +32,28 @@ namespace Providers.DataGrid.Wijmo.Column {
                         grid,
                         columnID,
                         configs,
-                        extraConfigs
+                        extraConfigs as OSFramework.DataGrid.Types.IDateColumnExtraConfigs
                     );
                 case OSFramework.DataGrid.Enum.ColumnType.DateTime:
                     return new DateTimeColumn(
                         grid,
                         columnID,
                         configs,
-                        extraConfigs
+                        extraConfigs as OSFramework.DataGrid.Types.IDateColumnExtraConfigs
                     );
                 case OSFramework.DataGrid.Enum.ColumnType.Dropdown:
                     return new DropdownColumn(
                         grid,
                         columnID,
                         configs,
-                        extraConfigs
+                        extraConfigs as OSFramework.DataGrid.Types.IDropdownColumnExtraConfigs
                     );
                 case OSFramework.DataGrid.Enum.ColumnType.Group:
                     return new GroupColumn(
                         grid,
                         columnID,
                         configs,
-                        extraConfigs
+                        extraConfigs as OSFramework.DataGrid.Types.IGroupColumnExtraConfigs
                     );
                 case OSFramework.DataGrid.Enum.ColumnType.Number:
                     return new NumberColumn(
@@ -61,7 +61,7 @@ namespace Providers.DataGrid.Wijmo.Column {
                         columnID,
                         configs,
                         new OSFramework.DataGrid.Configuration.Column.EditorConfigNumber(
-                            extraConfigs
+                            extraConfigs as OSFramework.DataGrid.Types.INumberColumnExtraConfigs
                         )
                     );
                 case OSFramework.DataGrid.Enum.ColumnType.Calculated:
@@ -76,7 +76,7 @@ namespace Providers.DataGrid.Wijmo.Column {
                         grid,
                         columnID,
                         configs,
-                        extraConfigs
+                        extraConfigs as OSFramework.DataGrid.Types.ITextColumnExtraConfigs
                     );
                 default:
                     throw `There is no factory for this type of column (${type})`;

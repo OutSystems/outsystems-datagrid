@@ -10,7 +10,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public min: Date;
 
         // eslint-disable-next-line
-        constructor(config: any, isDateTime: boolean) {
+        constructor(config: DataGrid.Types.IDateColumnExtraConfigs, isDateTime: boolean) {
             super(config);
             this.defaultFormat = `${OutSystems.GridAPI.dateFormat}${
                 isDateTime ? ' HH:mm' : ''
@@ -20,7 +20,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): DataGrid.Types.IDateEditorProviderConfigs {
             // eslint-disable-next-line prefer-const
             let provider = {
                 format: this.format,

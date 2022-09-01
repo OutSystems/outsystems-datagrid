@@ -5,7 +5,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
      * Defines the generic properties for a Column
      */
     export class ColumnConfig
-        extends AbstractConfiguration
+        extends AbstractConfiguration<DataGrid.Types.IColumnProviderConfigs>
         implements IConfigurationColumn
     {
         public align: string;
@@ -19,8 +19,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public canBeHidden: boolean;
         public conditionalFormat: Array<OSStructure.ConditionalFormat>;
         public cssClass: string;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public dataType: any;
+        public dataType: wijmo.DataType;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public editor: any;
         public errorMessage: string;
@@ -38,16 +37,15 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public wordWrap: boolean;
 
         // eslint-disable-next-line
-        constructor(config: any) {
+        constructor(config: DataGrid.Types.IColumnConfigs) {
             // Remove any {} or [] that exist on the binding. In order to accept any format "{EntityName}.[FieldName]" or "EntityName.FieldName"
             config.binding = config.binding.replace(/[{}[\]]+/g, '');
             super(config);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
             // eslint-disable-next-line prefer-const
-            let provider = {
+            let provider: DataGrid.Types.IColumnProviderConfigs = {
                 binding: this.binding,
                 header: this.header,
                 format: this.format,
@@ -74,8 +72,9 @@ namespace OSFramework.DataGrid.Configuration.Column {
             return provider;
         }
 
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public updateConfig(providerConfig: any): void {
+        public updateConfig(
+            providerConfig: DataGrid.Types.IColumnProviderConfigs
+        ): void {
             this.visible = providerConfig.visible;
             this.width = providerConfig.width;
         }

@@ -9,8 +9,8 @@ namespace Providers.DataGrid.Wijmo.Column {
         constructor(
             grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
-            configs: JSON,
-            specific: JSON
+            configs: OSFramework.DataGrid.Types.IColumnConfigs,
+            specific: OSFramework.DataGrid.Types.IGroupColumnExtraConfigs
         ) {
             super(
                 grid,
@@ -117,8 +117,7 @@ namespace Providers.DataGrid.Wijmo.Column {
             super.dispose();
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): OSFramework.DataGrid.Types.IColumnProviderConfigs {
             const providerConfig = super.getProviderConfig();
 
             if (this.config.collapseTo !== undefined) {
@@ -126,13 +125,6 @@ namespace Providers.DataGrid.Wijmo.Column {
                     this.config.collapseTo
                 );
             }
-
-            providerConfig.columns = this._columns
-                //Sort based on index position
-                .sort((a, b) => a.indexPosition() - b.indexPosition())
-                //Return provider config
-                .map((p) => p.getProviderConfig());
-
             return providerConfig;
         }
 

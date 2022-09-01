@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.DataGrid.Configuration.Grid {
     export class FlexGridConfig
-        extends AbstractConfiguration
+        extends AbstractConfiguration<DataGrid.Types.IGridProviderConfigs>
         implements IConfigurationGrid
     {
         public allowColumnReorder: boolean;
@@ -24,15 +24,13 @@ namespace OSFramework.DataGrid.Configuration.Grid {
         public uniqueId: string;
         public validateEdits: boolean;
 
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        constructor(config: any) {
+        constructor(config: DataGrid.Types.IGridConfig) {
             super(config);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): DataGrid.Types.IGridProviderConfigs {
             // eslint-disable-next-line prefer-const
-            let provider = {
+            let provider: DataGrid.Types.IGridProviderConfigs = {
                 autoGenerateColumns: this.autoGenerateColumns,
                 allowMerging: 'Cells', // allow mergeCells API. This option does nothing, without the proper column config.
                 isReadOnly: this.allowEdit === false,

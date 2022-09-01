@@ -4,7 +4,7 @@ namespace Providers.DataGrid.Wijmo.Column {
         constructor(
             grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
-            configs: JSON
+            configs: OSFramework.DataGrid.Types.IColumnConfigs
         ) {
             super(
                 grid,
@@ -30,8 +30,7 @@ namespace Providers.DataGrid.Wijmo.Column {
             return wijmo.DataType.String;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public getProviderConfig(): any {
+        public getProviderConfig(): OSFramework.DataGrid.Types.IColumnProviderConfigs {
             const config = super.getProviderConfig();
 
             //Create cellTemplates only if a callback were provided
