@@ -22,6 +22,7 @@ namespace OSFramework.DataGrid.Feature {
         public pagination: IPagination;
         public rowHeader: IRowHeader;
         public rows: IRows;
+        public search: ISearch;
         public selection: ISelection;
         public sort: IColumnSort;
         public styling: IStyling;

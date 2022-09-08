@@ -469,20 +469,18 @@
 .datagrid-pagination-button {
     align-items: center;
     background: var(--datagrid-pagination-button-background);
-    border: var(--datagrid-pagination-button-border);
     border-radius: var(--datagrid-pagination-button-border-radius);
+    border: var(--datagrid-pagination-button-border);
     cursor: pointer;
     display: flex;
-    justify-content: center;
     height: var(--datagrid-pagination-button-height);
+    justify-content: center;
     margin-left: var(--datagrid-pagination-button-margin-left);
     width: var(--datagrid-pagination-button-width);
 
     -servicestudio-background: var(--datagrid-pagination-button-background);
+    -servicestudio-border-radius: var(--datagrid-pagination-button-border-radius);
     -servicestudio-border: var(--datagrid-pagination-button-border);
-    -servicestudio-border-radius: var(
-        --datagrid-pagination-button-border-radius
-    );
     -servicestudio-height: 32px;
     -servicestudio-margin-left: var(--datagrid-pagination-button-margin-left);
     -servicestudio-width: 32px;
@@ -506,7 +504,71 @@
     -servicestudio-padding: 0px;
 }
 
-/**** SEARCH BLOCK STYLE CLASSES ****/
+/**** SEARCHDATA BLOCK STYLE CLASSES ****/
+.datagrid-search-data {
+    height: 40px;
+
+    -servicestudio-background: var(--color-neutral-0);
+    -servicestudio-border-radius: var(--border-radius-soft);
+    -servicestudio-border: var(--border-size-s) solid var(--color-neutral-5);
+    -servicestudio-display: inline-block;
+    -servicestudio-overflow: hidden;
+    -servicestudio-padding: var(--space-s) var(--space-xl) var(--space-none) var(--space-base);
+    -servicestudio-position: relative;
+    -servicestudio-text-overflow: ellipsis;
+    -servicestudio-white-space: nowrap;
+    -servicestudio-width: 200px;
+}
+
+.datagrid-search-data:before {
+    -servicestudio-align-items: center;
+    -servicestudio-background: var(--color-neutral-4);
+    -servicestudio-border-left: var(--border-size-s) solid var(--color-neutral-5);
+    -servicestudio-border: 0;
+    -servicestudio-content: 'x';
+    -servicestudio-display: flex;
+    -servicestudio-font-size: var(--font-size-h6);
+    -servicestudio-font-weight: var(--font-semi-bold);
+    -servicestudio-height: 38px;
+    -servicestudio-justify-content: center;
+    -servicestudio-line-height: 0;
+    -servicestudio-position: absolute;
+    -servicestudio-right: 0;
+    -servicestudio-top: 0;
+    -servicestudio-width: 34px;
+}
+
+.datagrid-search-data.wj-control .wj-input-group .wj-form-control {
+    padding: var(--space-none) var(--space-base);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.datagrid-search-data.wj-content {
+    border: var(--border-size-s) solid var(--color-neutral-5);
+}
+
+.datagrid-search-data.wj-control .wj-input-group .wj-input-group-btn:last-child:not(:first-child) > .wj-btn,
+.datagrid-search-data.wj-viewer .wj-control .wj-input-group .wj-input-group-btn:last-child:not(:first-child) > .wj-applybutton {
+    border-left: var(--border-size-s) solid var(--color-neutral-5);
+}
+
+.datagrid-search-data.wj-control .wj-btn-group > .wj-btn.wj-btn-default:enabled,
+.datagrid-search-data.wj-viewer .wj-control .wj-btn-group > .wj-btn-default.wj-applybutton:enabled,
+.datagrid-search-data.wj-control .wj-input-group-btn > .wj-btn.wj-btn-default:enabled,
+.datagrid-search-data.wj-viewer .wj-control .wj-input-group-btn > .wj-btn-default.wj-applybutton:enabled {
+    background: var(--color-neutral-4);
+    color: var(--color-neutral-9);
+    font-size: var(--font-size-h6);
+    font-weight: var(--font-semi-bold);
+}
+
+.datagrid-search-data input::placeholder {
+    color: var(--color-neutral-7);
+}
+
+/**** DEPRECATED_SEARCH BLOCK STYLE CLASSES ****/
 
 .datagrid-search {
     align-items: stretch;
