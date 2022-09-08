@@ -161,6 +161,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return this;
         }
 
+        private _makeSearchData(): FeatureBuilder {
+            this._features.search = this._makeItem(Search);
+            return this;
+        }
+
         private _makeSelection(
             allowRowSelector: boolean,
             selectionMode: number
@@ -242,7 +247,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 ._makeColumnPicker()
                 ._makeColumnAggregate(config.showAggregateValues)
                 ._makeColumnMergeCells()
-                ._makeColumn();
+                ._makeColumn()
+                ._makeSearchData();
 
             super.build();
         }
