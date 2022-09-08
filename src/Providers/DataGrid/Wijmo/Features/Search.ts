@@ -20,7 +20,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         /**
-         * Function that will enable the search features on Grid
+         * Function that will enable the search feature on Grid
          *
          * @param gridId
          */
