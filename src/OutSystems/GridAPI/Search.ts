@@ -12,7 +12,7 @@ namespace OutSystems.GridAPI.Search {
         gridID: string,
         searchID: string,
         promptMessage: string
-    ): string {
+    ): void {
         Performance.SetMark('Search.search-data');
 
         GridManager.Events.Subscribe(
@@ -29,7 +29,5 @@ namespace OutSystems.GridAPI.Search {
             'Search.search-data',
             'Search.search-end'
         );
-
-        return;
     }
 }

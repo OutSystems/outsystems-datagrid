@@ -507,6 +507,35 @@
 /**** SEARCHDATA BLOCK STYLE CLASSES ****/
 .datagrid-search-data {
     height: 40px;
+
+    -servicestudio-background: var(--color-neutral-0);
+    -servicestudio-border-radius: var(--border-radius-soft);
+    -servicestudio-border: var(--border-size-s) solid var(--color-neutral-5);
+    -servicestudio-display: inline-block;
+    -servicestudio-overflow: hidden;
+    -servicestudio-padding: var(--space-s) var(--space-xl) var(--space-none) var(--space-base);
+    -servicestudio-position: relative;
+    -servicestudio-text-overflow: ellipsis;
+    -servicestudio-white-space: nowrap;
+    -servicestudio-width: 200px;
+}
+
+.datagrid-search-data:before {
+    -servicestudio-align-items: center;
+    -servicestudio-background: var(--color-neutral-4);
+    -servicestudio-border-left: var(--border-size-s) solid var(--color-neutral-5);
+    -servicestudio-border: 0;
+    -servicestudio-content: 'x';
+    -servicestudio-display: flex;
+    -servicestudio-font-size: var(--font-size-h6);
+    -servicestudio-font-weight: var(--font-semi-bold);
+    -servicestudio-height: 38px;
+    -servicestudio-justify-content: center;
+    -servicestudio-line-height: 0;
+    -servicestudio-position: absolute;
+    -servicestudio-right: 0;
+    -servicestudio-top: 0;
+    -servicestudio-width: 34px;
 }
 
 .datagrid-search-data.wj-control .wj-input-group .wj-form-control {
@@ -537,38 +566,6 @@
 
 .datagrid-search-data input::placeholder {
     color: var(--color-neutral-7);
-}
-
-/* Service Studio Preview */
-.datagrid-search-data {
-    -servicestudio-background: var(--color-neutral-0);
-    -servicestudio-border-radius: var(--border-radius-soft);
-    -servicestudio-border: var(--border-size-s) solid var(--color-neutral-5);
-    -servicestudio-display: inline-block;
-    -servicestudio-overflow: hidden;
-    -servicestudio-padding: var(--space-s) var(--space-xl) var(--space-none) var(--space-base);
-    -servicestudio-position: relative;
-    -servicestudio-text-overflow: ellipsis;
-    -servicestudio-white-space: nowrap;
-    -servicestudio-width: 200px;
-}
-
-.datagrid-search-data:before {
-    -servicestudio-align-items: center;
-    -servicestudio-background: var(--color-neutral-4);
-    -servicestudio-border-left: var(--border-size-s) solid var(--color-neutral-5);
-    -servicestudio-border: 0;
-    -servicestudio-content: 'x';
-    -servicestudio-display: flex;
-    -servicestudio-font-size: var(--font-size-h6);
-    -servicestudio-font-weight: var(--font-semi-bold);
-    -servicestudio-height: 38px;
-    -servicestudio-justify-content: center;
-    -servicestudio-line-height: 0;
-    -servicestudio-position: absolute;
-    -servicestudio-right: 0;
-    -servicestudio-top: 0;
-    -servicestudio-width: 34px;
 }
 
 /**** DEPRECATED_SEARCH BLOCK STYLE CLASSES ****/

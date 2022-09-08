@@ -10,8 +10,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
         constructor(private _grid: Grid.IGridWijmo) {}
 
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        public build(): void {}
+        public build(): void {
+            //
+        }
 
         public dispose(): void {
             if (this._searchData !== undefined) {
