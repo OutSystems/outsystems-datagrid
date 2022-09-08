@@ -24,6 +24,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public headerTooltip: string;
         public isCollapsed: boolean;
         public isMandatory: boolean;
+        public mask: string;
         public required: boolean;
         public uniqueId: string;
         public validateBinding: boolean;

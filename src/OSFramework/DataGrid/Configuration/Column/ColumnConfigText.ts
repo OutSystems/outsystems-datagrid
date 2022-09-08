@@ -12,6 +12,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(config: any, extra: any) {
             super(config, extra);
+            this.mask = extra.mask;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,6 +22,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
             //Mask and format can't have different values
             //Assuming a mask was defined, it should override format
             if (this.mask && this.mask !== this.format) {
+                config.mask = this.mask
                 delete config.format;
             }
 

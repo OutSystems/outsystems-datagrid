@@ -29,6 +29,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public header: string;
         public headerTooltip: string;
         public isMandatory: boolean;
+        public mask: string;
         public multiLine: boolean;
         public required: boolean;
         public uniqueId: string;

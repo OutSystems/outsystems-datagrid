@@ -38,6 +38,7 @@ namespace OSFramework.DataGrid.Configuration {
         headerTooltip: string;
         /** Wether or not column is mandatory*/
         isMandatory: boolean;
+        mask: string;
         /** Defines when the column can or not be empty */
         required: boolean;
         /**

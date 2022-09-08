@@ -146,6 +146,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return this;
         }
 
+        private _makeMask(): FeatureBuilder {
+            this._features.mask = this._makeItem(Mask);
+            return this;
+        }
+
         private _makePagination(pageSize: number): FeatureBuilder {
             this._features.pagination = this._makeItem(Pagination, pageSize);
             return this;
@@ -242,7 +247,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 ._makeColumnPicker()
                 ._makeColumnAggregate(config.showAggregateValues)
                 ._makeColumnMergeCells()
-                ._makeColumn();
+                ._makeColumn()
+                ._makeMask();
 
             super.build();
         }

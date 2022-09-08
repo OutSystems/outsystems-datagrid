@@ -19,6 +19,7 @@ namespace OSFramework.DataGrid.Feature {
         public filter: IColumnFilter;
         public gridReorder: IGridReorder;
         public groupPanel: IGroupPanel;
+        public mask: IMask;
         public pagination: IPagination;
         public rowHeader: IRowHeader;
         public rows: IRows;
