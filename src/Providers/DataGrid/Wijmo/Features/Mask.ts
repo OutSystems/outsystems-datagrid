@@ -23,7 +23,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 mask !== '' &&
                 typeof(value) === "string"
             ) {
-                grid.setCellData(e.row, e.col, value.replace(/\D+/g, '')); // store the value just with digits
+                grid.setCellData(e.row, e.col, value.replace(/\D+/g, ''), false); // store the value just with digits
             }
         }
 
