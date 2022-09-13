@@ -29,8 +29,16 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         state.datasourceIdx,
                         state.items.length
                     );
+
+                    // our index is the existing itemsAdded length minus state.items.
+                    // so if want to remove 3 items and we have 12 in itemsAdded.
+                    // we want to remove the last 3, so our starting index is 12 (itemsAdded.length) - 3 (state.items.length)
+                    // which is 9.
+                    const startingIndex =
+                        collectionView.itemsAdded.length - state.items.length;
+
                     collectionView.itemsAdded.splice(
-                        state.items.length,
+                        startingIndex,
                         state.items.length
                     );
                 } else {
