@@ -25,17 +25,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
             if (collectionView) {
                 if (state.action === 'remove') {
                     //undo
-                    OSFramework.DataGrid.Helper.BatchArray(
-                        state.items,
-                        (chunk) => {
-                            collectionView.sourceCollection.splice(
-                                state.datasourceIdx,
-                                chunk.length
-                            );
-                            chunk.forEach((item) => {
-                                collectionView.itemsAdded.remove(item);
-                            });
-                        }
+                    collectionView.sourceCollection.splice(
+                        state.datasourceIdx,
+                        state.items.length
+                    );
+                    collectionView.itemsAdded.splice(
+                        state.items.length,
+                        state.items.length
                     );
                 } else {
                     //redo
