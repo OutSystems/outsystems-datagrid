@@ -25,12 +25,28 @@ namespace Providers.DataGrid.Wijmo.Feature {
          *
          * @param gridId
          */
-        public searchData(searchID: string, promptMessage: string): void {
+        public searchData(
+            searchID: string,
+            promptMessage: string,
+            resultsHighlight: boolean
+        ): void {
             this._searchData = new wijmo.grid.search.FlexGridSearch(
                 '#' + searchID,
                 {
                     placeholder: promptMessage,
-                    grid: this._grid.provider
+                    grid: this._grid.provider,
+                    cssMatch: resultsHighlight ? 'wj-state-match' : ''
+                }
+            );
+
+            // Trigger the searchDone platform event to enable / disable the results message
+            this._grid.provider.collectionView.collectionChanged.addHandler(
+                () => {
+                    this._grid.gridEvents.trigger(
+                        OSFramework.DataGrid.Event.Grid.GridEventType
+                            .SearchEnded,
+                        this._grid
+                    );
                 }
             );
         }
