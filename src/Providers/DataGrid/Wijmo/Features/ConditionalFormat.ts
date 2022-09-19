@@ -13,8 +13,92 @@ namespace Providers.DataGrid.Wijmo.Feature {
         EndWith = 'EndWith'
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function FormatDate(comparedValue: any, cellValue: any) {
+    type Cell = {
+        col: number;
+        row: number;
+    };
+
+    type CellValue = string | number | boolean | Date | undefined;
+
+    abstract class ConditionExecuter {
+        protected _grid: Grid.IGridWijmo;
+        public conditions: Array<ConditionAnd>;
+
+        constructor(conditions: Array<ConditionAnd>, grid: Grid.IGridWijmo) {
+            this.conditions = conditions;
+            this._grid = grid;
+        }
+
+        private _sortConditions(
+            cellValue: CellValue,
+            columnType?: OSFramework.DataGrid.Enum.ColumnType
+        ) {
+            return this.conditions
+                .map((condition) => {
+                    return {
+                        isTrue: condition.evaluate(cellValue, columnType), // add new property telling whether condition is true or false
+                        ...condition
+                    };
+                })
+                .sort((a, b) => +a.isTrue - +b.isTrue);
+        }
+
+        public execute(
+            cellValue: CellValue,
+            e: Cell | wijmo.grid.FormatItemEventArgs,
+            columnType?: OSFramework.DataGrid.Enum.ColumnType
+        ) {
+            const sortedConditions = this._sortConditions(
+                cellValue,
+                columnType
+            );
+            sortedConditions // sort conditions by true/false
+                .forEach((condition) => {
+                    const binding = this._grid.provider.getColumn(
+                        e.col
+                    ).binding;
+
+                    const cellElement =
+                        e instanceof wijmo.grid.FormatItemEventArgs
+                            ? e.cell
+                            : undefined;
+
+                    this._addOrRemoveRowClass({
+                        columnBinding: binding,
+                        rowClass: condition.rowClass,
+                        rowNumber: e.row,
+                        shouldAdd: condition.isTrue,
+                        cellElement
+                    });
+
+                    this._addOrRemoveCellClass({
+                        columnBinding: binding,
+                        cellClass: condition.cellClass,
+                        rowNumber: e.row,
+                        shouldAdd: condition.isTrue,
+                        cellElement
+                    });
+                });
+        }
+
+        protected abstract _addOrRemoveCellClass(cellClass: {
+            cellClass: string;
+            cellElement?: HTMLElement;
+            columnBinding?: string;
+            rowNumber?: number;
+            shouldAdd: boolean;
+        });
+
+        protected abstract _addOrRemoveRowClass(rowClass: {
+            cellElement?: HTMLElement;
+            columnBinding?: string;
+            rowClass: string;
+            rowNumber?: number;
+            shouldAdd: boolean;
+        });
+    }
+
+    function FormatDate(comparedValue: string, cellValue: Date) {
         // Whenever we have null dates coming from OS, it has a different timezone than today's
         // this is the way JS handles dates before 1911: "historical timezone offsets are applied, prior to about 1900 most were not even hour or half hour offsets."
         // so we must ensure that our compared value (OS Null date) has this GMT as well.
@@ -48,13 +132,16 @@ namespace Providers.DataGrid.Wijmo.Feature {
      * Evaluates number and date cells
      *
      */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function Evaluate(operator: Rules, comparedValue: any, cellValue: any = 0) {
+    function Evaluate(
+        operator: Rules,
+        comparedValue: CellValue,
+        cellValue: CellValue
+    ) {
         // in case we are comparing dates
-        if (cellValue && typeof cellValue.getMonth === 'function') {
+        if (cellValue && typeof (cellValue as Date).getMonth === 'function') {
             const [formattedComparedValue, formattedCellValue] = FormatDate(
-                comparedValue,
-                cellValue
+                comparedValue as string,
+                cellValue as Date
             );
 
             cellValue = formattedCellValue;
@@ -138,7 +225,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public evaluate(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             cellValue: any,
-            columnType: OSFramework.DataGrid.Enum.ColumnType
+            columnType?: OSFramework.DataGrid.Enum.ColumnType
         ): boolean {
             const evaluated = this.rules.map((rule) => {
                 if (
@@ -156,13 +243,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
     }
 
-    class ConditionExecuter {
-        private _grid: Grid.IGridWijmo;
-        public conditions: Array<ConditionAnd>;
-
+    class ColumnConditionExecuter extends ConditionExecuter {
         constructor(conditions: Array<ConditionAnd>, grid: Grid.IGridWijmo) {
-            this.conditions = conditions;
-            this._grid = grid;
+            super(conditions, grid);
         }
 
         /**
@@ -172,12 +255,17 @@ namespace Providers.DataGrid.Wijmo.Feature {
          * @param rowNumber
          * @param shouldAdd
          */
-        private _addOrRemoveCellClass(
-            columnBinding: string,
-            cellClass: string,
-            rowNumber: number,
-            shouldAdd: boolean
-        ) {
+        protected _addOrRemoveCellClass({
+            cellClass,
+            columnBinding,
+            rowNumber,
+            shouldAdd
+        }: {
+            cellClass: string;
+            columnBinding: string;
+            rowNumber: number;
+            shouldAdd: boolean;
+        }) {
             if (cellClass) {
                 if (shouldAdd) {
                     this._grid.features.cellStyle.addClass(
@@ -202,12 +290,17 @@ namespace Providers.DataGrid.Wijmo.Feature {
          * @param rowNumber
          * @param shouldAdd
          */
-        private _addOrRemoveRowClass(
-            columnBinding: string,
-            rowClass: string,
-            rowNumber: number,
-            shouldAdd: boolean
-        ) {
+        protected _addOrRemoveRowClass({
+            columnBinding,
+            rowClass,
+            rowNumber,
+            shouldAdd
+        }: {
+            columnBinding: string;
+            rowClass: string;
+            rowNumber: number;
+            shouldAdd: boolean;
+        }) {
             if (rowClass) {
                 if (shouldAdd) {
                     this._grid.features.rows.addClass(
@@ -226,41 +319,46 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 }
             }
         }
+    }
 
-        public execute(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            cellValue: any,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            e: any,
-            columnType: OSFramework.DataGrid.Enum.ColumnType
-        ) {
-            this.conditions
-                .map((condition) => {
-                    return {
-                        isTrue: condition.evaluate(cellValue, columnType), // add new property telling whether condition is true or false
-                        ...condition
-                    };
-                })
-                .sort((a, b) => +a.isTrue - +b.isTrue) // sort conditions by true/false
-                .forEach((condition) => {
-                    const binding = this._grid.provider.getColumn(
-                        e.col
-                    ).binding;
+    class ColumnAggregateConditionExecuter extends ConditionExecuter {
+        constructor(conditions: Array<ConditionAnd>, grid: Grid.IGridWijmo) {
+            super(conditions, grid);
+        }
 
-                    this._addOrRemoveRowClass(
-                        binding,
-                        condition.rowClass,
-                        e.row,
-                        condition.isTrue
-                    );
-
-                    this._addOrRemoveCellClass(
-                        binding,
-                        condition.cellClass,
-                        e.row,
-                        condition.isTrue
-                    );
-                });
+        protected _addOrRemoveCellClass({
+            cellElement,
+            cellClass,
+            shouldAdd
+        }: {
+            cellClass: string;
+            cellElement: HTMLElement;
+            shouldAdd: boolean;
+        }) {
+            if (cellClass) {
+                if (shouldAdd) {
+                    wijmo.addClass(cellElement, cellClass);
+                } else {
+                    wijmo.removeClass(cellElement, cellClass);
+                }
+            }
+        }
+        protected _addOrRemoveRowClass({
+            cellElement,
+            rowClass,
+            shouldAdd
+        }: {
+            cellElement: HTMLElement;
+            rowClass: string;
+            shouldAdd: boolean;
+        }) {
+            if (rowClass) {
+                if (shouldAdd) {
+                    wijmo.addClass(cellElement.parentElement, rowClass);
+                } else {
+                    wijmo.removeClass(cellElement.parentElement, rowClass);
+                }
+            }
         }
     }
 
@@ -270,21 +368,55 @@ namespace Providers.DataGrid.Wijmo.Feature {
             OSFramework.DataGrid.Interface.IBuilder
     {
         private _grid: Grid.IGridWijmo;
-        private _mappedRules: Map<string, ConditionExecuter>;
+        private _mappedRulesColumn: Map<string, ColumnConditionExecuter>;
+        private _mappedRulesColumnAggregate: Map<
+            string,
+            ColumnAggregateConditionExecuter
+        >;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
-            this._mappedRules = new Map<string, ConditionExecuter>();
+            this._mappedRulesColumn = new Map<
+                string,
+                ColumnConditionExecuter
+            >();
+            this._mappedRulesColumnAggregate = new Map<
+                string,
+                ColumnAggregateConditionExecuter
+            >();
+        }
+        private _formatItemHandler(
+            s: wijmo.grid.FlexGrid,
+            e: wijmo.grid.FormatItemEventArgs
+        ) {
+            if (e.panel === s.columnFooters) {
+                const col = s.columns[e.col];
+
+                const aggregateColumn = this._mappedRulesColumnAggregate.get(
+                    col.binding
+                );
+
+                if (aggregateColumn) {
+                    const value = parseInt(e.cell.innerHTML);
+
+                    aggregateColumn.execute(value, e);
+                }
+            }
         }
 
-        private _parseRule(
-            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>
-        ): ConditionExecuter {
+        private _parseRule<T extends ConditionExecuter>(
+            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>,
+            type: {
+                new (conditions: Array<ConditionAnd>, grid: Grid.IGridWijmo): T;
+            }
+        ): T {
             const conditionExecuters = [];
+
             rules.forEach((element) => {
                 const conditions: Array<Condition> = element.format.map((c) => {
                     return new Condition(Rules[c.condition], c.value);
                 });
+
                 const conditionAnds = new ConditionAnd(
                     element.cellClass,
                     element.rowClass,
@@ -292,14 +424,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 );
                 conditionExecuters.push(conditionAnds);
             });
-            return new ConditionExecuter(conditionExecuters, this._grid);
-        }
 
+            return new type(conditionExecuters, this._grid);
+        }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
         private _updatingViewHandler(s: any, e: any) {
             const columns = this._grid
                 .getColumns()
-                .filter((x) => this._mappedRules.get(x.config.binding));
+                .filter((x) => this._mappedRulesColumn.get(x.config.binding));
 
             // iterate all rows and columns in order to get cell values
             s.rows.forEach((row, index) => {
@@ -317,7 +449,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         isDropdown // on dropdown columns we want formatted value
                     );
 
-                    this._mappedRules.get(column.config.binding).execute(
+                    this._mappedRulesColumn.get(column.config.binding).execute(
                         value,
                         {
                             row: index,
@@ -327,6 +459,22 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     );
                 });
             });
+        }
+
+        public addAggregateRules(
+            binding: string,
+            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>,
+            refresh?: boolean
+        ): void {
+            this._mappedRulesColumnAggregate.set(
+                binding,
+                this._parseRule<ColumnAggregateConditionExecuter>(
+                    rules,
+                    ColumnAggregateConditionExecuter
+                )
+            );
+
+            this._grid.provider.invalidate();
         }
 
         public addRules(
@@ -340,17 +488,27 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 this._grid.features.rows.clear();
             }
 
-            this._mappedRules.set(binding, this._parseRule(rules));
+            this._mappedRulesColumn.set(
+                binding,
+                this._parseRule<ColumnConditionExecuter>(
+                    rules,
+                    ColumnConditionExecuter
+                )
+            );
         }
 
         public build(): void {
             this._grid.provider.updatingView.addHandler(
                 this._updatingViewHandler.bind(this)
             );
+
+            this._grid.provider.formatItem.addHandler(
+                this._formatItemHandler.bind(this)
+            );
         }
 
         public removeRules(binding: string): void {
-            this._mappedRules.delete(binding);
+            this._mappedRulesColumn.delete(binding);
         }
     }
 }
