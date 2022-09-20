@@ -7,7 +7,7 @@ namespace OSFramework.DataGrid.Feature {
         searchData(
             searchId: string,
             promptMessage: string,
-            resultsHighlight: boolean
+            highlightResults: boolean
         ): void;
     }
 }

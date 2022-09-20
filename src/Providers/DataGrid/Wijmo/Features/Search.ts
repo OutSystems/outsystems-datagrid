@@ -28,14 +28,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public searchData(
             searchID: string,
             promptMessage: string,
-            resultsHighlight: boolean
+            highlightResults: boolean
         ): void {
             this._searchData = new wijmo.grid.search.FlexGridSearch(
                 '#' + searchID,
                 {
                     placeholder: promptMessage,
                     grid: this._grid.provider,
-                    cssMatch: resultsHighlight ? 'wj-state-match' : ''
+                    cssMatch: highlightResults ? 'wj-state-match' : ''
                 }
             );
 

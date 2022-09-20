@@ -12,7 +12,7 @@ namespace OutSystems.GridAPI.Search {
         gridID: string,
         searchID: string,
         promptMessage: string,
-        resultsHighlight: boolean
+        highlightResults: boolean
     ): void {
         Performance.SetMark('Search.search-data');
 
@@ -23,7 +23,7 @@ namespace OutSystems.GridAPI.Search {
                 gridObj.features.search.searchData(
                     searchID,
                     promptMessage,
-                    resultsHighlight
+                    highlightResults
                 );
             }
         );
