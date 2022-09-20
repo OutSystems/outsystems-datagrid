@@ -70,6 +70,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
         }
 
+        private _updateCaller = () => this._update();
+
         public build(): void {
             this._view.pageSize = this._pageSize;
 
@@ -82,7 +84,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 this._grid.features.undoStack.closeAction(PaginationAction)
             );
 
-            this._view.collectionChanged.addHandler(() => this._update());
+            this._view.collectionChanged.addHandler(this._updateCaller);
         }
 
         public get rowStart(): number {
@@ -197,6 +199,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         public dispose(): void {
+            this._view.collectionChanged.removeHandler(this._updateCaller);
             this._view = undefined;
         }
 
