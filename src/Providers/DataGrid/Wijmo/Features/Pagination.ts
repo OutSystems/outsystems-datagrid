@@ -70,6 +70,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
         }
 
+        // Assign an arrow function to remove the handler on dispose
         private _updateCaller = () => this._update();
 
         public build(): void {
