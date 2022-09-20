@@ -139,7 +139,7 @@ namespace OutSystems.GridAPI.Cells {
         }
 
         const grid = GridManager.GetGridById(gridID);
-        const column = ColumnManager.GetColumnById(columnID, gridID);
+        const column = grid.getColumn(columnID);
 
         if (column === undefined) {
             responseObj.isSuccess = false;
