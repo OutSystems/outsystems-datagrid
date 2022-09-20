@@ -21,7 +21,8 @@ namespace OutSystems.GridAPI.ConditionalFormat {
                 );
                 gridObj.features.conditionalFormat.addAggregateRules(
                     binding,
-                    rules
+                    rules,
+                    true
                 );
 
                 Performance.SetMark(

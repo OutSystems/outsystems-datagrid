@@ -394,7 +394,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 );
 
                 if (aggregateColumn) {
-                    const value = parseInt(e.cell.innerHTML);
+                    const value = s.columnFooters.getCellData(
+                        e.row,
+                        e.col,
+                        false
+                    );
 
                     aggregateColumn.execute(value, e);
                 }
