@@ -4,6 +4,14 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Adds new conditional format rules to the desired binding.
          */
+        addAggregateRules(
+            binding: string,
+            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>,
+            refresh?: boolean
+        ): void;
+        /**
+         * Adds new conditional format rules to the desired binding.
+         */
         addRules(
             binding: string,
             rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>,

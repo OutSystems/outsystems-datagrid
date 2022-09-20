@@ -20,6 +20,148 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
     type CellValue = string | number | boolean | Date | undefined;
 
+    function FormatDate(comparedValue: string, cellValue: Date) {
+        // Whenever we have null dates coming from OS, it has a different timezone than today's
+        // this is the way JS handles dates before 1911: "historical timezone offsets are applied, prior to about 1900 most were not even hour or half hour offsets."
+        // so we must ensure that our compared value (OS Null date) has this GMT as well.
+        const comparedDate = new Date(comparedValue);
+        const comparedYear = comparedDate.getUTCFullYear();
+        if (comparedYear <= 1911) {
+            const timezoneOffset = cellValue.toISOString().split('T')[1];
+
+            // get UTC date of compared value and add timezoneOffset to it
+            comparedValue =
+                `${comparedYear}-0${(comparedDate.getUTCMonth() + 1)
+                    .toString()
+                    .slice(-2)}-0${comparedDate
+                    .getUTCDate()
+                    .toString()
+                    .slice(-2)}T` + timezoneOffset;
+        }
+
+        const formattedCellValue = Helper.DataUtils.GetTicksFromDate(
+            cellValue,
+            comparedValue.indexOf('Z') > -1
+        );
+        const formatedComparedValue = Date.parse(
+            Helper.DataUtils.ResetSeconds(comparedValue)
+        );
+
+        return [formatedComparedValue, formattedCellValue];
+    }
+    /**
+     * Evaluates number and date cells
+     *
+     */
+    function Evaluate(
+        operator: Rules,
+        comparedValue: CellValue,
+        cellValue: CellValue
+    ) {
+        // in case we are comparing dates
+        if (cellValue && typeof (cellValue as Date).getMonth === 'function') {
+            const [formattedComparedValue, formattedCellValue] = FormatDate(
+                comparedValue as string,
+                cellValue as Date
+            );
+
+            cellValue = formattedCellValue;
+            comparedValue = formattedComparedValue;
+        }
+
+        switch (operator) {
+            case Rules.GreaterOrEqualsTo:
+                return cellValue >= comparedValue;
+            case Rules.GreaterThan:
+                return cellValue > comparedValue;
+            case Rules.Equals:
+                return comparedValue === cellValue;
+            case Rules.NotEquals:
+                return comparedValue !== cellValue;
+            case Rules.LessOrEqualsTo:
+                return cellValue <= comparedValue;
+            case Rules.LessThan:
+                return cellValue < comparedValue;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Evaluates text cells
+     *
+     */
+    function EvaluateText(operator: Rules, comparedValue = '', cellValue = '') {
+        if (cellValue === null) return false;
+
+        cellValue = cellValue.toLowerCase();
+        comparedValue = comparedValue.toLowerCase();
+
+        switch (operator) {
+            case Rules.Equals:
+                return comparedValue === cellValue;
+            case Rules.NotEquals:
+                return comparedValue !== cellValue;
+            case Rules.BeginsWith:
+                return cellValue.startsWith(comparedValue);
+            case Rules.EndWith:
+                return cellValue.endsWith(comparedValue);
+            case Rules.Contains:
+                return cellValue.includes(comparedValue);
+            case Rules.DoesNotContain:
+                return !cellValue.includes(comparedValue);
+            default:
+                return false;
+        }
+    }
+    class Condition {
+        public condition: Rules;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public value: any;
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        constructor(condition: Rules, value: any) {
+            this.condition = condition;
+            this.value = value;
+        }
+    }
+
+    class ConditionAnd {
+        public cellClass: string;
+        public rowClass: string;
+        public rules: Array<Condition>;
+
+        constructor(
+            cellClass: string,
+            rowClass: string,
+            rules: Array<Condition>
+        ) {
+            this.cellClass = cellClass;
+            this.rowClass = rowClass;
+            this.rules = rules;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        public evaluate(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            cellValue: any,
+            columnType?: OSFramework.DataGrid.Enum.ColumnType
+        ): boolean {
+            const evaluated = this.rules.map((rule) => {
+                if (
+                    columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Dropdown ||
+                    columnType === OSFramework.DataGrid.Enum.ColumnType.Text
+                ) {
+                    return EvaluateText(rule.condition, rule.value, cellValue);
+                } else {
+                    return Evaluate(rule.condition, rule.value, cellValue);
+                }
+            });
+
+            return evaluated.indexOf(false) === -1;
+        }
+    }
     abstract class ConditionExecuter {
         protected _grid: Grid.IGridWijmo;
         public conditions: Array<ConditionAnd>;
@@ -97,152 +239,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
             shouldAdd: boolean;
         });
     }
-
-    function FormatDate(comparedValue: string, cellValue: Date) {
-        // Whenever we have null dates coming from OS, it has a different timezone than today's
-        // this is the way JS handles dates before 1911: "historical timezone offsets are applied, prior to about 1900 most were not even hour or half hour offsets."
-        // so we must ensure that our compared value (OS Null date) has this GMT as well.
-        const comparedDate = new Date(comparedValue);
-        const comparedYear = comparedDate.getUTCFullYear();
-        if (comparedYear <= 1911) {
-            const timezoneOffset = cellValue.toISOString().split('T')[1];
-
-            // get UTC date of compared value and add timezoneOffset to it
-            comparedValue =
-                `${comparedYear}-0${(comparedDate.getUTCMonth() + 1)
-                    .toString()
-                    .slice(-2)}-0${comparedDate
-                    .getUTCDate()
-                    .toString()
-                    .slice(-2)}T` + timezoneOffset;
-        }
-
-        const formattedCellValue = Helper.DataUtils.GetTicksFromDate(
-            cellValue,
-            comparedValue.indexOf('Z') > -1
-        );
-        const formatedComparedValue = Date.parse(
-            Helper.DataUtils.ResetSeconds(comparedValue)
-        );
-
-        return [formatedComparedValue, formattedCellValue];
-    }
-
-    /**
-     * Evaluates number and date cells
-     *
-     */
-    function Evaluate(
-        operator: Rules,
-        comparedValue: CellValue,
-        cellValue: CellValue
-    ) {
-        // in case we are comparing dates
-        if (cellValue && typeof (cellValue as Date).getMonth === 'function') {
-            const [formattedComparedValue, formattedCellValue] = FormatDate(
-                comparedValue as string,
-                cellValue as Date
-            );
-
-            cellValue = formattedCellValue;
-            comparedValue = formattedComparedValue;
-        }
-
-        switch (operator) {
-            case Rules.GreaterOrEqualsTo:
-                return cellValue >= comparedValue;
-            case Rules.GreaterThan:
-                return cellValue > comparedValue;
-            case Rules.Equals:
-                return comparedValue === cellValue;
-            case Rules.NotEquals:
-                return comparedValue !== cellValue;
-            case Rules.LessOrEqualsTo:
-                return cellValue <= comparedValue;
-            case Rules.LessThan:
-                return cellValue < comparedValue;
-            default:
-                return false;
-        }
-    }
-
-    /**
-     * Evaluates text cells
-     *
-     */
-    function EvaluateText(operator: Rules, comparedValue = '', cellValue = '') {
-        if (cellValue === null) return false;
-
-        cellValue = cellValue.toLowerCase();
-        comparedValue = comparedValue.toLowerCase();
-
-        switch (operator) {
-            case Rules.Equals:
-                return comparedValue === cellValue;
-            case Rules.NotEquals:
-                return comparedValue !== cellValue;
-            case Rules.BeginsWith:
-                return cellValue.startsWith(comparedValue);
-            case Rules.EndWith:
-                return cellValue.endsWith(comparedValue);
-            case Rules.Contains:
-                return cellValue.includes(comparedValue);
-            case Rules.DoesNotContain:
-                return !cellValue.includes(comparedValue);
-            default:
-                return false;
-        }
-    }
-
-    class Condition {
-        public condition: Rules;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public value: any;
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        constructor(condition: Rules, value: any) {
-            this.condition = condition;
-            this.value = value;
-        }
-    }
-
-    class ConditionAnd {
-        public cellClass: string;
-        public rowClass: string;
-        public rules: Array<Condition>;
-
-        constructor(
-            cellClass: string,
-            rowClass: string,
-            rules: Array<Condition>
-        ) {
-            this.cellClass = cellClass;
-            this.rowClass = rowClass;
-            this.rules = rules;
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public evaluate(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            cellValue: any,
-            columnType?: OSFramework.DataGrid.Enum.ColumnType
-        ): boolean {
-            const evaluated = this.rules.map((rule) => {
-                if (
-                    columnType ===
-                        OSFramework.DataGrid.Enum.ColumnType.Dropdown ||
-                    columnType === OSFramework.DataGrid.Enum.ColumnType.Text
-                ) {
-                    return EvaluateText(rule.condition, rule.value, cellValue);
-                } else {
-                    return Evaluate(rule.condition, rule.value, cellValue);
-                }
-            });
-
-            return evaluated.indexOf(false) === -1;
-        }
-    }
-
     class ColumnConditionExecuter extends ConditionExecuter {
         constructor(conditions: Array<ConditionAnd>, grid: Grid.IGridWijmo) {
             super(conditions, grid);
@@ -385,6 +381,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 ColumnAggregateConditionExecuter
             >();
         }
+
         private _formatItemHandler(
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.FormatItemEventArgs
@@ -474,7 +471,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 )
             );
 
-            this._grid.provider.invalidate();
+            if (refresh) {
+                this._grid.provider.invalidate();
+            }
         }
 
         public addRules(

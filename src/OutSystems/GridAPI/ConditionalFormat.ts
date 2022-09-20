@@ -7,6 +7,42 @@ namespace OutSystems.GridAPI.ConditionalFormat {
      * @param {string} binding Column binding
      * @param {Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>} rules Rules for conditional formatting.
      */
+    export function AddConditionalFormatAggregateColumns(
+        gridID: string,
+        binding: string,
+        rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>
+    ): void {
+        GridManager.Events.Subscribe(
+            gridID,
+            OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+            (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
+                Performance.SetMark(
+                    'ConditionalFormat.AddConditionalFormatAggregateColumns'
+                );
+                gridObj.features.conditionalFormat.addAggregateRules(
+                    binding,
+                    rules
+                );
+
+                Performance.SetMark(
+                    'ConditionalFormat.AddConditionalFormatAggregateColumns-end'
+                );
+                Performance.GetMeasure(
+                    '@datagrid-ConditionalFormat.AddConditionalFormatAggregateColumns',
+                    'ConditionalFormat.AddConditionalFormatAggregateColumns',
+                    'ConditionalFormat.AddConditionalFormatAggregateColumns-end'
+                );
+            }
+        );
+    }
+    /**
+     * Adds new conditional format rules to the desired binding.
+     *
+     * @export
+     * @param {string} gridID
+     * @param {string} binding Column binding
+     * @param {Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>} rules Rules for conditional formatting.
+     */
     export function AddConditionalFormat(
         gridID: string,
         binding: string,
