@@ -11,7 +11,8 @@ namespace OutSystems.GridAPI.Search {
     export function SearchData(
         gridID: string,
         searchID: string,
-        promptMessage: string
+        promptMessage: string,
+        highlightResults: boolean
     ): void {
         Performance.SetMark('Search.search-data');
 
@@ -19,7 +20,11 @@ namespace OutSystems.GridAPI.Search {
             gridID,
             OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
             (_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
-                gridObj.features.search.searchData(searchID, promptMessage);
+                gridObj.features.search.searchData(
+                    searchID,
+                    promptMessage,
+                    highlightResults
+                );
             }
         );
 

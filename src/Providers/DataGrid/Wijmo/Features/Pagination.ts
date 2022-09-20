@@ -33,12 +33,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
         private _pageSize: number;
         private _phId: string;
         private _qtdeButtons: number;
+        private _updateCaller: OSFramework.DataGrid.Callbacks.Generic;
         private _view: wijmo.collections.CollectionView;
 
         constructor(grid: Grid.IGridWijmo, pageSize: number) {
             this._grid = grid;
             this._view = grid.provider.itemsSource;
             this._pageSize = pageSize;
+            this._updateCaller = this._update.bind(this);
         }
         /**
          * This method is used to setup the value of the pagination
@@ -70,6 +72,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
         }
 
+        // Assign an arrow function to remove the handler on dispose
+
         public build(): void {
             this._view.pageSize = this._pageSize;
 
@@ -82,7 +86,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 this._grid.features.undoStack.closeAction(PaginationAction)
             );
 
-            this._view.collectionChanged.addHandler(() => this._update());
+            this._view.collectionChanged.addHandler(this._updateCaller);
         }
 
         public get rowStart(): number {
@@ -197,6 +201,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         public dispose(): void {
+            this._view.collectionChanged.removeHandler(this._updateCaller);
             this._view = undefined;
         }
 

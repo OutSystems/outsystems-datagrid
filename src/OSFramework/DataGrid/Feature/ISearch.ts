@@ -4,6 +4,10 @@ namespace OSFramework.DataGrid.Feature {
      * Expose method for enabling the Search feature on Grid
      */
     export interface ISearch {
-        searchData(searchId: string, promptMessage: string): void;
+        searchData(
+            searchId: string,
+            promptMessage: string,
+            highlightResults: boolean
+        ): void;
     }
 }
