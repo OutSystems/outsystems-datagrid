@@ -142,7 +142,11 @@ namespace OutSystems.GridAPI.Styling {
             if (column !== undefined) {
                 const binding = column.config.binding;
 
-                grid.features.cellStyle.removeAllClasses(rowIndex, binding, true);
+                grid.features.cellStyle.removeAllClasses(
+                    rowIndex,
+                    binding,
+                    true
+                );
             } else {
                 responseObj.isSuccess = false;
                 responseObj.message =
