@@ -60,9 +60,10 @@ namespace OutSystems.GridAPI.Cells {
     ): void {
         Performance.SetMark('Cells.validateCell');
 
-        const column = ColumnManager.GetColumnById(columnID);
+        const grid = GridManager.GetGridById(gridID);
+        const column = grid.getColumn(columnID);
         if (column === undefined) return;
-        GridManager.GetGridById(gridID).features.validationMark.validateCell(
+        grid.features.validationMark.validateCell(
             rowIndex,
             column,
             triggerOnCellValueChange
