@@ -27,7 +27,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         private _formatItems(
-            grid: wijmo.grid.FlexGrid,
+            _grid: wijmo.grid.FlexGrid,
             e: wijmo.grid.FormatItemEventArgs
         ) {
             if (
@@ -63,22 +63,18 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 if (metadata.originalValues.has(binding)) {
                     const originalValue = metadata.originalValues.get(binding);
 
-                    //If the original value and new value are null and undefined we don't want to have dirty mark.
-                    if (originalValue === undefined) {
-                        return (
-                            originalValue !== cellValue &&
-                            cellValue !== null &&
-                            cellValue !== ''
-                        );
-                    } else {
-                        //If the cellValue and the originalValue are different we want to add the dirty mark.
-                        //Even when converted to String because after edition the cells from the Dropdown Columns will have the value in string format and before edition the value of those same cells can be integers (number identifiers).
-                        return (
-                            originalValue !== cellValue &&
-                            originalValue.toString() !==
-                                (cellValue && cellValue.toString()) // compare date objects as well
-                        );
-                    }
+                    // check if values are equal.
+                    // since undefined is not equal to null or an empty string, we explicity say we want them to be considered equal
+                    return !_.isEqualWith(originalValue, cellValue, () => {
+                        if (
+                            originalValue === undefined &&
+                            (cellValue === undefined ||
+                                cellValue === null ||
+                                cellValue === '')
+                        ) {
+                            return true;
+                        }
+                    });
                 }
             }
             return false;
@@ -87,53 +83,32 @@ namespace Providers.DataGrid.Wijmo.Feature {
         private _isDirtyRow(row: number): boolean {
             if (this.hasMetadata(row)) {
                 const metadata = this.getMetadata(row);
-                let notDirtyCells = 0;
 
-                for (const k of metadata.originalValues.keys()) {
-                    // on dropdown columns we want formatted value
+                if (metadata.isNew) return true;
+                const keyArray = Array.from(metadata.originalValues.keys());
+
+                const hasDirtyMarkCell = keyArray.some((k) => {
+                    const originalValue = metadata.originalValues.get(k);
                     const cellValue = this._grid.provider.getCellData(
                         row,
                         k,
                         false
                     );
-                    const originalValue = metadata.originalValues.get(k);
 
-                    //If the original value and new value are null and undefined we don't want to have dirty mark on the cell
-                    if (originalValue === undefined) {
+                    // check if values are equal.
+                    // since undefined is not equal to null or an empty string, we explicity say we want them to be considered equal
+                    return !_.isEqualWith(originalValue, cellValue, () => {
                         if (
-                            originalValue === cellValue ||
-                            cellValue === null ||
-                            cellValue === ''
+                            originalValue === undefined &&
+                            (cellValue === undefined ||
+                                cellValue === null ||
+                                cellValue === '')
                         ) {
-                            //Add 1 to the notDirtyCells
-                            notDirtyCells++;
-                        } else {
-                            //If the cell is dirty then the row must be dirty
-                            break;
+                            return true;
                         }
-                    } else if (originalValue !== undefined) {
-                        //If the cellValue and the originalValue are equal the cell is not dirty.
-                        //Even when converted to String because after edition the cells from the Dropdown Columns will have the value in string format and before edition the value of those same cells can be integers (number identifiers).
-                        if (
-                            originalValue === cellValue ||
-                            originalValue.toString() ===
-                                (cellValue && cellValue.toString()) // compare date objects as well
-                        ) {
-                            //Add 1 to the notDirtyCells
-                            notDirtyCells++;
-                        } else {
-                            //If the cell is dirty then the row must be dirty
-                            break;
-                        }
-                    }
-                }
-
-                //If the row isNew we want to have the dirty mark
-                //Or, if Total changes - equals > 0 there is at least one dirty cell on the row so we also want to have a dirty mark
-                return (
-                    metadata.isNew ||
-                    metadata.originalValues.size - notDirtyCells > 0
-                );
+                    });
+                });
+                return hasDirtyMarkCell;
             }
 
             return false;
