@@ -61,15 +61,16 @@ stages:
             declare BRANCH 
             BRANCH=$(system.pullRequest.sourceBranch)
             echo "GridReactive_Automation_${BRANCH//[-]/}"
+            echo "##vso[task.setvariable variable=branch;]GridReactive_Automation_${BRANCH//[-]/}"
             echo "##vso[task.setvariable variable=module;isoutput=true]GridReactive_Automation_${BRANCH//[-]/}"
         name: branch_name
 
       #Ping sample test page
       #Sets skip variable as true if sample doesnt exist.
       - bash: |
-          status=$(curl -s --head -w %{http_code} $(ENV_URL)/$(module)/ -o /dev/null)
+          status=$(curl -s --head -w %{http_code} $(ENV_URL)/$(branch)/ -o /dev/null)
           echo $status
-          echo $(ENV_URL)/$(module)/
+          echo $(ENV_URL)/$(branch)/
           if [[ $status = 404 ]]
           then
             echo "##vso[task.setvariable variable=skip;isoutput=true]true"
