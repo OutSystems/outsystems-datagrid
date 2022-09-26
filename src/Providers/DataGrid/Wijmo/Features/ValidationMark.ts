@@ -217,6 +217,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
         ): void {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const action: any = e.action;
+            // if search is set, we want to cancel redo
+            if (this._grid.features.search.hasText) e.cancel = true;
 
             this._redoActionHandler(action);
 
@@ -358,6 +360,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
         ): void {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const action: any = e.action;
+            // if search is set, we want to cancel undo
+            if (this._grid.features.search.hasText) e.cancel = true;
 
             this._undoActionHandler(action);
 
