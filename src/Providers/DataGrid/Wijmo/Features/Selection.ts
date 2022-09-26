@@ -517,7 +517,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 for (let i = 0; i < _items.length; i++){
                     _items[i].selected.forEach(element => {
                         const columnType = _grid.getColumn(element.binding).columnType;
-                        if(columnType === OSFramework.DataGrid.Enum.ColumnType.Number || columnType === OSFramework.DataGrid.Enum.ColumnType.Currency){
+                        if(columnType === OSFramework.DataGrid.Enum.ColumnType.Number || columnType === OSFramework.DataGrid.Enum.ColumnType.Currency || columnType === OSFramework.DataGrid.Enum.ColumnType.Calculated){
                             _sum = _sum + element.value;
                             _count ++;
                         }
