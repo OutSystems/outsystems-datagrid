@@ -70,6 +70,11 @@ namespace OSFramework.DataGrid.Feature {
         getSelectedRowsData(): OSStructure.ReturnMessage;
 
         /**
+         * Returns the sum of the selected cell's data
+         */
+        getSelectionSum(): OSStructure.ReturnMessage;
+
+        /**
          * Checks if there is any checked row on the grid
          */
         hasCheckedRows(): boolean;

@@ -45,6 +45,39 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 .map((p) => p.index);
         }
 
+        private _getAllSelectionsNumbers(): any[] {
+            const values: any[] = [];
+            this.getProviderAllSelections().forEach((range) => {
+                const rowIndexes = Array(range.bottomRow - range.topRow + 1)
+                    .fill(0)
+                    .map((_, idx) => range.topRow + idx);
+
+                const bindings = Array(range.rightCol - range.leftCol + 1)
+                    .fill(0)
+                    .map((_, idx) =>
+                        this._grid.provider.getColumn(range.leftCol + idx)
+                    )
+                    .filter(
+                        (p) =>
+                            p.isVisible && p.dataType === wijmo.DataType.Number
+                    )
+                    .map((p) => p.binding);
+
+                rowIndexes.forEach((rowIndex) => {
+                    bindings.forEach((binding) => {
+                        values.push(
+                            this._grid.provider.getCellData(
+                                rowIndex,
+                                binding,
+                                false
+                            )
+                        );
+                    });
+                });
+            });
+            return values;
+        }
+
         /**
          * Responsible for adding metadata on checked rows
          * @param grid Object triggering the event
@@ -492,6 +525,32 @@ namespace Providers.DataGrid.Wijmo.Feature {
                                 dataItem: JSON.stringify(_dataItem)
                             };
                         }),
+                    isSuccess: true,
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: [],
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedGetSelectedRowsData
+                };
+            }
+        }
+
+        public getSelectionSum(): OSFramework.DataGrid.OSStructure.ReturnMessage {
+            try {
+                return {
+                    value: JSON.stringify(
+                        this._getAllSelectionsNumbers().reduce(
+                            (previousValue, currentValue) =>
+                                previousValue + currentValue,
+                            0
+                        )
+                    ),
                     isSuccess: true,
                     message:
                         OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
