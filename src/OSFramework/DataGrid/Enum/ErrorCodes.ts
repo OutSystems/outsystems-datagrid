@@ -38,8 +38,9 @@ namespace OSFramework.DataGrid.Enum {
         API_FailedGetCheckedRowsData = 'GRID-API-05003',
         API_FailedGetSelectedRowsCount = 'GRID-API-05004',
         API_FailedGetSelectedRowsData = 'GRID-API-05005',
-        API_FailedHasSelectedRows = 'GRID-API-05006',
-        API_FailedSetRowAsSelected = 'GRID-API-05007',
+        API_FailedGetSelectionAverage = 'GRID-API-05006',
+        API_FailedHasSelectedRows = 'GRID-API-05007',
+        API_FailedSetRowAsSelected = 'GRID-API-05008',
         // STYLE
         API_FailedSetCellCssClass = 'GRID-API-06001',
         API_FailedSetColumnCssClass = 'GRID-API-06002',
