@@ -81,7 +81,7 @@ stages:
 
 - stage: Tests
   #Only run tests if not in dev branch
-  condition: ne(stageDependencies.CheckBranch.outputs['CheckBranchJob.skipTests.skip'], 'true')
+  condition: and(ne(stageDependencies.CheckBranch.outputs['CheckBranchJob.skipTests.skip'], 'true'), ne(variables['Build.SourceBranchName'], 'dev'))
   displayName: 'Tests'
   variables:
     - group: "Services Credentials"
