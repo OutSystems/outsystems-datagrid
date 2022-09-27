@@ -515,13 +515,17 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 let sum = 0;
                 this.getAllSelectionsData().value.forEach((row) => {
                     row.selected.forEach((col) => {
-                        if(this._grid.getColumn(col.binding).columnType === OSFramework.DataGrid.Enum.ColumnType.Currency ||
-                        this._grid.getColumn(col.binding).columnType === OSFramework.DataGrid.Enum.ColumnType.Number ||
-                        this._grid.getColumn(col.binding).columnType === OSFramework.DataGrid.Enum.ColumnType.Calculated
-                        ){
+                        if (
+                            this._grid.getColumn(col.binding).columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                            this._grid.getColumn(col.binding).columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Number ||
+                            this._grid.getColumn(col.binding).columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Calculated
+                        ) {
                             sum += col.value;
                         }
-                    })
+                    });
                 });
 
                 return {
