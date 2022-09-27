@@ -541,7 +541,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     isSuccess: false,
                     message: error.message,
                     code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetSelectedRowsData
+                        .API_FailedGetSelectionSum
                 };
             }
         }

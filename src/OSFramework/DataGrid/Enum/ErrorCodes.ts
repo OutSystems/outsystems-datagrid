@@ -40,6 +40,7 @@ namespace OSFramework.DataGrid.Enum {
         API_FailedGetSelectedRowsData = 'GRID-API-05005',
         API_FailedHasSelectedRows = 'GRID-API-05006',
         API_FailedSetRowAsSelected = 'GRID-API-05007',
+        API_FailedGetSelectionSum = 'GRID-API-05010',
         // STYLE
         API_FailedSetCellCssClass = 'GRID-API-06001',
         API_FailedSetColumnCssClass = 'GRID-API-06002',
