@@ -21,7 +21,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         public get hasText(): boolean {
-            return this._searchData.text.length > 0;
+            return this._searchData?.text.length > 0;
         }
 
         /**
