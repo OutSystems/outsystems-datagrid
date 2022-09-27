@@ -59,6 +59,21 @@ namespace OutSystems.GridAPI.Selection {
         return JSON.stringify(grid.features.selection.getSelectedRowsCount());
     }
 
+    export function GetSelectionCount(gridID: string): string {
+        Performance.SetMark('Selection.GetSelectionCount');
+
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
+        const grid = GridManager.GetGridById(gridID);
+
+        Performance.SetMark('Selection.GetSelectionCount-end');
+        Performance.GetMeasure(
+            '@datagrid-Selection.GetSelectionCount',
+            'Selection.GetSelectionCount',
+            'Selection.GetSelectionCount-end'
+        );
+        return JSON.stringify(grid.features.selection.getSelectionCount());
+    }
+
     export function GetSelectedRowsData(gridID: string): string {
         Performance.SetMark('Selection.GetSelectedRowsData');
 
