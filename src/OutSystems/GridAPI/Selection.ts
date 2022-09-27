@@ -86,7 +86,7 @@ namespace OutSystems.GridAPI.Selection {
             'Selection.GetSelectionAverage',
             'Selection.GetSelectionAverage-end'
         );
-        return JSON.stringify(grid.features.selection.getSelectionAverage())
+        return JSON.stringify(grid.features.selection.getSelectionAverage());
     }
 
     export function HasSelectedRows(gridID: string): string {

@@ -515,31 +515,40 @@ namespace Providers.DataGrid.Wijmo.Feature {
             let _sum = 0;
             const _grid = this._grid;
             const _items = this.getAllSelectionsData().value;
-            try{
-                for (let i = 0; i < _items.length; i++){
-                    _items[i].selected.forEach(element => {
-                        const columnType = _grid.getColumn(element.binding).columnType;
-                        if(columnType === OSFramework.DataGrid.Enum.ColumnType.Number || columnType === OSFramework.DataGrid.Enum.ColumnType.Currency || columnType === OSFramework.DataGrid.Enum.ColumnType.Calculated){
+            try {
+                for (let i = 0; i < _items.length; i++) {
+                    _items[i].selected.forEach((element) => {
+                        const columnType = _grid.getColumn(
+                            element.binding
+                        ).columnType;
+                        if (
+                            columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Number ||
+                            columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                            columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Calculated
+                        ) {
                             _sum = _sum + element.value;
-                            _count ++;
+                            _count++;
                         }
                     });
-                    
                 }
                 return {
                     value: _sum > 0 ? _sum / _count : null,
-                    isSuccess:true,
-                    message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    isSuccess: true,
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
                     code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                }
-
+                };
             } catch (error) {
                 return {
                     value: null,
                     isSuccess: false,
                     message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionAverage
-                }
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedGetSelectionAverage
+                };
             }
         }
 
