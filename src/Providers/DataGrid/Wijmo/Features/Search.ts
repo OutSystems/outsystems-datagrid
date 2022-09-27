@@ -20,6 +20,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
         }
 
+        public get hasText(): boolean {
+            return this._searchData?.text.length > 0;
+        }
+
         /**
          * Function that will enable the search feature on Grid
          *
@@ -42,11 +46,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
             // Trigger the searchDone platform event to enable / disable the results message
             this._grid.provider.collectionView.collectionChanged.addHandler(
                 () => {
-                    this._grid.gridEvents.trigger(
-                        OSFramework.DataGrid.Event.Grid.GridEventType
-                            .SearchEnded,
-                        this._grid
-                    );
+                    // we only want to trigger if search bar is filled.
+                    if (this.hasText) {
+                        this._grid.gridEvents.trigger(
+                            OSFramework.DataGrid.Event.Grid.GridEventType
+                                .SearchEnded,
+                            this._grid
+                        );
+                    }
                 }
             );
         }
