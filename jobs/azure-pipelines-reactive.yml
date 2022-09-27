@@ -89,6 +89,7 @@ stages:
   jobs:
   - job: Run_Tests
     displayName: 'Run tests'
+    timeoutInMinutes: 180
     variables:
       module: $[ stageDependencies.CheckBranch.CheckBranchJob.outputs['branch_name.module'] ]
     pool:
