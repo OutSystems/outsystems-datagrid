@@ -406,19 +406,21 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     return true;
                 });
 
-            // for each cellRange, check if it has any row intersection with checked rows
-            // if it has, we add it to checkedRows array.
+            // for each cellRange, check if it has any intersection with checked rows
+            // if it doesnt have, we add it to checkedRows array.
             ranges.forEach((range) => {
                 if (
                     !checkedRowsRange.some((checked) =>
-                        checked.intersectsRow(range)
+                        checked.intersects(range)
                     )
                 ) {
                     checkedRowsRange = [...checkedRowsRange, range];
                 }
             });
 
-            return checkedRowsRange;
+            return this._grid.features.rowHeader.hasCheckbox
+                ? checkedRowsRange
+                : ranges;
         }
 
         public getSelectedRows(): number[] {
