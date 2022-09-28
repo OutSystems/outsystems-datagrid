@@ -69,6 +69,10 @@ namespace OSFramework.DataGrid.Feature {
          */
         getSelectedRowsData(): OSStructure.ReturnMessage;
         /**
+         * Returns the average value of select cells
+         */
+        getSelectionAverage(): OSStructure.ReturnMessage;
+        /*
          * Returns how many cells are selected
          */
         getSelectionCount(): OSStructure.ReturnMessage;
@@ -76,6 +80,10 @@ namespace OSFramework.DataGrid.Feature {
          * Returns the maximum or minimum value of the grid selected cells.
          */
         getSelectionMaxMin(isMax: boolean): OSStructure.ReturnMessage;
+        /**
+         * Returns the sum of the selected cell's data
+         */
+        getSelectionSum(): OSStructure.ReturnMessage;
         /**
          * Checks if there is any checked row on the grid
          */
