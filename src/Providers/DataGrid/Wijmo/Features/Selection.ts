@@ -582,6 +582,42 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
         }
 
+        public getSelectionSum(): OSFramework.DataGrid.OSStructure.ReturnMessage {
+            try {
+                let sum = 0;
+                this.getAllSelectionsData().value.forEach((row) => {
+                    row.selected.forEach((col) => {
+                        if (
+                            this._grid.getColumn(col.binding).columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                            this._grid.getColumn(col.binding).columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Number ||
+                            this._grid.getColumn(col.binding).columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Calculated
+                        ) {
+                            sum += col.value;
+                        }
+                    });
+                });
+
+                return {
+                    value: sum,
+                    isSuccess: true,
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: [],
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedGetSelectionSum
+                };
+            }
+        }
+
         public hasCheckedRows(): boolean {
             return this.getCheckedRowsData().value.length > 0;
         }
