@@ -510,6 +510,49 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
         }
 
+        public getSelectionMaxMin(
+            isMax: boolean
+        ): OSFramework.DataGrid.OSStructure.ReturnMessage {
+            let _max = -Infinity;
+            let _min = Infinity;
+            const _grid = this._grid;
+            const _items = this.getAllSelectionsData().value;
+            try {
+                for (let i = 0; i < _items.length; i++) {
+                    _items[i].selected.forEach((element) => {
+                        const columnType = _grid.getColumn(
+                            element.binding
+                        ).columnType;
+                        if (
+                            columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Number ||
+                            columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                            columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Calculated
+                        ) {
+                            _min = Math.min(_min, element.value);
+                            _max = Math.max(_max, element.value);
+                        }
+                    });
+                }
+                return {
+                    value: isMax ? _max : _min,
+                    isSuccess: true,
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: null,
+                    isSuccess: false,
+                    message: error.message
+                    //TODO code: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionAverage
+                };
+            }
+        }
+
         public hasCheckedRows(): boolean {
             return this.getCheckedRowsData().value.length > 0;
         }

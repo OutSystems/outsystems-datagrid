@@ -74,6 +74,38 @@ namespace OutSystems.GridAPI.Selection {
         return JSON.stringify(grid.features.selection.getSelectedRowsData());
     }
 
+    export function GetSelectionMax(gridID: string): string {
+        Performance.SetMark('Selection.GetSelectionMax');
+
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
+        const grid = GridManager.GetGridById(gridID);
+
+        Performance.SetMark('Selection.GetSelectionMax-end');
+        Performance.GetMeasure(
+            '@datagrid-Selection.GetSelectionMax',
+            'Selection.GetSelectionMax',
+            'Selection.GetSelectionMax-end'
+        );
+        return JSON.stringify(grid.features.selection.getSelectionMaxMin(true));
+    }
+
+    export function GetSelectionMin(gridID: string): string {
+        Performance.SetMark('Selection.GetSelectionMin');
+
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
+        const grid = GridManager.GetGridById(gridID);
+
+        Performance.SetMark('Selection.GetSelectionMin-end');
+        Performance.GetMeasure(
+            '@datagrid-Selection.GetSelectionMin',
+            'Selection.GetSelectionMin',
+            'Selection.GetSelectionMin-end'
+        );
+        return JSON.stringify(
+            grid.features.selection.getSelectionMaxMin(false)
+        );
+    }
+
     export function HasSelectedRows(gridID: string): string {
         Performance.SetMark('Selection.HasSelectedRows');
 
