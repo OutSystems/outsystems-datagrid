@@ -157,7 +157,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             )
                 return;
             const grid = this._grid.provider; //Auxiliar for grid
-            let leftCol = grid.columns.length - 1; //Set to max-lenght to facilitate Math.min
+            let leftCol = grid.columns.length - 1; //Set to max-length to facilitate Math.min
             let rightCol = -1; //Set to -1 to facilitate Math.max
 
             //When NO row is selected, find most left and right column looking to selectedRanges
@@ -506,6 +506,48 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     message: error.message,
                     code: OSFramework.DataGrid.Enum.ErrorCodes
                         .API_FailedGetSelectedRowsData
+                };
+            }
+        }
+
+        public getSelectionAverage(): OSFramework.DataGrid.OSStructure.ReturnMessage {
+            let _count = 0;
+            let _sum = 0;
+            const _grid = this._grid;
+            const _items = this.getAllSelectionsData().value;
+            try {
+                for (const item of _items) {
+                    item.selected.forEach((element) => {
+                        const columnType = _grid.getColumn(
+                            element.binding
+                        ).columnType;
+                        if (
+                            columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Number ||
+                            columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                            columnType ===
+                                OSFramework.DataGrid.Enum.ColumnType.Calculated
+                        ) {
+                            _sum = _sum + element.value;
+                            _count++;
+                        }
+                    });
+                }
+                return {
+                    value: _sum > 0 ? _sum / _count : null,
+                    isSuccess: false,
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: null,
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedGetSelectionAverage
                 };
             }
         }
