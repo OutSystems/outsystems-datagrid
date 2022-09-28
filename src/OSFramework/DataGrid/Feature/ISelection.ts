@@ -68,6 +68,10 @@ namespace OSFramework.DataGrid.Feature {
          * Returns the Data of the selected rows
          */
         getSelectedRowsData(): OSStructure.ReturnMessage;
+        /**
+         * Returns how many cells are selected
+         */
+        getSelectionCount(): OSStructure.ReturnMessage;
 
         /**
          * Checks if there is any checked row on the grid
