@@ -516,8 +516,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
             const _grid = this._grid;
             const _items = this.getAllSelectionsData().value;
             try {
-                for (let i = 0; i < _items.length; i++) {
-                    _items[i].selected.forEach((element) => {
+                for (const item of _items) {
+                    item.selected.forEach((element) => {
                         const columnType = _grid.getColumn(
                             element.binding
                         ).columnType;
@@ -536,7 +536,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 }
                 return {
                     value: _sum > 0 ? _sum / _count : null,
-                    isSuccess: true,
+                    isSuccess: false,
                     message:
                         OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
                     code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
@@ -548,6 +548,36 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     message: error.message,
                     code: OSFramework.DataGrid.Enum.ErrorCodes
                         .API_FailedGetSelectionAverage
+                };
+            }
+        }
+
+        // Calculate the number o selected cells based on getAllSelectionsData method
+        public getSelectionCellCount(): number {
+            let selectionCellCount = 0;
+            this.getAllSelectionsData().value.forEach((cell) => {
+                selectionCellCount = selectionCellCount + cell.selected.length;
+            });
+            return selectionCellCount;
+        }
+
+        // Method to get the count of selected cells on Grid
+        public getSelectionCount(): OSFramework.DataGrid.OSStructure.ReturnMessage {
+            try {
+                return {
+                    value: this.getSelectionCellCount(),
+                    isSuccess: true,
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: null,
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedGetSelectionCount
                 };
             }
         }

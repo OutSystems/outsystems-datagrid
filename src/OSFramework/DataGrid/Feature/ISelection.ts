@@ -72,6 +72,10 @@ namespace OSFramework.DataGrid.Feature {
          * Returns the average value of select cells
          */
         getSelectionAverage(): OSStructure.ReturnMessage;
+        /*
+         * Returns how many cells are selected
+         */
+        getSelectionCount(): OSStructure.ReturnMessage;
         /**
          * Checks if there is any checked row on the grid
          */
