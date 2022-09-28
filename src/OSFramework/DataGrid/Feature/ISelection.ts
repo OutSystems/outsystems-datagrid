@@ -69,6 +69,10 @@ namespace OSFramework.DataGrid.Feature {
          */
         getSelectedRowsData(): OSStructure.ReturnMessage;
         /**
+         * Returns how many cells are selected
+         */
+        getSelectionCount(): OSStructure.ReturnMessage;
+        /**
          * Returns the maximum or minimum value of the grid selected cells.
          */
         getSelectionMaxMin(isMax: boolean): OSStructure.ReturnMessage;

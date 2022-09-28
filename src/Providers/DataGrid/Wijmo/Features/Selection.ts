@@ -510,6 +510,36 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
         }
 
+        // Calculate the number o selected cells based on getAllSelectionsData method
+        public getSelectionCellCount(): number {
+            let selectionCellCount = 0;
+            this.getAllSelectionsData().value.forEach((cell) => {
+                selectionCellCount = selectionCellCount + cell.selected.length;
+            });
+            return selectionCellCount;
+        }
+
+        // Method to get the count of selected cells on Grid
+        public getSelectionCount(): OSFramework.DataGrid.OSStructure.ReturnMessage {
+            try {
+                return {
+                    value: this.getSelectionCellCount(),
+                    isSuccess: true,
+                    message:
+                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
+                };
+            } catch (error) {
+                return {
+                    value: null,
+                    isSuccess: false,
+                    message: error.message,
+                    code: OSFramework.DataGrid.Enum.ErrorCodes
+                        .API_FailedGetSelectionCount
+                };
+            }
+        }
+
         public getSelectionMaxMin(
             isMax: boolean
         ): OSFramework.DataGrid.OSStructure.ReturnMessage {
@@ -547,8 +577,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 return {
                     value: null,
                     isSuccess: false,
-                    message: error.message
-                    //TODO code: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionAverage
+                    message: error.message,
+                    code: isMax
+                        ? OSFramework.DataGrid.Enum.ErrorCodes
+                              .API_FailedGetSelectionMax
+                        : OSFramework.DataGrid.Enum.ErrorCodes
+                              .API_FailedGetSelectionMin
                 };
             }
         }
