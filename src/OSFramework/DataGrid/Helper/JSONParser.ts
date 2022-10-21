@@ -7,8 +7,8 @@ namespace OSFramework.DataGrid.Helper {
      */
     // eslint-disable-next-line @typescript-eslint/naming-convention
     export function ToOSDatetime(date: Date): string {
-        if( typeof(date) === 'string'){
-            date = new Date(date)
+        if (typeof date === 'string') {
+            date = new Date(date);
         }
         return date.toISOString();
     }
@@ -20,8 +20,8 @@ namespace OSFramework.DataGrid.Helper {
      */
     // eslint-disable-next-line @typescript-eslint/naming-convention
     export function ToOSDate(date: Date): string {
-        if( typeof(date) === 'string'){
-            date = new Date(date)
+        if (typeof date === 'string') {
+            date = new Date(date);
         }
         return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
             .toISOString()

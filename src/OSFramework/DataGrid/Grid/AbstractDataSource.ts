@@ -119,7 +119,7 @@ namespace OSFramework.DataGrid.Grid {
                     (columnsType.get(key) === 'Date' || dateColumns.has(key)) &&
                     object[key]
                 ) {
-                    object[key] = OSFramework.DataGrid.Helper.ToOSDate(object[key])
+                    object[key] = DataGrid.Helper.ToOSDate(object[key]);
                 }
             });
         };
