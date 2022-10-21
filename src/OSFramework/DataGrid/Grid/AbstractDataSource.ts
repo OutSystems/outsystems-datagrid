@@ -119,12 +119,7 @@ namespace OSFramework.DataGrid.Grid {
                     (columnsType.get(key) === 'Date' || dateColumns.has(key)) &&
                     object[key]
                 ) {
-                    const dt = object[key] as Date;
-                    object[key] = new Date(
-                        dt.getTime() - dt.getTimezoneOffset() * 60000
-                    )
-                        .toISOString()
-                        .substring(0, 10);
+                    object[key] = OSFramework.DataGrid.Helper.ToOSDate(object[key])
                 }
             });
         };
