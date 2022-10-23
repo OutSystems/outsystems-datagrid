@@ -6,6 +6,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
      * Defines the configuration for Calculated Columns
      */
     export class ColumnConfigAdditional extends ColumnConfigConditionalFormat {
+        public decimalPlaces: number;
         public formula: OSStructure.Formula;
 
         constructor(
@@ -13,6 +14,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
             extraConfig: DataGrid.Types.ICalculatedColumnExtraConfigs
         ) {
             super(config, extraConfig);
+            this.decimalPlaces = extraConfig.decimalPlaces;
             this.formula = extraConfig.formula;
         }
     }

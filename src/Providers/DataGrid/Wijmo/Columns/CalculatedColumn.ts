@@ -29,6 +29,34 @@ namespace Providers.DataGrid.Wijmo.Column {
                 extraConfig.formula.function;
         }
 
+        // by default, we want numbers to have thousand separator
+        private _setEditorFormat(decimalPlaces): void {
+            this.config.format = `n ${decimalPlaces}`;
+        }
+
+        /**
+         * Makes the provider string format based on decimal places
+         *
+         * @param decimalPlaces Precision for numeric values
+         * @param args Used for extension by inherited classes
+         */
+        protected _setFormat(decimalPlaces: number): void {
+            if (decimalPlaces > 11 || decimalPlaces < 0) {
+                throw new Error(
+                    `Invalid parameter decimal places configuration for column "${this.provider.header}".\nAvailable range for decimal places 0 to 11.`
+                );
+            } else if (decimalPlaces === undefined) {
+                this.config.decimalPlaces = 0; // properties without a value are removed by default from JSON object, what makes them undefined
+            } else {
+                this.config.decimalPlaces =
+                    decimalPlaces >= 0
+                        ? decimalPlaces
+                        : wijmo.culture.Globalize.numberFormat.currency
+                              .decimals;
+            }
+
+            this._setEditorFormat(decimalPlaces);
+        }
         /** Returns all the events associated to the column */
         public get columnEvents(): OSFramework.DataGrid.Event.Column.ColumnEventsManager {
             return this._columnEvents;
@@ -44,6 +72,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public build(): any {
+            this._setFormat(this.config.decimalPlaces);
             super.build();
             this.grid.features.filter.deactivate(this.uniqueId);
             this.grid.features.calculatedField.addFormula(
@@ -51,6 +80,19 @@ namespace Providers.DataGrid.Wijmo.Column {
                 this.config.header,
                 this.config.formula
             );
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+        public changeProperty(propertyName: string, propertyValue: any): void {
+            switch (propertyName) {
+                case OSFramework.DataGrid.OSStructure.ColumnProperties
+                    .DecimalPlaces:
+                    this._setFormat(propertyValue);
+                    this.applyConfigs();
+                    break;
+                default:
+                    super.changeProperty(propertyName, propertyValue);
+            }
         }
     }
 }
