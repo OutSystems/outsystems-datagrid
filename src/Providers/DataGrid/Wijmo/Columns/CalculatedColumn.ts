@@ -30,7 +30,16 @@ namespace Providers.DataGrid.Wijmo.Column {
         }
 
         // by default, we want numbers to have thousand separator
-        private _setEditorFormat(decimalPlaces): void {
+        private _setEditorFormat(
+            decimalPlaces,
+            hasThousandSeparator = true
+        ): void {
+            // if format starts with n, the number will have thousand separator
+            // if starts with f, it won't
+            const format = hasThousandSeparator ? 'n' : 'f';
+
+            this.config.format = `${format} ${decimalPlaces}`;
+
             this.config.format = `n ${decimalPlaces}`;
         }
 
@@ -40,7 +49,10 @@ namespace Providers.DataGrid.Wijmo.Column {
          * @param decimalPlaces Precision for numeric values
          * @param args Used for extension by inherited classes
          */
-        protected _setFormat(decimalPlaces: number): void {
+        protected _setFormat(
+            decimalPlaces: number,
+            hasThousandSeparator = true
+        ): void {
             if (decimalPlaces > 11 || decimalPlaces < 0) {
                 throw new Error(
                     `Invalid parameter decimal places configuration for column "${this.provider.header}".\nAvailable range for decimal places 0 to 11.`
@@ -55,7 +67,7 @@ namespace Providers.DataGrid.Wijmo.Column {
                               .decimals;
             }
 
-            this._setEditorFormat(decimalPlaces);
+            this._setEditorFormat(decimalPlaces, hasThousandSeparator);
         }
         /** Returns all the events associated to the column */
         public get columnEvents(): OSFramework.DataGrid.Event.Column.ColumnEventsManager {
@@ -72,7 +84,10 @@ namespace Providers.DataGrid.Wijmo.Column {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public build(): any {
-            this._setFormat(this.config.decimalPlaces);
+            this._setFormat(
+                this.config.decimalPlaces,
+                this.config.hasThousandSeparator
+            );
             super.build();
             this.grid.features.filter.deactivate(this.uniqueId);
             this.grid.features.calculatedField.addFormula(
@@ -88,6 +103,11 @@ namespace Providers.DataGrid.Wijmo.Column {
                 case OSFramework.DataGrid.OSStructure.ColumnProperties
                     .DecimalPlaces:
                     this._setFormat(propertyValue);
+                    this.applyConfigs();
+                    break;
+                case OSFramework.DataGrid.OSStructure.ColumnProperties
+                    .HasThousandSeparator:
+                    this._setFormat(this.config.decimalPlaces, propertyValue);
                     this.applyConfigs();
                     break;
                 default:

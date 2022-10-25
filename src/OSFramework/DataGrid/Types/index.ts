@@ -220,5 +220,6 @@ namespace OSFramework.DataGrid.Types {
     export interface ICalculatedColumnExtraConfigs extends ICommonExtraConfigs {
         decimalPlaces: number;
         formula: DataGrid.OSStructure.Formula;
+        hasThousandSeparator: boolean;
     }
 }
