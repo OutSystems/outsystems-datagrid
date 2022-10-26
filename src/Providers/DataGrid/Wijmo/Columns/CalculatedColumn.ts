@@ -50,9 +50,6 @@ namespace Providers.DataGrid.Wijmo.Column {
 
         /**
          * Makes the provider string format based on decimal places and thousands separator
-         *
-         * @param decimalPlaces Precision for numeric values
-         * @param hasThousandSeparator Boolean indicating if it must have thousand sepataros
          */
         private _setFormat(): void {
             // if format starts with n, the number will have thousand separator
