@@ -29,46 +29,39 @@ namespace Providers.DataGrid.Wijmo.Column {
                 extraConfig.formula.function;
         }
 
-        // by default, we want numbers to have thousand separator
-        private _setEditorFormat(
-            decimalPlaces,
-            hasThousandSeparator = true
-        ): void {
-            // if format starts with n, the number will have thousand separator
-            // if starts with f, it won't
-            const format = hasThousandSeparator ? 'n' : 'f';
-
-            this.config.format = `${format} ${decimalPlaces}`;
-
-            this.config.format = `n ${decimalPlaces}`;
-        }
-
         /**
-         * Makes the provider string format based on decimal places
+         * Set the configs for decimalPlaces
          *
          * @param decimalPlaces Precision for numeric values
-         * @param args Used for extension by inherited classes
          */
-        protected _setFormat(
-            decimalPlaces: number,
-            hasThousandSeparator = true
-        ): void {
+        private _setDecimalPlaces(decimalPlaces: number) {
             if (decimalPlaces > 11 || decimalPlaces < 0) {
                 throw new Error(
                     `Invalid parameter decimal places configuration for column "${this.provider.header}".\nAvailable range for decimal places 0 to 11.`
                 );
             } else if (decimalPlaces === undefined) {
-                this.config.decimalPlaces = 0; // properties without a value are removed by default from JSON object, what makes them undefined
+                this.config.decimalPlaces = 2; // properties without a value are removed by default from JSON object, what makes them undefined
             } else {
-                this.config.decimalPlaces =
-                    decimalPlaces >= 0
-                        ? decimalPlaces
-                        : wijmo.culture.Globalize.numberFormat.currency
-                              .decimals;
+                this.config.decimalPlaces = decimalPlaces;
             }
 
-            this._setEditorFormat(decimalPlaces, hasThousandSeparator);
+            this._setFormat();
         }
+
+        /**
+         * Makes the provider string format based on decimal places and thousands separator
+         *
+         * @param decimalPlaces Precision for numeric values
+         * @param hasThousandSeparator Boolean indicating if it must have thousand sepataros
+         */
+        private _setFormat(): void {
+            // if format starts with n, the number will have thousand separator
+            // if starts with f, it won't
+            const format = this.config.hasThousandSeparator ? 'n' : 'f';
+
+            this.config.format = `${format} ${this.config.decimalPlaces}`;
+        }
+
         /** Returns all the events associated to the column */
         public get columnEvents(): OSFramework.DataGrid.Event.Column.ColumnEventsManager {
             return this._columnEvents;
@@ -84,10 +77,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public build(): any {
-            this._setFormat(
-                this.config.decimalPlaces,
-                this.config.hasThousandSeparator
-            );
+            this._setDecimalPlaces(this.config.decimalPlaces);
             super.build();
             this.grid.features.filter.deactivate(this.uniqueId);
             this.grid.features.calculatedField.addFormula(
@@ -102,12 +92,13 @@ namespace Providers.DataGrid.Wijmo.Column {
             switch (propertyName) {
                 case OSFramework.DataGrid.OSStructure.ColumnProperties
                     .DecimalPlaces:
-                    this._setFormat(propertyValue);
+                    this._setDecimalPlaces(propertyValue);
                     this.applyConfigs();
                     break;
                 case OSFramework.DataGrid.OSStructure.ColumnProperties
                     .HasThousandSeparator:
-                    this._setFormat(this.config.decimalPlaces, propertyValue);
+                    this.config.hasThousandSeparator = propertyValue;
+                    this._setFormat();
                     this.applyConfigs();
                     break;
                 default:
