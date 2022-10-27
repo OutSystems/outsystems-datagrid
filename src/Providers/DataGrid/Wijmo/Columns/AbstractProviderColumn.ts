@@ -10,7 +10,9 @@ namespace Providers.DataGrid.Wijmo.Column {
         private _provider: wijmo.grid.ColumnGroup;
 
         public get columnEvents(): OSFramework.DataGrid.Event.Column.ColumnEventsManager {
-            throw `The column ${this.columnType.toString()} does not support events`;
+            throw new Error(
+                `The column ${this.columnType.toString()} does not support events`
+            );
         }
 
         /** Checks if the column has associated events */

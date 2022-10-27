@@ -69,7 +69,7 @@ namespace Providers.DataGrid.Wijmo.Column {
                         grid,
                         columnID,
                         configs,
-                        extraConfigs
+                        extraConfigs as OSFramework.DataGrid.Types.ICalculatedColumnExtraConfigs
                     );
                 case OSFramework.DataGrid.Enum.ColumnType.Text:
                     return new TextColumn(
@@ -79,7 +79,9 @@ namespace Providers.DataGrid.Wijmo.Column {
                         extraConfigs as OSFramework.DataGrid.Types.ITextColumnExtraConfigs
                     );
                 default:
-                    throw `There is no factory for this type of column (${type})`;
+                    throw new Error(
+                        `There is no factory for this type of column (${type})`
+                    );
             }
         }
     }
