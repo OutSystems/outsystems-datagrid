@@ -50,7 +50,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 e.row,
                 column.binding
             );
-            if (oldValue !== newValue) {
+            //Trigger this only if is not the same value or is the initial after changes
+            //For dropdowns we also need to check if the number in string is not equal to the number itself
+            if (
+                (oldValue !== newValue &&
+                    parseFloat(oldValue) !== parseFloat(newValue)) ||
+                (oldValue === newValue &&
+                    this._grid.features.dirtyMark.isGridDirty)
+            ) {
                 this._triggerEventsFromColumn(
                     e.row,
                     OSColumn.uniqueId,

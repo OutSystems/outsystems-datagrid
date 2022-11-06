@@ -141,7 +141,10 @@ namespace Providers.DataGrid.Wijmo.Column {
             newValue: any
         ): void {
             // only set to blank if there is a different value
-            if (oldValue !== newValue) {
+            if (
+                oldValue !== newValue &&
+                parseFloat(oldValue) !== parseFloat(newValue)
+            ) {
                 const column = this.grid.getColumn(columnID);
                 const currentValue = this.grid.provider.getCellData(
                     rowNumber,
