@@ -7,7 +7,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
         private _getDirtyEditedItems() {
             const itemsSource = this._provider;
             return itemsSource.itemsEdited.filter((editedItem) => {
-                const rowIndex = itemsSource.sourceCollection.findIndex(
+                const rowIndex = itemsSource.items.findIndex(
                     (item) => item === editedItem
                 );
 
