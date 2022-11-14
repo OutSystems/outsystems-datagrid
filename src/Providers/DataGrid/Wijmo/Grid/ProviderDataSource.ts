@@ -7,7 +7,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
         private _getDirtyEditedItems() {
             const itemsSource = this._provider;
             return itemsSource.itemsEdited.filter((editedItem) => {
-                const rowIndex = itemsSource.items.findIndex(
+                const rowIndex = itemsSource.sourceCollection.findIndex(
                     (item) => item === editedItem
                 );
 
@@ -48,13 +48,12 @@ namespace Providers.DataGrid.Wijmo.Grid {
             }
 
             if (
-                itemsSource.itemsEdited.length > 0 &&
-                this.parentGrid.features.dirtyMark.isGridDirty
+                itemsSource.itemsEdited.length > 0
             ) {
-                const dirtyEditedItems = this._getDirtyEditedItems();
+                //const dirtyEditedItems = this._getDirtyEditedItems();
                 changes.hasChanges = true;
                 changes.editedLinesJSON =
-                    this._getChangesString(dirtyEditedItems);
+                    this._getChangesString(itemsSource.itemsEdited);
             }
 
             if (itemsSource.itemsRemoved.length > 0) {
