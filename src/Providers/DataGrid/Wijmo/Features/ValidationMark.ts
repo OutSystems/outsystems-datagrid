@@ -35,16 +35,17 @@ namespace Providers.DataGrid.Wijmo.Feature {
         /**
          * Handler for the CellEditEnding.
          */
-        private _cellEditBeforeEndingHandler( s: wijmo.grid.FlexGrid,
+        private _cellEditBeforeEndingHandler(
+            s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
             // get old and new values
-             let oldVal = s.getCellData(e.row, e.col, false) ?? '',
-                 newVal = s.activeEditor.value ?? '';
-           
-             // cancel edits if oldVal is equals to newVal
-             e.cancel = oldVal === newVal;
-       }
+            const oldVal = s.getCellData(e.row, e.col, false) ?? '';
+            const newVal = s.activeEditor.value ?? '';
+
+            // cancel edits if oldVal is equals to newVal
+            e.cancel = oldVal === newVal;
+        }
 
         /**
          * Handler for the CellEditEnded.
