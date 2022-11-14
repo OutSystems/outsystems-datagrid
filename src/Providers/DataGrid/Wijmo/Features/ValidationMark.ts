@@ -54,7 +54,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             //For dropdowns we also need to check if the number in string is not equal to the number itself
             if (
                 (oldValue !== newValue &&
-                    parseFloat(oldValue) !== parseFloat(newValue)) ||
+                    oldValue.toString() !== newValue.toString()) ||
                 (oldValue === newValue &&
                     this._grid.features.dirtyMark.isGridDirty)
             ) {
