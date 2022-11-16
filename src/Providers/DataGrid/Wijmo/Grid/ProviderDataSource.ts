@@ -48,7 +48,6 @@ namespace Providers.DataGrid.Wijmo.Grid {
             }
 
             if (itemsSource.itemsEdited.length > 0) {
-                //const dirtyEditedItems = this._getDirtyEditedItems();
                 changes.hasChanges = true;
                 changes.editedLinesJSON = this._getChangesString(
                     itemsSource.itemsEdited
