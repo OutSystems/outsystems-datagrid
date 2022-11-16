@@ -47,14 +47,11 @@ namespace Providers.DataGrid.Wijmo.Grid {
                 );
             }
 
-            if (
-                itemsSource.itemsEdited.length > 0 &&
-                this.parentGrid.features.dirtyMark.isGridDirty
-            ) {
-                const dirtyEditedItems = this._getDirtyEditedItems();
+            if (itemsSource.itemsEdited.length > 0) {
                 changes.hasChanges = true;
-                changes.editedLinesJSON =
-                    this._getChangesString(dirtyEditedItems);
+                changes.editedLinesJSON = this._getChangesString(
+                    itemsSource.itemsEdited
+                );
             }
 
             if (itemsSource.itemsRemoved.length > 0) {
