@@ -46,8 +46,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
             // Trigger the searchDone platform event to enable / disable the results message
             this._grid.provider.collectionView.collectionChanged.addHandler(
                 () => {
-                    // we only want to trigger if search bar is filled.
-                    if (this.hasText) {
+                    // we only want to trigger if search bar is filled or after an empty search.
+                    if (this.hasText || this._searchData.text === '') {
                         this._grid.gridEvents.trigger(
                             OSFramework.DataGrid.Event.Grid.GridEventType
                                 .SearchEnded,
