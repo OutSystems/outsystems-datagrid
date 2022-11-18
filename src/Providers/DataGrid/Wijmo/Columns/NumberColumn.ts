@@ -78,8 +78,12 @@ namespace Providers.DataGrid.Wijmo.Column {
         private _setMaxValue(maxValue?: number) {
             const decimalPlaces = this.editorConfig.decimalPlaces;
             const maxPerDecPlaces = MaxNonDecimalValues[decimalPlaces];
-
-            this.editorConfig.maxValue = maxValue || maxPerDecPlaces;
+            maxValue =
+                maxValue === undefined ? this.editorConfig.maxValue : maxValue;
+            this.editorConfig.maxValue =
+                maxValue && maxValue < maxPerDecPlaces
+                    ? maxValue
+                    : maxPerDecPlaces;
         }
 
         /**
@@ -90,8 +94,12 @@ namespace Providers.DataGrid.Wijmo.Column {
         private _setMinValue(minValue?: number) {
             const decimalPlaces = this.editorConfig.decimalPlaces;
             const minPerDecPlaces = -MaxNonDecimalValues[decimalPlaces];
-
-            this.editorConfig.minValue = minValue || minPerDecPlaces;
+            minValue =
+                minValue === undefined ? this.editorConfig.minValue : minValue;
+            this.editorConfig.minValue =
+                minValue && minValue > minPerDecPlaces
+                    ? minValue
+                    : minPerDecPlaces;
         }
 
         /**
