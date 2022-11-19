@@ -81,7 +81,7 @@ namespace Providers.DataGrid.Wijmo.Column {
             maxValue =
                 maxValue === undefined ? this.editorConfig.maxValue : maxValue;
             this.editorConfig.maxValue =
-                maxValue !== undefined && maxValue < maxPerDecPlaces
+                maxValue && maxValue < maxPerDecPlaces
                     ? maxValue
                     : maxPerDecPlaces;
         }
@@ -97,7 +97,7 @@ namespace Providers.DataGrid.Wijmo.Column {
             minValue =
                 minValue === undefined ? this.editorConfig.minValue : minValue;
             this.editorConfig.minValue =
-                minValue !== undefined && minValue > minPerDecPlaces
+                minValue && minValue > minPerDecPlaces
                     ? minValue
                     : minPerDecPlaces;
         }
