@@ -164,7 +164,6 @@ namespace Providers.DataGrid.Wijmo.Grid {
                 (item) =>
                     _.get(item, this._configs.keyBinding).toString() === rowKey
             );
-
             return rowIndex;
         }
 
