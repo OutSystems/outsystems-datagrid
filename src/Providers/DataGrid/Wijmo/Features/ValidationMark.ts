@@ -312,6 +312,29 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         /**
+         * Set invalid rows
+         * @param rowNumber Index of the row to trigger the events
+         * @param isValid Wether or not row is valid
+         */
+        private _setRowStatusByNumber(
+            rowNumber: number,
+            isValid: boolean
+        ): void {
+            const dataItem =
+                this._grid.provider.itemsSource.sourceCollection[rowNumber];
+
+            if (!this._invalidRows.has(dataItem)) {
+                if (isValid === false) {
+                    this._invalidRows.add(dataItem);
+                }
+            } else {
+                if (isValid === true) {
+                    this._invalidRows.delete(dataItem);
+                }
+            }
+        }
+
+        /**
          * Triggers the events of OnCellValueChange associated to a specific column in OS
          * @param rowNumber Number of the row to trigger the events
          * @param columnUniqueID Id of the Column that contains the associated events
@@ -709,6 +732,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public setRowStatus(rowNumber: number, isValid: boolean): void {
             // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
             this._setRowStatus(rowNumber, isValid);
+        }
+
+        public setRowStatusByNumber(rowNumber: number, isValid: boolean): void {
+            // set invalidRows with row index/number and flag that checks if status isValid and if there are invalid values on metadata
+            this._setRowStatusByNumber(rowNumber, isValid);
         }
 
         /**

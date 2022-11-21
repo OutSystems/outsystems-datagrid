@@ -23,6 +23,7 @@ namespace OSFramework.DataGrid.Feature {
             errorMessage: string
         ): void;
         setRowStatus(rowNumber: number, isValid: boolean): void;
+        setRowStatusByNumber(rowIndex: number, isValid: boolean): void;
         validateCell(
             rowNumber: number,
             column: OSFramework.DataGrid.Column.IColumn,
