@@ -204,14 +204,51 @@ namespace OutSystems.GridAPI.Rows {
     }
 
     /**
+     * Function that will remove the listed rows from the grid.
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @param {string} rowNumbers Serialized list of row numbers.
+     * @param {string} rowKeys Serialized list of row keys.
+     * @returns {*}  {string} Resulting code and message in JSON format
+     */
+    export function RemoveRows(
+        gridID: string,
+        rowNumbers: string,
+        rowKeys: string
+    ): string {
+        Performance.SetMark('Rows.RemoveRows');
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveRowList,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.rows.removeRowsByNumberOrKey(
+                    JSON.parse(rowNumbers),
+                    JSON.parse(rowKeys)
+                );
+            }
+        });
+        Performance.SetMark('Rows.RemoveRows-end');
+        Performance.GetMeasure(
+            '@datagrid-Rows.RemoveRows',
+            'Rows.RemoveRows',
+            'Rows.RemoveRows-end'
+        );
+        return result;
+    }
+
+    /**
      * Function that will remove the selected rows from the grid.
      *
      * @export
      * @param {string} gridID ID of the Grid where the change will occur.
      * @returns {*}  {string} Resulting code and message in JSON format
      */
-    export function RemoveRows(gridID: string): string {
-        Performance.SetMark('Rows.RemoveRows');
+    export function RemoveSelectedRows(gridID: string): string {
+        Performance.SetMark('Rows.RemoveSelectedRows');
 
         const grid = GridManager.GetGridById(gridID);
         let output = '';
@@ -220,11 +257,11 @@ namespace OutSystems.GridAPI.Rows {
             output = JSON.stringify(grid.features.rows.removeSelectedRows());
         }
 
-        Performance.SetMark('Rows.RemoveRows-end');
+        Performance.SetMark('Rows.RemoveSelectedRows-end');
         Performance.GetMeasure(
-            '@datagrid-Rows.RemoveRows',
-            'Rows.RemoveRows',
-            'Rows.RemoveRows-end'
+            '@datagrid-Rows.RemoveSelectedRows',
+            'Rows.RemoveSelectedRows',
+            'Rows.RemoveSelectedRows-end'
         );
         return output;
     }
@@ -498,11 +535,29 @@ namespace GridAPI.Rows {
      * @param {string} gridID ID of the Grid where the change will occur.
      * @returns {*}  {string} Resulting code and message in JSON format
      */
-    export function RemoveRows(gridID: string): string {
+    export function RemoveRows(
+        gridID: string,
+        rowNumbers: string,
+        rowKeys: string
+    ): string {
         OSFramework.DataGrid.Helper.LogWarningMessage(
             `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveRows()'`
         );
-        return OutSystems.GridAPI.Rows.RemoveRows(gridID);
+        return OutSystems.GridAPI.Rows.RemoveRows(gridID, rowNumbers, rowKeys);
+    }
+
+    /**
+     * Function that will remove the selected rows from the grid.
+     *
+     * @export
+     * @param {string} gridID ID of the Grid where the change will occur.
+     * @returns {*}  {string} Resulting code and message in JSON format
+     */
+    export function RemoveSelectedRows(gridID: string): string {
+        OSFramework.DataGrid.Helper.LogWarningMessage(
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveSelectedRows()'`
+        );
+        return OutSystems.GridAPI.Rows.RemoveSelectedRows(gridID);
     }
 
     /**
