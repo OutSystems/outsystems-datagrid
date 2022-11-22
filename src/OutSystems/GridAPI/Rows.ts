@@ -212,12 +212,12 @@ namespace OutSystems.GridAPI.Rows {
      * @param {string} rowKeys Serialized list of row keys.
      * @returns {*}  {string} Resulting code and message in JSON format
      */
-    export function RemoveRows(
+    export function RemoveRowsByNumberOrKey(
         gridID: string,
         rowNumbers: string,
         rowKeys: string
     ): string {
-        Performance.SetMark('Rows.RemoveRows');
+        Performance.SetMark('Rows.RemoveRowsByNumberOrKey');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -231,11 +231,11 @@ namespace OutSystems.GridAPI.Rows {
                 );
             }
         });
-        Performance.SetMark('Rows.RemoveRows-end');
+        Performance.SetMark('Rows.RemoveRowsByNumberOrKey-end');
         Performance.GetMeasure(
-            '@datagrid-Rows.RemoveRows',
-            'Rows.RemoveRows',
-            'Rows.RemoveRows-end'
+            '@datagrid-Rows.RemoveRowsByNumberOrKey',
+            'Rows.RemoveRowsByNumberOrKey',
+            'Rows.RemoveRowsByNumberOrKey-end'
         );
         return result;
     }
@@ -247,8 +247,8 @@ namespace OutSystems.GridAPI.Rows {
      * @param {string} gridID ID of the Grid where the change will occur.
      * @returns {*}  {string} Resulting code and message in JSON format
      */
-    export function RemoveSelectedRows(gridID: string): string {
-        Performance.SetMark('Rows.RemoveSelectedRows');
+    export function RemoveRows(gridID: string): string {
+        Performance.SetMark('Rows.RemoveRows');
 
         const grid = GridManager.GetGridById(gridID);
         let output = '';
@@ -257,11 +257,11 @@ namespace OutSystems.GridAPI.Rows {
             output = JSON.stringify(grid.features.rows.removeSelectedRows());
         }
 
-        Performance.SetMark('Rows.RemoveSelectedRows-end');
+        Performance.SetMark('Rows.RemoveRows-end');
         Performance.GetMeasure(
-            '@datagrid-Rows.RemoveSelectedRows',
-            'Rows.RemoveSelectedRows',
-            'Rows.RemoveSelectedRows-end'
+            '@datagrid-Rows.RemoveRows',
+            'Rows.RemoveRows',
+            'Rows.RemoveRows-end'
         );
         return output;
     }
@@ -535,15 +535,19 @@ namespace GridAPI.Rows {
      * @param {string} gridID ID of the Grid where the change will occur.
      * @returns {*}  {string} Resulting code and message in JSON format
      */
-    export function RemoveRows(
+    export function RemoveRowsByNumberOrKey(
         gridID: string,
         rowNumbers: string,
         rowKeys: string
     ): string {
         OSFramework.DataGrid.Helper.LogWarningMessage(
-            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveRows()'`
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveRowsByNumberOrKey()'`
         );
-        return OutSystems.GridAPI.Rows.RemoveRows(gridID, rowNumbers, rowKeys);
+        return OutSystems.GridAPI.Rows.RemoveRowsByNumberOrKey(
+            gridID,
+            rowNumbers,
+            rowKeys
+        );
     }
 
     /**
@@ -553,11 +557,11 @@ namespace GridAPI.Rows {
      * @param {string} gridID ID of the Grid where the change will occur.
      * @returns {*}  {string} Resulting code and message in JSON format
      */
-    export function RemoveSelectedRows(gridID: string): string {
+    export function RemoveRows(gridID: string): string {
         OSFramework.DataGrid.Helper.LogWarningMessage(
-            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveSelectedRows()'`
+            `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Rows.RemoveRows()'`
         );
-        return OutSystems.GridAPI.Rows.RemoveSelectedRows(gridID);
+        return OutSystems.GridAPI.Rows.RemoveRows(gridID);
     }
 
     /**
