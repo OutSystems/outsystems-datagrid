@@ -33,6 +33,21 @@ namespace Providers.DataGrid.Wijmo.Feature {
         // }
 
         /**
+         * Handler for the CellEditEnding.
+         */
+        private _cellEditBeforeEndingHandler(
+            s: wijmo.grid.FlexGrid,
+            e: wijmo.grid.CellRangeEventArgs
+        ): void {
+            // get old and new values
+            const oldVal = s.getCellData(e.row, e.col, false) ?? '';
+            const newVal = s.activeEditor?.value ?? '';
+
+            // cancel edits if oldVal is equals to newVal
+            e.cancel = oldVal === newVal;
+        }
+
+        /**
          * Handler for the CellEditEnded.
          */
         private _cellEditHandler(
@@ -409,6 +424,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         public build(): void {
+            this._grid.provider.cellEditEnding.addHandler(
+                this._cellEditBeforeEndingHandler.bind(this)
+            );
             this._grid.provider.cellEditEnded.addHandler(
                 this._cellEditHandler.bind(this)
             );
