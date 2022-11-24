@@ -34,7 +34,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
         /**
          * Handler for the CellEditEnding.
-         * It checks if the cell value effectively changed 
+         * It checks if the cell value effectively changed
          * For this purpose, here we consider null == undefined == ''
          * Bug: it does not work for checkboxes, since the activeEditor.value is always "on"
          */
