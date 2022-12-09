@@ -26,6 +26,22 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this.saveOriginalValue(e.row, e.col);
         }
 
+        // check if values are equal.
+        // since undefined is not equal to null or an empty string, we explicity say we want them to be considered equal
+        private _isOriginalValue(originalValue: any, cellValue: any): boolean {
+            return !_.isEqualWith(originalValue, cellValue, () => {
+                if (
+                    (originalValue === undefined &&
+                        (cellValue === undefined ||
+                            cellValue === null ||
+                            cellValue === '')) ||
+                    originalValue?.toString() === cellValue?.toString()
+                ) {
+                    return true;
+                }
+            });
+        }
+
         private _formatItems(
             _grid: wijmo.grid.FlexGrid,
             e: wijmo.grid.FormatItemEventArgs
@@ -63,18 +79,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 if (metadata.originalValues.has(binding)) {
                     const originalValue = metadata.originalValues.get(binding);
 
-                    // check if values are equal.
-                    // since undefined is not equal to null or an empty string, we explicity say we want them to be considered equal
-                    return !_.isEqualWith(originalValue, cellValue, () => {
-                        if (
-                            originalValue === undefined &&
-                            (cellValue === undefined ||
-                                cellValue === null ||
-                                cellValue === '')
-                        ) {
-                            return true;
-                        }
-                    });
+                    return this._isOriginalValue(originalValue, cellValue);
                 }
             }
             return false;
@@ -95,18 +100,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         false
                     );
 
-                    // check if values are equal.
-                    // since undefined is not equal to null or an empty string, we explicity say we want them to be considered equal
-                    return !_.isEqualWith(originalValue, cellValue, () => {
-                        if (
-                            originalValue === undefined &&
-                            (cellValue === undefined ||
-                                cellValue === null ||
-                                cellValue === '')
-                        ) {
-                            return true;
-                        }
-                    });
+                    return this._isOriginalValue(originalValue, cellValue);
                 });
                 return hasDirtyMarkCell;
             }
