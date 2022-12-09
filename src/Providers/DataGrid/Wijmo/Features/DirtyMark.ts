@@ -26,22 +26,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this.saveOriginalValue(e.row, e.col);
         }
 
-        // check if values are equal.
-        // since undefined is not equal to null or an empty string, we explicity say we want them to be considered equal
-        private _isOriginalValue(originalValue: any, cellValue: any): boolean {
-            return !_.isEqualWith(originalValue, cellValue, () => {
-                if (
-                    (originalValue === undefined &&
-                        (cellValue === undefined ||
-                            cellValue === null ||
-                            cellValue === '')) ||
-                    originalValue?.toString() === cellValue?.toString()
-                ) {
-                    return true;
-                }
-            });
-        }
-
         private _formatItems(
             _grid: wijmo.grid.FlexGrid,
             e: wijmo.grid.FormatItemEventArgs
@@ -116,6 +100,25 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return this._grid.provider.itemsSource.sourceCollection.some(
                 (_row, index) => this._isDirtyRow(index)
             );
+        }
+
+        // check if values are equal.
+        // since undefined is not equal to null or an empty string, we explicity say we want them to be considered equal
+        private _isOriginalValue(
+            originalValue: string | number,
+            cellValue: string | number
+        ): boolean {
+            return !_.isEqualWith(originalValue, cellValue, () => {
+                if (
+                    (originalValue === undefined &&
+                        (cellValue === undefined ||
+                            cellValue === null ||
+                            cellValue === '')) ||
+                    originalValue?.toString() === cellValue?.toString()
+                ) {
+                    return true;
+                }
+            });
         }
 
         public build(): void {
