@@ -5,8 +5,7 @@
 	"editor.wordWrapColumn": 170,
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": true,
-		"source.fixAll.stylelint": true
+		"source.fixAll.eslint": true
 	},
 	"css.lint.fontFaceProperties": "ignore",
 	"scss.lint.fontFaceProperties": "ignore",
