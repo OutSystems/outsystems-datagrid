@@ -140,83 +140,87 @@ namespace Providers.DataGrid.Wijmo.Column {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newValue: any
         ): void {
-            // only set to blank if there is a different value
             if (
                 oldValue !== newValue &&
                 oldValue.toString() !== newValue.toString()
             ) {
-                const column = this.grid.getColumn(columnID);
-                const currentValue = this.grid.provider.getCellData(
-                    rowNumber,
-                    this.provider.index,
-                    false
-                );
-
                 this.grid.features.dirtyMark.saveOriginalValue(
                     rowNumber,
                     this.provider.index
                 );
+            }
 
-                const cellRange = new wijmo.grid.CellRange(
-                    rowNumber,
-                    this.provider.index
-                );
+            const column = this.grid.getColumn(columnID);
 
-                // check if current parent cell has an undo action on undo stack
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const existingUndoAction: any =
-                    this.grid.features.undoStack.stack._stack.find(
-                        (data: GridEditAction) =>
-                            data.col === column.provider.index &&
-                            data.row === rowNumber
-                    );
-
-                if (existingUndoAction) {
-                    // check if current child cell has an undo action on undo stack
-                    const existingEditActionForColRow =
-                        existingUndoAction?._actions?.find(
-                            (action: GridEditAction) =>
-                                action.col === this.provider.index &&
-                                action.row === rowNumber
-                        );
-
-                    // only add child undo action if it doesnt already exist. we don't want duplicated actions
-                    if (!existingEditActionForColRow) {
-                        // add new child action into existing parent action in order
-                        existingUndoAction.addChildAction(
-                            new GridEditAction(
-                                this.grid,
-                                new wijmo.grid.CellRangeEventArgs(
-                                    this.grid.provider.cells,
-                                    cellRange
-                                )
-                            )
-                        );
-                    }
-                }
-                this.grid.provider.setCellData(
+            // get current value of the child cell
+            // if it is null or undefined, set it as an empty string
+            const currentValue =
+                this.grid.provider.getCellData(
                     rowNumber,
                     this.provider.index,
-                    '',
-                    true
+                    false
+                ) ?? '';
+            const cellRange = new wijmo.grid.CellRange(
+                rowNumber,
+                this.provider.index
+            );
+
+            // check if current parent cell has an undo action on undo stack
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const existingUndoAction: any =
+                this.grid.features.undoStack.stack._stack.find(
+                    (data: GridEditAction) =>
+                        data.col === column.provider.index &&
+                        data.row === rowNumber
                 );
 
-                this.grid.features.validationMark.validateCell(
-                    rowNumber,
-                    this,
-                    true
-                );
+            if (existingUndoAction) {
+                // check if current child cell has an undo action on undo stack
+                const existingEditActionForColRow =
+                    existingUndoAction?._actions?.find(
+                        (action: GridEditAction) =>
+                            action.col === this.provider.index &&
+                            action.row === rowNumber
+                    );
 
-                // trigger cell value change event
-                if (column) {
-                    this.columnEvents.trigger(
-                        OSFramework.DataGrid.Event.Column.ColumnEventType
-                            .OnCellValueChange,
-                        '',
-                        currentValue,
-                        rowNumber
+                // only add child undo action if it doesn't already exist. we don't want duplicated actions
+                if (!existingEditActionForColRow) {
+                    // add new child action into existing parent action in order
+                    existingUndoAction.addChildAction(
+                        new GridEditAction(
+                            this.grid,
+                            new wijmo.grid.CellRangeEventArgs(
+                                this.grid.provider.cells,
+                                cellRange
+                            )
+                        )
                     );
                 }
+            }
+
+            // always clear the child cell when the parent changes
+            this.grid.provider.setCellData(
+                rowNumber,
+                this.provider.index,
+                '',
+                true
+            );
+
+            this.grid.features.validationMark.validateCell(
+                rowNumber,
+                this,
+                true
+            );
+
+            // trigger cell value change event
+            if (column) {
+                this.columnEvents.trigger(
+                    OSFramework.DataGrid.Event.Column.ColumnEventType
+                        .OnCellValueChange,
+                    '',
+                    currentValue,
+                    rowNumber
+                );
             }
         }
 
