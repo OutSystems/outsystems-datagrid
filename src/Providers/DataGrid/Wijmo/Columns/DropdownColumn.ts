@@ -181,10 +181,10 @@ namespace Providers.DataGrid.Wijmo.Column {
                         (action: GridEditAction) =>
                             action.col === this.provider.index &&
                             action.row === rowNumber
-                    );
+                    ) ?? false;
 
                 // only add child undo action if it doesn't already exist. we don't want duplicated actions
-                if (!existingEditActionForColRow) {
+                if (existingEditActionForColRow === false) {
                     // add new child action into existing parent action in order
                     existingUndoAction.addChildAction(
                         new GridEditAction(
