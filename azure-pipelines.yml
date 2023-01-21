@@ -13,7 +13,7 @@ trigger:
       - dev
 variables:
   SourcesDirectory: '$(Build.SourcesDirectory)'
-  Project: 'outsystems-datagrid-reactive'
+  Project: 'outsystems-datagrid'
   BuildConfiguration: 'Release'
   Config: '--configuration=$(BuildConfiguration)'
   TagName: 'v$(Build.BuildNumber)'
