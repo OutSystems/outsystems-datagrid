@@ -95,8 +95,8 @@ stages:
     pool:
           vmImage: 'windows-latest'
     steps:   
-    - checkout: outsystems-datagrid-reactive-tests 
-    - template: './azure/azure-pipelines-template.yml@outsystems-datagrid-reactive-tests'
+    - checkout: outsystems-datagrid-tests 
+    - template: './azure/azure-pipelines-template.yml@outsystems-datagrid-tests'
       parameters:
         grid: reactive
         module: $(module)
