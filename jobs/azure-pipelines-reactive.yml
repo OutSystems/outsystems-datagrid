@@ -49,27 +49,59 @@ parameters:
   default: 2
 
 stages: 
+- stage: CheckBranch
+  jobs:
+    - job: CheckBranchJob
+      displayName: 'Check Branch Exists'
+      pool:
+            vmImage: 'windows-latest'
+      steps:    
+      #Format branch name
+      - bash: |
+            declare BRANCH 
+            BRANCH=$(system.pullRequest.sourceBranch)
+            echo "GridReactive_Automation_${BRANCH//[-]/}"
+            echo "##vso[task.setvariable variable=branch;]GridReactive_Automation_${BRANCH//[-]/}"
+            echo "##vso[task.setvariable variable=module;isoutput=true]GridReactive_Automation_${BRANCH//[-]/}"
+        name: branch_name
+
+      #Ping sample test page
+      #Sets skip variable as true if sample doesnt exist.
+      - bash: |
+          status=$(curl -s --head -w %{http_code} $(ENV_URL)/$(branch)/ -o /dev/null)
+          echo $status
+          echo $(ENV_URL)/$(branch)/
+          if [[ $status = 404 ]]
+          then
+            echo "##vso[task.setvariable variable=skip;isoutput=true]true"
+          fi
+        displayName: "Ping sample test page"
+        name: "skipTests"
+
+
 - stage: Tests
   #Only run tests if not in dev branch
-  condition: ne(variables['Build.SourceBranchName'], 'dev')
+  condition: and(ne(stageDependencies.CheckBranch.outputs['CheckBranchJob.skipTests.skip'], 'true'), ne(variables['Build.SourceBranchName'], 'dev'))
   displayName: 'Tests'
+  variables:
+    - group: "Services Credentials"
+  
   jobs:
-  - job: Tests
-    displayName: 'Tests Job'
+  - job: Run_Tests
+    displayName: 'Run tests'
     timeoutInMinutes: 180
+    variables:
+      module: $[ stageDependencies.CheckBranch.CheckBranchJob.outputs['branch_name.module'] ]
     pool:
           vmImage: 'windows-latest'
-    steps:
-    #Checkout repositories
-    - checkout: self
-    - checkout: outsystems-datagrid-reactive-tests 
-
-    - template: 'azure-pipelines-template.yml'
+    steps:   
+    - checkout: outsystems-datagrid-tests 
+    - template: './azure/azure-pipelines-template.yml@outsystems-datagrid-tests'
       parameters:
         grid: reactive
-        module: ${{ parameters.module }}
+        module: $(module)
         browser: ${{ parameters.browser }}
         environment: ${{ parameters.environment }}
-        feature: ${{ parameters.feature }}
+        tags: ${{ parameters.feature }}
         priority: ${{ parameters.priority }}
         instances: ${{ parameters.instances }}

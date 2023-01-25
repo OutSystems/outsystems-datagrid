@@ -33,24 +33,53 @@ namespace Providers.DataGrid.Wijmo.Feature {
         // }
 
         /**
+         * Handler for the CellEditEnding.
+         * It checks if the cell value effectively changed
+         * For this purpose, here we consider null == undefined == ''
+         * Bug: it does not work for checkboxes, since the activeEditor.value is always "on"
+         */
+        private _cellEditBeforeEndingHandler(
+            s: wijmo.grid.FlexGrid,
+            e: wijmo.grid.CellRangeEventArgs
+        ): void {
+            // get the new value
+            const newValue = s.activeEditor?.value ?? '';
+            let currentValue = '';
+
+            // when a delete event occurs, s.getCellData() always returns an empty string
+            // because of that, we need to verify if a delete event occured and get the right current value
+            if (!!e.data && !!e.data.key && e.data.key === 'Delete') {
+                currentValue = e.data.target.textContent;
+            } else {
+                currentValue = s.getCellData(e.row, e.col, true) ?? '';
+            }
+
+            // cancel edits if currentValue is equals to newValue
+            e.cancel =
+                currentValue === newValue ||
+                currentValue.toString() === newValue.toString();
+        }
+
+        /**
          * Handler for the CellEditEnded.
          */
         private _cellEditHandler(
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
-            const column = s.getColumn(e.col);
-            const OSColumn = this._grid
-                .getColumns()
-                .find((item) => item.provider.index === column.index);
+            if (!e.cancel) {
+                const column = s.getColumn(e.col);
+                const OSColumn = this._grid
+                    .getColumns()
+                    .find((item) => item.provider.index === column.index);
 
-            const newValue = s.getCellData(e.row, e.col, false);
-            // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
-            const oldValue = this._grid.features.dirtyMark.getOldValue(
-                e.row,
-                column.binding
-            );
-            if (oldValue !== newValue) {
+                const newValue = s.getCellData(e.row, e.col, false);
+                // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
+                const oldValue = this._grid.features.dirtyMark.getOldValue(
+                    e.row,
+                    column.binding
+                );
+
                 this._triggerEventsFromColumn(
                     e.row,
                     OSColumn.uniqueId,
@@ -217,6 +246,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
         ): void {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const action: any = e.action;
+            // if search is set, we want to cancel redo
+            if (this._grid.features.search.hasText) {
+                e.cancel = true;
+                return;
+            }
 
             this._redoActionHandler(action);
 
@@ -279,6 +313,29 @@ namespace Providers.DataGrid.Wijmo.Feature {
             const rowIndex = this._metadata.getRowIndexByKey(rowKey);
             const dataItem =
                 this._grid.provider.itemsSource.sourceCollection[rowIndex];
+
+            if (!this._invalidRows.has(dataItem)) {
+                if (isValid === false) {
+                    this._invalidRows.add(dataItem);
+                }
+            } else {
+                if (isValid === true) {
+                    this._invalidRows.delete(dataItem);
+                }
+            }
+        }
+
+        /**
+         * Set invalid rows
+         * @param rowNumber Index of the row to trigger the events
+         * @param isValid Wether or not row is valid
+         */
+        private _setRowStatusByNumber(
+            rowNumber: number,
+            isValid: boolean
+        ): void {
+            const dataItem =
+                this._grid.provider.itemsSource.sourceCollection[rowNumber];
 
             if (!this._invalidRows.has(dataItem)) {
                 if (isValid === false) {
@@ -358,6 +415,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
         ): void {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const action: any = e.action;
+            // if search is set, we want to cancel undo
+            if (this._grid.features.search.hasText) {
+                e.cancel = true;
+                return;
+            }
 
             this._undoActionHandler(action);
 
@@ -392,6 +454,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         public build(): void {
+            this._grid.provider.cellEditEnding.addHandler(
+                this._cellEditBeforeEndingHandler.bind(this)
+            );
             this._grid.provider.cellEditEnded.addHandler(
                 this._cellEditHandler.bind(this)
             );
@@ -681,6 +746,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public setRowStatus(rowNumber: number, isValid: boolean): void {
             // set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
             this._setRowStatus(rowNumber, isValid);
+        }
+
+        public setRowStatusByNumber(rowNumber: number, isValid: boolean): void {
+            // set invalidRows with row index/number and flag that checks if status isValid and if there are invalid values on metadata
+            this._setRowStatusByNumber(rowNumber, isValid);
         }
 
         /**

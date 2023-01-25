@@ -24,7 +24,7 @@ If you're using OutSystems, this is how you can use this component in your appli
 ![Developer experience](https://www.outsystems.com/FroalaEditor/Download.aspx?GUID=2021216vzoTkL5piWLCGCv7VXgBkFoNdpCIye5Z9m2zyhV1gL)
 
 ## About this repository
-This repository contains the code that enable the usage of an external provider ([wijmo](https://www.grapecity.com/wijmo/)), to create grids in OutSystems applications with the least possible effort.
+This repository contains the code that enable the usage of an external provider ([Wijmo](https://www.grapecity.com/wijmo/)), to create grids in OutSystems applications with the least possible effort.
 The code is written in TypeScript🖤, and you branch it and PR your changes/proposals!
 
 ### What tools should you use?

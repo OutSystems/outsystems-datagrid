@@ -91,6 +91,7 @@ namespace OutSystems.NssDataGridUtils {
 
             json.WriteStartObject();
 
+            // structures and its attributes
             var fields = objType.GetFields().Where(f => f.Name.StartsWith("ss"));
 
             foreach (var field in fields) {
@@ -105,6 +106,7 @@ namespace OutSystems.NssDataGridUtils {
                 }
             }
 
+            // entities and its attributes
             var properties = objType.GetProperties().Where(p => p.Name.StartsWith("ss"));
 
             foreach (var property in properties) {

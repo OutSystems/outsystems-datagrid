@@ -61,7 +61,10 @@ namespace OSFramework.DataGrid.Interface {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getMetadataInRow(row: any, propertyName: string): any;
-
+        /**
+         * Responsible for retrieving the row index information for a given rowKey
+         * @param rowKey Key row reference
+         */
         getRowIndexByKey(rowKey: string): number;
         /**
          * Verify the presence of metadata information for a given row and property

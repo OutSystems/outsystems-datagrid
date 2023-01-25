@@ -40,6 +40,13 @@ namespace OSFramework.DataGrid.Feature {
             binding?: string
         );
         /**
+         * Remove the rows by number or key.
+         */
+        removeRowsByNumberOrKey(
+            rowNumbers: Array<number>,
+            rowKeys: Array<string>
+        ): void;
+        /**
          * Remove the rows that are selected.
          */
         removeSelectedRows(): void;

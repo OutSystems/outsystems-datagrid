@@ -74,6 +74,80 @@ namespace OutSystems.GridAPI.Selection {
         return JSON.stringify(grid.features.selection.getSelectedRowsData());
     }
 
+    export function GetSelectionAverage(gridID: string): string {
+        Performance.SetMark('Selection.GetSelectionAverage');
+
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
+        const grid = GridManager.GetGridById(gridID);
+        Performance.SetMark('Selection.GetSelectionAverage-end');
+        Performance.GetMeasure(
+            '@datagrid-Selection.GetSelectionAverage',
+            'Selection.GetSelectionAverage',
+            'Selection.GetSelectionAverage-end'
+        );
+        return JSON.stringify(grid.features.selection.getSelectionAverage());
+    }
+
+    export function GetSelectionCount(gridID: string): string {
+        Performance.SetMark('Selection.GetSelectionCount');
+
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
+        const grid = GridManager.GetGridById(gridID);
+
+        Performance.SetMark('Selection.GetSelectionCount-end');
+        Performance.GetMeasure(
+            '@datagrid-Selection.GetSelectionCount',
+            'Selection.GetSelectionCount',
+            'Selection.GetSelectionCount-end'
+        );
+        return JSON.stringify(grid.features.selection.getSelectionCount());
+    }
+
+    export function GetSelectionMax(gridID: string): string {
+        Performance.SetMark('Selection.GetSelectionMax');
+
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
+        const grid = GridManager.GetGridById(gridID);
+
+        Performance.SetMark('Selection.GetSelectionMax-end');
+        Performance.GetMeasure(
+            '@datagrid-Selection.GetSelectionMax',
+            'Selection.GetSelectionMax',
+            'Selection.GetSelectionMax-end'
+        );
+        return JSON.stringify(grid.features.selection.getSelectionMaxMin(true));
+    }
+
+    export function GetSelectionMin(gridID: string): string {
+        Performance.SetMark('Selection.GetSelectionMin');
+
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
+        const grid = GridManager.GetGridById(gridID);
+
+        Performance.SetMark('Selection.GetSelectionMin-end');
+        Performance.GetMeasure(
+            '@datagrid-Selection.GetSelectionMin',
+            'Selection.GetSelectionMin',
+            'Selection.GetSelectionMin-end'
+        );
+        return JSON.stringify(
+            grid.features.selection.getSelectionMaxMin(false)
+        );
+    }
+
+    export function GetSelectionSum(gridID: string): string {
+        Performance.SetMark('Selection.GetSelectionSum');
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
+        const grid = GridManager.GetGridById(gridID);
+        Performance.SetMark('Selection.GetSelectionSum-end');
+        Performance.GetMeasure(
+            '@datagrid-Selection.GetSelectionSum',
+            'Selection.GetSelectionSum',
+            'Selection.GetSelectionSum-end'
+        );
+        return JSON.stringify(grid.features.selection.getSelectionSum());
+    }
+
     export function HasSelectedRows(gridID: string): string {
         Performance.SetMark('Selection.HasSelectedRows');
 

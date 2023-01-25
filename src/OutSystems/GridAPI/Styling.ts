@@ -136,14 +136,17 @@ namespace OutSystems.GridAPI.Styling {
         }
 
         try {
-            const column = ColumnManager.GetColumnById(columnID);
+            const grid = GridManager.GetGridById(gridID);
+            const column = grid.getColumn(columnID);
 
             if (column !== undefined) {
                 const binding = column.config.binding;
 
-                GridManager.GetGridById(
-                    gridID
-                ).features.cellStyle.removeAllClasses(rowIndex, binding, true);
+                grid.features.cellStyle.removeAllClasses(
+                    rowIndex,
+                    binding,
+                    true
+                );
             } else {
                 responseObj.isSuccess = false;
                 responseObj.message =
