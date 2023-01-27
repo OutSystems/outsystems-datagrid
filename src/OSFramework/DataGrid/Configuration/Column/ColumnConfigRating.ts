@@ -3,19 +3,20 @@ namespace OSFramework.DataGrid.Configuration.Column {
     /**
      * Defines the configuration for Action Columns
      */
-    export class ColumnConfigAction extends ColumnConfig {
-        public cellTemplateType: DataGrid.Enum.CellTemplateType;
+    export class ColumnConfigRating extends ColumnConfig {
+        public cellTemplateType = DataGrid.Enum.CellTemplateType.Rating;
         public extendedClass: string;
-        public url = '';
+        public label: string;
+        public maxRating: number;
 
         constructor(
             config: DataGrid.Types.IColumnConfigs,
-            extraConfig: DataGrid.Types.IActionColumnExtraConfigs
+            extraConfig: DataGrid.Types.IRatingColumnExtraConfigs
         ) {
             super(config);
-            this.cellTemplateType = extraConfig.cellTemplateType;
+            this.label = extraConfig.label;
+            this.maxRating = extraConfig.maxRating;
             this.extendedClass = extraConfig.extendedClass;
-            this.url = extraConfig.url;
         }
     }
 }

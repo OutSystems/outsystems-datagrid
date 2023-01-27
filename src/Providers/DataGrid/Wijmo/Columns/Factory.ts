@@ -16,6 +16,27 @@ namespace Providers.DataGrid.Wijmo.Column {
                         configs,
                         extraConfigs as OSFramework.DataGrid.Types.IActionColumnExtraConfigs
                     );
+                case OSFramework.DataGrid.Enum.ColumnType.Image:
+                    return new ImageColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        extraConfigs as OSFramework.DataGrid.Types.IImageColumnExtraConfigs
+                    );
+                case OSFramework.DataGrid.Enum.ColumnType.Rating:
+                    return new RatingColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        extraConfigs as OSFramework.DataGrid.Types.IRatingColumnExtraConfigs
+                    );
+                case OSFramework.DataGrid.Enum.ColumnType.Sparkline:
+                    return new SparklineColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        extraConfigs as OSFramework.DataGrid.Types.ISparklineColumnExtraConfigs
+                    );
                 case OSFramework.DataGrid.Enum.ColumnType.Checkbox:
                     return new CheckboxColumn(
                         grid,

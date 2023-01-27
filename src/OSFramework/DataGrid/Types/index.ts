@@ -149,9 +149,31 @@ namespace OSFramework.DataGrid.Types {
     export interface IColumnExtraConfigs {}
 
     export interface IActionColumnExtraConfigs extends IColumnExtraConfigs {
-        actionColumnType: DataGrid.Enum.ActionColumnType;
-        extendedClass?: string;
+        cellTemplateType:
+            | OSFramework.DataGrid.Enum.CellTemplateType.Button
+            | OSFramework.DataGrid.Enum.CellTemplateType.Link;
         url?: string;
+        extendedClass?: string;
+    }
+
+    export interface IImageColumnExtraConfigs extends IColumnExtraConfigs {
+        cellTemplateType: OSFramework.DataGrid.Enum.CellTemplateType.Image;
+        extendedClass?: string;
+    }
+
+    export interface IRatingColumnExtraConfigs extends IColumnExtraConfigs {
+        cellTemplateType: OSFramework.DataGrid.Enum.CellTemplateType.Rating;
+        maxRating?: number;
+        label?: string;
+        extendedClass?: string;
+    }
+
+    export interface ISparklineColumnExtraConfigs extends IColumnExtraConfigs {
+        cellTemplateType: OSFramework.DataGrid.Enum.CellTemplateType.Sparkline;
+        type?: number;
+        markers?: number;
+        label?: string;
+        extendedClass?: string;
     }
 
     /**

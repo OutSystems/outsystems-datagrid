@@ -3,19 +3,17 @@ namespace OSFramework.DataGrid.Configuration.Column {
     /**
      * Defines the configuration for Action Columns
      */
-    export class ColumnConfigAction extends ColumnConfig {
-        public cellTemplateType: DataGrid.Enum.CellTemplateType;
+    export class ColumnConfigImage extends ColumnConfig {
+        public cellTemplateType = DataGrid.Enum.CellTemplateType.Image;
         public extendedClass: string;
         public url = '';
 
         constructor(
             config: DataGrid.Types.IColumnConfigs,
-            extraConfig: DataGrid.Types.IActionColumnExtraConfigs
+            extraConfig: DataGrid.Types.IImageColumnExtraConfigs
         ) {
             super(config);
-            this.cellTemplateType = extraConfig.cellTemplateType;
             this.extendedClass = extraConfig.extendedClass;
-            this.url = extraConfig.url;
         }
     }
 }

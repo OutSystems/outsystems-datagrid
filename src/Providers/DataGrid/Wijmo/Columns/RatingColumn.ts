@@ -1,16 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Providers.DataGrid.Wijmo.Column {
-    export class ActionColumn extends AbstractProviderColumn<OSFramework.DataGrid.Configuration.Column.ColumnConfigAction> {
+    export class RatingColumn extends AbstractProviderColumn<OSFramework.DataGrid.Configuration.Column.ColumnConfigRating> {
         constructor(
             grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
             configs: OSFramework.DataGrid.Types.IColumnConfigs,
-            extraConfig: OSFramework.DataGrid.Types.IActionColumnExtraConfigs
+            extraConfig: OSFramework.DataGrid.Types.IRatingColumnExtraConfigs
         ) {
             super(
                 grid,
                 columnID,
-                new OSFramework.DataGrid.Configuration.Column.ColumnConfigAction(
+                new OSFramework.DataGrid.Configuration.Column.ColumnConfigRating(
                     configs,
                     extraConfig
                 )
@@ -39,7 +39,7 @@ namespace Providers.DataGrid.Wijmo.Column {
                 config.binding,
                 this.handleActionEvent.bind(this),
                 this
-                    .config as OSFramework.DataGrid.Types.IActionColumnExtraConfigs
+                    .config as OSFramework.DataGrid.Types.IRatingColumnExtraConfigs
             );
 
             // //Create cellTemplates only if a callback were provided

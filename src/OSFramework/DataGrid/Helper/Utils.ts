@@ -17,4 +17,17 @@ namespace OSFramework.DataGrid.Helper {
 
         chunk.forEach((part) => callback(part));
     }
+
+    /**
+     * Receives an array, splits it into smaller arrays and executes a callback.
+     * @param data Array to be split
+     * @param callback Callback to be executed on splitted arrays
+     * @param chunkSize Size of splitted array
+     */
+    export function GetMapKeyByValue<ValueT, KeyT>(
+        map: Map<KeyT, ValueT>,
+        value: ValueT
+    ): KeyT[] {
+        return [...map.keys()].filter((key) => map.get(key) === value);
+    }
 }

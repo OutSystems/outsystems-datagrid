@@ -3,9 +3,11 @@ namespace OSFramework.DataGrid.Enum {
     /**
      * Internal type definition
      */
-    export enum ActionColumnType {
+    export enum CellTemplateType {
         Button = 'Button',
         Image = 'Image',
-        Link = 'Link'
+        Link = 'Link',
+        Rating = 'Rating',
+        Sparkline = 'Sparkline'
     }
 }

@@ -5,6 +5,9 @@ namespace OSFramework.DataGrid.Enum {
      */
     export enum ColumnType {
         Action = 'Action',
+        Image = 'Image',
+        Rating = 'Rating',
+        Sparkline = 'Sparkline',
         Advanced = 'Advanced',
         Checkbox = 'Checkbox',
         Currency = 'Currency',

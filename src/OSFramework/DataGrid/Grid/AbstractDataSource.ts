@@ -175,6 +175,13 @@ namespace OSFramework.DataGrid.Grid {
                 .replace(replaceDate, emptyString);
         }
 
+        private _getSparklinesBinding(keyMap: Map<string, string>): string[][] {
+            return OSFramework.DataGrid.Helper.GetMapKeyByValue(
+                keyMap,
+                OSFramework.DataGrid.Enum.ColumnType.Sparkline
+            ).map((key) => key.split('.'));
+        }
+
         private _getRowByKey(key: string) {
             return this._ds.find((item) => {
                 return (
@@ -366,6 +373,22 @@ namespace OSFramework.DataGrid.Grid {
             this._metadata = dataJson.metadata;
             this._isSingleEntity =
                 Object.keys(this._metadata || dataJson[0] || {}).length <= 1;
+
+            const sparklinesBinding = this._getSparklinesBinding(typeMap);
+
+            if (sparklinesBinding.length > 0) {
+                dataJson.data.forEach((item) => {
+                    sparklinesBinding.forEach((binding) => {
+                        if (binding.length > 1) {
+                            item[binding[0]][binding[1]] = JSON.parse(
+                                item[binding[0]][binding[1]]
+                            );
+                        } else {
+                            item[binding[0]] = JSON.parse(item[binding[0]]);
+                        }
+                    });
+                });
+            }
 
             if (this.hasMetadata) {
                 this._ds = [...dataJson.data];
