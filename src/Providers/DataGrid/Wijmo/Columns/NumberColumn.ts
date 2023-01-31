@@ -123,6 +123,12 @@ namespace Providers.DataGrid.Wijmo.Column {
                               .decimals;
             }
 
+            if (this.editorConfig.minValue > this.editorConfig.maxValue) {
+                console.warn(
+                    `The Number Column ${this.config.binding}'s  MinValue parameter must have a smaller value than the MaxValue parameter to ensure their correct behaviour. Please review those parameters values.`
+                );
+            }
+
             this._setMaxValue();
             this._setMinValue();
             this._setEditorFormat(this.editorConfig.hasThousandSeparator);
@@ -149,10 +155,20 @@ namespace Providers.DataGrid.Wijmo.Column {
                     this.applyConfigs();
                     break;
                 case OSFramework.DataGrid.OSStructure.ColumnProperties.MinValue:
+                    if (propertyValue > this.editorConfig.maxValue) {
+                        console.warn(
+                            `The Number Column ${this.config.binding}'s  MinValue parameter must have a smaller value than the MaxValue parameter to ensure their correct behaviour. Please review those parameters values.`
+                        );
+                    }
                     this._setMinValue(propertyValue);
                     this.applyConfigs();
                     break;
                 case OSFramework.DataGrid.OSStructure.ColumnProperties.MaxValue:
+                    if (this.editorConfig.minValue > propertyValue) {
+                        console.warn(
+                            `The Number Column ${this.config.binding}'s  MinValue parameter must have a smaller value than the MaxValue parameter to ensure their correct behaviour. Please review those parameters values.`
+                        );
+                    }
                     this._setMaxValue(propertyValue);
                     this.applyConfigs();
                     break;
