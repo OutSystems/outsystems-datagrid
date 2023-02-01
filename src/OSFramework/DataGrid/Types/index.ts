@@ -174,10 +174,10 @@ namespace OSFramework.DataGrid.Types {
     export interface INumberColumnExtraConfigs extends ICommonExtraConfigs {
         decimalPlaces: number;
         hasThousandSeparator: boolean;
-        maxValue: number;
-        minValue: number;
         maxPerDecPlaces: number;
+        maxValue: number;
         minPerDecPlaces?: number;
+        minValue: number;
         step: number;
     }
 

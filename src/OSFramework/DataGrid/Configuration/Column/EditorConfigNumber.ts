@@ -6,17 +6,17 @@ namespace OSFramework.DataGrid.Configuration.Column {
     export class EditorConfigNumber extends AbstractEditorConfig {
         public decimalPlaces: number;
         public hasThousandSeparator: boolean;
-        public maxValue?: number;
-        public minValue?: number;
         public maxPerDecPlaces: number;
+        public maxValue?: number;
         public minPerDecPlaces: number;
+        public minValue?: number;
         public step: number;
 
         // eslint-disable-next-line
         constructor(
             config:
                 | DataGrid.Types.INumberColumnExtraConfigs
-                | OSFramework.DataGrid.Types.ICurrencyColumnExtraConfigs
+                | DataGrid.Types.ICurrencyColumnExtraConfigs
         ) {
             super(config);
 
