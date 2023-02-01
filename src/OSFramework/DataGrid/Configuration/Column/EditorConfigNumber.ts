@@ -8,10 +8,16 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public hasThousandSeparator: boolean;
         public maxValue?: number;
         public minValue?: number;
+        public maxPerDecPlaces: number;
+        public minPerDecPlaces: number;
         public step: number;
 
         // eslint-disable-next-line
-        constructor(config: DataGrid.Types.INumberColumnExtraConfigs | OSFramework.DataGrid.Types.ICurrencyColumnExtraConfigs) {
+        constructor(
+            config:
+                | DataGrid.Types.INumberColumnExtraConfigs
+                | OSFramework.DataGrid.Types.ICurrencyColumnExtraConfigs
+        ) {
             super(config);
 
             //When both are 0, seems that we receive the default value from OS
@@ -28,8 +34,14 @@ namespace OSFramework.DataGrid.Configuration.Column {
             let provider = {
                 format: this.format,
                 isRequired: this.required,
-                min: this.minValue,
-                max: this.maxValue,
+                min:
+                    this.minValue < this.minPerDecPlaces
+                        ? this.minPerDecPlaces
+                        : this.minValue,
+                max:
+                    this.maxValue > this.maxPerDecPlaces
+                        ? this.maxPerDecPlaces
+                        : this.maxValue,
                 step: this.step
             };
 

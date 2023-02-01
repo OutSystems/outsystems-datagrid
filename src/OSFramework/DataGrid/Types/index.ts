@@ -176,6 +176,8 @@ namespace OSFramework.DataGrid.Types {
         hasThousandSeparator: boolean;
         maxValue: number;
         minValue: number;
+        maxPerDecPlaces: number;
+        minPerDecPlaces?: number;
         step: number;
     }
 

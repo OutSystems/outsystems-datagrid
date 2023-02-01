@@ -30,6 +30,10 @@ namespace Providers.DataGrid.Wijmo.Column {
             configs: OSFramework.DataGrid.Types.IColumnConfigs,
             editorConfig: T
         ) {
+            editorConfig.maxPerDecPlaces =
+                MaxNonDecimalValues[editorConfig.decimalPlaces];
+            editorConfig.minPerDecPlaces =
+                -MaxNonDecimalValues[editorConfig.decimalPlaces];
             super(
                 grid,
                 columnID,
@@ -76,14 +80,9 @@ namespace Providers.DataGrid.Wijmo.Column {
          * @param maxValue Maximum allowed value for column. When undefined the configuration will be based on decimal places
          */
         private _setMaxValue(maxValue?: number) {
-            const decimalPlaces = this.editorConfig.decimalPlaces;
-            const maxPerDecPlaces = MaxNonDecimalValues[decimalPlaces];
-            maxValue =
-                maxValue === undefined ? this.editorConfig.maxValue : maxValue;
-            this.editorConfig.maxValue =
-                maxValue !== undefined && maxValue < maxPerDecPlaces
-                    ? maxValue
-                    : maxPerDecPlaces;
+            this.editorConfig.maxPerDecPlaces =
+                MaxNonDecimalValues[this.editorConfig.decimalPlaces];
+            this.editorConfig.maxValue = maxValue ?? this.editorConfig.maxValue;
         }
 
         /**
@@ -92,14 +91,9 @@ namespace Providers.DataGrid.Wijmo.Column {
          * @param minValue Minimum allowed value for column. When undefined the configuration will be based on decimal places
          */
         private _setMinValue(minValue?: number) {
-            const decimalPlaces = this.editorConfig.decimalPlaces;
-            const minPerDecPlaces = -MaxNonDecimalValues[decimalPlaces];
-            minValue =
-                minValue === undefined ? this.editorConfig.minValue : minValue;
-            this.editorConfig.minValue =
-                minValue !== undefined && minValue > minPerDecPlaces
-                    ? minValue
-                    : minPerDecPlaces;
+            this.editorConfig.minPerDecPlaces =
+                -MaxNonDecimalValues[this.editorConfig.decimalPlaces];
+            this.editorConfig.minValue = minValue ?? this.editorConfig.minValue;
         }
 
         /**
