@@ -35,13 +35,19 @@ namespace OSFramework.DataGrid.Configuration.Column {
                 format: this.format,
                 isRequired: this.required,
                 min:
-                    this.minValue < this.minPerDecPlaces
-                        ? this.minPerDecPlaces
-                        : this.minValue,
+                    // minPerDecPlaces defines the limit of the minValue,
+                    // so it takes precedence over minValue if minValue is smaller than minPerDecPlaces
+                    this.minValue !== undefined &&
+                    this.minValue > this.minPerDecPlaces
+                        ? this.minValue
+                        : this.minPerDecPlaces,
                 max:
-                    this.maxValue > this.maxPerDecPlaces
-                        ? this.maxPerDecPlaces
-                        : this.maxValue,
+                    // maxPerDecPlaces defines the limit of the maxValue,
+                    // so it takes precedence over maxValue if maxValue is bigger than maxPerDecPlaces
+                    this.maxValue !== undefined &&
+                    this.maxValue < this.maxPerDecPlaces
+                        ? this.maxValue
+                        : this.maxPerDecPlaces,
                 step: this.step
             };
 
