@@ -404,13 +404,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 selectedRowsRanges.push(rowRange);
             });
 
-            // if it the grid has checkboxes, then just return the row ranges
-            if (this._grid.features.rowHeader.hasCheckbox) {
-                finalRange = selectedRowsRanges;
-            }
-
-            // otherwise, if it has selected rows, then merge it with the selected ranges
-            else if (selectedRows.length > 0) {
+            // if the grid has selected rows, then remove from the ranges the intersections with the selected ranges
+            if (selectedRows.length > 0) {
                 ranges.forEach((range) => {
                     selectedRowsRanges.forEach((rowRange) => {
                         // for each range, check if it intersects the checked row
@@ -423,8 +418,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
                             }
 
                             // if the range starts before the checked row,
-                            // create a new subsection of range from where it starts until the selected row index - 1
-                            // and add it to the finalRange array
+                            // we want to remove the intersection between the range and the selected row by
+                            // creating a new subsection of range from the beginning of the range until the selected row index - 1
+                            // and add it to the finalRange array.
                             if (row1 < rowRange.row) {
                                 finalRange.push(
                                     new wijmo.grid.CellRange(
@@ -437,8 +433,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
                             }
 
                             // if the range finishes after the checked row,
-                            // create a new subsection of range from the selected row index + 1 until where it finishes
-                            // we want to use this range for the next iteration
+                            // we want to remove the intersection between the range and the selected row by
+                            // creating a new subsection of range from the selected row index + 1 until the end of the range.
+                            // we will use this range for the next iteration to check if it does not  rowintersects any other selected.
                             if (row2 > rowRange.row) {
                                 range = new wijmo.grid.CellRange(
                                     rowRange.row + 1,
