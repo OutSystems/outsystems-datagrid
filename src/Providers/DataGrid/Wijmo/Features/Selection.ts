@@ -382,45 +382,90 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public getProviderAllSelections(): wijmo.grid.CellRange[] {
             const ranges: wijmo.grid.CellRange[] = [];
             const maxCol = this._grid.provider.columns.length - 1;
-            //// wijmo.grid.SelectionMode.ListBox, Row and RowRange not supported yet,
-            //// there is a conflict with wijmo.grid.selector.Selector
-            // if (this._grid.grid.selectionMode === wijmo.grid.SelectionMode.ListBox
-            //     || this._grid.grid.selectionMode === wijmo.grid.SelectionMode.Row
-            //     || this._grid.grid.selectionMode === wijmo.grid.SelectionMode.RowRange) {
-            //     rows = this._grid.grid.selectedRows
-            //         .map(p => new wijmo.grid.CellRange(p.index, 0, p.index, maxCol));
-            // }
-            // else {
+
             ranges.push(
                 ...this._grid.provider.selectedRanges.filter((p) => p.isValid)
             );
-            // }
 
-            // create checkedRows cell range.
-            let checkedRowsRange = this._getCheckedRows()
-                .map((p) => new wijmo.grid.CellRange(p, 0, p, maxCol))
-                .filter((p) => {
-                    for (let i = 0; i < ranges.length; i++) {
-                        if (ranges[i].contains(p)) return false;
-                    }
-                    return true;
-                });
+            const selectedRows: Array<number> = this._getCheckedRows(); // get checked rows index
+            const selectedRowsRanges: Array<wijmo.grid.CellRange> = [];
+            let finalRange: Array<wijmo.grid.CellRange> = [];
 
-            // for each cellRange, check if it has any intersection with checked rows
-            // if it doesnt have, we add it to checkedRows array.
-            ranges.forEach((range) => {
-                if (
-                    !checkedRowsRange.some((checked) =>
-                        checked.intersects(range)
-                    )
-                ) {
-                    checkedRowsRange = [...checkedRowsRange, range];
-                }
+            // create a range for each row
+            selectedRows.forEach((rowIndex) => {
+                const rowRange = new wijmo.grid.CellRange(
+                    rowIndex,
+                    0,
+                    rowIndex,
+                    maxCol
+                );
+
+                // add the row range created to selectedRowsRanges array
+                selectedRowsRanges.push(rowRange);
             });
 
-            return this._grid.features.rowHeader.hasCheckbox
-                ? checkedRowsRange
-                : ranges;
+            // if the grid has selected rows, then remove from the ranges the intersections with the selected ranges
+            if (selectedRows.length > 0) {
+                ranges.forEach((range) => {
+                    selectedRowsRanges.forEach((rowRange) => {
+                        // for each range, check if it intersects the checked row
+                        if (range !== null && range.intersects(rowRange)) {
+                            let row1 = range.row;
+                            let row2 = range.row2;
+                            if (range.row > range.row2) {
+                                row1 = range.row2;
+                                row2 = range.row;
+                            }
+
+                            // if the range starts before the checked row,
+                            // we want to remove the intersection between the range and the selected row by
+                            // creating a new subsection of range from the beginning of the range until the selected row index - 1
+                            // and add it to the finalRange array.
+                            if (row1 < rowRange.row) {
+                                finalRange.push(
+                                    new wijmo.grid.CellRange(
+                                        row1,
+                                        range.col,
+                                        rowRange.row - 1,
+                                        range.col2
+                                    )
+                                );
+                            }
+
+                            // if the range finishes after the checked row,
+                            // we want to remove the intersection between the range and the selected row by
+                            // creating a new subsection of range from the selected row index + 1 until the end of the range.
+                            // we will use this range for the next iteration to check if it does not  rowintersects any other selected.
+                            if (row2 > rowRange.row) {
+                                range = new wijmo.grid.CellRange(
+                                    rowRange.row + 1,
+                                    range.col,
+                                    row2,
+                                    range.col2
+                                );
+                            }
+                            // otherwise, there is not more range to cover, so set it null
+                            else {
+                                range = null;
+                            }
+                        }
+                    });
+
+                    // if it is not null, we push the remaining subsection of the range into the finalRange array
+                    if (range) finalRange.push(range);
+                });
+
+                // now that we are sure that the row ranges don't have intersections between the selected ranges,
+                // we can merge both arrays
+                finalRange = [...selectedRowsRanges, ...finalRange];
+            }
+
+            // otherwise, just return the selected ranges
+            else {
+                finalRange = ranges;
+            }
+
+            return finalRange;
         }
 
         public getSelectedRows(): number[] {
