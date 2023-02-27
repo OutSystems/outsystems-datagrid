@@ -19,8 +19,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
         public setState(value: boolean): void {
             this._grid.provider.keyActionTab = value
-                ? wijmo.grid.KeyAction.Cycle
-                : wijmo.grid.KeyAction.None;
+                ? wijmo.grid.KeyAction.CycleOut // Move the selection to the next column, then wrap to the next row, then out of the control.
+                : wijmo.grid.KeyAction.None; // No special action (let the browser handle the key). The arrow keys will be used to navigate the grid.
             this._enabled = value;
         }
     }
