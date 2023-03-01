@@ -63,6 +63,27 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
+        private _getFilterConditionValue(
+            columnType: OSFramework.DataGrid.Enum.ColumnType,
+            conditionValue: Helper.FilterFactory.WijmoFilterConditionValue
+        ) {
+            let _formattedValue: Helper.FilterFactory.WijmoFilterConditionValue;
+
+            switch (columnType) {
+                case OSFramework.DataGrid.Enum.ColumnType.Number:
+                    _formattedValue = parseFloat(conditionValue as string);
+                    break;
+                case OSFramework.DataGrid.Enum.ColumnType.Date:
+                case OSFramework.DataGrid.Enum.ColumnType.DateTime:
+                    _formattedValue = new Date(conditionValue);
+                    break;
+                default:
+                    _formattedValue = conditionValue;
+            }
+
+            return _formattedValue;
+        }
+
         public get isGridFiltered(): boolean {
             // When filter is active/applied, check isActive property
             return (
@@ -141,16 +162,20 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     const condition2 = values[1];
 
                     columnFilter.condition1.value =
-                        column.columnType ===
-                        OSFramework.DataGrid.Enum.ColumnType.Number
-                            ? parseFloat(condition1.value)
-                            : condition1.value;
+                        this._getFilterConditionValue(
+                            column.columnType,
+                            condition1.value
+                        );
                     columnFilter.condition1.operator =
                         wijmo.grid.filter.Operator[condition1.operatorTypeId];
                     columnFilter.and = condition1.and;
 
                     if (condition2) {
-                        columnFilter.condition2.value = condition2.value;
+                        columnFilter.condition2.value =
+                            this._getFilterConditionValue(
+                                column.columnType,
+                                condition2.value
+                            );
                         columnFilter.condition2.operator =
                             wijmo.grid.filter.Operator[
                                 condition2.operatorTypeId

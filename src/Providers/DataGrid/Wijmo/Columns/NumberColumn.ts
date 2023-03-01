@@ -30,6 +30,10 @@ namespace Providers.DataGrid.Wijmo.Column {
             configs: OSFramework.DataGrid.Types.IColumnConfigs,
             editorConfig: T
         ) {
+            editorConfig.maxPerDecPlaces =
+                MaxNonDecimalValues[editorConfig.decimalPlaces];
+            editorConfig.minPerDecPlaces =
+                -MaxNonDecimalValues[editorConfig.decimalPlaces];
             super(
                 grid,
                 columnID,
@@ -73,33 +77,39 @@ namespace Providers.DataGrid.Wijmo.Column {
         /**
          * Configure the column's editor to validate maximum values
          *
-         * @param maxValue Maximum allowed value for column. When undefined the configuration will be based on decimal places
+         * @param maxValue Maximum allowed value for column.
          */
-        private _setMaxValue(maxValue?: number) {
-            const decimalPlaces = this.editorConfig.decimalPlaces;
-            const maxPerDecPlaces = MaxNonDecimalValues[decimalPlaces];
-            maxValue =
-                maxValue === undefined ? this.editorConfig.maxValue : maxValue;
-            this.editorConfig.maxValue =
-                maxValue !== undefined && maxValue < maxPerDecPlaces
-                    ? maxValue
-                    : maxPerDecPlaces;
+        private _setMaxValue(maxValue: number) {
+            // if both are 0, we want them to be undefined as specified in the parameter description.
+            if (maxValue === this.editorConfig.minValue && maxValue === 0) {
+                this.editorConfig.minValue = undefined;
+                this.editorConfig.maxValue = undefined;
+            } else {
+                this.editorConfig.maxValue = maxValue;
+
+                // if minValue is undefined, we want it to be 0 as specified in the parameter description.
+                if (this.editorConfig.minValue === undefined)
+                    this.editorConfig.minValue = 0;
+            }
         }
 
         /**
          * Configure the column's editor to validate minimum values
          *
-         * @param minValue Minimum allowed value for column. When undefined the configuration will be based on decimal places
+         * @param minValue Minimum allowed value for column.
          */
-        private _setMinValue(minValue?: number) {
-            const decimalPlaces = this.editorConfig.decimalPlaces;
-            const minPerDecPlaces = -MaxNonDecimalValues[decimalPlaces];
-            minValue =
-                minValue === undefined ? this.editorConfig.minValue : minValue;
-            this.editorConfig.minValue =
-                minValue !== undefined && minValue > minPerDecPlaces
-                    ? minValue
-                    : minPerDecPlaces;
+        private _setMinValue(minValue: number) {
+            // if both are 0, we want them to be undefined as specified in the parameter description.
+            if (minValue === this.editorConfig.maxValue && minValue === 0) {
+                this.editorConfig.minValue = undefined;
+                this.editorConfig.maxValue = undefined;
+            } else {
+                this.editorConfig.minValue = minValue;
+
+                // if maxValue is undefined, we want it to be 0 as specified in the parameter description.
+                if (this.editorConfig.maxValue === undefined)
+                    this.editorConfig.maxValue = 0;
+            }
         }
 
         /**
@@ -123,8 +133,11 @@ namespace Providers.DataGrid.Wijmo.Column {
                               .decimals;
             }
 
-            this._setMaxValue();
-            this._setMinValue();
+            // update editorConfig.maxPerDecPlaces and editorConfig.minPerDecPlaces based on the decimalPlaces
+            this.editorConfig.maxPerDecPlaces =
+                MaxNonDecimalValues[this.editorConfig.decimalPlaces];
+            this.editorConfig.minPerDecPlaces =
+                -MaxNonDecimalValues[this.editorConfig.decimalPlaces];
             this._setEditorFormat(this.editorConfig.hasThousandSeparator);
         }
 
@@ -149,10 +162,20 @@ namespace Providers.DataGrid.Wijmo.Column {
                     this.applyConfigs();
                     break;
                 case OSFramework.DataGrid.OSStructure.ColumnProperties.MinValue:
+                    if (propertyValue > this.editorConfig.maxValue) {
+                        console.warn(
+                            `The Number Column ${this.config.binding}'s  MinValue parameter must have a smaller value than the MaxValue parameter to ensure their correct behaviour. Please review those parameters values.`
+                        );
+                    }
                     this._setMinValue(propertyValue);
                     this.applyConfigs();
                     break;
                 case OSFramework.DataGrid.OSStructure.ColumnProperties.MaxValue:
+                    if (this.editorConfig.minValue > propertyValue) {
+                        console.warn(
+                            `The Number Column ${this.config.binding}'s  MinValue parameter must have a smaller value than the MaxValue parameter to ensure their correct behaviour. Please review those parameters values.`
+                        );
+                    }
                     this._setMaxValue(propertyValue);
                     this.applyConfigs();
                     break;

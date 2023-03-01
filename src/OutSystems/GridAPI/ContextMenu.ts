@@ -213,6 +213,7 @@ namespace GridAPI.ContextMenu {
         menuItemId: string,
         label: string,
         enabled: boolean,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         clickEvent: OSFramework.DataGrid.Callbacks.ContextMenu.OSClickEvent
     ): void {
         OSFramework.DataGrid.Helper.LogWarningMessage(
