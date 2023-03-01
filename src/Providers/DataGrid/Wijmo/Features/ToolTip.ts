@@ -20,7 +20,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         private _onMouseEnter(e: MouseEvent): void {
-            let _currTarget: HTMLElement = e.currentTarget as HTMLElement;
+            const _currTarget: HTMLElement = e.currentTarget as HTMLElement;
             const ht = this._grid.provider.hitTest(e);
 
             const cellType = this._grid.provider.hitTest(_currTarget).cellType;
