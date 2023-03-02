@@ -38,7 +38,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
         }
 
-        private _onMouseOut(/*e: Event*/): void {
+        private _onMouseOut(): void {
             this._toolTip.hide();
         }
 
