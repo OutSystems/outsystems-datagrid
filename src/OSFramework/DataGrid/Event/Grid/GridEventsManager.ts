@@ -39,6 +39,9 @@ namespace OSFramework.DataGrid.Event.Grid {
                 case GridEventType.OnDataChange:
                     event = new GridOnDataChangeEvent();
                     break;
+                case GridEventType.OnCellClick:
+                    event = new GridOnCellClickEvent();
+                    break;
                 case GridEventType.OnColumnPickerChange:
                     event = new OnColumnPickerChangeEvent();
                     break;
