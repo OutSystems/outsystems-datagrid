@@ -6,6 +6,7 @@ namespace OSFramework.DataGrid.Feature {
         public calculatedField: ICalculatedField;
         public cellData: ICellData;
         public cellStyle: ICellStyle;
+        public clickEvent: IClickEvent;
         public column: IColumn;
         public columnAggregate: IColumnAggregate;
         public columnFreeze: IColumnFreeze;
