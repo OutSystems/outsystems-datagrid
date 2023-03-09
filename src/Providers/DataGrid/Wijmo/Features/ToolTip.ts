@@ -21,9 +21,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
         private _onMouseEnter(e: MouseEvent): void {
             const _currTarget: HTMLElement = e.currentTarget as HTMLElement;
-            const ht = this._grid.provider.hitTest(e);
+            const ht = this._grid.provider.hitTest(_currTarget);
 
-            const cellType = this._grid.provider.hitTest(_currTarget).cellType;
+            const cellType = ht.cellType;
             if (
                 cellType === wijmo.grid.CellType.Cell ||
                 cellType === wijmo.grid.CellType.ColumnFooter
