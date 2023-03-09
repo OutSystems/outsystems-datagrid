@@ -1,7 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Providers.DataGrid.Wijmo.Feature {
     export class ClickEvent
-        implements OSFramework.DataGrid.Feature.IClickEvent
+        implements
+            OSFramework.DataGrid.Feature.IClickEvent,
+            OSFramework.DataGrid.Interface.IBuilder,
+            OSFramework.DataGrid.Interface.IDisposable
     {
         protected _grid: Providers.DataGrid.Wijmo.Grid.IGridWijmo;
 
@@ -12,7 +15,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this._grid = grid;
         }
 
-        // option 3
         private _raiseCellClickEvent(e: MouseEvent) {
             const ht = this._grid.provider.hitTest(e);
             if (ht.cellType === wijmo.grid.CellType.Cell) {
@@ -40,31 +42,28 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
         }
 
-        // option 3
         public setCellClickEvent(callback: (ev: MouseEvent) => any) {
-            // this._grid.provider.formatItem.addHandler(
-            //     (
-            //         grid: wijmo.grid.FlexGrid,
-            //         event: wijmo.grid.FormatItemEventArgs
-            //     ) => {
-            //         event.cell.removeEventListener('click', callback);
-            //         event.cell.addEventListener('click', callback);
-            //     }
-            // );
             this._grid.provider.addEventListener(
                 this._grid.provider.hostElement,
                 'click',
                 callback
             );
-            // this._grid.provider.removeEventListener(
-            //     this._grid.provider.hostElement,
-            //     'click',
-            //     callback
-            // );
+        }
+
+        public removeCellClickEvent(callback: (ev: MouseEvent) => any) {
+            this._grid.provider.removeEventListener(
+                this._grid.provider.hostElement,
+                'click',
+                callback
+            );
         }
 
         public build(): void {
             this.setCellClickEvent(this._raiseCellClickEvent.bind(this));
+        }
+
+        public dispose(): void {
+            this.removeCellClickEvent(this._raiseCellClickEvent.bind(this));
         }
     }
 }
