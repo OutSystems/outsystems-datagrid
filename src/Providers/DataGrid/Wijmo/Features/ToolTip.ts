@@ -51,7 +51,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 cell.innerText
             );
 
-            const isInvalid = cell.classList.contains('wj-state-invalid');
+            const isInvalid = this._grid.features.validationMark.isInvalid(
+                row,
+                binding
+            );
 
             if (cell.querySelector('div.dg-cell')) {
                 cell = cell.querySelector('div.dg-cell');
