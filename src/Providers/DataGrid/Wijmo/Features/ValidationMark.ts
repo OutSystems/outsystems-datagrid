@@ -69,8 +69,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
         ): void {
             if (!e.cancel) {
                 const column = s.getColumn(e.col);
-                const cell = s.cells.getCellElement(e.row, e.col);
-
                 const OSColumn = this._grid
                     .getColumns()
                     .find((item) => item.provider.index === column.index);
@@ -88,8 +86,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     oldValue,
                     newValue
                 );
-
-                this._checkInvalidCell(e.panel.cellType, e.row, e.col, cell);
             }
         }
 
@@ -124,22 +120,16 @@ namespace Providers.DataGrid.Wijmo.Feature {
             grid: wijmo.grid.FlexGrid,
             e: wijmo.grid.FormatItemEventArgs
         ) {
-            this._checkInvalidCell(e.panel.cellType, e.row, e.col, e.cell);
-        }
-
-        private _checkInvalidCell(cellType, row, col, cell) {
             if (
-                cellType === wijmo.grid.CellType.Cell &&
-                this._isInvalidCell(row, col)
+                e.panel.cellType === wijmo.grid.CellType.Cell &&
+                this._isInvalidCell(e.row, e.col)
             ) {
-                wijmo.addClass(cell, 'wj-state-invalid');
+                wijmo.addClass(e.cell, 'wj-state-invalid');
             } else if (
-                cellType === wijmo.grid.CellType.RowHeader &&
-                this._isInvalidRowByRowNumber(row)
+                e.panel.cellType === wijmo.grid.CellType.RowHeader &&
+                this._isInvalidRowByRowNumber(e.row)
             ) {
-                wijmo.addClass(cell, 'wj-state-invalid');
-            } else {
-                wijmo.removeClass(cell, 'wj-state-invalid');
+                wijmo.addClass(e.cell, 'wj-state-invalid');
             }
         }
 
