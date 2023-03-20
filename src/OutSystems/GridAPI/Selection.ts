@@ -8,7 +8,6 @@ namespace OutSystems.GridAPI.Selection {
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetAllSelections,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getAllSelections();
@@ -34,7 +33,6 @@ namespace OutSystems.GridAPI.Selection {
                     .API_FailedGetAllSelectionsData,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getAllSelectionsData();
@@ -61,7 +59,6 @@ namespace OutSystems.GridAPI.Selection {
                     .API_FailedGetCheckedRowsData,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getCheckedRowsData();
@@ -87,7 +84,6 @@ namespace OutSystems.GridAPI.Selection {
                     .API_FailedGetSelectedRowsCount,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectedRowsCount();
@@ -113,7 +109,6 @@ namespace OutSystems.GridAPI.Selection {
                     .API_FailedGetSelectedRowsData,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectedRowsData();
@@ -139,7 +134,6 @@ namespace OutSystems.GridAPI.Selection {
                     .API_FailedGetSelectionAverage,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectionAverage();
@@ -165,7 +159,6 @@ namespace OutSystems.GridAPI.Selection {
                     .API_FailedGetSelectionCount,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectionCount();
@@ -190,7 +183,6 @@ namespace OutSystems.GridAPI.Selection {
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionMax,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectionMaxMin(true);
@@ -215,7 +207,6 @@ namespace OutSystems.GridAPI.Selection {
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionMin,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectionMaxMin(false);
@@ -240,7 +231,6 @@ namespace OutSystems.GridAPI.Selection {
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionSum,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectionSum();
@@ -265,7 +255,6 @@ namespace OutSystems.GridAPI.Selection {
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedHasSelectedRows,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.hasSelectedRows();
@@ -294,7 +283,6 @@ namespace OutSystems.GridAPI.Selection {
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetRowAsSelected,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.setRowAsSelected(

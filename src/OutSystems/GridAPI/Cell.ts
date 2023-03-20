@@ -135,12 +135,6 @@ namespace OutSystems.GridAPI.Cells {
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellData,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
-                    throw new Error(
-                        OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound
-                    );
-                }
-
                 const grid = GridManager.GetGridById(gridID);
                 const column = grid.getColumn(columnID);
 

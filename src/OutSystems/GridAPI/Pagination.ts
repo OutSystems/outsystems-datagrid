@@ -73,12 +73,6 @@ namespace OutSystems.GridAPI.Pagination {
                     .API_FailedPaginationGetCurrentPage,
             hasValue: true,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
-                    throw new Error(
-                        OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound
-                    );
-                }
-
                 const grid = GridManager.GetGridById(gridID);
 
                 // we don't want to return page index if there is server side pagination
@@ -187,12 +181,6 @@ namespace OutSystems.GridAPI.Pagination {
                 OSFramework.DataGrid.Enum.ErrorCodes
                     .API_FailedPaginationSetCurrentPage,
             callback: () => {
-                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
-                    throw new Error(
-                        OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound
-                    );
-                }
-
                 const grid = GridManager.GetGridById(gridID);
 
                 // we don't want to set page index if there is server side pagination
