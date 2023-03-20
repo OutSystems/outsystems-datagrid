@@ -12,6 +12,7 @@ namespace OutSystems.GridAPI.View {
             gridID,
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetViewLayout,
+            hasValue: true,
             callback: () => {
                 return GridManager.GetGridById(gridID).getViewLayout();
             }
@@ -40,7 +41,6 @@ namespace OutSystems.GridAPI.View {
             gridID,
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetViewLayout,
-            hasValue: true,
             callback: () => {
                 return GridManager.GetGridById(gridID).setViewLayout(config);
             }
