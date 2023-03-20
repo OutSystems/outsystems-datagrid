@@ -16,6 +16,8 @@ namespace OutSystems.GridAPI.Cells {
         isValid: boolean,
         errorMessage: string
     ): string {
+        Performance.SetMark('Cells.setValidationStatus');
+
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
@@ -33,7 +35,6 @@ namespace OutSystems.GridAPI.Cells {
             }
         });
 
-        Performance.SetMark('Cells.setValidationStatus');
         Performance.SetMark('Cells.setValidationStatus-end');
         Performance.GetMeasure(
             '@datagrid-Cells.setValidationStatus',
@@ -86,13 +87,17 @@ namespace OutSystems.GridAPI.Cells {
     export function ValidateRow(gridID: string, rowIndex: number): string {
         Performance.SetMark('Cells.validateRow');
 
-        let output = '';
-
-        output = JSON.stringify(
-            GridManager.GetGridById(gridID).features.validationMark.validateRow(
-                rowIndex
-            )
-        );
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedApplyRowValidation,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.validationMark.validateRow(rowIndex);
+            }
+        });
 
         Performance.SetMark('Cells.validateRow-end');
         Performance.GetMeasure(
@@ -101,7 +106,7 @@ namespace OutSystems.GridAPI.Cells {
             'Cells.validateRow-end'
         );
 
-        return output;
+        return result;
     }
     /**
      * Responsible for updating a specific cell -

@@ -29,9 +29,7 @@ namespace OSFramework.DataGrid.Feature {
             column: OSFramework.DataGrid.Column.IColumn,
             triggerOnCellValueChange: boolean
         ): void;
-        validateRow(
-            rowNumber: number
-        ): OSFramework.DataGrid.OSStructure.ReturnMessage;
+        validateRow(rowNumber: number): void;
         // clearByRow(row: number): void;
     }
 }
