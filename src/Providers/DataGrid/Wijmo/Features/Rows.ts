@@ -588,17 +588,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
          * Remove all selected rows from the grid.
          * @returns ReturnMessage containing the resulting code from the removing rows and the error message in case of failure.
          */
-        public removeSelectedRows(): OSFramework.DataGrid.OSStructure.ReturnMessage {
+        public removeSelectedRows(): void {
             // This is necessary due to wijmo limitations
             if (!this._canRemoveRows()) {
-                return {
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_UnableToRemoveRow,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages
-                            .AddRowWithActiveFilterOrSort,
-                    isSuccess: false
-                };
+                throw new Error(
+                    OSFramework.DataGrid.Enum.ErrorMessages.AddRowWithActiveFilterOrSort
+                );
             }
             //This will avoid the same row being selected multiple times
             this._grid.features.selection.equalizeSelection();
@@ -670,20 +665,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         dataChanges
                     );
                 }
-
-                return {
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    isSuccess: true,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } else {
-                return {
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedRemoveSelectedRow,
-                    message: 'Error',
-                    isSuccess: false
-                };
             }
         }
     }
