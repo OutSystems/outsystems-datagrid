@@ -79,7 +79,7 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Returns the maximum or minimum value of the grid selected cells.
          */
-        getSelectionMaxMin(isMax: boolean): OSStructure.ReturnMessage;
+        getSelectionMaxMin(isMax: boolean): number;
         /**
          * Returns the sum of the selected cell's data
          */

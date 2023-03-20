@@ -184,8 +184,18 @@ namespace OutSystems.GridAPI.Selection {
     export function GetSelectionMax(gridID: string): string {
         Performance.SetMark('Selection.GetSelectionMax');
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionMax,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.getSelectionMaxMin(true);
+            }
+        });
 
         Performance.SetMark('Selection.GetSelectionMax-end');
         Performance.GetMeasure(
@@ -193,14 +203,24 @@ namespace OutSystems.GridAPI.Selection {
             'Selection.GetSelectionMax',
             'Selection.GetSelectionMax-end'
         );
-        return JSON.stringify(grid.features.selection.getSelectionMaxMin(true));
+        return result;
     }
 
     export function GetSelectionMin(gridID: string): string {
         Performance.SetMark('Selection.GetSelectionMin');
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionMin,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.getSelectionMaxMin(false);
+            }
+        });
 
         Performance.SetMark('Selection.GetSelectionMin-end');
         Performance.GetMeasure(
@@ -208,9 +228,7 @@ namespace OutSystems.GridAPI.Selection {
             'Selection.GetSelectionMin',
             'Selection.GetSelectionMin-end'
         );
-        return JSON.stringify(
-            grid.features.selection.getSelectionMaxMin(false)
-        );
+        return result;
     }
 
     export function GetSelectionSum(gridID: string): string {

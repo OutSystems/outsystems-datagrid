@@ -513,51 +513,30 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return this.getSelectionCellCount();
         }
 
-        public getSelectionMaxMin(
-            isMax: boolean
-        ): OSFramework.DataGrid.OSStructure.ReturnMessage {
+        public getSelectionMaxMin(isMax: boolean): number {
             let _max = -Infinity;
             let _min = Infinity;
             const _grid = this._grid;
             const _items = this.getAllSelectionsData();
-            try {
-                for (const item of _items) {
-                    item.selected.forEach((element) => {
-                        const columnType = _grid.getColumn(
-                            element.binding
-                        ).columnType;
-                        if (
-                            columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Number ||
-                            columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Currency ||
-                            columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Calculated
-                        ) {
-                            _min = Math.min(_min, element.value);
-                            _max = Math.max(_max, element.value);
-                        }
-                    });
-                }
-                return {
-                    value: isMax ? _max : _min,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: null,
-                    isSuccess: false,
-                    message: error.message,
-                    code: isMax
-                        ? OSFramework.DataGrid.Enum.ErrorCodes
-                              .API_FailedGetSelectionMax
-                        : OSFramework.DataGrid.Enum.ErrorCodes
-                              .API_FailedGetSelectionMin
-                };
+            for (const item of _items) {
+                item.selected.forEach((element) => {
+                    const columnType = _grid.getColumn(
+                        element.binding
+                    ).columnType;
+                    if (
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Number ||
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Calculated
+                    ) {
+                        _min = Math.min(_min, element.value);
+                        _max = Math.max(_max, element.value);
+                    }
+                });
             }
+            return isMax ? _max : _min;
         }
 
         public getSelectionSum(): OSFramework.DataGrid.OSStructure.ReturnMessage {
