@@ -132,15 +132,27 @@ namespace OutSystems.GridAPI.Selection {
     export function GetSelectionAverage(gridID: string): string {
         Performance.SetMark('Selection.GetSelectionAverage');
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedGetSelectionAverage,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.getSelectionAverage();
+            }
+        });
+
         Performance.SetMark('Selection.GetSelectionAverage-end');
         Performance.GetMeasure(
             '@datagrid-Selection.GetSelectionAverage',
             'Selection.GetSelectionAverage',
             'Selection.GetSelectionAverage-end'
         );
-        return JSON.stringify(grid.features.selection.getSelectionAverage());
+        return result;
     }
 
     export function GetSelectionCount(gridID: string): string {
