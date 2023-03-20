@@ -128,53 +128,42 @@ namespace OutSystems.GridAPI.Cells {
         showDirtyMark = true,
         triggerOnCellValueChange = true
     ): string {
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
         Performance.SetMark('Cells.setCellData');
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message =
-                OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code =
-                OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
 
-        const grid = GridManager.GetGridById(gridID);
-        const column = grid.getColumn(columnID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellData,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
+                    throw new Error(
+                        OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound
+                    );
+                }
 
-        if (column === undefined) {
-            responseObj.isSuccess = false;
-            responseObj.message =
-                OSFramework.DataGrid.Enum.ErrorMessages.Column_NotFound;
-            responseObj.code =
-                OSFramework.DataGrid.Enum.ErrorCodes.CFG_ColumnNotFound;
-            return JSON.stringify(responseObj);
-        }
+                const grid = GridManager.GetGridById(gridID);
+                const column = grid.getColumn(columnID);
 
-        try {
-            if (showDirtyMark) {
-                grid.features.dirtyMark.saveOriginalValue(
+                if (column === undefined) {
+                    throw new Error(
+                        OSFramework.DataGrid.Enum.ErrorMessages.Column_NotFound
+                    );
+                }
+
+                if (showDirtyMark) {
+                    grid.features.dirtyMark.saveOriginalValue(
+                        rowIndex,
+                        column.providerIndex
+                    );
+                }
+                grid.features.cellData.setCellData(rowIndex, column, value);
+                grid.features.validationMark.validateCell(
                     rowIndex,
-                    column.providerIndex
+                    column,
+                    triggerOnCellValueChange
                 );
             }
-            grid.features.cellData.setCellData(rowIndex, column, value);
-            grid.features.validationMark.validateCell(
-                rowIndex,
-                column,
-                triggerOnCellValueChange
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellData;
-        }
+        });
 
         Performance.SetMark('Cells.setCellData-end');
         Performance.GetMeasure(
@@ -182,7 +171,7 @@ namespace OutSystems.GridAPI.Cells {
             'Cells.setCellData',
             'Cells.setCellData-end'
         );
-        return JSON.stringify(responseObj);
+        return result;
     }
 }
 
