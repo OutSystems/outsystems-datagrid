@@ -509,24 +509,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         // Method to get the count of selected cells on Grid
-        public getSelectionCount(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                return {
-                    value: this.getSelectionCellCount(),
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: null,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetSelectionCount
-                };
-            }
+        public getSelectionCount(): number {
+            return this.getSelectionCellCount();
         }
 
         public getSelectionMaxMin(

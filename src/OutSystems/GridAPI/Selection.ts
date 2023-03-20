@@ -158,8 +158,19 @@ namespace OutSystems.GridAPI.Selection {
     export function GetSelectionCount(gridID: string): string {
         Performance.SetMark('Selection.GetSelectionCount');
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedGetSelectionCount,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.getSelectionCount();
+            }
+        });
 
         Performance.SetMark('Selection.GetSelectionCount-end');
         Performance.GetMeasure(
@@ -167,7 +178,7 @@ namespace OutSystems.GridAPI.Selection {
             'Selection.GetSelectionCount',
             'Selection.GetSelectionCount-end'
         );
-        return JSON.stringify(grid.features.selection.getSelectionCount());
+        return result;
     }
 
     export function GetSelectionMax(gridID: string): string {
