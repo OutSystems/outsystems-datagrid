@@ -92,7 +92,7 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Checks if there is a row selected on the grid
          */
-        hasSelectedRows(): OSStructure.ReturnMessage;
+        hasSelectedRows(): boolean;
 
         /**
          * Checks if there is anything selected in the grid

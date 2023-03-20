@@ -570,24 +570,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
-        public hasSelectedRows(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                return {
-                    value: this.getSelectedRows().length > 0,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: undefined,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedHasSelectedRows
-                };
-            }
+        public hasSelectedRows(): boolean {
+            return this.getSelectedRows().length > 0;
         }
 
         public hasValidSelection(): boolean {

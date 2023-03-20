@@ -259,8 +259,18 @@ namespace OutSystems.GridAPI.Selection {
     export function HasSelectedRows(gridID: string): string {
         Performance.SetMark('Selection.HasSelectedRows');
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedHasSelectedRows,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.hasSelectedRows();
+            }
+        });
 
         Performance.SetMark('Selection.HasSelectedRows-end');
         Performance.GetMeasure(
@@ -268,7 +278,7 @@ namespace OutSystems.GridAPI.Selection {
             'Selection.HasSelectedRows',
             'Selection.HasSelectedRows-end'
         );
-        return JSON.stringify(grid.features.selection.hasSelectedRows());
+        return result;
     }
 
     export function SetRowAsSelected(
