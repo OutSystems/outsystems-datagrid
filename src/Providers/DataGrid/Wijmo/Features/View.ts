@@ -156,43 +156,22 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public setViewLayout(
             // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
             state: any
-        ): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                if (state === '') {
-                    return {
-                        isSuccess: false,
-                        message: 'It seems you are not passing a valid config.',
-                        code: OSFramework.DataGrid.Enum.ErrorCodes
-                            .API_FailedSetViewLayout
-                    };
-                }
-
-                const config = JSON.parse(state);
-                this._grid.provider.deferUpdate(() => {
-                    this._reloadColumns(config);
-                    this._grid.features.filter.setViewLayout(config);
-                    this._grid.features.groupPanel.setViewLayout(config);
-                    this._grid.features.sort.setViewLayout(config);
-                    this._setGroups(
-                        this._grid.provider.columnGroups,
-                        config.groupColumns
-                    );
-                });
-
-                return {
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedSetViewLayout
-                };
+        ): void {
+            if (state === '') {
+                throw new Error('It seems you are not passing a valid config.');
             }
+
+            const config = JSON.parse(state);
+            this._grid.provider.deferUpdate(() => {
+                this._reloadColumns(config);
+                this._grid.features.filter.setViewLayout(config);
+                this._grid.features.groupPanel.setViewLayout(config);
+                this._grid.features.sort.setViewLayout(config);
+                this._setGroups(
+                    this._grid.provider.columnGroups,
+                    config.groupColumns
+                );
+            });
         }
     }
 }

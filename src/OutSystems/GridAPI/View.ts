@@ -32,14 +32,16 @@ namespace OutSystems.GridAPI.View {
      */
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     export function SetViewLayout(gridID: string, config: any): any {
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
-        const grid = GridManager.GetGridById(gridID);
-
         Performance.SetMark('View.SetViewLayout');
 
-        let output = '';
-
-        output = JSON.stringify(grid.setViewLayout(config));
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetViewLayout,
+            callback: () => {
+                return GridManager.GetGridById(gridID).setViewLayout(config);
+            }
+        });
 
         Performance.SetMark('View.SetViewLayout-end');
         Performance.GetMeasure(
@@ -48,7 +50,7 @@ namespace OutSystems.GridAPI.View {
             'View.SetViewLayout-end'
         );
 
-        return output;
+        return result;
     }
 
     /**
