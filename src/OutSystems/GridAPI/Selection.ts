@@ -288,8 +288,21 @@ namespace OutSystems.GridAPI.Selection {
     ): string {
         Performance.SetMark('Selection.SelectRows');
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetRowAsSelected,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.setRowAsSelected(
+                    rowsIndex,
+                    isSelected
+                );
+            }
+        });
 
         Performance.SetMark('Selection.SelectRows-end');
         Performance.GetMeasure(
@@ -297,9 +310,7 @@ namespace OutSystems.GridAPI.Selection {
             'Selection.SelectRows',
             'Selection.SelectRows-end'
         );
-        return JSON.stringify(
-            grid.features.selection.setRowAsSelected(rowsIndex, isSelected)
-        );
+        return result;
     }
 }
 

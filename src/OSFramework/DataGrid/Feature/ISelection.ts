@@ -111,9 +111,6 @@ namespace OSFramework.DataGrid.Feature {
          * @param rowsIndex list of rows index that will be set as selected
          * @param isSelected Toggle selected to the given list of rows
          */
-        setRowAsSelected(
-            rowsIndex: number[],
-            isSelected: boolean
-        ): OSStructure.ReturnMessage;
+        setRowAsSelected(rowsIndex: number[], isSelected: boolean): number[];
     }
 }

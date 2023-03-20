@@ -589,40 +589,16 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public setRowAsSelected(
             rowsIndex: number[],
             isSelected = true
-        ): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                if (this._grid.features.rowHeader.hasCheckbox) {
-                    return {
-                        value: undefined,
-                        isSuccess: false,
-                        message:
-                            OSFramework.DataGrid.Enum.ErrorMessages
-                                .SetRowAsSelected,
-                        code: OSFramework.DataGrid.Enum.ErrorCodes
-                            .API_FailedSetRowAsSelected
-                    };
-                }
-
-                rowsIndex.forEach((index) => {
-                    this._grid.provider.rows[index].isSelected = isSelected;
-                });
-
-                return {
-                    value: rowsIndex,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: undefined,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedSetRowAsSelected
-                };
+        ): number[] {
+            if (this._grid.features.rowHeader.hasCheckbox) {
+                return undefined;
             }
+
+            rowsIndex.forEach((index) => {
+                this._grid.provider.rows[index].isSelected = isSelected;
+            });
+
+            return rowsIndex;
         }
 
         public setState(value: wijmo.grid.SelectionMode): void {
