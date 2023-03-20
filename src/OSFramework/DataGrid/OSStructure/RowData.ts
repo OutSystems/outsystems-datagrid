@@ -31,7 +31,7 @@ namespace OSFramework.DataGrid.OSStructure {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        public serialize(hasDataItem = true): any {
+        public serialize(hasDataItem = true): Types.RowData {
             // there are cases where we don't need to return dataItem
             if (!hasDataItem) {
                 return {

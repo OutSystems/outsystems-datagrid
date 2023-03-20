@@ -224,4 +224,11 @@ namespace OSFramework.DataGrid.Types {
         formula: DataGrid.OSStructure.Formula;
         hasThousandSeparator: boolean;
     }
+
+    export type RowData = {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        dataItem?: any;
+        rowIndex: number;
+        selected: OSStructure.BindingValue[];
+    };
 }

@@ -8,6 +8,6 @@ namespace OSFramework.DataGrid.Interface {
      */
     export interface ISerializable {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        serialize(): any;
+        serialize(): Types.RowData;
     }
 }

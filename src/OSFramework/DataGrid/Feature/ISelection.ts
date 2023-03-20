@@ -45,12 +45,12 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Returns the Data of the selections
          */
-        getAllSelectionsData(): any[];
+        getAllSelectionsData(): Array<Types.RowData>;
 
         /**
          * Returns the Data of the checked rows
          */
-        getCheckedRowsData(): any[];
+        getCheckedRowsData(): Array<OSStructure.BindingValue>;
 
         /**
          * Returns the Indexes of the selected rows
@@ -67,7 +67,7 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Returns the Data of the selected rows
          */
-        getSelectedRowsData(): any[];
+        getSelectedRowsData(): Array<Types.RowData>;
         /**
          * Returns the average value of select cells
          */

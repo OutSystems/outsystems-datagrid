@@ -239,7 +239,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return getAllSelections;
         }
 
-        public getAllSelectionsData(): any[] {
+        public getAllSelectionsData(): Array<OSFramework.DataGrid.Types.RowData> {
             const rowColumn = new Map<
                 number,
                 OSFramework.DataGrid.OSStructure.RowData
@@ -292,7 +292,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return rowColumnArr.map((p) => p.serialize());
         }
 
-        public getCheckedRowsData(): any[] {
+        public getCheckedRowsData(): Array<OSFramework.DataGrid.OSStructure.BindingValue> {
             const allCheckedRows =
                 this._grid.provider.itemsSource.sourceCollection.filter(
                     (item) =>
@@ -448,7 +448,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
-        public getSelectedRowsData(): any[] {
+        public getSelectedRowsData(): Array<OSFramework.DataGrid.Types.RowData> {
             const selectedRows = this.getSelectedRows().map(
                 (rowIndex) =>
                     new OSFramework.DataGrid.OSStructure.RowData(
@@ -491,7 +491,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         columnType ===
                             OSFramework.DataGrid.Enum.ColumnType.Calculated
                     ) {
-                        _sum = _sum + element.value;
+                        _sum = _sum + (element.value as number);
                         _count++;
                     }
                 });
@@ -531,8 +531,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         columnType ===
                             OSFramework.DataGrid.Enum.ColumnType.Calculated
                     ) {
-                        _min = Math.min(_min, element.value);
-                        _max = Math.max(_max, element.value);
+                        _min = Math.min(_min, element.value as number);
+                        _max = Math.max(_max, element.value as number);
                     }
                 });
             }
@@ -551,7 +551,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         this._grid.getColumn(col.binding).columnType ===
                             OSFramework.DataGrid.Enum.ColumnType.Calculated
                     ) {
-                        sum += col.value;
+                        sum += col.value as number;
                     }
                 });
             });
