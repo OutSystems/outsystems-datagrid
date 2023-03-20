@@ -292,39 +292,23 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return rowColumnArr.map((p) => p.serialize());
         }
 
-        public getCheckedRowsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const allCheckedRows =
-                    this._grid.provider.itemsSource.sourceCollection.filter(
-                        (item) =>
-                            item?.__osRowMetadata?.get(this._internalLabel)
-                                ?.isChecked === true
-                    );
-
-                const allCheckedRowsArr = allCheckedRows.map(
-                    (dataItem) =>
-                        new OSFramework.DataGrid.OSStructure.CheckedRowData(
-                            this._grid,
-                            dataItem
-                        )
+        public getCheckedRowsData(): any[] {
+            const allCheckedRows =
+                this._grid.provider.itemsSource.sourceCollection.filter(
+                    (item) =>
+                        item?.__osRowMetadata?.get(this._internalLabel)
+                            ?.isChecked === true
                 );
 
-                return {
-                    value: allCheckedRowsArr.map((p) => p.serialize()),
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetCheckedRowsData
-                };
-            }
+            const allCheckedRowsArr = allCheckedRows.map(
+                (dataItem) =>
+                    new OSFramework.DataGrid.OSStructure.CheckedRowData(
+                        this._grid,
+                        dataItem
+                    )
+            );
+
+            return allCheckedRowsArr.map((p) => p.serialize());
         }
 
         public getMetadata(
@@ -675,7 +659,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         public hasCheckedRows(): boolean {
-            return this.getCheckedRowsData().value.length > 0;
+            return this.getCheckedRowsData().length > 0;
         }
 
         public hasMetadata(rowNumber: number): boolean {

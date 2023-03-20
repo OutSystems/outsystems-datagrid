@@ -54,8 +54,19 @@ namespace OutSystems.GridAPI.Selection {
     export function GetCheckedRowsData(gridID: string): string {
         Performance.SetMark('Selection.GetCheckedRowsData');
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedGetCheckedRowsData,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.getCheckedRowsData();
+            }
+        });
 
         Performance.SetMark('Selection.GetCheckedRowsData-end');
         Performance.GetMeasure(
@@ -63,7 +74,7 @@ namespace OutSystems.GridAPI.Selection {
             'Selection.GetCheckedRowsData',
             'Selection.GetCheckedRowsData-end'
         );
-        return JSON.stringify(grid.features.selection.getCheckedRowsData());
+        return result;
     }
 
     export function GetSelectedRowsCount(gridID: string): string {

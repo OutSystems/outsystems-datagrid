@@ -50,7 +50,7 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Returns the Data of the checked rows
          */
-        getCheckedRowsData(): OSStructure.ReturnMessage;
+        getCheckedRowsData(): any[];
 
         /**
          * Returns the Indexes of the selected rows
