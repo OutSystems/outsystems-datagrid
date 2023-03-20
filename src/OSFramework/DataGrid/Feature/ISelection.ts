@@ -83,7 +83,7 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Returns the sum of the selected cell's data
          */
-        getSelectionSum(): OSStructure.ReturnMessage;
+        getSelectionSum(): number;
         /**
          * Checks if there is any checked row on the grid
          */

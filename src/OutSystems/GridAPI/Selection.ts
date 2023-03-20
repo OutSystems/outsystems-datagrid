@@ -233,15 +233,27 @@ namespace OutSystems.GridAPI.Selection {
 
     export function GetSelectionSum(gridID: string): string {
         Performance.SetMark('Selection.GetSelectionSum');
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionSum,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.getSelectionSum();
+            }
+        });
+
         Performance.SetMark('Selection.GetSelectionSum-end');
         Performance.GetMeasure(
             '@datagrid-Selection.GetSelectionSum',
             'Selection.GetSelectionSum',
             'Selection.GetSelectionSum-end'
         );
-        return JSON.stringify(grid.features.selection.getSelectionSum());
+        return result;
     }
 
     export function HasSelectedRows(gridID: string): string {
