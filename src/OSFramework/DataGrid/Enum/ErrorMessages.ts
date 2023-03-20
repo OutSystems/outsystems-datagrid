@@ -22,6 +22,8 @@ namespace OSFramework.DataGrid.Enum {
         Row_InvalidStartingRowHeader = 'The starting row header is invalid.',
         Row_ListEmptyValues = 'Rows list has empty values.',
         Row_NotFound = 'Row not found.',
+        SetCurrentPage = 'An error occurred while trying to set current page.',
+        SetCurrentPageServerSidePagination = 'It seems that you have server side pagination turned on. Switch it off and try again.',
         SetRowAsSelected = 'Grids with RowCheckbox as RowHeader has this capability disabled.',
         SuccessMessage = 'Success',
         UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.',
