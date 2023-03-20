@@ -11,31 +11,17 @@ namespace OutSystems.GridAPI.ColumnPicker {
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     ): any {
         Performance.SetMark('ColumnPicker.SetColumnVisibility');
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message =
-                OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code =
-                OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            GridManager.GetGridById(
-                gridID
-            ).features.columnPicker.setShowHiddenColumns(showHiddenColumns);
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetColumnVisibility;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedSetColumnVisibility,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.columnPicker.setShowHiddenColumns(showHiddenColumns);
+            }
+        });
 
         Performance.SetMark('ColumnPicker.SetColumnVisibility-end');
         Performance.GetMeasure(
@@ -44,7 +30,7 @@ namespace OutSystems.GridAPI.ColumnPicker {
             'ColumnPicker.SetColumnVisibility-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 }
 
