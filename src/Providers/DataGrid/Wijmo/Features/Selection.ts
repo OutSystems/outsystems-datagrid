@@ -231,101 +231,65 @@ namespace Providers.DataGrid.Wijmo.Feature {
             else return undefined;
         }
 
-        public getAllSelections(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const getAllSelections = this.getProviderAllSelections().map(
-                    (p) => Helper.CellRangeFactory.MakeFromProviderCellRange(p)
-                );
+        public getAllSelections(): OSFramework.DataGrid.OSStructure.CellRange[] {
+            const getAllSelections = this.getProviderAllSelections().map((p) =>
+                Helper.CellRangeFactory.MakeFromProviderCellRange(p)
+            );
 
-                return {
-                    value: getAllSelections,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetAllSelections
-                };
-            }
+            return getAllSelections;
         }
 
-        public getAllSelectionsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const rowColumn = new Map<
-                    number,
-                    OSFramework.DataGrid.OSStructure.RowData
-                >();
-                const rowColumnArr: OSFramework.DataGrid.OSStructure.RowData[] =
-                    [];
+        public getAllSelectionsData(): any[] {
+            const rowColumn = new Map<
+                number,
+                OSFramework.DataGrid.OSStructure.RowData
+            >();
+            const rowColumnArr: OSFramework.DataGrid.OSStructure.RowData[] = [];
 
-                this.getProviderAllSelections().map((range) => {
-                    const bindings = Array(range.rightCol - range.leftCol + 1)
-                        .fill(0)
-                        .map((_, idx) =>
-                            this._grid.provider.getColumn(range.leftCol + idx)
-                        )
-                        .filter((p) => p.isVisible)
-                        .map((p) => p.binding);
+            this.getProviderAllSelections().map((range) => {
+                const bindings = Array(range.rightCol - range.leftCol + 1)
+                    .fill(0)
+                    .map((_, idx) =>
+                        this._grid.provider.getColumn(range.leftCol + idx)
+                    )
+                    .filter((p) => p.isVisible)
+                    .map((p) => p.binding);
 
-                    Array(range.bottomRow - range.topRow + 1)
-                        .fill(0)
-                        .map((_, idx) => range.topRow + idx)
-                        .map((rowIndex) => {
-                            let curr = rowColumn.get(rowIndex);
+                Array(range.bottomRow - range.topRow + 1)
+                    .fill(0)
+                    .map((_, idx) => range.topRow + idx)
+                    .map((rowIndex) => {
+                        let curr = rowColumn.get(rowIndex);
 
-                            if (!curr) {
-                                curr =
-                                    new OSFramework.DataGrid.OSStructure.RowData(
-                                        this._grid,
-                                        rowIndex,
-                                        this._grid.provider.rows[
-                                            rowIndex
-                                        ].dataItem
-                                    );
-
-                                rowColumnArr.push(curr);
-                                rowColumn.set(rowIndex, curr);
-                            }
-
-                            curr.selected.push(
-                                ...bindings.map(
-                                    (binding) =>
-                                        new OSFramework.DataGrid.OSStructure.BindingValue(
-                                            binding,
-                                            this._grid.provider.getCellData(
-                                                rowIndex,
-                                                binding,
-                                                false
-                                            )
-                                        )
-                                )
+                        if (!curr) {
+                            curr = new OSFramework.DataGrid.OSStructure.RowData(
+                                this._grid,
+                                rowIndex,
+                                this._grid.provider.rows[rowIndex].dataItem
                             );
-                        });
-                });
 
-                rowColumn.clear();
-                return {
-                    value: rowColumnArr.map((p) => p.serialize()),
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetAllSelectionsData
-                };
-            }
+                            rowColumnArr.push(curr);
+                            rowColumn.set(rowIndex, curr);
+                        }
+
+                        curr.selected.push(
+                            ...bindings.map(
+                                (binding) =>
+                                    new OSFramework.DataGrid.OSStructure.BindingValue(
+                                        binding,
+                                        this._grid.provider.getCellData(
+                                            rowIndex,
+                                            binding,
+                                            false
+                                        )
+                                    )
+                            )
+                        );
+                    });
+            });
+
+            rowColumn.clear();
+            return rowColumnArr.map((p) => p.serialize());
         }
 
         public getCheckedRowsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
@@ -510,7 +474,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public getSelectedRowsCountByCellRange(): number {
             //Runs the equalize to garantee that the same row is not selected more than once
             this.equalizeSelection();
-            return this.getAllSelections().value.reduce(
+            return this.getAllSelections().reduce(
                 (acc, sel) => acc + (sel.bottomRowIndex - sel.topRowIndex + 1),
                 0
             );
@@ -559,7 +523,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             let _count = 0;
             let _sum = 0;
             const _grid = this._grid;
-            const _items = this.getAllSelectionsData().value;
+            const _items = this.getAllSelectionsData();
             try {
                 for (const item of _items) {
                     item.selected.forEach((element) => {
@@ -600,7 +564,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         // Calculate the number o selected cells based on getAllSelectionsData method
         public getSelectionCellCount(): number {
             let selectionCellCount = 0;
-            this.getAllSelectionsData().value.forEach((cell) => {
+            this.getAllSelectionsData().forEach((cell) => {
                 selectionCellCount = selectionCellCount + cell.selected.length;
             });
             return selectionCellCount;
@@ -633,7 +597,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             let _max = -Infinity;
             let _min = Infinity;
             const _grid = this._grid;
-            const _items = this.getAllSelectionsData().value;
+            const _items = this.getAllSelectionsData();
             try {
                 for (const item of _items) {
                     item.selected.forEach((element) => {
@@ -677,7 +641,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public getSelectionSum(): OSFramework.DataGrid.OSStructure.ReturnMessage {
             try {
                 let sum = 0;
-                this.getAllSelectionsData().value.forEach((row) => {
+                this.getAllSelectionsData().forEach((row) => {
                     row.selected.forEach((col) => {
                         if (
                             this._grid.getColumn(col.binding).columnType ===

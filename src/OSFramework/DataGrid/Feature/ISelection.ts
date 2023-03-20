@@ -41,11 +41,11 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Returns all selections (rows and ranges)
          */
-        getAllSelections(): OSStructure.ReturnMessage;
+        getAllSelections(): OSStructure.CellRange[];
         /**
          * Returns the Data of the selections
          */
-        getAllSelectionsData(): OSStructure.ReturnMessage;
+        getAllSelectionsData(): any[];
 
         /**
          * Returns the Data of the checked rows

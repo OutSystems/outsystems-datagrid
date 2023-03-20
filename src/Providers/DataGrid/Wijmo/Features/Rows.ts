@@ -243,7 +243,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             const topRow = Math.min(
                 ...this._grid.features.selection
                     .getAllSelections()
-                    .value.map((cellRange) => cellRange.topRowIndex)
+                    .map((cellRange) => cellRange.topRowIndex)
             );
             // Consider the topRow 0 if there is no selection.
             return topRow === Infinity ? 0 : topRow;

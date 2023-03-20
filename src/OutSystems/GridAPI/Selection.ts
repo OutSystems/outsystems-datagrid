@@ -2,8 +2,18 @@ namespace OutSystems.GridAPI.Selection {
     export function GetAllSelections(gridID: string): string {
         Performance.SetMark('Selection.GetAllSelections');
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetAllSelections,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.getAllSelections();
+            }
+        });
 
         Performance.SetMark('Selection.GetAllSelections-end');
         Performance.GetMeasure(
@@ -11,14 +21,25 @@ namespace OutSystems.GridAPI.Selection {
             'Selection.GetAllSelections',
             'Selection.GetAllSelections-end'
         );
-        return JSON.stringify(grid.features.selection.getAllSelections());
+        return result;
     }
 
     export function GetAllSelectionsData(gridID: string): string {
         Performance.SetMark('Selection.GetAllSelectionsData');
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedGetAllSelectionsData,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.getAllSelectionsData();
+            }
+        });
 
         Performance.SetMark('Selection.GetAllSelectionsData-end');
         Performance.GetMeasure(
@@ -26,7 +47,8 @@ namespace OutSystems.GridAPI.Selection {
             'Selection.GetAllSelectionsData',
             'Selection.GetAllSelectionsData-end'
         );
-        return JSON.stringify(grid.features.selection.getAllSelectionsData());
+
+        return result;
     }
 
     export function GetCheckedRowsData(gridID: string): string {
