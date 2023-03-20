@@ -106,8 +106,19 @@ namespace OutSystems.GridAPI.Selection {
     export function GetSelectedRowsData(gridID: string): string {
         Performance.SetMark('Selection.GetSelectedRowsData');
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedGetSelectedRowsData,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.getSelectedRowsData();
+            }
+        });
 
         Performance.SetMark('Selection.GetSelectedRowsData-end');
         Performance.GetMeasure(
@@ -115,7 +126,7 @@ namespace OutSystems.GridAPI.Selection {
             'Selection.GetSelectedRowsData',
             'Selection.GetSelectedRowsData-end'
         );
-        return JSON.stringify(grid.features.selection.getSelectedRowsData());
+        return result;
     }
 
     export function GetSelectionAverage(gridID: string): string {

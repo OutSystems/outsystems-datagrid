@@ -448,43 +448,29 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
-        public getSelectedRowsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const selectedRows = this.getSelectedRows().map(
-                    (rowIndex) =>
-                        new OSFramework.DataGrid.OSStructure.RowData(
-                            this._grid,
-                            rowIndex,
-                            this._grid.provider.rows[rowIndex].dataItem
-                        )
-                );
-                return {
-                    value: selectedRows
-                        .map((p) => p.serialize())
-                        // we want to return dataItem as an object instead of an array,
-                        .map(({ rowIndex, selected, dataItem }) => {
-                            const _dataItem = { ...dataItem[0] };
+        public getSelectedRowsData(): any[] {
+            const selectedRows = this.getSelectedRows().map(
+                (rowIndex) =>
+                    new OSFramework.DataGrid.OSStructure.RowData(
+                        this._grid,
+                        rowIndex,
+                        this._grid.provider.rows[rowIndex].dataItem
+                    )
+            );
+            return (
+                selectedRows
+                    .map((p) => p.serialize())
+                    // we want to return dataItem as an object instead of an array,
+                    .map(({ rowIndex, selected, dataItem }) => {
+                        const _dataItem = { ...dataItem[0] };
 
-                            return {
-                                rowIndex,
-                                selected,
-                                dataItem: JSON.stringify(_dataItem)
-                            };
-                        }),
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetSelectedRowsData
-                };
-            }
+                        return {
+                            rowIndex,
+                            selected,
+                            dataItem: JSON.stringify(_dataItem)
+                        };
+                    })
+            );
         }
 
         public getSelectionAverage(): OSFramework.DataGrid.OSStructure.ReturnMessage {

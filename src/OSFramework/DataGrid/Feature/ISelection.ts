@@ -67,7 +67,7 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Returns the Data of the selected rows
          */
-        getSelectedRowsData(): OSStructure.ReturnMessage;
+        getSelectedRowsData(): any[];
         /**
          * Returns the average value of select cells
          */
