@@ -80,8 +80,19 @@ namespace OutSystems.GridAPI.Selection {
     export function GetSelectedRowsCount(gridID: string): string {
         Performance.SetMark('Selection.GetSelectedRowsCount');
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return '[]';
-        const grid = GridManager.GetGridById(gridID);
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedGetSelectedRowsCount,
+            hasValue: true,
+            callback: () => {
+                if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return [];
+                const grid = GridManager.GetGridById(gridID);
+
+                return grid.features.selection.getSelectedRowsCount();
+            }
+        });
 
         Performance.SetMark('Selection.GetSelectedRowsCount-end');
         Performance.GetMeasure(
@@ -89,7 +100,7 @@ namespace OutSystems.GridAPI.Selection {
             'Selection.GetSelectedRowsCount',
             'Selection.GetSelectedRowsCount-end'
         );
-        return JSON.stringify(grid.features.selection.getSelectedRowsCount());
+        return result;
     }
 
     export function GetSelectedRowsData(gridID: string): string {

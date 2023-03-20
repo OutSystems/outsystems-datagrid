@@ -59,7 +59,7 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Returns how many rows are selected by row number or checkbox selection
          */
-        getSelectedRowsCount(): OSStructure.ReturnMessage;
+        getSelectedRowsCount(): number;
         /**
          * Returns how many rows are selected by cell range selection
          */

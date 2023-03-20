@@ -435,24 +435,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return rows.filter((item, index) => rows.indexOf(item) === index);
         }
 
-        public getSelectedRowsCount(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                return {
-                    value: this.getSelectedRows().length,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: null,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetSelectedRowsCount
-                };
-            }
+        public getSelectedRowsCount(): number {
+            return this.getSelectedRows().length;
         }
 
         public getSelectedRowsCountByCellRange(): number {
