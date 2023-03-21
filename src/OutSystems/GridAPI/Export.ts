@@ -14,33 +14,20 @@ namespace OutSystems.GridAPI.Export {
     ): string {
         Performance.SetMark('Export.CustomizeExportingMessage');
 
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-        };
-
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message =
-                OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code =
-                OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            const grid = GridManager.GetGridById(gridID);
-
-            grid.features.export.customizeExportingMessage(
-                exportingMessage,
-                showMessage
-            );
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedCustomizeExportingMessage;
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedCustomizeExportingMessage,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.export.customizeExportingMessage(
+                    exportingMessage,
+                    showMessage
+                );
+            }
+        });
 
         Performance.SetMark('Export.CustomizeExportingMessage-end');
         Performance.GetMeasure(
@@ -49,7 +36,7 @@ namespace OutSystems.GridAPI.Export {
             'Export.CustomizeExportingMessage-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
 }
 

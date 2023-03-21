@@ -231,136 +231,84 @@ namespace Providers.DataGrid.Wijmo.Feature {
             else return undefined;
         }
 
-        public getAllSelections(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const getAllSelections = this.getProviderAllSelections().map(
-                    (p) => Helper.CellRangeFactory.MakeFromProviderCellRange(p)
-                );
+        public getAllSelections(): OSFramework.DataGrid.OSStructure.CellRange[] {
+            const getAllSelections = this.getProviderAllSelections().map((p) =>
+                Helper.CellRangeFactory.MakeFromProviderCellRange(p)
+            );
 
-                return {
-                    value: getAllSelections,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetAllSelections
-                };
-            }
+            return getAllSelections;
         }
 
-        public getAllSelectionsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const rowColumn = new Map<
-                    number,
-                    OSFramework.DataGrid.OSStructure.RowData
-                >();
-                const rowColumnArr: OSFramework.DataGrid.OSStructure.RowData[] =
-                    [];
+        public getAllSelectionsData(): Array<OSFramework.DataGrid.Types.RowData> {
+            const rowColumn = new Map<
+                number,
+                OSFramework.DataGrid.OSStructure.RowData
+            >();
+            const rowColumnArr: OSFramework.DataGrid.OSStructure.RowData[] = [];
 
-                this.getProviderAllSelections().map((range) => {
-                    const bindings = Array(range.rightCol - range.leftCol + 1)
-                        .fill(0)
-                        .map((_, idx) =>
-                            this._grid.provider.getColumn(range.leftCol + idx)
-                        )
-                        .filter((p) => p.isVisible)
-                        .map((p) => p.binding);
+            this.getProviderAllSelections().map((range) => {
+                const bindings = Array(range.rightCol - range.leftCol + 1)
+                    .fill(0)
+                    .map((_, idx) =>
+                        this._grid.provider.getColumn(range.leftCol + idx)
+                    )
+                    .filter((p) => p.isVisible)
+                    .map((p) => p.binding);
 
-                    Array(range.bottomRow - range.topRow + 1)
-                        .fill(0)
-                        .map((_, idx) => range.topRow + idx)
-                        .map((rowIndex) => {
-                            let curr = rowColumn.get(rowIndex);
+                Array(range.bottomRow - range.topRow + 1)
+                    .fill(0)
+                    .map((_, idx) => range.topRow + idx)
+                    .map((rowIndex) => {
+                        let curr = rowColumn.get(rowIndex);
 
-                            if (!curr) {
-                                curr =
-                                    new OSFramework.DataGrid.OSStructure.RowData(
-                                        this._grid,
-                                        rowIndex,
-                                        this._grid.provider.rows[
-                                            rowIndex
-                                        ].dataItem
-                                    );
-
-                                rowColumnArr.push(curr);
-                                rowColumn.set(rowIndex, curr);
-                            }
-
-                            curr.selected.push(
-                                ...bindings.map(
-                                    (binding) =>
-                                        new OSFramework.DataGrid.OSStructure.BindingValue(
-                                            binding,
-                                            this._grid.provider.getCellData(
-                                                rowIndex,
-                                                binding,
-                                                false
-                                            )
-                                        )
-                                )
+                        if (!curr) {
+                            curr = new OSFramework.DataGrid.OSStructure.RowData(
+                                this._grid,
+                                rowIndex,
+                                this._grid.provider.rows[rowIndex].dataItem
                             );
-                        });
-                });
 
-                rowColumn.clear();
-                return {
-                    value: rowColumnArr.map((p) => p.serialize()),
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetAllSelectionsData
-                };
-            }
+                            rowColumnArr.push(curr);
+                            rowColumn.set(rowIndex, curr);
+                        }
+
+                        curr.selected.push(
+                            ...bindings.map(
+                                (binding) =>
+                                    new OSFramework.DataGrid.OSStructure.BindingValue(
+                                        binding,
+                                        this._grid.provider.getCellData(
+                                            rowIndex,
+                                            binding,
+                                            false
+                                        )
+                                    )
+                            )
+                        );
+                    });
+            });
+
+            rowColumn.clear();
+            return rowColumnArr.map((p) => p.serialize());
         }
 
-        public getCheckedRowsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const allCheckedRows =
-                    this._grid.provider.itemsSource.sourceCollection.filter(
-                        (item) =>
-                            item?.__osRowMetadata?.get(this._internalLabel)
-                                ?.isChecked === true
-                    );
-
-                const allCheckedRowsArr = allCheckedRows.map(
-                    (dataItem) =>
-                        new OSFramework.DataGrid.OSStructure.CheckedRowData(
-                            this._grid,
-                            dataItem
-                        )
+        public getCheckedRowsData(): Array<OSFramework.DataGrid.OSStructure.BindingValue> {
+            const allCheckedRows =
+                this._grid.provider.itemsSource.sourceCollection.filter(
+                    (item) =>
+                        item?.__osRowMetadata?.get(this._internalLabel)
+                            ?.isChecked === true
                 );
 
-                return {
-                    value: allCheckedRowsArr.map((p) => p.serialize()),
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetCheckedRowsData
-                };
-            }
+            const allCheckedRowsArr = allCheckedRows.map(
+                (dataItem) =>
+                    new OSFramework.DataGrid.OSStructure.CheckedRowData(
+                        this._grid,
+                        dataItem
+                    )
+            );
+
+            return allCheckedRowsArr.map((p) => p.serialize());
         }
 
         public getMetadata(
@@ -487,231 +435,132 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return rows.filter((item, index) => rows.indexOf(item) === index);
         }
 
-        public getSelectedRowsCount(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                return {
-                    value: this.getSelectedRows().length,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: null,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetSelectedRowsCount
-                };
-            }
+        public getSelectedRowsCount(): number {
+            return this.getSelectedRows().length;
         }
 
         public getSelectedRowsCountByCellRange(): number {
             //Runs the equalize to garantee that the same row is not selected more than once
             this.equalizeSelection();
-            return this.getAllSelections().value.reduce(
+            return this.getAllSelections().reduce(
                 (acc, sel) => acc + (sel.bottomRowIndex - sel.topRowIndex + 1),
                 0
             );
         }
 
-        public getSelectedRowsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const selectedRows = this.getSelectedRows().map(
-                    (rowIndex) =>
-                        new OSFramework.DataGrid.OSStructure.RowData(
-                            this._grid,
-                            rowIndex,
-                            this._grid.provider.rows[rowIndex].dataItem
-                        )
-                );
-                return {
-                    value: selectedRows
-                        .map((p) => p.serialize())
-                        // we want to return dataItem as an object instead of an array,
-                        .map(({ rowIndex, selected, dataItem }) => {
-                            const _dataItem = { ...dataItem[0] };
+        public getSelectedRowsData(): Array<OSFramework.DataGrid.Types.RowData> {
+            const selectedRows = this.getSelectedRows().map(
+                (rowIndex) =>
+                    new OSFramework.DataGrid.OSStructure.RowData(
+                        this._grid,
+                        rowIndex,
+                        this._grid.provider.rows[rowIndex].dataItem
+                    )
+            );
+            return (
+                selectedRows
+                    .map((p) => p.serialize())
+                    // we want to return dataItem as an object instead of an array,
+                    .map(({ rowIndex, selected, dataItem }) => {
+                        const _dataItem = { ...dataItem[0] };
 
-                            return {
-                                rowIndex,
-                                selected,
-                                dataItem: JSON.stringify(_dataItem)
-                            };
-                        }),
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetSelectedRowsData
-                };
-            }
+                        return {
+                            rowIndex,
+                            selected,
+                            dataItem: JSON.stringify(_dataItem)
+                        };
+                    })
+            );
         }
 
-        public getSelectionAverage(): OSFramework.DataGrid.OSStructure.ReturnMessage {
+        public getSelectionAverage(): number {
             let _count = 0;
             let _sum = 0;
             const _grid = this._grid;
-            const _items = this.getAllSelectionsData().value;
-            try {
-                for (const item of _items) {
-                    item.selected.forEach((element) => {
-                        const columnType = _grid.getColumn(
-                            element.binding
-                        ).columnType;
-                        if (
-                            columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Number ||
-                            columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Currency ||
-                            columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Calculated
-                        ) {
-                            _sum = _sum + element.value;
-                            _count++;
-                        }
-                    });
-                }
-                return {
-                    value: _sum > 0 ? _sum / _count : null,
-                    isSuccess: false,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: null,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetSelectionAverage
-                };
+            const _items = this.getAllSelectionsData();
+            for (const item of _items) {
+                item.selected.forEach((element) => {
+                    const columnType = _grid.getColumn(
+                        element.binding
+                    ).columnType;
+                    if (
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Number ||
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Calculated
+                    ) {
+                        _sum = _sum + (element.value as number);
+                        _count++;
+                    }
+                });
             }
+            return _sum > 0 ? _sum / _count : null;
         }
 
         // Calculate the number o selected cells based on getAllSelectionsData method
         public getSelectionCellCount(): number {
             let selectionCellCount = 0;
-            this.getAllSelectionsData().value.forEach((cell) => {
+            this.getAllSelectionsData().forEach((cell) => {
                 selectionCellCount = selectionCellCount + cell.selected.length;
             });
             return selectionCellCount;
         }
 
         // Method to get the count of selected cells on Grid
-        public getSelectionCount(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                return {
-                    value: this.getSelectionCellCount(),
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: null,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetSelectionCount
-                };
-            }
+        public getSelectionCount(): number {
+            return this.getSelectionCellCount();
         }
 
-        public getSelectionMaxMin(
-            isMax: boolean
-        ): OSFramework.DataGrid.OSStructure.ReturnMessage {
+        public getSelectionMaxMin(isMax: boolean): number {
             let _max = -Infinity;
             let _min = Infinity;
             const _grid = this._grid;
-            const _items = this.getAllSelectionsData().value;
-            try {
-                for (const item of _items) {
-                    item.selected.forEach((element) => {
-                        const columnType = _grid.getColumn(
-                            element.binding
-                        ).columnType;
-                        if (
-                            columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Number ||
-                            columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Currency ||
-                            columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Calculated
-                        ) {
-                            _min = Math.min(_min, element.value);
-                            _max = Math.max(_max, element.value);
-                        }
-                    });
-                }
-                return {
-                    value: isMax ? _max : _min,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: null,
-                    isSuccess: false,
-                    message: error.message,
-                    code: isMax
-                        ? OSFramework.DataGrid.Enum.ErrorCodes
-                              .API_FailedGetSelectionMax
-                        : OSFramework.DataGrid.Enum.ErrorCodes
-                              .API_FailedGetSelectionMin
-                };
+            const _items = this.getAllSelectionsData();
+            for (const item of _items) {
+                item.selected.forEach((element) => {
+                    const columnType = _grid.getColumn(
+                        element.binding
+                    ).columnType;
+                    if (
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Number ||
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Calculated
+                    ) {
+                        _min = Math.min(_min, element.value as number);
+                        _max = Math.max(_max, element.value as number);
+                    }
+                });
             }
+            return isMax ? _max : _min;
         }
 
-        public getSelectionSum(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                let sum = 0;
-                this.getAllSelectionsData().value.forEach((row) => {
-                    row.selected.forEach((col) => {
-                        if (
-                            this._grid.getColumn(col.binding).columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Currency ||
-                            this._grid.getColumn(col.binding).columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Number ||
-                            this._grid.getColumn(col.binding).columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Calculated
-                        ) {
-                            sum += col.value;
-                        }
-                    });
+        public getSelectionSum(): number {
+            let sum = 0;
+            this.getAllSelectionsData().forEach((row) => {
+                row.selected.forEach((col) => {
+                    if (
+                        this._grid.getColumn(col.binding).columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                        this._grid.getColumn(col.binding).columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Number ||
+                        this._grid.getColumn(col.binding).columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Calculated
+                    ) {
+                        sum += col.value as number;
+                    }
                 });
+            });
 
-                return {
-                    value: sum,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetSelectionSum
-                };
-            }
+            return sum;
         }
 
         public hasCheckedRows(): boolean {
-            return this.getCheckedRowsData().value.length > 0;
+            return this.getCheckedRowsData().length > 0;
         }
 
         public hasMetadata(rowNumber: number): boolean {
@@ -721,24 +570,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
-        public hasSelectedRows(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                return {
-                    value: this.getSelectedRows().length > 0,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: undefined,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedHasSelectedRows
-                };
-            }
+        public hasSelectedRows(): boolean {
+            return this.getSelectedRows().length > 0;
         }
 
         public hasValidSelection(): boolean {
@@ -756,40 +589,16 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public setRowAsSelected(
             rowsIndex: number[],
             isSelected = true
-        ): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                if (this._grid.features.rowHeader.hasCheckbox) {
-                    return {
-                        value: undefined,
-                        isSuccess: false,
-                        message:
-                            OSFramework.DataGrid.Enum.ErrorMessages
-                                .SetRowAsSelected,
-                        code: OSFramework.DataGrid.Enum.ErrorCodes
-                            .API_FailedSetRowAsSelected
-                    };
-                }
-
-                rowsIndex.forEach((index) => {
-                    this._grid.provider.rows[index].isSelected = isSelected;
-                });
-
-                return {
-                    value: rowsIndex,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: undefined,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedSetRowAsSelected
-                };
+        ): number[] {
+            if (this._grid.features.rowHeader.hasCheckbox) {
+                return undefined;
             }
+
+            rowsIndex.forEach((index) => {
+                this._grid.provider.rows[index].isSelected = isSelected;
+            });
+
+            return rowsIndex;
         }
 
         public setState(value: wijmo.grid.SelectionMode): void {
