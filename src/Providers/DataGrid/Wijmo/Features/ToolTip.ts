@@ -72,6 +72,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 ) {
                     //JS asserts the previous declaration as true when they are equal
                     this._toolTip.show(cell, sanitizedValue); // show tooltip if text is overflow/hidden
+                } else {
+                    this._toolTip.hide();
                 }
             }
             //Otherwise (If the cell is invalid)
@@ -117,7 +119,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
         private _toolTipClass(isInvalid: boolean): void {
             if (isInvalid === true) this._toolTip.cssClass = 'errorValidation';
-            else this._toolTip.cssClass = '';
+            else {
+                this._toolTip.cssClass = '';
+
+                // Implementation of the workaround provided by Wijmo related to ROU-4207 issue.
+                // To be removed after Wijmo fix.
+                if (wijmo.Tooltip._eTip)
+                    wijmo.Tooltip._eTip.setAttribute('class', 'wj-tooltip');
+            }
         }
 
         public build(): void {
