@@ -121,6 +121,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
             if (isInvalid === true) this._toolTip.cssClass = 'errorValidation';
             else {
                 this._toolTip.cssClass = '';
+
+                // Implementation of the workaround provided by Wijmo related to ROU-4207 issue.
+                // To be removed after Wijmo fix.
                 if (wijmo.Tooltip._eTip)
                     wijmo.Tooltip._eTip.setAttribute('class', 'wj-tooltip');
             }
