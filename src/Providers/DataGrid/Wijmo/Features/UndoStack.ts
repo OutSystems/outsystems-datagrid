@@ -38,6 +38,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
+        public clear(): void {
+            this._undoStack.clear();
+        }
+
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
         public closeAction<T>(T): void {
             this._undoStack._pendingAction instanceof T &&
