@@ -1,8 +1,9 @@
 {
-  "name": "outsystems-datagrid-reactive",
+  "name": "outsystems-datagrid",
   "version": "2.11.0",
-  "description": "OutSystems Data Grid Reactive",
-  "license": "ISC",
+  "description": "OutSystems Data Grid for Reactive Web",
+  "author": "UI Components Team",
+  "license": "BSD-3-Clause",
   "scripts": {
     "build": "tsc",
     "lint": "eslint . --ext .ts",
@@ -12,7 +13,6 @@
     "setup": "npm i && tsc",
     "docs": "npx typedoc"
   },
-  "author": "OutSystems R&D",
   "dependencies": {
     "@types/lodash": "^4.14.169",
     "typescript": "^4.1.3"

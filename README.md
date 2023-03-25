@@ -1,4 +1,4 @@
-# OutSystems Data Grid · [![GitHub license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/OutSystems/outsystems-datagrid-reactive/blob/master/LICENSE) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg) [![Build Status](https://dev.azure.com/OutSystemsRD/Data%20Grid/_apis/build/status/OutSystems.outsystems-datagrid-reactive?repoName=OutSystems%2Foutsystems-datagrid-reactive&branchName=dev)](https://dev.azure.com/OutSystemsRD/Data%20Grid/_build/latest?definitionId=427&repoName=OutSystems%2Foutsystems-datagrid-reactive&branchName=dev) ![Release Status](https://vsrm.dev.azure.com/OutSystemsRD/_apis/public/Release/badge/a4246f2c-63f1-4b1a-8070-9328d5d3ea38/2/2)
+# OutSystems Data Grid · [![GitHub License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/OutSystems/outsystems-datagrid/blob/master/LICENSE) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg) [![Build Status](https://dev.azure.com/OutSystemsRD/OutSystems%20UI/_apis/build/status/Datagrid/Datagrid%20-%20PR%20pipeline?repoName=OutSystems%2Foutsystems-datagrid&branchName=dev)](https://dev.azure.com/OutSystemsRD/OutSystems%20UI/_build/latest?definitionId=2726&repoName=OutSystems%2Foutsystems-datagrid&branchName=dev) 
 View, explore, and edit large amounts of data in a familiar spreadsheet interface with the Data Grid component for **OutSystems Reactive Web apps**.
 
 ## About the component
@@ -29,7 +29,7 @@ The code is written in TypeScript🖤, and you branch it and PR your changes/pro
 
 ### What tools should you use?
 We highly recommend the usage of the following tools:
-* [Visual Code](https://code.visualstudio.com/)
+* [Visual Studio Code](https://code.visualstudio.com/)
 * With these extensions:
   * Document This
   * ESLint
@@ -37,14 +37,14 @@ We highly recommend the usage of the following tools:
 
 ### How to use change this code?
 1. Create a branch based in the branch **master** (lastest & greatest release)
-2. Open your Visual Code in your branch
-3. Run the following command in Visual Code terminal: `npm run setup` (this will install all the dependencies that you need and compile the code)
+2. Open your Visual Studio Code in your branch
+3. Run the following command in Visual Studio Code terminal: `npm run setup` (this will install all the dependencies that you need and compile the code)
 4. Do your magic! :)
 5. **Document your code** (with the extension "Document This", start typing `/**` and the extension will give you a good starting point
-6. Compile and fix errors and warnings (in Visual Code terminal: `npm run build`)
-7. Check if the code format is following our conventions (in Visual Code terminal: `npm run lint`)
-7.1 Some of the conventions can be fixed automatically by lint (in Visual Code terminal: `npm run lintfix`)
-7.2 Although the script above execute the prettier conventions, you may want to run it over all project files (in Visual Code terminal: `npm run prettier`)
+6. Compile and fix errors and warnings (in Visual Studio Code terminal: `npm run build`)
+7. Check if the code format is following our conventions (in Visual Studio Code terminal: `npm run lint`)
+7.1 Some of the conventions can be fixed automatically by lint (in Visual Studio Code terminal: `npm run lintfix`)
+7.2 Although the script above execute the prettier conventions, you may want to run it over all project files (in Visual Studio Code terminal: `npm run prettier`)
 8. Fix all errors & warnings! :)
 9. Create a PR, describing what was the (mis)behavior, what you changed and please provide a sample 
 
