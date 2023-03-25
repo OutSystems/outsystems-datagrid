@@ -1,4 +1,4 @@
-# OutSystems Data Grid · [![GitHub License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/OutSystems/outsystems-datagrid/blob/master/LICENSE) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg) [![Build Status](https://dev.azure.com/OutSystemsRD/OutSystems%20UI/_apis/build/status/Datagrid/Datagrid%20-%20PR%20pipeline?repoName=OutSystems%2Foutsystems-datagrid&branchName=dev)](https://dev.azure.com/OutSystemsRD/OutSystems%20UI/_build/latest?definitionId=2726&repoName=OutSystems%2Foutsystems-datagrid&branchName=dev) 
+# OutSystems Data Grid · [![GitHub License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/OutSystems/outsystems-datagrid/blob/master/LICENSE) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)  
 View, explore, and edit large amounts of data in a familiar spreadsheet interface with the Data Grid component for **OutSystems Reactive Web apps**.
 
 ## About the component
