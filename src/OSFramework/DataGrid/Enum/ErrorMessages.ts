@@ -17,13 +17,16 @@ namespace OSFramework.DataGrid.Enum {
         InvalidColumnIdentifier = 'It seems you are not passing a valid column.',
         ReorderRowOnGridWithCheckbox = 'It seems you are trying to reorder rows on a grid with checkboxes. This is not allowed',
         ReorderRowWithActiveSort = "It seems you are trying to reorder rows when grid is sorted. Grid can't be sorted.",
-        Row_EmptyList = 'Rows list is empty',
+        Row_EmptyList = 'Rows list is empty.',
         Row_InvalidRowDataKey = 'The data key is invalid.',
         Row_InvalidStartingRowHeader = 'The starting row header is invalid.',
         Row_ListEmptyValues = 'Rows list has empty values.',
         Row_NotFound = 'Row not found.',
+        SetCurrentPage = 'An error occurred while trying to set current page.',
+        SetCurrentPageServerSidePagination = 'It seems that you have server side pagination turned on. Switch it off and try again.',
         SetRowAsSelected = 'Grids with RowCheckbox as RowHeader has this capability disabled.',
         SuccessMessage = 'Success',
-        UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.'
+        UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.',
+        RemoveRowErrorMessage = 'An error occurred while trying to remove rows.'
     }
 }

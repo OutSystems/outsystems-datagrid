@@ -7,7 +7,7 @@ namespace OutSystems.GridAPI.Filter {
      * @returns {*}  {boolean} true if there are visible results.
      */
     export function HasResults(gridID: string): boolean {
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
+        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return false;
         const grid = GridManager.GetGridById(gridID);
         return grid.hasResults();
     }

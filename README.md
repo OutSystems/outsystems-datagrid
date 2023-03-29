@@ -24,7 +24,7 @@ If you're using OutSystems, this is how you can use this component in your appli
 ![Developer experience](https://www.outsystems.com/FroalaEditor/Download.aspx?GUID=2021216vzoTkL5piWLCGCv7VXgBkFoNdpCIye5Z9m2zyhV1gL)
 
 ## About this repository
-This repository contains the code that enable the usage of an external provider ([wijmo](https://www.grapecity.com/wijmo/)), to create grids in OutSystems applications with the least possible effort.
+This repository contains the code that enable the usage of an external provider ([Wijmo](https://www.grapecity.com/wijmo/)), to create grids in OutSystems applications with the least possible effort.
 The code is written in TypeScript🖤, and you branch it and PR your changes/proposals!
 
 ### What tools should you use?
@@ -79,7 +79,7 @@ To be accepted, a Pull Request needs to:
 ## Useful Links
 * Download latest version in [OutSystems forge](https://www.outsystems.com/forge/component-versions/9764)
 * Test the latest changes in the [sample app](https://www.outsystems.com/forge/component-overview/9765/data-grid-sample-reactive)
-* Component [living documentation](https://personal-ww5hcsw8.outsystemscloud.com/DataGridSampleReactive/)
+* Component [living documentation](https://outsystemsui.outsystems.com/OutSystemsDataGridSample/)
 * [Tutorial OutSystems Data Grid in less than 4 minutes](https://www.youtube.com/watch?v=OFXOPrkRlrI)
 
 

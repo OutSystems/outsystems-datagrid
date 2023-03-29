@@ -21,10 +21,9 @@ namespace OutSystems.GridAPI.GridManager.Events {
     export function Subscribe(
         gridID: string,
         eventName: OSFramework.DataGrid.Event.Grid.GridEventType,
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         callback: OSFramework.DataGrid.Callbacks.OSGrid.Event
     ): void {
-        const grid = GetGridById(gridID);
+        const grid = GetGridById(gridID, false);
         if (grid === undefined) {
             if (_pendingEvents.has(gridID)) {
                 _pendingEvents.get(gridID).push({

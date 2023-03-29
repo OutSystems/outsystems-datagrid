@@ -320,7 +320,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        public getViewLayout(): any {
+        public getViewLayout(): string {
             return this._features.view.getViewLayout();
         }
 

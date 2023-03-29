@@ -41,16 +41,16 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Returns all selections (rows and ranges)
          */
-        getAllSelections(): OSStructure.ReturnMessage;
+        getAllSelections(): OSStructure.CellRange[];
         /**
          * Returns the Data of the selections
          */
-        getAllSelectionsData(): OSStructure.ReturnMessage;
+        getAllSelectionsData(): Array<Types.RowData>;
 
         /**
          * Returns the Data of the checked rows
          */
-        getCheckedRowsData(): OSStructure.ReturnMessage;
+        getCheckedRowsData(): Array<OSStructure.BindingValue>;
 
         /**
          * Returns the Indexes of the selected rows
@@ -59,7 +59,7 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Returns how many rows are selected by row number or checkbox selection
          */
-        getSelectedRowsCount(): OSStructure.ReturnMessage;
+        getSelectedRowsCount(): number;
         /**
          * Returns how many rows are selected by cell range selection
          */
@@ -67,8 +67,23 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Returns the Data of the selected rows
          */
-        getSelectedRowsData(): OSStructure.ReturnMessage;
-
+        getSelectedRowsData(): Array<Types.RowData>;
+        /**
+         * Returns the average value of select cells
+         */
+        getSelectionAverage(): number;
+        /*
+         * Returns how many cells are selected
+         */
+        getSelectionCount(): number;
+        /**
+         * Returns the maximum or minimum value of the grid selected cells.
+         */
+        getSelectionMaxMin(isMax: boolean): number;
+        /**
+         * Returns the sum of the selected cell's data
+         */
+        getSelectionSum(): number;
         /**
          * Checks if there is any checked row on the grid
          */
@@ -77,7 +92,7 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Checks if there is a row selected on the grid
          */
-        hasSelectedRows(): OSStructure.ReturnMessage;
+        hasSelectedRows(): boolean;
 
         /**
          * Checks if there is anything selected in the grid
@@ -96,9 +111,6 @@ namespace OSFramework.DataGrid.Feature {
          * @param rowsIndex list of rows index that will be set as selected
          * @param isSelected Toggle selected to the given list of rows
          */
-        setRowAsSelected(
-            rowsIndex: number[],
-            isSelected: boolean
-        ): OSStructure.ReturnMessage;
+        setRowAsSelected(rowsIndex: number[], isSelected: boolean): number[];
     }
 }

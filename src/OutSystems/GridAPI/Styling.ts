@@ -15,24 +15,19 @@ namespace OutSystems.GridAPI.Styling {
         className: string
     ): string {
         Performance.SetMark('Styling.SetCellCssClass');
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-        };
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellCssClass,
+            callback: () => {
+                const column = ColumnManager.GetColumnById(columnID);
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message =
-                OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code =
-                OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-        try {
-            const column = ColumnManager.GetColumnById(columnID);
+                if (column === undefined) {
+                    throw new Error(
+                        OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
+                    );
+                }
 
-            if (column !== undefined) {
                 const binding = column.config.binding;
 
                 GridManager.GetGridById(gridID).features.cellStyle.addClass(
@@ -41,19 +36,8 @@ namespace OutSystems.GridAPI.Styling {
                     className,
                     true
                 );
-            } else {
-                responseObj.isSuccess = false;
-                responseObj.message =
-                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier;
-                responseObj.code =
-                    OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellCssClass;
             }
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellCssClass;
-        }
+        });
 
         Performance.SetMark('Styling.SetCellCssClass-end');
         Performance.GetMeasure(
@@ -62,7 +46,7 @@ namespace OutSystems.GridAPI.Styling {
             'Styling.SetCellCssClass-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
     /**
      * Function that will add a specific CSS class to the cells of a column.
@@ -120,43 +104,29 @@ namespace OutSystems.GridAPI.Styling {
         rowIndex: number
     ): string {
         Performance.SetMark('Styling.RemoveAllCssClassesFromCell');
-        const responseObj = {
-            isSuccess: true,
-            message: OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-            code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-        };
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedRemoveAllCssClassesFromCell,
+            callback: () => {
+                const grid = GridManager.GetGridById(gridID);
+                const column = grid.getColumn(columnID);
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
-            responseObj.isSuccess = false;
-            responseObj.message =
-                OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
-            responseObj.code =
-                OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
-            return JSON.stringify(responseObj);
-        }
-
-        try {
-            const column = ColumnManager.GetColumnById(columnID);
-
-            if (column !== undefined) {
+                if (column === undefined) {
+                    throw new Error(
+                        OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
+                    );
+                }
                 const binding = column.config.binding;
 
-                GridManager.GetGridById(
-                    gridID
-                ).features.cellStyle.removeAllClasses(rowIndex, binding, true);
-            } else {
-                responseObj.isSuccess = false;
-                responseObj.message =
-                    OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier;
-                responseObj.code =
-                    OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveAllCssClassesFromCell;
+                grid.features.cellStyle.removeAllClasses(
+                    rowIndex,
+                    binding,
+                    true
+                );
             }
-        } catch (error) {
-            responseObj.isSuccess = false;
-            responseObj.message = error.message;
-            responseObj.code =
-                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveAllCssClassesFromCell;
-        }
+        });
 
         Performance.SetMark('Styling.RemoveAllCssClassesFromCell-end');
         Performance.GetMeasure(
@@ -165,7 +135,7 @@ namespace OutSystems.GridAPI.Styling {
             'Styling.RemoveAllCssClassesFromCell-end'
         );
 
-        return JSON.stringify(responseObj);
+        return result;
     }
     /**
      * Function that will remove a added CSS class from a column.

@@ -25,17 +25,21 @@ namespace Providers.DataGrid.Wijmo.Feature {
             if (collectionView) {
                 if (state.action === 'remove') {
                     //undo
-                    OSFramework.DataGrid.Helper.BatchArray(
-                        state.items,
-                        (chunk) => {
-                            collectionView.sourceCollection.splice(
-                                state.datasourceIdx,
-                                chunk.length
-                            );
-                            chunk.forEach((item) => {
-                                collectionView.itemsAdded.remove(item);
-                            });
-                        }
+                    collectionView.sourceCollection.splice(
+                        state.datasourceIdx,
+                        state.items.length
+                    );
+
+                    // our index is the existing itemsAdded length minus state.items.
+                    // so if want to remove 3 items and we have 12 in itemsAdded.
+                    // we want to remove the last 3, so our starting index is 12 (itemsAdded.length) - 3 (state.items.length)
+                    // which is 9.
+                    const startingIndex =
+                        collectionView.itemsAdded.length - state.items.length;
+
+                    collectionView.itemsAdded.splice(
+                        startingIndex,
+                        state.items.length
                     );
                 } else {
                     //redo
@@ -239,7 +243,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             const topRow = Math.min(
                 ...this._grid.features.selection
                     .getAllSelections()
-                    .value.map((cellRange) => cellRange.topRowIndex)
+                    .map((cellRange) => cellRange.topRowIndex)
             );
             // Consider the topRow 0 if there is no selection.
             return topRow === Infinity ? 0 : topRow;
@@ -481,19 +485,115 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         /**
+         * Remove rows from the grid.
+         * @param rowNumbersList List of row numbers to be deleted.
+         * @param rowKeysList List of row keys to be deleted, if rowNumberList is empty
+         */
+        public removeRowsByNumberOrKey(
+            rowNumbersList: Array<number>,
+            rowKeysList: Array<string>
+        ): void {
+            // This is necessary because we are using the sourceCollection to delete the rows
+            // The sourceCollection has the list of all rows unsorted and unfiltered
+            if (!this._canRemoveRows()) {
+                throw new Error(
+                    OSFramework.DataGrid.Enum.ErrorMessages.AddRowWithActiveFilterOrSort
+                );
+            }
+
+            const providerGrid = this._grid.provider;
+            const dataSource = providerGrid.itemsSource;
+            const rowsList =
+                rowNumbersList.length > 0 ? rowNumbersList : rowKeysList;
+
+            if (rowsList.length <= 0) {
+                throw new Error(
+                    OSFramework.DataGrid.Enum.ErrorMessages.Row_EmptyList
+                );
+            }
+
+            // In case of Undo action, the user will not need to click on the grid to undo.
+            providerGrid.focus();
+
+            const deletedRowsList = [];
+            const undoableItems = [];
+            const expectedRowCount = this._getRowsCount() - rowsList.length;
+
+            dataSource.deferUpdate(() => {
+                rowsList.forEach((row) => {
+                    const rowIndex =
+                        typeof row === 'number'
+                            ? row
+                            : this._grid.rowMetadata.getRowIndexByKey(row);
+
+                    if (
+                        rowIndex < 0 ||
+                        !dataSource.sourceCollection[rowIndex]
+                    ) {
+                        throw new Error(`Row '${row}' not found.`);
+                    }
+
+                    const undoableItem = {
+                        datasourceIdx: rowIndex,
+                        item: dataSource.sourceCollection[rowIndex]
+                    };
+
+                    undoableItems.push(undoableItem);
+                    deletedRowsList.push(dataSource.sourceCollection[rowIndex]);
+
+                    this._grid.features.validationMark.setRowStatusByNumber(
+                        rowIndex,
+                        true
+                    );
+
+                    this._grid.features.undoStack.pushAction(
+                        new GridRemoveRowAction(this._grid, undoableItems)
+                    );
+                });
+                // Rows have to be removed separately
+                deletedRowsList.forEach((deletedRow) => {
+                    dataSource.remove(deletedRow);
+                });
+            });
+
+            // Make sure the count of rows is correct after removing rows.
+            if (this._getRowsCount() === expectedRowCount) {
+                if (
+                    this._grid.gridEvents.hasHandlers(
+                        OSFramework.DataGrid.Event.Grid.GridEventType
+                            .OnDataChange
+                    )
+                ) {
+                    const dataChanges =
+                        new OSFramework.DataGrid.OSStructure.DataChanges();
+
+                    dataChanges.changedRows = deletedRowsList;
+                    dataChanges.totalRows = this._getRowsCount();
+
+                    this._grid.gridEvents.trigger(
+                        OSFramework.DataGrid.Event.Grid.GridEventType
+                            .OnDataChange,
+                        this._grid,
+                        dataChanges
+                    );
+                }
+            } else {
+                throw new Error(
+                    OSFramework.DataGrid.Enum.ErrorMessages.RemoveRowErrorMessage
+                );
+            }
+        }
+
+        /**
          * Remove all selected rows from the grid.
          * @returns ReturnMessage containing the resulting code from the removing rows and the error message in case of failure.
          */
-        public removeSelectedRows(): OSFramework.DataGrid.OSStructure.ReturnMessage {
+        public removeSelectedRows(): void {
+            // This is necessary due to wijmo limitations
             if (!this._canRemoveRows()) {
-                return {
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_UnableToRemoveRow,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages
-                            .AddRowWithActiveFilterOrSort,
-                    isSuccess: false
-                };
+                throw new Error(
+                    OSFramework.DataGrid.Enum.ErrorMessages.AddRowWithActiveFilterOrSort
+                );
             }
             //This will avoid the same row being selected multiple times
             this._grid.features.selection.equalizeSelection();
@@ -565,20 +665,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         dataChanges
                     );
                 }
-
-                return {
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    isSuccess: true,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } else {
-                return {
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedRemoveRow,
-                    message: 'Error',
-                    isSuccess: false
-                };
             }
         }
     }

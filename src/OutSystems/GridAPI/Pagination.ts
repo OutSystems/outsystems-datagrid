@@ -65,43 +65,25 @@ namespace OutSystems.GridAPI.Pagination {
      */
     export function GetCurrentPage(gridID: string): string {
         Performance.SetMark('Pagination.GetCurrentPage');
-        let returnMessage =
-            new OSFramework.DataGrid.OSStructure.ReturnMessage();
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                value: -1,
-                isSuccess: false,
-                message: OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound,
-                code: OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
-        }
-
-        const grid = GridManager.GetGridById(gridID);
-
-        let value = grid.features.pagination.pageIndex;
-        let isSuccess = true;
-        let message: string;
-        let code: OSFramework.DataGrid.Enum.ErrorCodes;
-
-        // we don't want to return page index if there is server side pagination
-        if (grid.config.serverSidePagination) {
-            value = 0;
-            isSuccess = false;
-            message =
-                'It seems that you have server side pagination turned on. Switch it off and try again';
-            code =
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes
-                    .API_FailedPaginationGetCurrentPage;
-        }
+                    .API_FailedPaginationGetCurrentPage,
+            hasValue: true,
+            callback: () => {
+                const grid = GridManager.GetGridById(gridID);
 
-        returnMessage = {
-            value,
-            isSuccess,
-            message,
-            code
-        };
+                // we don't want to return page index if there is server side pagination
+                if (grid.config.serverSidePagination) {
+                    throw new Error(
+                        'It seems that you have server side pagination turned on. Switch it off and try again'
+                    );
+                }
+                return grid.features.pagination.pageIndex;
+            }
+        });
 
         Performance.SetMark('Pagination.GetCurrentPage-end');
         Performance.GetMeasure(
@@ -110,7 +92,7 @@ namespace OutSystems.GridAPI.Pagination {
             'Pagination.GetCurrentPage-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return result;
     }
 
     /**
@@ -192,40 +174,29 @@ namespace OutSystems.GridAPI.Pagination {
      */
     export function MoveToPage(gridID: string, n: number): string {
         Performance.SetMark('Pagination.MoveToPage');
-        let returnMessage =
-            new OSFramework.DataGrid.OSStructure.ReturnMessage();
 
-        if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
-            returnMessage = {
-                isSuccess: false,
-                message: OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound,
-                code: OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound
-            };
-            return JSON.stringify(returnMessage);
-        }
-
-        const grid = GridManager.GetGridById(gridID);
-        let isSuccess = true;
-        let message: string;
-        let code: OSFramework.DataGrid.Enum.ErrorCodes;
-
-        // we don't want to set page index if there is server side pagination
-        if (grid.config.serverSidePagination) {
-            isSuccess = false;
-            message =
-                'It seems that you have server side pagination turned on. Switch it off and try again';
-            code =
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes
-                    .API_FailedPaginationSetCurrentPage;
-        }
+                    .API_FailedPaginationSetCurrentPage,
+            callback: () => {
+                const grid = GridManager.GetGridById(gridID);
 
-        isSuccess = grid.features.pagination.moveToPage(n);
+                // we don't want to set page index if there is server side pagination
+                if (grid.config.serverSidePagination) {
+                    throw new Error(
+                        OSFramework.DataGrid.Enum.ErrorMessages.SetCurrentPageServerSidePagination
+                    );
+                }
 
-        returnMessage = {
-            isSuccess,
-            message,
-            code
-        };
+                if (grid.features.pagination.moveToPage(n)) {
+                    throw new Error(
+                        OSFramework.DataGrid.Enum.ErrorMessages.SetCurrentPage
+                    );
+                }
+            }
+        });
 
         Performance.SetMark('Pagination.MoveToPage-end');
         Performance.GetMeasure(
@@ -234,7 +205,7 @@ namespace OutSystems.GridAPI.Pagination {
             'Pagination.MoveToPage-end'
         );
 
-        return JSON.stringify(returnMessage);
+        return result;
     }
 
     /**

@@ -5,14 +5,14 @@ namespace OSFramework.DataGrid.OSStructure {
      */
     export class BindingValue {
         public binding: string;
-        public value: string;
+        public value: string | number;
 
         /**
          * Define cell's value in a key-value pair object
          * @param binding column's binding field
          * @param value cell's value
          */
-        constructor(binding: string, value: string) {
+        constructor(binding: string, value: string | number) {
             this.binding = binding;
             this.value = value;
         }

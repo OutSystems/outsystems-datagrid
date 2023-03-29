@@ -180,7 +180,9 @@ namespace OSFramework.DataGrid.Types {
     export interface INumberColumnExtraConfigs extends ICommonExtraConfigs {
         decimalPlaces: number;
         hasThousandSeparator: boolean;
+        maxPerDecPlaces: number;
         maxValue: number;
+        minPerDecPlaces?: number;
         minValue: number;
         step: number;
     }
@@ -224,6 +226,15 @@ namespace OSFramework.DataGrid.Types {
      * Calculated column extra configs
      */
     export interface ICalculatedColumnExtraConfigs extends ICommonExtraConfigs {
+        decimalPlaces: number;
         formula: DataGrid.OSStructure.Formula;
+        hasThousandSeparator: boolean;
     }
+
+    export type RowData = {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        dataItem?: any;
+        rowIndex: number;
+        selected: OSStructure.BindingValue[];
+    };
 }

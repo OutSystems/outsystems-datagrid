@@ -157,7 +157,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             )
                 return;
             const grid = this._grid.provider; //Auxiliar for grid
-            let leftCol = grid.columns.length - 1; //Set to max-lenght to facilitate Math.min
+            let leftCol = grid.columns.length - 1; //Set to max-length to facilitate Math.min
             let rightCol = -1; //Set to -1 to facilitate Math.max
 
             //When NO row is selected, find most left and right column looking to selectedRanges
@@ -231,136 +231,84 @@ namespace Providers.DataGrid.Wijmo.Feature {
             else return undefined;
         }
 
-        public getAllSelections(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const getAllSelections = this.getProviderAllSelections().map(
-                    (p) => Helper.CellRangeFactory.MakeFromProviderCellRange(p)
-                );
+        public getAllSelections(): OSFramework.DataGrid.OSStructure.CellRange[] {
+            const getAllSelections = this.getProviderAllSelections().map((p) =>
+                Helper.CellRangeFactory.MakeFromProviderCellRange(p)
+            );
 
-                return {
-                    value: getAllSelections,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetAllSelections
-                };
-            }
+            return getAllSelections;
         }
 
-        public getAllSelectionsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const rowColumn = new Map<
-                    number,
-                    OSFramework.DataGrid.OSStructure.RowData
-                >();
-                const rowColumnArr: OSFramework.DataGrid.OSStructure.RowData[] =
-                    [];
+        public getAllSelectionsData(): Array<OSFramework.DataGrid.Types.RowData> {
+            const rowColumn = new Map<
+                number,
+                OSFramework.DataGrid.OSStructure.RowData
+            >();
+            const rowColumnArr: OSFramework.DataGrid.OSStructure.RowData[] = [];
 
-                this.getProviderAllSelections().map((range) => {
-                    const bindings = Array(range.rightCol - range.leftCol + 1)
-                        .fill(0)
-                        .map((_, idx) =>
-                            this._grid.provider.getColumn(range.leftCol + idx)
-                        )
-                        .filter((p) => p.isVisible)
-                        .map((p) => p.binding);
+            this.getProviderAllSelections().map((range) => {
+                const bindings = Array(range.rightCol - range.leftCol + 1)
+                    .fill(0)
+                    .map((_, idx) =>
+                        this._grid.provider.getColumn(range.leftCol + idx)
+                    )
+                    .filter((p) => p.isVisible)
+                    .map((p) => p.binding);
 
-                    Array(range.bottomRow - range.topRow + 1)
-                        .fill(0)
-                        .map((_, idx) => range.topRow + idx)
-                        .map((rowIndex) => {
-                            let curr = rowColumn.get(rowIndex);
+                Array(range.bottomRow - range.topRow + 1)
+                    .fill(0)
+                    .map((_, idx) => range.topRow + idx)
+                    .map((rowIndex) => {
+                        let curr = rowColumn.get(rowIndex);
 
-                            if (!curr) {
-                                curr =
-                                    new OSFramework.DataGrid.OSStructure.RowData(
-                                        this._grid,
-                                        rowIndex,
-                                        this._grid.provider.rows[
-                                            rowIndex
-                                        ].dataItem
-                                    );
-
-                                rowColumnArr.push(curr);
-                                rowColumn.set(rowIndex, curr);
-                            }
-
-                            curr.selected.push(
-                                ...bindings.map(
-                                    (binding) =>
-                                        new OSFramework.DataGrid.OSStructure.BindingValue(
-                                            binding,
-                                            this._grid.provider.getCellData(
-                                                rowIndex,
-                                                binding,
-                                                false
-                                            )
-                                        )
-                                )
+                        if (!curr) {
+                            curr = new OSFramework.DataGrid.OSStructure.RowData(
+                                this._grid,
+                                rowIndex,
+                                this._grid.provider.rows[rowIndex].dataItem
                             );
-                        });
-                });
 
-                rowColumn.clear();
-                return {
-                    value: rowColumnArr.map((p) => p.serialize()),
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetAllSelectionsData
-                };
-            }
+                            rowColumnArr.push(curr);
+                            rowColumn.set(rowIndex, curr);
+                        }
+
+                        curr.selected.push(
+                            ...bindings.map(
+                                (binding) =>
+                                    new OSFramework.DataGrid.OSStructure.BindingValue(
+                                        binding,
+                                        this._grid.provider.getCellData(
+                                            rowIndex,
+                                            binding,
+                                            false
+                                        )
+                                    )
+                            )
+                        );
+                    });
+            });
+
+            rowColumn.clear();
+            return rowColumnArr.map((p) => p.serialize());
         }
 
-        public getCheckedRowsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const allCheckedRows =
-                    this._grid.provider.itemsSource.sourceCollection.filter(
-                        (item) =>
-                            item?.__osRowMetadata?.get(this._internalLabel)
-                                ?.isChecked === true
-                    );
-
-                const allCheckedRowsArr = allCheckedRows.map(
-                    (dataItem) =>
-                        new OSFramework.DataGrid.OSStructure.CheckedRowData(
-                            this._grid,
-                            dataItem
-                        )
+        public getCheckedRowsData(): Array<OSFramework.DataGrid.OSStructure.BindingValue> {
+            const allCheckedRows =
+                this._grid.provider.itemsSource.sourceCollection.filter(
+                    (item) =>
+                        item?.__osRowMetadata?.get(this._internalLabel)
+                            ?.isChecked === true
                 );
 
-                return {
-                    value: allCheckedRowsArr.map((p) => p.serialize()),
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetCheckedRowsData
-                };
-            }
+            const allCheckedRowsArr = allCheckedRows.map(
+                (dataItem) =>
+                    new OSFramework.DataGrid.OSStructure.CheckedRowData(
+                        this._grid,
+                        dataItem
+                    )
+            );
+
+            return allCheckedRowsArr.map((p) => p.serialize());
         }
 
         public getMetadata(
@@ -382,43 +330,90 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public getProviderAllSelections(): wijmo.grid.CellRange[] {
             const ranges: wijmo.grid.CellRange[] = [];
             const maxCol = this._grid.provider.columns.length - 1;
-            //// wijmo.grid.SelectionMode.ListBox, Row and RowRange not supported yet,
-            //// there is a conflict with wijmo.grid.selector.Selector
-            // if (this._grid.grid.selectionMode === wijmo.grid.SelectionMode.ListBox
-            //     || this._grid.grid.selectionMode === wijmo.grid.SelectionMode.Row
-            //     || this._grid.grid.selectionMode === wijmo.grid.SelectionMode.RowRange) {
-            //     rows = this._grid.grid.selectedRows
-            //         .map(p => new wijmo.grid.CellRange(p.index, 0, p.index, maxCol));
-            // }
-            // else {
+
             ranges.push(
                 ...this._grid.provider.selectedRanges.filter((p) => p.isValid)
             );
-            // }
 
-            // create checkedRows cell range.
-            let checkedRowsRange = this._getCheckedRows()
-                .map((p) => new wijmo.grid.CellRange(p, 0, p, maxCol))
-                .filter((p) => {
-                    for (let i = 0; i < ranges.length; i++) {
-                        if (ranges[i].contains(p)) return false;
-                    }
-                    return true;
-                });
+            const selectedRows: Array<number> = this._getCheckedRows(); // get checked rows index
+            const selectedRowsRanges: Array<wijmo.grid.CellRange> = [];
+            let finalRange: Array<wijmo.grid.CellRange> = [];
 
-            // for each cellRange, check if it has any row intersection with checked rows
-            // if it has, we add it to checkedRows array.
-            ranges.forEach((range) => {
-                if (
-                    !checkedRowsRange.some((checked) =>
-                        checked.intersectsRow(range)
-                    )
-                ) {
-                    checkedRowsRange = [...checkedRowsRange, range];
-                }
+            // create a range for each row
+            selectedRows.forEach((rowIndex) => {
+                const rowRange = new wijmo.grid.CellRange(
+                    rowIndex,
+                    0,
+                    rowIndex,
+                    maxCol
+                );
+
+                // add the row range created to selectedRowsRanges array
+                selectedRowsRanges.push(rowRange);
             });
 
-            return checkedRowsRange;
+            // if the grid has selected rows, then remove from the ranges the intersections with the selected ranges
+            if (selectedRows.length > 0) {
+                ranges.forEach((range) => {
+                    selectedRowsRanges.forEach((rowRange) => {
+                        // for each range, check if it intersects the checked row
+                        if (range !== null && range.intersects(rowRange)) {
+                            let row1 = range.row;
+                            let row2 = range.row2;
+                            if (range.row > range.row2) {
+                                row1 = range.row2;
+                                row2 = range.row;
+                            }
+
+                            // if the range starts before the checked row,
+                            // we want to remove the intersection between the range and the selected row by
+                            // creating a new subsection of range from the beginning of the range until the selected row index - 1
+                            // and add it to the finalRange array.
+                            if (row1 < rowRange.row) {
+                                finalRange.push(
+                                    new wijmo.grid.CellRange(
+                                        row1,
+                                        range.col,
+                                        rowRange.row - 1,
+                                        range.col2
+                                    )
+                                );
+                            }
+
+                            // if the range finishes after the checked row,
+                            // we want to remove the intersection between the range and the selected row by
+                            // creating a new subsection of range from the selected row index + 1 until the end of the range.
+                            // we will use this range for the next iteration to check if it does not  rowintersects any other selected.
+                            if (row2 > rowRange.row) {
+                                range = new wijmo.grid.CellRange(
+                                    rowRange.row + 1,
+                                    range.col,
+                                    row2,
+                                    range.col2
+                                );
+                            }
+                            // otherwise, there is not more range to cover, so set it null
+                            else {
+                                range = null;
+                            }
+                        }
+                    });
+
+                    // if it is not null, we push the remaining subsection of the range into the finalRange array
+                    if (range) finalRange.push(range);
+                });
+
+                // now that we are sure that the row ranges don't have intersections between the selected ranges,
+                // we can merge both arrays
+                finalRange = [...selectedRowsRanges, ...finalRange];
+            }
+
+            // otherwise, just return the selected ranges
+            else {
+                finalRange = ranges;
+            }
+
+            return finalRange;
         }
 
         public getSelectedRows(): number[] {
@@ -440,76 +435,132 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return rows.filter((item, index) => rows.indexOf(item) === index);
         }
 
-        public getSelectedRowsCount(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                return {
-                    value: this.getSelectedRows().length,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: null,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetSelectedRowsCount
-                };
-            }
+        public getSelectedRowsCount(): number {
+            return this.getSelectedRows().length;
         }
 
         public getSelectedRowsCountByCellRange(): number {
             //Runs the equalize to garantee that the same row is not selected more than once
             this.equalizeSelection();
-            return this.getAllSelections().value.reduce(
+            return this.getAllSelections().reduce(
                 (acc, sel) => acc + (sel.bottomRowIndex - sel.topRowIndex + 1),
                 0
             );
         }
 
-        public getSelectedRowsData(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                const selectedRows = this.getSelectedRows().map(
-                    (rowIndex) =>
-                        new OSFramework.DataGrid.OSStructure.RowData(
-                            this._grid,
-                            rowIndex,
-                            this._grid.provider.rows[rowIndex].dataItem
-                        )
-                );
-                return {
-                    value: selectedRows
-                        .map((p) => p.serialize())
-                        // we want to return dataItem as an object instead of an array,
-                        .map(({ rowIndex, selected, dataItem }) => {
-                            const _dataItem = { ...dataItem[0] };
+        public getSelectedRowsData(): Array<OSFramework.DataGrid.Types.RowData> {
+            const selectedRows = this.getSelectedRows().map(
+                (rowIndex) =>
+                    new OSFramework.DataGrid.OSStructure.RowData(
+                        this._grid,
+                        rowIndex,
+                        this._grid.provider.rows[rowIndex].dataItem
+                    )
+            );
+            return (
+                selectedRows
+                    .map((p) => p.serialize())
+                    // we want to return dataItem as an object instead of an array,
+                    .map(({ rowIndex, selected, dataItem }) => {
+                        const _dataItem = { ...dataItem[0] };
 
-                            return {
-                                rowIndex,
-                                selected,
-                                dataItem: JSON.stringify(_dataItem)
-                            };
-                        }),
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: [],
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedGetSelectedRowsData
-                };
+                        return {
+                            rowIndex,
+                            selected,
+                            dataItem: JSON.stringify(_dataItem)
+                        };
+                    })
+            );
+        }
+
+        public getSelectionAverage(): number {
+            let _count = 0;
+            let _sum = 0;
+            const _grid = this._grid;
+            const _items = this.getAllSelectionsData();
+            for (const item of _items) {
+                item.selected.forEach((element) => {
+                    const columnType = _grid.getColumn(
+                        element.binding
+                    ).columnType;
+                    if (
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Number ||
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Calculated
+                    ) {
+                        _sum = _sum + (element.value as number);
+                        _count++;
+                    }
+                });
             }
+            return _sum > 0 ? _sum / _count : null;
+        }
+
+        // Calculate the number o selected cells based on getAllSelectionsData method
+        public getSelectionCellCount(): number {
+            let selectionCellCount = 0;
+            this.getAllSelectionsData().forEach((cell) => {
+                selectionCellCount = selectionCellCount + cell.selected.length;
+            });
+            return selectionCellCount;
+        }
+
+        // Method to get the count of selected cells on Grid
+        public getSelectionCount(): number {
+            return this.getSelectionCellCount();
+        }
+
+        public getSelectionMaxMin(isMax: boolean): number {
+            let _max = -Infinity;
+            let _min = Infinity;
+            const _grid = this._grid;
+            const _items = this.getAllSelectionsData();
+            for (const item of _items) {
+                item.selected.forEach((element) => {
+                    const columnType = _grid.getColumn(
+                        element.binding
+                    ).columnType;
+                    if (
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Number ||
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                        columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Calculated
+                    ) {
+                        _min = Math.min(_min, element.value as number);
+                        _max = Math.max(_max, element.value as number);
+                    }
+                });
+            }
+            return isMax ? _max : _min;
+        }
+
+        public getSelectionSum(): number {
+            let sum = 0;
+            this.getAllSelectionsData().forEach((row) => {
+                row.selected.forEach((col) => {
+                    if (
+                        this._grid.getColumn(col.binding).columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                        this._grid.getColumn(col.binding).columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Number ||
+                        this._grid.getColumn(col.binding).columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Calculated
+                    ) {
+                        sum += col.value as number;
+                    }
+                });
+            });
+
+            return sum;
         }
 
         public hasCheckedRows(): boolean {
-            return this.getCheckedRowsData().value.length > 0;
+            return this.getCheckedRowsData().length > 0;
         }
 
         public hasMetadata(rowNumber: number): boolean {
@@ -519,24 +570,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
-        public hasSelectedRows(): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                return {
-                    value: this.getSelectedRows().length > 0,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: undefined,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedHasSelectedRows
-                };
-            }
+        public hasSelectedRows(): boolean {
+            return this.getSelectedRows().length > 0;
         }
 
         public hasValidSelection(): boolean {
@@ -554,40 +589,16 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public setRowAsSelected(
             rowsIndex: number[],
             isSelected = true
-        ): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                if (this._grid.features.rowHeader.hasCheckbox) {
-                    return {
-                        value: undefined,
-                        isSuccess: false,
-                        message:
-                            OSFramework.DataGrid.Enum.ErrorMessages
-                                .SetRowAsSelected,
-                        code: OSFramework.DataGrid.Enum.ErrorCodes
-                            .API_FailedSetRowAsSelected
-                    };
-                }
-
-                rowsIndex.forEach((index) => {
-                    this._grid.provider.rows[index].isSelected = isSelected;
-                });
-
-                return {
-                    value: rowsIndex,
-                    isSuccess: true,
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    value: undefined,
-                    isSuccess: false,
-                    message: error.message,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedSetRowAsSelected
-                };
+        ): number[] {
+            if (this._grid.features.rowHeader.hasCheckbox) {
+                return undefined;
             }
+
+            rowsIndex.forEach((index) => {
+                this._grid.provider.rows[index].isSelected = isSelected;
+            });
+
+            return rowsIndex;
         }
 
         public setState(value: wijmo.grid.SelectionMode): void {
