@@ -35,25 +35,13 @@ namespace Providers.DataGrid.Wijmo.Column {
         public getProviderConfig(): OSFramework.DataGrid.Types.IColumnProviderConfigs {
             const config = super.getProviderConfig();
 
+            // Get the cellTemplate based on the actionColumnType
             config.cellTemplate =
                 Helper.ActionColumnFactory.MakeActionColumnCellTemplate(
                     this.config.actionColumnType,
                     config.binding,
-                    this.handleActionEvent.bind(this),
-                    this.config.extendedClass,
-                    this.config.url
+                    this.handleActionEvent.bind(this)
                 );
-
-            // //Create cellTemplates only if a callback were provided
-            // config.cellTemplate = wijmo.grid.cellmaker.CellMaker.makeLink({
-            //     text:
-            //         //When the binding parameter starts with $, it means that developer wants the link to have a fixed text in everyline of this column.
-            //         //The $ symbol is added by the OutSystems code in the block ActionColumn.
-            //         this.config.binding.charAt(0) === '$'
-            //             ? this.config.binding.substr(1)
-            //             : undefined,
-            //     click: (e, ctx) => {}
-            // });
 
             return config;
         }

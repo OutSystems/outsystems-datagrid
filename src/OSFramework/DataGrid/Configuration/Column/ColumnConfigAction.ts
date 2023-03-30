@@ -14,8 +14,6 @@ namespace OSFramework.DataGrid.Configuration.Column {
         ) {
             super(config);
             this.actionColumnType = extraConfig.actionColumnType;
-            this.url = extraConfig.url;
-            this.extendedClass = extraConfig.extendedClass;
         }
     }
 }
