@@ -27,15 +27,6 @@ namespace Providers.DataGrid.Wijmo.Helper.ActionColumnFactory {
                     }
                 });
                 break;
-            // To be used when the Image Column is implemented
-            // case OSFramework.DataGrid.Enum.ActionColumnType.Image:
-            //     cellTemplate = wijmo.grid.cellmaker.CellMaker.makeImage({
-            //         label: text,
-            //         click: (e, ctx) => {
-            //             callback(ctx);
-            //         }
-            //     });
-            //     break;
             case OSFramework.DataGrid.Enum.ActionColumnType.Link: {
                 cellTemplate = wijmo.grid.cellmaker.CellMaker.makeLink({
                     text,

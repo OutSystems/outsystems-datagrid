@@ -5,7 +5,6 @@ namespace OSFramework.DataGrid.Enum {
      */
     export enum ActionColumnType {
         Button = 'Button',
-        Image = 'Image',
         Link = 'Link'
     }
 }
