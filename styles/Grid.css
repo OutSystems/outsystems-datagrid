@@ -1152,22 +1152,23 @@
 }
 
 .wj-cell > button.wj-cell-maker {
-    position: relative !important;
     background-color: var(--color-neutral-0);
     border: var(--border-size-s) solid var(--color-primary);
     border-radius: var(--border-radius-soft);
     color: var(--color-primary) !important;
+    cursor: pointer;
     -webkit-filter: brightness(1);
     filter: brightness(1);
+    font-size: var(--font-size-xs);
     font-weight: var(--font-semi-bold);
+    position: relative !important;
     -webkit-transition: all 100ms linear;
     -o-transition: all 100ms linear;
     transition: all 100ms linear;
-    font-size: var(--font-size-xs);
     width: fit-content !important;
 }
 
-.wj-cell > button.wj-cell-maker:hover:active {
+.wj-cell > button.wj-cell-maker:hover {
     -webkit-filter: brightness(0.8);
     filter: brightness(0.8);
 }
