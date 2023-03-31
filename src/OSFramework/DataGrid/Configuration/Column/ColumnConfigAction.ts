@@ -4,7 +4,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
      * Defines the configuration for Action Columns
      */
     export class ColumnConfigAction extends ColumnConfig {
-        public actionColumnType: DataGrid.Enum.ActionColumnType;
+        public actionColumnElementType: DataGrid.Enum.ActionColumnElementType;
         public extendedClass: string;
         public url: string;
 
@@ -13,7 +13,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
             extraConfig: DataGrid.Types.IActionColumnExtraConfigs
         ) {
             super(config);
-            this.actionColumnType = extraConfig.actionColumnType;
+            this.actionColumnElementType = extraConfig.actionColumnElementType;
         }
     }
 }

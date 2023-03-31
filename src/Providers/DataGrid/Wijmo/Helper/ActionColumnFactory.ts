@@ -7,7 +7,7 @@ namespace Providers.DataGrid.Wijmo.Helper.ActionColumnFactory {
      * @param callback Callback to be invoked in the click event
      */
     export function MakeActionColumnCellTemplate(
-        type: OSFramework.DataGrid.Enum.ActionColumnType,
+        type: OSFramework.DataGrid.Enum.ActionColumnElementType,
         binding: string,
         callback: (item) => void
     ): wijmo.grid.ICellTemplateFunction {
@@ -19,7 +19,7 @@ namespace Providers.DataGrid.Wijmo.Helper.ActionColumnFactory {
             : '${item.' + binding + '}';
 
         switch (type) {
-            case OSFramework.DataGrid.Enum.ActionColumnType.Button:
+            case OSFramework.DataGrid.Enum.ActionColumnElementType.Button:
                 cellTemplate = wijmo.grid.cellmaker.CellMaker.makeButton({
                     text,
                     click: (e, ctx) => {
@@ -27,7 +27,7 @@ namespace Providers.DataGrid.Wijmo.Helper.ActionColumnFactory {
                     }
                 });
                 break;
-            case OSFramework.DataGrid.Enum.ActionColumnType.Link: {
+            case OSFramework.DataGrid.Enum.ActionColumnElementType.Link: {
                 cellTemplate = wijmo.grid.cellmaker.CellMaker.makeLink({
                     text,
                     click: (e, ctx) => {

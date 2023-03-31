@@ -149,7 +149,7 @@ namespace OSFramework.DataGrid.Types {
     export interface IColumnExtraConfigs {}
 
     export interface IActionColumnExtraConfigs extends IColumnExtraConfigs {
-        actionColumnType: DataGrid.Enum.ActionColumnType;
+        actionColumnElementType: DataGrid.Enum.ActionColumnElementType;
     }
 
     /**
