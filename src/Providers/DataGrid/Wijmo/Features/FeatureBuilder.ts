@@ -113,6 +113,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return this;
         }
 
+        private _makeClickEvent(): FeatureBuilder {
+            this._features.clickEvent = this._makeItem(ClickEvent);
+            return this;
+        }
+
         private _makeDirtyMark(): FeatureBuilder {
             this._features.dirtyMark = this._makeItem(DirtyMark);
             return this;
@@ -248,7 +253,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 ._makeColumnAggregate(config.showAggregateValues)
                 ._makeColumnMergeCells()
                 ._makeColumn()
-                ._makeSearchData();
+                ._makeSearchData()
+                ._makeClickEvent();
 
             super.build();
         }
