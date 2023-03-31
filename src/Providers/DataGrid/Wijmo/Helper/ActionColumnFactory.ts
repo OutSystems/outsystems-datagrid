@@ -37,7 +37,9 @@ namespace Providers.DataGrid.Wijmo.Helper.ActionColumnFactory {
                 break;
             }
             default:
-                throw `There is no factory for this type of action column (${type})`;
+                throw new Error(
+                    `There is no factory for this type of action column (${type})`
+                );
         }
 
         return cellTemplate;
