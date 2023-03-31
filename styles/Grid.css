@@ -1157,7 +1157,6 @@
     border: var(--border-size-s) solid var(--color-primary);
     border-radius: var(--border-radius-soft);
     color: var(--color-primary) !important;
-    cursor: pointer;
     -webkit-filter: brightness(1);
     filter: brightness(1);
     font-weight: var(--font-semi-bold);
@@ -1165,7 +1164,6 @@
     -o-transition: all 100ms linear;
     transition: all 100ms linear;
     font-size: var(--font-size-xs);
-    overflow-wrap: break-word !important;
     width: fit-content !important;
 }
 
