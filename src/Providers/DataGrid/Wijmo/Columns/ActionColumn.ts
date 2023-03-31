@@ -46,7 +46,7 @@ namespace Providers.DataGrid.Wijmo.Column {
             return config;
         }
 
-        public handleActionEvent(ctx): void {
+        public handleActionEvent(ctx: wijmo.grid.ICellTemplateContext): void {
             //Let's clone the line, since we will be removing the metadata info from it.
             const clonedDataItem = _.cloneDeep(ctx.item);
             this.grid.rowMetadata.clear(clonedDataItem);
