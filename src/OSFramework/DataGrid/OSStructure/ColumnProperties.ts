@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.DataGrid.OSStructure {
     export enum ColumnProperties {
+        ActionColumnElementType = 'actionColumnElementType',
         ConditionalFormat = 'conditionalFormat',
         DecimalPlaces = 'decimalPlaces',
         DropdownOptions = 'dropdownOptions',
