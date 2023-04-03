@@ -35,7 +35,7 @@ namespace OSFramework.DataGrid.Event.Grid {
                         columnWidgetId,
                         rowNumber,
                         binding,
-                        JSON.stringify(line)
+                        line
                     )
                 );
         }
