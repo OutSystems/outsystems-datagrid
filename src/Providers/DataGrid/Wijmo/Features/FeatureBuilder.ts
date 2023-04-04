@@ -75,6 +75,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return this;
         }
 
+        private _makeClickEvent(): FeatureBuilder {
+            this._features.clickEvent = this._makeItem(ClickEvent);
+            return this;
+        }
+
         private _makeColumn(): FeatureBuilder {
             this._features.column = this._makeItem(Column);
             return this;
@@ -110,11 +115,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
         private _makeContextMenu(): FeatureBuilder {
             this._features.contextMenu = this._makeItem(ContextMenu);
-            return this;
-        }
-
-        private _makeClickEvent(): FeatureBuilder {
-            this._features.clickEvent = this._makeItem(ClickEvent);
             return this;
         }
 

@@ -42,15 +42,15 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
         }
 
-        public setCellClickEvent(callback: (ev: MouseEvent) => any) {
-            this._grid.provider.addEventListener(
-                this._grid.provider.hostElement,
-                'click',
-                callback
-            );
+        public build(): void {
+            this.setCellClickEvent(this._raiseCellClickEvent.bind(this));
         }
 
-        public removeCellClickEvent(callback: (ev: MouseEvent) => any) {
+        public dispose(): void {
+            this.removeCellClickEvent(this._raiseCellClickEvent.bind(this));
+        }
+
+        public removeCellClickEvent(callback: (ev: MouseEvent) => void): void {
             this._grid.provider.removeEventListener(
                 this._grid.provider.hostElement,
                 'click',
@@ -58,12 +58,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
-        public build(): void {
-            this.setCellClickEvent(this._raiseCellClickEvent.bind(this));
-        }
-
-        public dispose(): void {
-            this.removeCellClickEvent(this._raiseCellClickEvent.bind(this));
+        public setCellClickEvent(callback: (ev: MouseEvent) => void): void {
+            this._grid.provider.addEventListener(
+                this._grid.provider.hostElement,
+                'click',
+                callback
+            );
         }
     }
 }

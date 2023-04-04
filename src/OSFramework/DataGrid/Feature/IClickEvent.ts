@@ -6,7 +6,7 @@ namespace OSFramework.DataGrid.Feature {
          * @param {function} callback
          */
         setCellClickEvent(
-            callback: (this: HTMLElement, ev: MouseEvent) => any
+            callback: (this: HTMLElement, ev: MouseEvent) => void
         ): void;
     }
 }
