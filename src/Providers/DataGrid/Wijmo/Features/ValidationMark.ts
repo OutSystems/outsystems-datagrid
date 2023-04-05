@@ -42,6 +42,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
+            // if the ESC key is pressed the e.cancel is true
+            if (e.cancel) return;
+
             // get the new value
             const newValue = s.activeEditor?.value ?? '';
             let currentValue = '';
