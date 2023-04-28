@@ -20,96 +20,126 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         private _onMouseEnter(e: MouseEvent): void {
-            let _currTarget: HTMLElement = e.currentTarget as HTMLElement;
-            const ht = this._grid.provider.hitTest(e);
+            const _currTarget: HTMLElement = e.currentTarget as HTMLElement;
+            const ht = this._grid.provider.hitTest(_currTarget);
 
-            const sanitizedValue = OSFramework.DataGrid.Helper.Sanitize(
-                _currTarget.innerText
-            );
-
+            const cellType = ht.cellType;
             if (
-                ht.cellType === wijmo.grid.CellType.Cell ||
-                ht.cellType === wijmo.grid.CellType.ColumnFooter
+                cellType === wijmo.grid.CellType.Cell ||
+                cellType === wijmo.grid.CellType.ColumnFooter
             ) {
-                const isInvalid =
-                    _currTarget.classList.contains('wj-state-invalid');
-
-                if (_currTarget.querySelector('div.dg-cell')) {
-                    _currTarget = _currTarget.querySelector('div.dg-cell');
-                }
-
-                //Make sure to apply the correct tooltipClass
-                this._toolTipClass(isInvalid);
-
-                //If the cell is valid
-                if (isInvalid === false) {
-                    if (
-                        _currTarget.scrollWidth > _currTarget.clientWidth &&
-                        sanitizedValue !== undefined &&
-                        sanitizedValue !== ''
-                    ) {
-                        //JS asserts the previous declaration as true when they are equal
-                        this._toolTip.show(_currTarget, sanitizedValue); // show tooltip if text is overflow/hidden
-                    }
-                }
-                //Otherwise (If the cell is invalid)
-                else {
-                    this._toolTip.show(
-                        _currTarget,
-                        this._grid.features.validationMark.errorMessage(
-                            ht.row,
-                            ht.getColumn().binding
-                        )
-                    );
-                }
-            } else if (ht.cellType === wijmo.grid.CellType.ColumnHeader) {
-                const rendered = this._grid.getColumn(
-                    ht.getColumn().binding
-                )?.config;
-
-                if (_currTarget && rendered?.headerTooltip) {
-                    if (document.getElementById(rendered.headerTooltip)) {
-                        // If headerTooltip is an Id of an Element, it should be manipulated to be a selector.
-                        // setTooltip() wijmo method allows us to render the content of another element using its id
-                        rendered.headerTooltip = '#' + rendered.headerTooltip;
-                    }
-                    this._setHeaderTooltip(_currTarget, rendered.headerTooltip);
-                } else if (
-                    _currTarget &&
-                    sanitizedValue !== undefined &&
-                    sanitizedValue !== ''
-                ) {
-                    this._setHeaderTooltip(_currTarget, sanitizedValue);
-                }
+                this._setCellToolTip(
+                    _currTarget,
+                    ht.getColumn().binding,
+                    ht.row
+                );
+            } else if (cellType === wijmo.grid.CellType.ColumnHeader) {
+                this._setHeaderTooltip(_currTarget, ht.col);
             }
         }
-        private _onMouseOut(/*e: Event*/): void {
+
+        private _onMouseOut(): void {
             this._toolTip.hide();
         }
 
-        private _setHeaderTooltip(element: HTMLElement, content: string): void {
-            //Make sure to reset the cssClass for the tooltip
-            this._toolTipClass(false);
-            this._toolTip.setTooltip(element, content);
+        private _setCellToolTip(
+            cell: HTMLElement,
+            binding: string,
+            row: number
+        ): void {
+            const sanitizedValue = OSFramework.DataGrid.Helper.Sanitize(
+                cell.innerText
+            );
+
+            const isInvalid = this._grid.features.validationMark.isInvalid(
+                row,
+                binding
+            );
+
+            if (cell.querySelector('div.dg-cell')) {
+                cell = cell.querySelector('div.dg-cell');
+            }
+
+            //Make sure to apply the correct tooltipClass
+            this._toolTipClass(isInvalid);
+
+            //If the cell is valid
+            if (isInvalid === false) {
+                if (
+                    cell.scrollWidth > cell.clientWidth &&
+                    sanitizedValue !== undefined &&
+                    sanitizedValue !== ''
+                ) {
+                    //JS asserts the previous declaration as true when they are equal
+                    this._toolTip.show(cell, sanitizedValue); // show tooltip if text is overflow/hidden
+                } else {
+                    this._toolTip.hide();
+                }
+            }
+            //Otherwise (If the cell is invalid)
+            else {
+                this._toolTip.show(
+                    cell,
+                    this._grid.features.validationMark.errorMessage(
+                        row,
+                        binding
+                    )
+                );
+            }
         }
 
-        private _setToolTip(cell: Element): void {
-            cell.removeEventListener('mouseover', this._eventMouseEnter);
-            cell.addEventListener('mouseover', this._eventMouseEnter);
+        private _setHeaderTooltip(cell: HTMLElement, columnNumber: number) {
+            const column = this._grid.getColumns()[columnNumber];
+            const widgetId = column?.widgetId;
+            let headerTooltip = column?.config.headerTooltip;
+            const sanitizedValue = OSFramework.DataGrid.Helper.Sanitize(
+                cell.innerText
+            );
 
-            cell.removeEventListener('mouseout', this._eventMouseOut);
-            cell.addEventListener('mouseout', this._eventMouseOut);
+            if (cell && headerTooltip) {
+                if (
+                    !!document.getElementById(headerTooltip) &&
+                    headerTooltip !== widgetId
+                ) {
+                    // If headerTooltip is an Id of an Element, it should be manipulated to be a selector.
+                    // setTooltip() wijmo method allows us to render the content of another element using its id
+                    headerTooltip = '#' + headerTooltip;
+                }
+            } else if (
+                cell &&
+                sanitizedValue !== undefined &&
+                sanitizedValue !== ''
+            ) {
+                headerTooltip = sanitizedValue;
+            }
+
+            this._toolTipClass(false);
+            this._toolTip.show(cell, headerTooltip);
         }
 
         private _toolTipClass(isInvalid: boolean): void {
             if (isInvalid === true) this._toolTip.cssClass = 'errorValidation';
-            else this._toolTip.cssClass = '';
+            else {
+                this._toolTip.cssClass = '';
+
+                // Implementation of the workaround provided by Wijmo related to ROU-4207 issue.
+                // To be removed after Wijmo fix.
+                if (wijmo.Tooltip._eTip)
+                    wijmo.Tooltip._eTip.setAttribute('class', 'wj-tooltip');
+            }
         }
 
         public build(): void {
             this._grid.provider.formatItem.addHandler(
                 (s: wijmo.grid.FlexGrid, e: wijmo.grid.FormatItemEventArgs) => {
-                    this._setToolTip(e.cell);
+                    e.cell.removeEventListener(
+                        'mouseover',
+                        this._eventMouseEnter
+                    );
+                    e.cell.addEventListener('mouseover', this._eventMouseEnter);
+
+                    e.cell.removeEventListener('mouseout', this._eventMouseOut);
+                    e.cell.addEventListener('mouseout', this._eventMouseOut);
                 }
             );
         }

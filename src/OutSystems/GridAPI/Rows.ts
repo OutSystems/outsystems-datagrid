@@ -250,12 +250,17 @@ namespace OutSystems.GridAPI.Rows {
     export function RemoveRows(gridID: string): string {
         Performance.SetMark('Rows.RemoveRows');
 
-        const grid = GridManager.GetGridById(gridID);
-        let output = '';
-
-        if (grid !== undefined) {
-            output = JSON.stringify(grid.features.rows.removeSelectedRows());
-        }
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedRemoveSelectedRow,
+            callback: () => {
+                GridManager.GetGridById(
+                    gridID
+                ).features.rows.removeSelectedRows();
+            }
+        });
 
         Performance.SetMark('Rows.RemoveRows-end');
         Performance.GetMeasure(
@@ -263,7 +268,7 @@ namespace OutSystems.GridAPI.Rows {
             'Rows.RemoveRows',
             'Rows.RemoveRows-end'
         );
-        return output;
+        return result;
     }
 
     /**

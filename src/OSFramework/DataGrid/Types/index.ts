@@ -148,6 +148,10 @@ namespace OSFramework.DataGrid.Types {
      */
     export interface IColumnExtraConfigs {}
 
+    export interface IActionColumnExtraConfigs extends IColumnExtraConfigs {
+        actionColumnElementType: DataGrid.Enum.ActionColumnElementType;
+    }
+
     /**
      * Base column extra configs
      */
@@ -224,4 +228,11 @@ namespace OSFramework.DataGrid.Types {
         formula: DataGrid.OSStructure.Formula;
         hasThousandSeparator: boolean;
     }
+
+    export type RowData = {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        dataItem?: any;
+        rowIndex: number;
+        selected: OSStructure.BindingValue[];
+    };
 }

@@ -10,7 +10,12 @@ namespace Providers.DataGrid.Wijmo.Column {
         ): OSFramework.DataGrid.Column.IColumn {
             switch (type) {
                 case OSFramework.DataGrid.Enum.ColumnType.Action:
-                    return new ActionColumn(grid, columnID, configs);
+                    return new ActionColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        extraConfigs as OSFramework.DataGrid.Types.IActionColumnExtraConfigs
+                    );
                 case OSFramework.DataGrid.Enum.ColumnType.Checkbox:
                     return new CheckboxColumn(
                         grid,

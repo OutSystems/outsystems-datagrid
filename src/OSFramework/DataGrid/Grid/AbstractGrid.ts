@@ -324,6 +324,7 @@ namespace OSFramework.DataGrid.Grid {
 
         public setData(data: string): boolean {
             this.dataSource.setData(data);
+            this.features.undoStack.clear();
 
             if (this.isReady) {
                 if (!this.hasColumnsDefined()) {

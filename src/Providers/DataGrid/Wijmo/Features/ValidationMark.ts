@@ -42,6 +42,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
+            // if the ESC key is pressed the e.cancel is true
+            if (e.cancel) return;
+
             // get the new value
             const newValue = s.activeEditor?.value ?? '';
             let currentValue = '';
@@ -791,44 +794,26 @@ namespace Providers.DataGrid.Wijmo.Feature {
          * Those actions might be included in the OnCellValueChange handler or in case the isMandatory column configuration is set.
          * @param {number} rowNumber Index of the row that contains the cells to be validated.
          */
-        public validateRow(
-            rowNumber: number
-        ): OSFramework.DataGrid.OSStructure.ReturnMessage {
-            try {
-                // Triggers the validation method per column
-                this._grid
-                    .getColumns()
-                    .forEach((column: OSFramework.DataGrid.Column.IColumn) => {
-                        // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
-                        const currValue = this._grid.provider.getCellData(
-                            rowNumber,
-                            column.provider.index,
-                            column.columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Dropdown
-                        );
-                        // Triggers the events of OnCellValueChange associated to a specific column in OS
-                        this._triggerEventsFromColumn(
-                            rowNumber,
-                            column.uniqueId,
-                            currValue,
-                            currValue
-                        );
-                    });
-
-                return {
-                    message:
-                        OSFramework.DataGrid.Enum.ErrorMessages.SuccessMessage,
-                    isSuccess: true,
-                    code: OSFramework.DataGrid.Enum.ErrorCodes.GRID_SUCCESS
-                };
-            } catch (error) {
-                return {
-                    code: OSFramework.DataGrid.Enum.ErrorCodes
-                        .API_FailedApplyRowValidation,
-                    message: error.message,
-                    isSuccess: false
-                };
-            }
+        public validateRow(rowNumber: number): void {
+            // Triggers the validation method per column
+            this._grid
+                .getColumns()
+                .forEach((column: OSFramework.DataGrid.Column.IColumn) => {
+                    // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
+                    const currValue = this._grid.provider.getCellData(
+                        rowNumber,
+                        column.provider.index,
+                        column.columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Dropdown
+                    );
+                    // Triggers the events of OnCellValueChange associated to a specific column in OS
+                    this._triggerEventsFromColumn(
+                        rowNumber,
+                        column.uniqueId,
+                        currValue,
+                        currValue
+                    );
+                });
         }
     }
 }

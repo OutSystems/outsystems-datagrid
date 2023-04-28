@@ -8,7 +8,7 @@ namespace OSFramework.DataGrid.Feature {
          * Get the current layout
          */
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        getViewLayout(): any;
+        getViewLayout(): string;
         /**
          * Load a predefined layout
          * @param view A JSON representing a previous saved visualization

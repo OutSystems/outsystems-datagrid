@@ -8,6 +8,7 @@ namespace OSFramework.DataGrid.Event.Grid {
      */
     export enum GridEventType {
         Initialized = 'Initialized',
+        OnCellClick = 'OnCellClick',
         OnColumnPickerChange = 'OnColumnPickerChange',
         OnFiltersChange = 'OnFiltersChange',
         OnSortChange = 'OnSortChange',
