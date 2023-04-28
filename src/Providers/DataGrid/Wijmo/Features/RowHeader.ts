@@ -7,6 +7,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
     {
         private _grid: Grid.IGridWijmo;
         private _rowHeaderType: OSFramework.DataGrid.Enum.RowHeader;
+        private _selectedRows: wijmo.grid.Row[];
 
         constructor(grid: Grid.IGridWijmo, rowHeaderType: number) {
             this._grid = grid;
@@ -43,12 +44,59 @@ namespace Providers.DataGrid.Wijmo.Feature {
             column.allowMerging = false;
             column.align = 'center';
 
-            new wijmo.grid.selector.Selector(this._grid.provider);
+            new wijmo.grid.selector.Selector(this._grid.provider, {
+                itemChecked: (s, e) => {
+                    /* Option 3
+                     ** An array of selected rows is stored so we can verify
+                     ** which rows were selected or unselected.
+                     */
+
+                    // get selected rows
+                    const newSelectedRows = this._grid.provider.rows.filter(
+                        (r) => r.isSelected
+                    );
+
+                    // filter the selected rows
+                    const selectedRow = newSelectedRows.filter(
+                        (row) =>
+                            this._selectedRows.findIndex(
+                                (r) => r.index === row.index
+                            ) === -1
+                    );
+
+                    // filter the unselected rows
+                    const unselectedRow = this._selectedRows.filter(
+                        (row) =>
+                            newSelectedRows.findIndex(
+                                (r) => r.index === row.index
+                            ) === -1
+                    );
+
+                    //
+                    if (selectedRow.length === 1) {
+                        this._raiseSelectionChangedEvent(
+                            selectedRow[0].index,
+                            true
+                        );
+                    } else if (unselectedRow.length === 1) {
+                        this._raiseSelectionChangedEvent(
+                            unselectedRow[0].index,
+                            false
+                        );
+                    } else {
+                        // need an solution for when the select all checkbox is used
+                    }
+
+                    // update the selectedRows array
+                    this._selectedRows = newSelectedRows;
+                }
+            });
             this._grid.provider.rowHeaders.columns.insert(0, column);
         }
 
         private _buildRowHeader() {
             if (this.hasCheckbox) {
+                this._selectedRows = [];
                 this._buildCheckbox();
                 // with checkbox, we want to prevent row selection on row number and
                 // want to still be able to select cells.
@@ -100,6 +148,28 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this._grid.provider.hostElement
                 .querySelector('.wj-rowheaders')
                 .addEventListener('mousedown', (e) => e.preventDefault());
+        }
+
+        /**
+         * Responsible for raise the event when the row checkbox selection changed
+         * @param grid Object triggering the event
+         * @param e CellRangeEventArgs, defined the current selection
+         */
+        private _raiseSelectionChangedEvent(row: number, isChecked: boolean) {
+            const rowData = this._grid.provider.rows[row].dataItem;
+
+            this._grid.gridEvents.trigger(
+                OSFramework.DataGrid.Event.Grid.GridEventType
+                    .OnCheckedRowsChange,
+                this._grid,
+                row,
+                isChecked,
+                JSON.stringify(
+                    this._grid.isSingleEntity
+                        ? OSFramework.DataGrid.Helper.Flatten(rowData)
+                        : rowData
+                )
+            );
         }
 
         public build(): void {

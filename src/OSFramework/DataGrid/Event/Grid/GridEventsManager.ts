@@ -45,6 +45,9 @@ namespace OSFramework.DataGrid.Event.Grid {
                 case GridEventType.OnColumnPickerChange:
                     event = new OnColumnPickerChangeEvent();
                     break;
+                case GridEventType.OnCheckedRowsChange:
+                    event = new GridOnCheckedRowsChangeEvent();
+                    break;
                 default:
                     throw `The event '${eventType}' is not supported in a grid`;
                     break;

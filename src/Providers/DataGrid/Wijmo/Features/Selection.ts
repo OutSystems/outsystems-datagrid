@@ -16,6 +16,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         private readonly _internalLabel = '__rowSelection';
         private _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
         private _selectionMode: wijmo.grid.SelectionMode;
+        private _selectedRows = [];
 
         /**
          * Selection constructor
@@ -46,6 +47,28 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         /**
+         * Responsible for raise the event when the row checkbox selection changed
+         * @param grid Object triggering the event
+         * @param e CellRangeEventArgs, defined the current selection
+         */
+        private _raiseSelectionChangedEvent(row: number, isChecked: boolean) {
+            const rowData = this._grid.provider.rows[row].dataItem;
+
+            this._grid.gridEvents.trigger(
+                OSFramework.DataGrid.Event.Grid.GridEventType
+                    .OnCheckedRowsChange,
+                this._grid,
+                row,
+                isChecked,
+                JSON.stringify(
+                    this._grid.isSingleEntity
+                        ? OSFramework.DataGrid.Helper.Flatten(rowData)
+                        : rowData
+                )
+            );
+        }
+
+        /**
          * Responsible for adding metadata on checked rows
          * @param grid Object triggering the event
          * @param e CellRangeEventArgs, defined the current selection
@@ -56,6 +79,24 @@ namespace Providers.DataGrid.Wijmo.Feature {
         ) {
             if (e.row >= 0) {
                 const isSelected = grid.rows[e.row]?.isSelected;
+
+                /* Option 1
+                 ** The e.col === -1 condition corresponds to the checkbox column.
+                 ** This is not a good solution because it is possible that index changes in some use cases
+                 */
+                // if (this._grid.features.rowHeader.hasCheckbox && e.col === -1)
+                //     this._raiseSelectionChangedEvent(e.row, isSelected);
+
+                /* Option 2
+                 ** If the isChecked metadata property is diferent than the isSelected row property,
+                 ** then the row checkbox has changed, so we can trigger the event
+                 */
+                // if (
+                //     this._grid.features.rowHeader.hasCheckbox &&
+                //     this.getMetadata(e.row)?.isChecked !== isSelected
+                // )
+                //     this._raiseSelectionChangedEvent(e.row, isSelected);
+
                 this.getMetadata(e.row).isChecked = isSelected;
             }
         }

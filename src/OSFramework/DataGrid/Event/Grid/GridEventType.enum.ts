@@ -13,6 +13,7 @@ namespace OSFramework.DataGrid.Event.Grid {
         OnFiltersChange = 'OnFiltersChange',
         OnSortChange = 'OnSortChange',
         OnDataChange = 'OnDataChange',
+        OnCheckedRowsChange = 'OnCheckedRowsChange',
         SearchEnded = 'SearchEnded'
     }
 }
