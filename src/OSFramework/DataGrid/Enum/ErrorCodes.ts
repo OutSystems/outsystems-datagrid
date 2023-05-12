@@ -86,6 +86,6 @@ namespace OSFramework.DataGrid.Enum {
         //EXPORT
         API_FailedCustomizeExportingMessage = 'GRID-API-11001',
         //COLUMNPICKER
-        API_FailedSetColumnVisibility = 'GRID-API-10001'
+        API_FailedSetColumnVisibility = 'GRID-API-12001'
     }
 }
