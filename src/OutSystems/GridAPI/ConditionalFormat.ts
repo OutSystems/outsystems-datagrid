@@ -32,12 +32,12 @@ namespace OutSystems.GridAPI.ConditionalFormat {
     }
 
     /**
-     * Adds new conditional format rules to the desired aggregate binding.
+     * Adds new conditional format rules to the desired aggregate column.
      *
      * @export
-     * @param {string} gridID
-     * @param {string} binding Column binding
-     * @param {string} rules Rules for conditional formatting.
+     * @param {string} gridID Grid ID
+     * @param {string} columnID Column ID
+     * @param {string} conditionalFormat Rules for conditional formatting.
      */
     export function SetNumberAggregateConditionalFormatting(
         gridID: string,

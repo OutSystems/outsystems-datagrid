@@ -13,8 +13,8 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Function to remove the aggregate cell class
          *
-         * @param columnBinding {string} => The column binding of the aggregate to add the class
-         * @param className {string} => Classname to be added
+         * @param columnBinding {string} => The column binding of the aggregate to remove the class
+         * @param className {string} => Classname to be removed
          */
         removeClass(columnBinding: string, className: string): void;
 
