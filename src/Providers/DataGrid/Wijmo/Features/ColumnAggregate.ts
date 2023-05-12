@@ -8,8 +8,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
             OSFramework.DataGrid.Interface.IDisposable
     {
         private _aggregateRow: wijmo.grid.GroupRow;
-        private _grid: Grid.IGridWijmo;
         private _cellClasses: Map<string, Array<string>>;
+        private _grid: Grid.IGridWijmo;
         private _showAggregateValue: boolean;
 
         constructor(grid: Grid.IGridWijmo, showAggregateValue: boolean) {
@@ -148,7 +148,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             if (!this._cellClasses.has(columnBinding)) return;
 
             // Get the array associated with the column binding
-            let cellClassArray = this._cellClasses.get(columnBinding);
+            const cellClassArray = this._cellClasses.get(columnBinding);
 
             // Get the className index in the array.
             const classIndex = cellClassArray.findIndex(

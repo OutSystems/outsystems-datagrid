@@ -343,7 +343,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
-        private _updateAggregateRows(grid: wijmo.grid.FlexGrid) {
+        private _updateAggregateRows() {
             // Get the columns that contain a rule associatede
             const columnsAggregate = this._grid
                 .getColumns()
@@ -384,7 +384,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             });
         }
 
-        private _updateRows(grid: wijmo.grid.FlexGrid) {
+        private _updateRows() {
             const columns = this._grid
                 .getColumns()
                 .filter((x) => this._mappedRules.get(x.config.binding));
@@ -399,7 +399,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     (x) => x.binding === column.provider.binding
                 ).index;
 
-                grid.rows.forEach((row, index) => {
+                this._grid.provider.rows.forEach((row, index) => {
                     const value = this._grid.provider.getCellData(
                         index,
                         colIndex,
@@ -419,12 +419,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-        private _updatingViewHandler(
-            s: wijmo.grid.FlexGrid,
-            e: wijmo.CancelEventArgs
-        ) {
-            this._updateRows(s);
-            this._updateAggregateRows(s);
+        private _updatingViewHandler() {
+            this._updateRows();
+            this._updateAggregateRows();
         }
 
         /**
