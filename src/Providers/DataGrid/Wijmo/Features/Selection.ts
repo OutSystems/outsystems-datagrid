@@ -591,7 +591,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
             isSelected = true
         ): number[] {
             if (this._grid.features.rowHeader.hasCheckbox) {
-                return undefined;
+                throw new Error(
+                    OSFramework.DataGrid.Enum.ErrorMessages.SetRowAsSelected
+                );
             }
 
             rowsIndex.forEach((index) => {
