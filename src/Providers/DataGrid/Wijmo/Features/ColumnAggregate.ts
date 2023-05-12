@@ -71,6 +71,37 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         /**
+         * Function to remove the aggregate cell class
+         *
+         * @param columnBinding {string} => The column binding of the aggregate to add the class
+         * @param className {string} => Classname to be added
+         */
+        public removeClass(columnBinding: string, className: string): void {
+            // If the columnBinding does not in the _cellClasses, no action is required
+            if (!this._cellClasses.has(columnBinding)) return;
+
+            // Get the array associated with the column binding
+            const cellClassArray = this._cellClasses.get(columnBinding);
+
+            // Get the className index in the array.
+            const classIndex = cellClassArray.findIndex(
+                (cellClassName) => cellClassName === className
+            );
+
+            // If the className exists in the array, let's remove it.
+            if (classIndex > -1) {
+                // Remove the desired className
+                cellClassArray.splice(classIndex, 1);
+
+                // If the array is not empty, update it.
+                // Otherwise, delete the binding element from the Map
+                if (cellClassArray.length > 0)
+                    this._cellClasses.set(columnBinding, cellClassArray);
+                else this._cellClasses.delete(columnBinding);
+            }
+        }
+
+        /**
          * Function that will set the conditional format to the aggregate rows
          *
          * @param columnID {string} => The columnID of the aggregate to add the new conditional format rules
@@ -134,37 +165,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 // we only want to remove the row, if it exists
                 if (aggregateRow)
                     this._grid.provider.columnFooters.rows.remove(aggregateRow);
-            }
-        }
-
-        /**
-         * Function to remove the aggregate cell class
-         *
-         * @param columnBinding {string} => The column binding of the aggregate to add the class
-         * @param className {string} => Classname to be added
-         */
-        public removeClass(columnBinding: string, className: string): void {
-            // If the columnBinding does not in the _cellClasses, no action is required
-            if (!this._cellClasses.has(columnBinding)) return;
-
-            // Get the array associated with the column binding
-            const cellClassArray = this._cellClasses.get(columnBinding);
-
-            // Get the className index in the array.
-            const classIndex = cellClassArray.findIndex(
-                (cellClassName) => cellClassName === className
-            );
-
-            // If the className exists in the array, let's remove it.
-            if (classIndex > -1) {
-                // Remove the desired className
-                cellClassArray.splice(classIndex, 1);
-
-                // If the array is not empty, update it.
-                // Otherwise, delete the binding element from the Map
-                if (cellClassArray.length > 0)
-                    this._cellClasses.set(columnBinding, cellClassArray);
-                else this._cellClasses.delete(columnBinding);
             }
         }
     }
