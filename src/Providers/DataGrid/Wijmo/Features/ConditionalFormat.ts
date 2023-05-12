@@ -107,7 +107,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
     }
 
-    class Condition {
+    class Condition implements OSFramework.DataGrid.OSStructure.Format {
         public condition: Rules;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public value: any;
@@ -158,11 +158,44 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
     class ConditionExecuter {
         private _grid: Grid.IGridWijmo;
+        private _isAggregate: boolean;
         public conditions: Array<ConditionAnd>;
 
-        constructor(conditions: Array<ConditionAnd>, grid: Grid.IGridWijmo) {
+        constructor(
+            conditions: Array<ConditionAnd>,
+            grid: Grid.IGridWijmo,
+            isAggregate = false
+        ) {
             this.conditions = conditions;
             this._grid = grid;
+            this._isAggregate = isAggregate;
+        }
+
+        /**
+         * Adds or removes a ColumnAggregate cell class based on the condition. If the condition is true, we'll add the class, if it's false we'll remove it.
+         * @param columnBinding
+         * @param rowClass
+         * @param rowNumber
+         * @param shouldAdd
+         */
+        private _addOrRemoveAggregateClass(
+            columnBinding: string,
+            className: string,
+            shouldAdd: boolean
+        ) {
+            if (className) {
+                if (shouldAdd) {
+                    this._grid.features.columnAggregate.addClass(
+                        columnBinding,
+                        className
+                    );
+                } else {
+                    this._grid.features.columnAggregate.removeClass(
+                        columnBinding,
+                        className
+                    );
+                }
+            }
         }
 
         /**
@@ -247,19 +280,27 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         e.col
                     ).binding;
 
-                    this._addOrRemoveRowClass(
-                        binding,
-                        condition.rowClass,
-                        e.row,
-                        condition.isTrue
-                    );
+                    if (this._isAggregate) {
+                        this._addOrRemoveAggregateClass(
+                            binding,
+                            condition.cellClass,
+                            condition.isTrue
+                        );
+                    } else {
+                        this._addOrRemoveRowClass(
+                            binding,
+                            condition.rowClass,
+                            e.row,
+                            condition.isTrue
+                        );
 
-                    this._addOrRemoveCellClass(
-                        binding,
-                        condition.cellClass,
-                        e.row,
-                        condition.isTrue
-                    );
+                        this._addOrRemoveCellClass(
+                            binding,
+                            condition.cellClass,
+                            e.row,
+                            condition.isTrue
+                        );
+                    }
                 });
         }
     }
@@ -271,14 +312,17 @@ namespace Providers.DataGrid.Wijmo.Feature {
     {
         private _grid: Grid.IGridWijmo;
         private _mappedRules: Map<string, ConditionExecuter>;
+        private _mappedRulesAggregate: Map<string, ConditionExecuter>;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._mappedRules = new Map<string, ConditionExecuter>();
+            this._mappedRulesAggregate = new Map<string, ConditionExecuter>();
         }
 
         private _parseRule(
-            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>
+            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>,
+            isAggregate = false
         ): ConditionExecuter {
             const conditionExecuters = [];
             rules.forEach((element) => {
@@ -292,25 +336,70 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 );
                 conditionExecuters.push(conditionAnds);
             });
-            return new ConditionExecuter(conditionExecuters, this._grid);
+            return new ConditionExecuter(
+                conditionExecuters,
+                this._grid,
+                isAggregate
+            );
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-        private _updatingViewHandler(s: any, e: any) {
+        private _updateAggregateRows() {
+            // Get the columns that contain a rule associatede
+            const columnsAggregate = this._grid
+                .getColumns()
+                .filter((x) =>
+                    this._mappedRulesAggregate.get(x.config.binding)
+                );
+
+            // Iterate columns in order to get aggregate cell values
+            columnsAggregate.forEach((column) => {
+                const colIndex = this._grid.provider.columns.find(
+                    (x) => x.binding === column.provider.binding
+                ).index;
+
+                if (
+                    this._grid.provider.columns[colIndex].aggregate ===
+                    wijmo.Aggregate.None
+                ) {
+                    throw new Error(
+                        OSFramework.DataGrid.Enum.ErrorMessages.Aggregate_NotFound
+                    );
+                }
+
+                // We need to use the getAggregate function to get the current column aggregate value
+                const aggregateValue =
+                    this._grid.provider.itemsSource.getAggregate(
+                        this._grid.provider.columns[colIndex].aggregate,
+                        this._grid.provider.columns[colIndex].binding
+                    );
+
+                // Execute the rule
+                this._mappedRulesAggregate.get(column.config.binding).execute(
+                    aggregateValue,
+                    {
+                        col: colIndex
+                    },
+                    column.columnType
+                );
+            });
+        }
+
+        private _updateRows() {
             const columns = this._grid
                 .getColumns()
                 .filter((x) => this._mappedRules.get(x.config.binding));
 
             // iterate all rows and columns in order to get cell values
-            s.rows.forEach((row, index) => {
-                columns.forEach((column) => {
-                    const isDropdown =
-                        column.columnType ===
-                        OSFramework.DataGrid.Enum.ColumnType.Dropdown;
+            columns.forEach((column) => {
+                const isDropdown =
+                    column.columnType ===
+                    OSFramework.DataGrid.Enum.ColumnType.Dropdown;
 
-                    const colIndex = this._grid.provider.columns.find(
-                        (x) => x.binding === column.provider.binding
-                    ).index;
+                const colIndex = this._grid.provider.columns.find(
+                    (x) => x.binding === column.provider.binding
+                ).index;
+
+                this._grid.provider.rows.forEach((row, index) => {
                     const value = this._grid.provider.getCellData(
                         index,
                         colIndex,
@@ -329,6 +418,35 @@ namespace Providers.DataGrid.Wijmo.Feature {
             });
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+        private _updatingViewHandler() {
+            this._updateRows();
+            this._updateAggregateRows();
+        }
+
+        /**
+         * Adds new conditional format rules to the desired binding from the aggregate rows.
+         *
+         * @param binding {string} => The column binding to add the new conditional format rules
+         * @param rules {Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>} => Array containing the conditional format rules
+         */
+        public addAggregateRules(
+            binding: string,
+            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>
+        ): void {
+            this._mappedRulesAggregate.set(
+                binding,
+                this._parseRule(rules, true)
+            );
+        }
+
+        /**
+         * Adds new conditional format rules to the desired binding.
+         *
+         * @param binding {string} => The column binding to add the new conditional format rules
+         * @param rules {Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>} => Array containing the conditional format rules
+         * @param refresh (optional) => True if it should clear the classes previously added
+         */
         public addRules(
             binding: string,
             rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>,
@@ -349,6 +467,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
+        /**
+         * Removes rules of desired binding.
+         *
+         * @param binding {string} => The column binding to remove the conditional format rules
+         */
         public removeRules(binding: string): void {
             this._mappedRules.delete(binding);
         }
