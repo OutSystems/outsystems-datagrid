@@ -9,8 +9,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
     {
         private _aggregateRow: wijmo.grid.GroupRow;
         private _grid: Grid.IGridWijmo;
-        private _showAggregateValue: boolean;
         private _cellClasses: Map<string, Array<string>>;
+        private _showAggregateValue: boolean;
 
         constructor(grid: Grid.IGridWijmo, showAggregateValue: boolean) {
             this._grid = grid;
@@ -37,7 +37,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
          * @param columnBinding {string} => The column binding of the aggregate to add the class
          * @param className {string} => Classname to be added
          */
-        public addClass(columnBinding: string, className: string) {
+        public addClass(columnBinding: string, className: string): void {
             let cellClassArray = [];
 
             // Get the array associated with the column binding, if it exists.
@@ -79,7 +79,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public setConditionalFormat(
             columnID: string,
             conditionalFormat: string
-        ) {
+        ): void {
             const column = this._grid.getColumn(columnID);
 
             if (!column) {
@@ -143,7 +143,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
          * @param columnBinding {string} => The column binding of the aggregate to add the class
          * @param className {string} => Classname to be added
          */
-        public removeClass(columnBinding: string, className: string) {
+        public removeClass(columnBinding: string, className: string): void {
             // If the columnBinding does not in the _cellClasses, no action is required
             if (!this._cellClasses.has(columnBinding)) return;
 

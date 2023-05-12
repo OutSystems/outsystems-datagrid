@@ -172,6 +172,33 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         /**
+         * Adds or removes a ColumnAggregate cell class based on the condition. If the condition is true, we'll add the class, if it's false we'll remove it.
+         * @param columnBinding
+         * @param rowClass
+         * @param rowNumber
+         * @param shouldAdd
+         */
+        private _addOrRemoveAggregateClass(
+            columnBinding: string,
+            className: string,
+            shouldAdd: boolean
+        ) {
+            if (className) {
+                if (shouldAdd) {
+                    this._grid.features.columnAggregate.addClass(
+                        columnBinding,
+                        className
+                    );
+                } else {
+                    this._grid.features.columnAggregate.removeClass(
+                        columnBinding,
+                        className
+                    );
+                }
+            }
+        }
+
+        /**
          * Adds or removes a cell class based on the condition. If the condition is true, we'll add the class, if it's false we'll remove it.
          * @param columnBinding
          * @param cellClass
@@ -228,26 +255,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         rowClass,
                         false,
                         columnBinding
-                    );
-                }
-            }
-        }
-
-        private _addOrRemoveAggregateClass(
-            columnBinding: string,
-            className: string,
-            shouldAdd: boolean
-        ) {
-            if (className) {
-                if (shouldAdd) {
-                    this._grid.features.columnAggregate.addClass(
-                        columnBinding,
-                        className
-                    );
-                } else {
-                    this._grid.features.columnAggregate.removeClass(
-                        columnBinding,
-                        className
                     );
                 }
             }
@@ -421,6 +428,22 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         /**
+         * Adds new conditional format rules to the desired binding from the aggregate rows.
+         *
+         * @param binding {string} => The column binding to add the new conditional format rules
+         * @param rules {Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>} => Array containing the conditional format rules
+         */
+        public addAggregateRules(
+            binding: string,
+            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>
+        ): void {
+            this._mappedRulesAggregate.set(
+                binding,
+                this._parseRule(rules, true)
+            );
+        }
+
+        /**
          * Adds new conditional format rules to the desired binding.
          *
          * @param binding {string} => The column binding to add the new conditional format rules
@@ -439,22 +462,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
 
             this._mappedRules.set(binding, this._parseRule(rules));
-        }
-
-        /**
-         * Adds new conditional format rules to the desired binding from the aggregate rows.
-         *
-         * @param binding {string} => The column binding to add the new conditional format rules
-         * @param rules {Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>} => Array containing the conditional format rules
-         */
-        public addAggregateRules(
-            binding: string,
-            rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>
-        ): void {
-            this._mappedRulesAggregate.set(
-                binding,
-                this._parseRule(rules, true)
-            );
         }
 
         public build(): void {
