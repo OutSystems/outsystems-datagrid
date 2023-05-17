@@ -591,14 +591,16 @@ namespace Providers.DataGrid.Wijmo.Feature {
             isSelected = true
         ): number[] {
             if (this._grid.features.rowHeader.hasCheckbox) {
-                throw new Error(
-                    OSFramework.DataGrid.Enum.ErrorMessages.SetRowAsSelected
-                );
+                rowsIndex.forEach((index) => {
+                    this.getMetadata(index).isChecked = isSelected;
+                    this._grid.provider.rows[index].isSelected = isSelected;
+                });
+                this._grid.provider.collectionView.refresh();
+            } else {
+                rowsIndex.forEach((index) => {
+                    this._grid.provider.rows[index].isSelected = isSelected;
+                });
             }
-
-            rowsIndex.forEach((index) => {
-                this._grid.provider.rows[index].isSelected = isSelected;
-            });
 
             return rowsIndex;
         }
