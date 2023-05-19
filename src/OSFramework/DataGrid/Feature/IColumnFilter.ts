@@ -16,7 +16,7 @@ namespace OSFramework.DataGrid.Feature {
             columnID: string,
             filterType: wijmo.grid.filter.FilterType
         ): void;
-        clear(columnID: string): void;
+        clear(columnID: string, triggerOnFiltersChange?: boolean): void;
         deactivate(columnID: string): void;
         setColumnFilterOptions(
             columnID: string,
