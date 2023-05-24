@@ -332,10 +332,10 @@ namespace OSFramework.DataGrid.Grid {
             this.features.undoStack.clear();
 
             if (this.isReady) {
-                if (!this.hasColumnsDefined()) {
-                    this._autoGenCol();
-                } else {
+                if (this.hasColumnsDefined()) {
                     this._validateBindings();
+                } else {
+                    this._autoGenCol();
                 }
                 return true;
             }
