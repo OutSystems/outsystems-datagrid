@@ -4,16 +4,52 @@ namespace OutSystems.GridAPI.Language {
      *
      * @export
      * @param {string} language
+     * @param {string} filePath
+     */
+    export function AddSupportedLanguage(
+        language: string,
+        filePath: string
+    ): void {
+        Performance.SetMark('Language.AddSupportedLanguage');
+
+        if (language !== '') {
+            Providers.DataGrid.Wijmo.Language.AddLanguage(language, filePath);
+        }
+
+        Performance.SetMark('Language.AddSupportedLanguage-end');
+        Performance.GetMeasure(
+            '@datagrid-Language.AddSupportedLanguage',
+            'Language.AddSupportedLanguage',
+            'Language.AddSupportedLanguage-end'
+        );
+    }
+
+    export function HaveLanguagesBeenSet(): boolean {
+        Performance.SetMark('Language.HaveLanguagesBeenSet');
+
+        const result = Providers.DataGrid.Wijmo.Language.HaveLanguagesBeenSet();
+
+        Performance.SetMark('Language.HaveLanguagesBeenSet-end');
+        Performance.GetMeasure(
+            '@datagrid-Language.HaveLanguagesBeenSet',
+            'Language.HaveLanguagesBeenSet',
+            'Language.HaveLanguagesBeenSet-end'
+        );
+        return result;
+    }
+
+    /**
+     *
+     *
+     * @export
+     * @param {string} language
      * @param {string} url
      */
-    export function SetLanguage(language: string, url: string): void {
+    export function SetLanguage(language: string): void {
         Performance.SetMark('Language.SetLanguage');
 
         if (language !== '') {
-            Providers.DataGrid.Wijmo.Helper.Translation.SetLanguage(
-                language,
-                url
-            );
+            Providers.DataGrid.Wijmo.Helper.Translation.SetLanguage(language);
         }
 
         Performance.SetMark('Language.SetLanguage-end');
@@ -39,7 +75,7 @@ namespace GridAPI {
             OSFramework.DataGrid.Helper.LogWarningMessage(
                 `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Language.SetLanguage()'`
             );
-            return OutSystems.GridAPI.Language.SetLanguage(language, url);
+            return OutSystems.GridAPI.Language.SetLanguage(language);
         }
     }
 }
