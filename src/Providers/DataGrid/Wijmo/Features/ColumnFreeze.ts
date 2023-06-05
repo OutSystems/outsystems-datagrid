@@ -34,7 +34,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         /**
-         * Function that returns the current frozen Columns state
+         * Function that returns the current frozen Columns state in the Grid
          *
          * @returns JSON string with the current frozen Columns state
          */
