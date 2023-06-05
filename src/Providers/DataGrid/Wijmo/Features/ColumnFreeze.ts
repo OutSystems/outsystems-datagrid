@@ -33,6 +33,15 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this.leftColumns(1);
         }
 
+        /**
+         * Function that returns the current frozen Columns state in the Grid
+         *
+         * @returns JSON string with the current frozen Columns state
+         */
+        public getViewLayout(): string {
+            return this._grid.provider.frozenColumns.toString();
+        }
+
         public leftColumns(n?: number): void {
             if (n !== undefined) {
                 if (n < 0) {
@@ -50,6 +59,16 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         activeCell.leftColumnIndex + 1;
                 }
             }
+        }
+
+        /**
+         * Function that will set the frozen Columns based on a given state
+         *
+         * @param state the frozen Columns state to be applied
+         */
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+        public setViewLayout(state: any): void {
+            this._grid.provider.frozenColumns = state.frozenColumns;
         }
 
         public unfreeze(): void {

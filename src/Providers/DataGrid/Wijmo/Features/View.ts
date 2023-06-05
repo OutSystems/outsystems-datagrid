@@ -130,6 +130,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 sortDescriptions: this._grid.features.sort.getViewLayout(),
                 groupColumns: this._getGroupDefinition(
                     this._grid.provider.columnGroups
+                ),
+                frozenColumns: Number(
+                    this._grid.features.columnFreeze.getViewLayout()
                 )
             };
 
@@ -150,6 +153,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 this._grid.features.filter.setViewLayout(config);
                 this._grid.features.groupPanel.setViewLayout(config);
                 this._grid.features.sort.setViewLayout(config);
+                this._grid.features.columnFreeze.setViewLayout(config);
                 this._setGroups(
                     this._grid.provider.columnGroups,
                     config.groupColumns
