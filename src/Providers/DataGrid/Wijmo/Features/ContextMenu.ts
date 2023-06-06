@@ -10,7 +10,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
             OSFramework.DataGrid.Feature.IContextMenu
     {
         /** Events from the Context Menu  */
+        private _columnBinding: string;
         private _columnUniqueId: string;
+        private _columnWidgetId: string;
         private _contextMenuEvents: OSFramework.DataGrid.Event.Feature.ContextMenuEventManager;
         private _grid: Grid.IGridWijmo;
         private _isOpening: boolean;
@@ -244,9 +246,15 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
             // Will need to have an extra validation looking at the binding because of the column picker column
             if (columns.length && htColumn && htColumn.binding !== null) {
-                this._columnUniqueId = this._grid.getColumns().find((x) => {
+                const columnHit = this._grid.getColumns().find((x) => {
                     return x.config.binding === htColumn.binding;
-                }).uniqueId;
+                });
+                this._columnBinding = columnHit.config.binding;
+                this._columnUniqueId = columnHit.uniqueId;
+                //If the id of the widget id stars with a $, means that the developer didn't set the Id. So it's not useful to return it.
+                this._columnWidgetId = columnHit.widgetId.startsWith('$')
+                    ? ''
+                    : columnHit.widgetId;
             }
 
             this._contextMenuEvents.trigger(
@@ -301,8 +309,24 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return this._isOpening;
         }
 
+        public get columnBinding(): string {
+            return this._columnBinding;
+        }
+
+        public get columnId(): string {
+            return (
+                this._columnWidgetId ||
+                this._columnBinding ||
+                this._columnUniqueId
+            );
+        }
+
         public get columnUniqueId(): string {
             return this._columnUniqueId;
+        }
+
+        public get columnWidgetId(): string {
+            return this._columnWidgetId;
         }
 
         public get grid(): OSFramework.DataGrid.Grid.IGrid {
