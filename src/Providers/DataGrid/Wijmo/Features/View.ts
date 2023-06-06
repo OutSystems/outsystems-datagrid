@@ -107,7 +107,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         this._setGroups(colDef.columns, config[i].children[0]);
                     }
                     columns.remove(colDef);
-                    colDef.collapseTo = config[i].collapseTo;
+                    colDef.collapseTo = config[i].collapseTo ?? '';
                     colDef.isCollapsed = config[i].isCollapsed || false; // in case it wasn't defined, set to false
                     colDef.align = config[i].align || colDef.align;
 
