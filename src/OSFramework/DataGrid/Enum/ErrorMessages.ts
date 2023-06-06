@@ -10,6 +10,8 @@ namespace OSFramework.DataGrid.Enum {
         AddRowLowerThanOne = 'It seems that you are trying to add an invalid amount of rows. The NumberOfRows must greater than 0.',
         AddRowWithActiveFilterOrSort = 'It seems that you have an active filter, group or sort on your columns. Remove them and try again.',
         Aggregate_NotFound = 'The aggregate you have passed does not exist.',
+        AutoGenerateGrid = 'The auto generation of columns based on Data is not available. Please use drag-n-drop the columns to appear.',
+        AutoGenerateGridWrite = 'The auto generation of columns based on Data is not available when the Grid is editable. Please use ArrangeData action for this scenario.',
         Column_NotFound = 'Column not found',
         CustomizeExportingMessageEmptyString = 'It seems you are passing an empty message. Please pass a valid message.',
         FreezeColumnPositiveNumberExpected = 'Unable to freeze column. Please use a positive number.',

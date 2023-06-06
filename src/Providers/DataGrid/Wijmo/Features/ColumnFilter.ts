@@ -250,16 +250,21 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         /**
-         * Function that will Clear a column Filter at a given ColumnID
+         * Function that will Clear a column Filter at a given ColumnID.
          *
-         * @param columnId Column Id where the Filter will be performed
+         * @param {string} columnID Column Id where the Filter will be performed.
+         * @param {boolean} [triggerOnFiltersChange=true] Flag to indicate if the OnFiltersChange event is to be triggered or not.
+         * @memberof ColumnFilter
          */
-        public clear(columnID: string): void {
+        public clear(columnID: string, triggerOnFiltersChange = true): void {
             const column = this._grid.getColumn(columnID);
 
             if (column) {
                 this._filter.getColumnFilter(column.provider).clear();
                 this._grid.provider.collectionView.refresh();
+                if (triggerOnFiltersChange) {
+                    this._filterChangedHandler(this._filter);
+                }
             } else {
                 throw new Error(
                     OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier
