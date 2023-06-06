@@ -26,7 +26,7 @@ namespace OSFramework.DataGrid.Enum {
         Row_NotFound = 'Row not found.',
         SetCurrentPage = 'An error occurred while trying to set current page.',
         SetCurrentPageServerSidePagination = 'It seems that you have server side pagination turned on. Switch it off and try again.',
-        SetRowAsSelected = 'Grids with RowCheckbox as RowHeader has this capability disabled.',
+        SetRowAsSelected = 'Grids with RowCheckbox as RowHeader have this capability disabled.',
         SuccessMessage = 'Success',
         UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.',
         RemoveRowErrorMessage = 'An error occurred while trying to remove rows.'
