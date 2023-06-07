@@ -590,12 +590,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
             rowsIndex: number[],
             isSelected = true
         ): number[] {
+            const rowsPerPage = this._grid.provider.rows.length;
+
             // Check if the row indexes provided exist in the current Grid page.
-            if (
-                rowsIndex.find(
-                    (index) => index >= this._grid.provider.rows.length
-                ) !== undefined
-            ) {
+            if (rowsIndex.find((index) => index >= rowsPerPage) !== undefined) {
                 throw new Error(
                     OSFramework.DataGrid.Enum.ErrorMessages.SetRowAsSelected
                 );
