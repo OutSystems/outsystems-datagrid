@@ -71,7 +71,7 @@ namespace GridAPI {
          * @param {string} language
          * @param {string} url
          */
-        export function SetLanguage(language: string, url: string): void {
+        export function SetLanguage(language: string): void {
             OSFramework.DataGrid.Helper.LogWarningMessage(
                 `${OSFramework.DataGrid.Helper.warningMessage} 'OutSystems.GridAPI.Language.SetLanguage()'`
             );
