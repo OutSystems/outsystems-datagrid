@@ -99,12 +99,17 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     },
                     isDroppedDownChanging: (e) => {
                         // The event is raised when the context menu opens or closes.
-                        // It is easier to understand if it will open instead of analysing if the menu is dropped down.
-                        this._isOpening = !e.isDroppedDown;
-                        this._contextMenuEvents.trigger(
-                            OSFramework.DataGrid.Event.Feature
-                                .ContextMenuEventType.Toggle
-                        );
+
+                        //If the menu is (currently) open, then this event was fired to close it.
+                        //Otherwise, if closed, means that it will open, so we'll not do anything here.
+                        if (e.isDroppedDown) {
+                            // It is easier to understand if it will open instead of analysing if the menu is dropped down.
+                            this._isOpening = false;
+                            this._contextMenuEvents.trigger(
+                                OSFramework.DataGrid.Event.Feature
+                                    .ContextMenuEventType.Toggle
+                            );
+                        }
                     }
                 }
             );
