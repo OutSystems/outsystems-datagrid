@@ -249,13 +249,19 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 const columnHit = this._grid.getColumns().find((x) => {
                     return x.config.binding === htColumn.binding;
                 });
-                this._columnBinding = columnHit.config.binding;
-                this._columnUniqueId = columnHit.uniqueId;
-                //If the id of the widget id stars with a $, means that the developer didn't set the Id. So it's not useful to return it.
-                this._columnWidgetId =
-                    columnHit.widgetId && columnHit.widgetId.startsWith('$')
-                        ? ''
-                        : columnHit.widgetId;
+                if (columnHit) {
+                    this._columnBinding = columnHit.config.binding;
+                    this._columnUniqueId = columnHit.uniqueId;
+                    //If the id of the widget id stars with a $, means that the developer didn't set the Id. So it's not useful to return it.
+                    this._columnWidgetId = columnHit.widgetId;
+                    if (
+                        OSFramework.DataGrid.Helper.HasPlatformDefaultId(
+                            columnHit.widgetId
+                        )
+                    ) {
+                        this._columnWidgetId = '';
+                    }
+                }
             }
 
             this._contextMenuEvents.trigger(
@@ -314,12 +320,18 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return this._columnBinding;
         }
 
+        /**
+         * Returns the Id of the column in which the context menu was
+         * triggered in. Tries to return the widgetId (if the dev gave one to the column block),
+         * and if not available, returns the uniqueId.
+         * In the case of auto-generated grids, the uniqueId will be equal to the column binding.
+         *
+         * @readonly
+         * @type {string}
+         * @memberof ContextMenu
+         */
         public get columnId(): string {
-            return (
-                this._columnWidgetId ||
-                this._columnBinding ||
-                this._columnUniqueId
-            );
+            return this._columnWidgetId || this._columnUniqueId;
         }
 
         public get columnUniqueId(): string {
