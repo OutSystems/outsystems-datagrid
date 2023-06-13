@@ -252,7 +252,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 if (columnHit) {
                     this._columnBinding = columnHit.config.binding;
                     this._columnUniqueId = columnHit.uniqueId;
-                    //If the id of the widget id stars with a $, means that the developer didn't set the Id. So it's not useful to return it.
+                    //If the id of the widget id starts with a $, means that the developer didn't set the Id. So it's not useful to return it.
                     this._columnWidgetId = columnHit.widgetId;
                     if (
                         OSFramework.DataGrid.Helper.HasPlatformDefaultId(
