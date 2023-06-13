@@ -190,7 +190,7 @@ namespace OutSystems.GridAPI.Pagination {
                     );
                 }
 
-                if (grid.features.pagination.moveToPage(n)) {
+                if (!grid.features.pagination.moveToPage(n)) {
                     throw new Error(
                         OSFramework.DataGrid.Enum.ErrorMessages.SetCurrentPage
                     );
