@@ -10,7 +10,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
             OSFramework.DataGrid.Feature.IContextMenu
     {
         /** Events from the Context Menu  */
+        private _columnBinding: string;
         private _columnUniqueId: string;
+        private _columnWidgetId: string;
         private _contextMenuEvents: OSFramework.DataGrid.Event.Feature.ContextMenuEventManager;
         private _grid: Grid.IGridWijmo;
         private _isOpening: boolean;
@@ -244,9 +246,22 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
             // Will need to have an extra validation looking at the binding because of the column picker column
             if (columns.length && htColumn && htColumn.binding !== null) {
-                this._columnUniqueId = this._grid.getColumns().find((x) => {
+                const columnHit = this._grid.getColumns().find((x) => {
                     return x.config.binding === htColumn.binding;
-                }).uniqueId;
+                });
+                if (columnHit) {
+                    this._columnBinding = columnHit.config.binding;
+                    this._columnUniqueId = columnHit.uniqueId;
+                    //If the id of the widget id starts with a $, means that the developer didn't set the Id. So it's not useful to return it.
+                    this._columnWidgetId = columnHit.widgetId;
+                    if (
+                        OSFramework.DataGrid.Helper.HasPlatformDefaultId(
+                            columnHit.widgetId
+                        )
+                    ) {
+                        this._columnWidgetId = '';
+                    }
+                }
             }
 
             this._contextMenuEvents.trigger(
@@ -301,8 +316,30 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return this._isOpening;
         }
 
+        public get columnBinding(): string {
+            return this._columnBinding;
+        }
+
+        /**
+         * Returns the Id of the column in which the context menu was
+         * triggered in. Tries to return the widgetId (if the dev gave one to the column block),
+         * and if not available, returns the uniqueId.
+         * In the case of auto-generated grids, the uniqueId will be equal to the column binding.
+         *
+         * @readonly
+         * @type {string}
+         * @memberof ContextMenu
+         */
+        public get columnId(): string {
+            return this._columnWidgetId || this._columnUniqueId;
+        }
+
         public get columnUniqueId(): string {
             return this._columnUniqueId;
+        }
+
+        public get columnWidgetId(): string {
+            return this._columnWidgetId;
         }
 
         public get grid(): OSFramework.DataGrid.Grid.IGrid {

@@ -8,7 +8,10 @@ namespace OSFramework.DataGrid.Feature {
          * Getter for the contextMenu events
          */
 
+        columnBinding: string;
+        columnId: string;
         columnUniqueId: string;
+        columnWidgetId: string;
         contextMenuEvents: Event.Feature.ContextMenuEventManager;
         /**
          * Grid's reference
