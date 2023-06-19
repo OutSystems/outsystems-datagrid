@@ -51,8 +51,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
             // when a delete event occurs, s.getCellData() always returns an empty string
             // because of that, we need to verify if a delete event occured and get the right current value
-            if (!!e.data && !!e.data.key && e.data.key === 'Delete') {
-                currentValue = e.data.target.textContent;
+            if (
+                !!e.data &&
+                !!e.data.key &&
+                (e.data.key === 'Delete' || e.data.key === 'Backspace')
+            ) {
+                currentValue = s.activeCell.textContent;
             } else {
                 currentValue = s.getCellData(e.row, e.col, true) ?? '';
             }
