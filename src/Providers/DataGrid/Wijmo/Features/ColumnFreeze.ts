@@ -11,12 +11,35 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this._grid = grid;
         }
 
+        private _afterResizeColumn(
+            grid: wijmo.grid.FlexGrid,
+            e: wijmo.grid.CellRangeEventArgs
+        ): void {
+            let frozenColumnswidht = 0;
+            let otherfrozenColumnswidht = 0;
+            let frozenColumns = grid.columns.filter(
+                (col) => col.index < grid.frozenColumns
+            );
+            frozenColumns.forEach((col, index) => {
+                frozenColumnswidht += col.width;
+                if (index !== e.col) {
+                    otherfrozenColumnswidht += col.width;
+                }
+            });
+            if (frozenColumnswidht >= grid.clientSize.width) {
+                grid.columns[e.col].size =
+                    grid.clientSize.width - otherfrozenColumnswidht - 10;
+            }
+        }
+
         public get isFrozen(): boolean {
             return this._grid.provider.frozenColumns !== 0;
         }
 
         public build(): void {
-            // Implementing interface
+            this._grid.provider.resizedColumn.addHandler(
+                this._afterResizeColumn
+            );
         }
 
         public byActiveSelection(): void {
