@@ -590,15 +590,29 @@ namespace Providers.DataGrid.Wijmo.Feature {
             rowsIndex: number[],
             isSelected = true
         ): number[] {
-            if (this._grid.features.rowHeader.hasCheckbox) {
+            const rowsPerPage = this._grid.provider.rows.length;
+
+            // Check if the row indexes provided exist in the current Grid page.
+            if (rowsIndex.find((index) => index >= rowsPerPage) !== undefined) {
                 throw new Error(
                     OSFramework.DataGrid.Enum.ErrorMessages.SetRowAsSelected
                 );
             }
 
-            rowsIndex.forEach((index) => {
-                this._grid.provider.rows[index].isSelected = isSelected;
-            });
+            if (this._grid.features.rowHeader.hasCheckbox) {
+                // In a grid with checkboxes, we need to set the isChecked row metadata and the isSelected row flag for each row.
+                rowsIndex.forEach((index) => {
+                    this.getMetadata(index).isChecked = isSelected;
+                    this._grid.provider.rows[index].isSelected = isSelected;
+                });
+
+                // Refresh the CollectionView to trigger the updatingView event and change the checkboxes state
+                this._grid.provider.collectionView.refresh();
+            } else {
+                rowsIndex.forEach((index) => {
+                    this._grid.provider.rows[index].isSelected = isSelected;
+                });
+            }
 
             return rowsIndex;
         }
