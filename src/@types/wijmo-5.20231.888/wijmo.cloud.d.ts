@@ -390,8 +390,8 @@ declare module wijmo.cloud {
      * import { GoogleSheet, Sheet } from '@grapecity/wijmo.cloud';
      *
      * // create a GoogleSheet with three Sheets
-     * const SHEET_ID_NW = '1qnf-FCONZj_AmOlyNkpIA3mKvP8FQtVOr7K8Awpo360';
-     * const API_KEY = 'AIzaSyCvuXEzP57I5CQ9ifZDG2_K8M3nDa1LOPE';
+     * const SHEET_ID_NW = 'XXX';
+     * const API_KEY = 'YYY';
      * let gsNWind = new GoogleSheet(SHEET_ID_NW, API_KEY, {
      *     sheets: [ 'Products', 'Categories', 'Suppliers' ]
      * });
