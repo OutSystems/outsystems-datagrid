@@ -2,7 +2,7 @@
 namespace Providers.DataGrid.Wijmo.Feature {
     export interface IProviderUndoStack
         extends OSFramework.DataGrid.Feature.IUndoStack {
-        closeAction<T>(T);
+        closeAction<T>(T, focusGrid?: boolean);
         pushAction(action: wijmo.undo.UndoableAction);
         startAction(action: wijmo.undo.UndoableAction);
     }
@@ -43,10 +43,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-        public closeAction<T>(T): void {
+        public closeAction<T>(T, focusGrid = true): void {
             this._undoStack._pendingAction instanceof T &&
                 this._undoStack.pushPendingAction();
-            this._grid.provider.focus();
+            if (focusGrid) this._grid.provider.focus();
         }
 
         public pushAction(action: wijmo.undo.UndoableAction): void {

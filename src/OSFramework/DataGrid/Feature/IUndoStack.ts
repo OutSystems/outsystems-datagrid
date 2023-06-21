@@ -13,7 +13,7 @@ namespace OSFramework.DataGrid.Feature {
          * Close a pending action, has to be call after the startAction and after the desired changed
          * @param T  Type of the Pending action, used to verify if the pending action waiting to be closed has the same type
          */
-        closeAction<T>(T);
+        closeAction<T>(T, focusGrid?: boolean);
         /**
          * Sometimes we just need to push an action that already define its undo/redo state
          * @param action Action to be pushed into the stack
