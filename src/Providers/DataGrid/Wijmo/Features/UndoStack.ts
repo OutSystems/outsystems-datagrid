@@ -46,6 +46,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public closeAction<T>(T, focusGrid = true): void {
             this._undoStack._pendingAction instanceof T &&
                 this._undoStack.pushPendingAction();
+
+            // due to Wijmo's breaking change, the Column Picker closes when switch focus to grid
+            // so when checking or unchecking an item in Column Picker, we don't want to focus on the grid
             if (focusGrid) this._grid.provider.focus();
         }
 
