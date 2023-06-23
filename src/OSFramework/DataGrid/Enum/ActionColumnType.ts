@@ -5,6 +5,7 @@ namespace OSFramework.DataGrid.Enum {
      */
     export enum ActionColumnElementType {
         Button = 'Button',
-        Link = 'Link'
+        Link = 'Link',
+        ExternalURL = 'ExternalURL'
     }
 }

@@ -40,6 +40,7 @@ namespace Providers.DataGrid.Wijmo.Column {
                 Helper.ActionColumnFactory.MakeActionColumnCellTemplate(
                     this.config.actionColumnElementType,
                     config.binding,
+                    this.config.externalUrl,
                     this.handleActionEvent.bind(this)
                 );
 
