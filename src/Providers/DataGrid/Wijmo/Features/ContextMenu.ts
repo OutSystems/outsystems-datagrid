@@ -45,9 +45,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
         ) {
             //If already inserted to the Map return error message and exit the method
             if (this._menuItems.has(menuItem.uniqueId)) {
-                console.log(
-                    '_addMenuItem - MenuItem already added to the list'
-                );
                 return;
             }
 
