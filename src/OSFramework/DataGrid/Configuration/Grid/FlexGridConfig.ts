@@ -34,6 +34,7 @@ namespace OSFramework.DataGrid.Configuration.Grid {
             let provider: DataGrid.Types.IGridProviderConfigs = {
                 autoGenerateColumns: this.autoGenerateColumns,
                 allowMerging: 'Cells', // allow mergeCells API. This option does nothing, without the proper column config.
+                headersFocusability: wijmo.grid.HeadersFocusability.All, // by default, Row and Column headers are focusable via keyboard.
                 isReadOnly: this.allowEdit === false,
                 validateEdits: this.validateEdits,
                 showSelectedHeaders: 'All' // highlight row/column header
