@@ -799,6 +799,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this._grid
                 .getColumns()
                 .forEach((column: OSFramework.DataGrid.Column.IColumn) => {
+                    const row = this._grid.provider.rows[rowNumber];
+
+                    if (row instanceof wijmo.grid.GroupRow) {
+                        throw new Error(
+                            OSFramework.DataGrid.Enum.ErrorMessages.ApplyRowValidation
+                        );
+                    }
+
                     // We need to skip Group Column since it is not a column we can validate
                     if (
                         column.columnType !==
