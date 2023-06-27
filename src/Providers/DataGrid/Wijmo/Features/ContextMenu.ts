@@ -43,7 +43,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         private _addMenuItem(
             menuItem: OSFramework.DataGrid.Feature.Auxiliar.MenuItem
         ) {
-            //If already inserted to the Map return error message and exit the method
+            //If already inserted to the Map  exit the method
             if (this._menuItems.has(menuItem.uniqueId)) {
                 return;
             }
