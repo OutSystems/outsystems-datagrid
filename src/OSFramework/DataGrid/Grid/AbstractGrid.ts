@@ -261,7 +261,7 @@ namespace OSFramework.DataGrid.Grid {
 
         public getColumnByIndex(index: number): Column.IColumn {
             if (this._columnsSet.size > index) {
-                return this._columnsSet[index];
+                return this.getColumns()[index];
             }
             return undefined;
         }
