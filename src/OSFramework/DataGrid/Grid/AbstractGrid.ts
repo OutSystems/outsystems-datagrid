@@ -259,6 +259,13 @@ namespace OSFramework.DataGrid.Grid {
             }
         }
 
+        public getColumnByIndex(index: number): Column.IColumn {
+            if (this._columnsSet.size > index) {
+                return this.getColumns()[index];
+            }
+            return undefined;
+        }
+
         public getColumns(): Column.IColumn[] {
             return Array.from(this._columnsSet);
         }
