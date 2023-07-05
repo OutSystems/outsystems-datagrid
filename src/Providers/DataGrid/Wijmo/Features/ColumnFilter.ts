@@ -98,6 +98,32 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return _formattedValue;
         }
 
+        /**
+         * Prepares the value to be used in the filter by value.
+         *
+         * @private
+         * @param {OSFramework.DataGrid.Enum.ColumnType} columnType will be used to determine if a toLower should be done or not. Applies the toLower in columns of the type checkbox.
+         * @param {string} value value to be selected to the filter
+         * @return {*}  {string} formatted value. In case the value is null, will return ''.
+         * @memberof ColumnFilter
+         */
+        private _getFilterValue(
+            columnType: OSFramework.DataGrid.Enum.ColumnType,
+            value: string
+        ): string {
+            let _formattedValue: Helper.FilterFactory.WijmoFilterConditionValue;
+
+            switch (columnType) {
+                case OSFramework.DataGrid.Enum.ColumnType.Checkbox:
+                    _formattedValue = value.toLowerCase();
+                    break;
+                default:
+                    _formattedValue = value ?? '';
+            }
+
+            return _formattedValue;
+        }
+
         public get isGridFiltered(): boolean {
             // When filter is active/applied, check isActive property
             return (
@@ -224,8 +250,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 // eg.: {Brazil: true, Portugal: true}. So let's transform this to the desired input
                 columnFilter.showValues = values
                     .map((val) => {
-                        if (val === null) return '';
-                        return val;
+                        return this._getFilterValue(column.columnType, val);
                     })
                     .reduce((obj, cur) => {
                         return { ...obj, [cur]: true };
