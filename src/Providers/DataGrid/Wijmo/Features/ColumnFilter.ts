@@ -63,19 +63,33 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
+        /**
+         * Prepares the condition value to be used in the condition filter.
+         *
+         * @private
+         * @param {OSFramework.DataGrid.Enum.ColumnType} columnType will be used to determine the type of parse to be done to the value.
+         * @param {Helper.FilterFactory.WijmoFilterConditionValue} conditionValue value to be parsed
+         * @return {*}  {Helper.FilterFactory.WijmoFilterConditionValue} value parsed according to the column type
+         * @memberof ColumnFilter
+         */
         private _getFilterConditionValue(
             columnType: OSFramework.DataGrid.Enum.ColumnType,
             conditionValue: Helper.FilterFactory.WijmoFilterConditionValue
-        ) {
+        ): Helper.FilterFactory.WijmoFilterConditionValue {
             let _formattedValue: Helper.FilterFactory.WijmoFilterConditionValue;
 
             switch (columnType) {
+                case OSFramework.DataGrid.Enum.ColumnType.Checkbox:
+                    _formattedValue = (conditionValue as string) === 'True';
+                    break;
                 case OSFramework.DataGrid.Enum.ColumnType.Number:
                     _formattedValue = parseFloat(conditionValue as string);
                     break;
                 case OSFramework.DataGrid.Enum.ColumnType.Date:
                 case OSFramework.DataGrid.Enum.ColumnType.DateTime:
-                    _formattedValue = new Date(conditionValue);
+                    _formattedValue = new Date(
+                        conditionValue as string | number
+                    );
                     break;
                 default:
                     _formattedValue = conditionValue;
@@ -202,20 +216,23 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public byValue(columnId: string, values: Array<string>): void {
             const column = this._grid.getColumn(columnId);
             if (column) {
+                const isColumnTypeCheckbox =
+                    column.columnType ===
+                    OSFramework.DataGrid.Enum.ColumnType.Checkbox;
                 const columnFilter = this._filter.getColumnFilter(
                     column.config.binding
                 ).valueFilter;
 
                 // we receive values as an array ["Brazil", "Portugal"], but wijmo expects an object
                 // eg.: {Brazil: true, Portugal: true}. So let's transform this to the desired input
-                columnFilter.showValues = values
-                    .map((val) => {
-                        if (val === null) return '';
-                        return val;
+                columnFilter.showValues = Object.fromEntries(
+                    values.map((val) => {
+                        if (val === null) return [];
+                        if (isColumnTypeCheckbox)
+                            return [val.toLowerCase(), true];
+                        return [val, true];
                     })
-                    .reduce((obj, cur) => {
-                        return { ...obj, [cur]: true };
-                    }, {});
+                );
 
                 this._filter.apply();
                 // trigger event
