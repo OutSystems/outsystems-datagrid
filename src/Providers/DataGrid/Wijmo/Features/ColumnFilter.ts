@@ -98,32 +98,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return _formattedValue;
         }
 
-        /**
-         * Prepares the value to be used in the filter by value.
-         *
-         * @private
-         * @param {OSFramework.DataGrid.Enum.ColumnType} columnType will be used to determine if a toLower should be done or not. Applies the toLower in columns of the type checkbox.
-         * @param {string} value value to be selected to the filter
-         * @return {*}  {string} formatted value. In case the value is null, will return ''.
-         * @memberof ColumnFilter
-         */
-        private _getFilterValue(
-            columnType: OSFramework.DataGrid.Enum.ColumnType,
-            value: string
-        ): string {
-            let _formattedValue: Helper.FilterFactory.WijmoFilterConditionValue;
-
-            switch (columnType) {
-                case OSFramework.DataGrid.Enum.ColumnType.Checkbox:
-                    _formattedValue = value.toLowerCase();
-                    break;
-                default:
-                    _formattedValue = value ?? '';
-            }
-
-            return _formattedValue;
-        }
-
         public get isGridFiltered(): boolean {
             // When filter is active/applied, check isActive property
             return (
@@ -242,19 +216,23 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public byValue(columnId: string, values: Array<string>): void {
             const column = this._grid.getColumn(columnId);
             if (column) {
+                const isColumnTypeCheckbox =
+                    column.columnType ===
+                    OSFramework.DataGrid.Enum.ColumnType.Checkbox;
                 const columnFilter = this._filter.getColumnFilter(
                     column.config.binding
                 ).valueFilter;
 
                 // we receive values as an array ["Brazil", "Portugal"], but wijmo expects an object
                 // eg.: {Brazil: true, Portugal: true}. So let's transform this to the desired input
-                columnFilter.showValues = values
-                    .map((val) => {
-                        return this._getFilterValue(column.columnType, val);
+                columnFilter.showValues = Object.fromEntries(
+                    values.map((val) => {
+                        if (val === null) return [];
+                        if (isColumnTypeCheckbox)
+                            return [val.toLowerCase(), true];
+                        return [val, true];
                     })
-                    .reduce((obj, cur) => {
-                        return { ...obj, [cur]: true };
-                    }, {});
+                );
 
                 this._filter.apply();
                 // trigger event
