@@ -149,10 +149,19 @@ namespace OSFramework.DataGrid.Grid {
                 (col) => col.config.binding
             );
             return Object.keys(metadata).some((source) => {
-                const newColumns = Object.keys(metadata[source]);
-                hasColumns = newColumns.every((column) => {
-                    return columns.indexOf(`${source}.${column}`) !== -1;
-                });
+                const isObject = typeof metadata[source] === 'object';
+                // If it is an object, let's iterate into the keys to check if there are new columns
+                if (isObject) {
+                    const newColumns = Object.keys(metadata[source]);
+                    hasColumns = newColumns.every((column) => {
+                        return columns.indexOf(`${source}.${column}`) !== -1;
+                    });
+                } 
+                // If not an object, we assume it is a string, meaning that the column binding is the "source" itself
+                // So we check if this is a new column
+                else {
+                    hasColumns = columns.indexOf(source) !== -1;
+                }
 
                 return !hasColumns;
             });
