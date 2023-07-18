@@ -156,7 +156,7 @@ namespace OSFramework.DataGrid.Grid {
                     hasColumns = newColumns.every((column) => {
                         return columns.indexOf(`${source}.${column}`) !== -1;
                     });
-                } 
+                }
                 // If not an object, we assume it is a string, meaning that the column binding is the "source" itself
                 // So we check if this is a new column
                 else {
