@@ -56,6 +56,7 @@ namespace OSFramework.DataGrid.Types {
     export interface IGridProviderConfigs {
         allowMerging: string;
         autoGenerateColumns: boolean;
+        headersFocusability: wijmo.grid.HeadersFocusability;
         isReadOnly: boolean;
         showSelectedHeaders: string;
         validateEdits: boolean;

@@ -376,7 +376,11 @@ namespace OSFramework.DataGrid.Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public toOSFormat(dataItem: any, stringify = true): any {
-            return this._getChangesString([dataItem], stringify);
+            return this._getChangesString(
+                /*Let's wrap the dataItem in an array, only it is not an array already*/
+                Array.isArray(dataItem) ? dataItem : [dataItem],
+                stringify
+            );
         }
 
         public trimSecondsFromDate(value: string): string {
