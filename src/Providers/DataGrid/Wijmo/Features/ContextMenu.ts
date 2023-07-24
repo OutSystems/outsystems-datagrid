@@ -10,7 +10,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
             OSFramework.DataGrid.Feature.IContextMenu
     {
         /** Events from the Context Menu  */
+        private _columnBinding: string;
         private _columnUniqueId: string;
+        private _columnWidgetId: string;
         private _contextMenuEvents: OSFramework.DataGrid.Event.Feature.ContextMenuEventManager;
         private _grid: Grid.IGridWijmo;
         private _isOpening: boolean;
@@ -41,11 +43,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
         private _addMenuItem(
             menuItem: OSFramework.DataGrid.Feature.Auxiliar.MenuItem
         ) {
-            //If already inserted to the Map return error message
+            //If already inserted to the Map  exit the method
             if (this._menuItems.has(menuItem.uniqueId)) {
-                console.log(
-                    '_addMenuItem - MenuItem already added to the list'
-                );
+                return;
             }
 
             //Add to the Map
@@ -99,12 +99,17 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     },
                     isDroppedDownChanging: (e) => {
                         // The event is raised when the context menu opens or closes.
-                        // It is easier to understand if it will open instead of analysing if the menu is dropped down.
-                        this._isOpening = !e.isDroppedDown;
-                        this._contextMenuEvents.trigger(
-                            OSFramework.DataGrid.Event.Feature
-                                .ContextMenuEventType.Toggle
-                        );
+
+                        //If the menu is (currently) open, then this event was fired to close it.
+                        //Otherwise, if closed, means that it will open, so we'll not do anything here.
+                        if (e.isDroppedDown) {
+                            // It is easier to understand if it will open instead of analysing if the menu is dropped down.
+                            this._isOpening = false;
+                            this._contextMenuEvents.trigger(
+                                OSFramework.DataGrid.Event.Feature
+                                    .ContextMenuEventType.Toggle
+                            );
+                        }
                     }
                 }
             );
@@ -244,9 +249,22 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
             // Will need to have an extra validation looking at the binding because of the column picker column
             if (columns.length && htColumn && htColumn.binding !== null) {
-                this._columnUniqueId = this._grid.getColumns().find((x) => {
+                const columnHit = this._grid.getColumns().find((x) => {
                     return x.config.binding === htColumn.binding;
-                }).uniqueId;
+                });
+                if (columnHit) {
+                    this._columnBinding = columnHit.config.binding;
+                    this._columnUniqueId = columnHit.uniqueId;
+                    //If the id of the widget id starts with a $, means that the developer didn't set the Id. So it's not useful to return it.
+                    this._columnWidgetId = columnHit.widgetId;
+                    if (
+                        OSFramework.DataGrid.Helper.HasPlatformDefaultId(
+                            columnHit.widgetId
+                        )
+                    ) {
+                        this._columnWidgetId = '';
+                    }
+                }
             }
 
             this._contextMenuEvents.trigger(
@@ -301,8 +319,30 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return this._isOpening;
         }
 
+        public get columnBinding(): string {
+            return this._columnBinding;
+        }
+
+        /**
+         * Returns the Id of the column in which the context menu was
+         * triggered in. Tries to return the widgetId (if the dev gave one to the column block),
+         * and if not available, returns the uniqueId.
+         * In the case of auto-generated grids, the uniqueId will be equal to the column binding.
+         *
+         * @readonly
+         * @type {string}
+         * @memberof ContextMenu
+         */
+        public get columnId(): string {
+            return this._columnWidgetId || this._columnUniqueId;
+        }
+
         public get columnUniqueId(): string {
             return this._columnUniqueId;
+        }
+
+        public get columnWidgetId(): string {
+            return this._columnWidgetId;
         }
 
         public get grid(): OSFramework.DataGrid.Grid.IGrid {

@@ -28,11 +28,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 cellType === wijmo.grid.CellType.Cell ||
                 cellType === wijmo.grid.CellType.ColumnFooter
             ) {
-                this._setCellToolTip(
-                    _currTarget,
-                    ht.getColumn().binding,
-                    ht.row
-                );
+                //Check if we do have data available, for instance while using filters that make the Grid without results
+                if (this._grid.provider.rows.length > 0) {
+                    this._setCellToolTip(
+                        _currTarget,
+                        ht.getColumn().binding,
+                        ht.row
+                    );
+                }
             } else if (cellType === wijmo.grid.CellType.ColumnHeader) {
                 this._setHeaderTooltip(_currTarget, ht.col);
             }

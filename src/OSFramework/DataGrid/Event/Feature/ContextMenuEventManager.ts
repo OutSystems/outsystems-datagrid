@@ -42,7 +42,7 @@ namespace OSFramework.DataGrid.Event.Feature {
                     .trigger(
                         this._contextMenu.grid.widgetId,
                         this._contextMenu.isOpening,
-                        this._contextMenu.columnUniqueId
+                        this._contextMenu.columnId
                     );
             }
         }

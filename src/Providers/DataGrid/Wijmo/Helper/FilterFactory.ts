@@ -29,7 +29,7 @@ namespace Providers.DataGrid.Wijmo.Helper.FilterFactory {
     /**
      * The type below represents the wijmo filter condition value
      */
-    export type WijmoFilterConditionValue = number | string | Date;
+    export type WijmoFilterConditionValue = number | string | Date | boolean;
 
     /**
      * Function that creates a condition for for the filter to send to OutSystems.
