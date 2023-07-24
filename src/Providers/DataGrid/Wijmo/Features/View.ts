@@ -107,8 +107,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         this._setGroups(colDef.columns, config[i].children[0]);
                     }
                     columns.remove(colDef);
-                    // due to Wijmo's breaking change, in case it is not defined, we need to assign an empty string to collapseTo property
-                    colDef.collapseTo = config[i].collapseTo ?? '';
+                    colDef.collapseTo = config[i].collapseTo;
                     colDef.isCollapsed = config[i].isCollapsed || false; // in case it wasn't defined, set to false
                     colDef.align = config[i].align || colDef.align;
 
@@ -131,9 +130,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 sortDescriptions: this._grid.features.sort.getViewLayout(),
                 groupColumns: this._getGroupDefinition(
                     this._grid.provider.columnGroups
-                ),
-                frozenColumns: Number(
-                    this._grid.features.columnFreeze.getViewLayout()
                 )
             };
 
@@ -154,7 +150,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 this._grid.features.filter.setViewLayout(config);
                 this._grid.features.groupPanel.setViewLayout(config);
                 this._grid.features.sort.setViewLayout(config);
-                this._grid.features.columnFreeze.setViewLayout(config);
                 this._setGroups(
                     this._grid.provider.columnGroups,
                     config.groupColumns

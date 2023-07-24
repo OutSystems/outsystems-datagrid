@@ -10,10 +10,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public min: Date;
 
         // eslint-disable-next-line
-        constructor(
-            config: DataGrid.Types.IDateColumnExtraConfigs,
-            isDateTime: boolean
-        ) {
+        constructor(config: DataGrid.Types.IDateColumnExtraConfigs, isDateTime: boolean) {
             super(config);
             this.defaultFormat = `${OutSystems.GridAPI.dateFormat}${
                 isDateTime ? ' HH:mm' : ''

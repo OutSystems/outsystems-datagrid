@@ -799,35 +799,20 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this._grid
                 .getColumns()
                 .forEach((column: OSFramework.DataGrid.Column.IColumn) => {
-                    const row = this._grid.provider.rows[rowNumber];
-
-                    if (row instanceof wijmo.grid.GroupRow) {
-                        throw new Error(
-                            OSFramework.DataGrid.Enum.ErrorMessages.ApplyRowValidation
-                        );
-                    }
-
-                    // We need to skip Group Column since it is not a column we can validate
-                    if (
-                        column.columnType !==
-                        OSFramework.DataGrid.Enum.ColumnType.Group
-                    ) {
-                        // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
-                        const currValue = this._grid.provider.getCellData(
-                            rowNumber,
-                            column.provider.index,
-                            column.columnType ===
-                                OSFramework.DataGrid.Enum.ColumnType.Dropdown
-                        );
-
-                        // Triggers the events of OnCellValueChange associated to a specific column in OS
-                        this._triggerEventsFromColumn(
-                            rowNumber,
-                            column.uniqueId,
-                            currValue,
-                            currValue
-                        );
-                    }
+                    // This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
+                    const currValue = this._grid.provider.getCellData(
+                        rowNumber,
+                        column.provider.index,
+                        column.columnType ===
+                            OSFramework.DataGrid.Enum.ColumnType.Dropdown
+                    );
+                    // Triggers the events of OnCellValueChange associated to a specific column in OS
+                    this._triggerEventsFromColumn(
+                        rowNumber,
+                        column.uniqueId,
+                        currValue,
+                        currValue
+                    );
                 });
         }
     }
