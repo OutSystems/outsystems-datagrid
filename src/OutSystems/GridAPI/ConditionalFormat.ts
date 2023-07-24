@@ -32,6 +32,49 @@ namespace OutSystems.GridAPI.ConditionalFormat {
     }
 
     /**
+     * Adds new conditional format rules to the desired aggregate column.
+     *
+     * @export
+     * @param {string} gridID Grid ID
+     * @param {string} columnID Column ID
+     * @param {string} conditionalFormat Rules for conditional formatting.
+     */
+    export function SetNumberAggregateConditionalFormatting(
+        gridID: string,
+        columnID: string,
+        conditionalFormat: string
+    ): string {
+        Performance.SetMark(
+            'ColumnManager.SetNumberAggregateConditionalFormatting'
+        );
+        const result = Auxiliary.CreateApiResponse({
+            gridID,
+            errorCode:
+                OSFramework.DataGrid.Enum.ErrorCodes
+                    .API_FailedSetNumberAggregateConditionalFormatting,
+            callback: () => {
+                const grid = GridManager.GetGridById(gridID);
+
+                grid.features.columnAggregate.setConditionalFormat(
+                    columnID,
+                    conditionalFormat
+                );
+            }
+        });
+
+        Performance.SetMark(
+            'ColumnManager.SetNumberAggregateConditionalFormatting-end'
+        );
+        Performance.GetMeasure(
+            '@datagrid-ColumnManager.SetNumberAggregateConditionalFormatting',
+            'ColumnManager.SetNumberAggregateConditionalFormatting',
+            'ColumnManager.SetNumberAggregateConditionalFormatting-end'
+        );
+
+        return result;
+    }
+
+    /**
      * Removes rules of desired binding.
      *
      * @export
