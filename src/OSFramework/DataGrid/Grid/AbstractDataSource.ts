@@ -18,7 +18,7 @@ namespace OSFramework.DataGrid.Grid {
      * Responsible for parsing string fields to its correct data type
      *
      * @param data A string of the JSON data object
-     * @example OS Date fields is send as strings, and we should parse it to Date, the is done for Datetime fields.
+     * @example OS Date fields are sent as strings, and we should parse it to Date, the same is done for Datetime fields.
      */
     function ToJSONFormat(
         data: string,
@@ -69,7 +69,16 @@ namespace OSFramework.DataGrid.Grid {
                         (type === 'Date' || type === 'DateTime')
                     ) {
                         return new Date(+m[1], +m[2] - 1, +m[3]);
-                    } else if (val === '') {
+                    }
+                    // if it is an empty string and the type is Date/DateTime, we want to convert it to undefined
+                    // if it is an empty string and the type is null or undefined, we don't know if it is a Date/DateTime or not, so we convert it to undefined any way
+                    else if (
+                        val === '' &&
+                        (type === 'Date' ||
+                            type === 'DateTime' ||
+                            type === null ||
+                            type === undefined)
+                    ) {
                         return undefined;
                     }
                     return val;
@@ -376,7 +385,11 @@ namespace OSFramework.DataGrid.Grid {
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         public toOSFormat(dataItem: any, stringify = true): any {
-            return this._getChangesString([dataItem], stringify);
+            return this._getChangesString(
+                /*Let's wrap the dataItem in an array, only it is not an array already*/
+                Array.isArray(dataItem) ? dataItem : [dataItem],
+                stringify
+            );
         }
 
         public trimSecondsFromDate(value: string): string {
