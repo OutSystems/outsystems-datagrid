@@ -266,8 +266,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         )
                     );
                     this._grid.features.undoStack.closeAction(
-                        ColumnPickerAction,
-                        false
+                        ColumnPickerAction
                     );
                 },
                 lostFocus: () => {

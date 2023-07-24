@@ -82,10 +82,9 @@ namespace OSFramework.DataGrid.Enum {
         API_FailedAddColumnToGroupPanel = 'GRID-API-10007',
         API_FailedSetColumnWordWrap = 'GRID-API-10008',
         API_FailedSetColumnHeader = 'GRID-API-10009',
-        API_FailedSetNumberAggregateConditionalFormatting = 'GRID-API-10010',
         //EXPORT
         API_FailedCustomizeExportingMessage = 'GRID-API-11001',
         //COLUMNPICKER
-        API_FailedSetColumnVisibility = 'GRID-API-12001'
+        API_FailedSetColumnVisibility = 'GRID-API-10001'
     }
 }

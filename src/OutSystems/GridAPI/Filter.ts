@@ -93,24 +93,16 @@ namespace OutSystems.GridAPI.Filter {
      * @export
      * @param {string} gridID ID of the Grid that is to be to check from results.
      * @param {string} columnID ID of the column that will have filter cleared.
-     * @param {boolean} [triggerOnFiltersChange=true] Flag to indicate if the OnFiltersChange event is to be triggered or not.
      * @returns {*}  {string} Return Message Success or message of error info if it's the case.
      */
-    export function Clear(
-        gridID: string,
-        columnID: string,
-        triggerOnFiltersChange = true
-    ): string {
+    export function Clear(gridID: string, columnID: string): string {
         Performance.SetMark('Filter.clear');
         const result = Auxiliary.CreateApiResponse({
             gridID,
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterClear,
             callback: () => {
-                GridManager.GetGridById(gridID).features.filter.clear(
-                    columnID,
-                    triggerOnFiltersChange
-                );
+                GridManager.GetGridById(gridID).features.filter.clear(columnID);
             }
         });
 

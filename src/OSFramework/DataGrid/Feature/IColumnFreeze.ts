@@ -2,7 +2,7 @@ namespace OSFramework.DataGrid.Feature {
     /**
      * Interface for freezing columns
      */
-    export interface IColumnFreeze extends IView {
+    export interface IColumnFreeze {
         /**
          * Indicates when there is some column freezed
          */
