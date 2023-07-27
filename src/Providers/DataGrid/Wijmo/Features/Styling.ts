@@ -125,7 +125,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 column.provider.wordWrap = value;
                 if (dynamicHeight) {
                     this._grid.provider.autoRowHeights = dynamicHeight;
-                    this._grid.provider.autoSizeRows();
+                    //passing the third parameter will make it applicable to the header as well
+                    this._grid.provider.autoSizeRows(0, 0, true);
                 }
             } else {
                 throw new Error(
