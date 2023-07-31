@@ -170,7 +170,7 @@ body {
     margin: 0;
 }
 
-:root[data-theme="light"] {
+:root[data-theme='light'] {
     --color-background: var(--light-color-background);
     --color-background-secondary: var(--light-color-background-secondary);
     --color-background-warning: var(--light-color-background-warning);
@@ -209,7 +209,7 @@ body {
     --color-scheme: var(--light-color-scheme);
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
     --color-background: var(--dark-color-background);
     --color-background-secondary: var(--dark-color-background-secondary);
     --color-background-warning: var(--dark-color-background-warning);
@@ -401,7 +401,7 @@ dd {
 }
 body {
     background: var(--color-background);
-    font-family: "Segoe UI", sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     font-size: 16px;
     color: var(--color-text);
 }
@@ -413,7 +413,7 @@ a {
 a:hover {
     text-decoration: underline;
 }
-a.external[target="_blank"] {
+a.external[target='_blank'] {
     background-image: var(--external-icon);
     background-position: top 3px right;
     background-repeat: no-repeat;
@@ -422,7 +422,7 @@ a.external[target="_blank"] {
 
 code,
 pre {
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     padding: 0.2em;
     margin: 0;
     font-size: 0.875rem;
@@ -502,7 +502,7 @@ blockquote {
     display: inline;
 }
 .tsd-breadcrumb li:after {
-    content: " / ";
+    content: ' / ';
 }
 
 .tsd-comment-tags {
@@ -536,7 +536,7 @@ h1 code.tsd-tag:first-of-type {
 
 dl.tsd-comment-tag-group dd:before,
 dl.tsd-comment-tag-group dd:after {
-    content: " ";
+    content: ' ';
 }
 dl.tsd-comment-tag-group dd pre,
 dl.tsd-comment-tag-group dd:after {
@@ -575,14 +575,14 @@ dl.tsd-comment-tag-group p {
     -ms-user-select: none;
     cursor: pointer;
 }
-.tsd-filter-input input[type="checkbox"] {
+.tsd-filter-input input[type='checkbox'] {
     cursor: pointer;
     position: absolute;
     width: 1.5em;
     height: 1.5em;
     opacity: 0;
 }
-.tsd-filter-input input[type="checkbox"]:disabled {
+.tsd-filter-input input[type='checkbox']:disabled {
     pointer-events: none;
 }
 .tsd-filter-input svg {
@@ -595,16 +595,16 @@ dl.tsd-comment-tag-group p {
     Don't remove unless you know what you're doing. */
     opacity: 0.99;
 }
-.tsd-filter-input input[type="checkbox"]:focus + svg {
+.tsd-filter-input input[type='checkbox']:focus + svg {
     transform: scale(0.95);
 }
-.tsd-filter-input input[type="checkbox"]:focus:not(:focus-visible) + svg {
+.tsd-filter-input input[type='checkbox']:focus:not(:focus-visible) + svg {
     transform: scale(1);
 }
 .tsd-checkbox-background {
     fill: var(--color-accent);
 }
-input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
+input[type='checkbox']:checked ~ svg .tsd-checkbox-checkmark {
     stroke: var(--color-text);
 }
 .tsd-filter-input input:disabled ~ svg > .tsd-checkbox-background {
@@ -965,7 +965,7 @@ a.tsd-index-link {
     margin: 0 0 1rem 0;
     padding: 1rem 0.5rem;
     border: 1px solid var(--color-accent);
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     font-size: 14px;
     overflow-x: auto;
 }
@@ -1092,10 +1092,10 @@ ul.tsd-type-parameter-list h5 {
 .tsd-widget.menu {
     display: none;
 }
-input[type="checkbox"] + .tsd-widget:before {
+input[type='checkbox'] + .tsd-widget:before {
     background-position: -120px 0;
 }
-input[type="checkbox"]:checked + .tsd-widget:before {
+input[type='checkbox']:checked + .tsd-widget:before {
     background-position: -160px 0;
 }
 
@@ -1256,7 +1256,7 @@ img {
         padding-bottom: 20px;
     }
     html .overlay {
-        content: "";
+        content: '';
         display: block;
         position: fixed;
         z-index: 1023;
@@ -1309,7 +1309,7 @@ img {
     .container-main {
         display: grid;
         grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-        grid-template-areas: "sidebar content";
+        grid-template-areas: 'sidebar content';
         margin: 2rem auto;
     }
 
@@ -1338,7 +1338,7 @@ img {
 @media (min-width: 1200px) {
     .container-main {
         grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr) minmax(0, 20rem);
-        grid-template-areas: "sidebar content toc";
+        grid-template-areas: 'sidebar content toc';
     }
 
     .col-sidebar {
