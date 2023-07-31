@@ -56,8 +56,7 @@ namespace Providers.DataGrid.Wijmo.Column {
          * Gets binding on which the group will be collapsed to
          */
         private _getCollapsedToBinding(columnBinding: string): string {
-            if (columnBinding === undefined || columnBinding === '')
-                return undefined;
+            if (columnBinding === undefined || columnBinding === '') return '';
 
             const col = this.grid.getColumn(columnBinding);
             let hasError = false;
@@ -79,7 +78,7 @@ namespace Providers.DataGrid.Wijmo.Column {
                     }. ${'\n'}  Please drag-and-drop the column inside the group placeholder or pick one of the columns inside it.`
                 );
                 //No collapseTo
-                return undefined;
+                return '';
             }
         }
 

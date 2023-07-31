@@ -51,6 +51,14 @@ namespace OSFramework.DataGrid.Grid {
          * @returns Column with the same columnID or binding.
          */
         getColumn(key: string): Column.IColumn;
+        /**
+         * Gets the column by the index, returns undefined if the index is invalid.
+         *
+         * @param {number} index column number. Typically returned by the provider.
+         * @return {*}  {Column.IColumn} OutSystems DataGrid column present in that index. Or undefined.
+         * @memberof IGrid
+         */
+        getColumnByIndex(index: number): Column.IColumn;
         /** Return an array containing all grid's column
          * @returns Array of grid's columns
          */
