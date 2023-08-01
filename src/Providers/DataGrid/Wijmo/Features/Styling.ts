@@ -124,8 +124,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
             if (column) {
                 column.provider.wordWrap = value;
                 if (dynamicHeight) {
-                    this._grid.provider.autoRowHeights = dynamicHeight;
-                    this._grid.provider.autoSizeRows();
+                    this._grid.provider.autoRowHeights = true;
+                    //resize data cell.
+                    this._grid.provider.autoSizeRows(
+                        0,
+                        this._grid.provider.rows.length - 1
+                    );
+                    //resize the header.
+                    this._grid.provider.autoSizeRows(0, 0, true);
                 }
             } else {
                 throw new Error(
