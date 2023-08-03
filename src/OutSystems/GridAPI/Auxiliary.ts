@@ -64,6 +64,12 @@ namespace OutSystems.GridAPI.Auxiliary {
         return OSFramework.DataGrid.Helper.GenerateHashCode(str);
     }
 
+    /**
+     * Receives a function and its name. Executes it and measures it properly.
+     * @param functionName Name of the function that will be measured
+     * @param fn Function that will be measured and executed
+     * @returns Output of the received function
+     */
     export function MeasurePerformance<T extends (...args: any[]) => any>(
         functionName: string,
         fn: T
