@@ -168,17 +168,18 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {string} [data='{}']  Data to be set in the data grid in JSON format. If the action ArrangeData is used, metadata will also be present and used to generate the columns of the grid.
      * @returns {*}  {boolean} true if the grid was initialized.
      */
-    export const InitializeGrid = Performance.MeasurePerformance(
-        'GridManager.InitializeGrid',
-        (gridID: string, data = '{}'): boolean => {
-            let output = false;
-            const grid = GetGridById(gridID);
-            grid.build();
-            output = setDataInGrid(grid, data);
+    export const InitializeGrid =
+        OutSystems.GridAPI.Auxiliary.MeasurePerformance(
+            'GridManager.InitializeGrid',
+            (gridID: string, data = '{}'): boolean => {
+                let output = false;
+                const grid = GetGridById(gridID);
+                grid.build();
+                output = setDataInGrid(grid, data);
 
-            return output;
-        }
-    );
+                return output;
+            }
+        );
 
     /**
      * Function that will mark all changes as saved.
