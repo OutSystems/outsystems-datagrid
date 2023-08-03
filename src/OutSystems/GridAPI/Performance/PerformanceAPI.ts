@@ -101,4 +101,23 @@ namespace OutSystems.GridAPI.Performance {
     export function SetMark(key: string): void {
         performanceObj.mark(key);
     }
+
+    export function MeasurePerformance<T extends (...args: any[]) => any>(
+        functionName: string,
+        fn: T
+    ): T {
+        return ((...args: Parameters<T>): ReturnType<T> => {
+            Performance.SetMark(functionName);
+            const result = fn(...args);
+
+            Performance.SetMark(`${functionName}-end`);
+            Performance.GetMeasure(
+                `@datagrid-${functionName}`,
+                functionName,
+                `${functionName}-end`
+            );
+
+            return result;
+        }) as T;
+    }
 }
