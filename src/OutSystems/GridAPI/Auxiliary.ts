@@ -70,6 +70,7 @@ namespace OutSystems.GridAPI.Auxiliary {
      * @param fn Function that will be measured and executed
      * @returns Output of the received function
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     export function MeasurePerformance<T extends (...args: any[]) => any>(
         functionName: string,
         fn: T
