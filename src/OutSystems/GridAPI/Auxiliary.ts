@@ -63,6 +63,32 @@ namespace OutSystems.GridAPI.Auxiliary {
     export function GetHashCode(str: string): number {
         return OSFramework.DataGrid.Helper.GenerateHashCode(str);
     }
+
+    /**
+     * Receives a function and its name. Executes it and measures it properly.
+     * @param functionName Name of the function that will be measured
+     * @param fn Function that will be measured and executed
+     * @returns Output of the received function
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    export function MeasurePerformance<T extends (...args: any[]) => any>(
+        functionName: string,
+        fn: T
+    ): T {
+        return ((...args: Parameters<T>): ReturnType<T> => {
+            OutSystems.GridAPI.Performance.SetMark(functionName);
+            const result = fn(...args);
+
+            OutSystems.GridAPI.Performance.SetMark(`${functionName}-end`);
+            OutSystems.GridAPI.Performance.GetMeasure(
+                `@datagrid-${functionName}`,
+                functionName,
+                `${functionName}-end`
+            );
+
+            return result;
+        }) as T;
+    }
 }
 /// Overrides for the old namespace - calls the new one, lets users know this is no longer in use
 

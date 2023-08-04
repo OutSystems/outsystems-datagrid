@@ -9,28 +9,20 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {string} data Data to be set in the data grid in JSON format. If the action ArrangeData is used, metadata will also be present and used to generate the columns of the grid.
      * @returns {*}  {boolean} true if the data was changed in the grid.
      */
-    function setDataInGrid(
-        grid: OSFramework.DataGrid.Grid.IGrid,
-        data: string
-    ): boolean {
-        Performance.SetMark('GridManager.setDataInGrid');
-
-        let output = false;
-        if (grid !== undefined) {
-            if (grid.isReady && data !== '' && data !== '{}') {
-                grid.setData(data);
+    const setDataInGrid = OutSystems.GridAPI.Auxiliary.MeasurePerformance(
+        'GridManager.setDataInGrid',
+        (grid: OSFramework.DataGrid.Grid.IGrid, data: string): boolean => {
+            let output = false;
+            if (grid !== undefined) {
+                if (grid.isReady && data !== '' && data !== '{}') {
+                    grid.setData(data);
+                }
+                output = true;
             }
-            output = true;
-        }
 
-        Performance.SetMark('GridManager.setDataInGrid-end');
-        Performance.GetMeasure(
-            '@datagrid-GridManager.setDataInGrid',
-            'GridManager.setDataInGrid',
-            'GridManager.setDataInGrid-end'
-        );
-        return output;
-    }
+            return output;
+        }
+    );
 
     /**
      * Function that creates an instance of grid object with the configurations passed.
@@ -40,37 +32,29 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {string} configs configurations for the grid in JSON format.
      * @returns {*}  {Grid.IGrid} instance of the grid.
      */
-    export function CreateGrid(
-        gridID: string,
-        configs: string
-    ): OSFramework.DataGrid.Grid.IGrid {
-        Performance.SetMark('GridManager.CreateGrid');
-
-        const _grid = Providers.DataGrid.Wijmo.Grid.GridFactory.MakeGrid(
-            OSFramework.DataGrid.Enum.GridType.FlexGrid,
-            gridID,
-            JSON.parse(configs)
-        );
-
-        if (gridMap.has(gridID)) {
-            throw new Error(
-                `There is already a grid registered under id:${gridID}`
+    export const CreateGrid = OutSystems.GridAPI.Auxiliary.MeasurePerformance(
+        'GridManager.CreateGrid',
+        (gridID: string, configs: string): OSFramework.DataGrid.Grid.IGrid => {
+            const _grid = Providers.DataGrid.Wijmo.Grid.GridFactory.MakeGrid(
+                OSFramework.DataGrid.Enum.GridType.FlexGrid,
+                gridID,
+                JSON.parse(configs)
             );
+
+            if (gridMap.has(gridID)) {
+                throw new Error(
+                    `There is already a grid registered under id:${gridID}`
+                );
+            }
+
+            gridMap.set(gridID, _grid);
+            activeGrid = _grid;
+
+            Events.CheckPendingEvents(gridID);
+
+            return _grid;
         }
-
-        gridMap.set(gridID, _grid);
-        activeGrid = _grid;
-
-        Events.CheckPendingEvents(gridID);
-
-        Performance.SetMark('GridManager.CreateGrid-end');
-        Performance.GetMeasure(
-            '@datagrid-GridManager.CreateGrid',
-            'GridManager.CreateGrid',
-            'GridManager.CreateGrid-end'
-        );
-        return _grid;
-    }
+    );
 
     /**
      * Function that gets the instance of grid, by a given ID.
@@ -80,37 +64,32 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {boolean} raiseError Will raise errors when there is no object with this uniqueId
      * @returns {*}  {Grid.IGrid} instance of the grid.
      */
-    export function GetGridById(
-        gridID: string,
-        raiseError = true
-    ): OSFramework.DataGrid.Grid.IGrid {
-        Performance.SetMark('GridManager.GetGridById');
+    export const GetGridById = OutSystems.GridAPI.Auxiliary.MeasurePerformance(
+        'GridManager.GetGridById',
+        (
+            gridID: string,
+            raiseError = true
+        ): OSFramework.DataGrid.Grid.IGrid => {
+            let grid: OSFramework.DataGrid.Grid.IGrid;
 
-        let grid: OSFramework.DataGrid.Grid.IGrid;
+            //gridID is the UniqueId
+            if (gridMap.has(gridID)) {
+                grid = gridMap.get(gridID);
+            } else {
+                //Search for last inserted grid containing widgetId
+                grid = _.findLast(
+                    Array.from(gridMap.values()),
+                    (p) => p && p.equalsToID(gridID)
+                );
+            }
 
-        //gridID is the UniqueId
-        if (gridMap.has(gridID)) {
-            grid = gridMap.get(gridID);
-        } else {
-            //Search for last inserted grid containing widgetId
-            grid = _.findLast(
-                Array.from(gridMap.values()),
-                (p) => p && p.equalsToID(gridID)
-            );
+            if (grid === undefined && raiseError) {
+                throw new Error(`Grid id:${gridID} not found`);
+            }
+
+            return grid;
         }
-
-        if (grid === undefined && raiseError) {
-            throw new Error(`Grid id:${gridID} not found`);
-        }
-
-        Performance.SetMark('GridManager.GetGridById-end');
-        Performance.GetMeasure(
-            '@datagrid-GridManager.GetGridById',
-            'GridManager.GetGridById',
-            'GridManager.GetGridById-end'
-        );
-        return grid;
-    }
+    );
 
     /**
      * Function that returns all Ids of the grids in the page.
@@ -168,24 +147,18 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {string} [data='{}']  Data to be set in the data grid in JSON format. If the action ArrangeData is used, metadata will also be present and used to generate the columns of the grid.
      * @returns {*}  {boolean} true if the grid was initialized.
      */
-    export function InitializeGrid(gridID: string, data = '{}'): boolean {
-        Performance.SetMark('GridManager.InitializeGrid');
-
-        let output = false;
-        const grid = GetGridById(gridID);
-
-        grid.build();
-
-        output = setDataInGrid(grid, data);
-
-        Performance.SetMark('GridManager.InitializeGrid-end');
-        Performance.GetMeasure(
-            '@datagrid-GridManager.InitializeGrid',
+    export const InitializeGrid =
+        OutSystems.GridAPI.Auxiliary.MeasurePerformance(
             'GridManager.InitializeGrid',
-            'GridManager.InitializeGrid-end'
+            (gridID: string, data = '{}'): boolean => {
+                let output = false;
+                const grid = GetGridById(gridID);
+                grid.build();
+                output = setDataInGrid(grid, data);
+
+                return output;
+            }
         );
-        return output;
-    }
 
     /**
      * Function that will mark all changes as saved.
@@ -194,30 +167,23 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {string} gridID ID of the Grid where the change will occur.
      * @param {boolean} [forceCleanInvalids=false] determines whether or not we should clean the validation marks.
      */
-    export function MarkChangesAsSaved(
-        gridID: string,
-        forceCleanInvalids = false
-    ): string {
-        Performance.SetMark('GridManager.MarkChangesAsSaved');
-        const result = Auxiliary.CreateApiResponse({
-            gridID,
-            errorCode:
-                OSFramework.DataGrid.Enum.ErrorCodes
-                    .API_FailedMarkChangesAsSaved,
-            callback: () => {
-                GetGridById(gridID).clearAllChanges(forceCleanInvalids);
-            }
-        });
-
-        Performance.SetMark('GridManager.MarkChangesAsSaved-end');
-        Performance.GetMeasure(
-            '@datagrid-GridManager.MarkChangesAsSaved',
+    export const MarkChangesAsSaved =
+        OutSystems.GridAPI.Auxiliary.MeasurePerformance(
             'GridManager.MarkChangesAsSaved',
-            'GridManager.MarkChangesAsSaved-end'
-        );
+            (gridID: string, forceCleanInvalids = false): string => {
+                const result = Auxiliary.CreateApiResponse({
+                    gridID,
+                    errorCode:
+                        OSFramework.DataGrid.Enum.ErrorCodes
+                            .API_FailedMarkChangesAsSaved,
+                    callback: () => {
+                        GetGridById(gridID).clearAllChanges(forceCleanInvalids);
+                    }
+                });
 
-        return result;
-    }
+                return result;
+            }
+        );
     /**
      * Mark a group of Data Grid lines with given keys (from the KeyBinding field) as saved in the database.
      *
@@ -227,34 +193,30 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {boolean} [forceCleanInvalids=false] determines whether or not we should clean the validation marks.
      * @return {*}  {string}
      */
-    export function MarkChangesAsSavedByKey(
-        gridID: string,
-        rowKeys: string,
-        forceCleanInvalids = false
-    ): string {
-        Performance.SetMark('GridManager.MarkChangesAsSavedByKey');
-        const result = Auxiliary.CreateApiResponse({
-            gridID,
-            errorCode:
-                OSFramework.DataGrid.Enum.ErrorCodes
-                    .API_FailedMarkChangesAsSavedByKey,
-            callback: () => {
-                GetGridById(gridID).clearAllChangesByRowKeys(
-                    JSON.parse(rowKeys),
-                    forceCleanInvalids
-                );
-            }
-        });
-
-        Performance.SetMark('GridManager.MarkChangesAsSavedByKey-end');
-        Performance.GetMeasure(
-            '@datagrid-GridManager.MarkChangesAsSavedByKey',
+    export const MarkChangesAsSavedByKey =
+        OutSystems.GridAPI.Auxiliary.MeasurePerformance(
             'GridManager.MarkChangesAsSavedByKey',
-            'GridManager.MarkChangesAsSavedByKey-end'
-        );
+            (
+                gridID: string,
+                rowKeys: string,
+                forceCleanInvalids = false
+            ): string => {
+                const result = Auxiliary.CreateApiResponse({
+                    gridID,
+                    errorCode:
+                        OSFramework.DataGrid.Enum.ErrorCodes
+                            .API_FailedMarkChangesAsSavedByKey,
+                    callback: () => {
+                        GetGridById(gridID).clearAllChangesByRowKeys(
+                            JSON.parse(rowKeys),
+                            forceCleanInvalids
+                        );
+                    }
+                });
 
-        return result;
-    }
+                return result;
+            }
+        );
 
     /**
      * Function that will change the data source in the respective grid.
@@ -264,20 +226,15 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {string} data Data to be set in the data grid in JSON format. If the action ArrangeData is used, metadata will also be present and used to generate the columns of the grid.
      * @returns {*}  {boolean} true if the data was changed in the grid.
      */
-    export function SetGridData(gridID: string, data: string): boolean {
-        Performance.SetMark('GridManager.SetGridData');
+    export const SetGridData = OutSystems.GridAPI.Auxiliary.MeasurePerformance(
+        'GridManager.SetGridData',
+        (gridID: string, data: string): boolean => {
+            const grid = GetGridById(gridID);
+            const output = setDataInGrid(grid, data);
 
-        const grid = GetGridById(gridID);
-        const output = setDataInGrid(grid, data);
-
-        Performance.SetMark('GridManager.SetGridData-end');
-        Performance.GetMeasure(
-            '@datagrid-GridManager.SetGridData',
-            'GridManager.SetGridData',
-            'GridManager.SetGridData-end'
-        );
-        return output;
-    }
+            return output;
+        }
+    );
 
     /**
      * Function that will destroy the grid from the page.
@@ -285,27 +242,21 @@ namespace OutSystems.GridAPI.GridManager {
      * @export
      * @param {string} gridID ID of the Grid to be destroyed.
      */
-    export function RemoveGrid(gridID: string): void {
-        Performance.SetMark('GridManager.RemoveGrid');
+    export const RemoveGrid = OutSystems.GridAPI.Auxiliary.MeasurePerformance(
+        'GridManager.RemoveGrid',
+        (gridID: string): void => {
+            const grid = GetGridById(gridID);
 
-        const grid = GetGridById(gridID);
+            gridMap.delete(grid.uniqueId);
 
-        gridMap.delete(grid.uniqueId);
+            //Update activeGrid with the most recent one
+            if (activeGrid.uniqueId === grid.uniqueId) {
+                activeGrid = Array.from(gridMap.values()).pop();
+            }
 
-        //Update activeGrid with the most recent one
-        if (activeGrid.uniqueId === grid.uniqueId) {
-            activeGrid = Array.from(gridMap.values()).pop();
+            grid.dispose();
         }
-
-        grid.dispose();
-
-        Performance.SetMark('GridManager.RemoveGrid-end');
-        Performance.GetMeasure(
-            '@datagrid-GridManager.RemoveGrid',
-            'GridManager.RemoveGrid',
-            'GridManager.RemoveGrid-end'
-        );
-    }
+    );
 
     /**
      * Function that will change the property of a given grid.
@@ -315,25 +266,19 @@ namespace OutSystems.GridAPI.GridManager {
      * @param {string} propertyName name of the property to be changed - some properties of the provider might not work out of be box.
      * @param {*} propertyValue value to which the property should be changed to.
      */
-    export function ChangeProperty(
-        gridID: string,
-        propertyName: string,
-        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-        propertyValue: any
-    ): void {
-        Performance.SetMark('GridManager.ChangeProperty');
-
-        const grid = GetGridById(gridID);
-
-        grid.changeProperty(propertyName, propertyValue);
-
-        Performance.SetMark('GridManager.ChangeProperty-end');
-        Performance.GetMeasure(
-            '@datagrid-GridManager.ChangeProperty',
+    export const ChangeProperty =
+        OutSystems.GridAPI.Auxiliary.MeasurePerformance(
             'GridManager.ChangeProperty',
-            'GridManager.ChangeProperty-end'
+            (
+                gridID: string,
+                propertyName: string,
+                // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+                propertyValue: any
+            ): void => {
+                const grid = GetGridById(gridID);
+                grid.changeProperty(propertyName, propertyValue);
+            }
         );
-    }
 
     /**
      * Function that clear all changes in grid
@@ -341,25 +286,21 @@ namespace OutSystems.GridAPI.GridManager {
      * @export
      * @param {string} gridID ID of the Grid where the change will occur.
      */
-    export function ClearChanges(gridID: string): string {
-        Performance.SetMark('GridManager.ClearChanges');
-        const result = Auxiliary.CreateApiResponse({
-            gridID,
-            errorCode:
-                OSFramework.DataGrid.Enum.ErrorCodes.API_FailedClearChanges,
-            callback: () => {
-                GetGridById(gridID).clearChanges();
-            }
-        });
+    export const ClearChanges = OutSystems.GridAPI.Auxiliary.MeasurePerformance(
+        'GridManager.ClearChanges',
+        (gridID: string): string => {
+            const result = Auxiliary.CreateApiResponse({
+                gridID,
+                errorCode:
+                    OSFramework.DataGrid.Enum.ErrorCodes.API_FailedClearChanges,
+                callback: () => {
+                    GetGridById(gridID).clearChanges();
+                }
+            });
 
-        Performance.SetMark('GridManager.ClearChanges-end');
-        Performance.GetMeasure(
-            '@datagrid-GridManager.ClearChanges',
-            'GridManager.ClearChanges',
-            'GridManager.ClearChanges-end'
-        );
-        return result;
-    }
+            return result;
+        }
+    );
 
     /**
      *
@@ -367,27 +308,21 @@ namespace OutSystems.GridAPI.GridManager {
      * @export
      * @param {string} gridID
      */
-    export function DestroyGrid(gridID: string): void {
-        Performance.SetMark('GridManager.DestroyGrid');
+    export const DestroyGrid = OutSystems.GridAPI.Auxiliary.MeasurePerformance(
+        'GridManager.DestroyGrid',
+        (gridID: string): void => {
+            const grid = GetGridById(gridID);
 
-        const grid = GetGridById(gridID);
+            gridMap.delete(grid.uniqueId);
 
-        gridMap.delete(grid.uniqueId);
+            //Update activeGrid with the most pecent one
+            if (activeGrid.uniqueId === grid.uniqueId) {
+                activeGrid = Array.from(gridMap.values()).pop();
+            }
 
-        //Update activeGrid with the most pecent one
-        if (activeGrid.uniqueId === grid.uniqueId) {
-            activeGrid = Array.from(gridMap.values()).pop();
+            grid.dispose();
         }
-
-        grid.dispose();
-
-        Performance.SetMark('GridManager.DestroyGrid-end');
-        Performance.GetMeasure(
-            '@datagrid-GridManager.DestroyGrid',
-            'GridManager.DestroyGrid',
-            'GridManager.DestroyGrid-end'
-        );
-    }
+    );
 
     /**
      * Function responsible for setting up the the date format to be used in all grids.
