@@ -14,14 +14,14 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
     ): wijmo.grid.ICellTemplateFunction {
         let cellTemplate: wijmo.grid.ICellTemplateFunction;
 
-        const hasFixedText = binding.charAt(0) === '$';
+        const hasFixedText = binding.startsWith('$');
         const text = hasFixedText
             ? binding.substring(1)
             : '${item.' + binding + '}';
 
         let imgAltText = '';
         if (altText !== undefined) {
-            const hasFixedAltText = altText.charAt(0) === '$';
+            const hasFixedAltText = altText.startsWith('$');
             imgAltText = hasFixedAltText
                 ? altText.substring(1)
                 : '${item.' + altText + '}';
