@@ -1,16 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Providers.DataGrid.Wijmo.Column {
-    export class ActionColumn extends AbstractProviderColumn<OSFramework.DataGrid.Configuration.Column.ColumnConfigAction> {
+    export class ImageColumn extends AbstractProviderColumn<OSFramework.DataGrid.Configuration.Column.ColumnConfigImage> {
         constructor(
             grid: OSFramework.DataGrid.Grid.IGrid,
             columnID: string,
             configs: OSFramework.DataGrid.Types.IColumnConfigs,
-            extraConfig: OSFramework.DataGrid.Types.IActionColumnExtraConfigs
+            extraConfig: OSFramework.DataGrid.Types.IImageColumnExtraConfigs
         ) {
             super(
                 grid,
                 columnID,
-                new OSFramework.DataGrid.Configuration.Column.ColumnConfigAction(
+                new OSFramework.DataGrid.Configuration.Column.ColumnConfigImage(
                     configs,
                     extraConfig
                 )
@@ -25,7 +25,7 @@ namespace Providers.DataGrid.Wijmo.Column {
         }
 
         public get columnType(): OSFramework.DataGrid.Enum.ColumnType {
-            return OSFramework.DataGrid.Enum.ColumnType.Action;
+            return OSFramework.DataGrid.Enum.ColumnType.Image;
         }
 
         public get providerType(): wijmo.DataType {
@@ -39,7 +39,8 @@ namespace Providers.DataGrid.Wijmo.Column {
             config.cellTemplate = Helper.CellTemplateFactory.MakeCellTemplate(
                 this.config.actionColumnElementType,
                 config.binding,
-                this.handleActionEvent.bind(this)
+                this.handleActionEvent.bind(this),
+                this.config.altText
             );
 
             return config;
@@ -51,7 +52,7 @@ namespace Providers.DataGrid.Wijmo.Column {
             this.grid.rowMetadata.clear(clonedDataItem);
 
             this._columnEvents.trigger(
-                OSFramework.DataGrid.Event.Column.ColumnEventType.ActionClick,
+                OSFramework.DataGrid.Event.Column.ColumnEventType.ImageClick,
                 JSON.stringify(
                     this.grid.isSingleEntity
                         ? OSFramework.DataGrid.Helper.Flatten(clonedDataItem)

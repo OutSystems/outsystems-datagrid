@@ -4,7 +4,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
      * Defines the configuration for Action Columns
      */
     export class ColumnConfigAction extends ColumnConfig {
-        public actionColumnElementType: DataGrid.Enum.ActionColumnElementType;
+        public actionColumnElementType: DataGrid.Enum.CellTemplateElementType;
         public extendedClass: string;
         public url: string;
 
