@@ -5,7 +5,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
     /**
      * Defines the configuration for Action Columns
      */
-    export class ColumnConfigImage extends ColumnConfigAction {
+    export class ColumnConfigImage extends ColumnConfig {
         public actionColumnElementType =
             DataGrid.Enum.CellTemplateElementType.Image;
         public altText: string;
@@ -14,7 +14,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
             config: DataGrid.Types.IColumnConfigs,
             extraConfig: DataGrid.Types.IImageColumnExtraConfigs
         ) {
-            super(config, extraConfig);
+            super(config);
             this.altText = extraConfig.altText;
         }
     }
