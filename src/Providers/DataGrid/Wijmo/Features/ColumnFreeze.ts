@@ -15,20 +15,20 @@ namespace Providers.DataGrid.Wijmo.Feature {
             grid: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
-            let frozenColumnswidht = 0;
-            let otherfrozenColumnswidht = 0;
-            let frozenColumns = grid.columns.filter(
+            let frozenColumnsWidth = 0;
+            let otherfrozenColumnsWidth = 0;
+            const frozenColumns = grid.columns.filter(
                 (col) => col.index < grid.frozenColumns
             );
             frozenColumns.forEach((col, index) => {
-                frozenColumnswidht += col.width;
+                frozenColumnsWidth += col.width;
                 if (index !== e.col) {
-                    otherfrozenColumnswidht += col.width;
+                    otherfrozenColumnsWidth += col.width;
                 }
             });
-            if (frozenColumnswidht >= grid.clientSize.width) {
+            if (frozenColumnsWidth >= grid.clientSize.width) {
                 grid.columns[e.col].size =
-                    grid.clientSize.width - otherfrozenColumnswidht - 10;
+                    grid.clientSize.width - otherfrozenColumnsWidth - 10;
             }
         }
 
