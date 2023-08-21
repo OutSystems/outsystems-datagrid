@@ -11,6 +11,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this._grid = grid;
         }
 
+        // Method added to fix the issue when frozen columns are resized to their maximum width and it is not possible to resized it again.
         private _afterResizeColumn(
             grid: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
@@ -26,6 +27,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     otherfrozenColumnsWidth += col.width;
                 }
             });
+            // Checks if the column was resized to the maximum width and resizes it in 10 pixels less than the max width
             if (frozenColumnsWidth >= grid.clientSize.width) {
                 grid.columns[e.col].size =
                     grid.clientSize.width - otherfrozenColumnsWidth - 10;
