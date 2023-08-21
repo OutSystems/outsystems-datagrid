@@ -1152,9 +1152,9 @@
     position: absolute;
 }
 
-/**** BUTTON STYLE CLASSES ****/
+/**** BUTTON/IMAGE STYLE CLASSES ****/
 
-.wj-cell:has(button.wj-cell-maker) {
+.wj-cell.has-image-or-button:not(.wj-header) {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }
