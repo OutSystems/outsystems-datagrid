@@ -121,6 +121,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
         ): void {
             // validate if column exists
             const column = this._grid.getColumn(columnID);
+            // add css class to make exception for the wrap styles
+            wijmo.addClass(
+                this._grid.provider.hostElement,
+                'has-column-word-wrap'
+            );
             if (column) {
                 column.provider.wordWrap = value;
                 if (dynamicHeight) {

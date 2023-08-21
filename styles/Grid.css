@@ -419,6 +419,14 @@
     background-color: var(--color-neutral-3);
 }
 
+.has-column-word-wrap .wj-cell {
+    padding: 8px;
+}
+
+.has-column-word-wrap .wj-colheaders > .wj-row > .wj-cell::before {
+    display: none;
+}
+
 /**** DATAGRID STYLE CLASSES ****/
 
 * {
