@@ -78,6 +78,7 @@ namespace OSFramework.DataGrid.Types {
         allowSorting: boolean;
         cellTemplate?: wijmo.grid.ICellTemplateFunction;
         collapseTo?: string;
+        cssClassAll?: string;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         dataMap?: any;
         dataMapEditor?: wijmo.grid.DataMapEditor;

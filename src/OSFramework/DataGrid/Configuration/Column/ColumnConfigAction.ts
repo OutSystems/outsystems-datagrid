@@ -15,5 +15,16 @@ namespace OSFramework.DataGrid.Configuration.Column {
             super(config);
             this.actionColumnElementType = extraConfig.actionColumnElementType;
         }
+
+        public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
+            const config = super.getProviderConfig();
+            if (
+                this.actionColumnElementType ===
+                DataGrid.Enum.CellTemplateElementType.Button
+            )
+                config.cssClassAll = 'has-image-or-button';
+
+            return config;
+        }
     }
 }

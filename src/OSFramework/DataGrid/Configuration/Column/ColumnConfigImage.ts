@@ -17,5 +17,12 @@ namespace OSFramework.DataGrid.Configuration.Column {
             super(config);
             this.altText = extraConfig.altText;
         }
+
+        public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
+            const config = super.getProviderConfig();
+            config.cssClassAll = 'has-image-or-button';
+
+            return config;
+        }
     }
 }
