@@ -8,6 +8,7 @@ namespace OSFramework.DataGrid.Event.Column {
      */
     export enum ColumnEventType {
         ActionClick = 'ActionClick',
+        ImageClick = 'ImageClick',
         OnCellValueChange = 'OnCellValueChange',
         OnColumnReorder = 'OnColumnReorder'
     }

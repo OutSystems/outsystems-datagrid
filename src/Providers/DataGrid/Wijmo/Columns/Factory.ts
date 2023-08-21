@@ -60,6 +60,13 @@ namespace Providers.DataGrid.Wijmo.Column {
                         configs,
                         extraConfigs as OSFramework.DataGrid.Types.IGroupColumnExtraConfigs
                     );
+                case OSFramework.DataGrid.Enum.ColumnType.Image:
+                    return new ImageColumn(
+                        grid,
+                        columnID,
+                        configs,
+                        extraConfigs as OSFramework.DataGrid.Types.IImageColumnExtraConfigs
+                    );
                 case OSFramework.DataGrid.Enum.ColumnType.Number:
                     return new NumberColumn(
                         grid,
