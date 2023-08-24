@@ -273,9 +273,21 @@ namespace OSFramework.DataGrid.Grid {
             ) {
                 throw new Error(Enum.ErrorMessages.UnableToAddRow);
             }
+            const calculatedColumnsBinding = this._parentGrid
+                .getColumns()
+                .reduce((array, column) => {
+                    if (column.columnType === Enum.ColumnType.Calculated)
+                        array.push(column.config.binding);
+                    return array;
+                }, []);
             let parsedNewItem =
                 _.cloneDeep(this._metadata) ||
-                _.cloneDeep(_.omit(this._ds[0], Enum.RowMetadata.Key));
+                _.cloneDeep(
+                    _.omit(this._ds[0], [
+                        Enum.RowMetadata.Key,
+                        ...calculatedColumnsBinding
+                    ])
+                );
 
             parsedNewItem = Object.keys(parsedNewItem).length
                 ? parsedNewItem
