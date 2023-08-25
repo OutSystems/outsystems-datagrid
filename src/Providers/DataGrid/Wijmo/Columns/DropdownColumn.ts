@@ -166,7 +166,7 @@ namespace Providers.DataGrid.Wijmo.Column {
             );
             const currentSel = this.grid.provider.selection;
 
-            // check if current parent cell has an undo action on undo stack
+            // check if the first selected parent cell has an undo action on undo stack
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const existingUndoAction: any =
                 this.grid.features.undoStack.stack._stack.find(
