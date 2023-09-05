@@ -11,37 +11,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this._grid = grid;
         }
 
-        // Method added to fix the issue when frozen columns are resized to their maximum width and it is not possible to resized it again.
-        private _afterResizeColumn(
-            grid: wijmo.grid.FlexGrid,
-            e: wijmo.grid.CellRangeEventArgs
-        ): void {
-            let frozenColumnsWidth = 0;
-            let otherfrozenColumnsWidth = 0;
-            const frozenColumns = grid.columns.filter(
-                (col) => col.index < grid.frozenColumns
-            );
-            frozenColumns.forEach((col, index) => {
-                frozenColumnsWidth += col.width;
-                if (index !== e.col) {
-                    otherfrozenColumnsWidth += col.width;
-                }
-            });
-            // Checks if the column was resized to the maximum width and resizes it in 10 pixels less than the max width
-            if (frozenColumnsWidth >= grid.clientSize.width) {
-                grid.columns[e.col].size =
-                    grid.clientSize.width - otherfrozenColumnsWidth - 10;
-            }
-        }
-
         public get isFrozen(): boolean {
             return this._grid.provider.frozenColumns !== 0;
         }
 
         public build(): void {
-            this._grid.provider.resizedColumn.addHandler(
-                this._afterResizeColumn
-            );
+            // Do nothing
         }
 
         public byActiveSelection(): void {
