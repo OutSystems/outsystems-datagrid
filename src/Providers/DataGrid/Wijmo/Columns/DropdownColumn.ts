@@ -160,13 +160,14 @@ namespace Providers.DataGrid.Wijmo.Column {
                     this.provider.index,
                     false
                 ) ?? '';
-            
+
             // if the child dropdown value is already empty, we don't want register the undo action and trigger cell value change event again
             if (column && currentValue !== '') {
                 // get original value of the child cell
                 const originalValue = this.grid.features.dirtyMark.getOldValue(
                     rowNumber,
-                    this.grid.getColumnByIndex(this.provider.index).config.binding
+                    this.grid.getColumnByIndex(this.provider.index).config
+                        .binding
                 );
 
                 const cellRange = new wijmo.grid.CellRange(
@@ -200,9 +201,7 @@ namespace Providers.DataGrid.Wijmo.Column {
                         ) ?? false;
 
                     // only add child undo action if it doesn't already exist. we don't want duplicated actions
-                    if (
-                        existingEditActionForColRow === false
-                    ) {
+                    if (existingEditActionForColRow === false) {
                         // add new child action into existing parent action in order
                         existingUndoAction.addChildAction(
                             new GridEditAction(
