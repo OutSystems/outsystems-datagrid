@@ -790,6 +790,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     currValue,
                     currValue
                 );
+            } else {
+                this._setCellStatus(column, rowNumber, currValue);
             }
         }
 
