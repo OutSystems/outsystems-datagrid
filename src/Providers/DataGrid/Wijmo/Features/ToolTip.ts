@@ -38,6 +38,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     );
                 }
             } else if (cellType === wijmo.grid.CellType.ColumnHeader) {
+                // If the Column Header is from a Group Column, we need to use a different approach that the regular header
                 if (
                     _currTarget.classList.contains(
                         Helper.Constants.CssClasses.ColumnGroup
@@ -101,7 +102,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         private _setColumnGroupHeaderTooltip(cell: HTMLElement) {
+            // Do nothing if a tooltip is already set for this column
             if (this._toolTip.getTooltip(cell)) return;
+            // Otherwise, the tooltip will be the header text
             const headerTooltip = OSFramework.DataGrid.Helper.Sanitize(
                 cell.innerText
             );
