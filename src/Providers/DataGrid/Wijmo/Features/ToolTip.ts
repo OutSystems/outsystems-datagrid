@@ -2,6 +2,7 @@
 namespace Providers.DataGrid.Wijmo.Feature {
     export class ToolTip
         implements
+            OSFramework.DataGrid.Feature.ITooltip,
             OSFramework.DataGrid.Interface.IBuilder,
             OSFramework.DataGrid.Interface.IDisposable
     {
@@ -37,7 +38,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     );
                 }
             } else if (cellType === wijmo.grid.CellType.ColumnHeader) {
-                this._setHeaderTooltip(_currTarget, ht.col);
+                if (
+                    _currTarget.classList.contains(
+                        Helper.Constants.CssClasses.ColumnGroup
+                    )
+                )
+                    this._setColumnGroupHeaderTooltip(_currTarget);
+                else this._setHeaderTooltip(_currTarget, ht);
             }
         }
 
@@ -59,8 +66,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 binding
             );
 
-            if (cell.querySelector('div.dg-cell')) {
-                cell = cell.querySelector('div.dg-cell');
+            if (cell.querySelector(Helper.Constants.CssClasses.CellClass)) {
+                cell = cell.querySelector(
+                    Helper.Constants.CssClasses.CellClass
+                );
             }
 
             //Make sure to apply the correct tooltipClass
@@ -91,13 +100,27 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
         }
 
-        private _setHeaderTooltip(cell: HTMLElement, columnNumber: number) {
-            const column = this._grid.getColumns()[columnNumber];
-            const widgetId = column?.widgetId;
-            let headerTooltip = column?.config.headerTooltip;
+        private _setColumnGroupHeaderTooltip(cell: HTMLElement) {
+            if (this._toolTip.getTooltip(cell)) return;
+            const headerTooltip = OSFramework.DataGrid.Helper.Sanitize(
+                cell.innerText
+            );
+
+            this._toolTipClass(false);
+            this._toolTip.show(cell, headerTooltip);
+        }
+
+        private _setHeaderTooltip(
+            cell: HTMLElement,
+            htCell: wijmo.grid.HitTestInfo
+        ) {
             const sanitizedValue = OSFramework.DataGrid.Helper.Sanitize(
                 cell.innerText
             );
+
+            const column = this._grid.getColumn(htCell.getColumn().binding);
+            const widgetId = column?.widgetId;
+            let headerTooltip = column?.config.headerTooltip;
 
             if (cell && headerTooltip) {
                 if (
@@ -121,14 +144,19 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         private _toolTipClass(isInvalid: boolean): void {
-            if (isInvalid === true) this._toolTip.cssClass = 'errorValidation';
+            if (isInvalid === true)
+                this._toolTip.cssClass =
+                    Helper.Constants.CssClasses.TooltipErrorValidation;
             else {
                 this._toolTip.cssClass = '';
 
                 // Implementation of the workaround provided by Wijmo related to ROU-4207 issue.
                 // To be removed after Wijmo fix.
                 if (wijmo.Tooltip._eTip)
-                    wijmo.Tooltip._eTip.setAttribute('class', 'wj-tooltip');
+                    wijmo.Tooltip._eTip.setAttribute(
+                        Helper.Constants.HTMLAttributes.Class,
+                        Helper.Constants.CssClasses.Tooltip
+                    );
             }
         }
 
@@ -136,13 +164,22 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this._grid.provider.formatItem.addHandler(
                 (s: wijmo.grid.FlexGrid, e: wijmo.grid.FormatItemEventArgs) => {
                     e.cell.removeEventListener(
-                        'mouseover',
+                        Helper.Constants.HTMLEvent.MouseOver,
                         this._eventMouseEnter
                     );
-                    e.cell.addEventListener('mouseover', this._eventMouseEnter);
+                    e.cell.addEventListener(
+                        Helper.Constants.HTMLEvent.MouseOver,
+                        this._eventMouseEnter
+                    );
 
-                    e.cell.removeEventListener('mouseout', this._eventMouseOut);
-                    e.cell.addEventListener('mouseout', this._eventMouseOut);
+                    e.cell.removeEventListener(
+                        Helper.Constants.HTMLEvent.MouseOut,
+                        this._eventMouseOut
+                    );
+                    e.cell.addEventListener(
+                        Helper.Constants.HTMLEvent.MouseOut,
+                        this._eventMouseOut
+                    );
                 }
             );
         }
@@ -150,6 +187,22 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public dispose(): void {
             this._toolTip.dispose();
             this._toolTip = undefined;
+        }
+
+        public setColumnGroupHeaderTooltip(
+            cell: HTMLElement,
+            toolTipContent: string
+        ) {
+            if (
+                cell.classList.contains(Helper.Constants.CssClasses.ColumnGroup)
+            ) {
+                this._toolTip.setTooltip(cell, toolTipContent);
+            } else {
+                console.warn(
+                    OSFramework.DataGrid.Enum.ErrorMessages
+                        .SetColumnHeaderTooltip
+                );
+            }
         }
     }
 }
