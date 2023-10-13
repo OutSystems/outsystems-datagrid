@@ -192,7 +192,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         public setColumnGroupHeaderTooltip(
             cell: HTMLElement,
             toolTipContent: string
-        ) {
+        ): void {
             if (
                 cell.classList.contains(Helper.Constants.CssClasses.ColumnGroup)
             ) {
