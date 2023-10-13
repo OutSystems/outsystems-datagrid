@@ -207,7 +207,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         private _makeToolTip(): FeatureBuilder {
-            this._makeItem(ToolTip);
+            this._features.toolTip = this._makeItem(ToolTip);
             return this;
         }
 
