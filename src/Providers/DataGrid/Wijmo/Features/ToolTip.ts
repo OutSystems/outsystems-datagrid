@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Providers.DataGrid.Wijmo.Feature {
-    export class ToolTip
+    export class Tooltip
         implements
             OSFramework.DataGrid.Feature.ITooltip,
             OSFramework.DataGrid.Interface.IBuilder,
@@ -11,11 +11,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private _eventMouseOut: any;
         private _grid: Grid.IGridWijmo;
-        private _toolTip: wijmo.Tooltip;
+        private _tooltip: wijmo.Tooltip;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
-            this._toolTip = new wijmo.Tooltip();
+            this._tooltip = new wijmo.Tooltip();
             this._eventMouseEnter = this._onMouseEnter.bind(this);
             this._eventMouseOut = this._onMouseOut.bind(this);
         }
@@ -31,7 +31,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             ) {
                 //Check if we do have data available, for instance while using filters that make the Grid without results
                 if (this._grid.provider.rows.length > 0) {
-                    this._setCellToolTip(
+                    this._setCellTooltip(
                         _currTarget,
                         ht.getColumn().binding,
                         ht.row
@@ -43,17 +43,19 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     _currTarget.classList.contains(
                         Helper.Constants.CssClasses.ColumnGroup
                     )
-                )
+                ) {
                     this._setColumnGroupHeaderTooltip(_currTarget);
-                else this._setHeaderTooltip(_currTarget, ht);
+                } else {
+                    this._setHeaderTooltip(_currTarget, ht);
+                }
             }
         }
 
         private _onMouseOut(): void {
-            this._toolTip.hide();
+            this._tooltip.hide();
         }
 
-        private _setCellToolTip(
+        private _setCellTooltip(
             cell: HTMLElement,
             binding: string,
             row: number
@@ -74,7 +76,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             }
 
             //Make sure to apply the correct tooltipClass
-            this._toolTipClass(isInvalid);
+            this._tooltipClass(isInvalid);
 
             //If the cell is valid
             if (isInvalid === false) {
@@ -84,14 +86,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     sanitizedValue !== ''
                 ) {
                     //JS asserts the previous declaration as true when they are equal
-                    this._toolTip.show(cell, sanitizedValue); // show tooltip if text is overflow/hidden
+                    this._tooltip.show(cell, sanitizedValue); // show tooltip if text is overflow/hidden
                 } else {
-                    this._toolTip.hide();
+                    this._tooltip.hide();
                 }
             }
             //Otherwise (If the cell is invalid)
             else {
-                this._toolTip.show(
+                this._tooltip.show(
                     cell,
                     this._grid.features.validationMark.errorMessage(
                         row,
@@ -103,14 +105,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
         private _setColumnGroupHeaderTooltip(cell: HTMLElement) {
             // Do nothing if a tooltip is already set for this column
-            if (this._toolTip.getTooltip(cell)) return;
+            if (this._tooltip.getTooltip(cell)) return;
             // Otherwise, the tooltip will be the header text
             const headerTooltip = OSFramework.DataGrid.Helper.Sanitize(
                 cell.innerText
             );
 
-            this._toolTipClass(false);
-            this._toolTip.show(cell, headerTooltip);
+            this._tooltipClass(false);
+            this._tooltip.show(cell, headerTooltip);
         }
 
         private _setHeaderTooltip(
@@ -142,22 +144,23 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 headerTooltip = sanitizedValue;
             }
 
-            this._toolTipClass(false);
-            this._toolTip.show(cell, headerTooltip);
+            this._tooltipClass(false);
+            this._tooltip.show(cell, headerTooltip);
         }
 
-        private _toolTipClass(isInvalid: boolean): void {
-            if (isInvalid === true)
-                this._toolTip.cssClass =
+        private _tooltipClass(isInvalid: boolean): void {
+            if (isInvalid === true) {
+                this._tooltip.cssClass =
                     Helper.Constants.CssClasses.TooltipErrorValidation;
-            else {
-                this._toolTip.cssClass = '';
+            } else {
+                this._tooltip.cssClass = '';
 
                 // Implementation of the workaround provided by Wijmo related to ROU-4207 issue.
                 // To be removed after Wijmo fix.
                 if (wijmo.Tooltip._eTip)
                     wijmo.Tooltip._eTip.setAttribute(
-                        Helper.Constants.HTMLAttributes.Class,
+                        OSFramework.DataGrid.Helper.GlobalEnum.HTMLAttributes
+                            .Class,
                         Helper.Constants.CssClasses.Tooltip
                     );
             }
@@ -167,20 +170,24 @@ namespace Providers.DataGrid.Wijmo.Feature {
             this._grid.provider.formatItem.addHandler(
                 (s: wijmo.grid.FlexGrid, e: wijmo.grid.FormatItemEventArgs) => {
                     e.cell.removeEventListener(
-                        Helper.Constants.HTMLEvent.MouseOver,
+                        OSFramework.DataGrid.Helper.GlobalEnum.HTMLEvent
+                            .MouseOver,
                         this._eventMouseEnter
                     );
                     e.cell.addEventListener(
-                        Helper.Constants.HTMLEvent.MouseOver,
+                        OSFramework.DataGrid.Helper.GlobalEnum.HTMLEvent
+                            .MouseOver,
                         this._eventMouseEnter
                     );
 
                     e.cell.removeEventListener(
-                        Helper.Constants.HTMLEvent.MouseOut,
+                        OSFramework.DataGrid.Helper.GlobalEnum.HTMLEvent
+                            .MouseOut,
                         this._eventMouseOut
                     );
                     e.cell.addEventListener(
-                        Helper.Constants.HTMLEvent.MouseOut,
+                        OSFramework.DataGrid.Helper.GlobalEnum.HTMLEvent
+                            .MouseOut,
                         this._eventMouseOut
                     );
                 }
@@ -188,18 +195,18 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         public dispose(): void {
-            this._toolTip.dispose();
-            this._toolTip = undefined;
+            this._tooltip.dispose();
+            this._tooltip = undefined;
         }
 
         public setColumnGroupHeaderTooltip(
             cell: HTMLElement,
-            toolTipContent: string
+            tooltipContent: string
         ): void {
             if (
                 cell.classList.contains(Helper.Constants.CssClasses.ColumnGroup)
             ) {
-                this._toolTip.setTooltip(cell, toolTipContent);
+                this._tooltip.setTooltip(cell, tooltipContent);
             } else {
                 console.warn(
                     OSFramework.DataGrid.Enum.ErrorMessages

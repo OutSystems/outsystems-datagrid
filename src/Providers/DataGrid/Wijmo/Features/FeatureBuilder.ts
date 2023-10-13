@@ -206,8 +206,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
             return this;
         }
 
-        private _makeToolTip(): FeatureBuilder {
-            this._features.toolTip = this._makeItem(ToolTip);
+        private _makeTooltip(): FeatureBuilder {
+            this._features.tooltip = this._makeItem(Tooltip);
             return this;
         }
 
@@ -234,7 +234,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 ._makeGroupPanel(config.groupPanelId)
                 ._makeCellData()
                 ._makeCellStyle()
-                ._makeToolTip()
+                ._makeTooltip()
                 ._makePagination(config.rowsPerPage)
                 ._makeSort(config.allowColumnSort)
                 ._makeGridReorder(config.allowColumnReorder)

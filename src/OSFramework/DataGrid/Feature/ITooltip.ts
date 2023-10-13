@@ -4,11 +4,11 @@ namespace OSFramework.DataGrid.Feature {
         /**
          * Set the Column Group header tooltip content.
          * @param {HTMLElement} cell
-         * @param {string} toolTipContent
+         * @param {string} tooltipContent
          */
         setColumnGroupHeaderTooltip(
             cell: HTMLElement,
-            toolTipContent: string
+            tooltipContent: string
         ): void;
     }
 }

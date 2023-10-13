@@ -6,13 +6,4 @@ namespace Providers.DataGrid.Wijmo.Helper.Constants {
         Tooltip = 'wj-tooltip',
         TooltipErrorValidation = 'errorValidation'
     }
-
-    export enum HTMLAttributes {
-        Class = 'class'
-    }
-
-    export enum HTMLEvent {
-        MouseOver = 'mouseover',
-        MouseOut = 'mouseout'
-    }
 }
