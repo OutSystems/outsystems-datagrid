@@ -1,0 +1,44 @@
+name: CI
+on:
+    # Triggers the workflow on push events but only for the "dev" branch.
+    pull_request:
+        branches: ['dev']
+
+    workflow_dispatch:
+
+jobs:
+    eslint:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./
+        steps:
+            - name: Checkout branch dev
+              uses: actions/checkout@v2
+
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: '16.x'
+
+            - name: Install project dependencies
+              run: npm install
+
+            - name: Run lint
+              run: npm run lint
+
+    compile:
+        needs: eslint
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout branch dev
+              uses: actions/checkout@v2
+
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: '16.x'
+
+            - name: Install project dependencies
+              run: npm install
+
+            - name: Compile code
+              run: npm run build
