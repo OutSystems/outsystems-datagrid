@@ -1,4 +1,4 @@
-name: CI
+name: DEV_PR
 on:
     # Triggers the workflow on push events but only for the "dev" branch.
     pull_request:
@@ -26,7 +26,7 @@ jobs:
             - name: Run lint
               run: npm run lint
 
-    compile:
+    compile-code:
         needs: eslint
         runs-on: ubuntu-latest
         steps:
