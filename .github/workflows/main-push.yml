@@ -1,0 +1,86 @@
+# This is a basic workflow to help you get started with Actions
+
+name: MAIN_PUSH
+
+# Controls when the action will run.
+on:
+    # Triggers the workflow on push or pull request events but only for the dev branch
+    push:
+        branches: ['main']
+
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+    eslint:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./
+        steps:
+            - name: Checkout branch main
+              uses: actions/checkout@v2
+
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: '16.x'
+
+            - name: Install project dependencies
+              run: npm install
+
+            - name: Run lint
+              run: npm run lint
+
+    compile-code:
+        needs: eslint
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout branch dev
+              uses: actions/checkout@v2
+
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: '16.x'
+
+            - name: Install project dependencies
+              run: npm install
+
+            - name: Compile code
+              run: npm run build
+
+    documentation:
+        needs: compile-code
+        runs-on: ubuntu-latest
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+            - name: Checkout branch main
+              uses: actions/checkout@v3
+              with:
+                  ref: dev
+                  token: ${{ secrets.PAT }}
+
+            - name: Install graphviz
+              run: sudo apt install -y graphviz
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+                  cache: 'npm'
+
+            - name: Install project dependencies
+              run: npm install
+
+            - name: Generate documentation
+              run: npm run docs
+
+            - name: Sign and commit documentation to branch dev
+              uses: ./.github/os-git-actions/signed-commit/
+              with:
+                  branch: main
+                  message: 'Update documentation [skip ci]'
+                  newFiles: true
+                  gpgPriv: ${{ secrets.GPG_SIGN_KEY }}
+                  gpgPassPhrase: ${{ secrets.GPG_PASSPHRASE }}
