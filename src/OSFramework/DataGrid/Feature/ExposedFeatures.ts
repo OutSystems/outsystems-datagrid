@@ -28,6 +28,7 @@ namespace OSFramework.DataGrid.Feature {
         public sort: IColumnSort;
         public styling: IStyling;
         public tabNavigation: ITabNavigation;
+        public tooltip: ITooltip;
         public undoStack: IUndoStack;
         public validationMark: IValidationMark;
         public view: IView;
