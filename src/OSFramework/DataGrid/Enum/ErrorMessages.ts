@@ -27,6 +27,7 @@ namespace OSFramework.DataGrid.Enum {
         ApplyRowValidation = 'It seems you are trying to validate a GroupRow.',
         SetCurrentPage = 'An error occurred while trying to set current page.',
         SetCurrentPageServerSidePagination = 'It seems that you have server side pagination turned on. Switch it off and try again.',
+        SetColumnHeaderTooltip = 'You are trying to use the setGroupHeaderTooltip in a cell that is not a Column Group header.',
         SetRowAsSelected = 'It seems that one or more of the row numbers you have providing do not exist on the current page.',
         SuccessMessage = 'Success',
         UnableToAddRow = 'Unable to add row. Please use ArrangeData action to serialize your data.',

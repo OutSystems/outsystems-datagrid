@@ -16,7 +16,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         public build(): void {
-            // Implementing interface
+            // Do nothing
         }
 
         public byActiveSelection(): void {
