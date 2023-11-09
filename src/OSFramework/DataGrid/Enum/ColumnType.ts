@@ -13,6 +13,7 @@ namespace OSFramework.DataGrid.Enum {
         Download = 'Download',
         Dropdown = 'Dropdown',
         Group = 'Group',
+        Image = 'Image',
         Number = 'Number',
         Calculated = 'Calculated',
         Link = 'Link',

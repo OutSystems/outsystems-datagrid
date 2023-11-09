@@ -36,12 +36,11 @@ namespace Providers.DataGrid.Wijmo.Column {
             const config = super.getProviderConfig();
 
             // Get the cellTemplate based on the actionColumnElementType
-            config.cellTemplate =
-                Helper.ActionColumnFactory.MakeActionColumnCellTemplate(
-                    this.config.actionColumnElementType,
-                    config.binding,
-                    this.handleActionEvent.bind(this)
-                );
+            config.cellTemplate = Helper.CellTemplateFactory.MakeCellTemplate(
+                this.config.actionColumnElementType,
+                config.binding,
+                this.handleActionEvent.bind(this)
+            );
 
             return config;
         }

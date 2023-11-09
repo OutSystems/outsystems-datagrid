@@ -78,6 +78,7 @@ namespace OSFramework.DataGrid.Types {
         allowSorting: boolean;
         cellTemplate?: wijmo.grid.ICellTemplateFunction;
         collapseTo?: string;
+        cssClassAll?: string;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         dataMap?: any;
         dataMapEditor?: wijmo.grid.DataMapEditor;
@@ -150,7 +151,12 @@ namespace OSFramework.DataGrid.Types {
     export interface IColumnExtraConfigs {}
 
     export interface IActionColumnExtraConfigs extends IColumnExtraConfigs {
-        actionColumnElementType: DataGrid.Enum.ActionColumnElementType;
+        actionColumnElementType: DataGrid.Enum.CellTemplateElementType;
+    }
+
+    export interface IImageColumnExtraConfigs
+        extends IActionColumnExtraConfigs {
+        altText?: string;
     }
 
     /**

@@ -28,6 +28,9 @@ namespace OSFramework.DataGrid.Event.Column {
                 case ColumnEventType.ActionClick:
                     event = new ActionColumnClick();
                     break;
+                case ColumnEventType.ImageClick:
+                    event = new ImageColumnClick();
+                    break;
                 case ColumnEventType.OnCellValueChange:
                     event = new OnCellValueChange();
                     break;
@@ -58,6 +61,7 @@ namespace OSFramework.DataGrid.Event.Column {
 
                 switch (eventType) {
                     case ColumnEventType.ActionClick:
+                    case ColumnEventType.ImageClick:
                         handlerEvent.trigger(
                             this._column.grid.widgetId, // ID of Grid block that was clicked.
                             this._column.widgetId, // ID of Action Column block that was clicked.
