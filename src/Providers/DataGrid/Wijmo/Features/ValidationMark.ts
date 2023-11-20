@@ -14,6 +14,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         private _invalidRows: Set<any>;
         /** Exposed methods to manipulate RowMetadata */
         private _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
+        private _previousValue: string | number;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
@@ -45,26 +46,19 @@ namespace Providers.DataGrid.Wijmo.Feature {
             // if the ESC key is pressed the e.cancel is true
             if (e.cancel) return;
 
-            // get the new value
-            const newValue = s.activeEditor?.value ?? '';
-            let currentValue = '';
-
-            // when a delete event occurs, s.getCellData() always returns an empty string
-            // because of that, we need to verify if a delete event occured and get the right current value
+            // If the Delete or a BackSpace key is pressed, we assume that a change was made
             if (
                 !!e.data &&
                 !!e.data.key &&
                 (e.data.key === 'Delete' || e.data.key === 'Backspace')
             ) {
-                currentValue = s.activeCell.textContent;
-            } else {
-                currentValue = s.getCellData(e.row, e.col, true) ?? '';
+                e.cancel = false;
+                return;
             }
 
-            // cancel edits if currentValue is equals to newValue
-            e.cancel =
-                currentValue === newValue ||
-                currentValue.toString() === newValue.toString();
+            // Stores the previous cell value to validate if it was changed in CellEditEnded handler.
+            // Related to WJM-27988 that will be fixed in the Wijmo's 2023.2 release
+            this._previousValue = s.getCellData(e.row, e.col, false);
         }
 
         /**
@@ -75,24 +69,29 @@ namespace Providers.DataGrid.Wijmo.Feature {
             e: wijmo.grid.CellRangeEventArgs
         ): void {
             if (!e.cancel) {
-                const column = s.getColumn(e.col);
-                const OSColumn = this._grid
-                    .getColumns()
-                    .find((item) => item.provider.index === column.index);
-
+                // get the new value
                 const newValue = s.getCellData(e.row, e.col, false);
-                // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
-                const oldValue = this._grid.features.dirtyMark.getOldValue(
-                    e.row,
-                    column.binding
-                );
+                if (
+                    this._previousValue !== newValue &&
+                    this._previousValue?.toString() !== newValue?.toString()
+                ) {
+                    const column = s.getColumn(e.col);
+                    const OSColumn = this._grid
+                        .getColumns()
+                        .find((item) => item.provider.index === column.index);
 
-                this._triggerEventsFromColumn(
-                    e.row,
-                    OSColumn.uniqueId,
-                    oldValue,
-                    newValue
-                );
+                    // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
+                    const oldValue = this._grid.features.dirtyMark.getOldValue(
+                        e.row,
+                        column.binding
+                    );
+                    this._triggerEventsFromColumn(
+                        e.row,
+                        OSColumn.uniqueId,
+                        oldValue,
+                        newValue
+                    );
+                }
             }
         }
 
