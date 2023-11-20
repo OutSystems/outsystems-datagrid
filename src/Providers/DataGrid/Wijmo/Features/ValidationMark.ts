@@ -46,16 +46,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
             // if the ESC key is pressed the e.cancel is true
             if (e.cancel) return;
 
-            // If the Delete or a BackSpace key is pressed, we assume that a change was made
-            if (
-                !!e.data &&
-                !!e.data.key &&
-                (e.data.key === 'Delete' || e.data.key === 'Backspace')
-            ) {
-                e.cancel = false;
-                return;
-            }
-
             // Stores the previous cell value to validate if it was changed in CellEditEnded handler.
             // Related to WJM-27988 that will be fixed in the Wijmo's 2023.2 release
             this._previousValue = s.getCellData(e.row, e.col, false);
@@ -71,10 +61,17 @@ namespace Providers.DataGrid.Wijmo.Feature {
             if (!e.cancel) {
                 // get the new value
                 const newValue = s.getCellData(e.row, e.col, false);
-                if (
+
+                const isNewValue =
                     this._previousValue !== newValue &&
-                    this._previousValue?.toString() !== newValue?.toString()
-                ) {
+                    this._previousValue?.toString() !== newValue?.toString();
+
+                const pressedDeleteBackspaceKey =
+                    !!e.data &&
+                    !!e.data.key &&
+                    (e.data.key === 'Delete' || e.data.key === 'Backspace');
+
+                if (isNewValue || pressedDeleteBackspaceKey) {
                     const column = s.getColumn(e.col);
                     const OSColumn = this._grid
                         .getColumns()
