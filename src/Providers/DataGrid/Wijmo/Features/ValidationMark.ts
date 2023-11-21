@@ -39,7 +39,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
          * For this purpose, here we consider null == undefined == ''
          * Bug: it does not work for checkboxes, since the activeEditor.value is always "on"
          */
-        private _cellEditBeforeEndingHandler(
+        private _beginningEditHandler(
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
@@ -54,7 +54,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         /**
          * Handler for the CellEditEnded.
          */
-        private _cellEditHandler(
+        private _cellEditEndedHandler(
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
@@ -66,12 +66,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     this._previousValue !== newValue &&
                     this._previousValue?.toString() !== newValue?.toString();
 
-                const pressedDeleteBackspaceKey =
-                    !!e.data &&
-                    !!e.data.key &&
-                    (e.data.key === 'Delete' || e.data.key === 'Backspace');
-
-                if (isNewValue || pressedDeleteBackspaceKey) {
+                if (isNewValue) {
                     const column = s.getColumn(e.col);
                     const OSColumn = this._grid
                         .getColumns()
@@ -457,14 +452,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         public build(): void {
-            this._grid.provider.cellEditEnding.addHandler(
-                this._cellEditBeforeEndingHandler.bind(this)
+            this._grid.provider.beginningEdit.addHandler(
+                this._beginningEditHandler.bind(this)
             );
             this._grid.provider.cellEditEnded.addHandler(
-                this._cellEditHandler.bind(this)
+                this._cellEditEndedHandler.bind(this)
             );
             this._grid.provider.pastedCell.addHandler(
-                this._cellEditHandler.bind(this)
+                this._cellEditEndedHandler.bind(this)
             );
             this._grid.features.undoStack.stack.undoingAction.addHandler(
                 this._undoingActionHandler.bind(this)
