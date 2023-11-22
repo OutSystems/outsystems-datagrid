@@ -14,6 +14,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         private _invalidRows: Set<any>;
         /** Exposed methods to manipulate RowMetadata */
         private _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
+        private _previousValue: string | number;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
@@ -33,60 +34,47 @@ namespace Providers.DataGrid.Wijmo.Feature {
         // }
 
         /**
-         * Handler for the CellEditEnding.
-         * It checks if the cell value effectively changed
-         * For this purpose, here we consider null == undefined == ''
-         * Bug: it does not work for checkboxes, since the activeEditor.value is always "on"
+         * Handler for the beginningEdit.
+         * It stores the previous cell value to validate if it was changed in CellEditEnded handler.
          */
-        private _cellEditBeforeEndingHandler(
+        private _beginningEditHandler(
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
             // if the ESC key is pressed the e.cancel is true
             if (e.cancel) return;
 
-            // get the new value
-            const newValue = s.activeEditor?.value ?? '';
-            let currentValue = '';
-
-            // when a delete event occurs, s.getCellData() always returns an empty string
-            // because of that, we need to verify if a delete event occured and get the right current value
-            if (
-                !!e.data &&
-                !!e.data.key &&
-                (e.data.key === 'Delete' || e.data.key === 'Backspace')
-            ) {
-                currentValue = s.activeCell.textContent;
-            } else {
-                currentValue = s.getCellData(e.row, e.col, true) ?? '';
-            }
-
-            // cancel edits if currentValue is equals to newValue
-            e.cancel =
-                currentValue === newValue ||
-                currentValue.toString() === newValue.toString();
+            // Related to WJM-27988 that will be fixed in the Wijmo's 2023.2 release
+            this._previousValue = s.getCellData(e.row, e.col, false);
         }
 
         /**
          * Handler for the CellEditEnded.
          */
-        private _cellEditHandler(
+        private _cellEditEndedHandler(
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
-            if (!e.cancel) {
+            if (e.cancel) return;
+
+            // get the new value
+            const newValue = s.getCellData(e.row, e.col, false);
+
+            const isNewValue =
+                this._previousValue !== newValue &&
+                this._previousValue?.toString() !== newValue?.toString();
+
+            if (isNewValue) {
                 const column = s.getColumn(e.col);
                 const OSColumn = this._grid
                     .getColumns()
                     .find((item) => item.provider.index === column.index);
 
-                const newValue = s.getCellData(e.row, e.col, false);
                 // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
                 const oldValue = this._grid.features.dirtyMark.getOldValue(
                     e.row,
                     column.binding
                 );
-
                 this._triggerEventsFromColumn(
                     e.row,
                     OSColumn.uniqueId,
@@ -461,14 +449,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         public build(): void {
-            this._grid.provider.cellEditEnding.addHandler(
-                this._cellEditBeforeEndingHandler.bind(this)
+            this._grid.provider.beginningEdit.addHandler(
+                this._beginningEditHandler.bind(this)
             );
             this._grid.provider.cellEditEnded.addHandler(
-                this._cellEditHandler.bind(this)
+                this._cellEditEndedHandler.bind(this)
             );
             this._grid.provider.pastedCell.addHandler(
-                this._cellEditHandler.bind(this)
+                this._cellEditEndedHandler.bind(this)
             );
             this._grid.features.undoStack.stack.undoingAction.addHandler(
                 this._undoingActionHandler.bind(this)
