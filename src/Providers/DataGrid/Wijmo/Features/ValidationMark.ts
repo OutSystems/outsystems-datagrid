@@ -34,10 +34,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
         // }
 
         /**
-         * Handler for the CellEditEnding.
-         * It checks if the cell value effectively changed
-         * For this purpose, here we consider null == undefined == ''
-         * Bug: it does not work for checkboxes, since the activeEditor.value is always "on"
+         * Handler for the beginningEdit.
+         * It stores the previous cell value to validate if it was changed in CellEditEnded handler.
          */
         private _beginningEditHandler(
             s: wijmo.grid.FlexGrid,
@@ -46,7 +44,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
             // if the ESC key is pressed the e.cancel is true
             if (e.cancel) return;
 
-            // Stores the previous cell value to validate if it was changed in CellEditEnded handler.
             // Related to WJM-27988 that will be fixed in the Wijmo's 2023.2 release
             this._previousValue = s.getCellData(e.row, e.col, false);
         }
