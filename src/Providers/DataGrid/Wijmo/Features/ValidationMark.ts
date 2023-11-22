@@ -55,32 +55,32 @@ namespace Providers.DataGrid.Wijmo.Feature {
             s: wijmo.grid.FlexGrid,
             e: wijmo.grid.CellRangeEventArgs
         ): void {
-            if (!e.cancel) {
-                // get the new value
-                const newValue = s.getCellData(e.row, e.col, false);
+            if (e.cancel) return;
 
-                const isNewValue =
-                    this._previousValue !== newValue &&
-                    this._previousValue?.toString() !== newValue?.toString();
+            // get the new value
+            const newValue = s.getCellData(e.row, e.col, false);
 
-                if (isNewValue) {
-                    const column = s.getColumn(e.col);
-                    const OSColumn = this._grid
-                        .getColumns()
-                        .find((item) => item.provider.index === column.index);
+            const isNewValue =
+                this._previousValue !== newValue &&
+                this._previousValue?.toString() !== newValue?.toString();
 
-                    // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
-                    const oldValue = this._grid.features.dirtyMark.getOldValue(
-                        e.row,
-                        column.binding
-                    );
-                    this._triggerEventsFromColumn(
-                        e.row,
-                        OSColumn.uniqueId,
-                        oldValue,
-                        newValue
-                    );
-                }
+            if (isNewValue) {
+                const column = s.getColumn(e.col);
+                const OSColumn = this._grid
+                    .getColumns()
+                    .find((item) => item.provider.index === column.index);
+
+                // The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
+                const oldValue = this._grid.features.dirtyMark.getOldValue(
+                    e.row,
+                    column.binding
+                );
+                this._triggerEventsFromColumn(
+                    e.row,
+                    OSColumn.uniqueId,
+                    oldValue,
+                    newValue
+                );
             }
         }
 
