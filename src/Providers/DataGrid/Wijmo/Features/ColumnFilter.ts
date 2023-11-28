@@ -349,7 +349,17 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     column.columnType ===
                         OSFramework.DataGrid.Enum.ColumnType.Text ||
                     column.columnType ===
-                        OSFramework.DataGrid.Enum.ColumnType.Dropdown
+                        OSFramework.DataGrid.Enum.ColumnType.Dropdown ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Checkbox ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Date ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.DateTime ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Number
                 ) {
                     // this column will have both filter types
                     this.changeFilterType(
