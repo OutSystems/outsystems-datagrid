@@ -122,7 +122,8 @@ namespace OutSystems.GridAPI.Rows {
                     ).dataSource.getRowNumberByKey(key)
                 );
             },
-            hasValue: true
+            hasValue: true,
+            defaultFailValue: -1
         });
 
         Performance.SetMark('Rows.GetRowNumberByKey-end');
