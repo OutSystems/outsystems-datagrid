@@ -6,12 +6,12 @@ namespace OutSystems.GridAPI.Selection {
             gridID,
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetAllSelections,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getAllSelections();
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('Selection.GetAllSelections-end');
@@ -31,12 +31,12 @@ namespace OutSystems.GridAPI.Selection {
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes
                     .API_FailedGetAllSelectionsData,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getAllSelectionsData();
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('Selection.GetAllSelectionsData-end');
@@ -57,12 +57,12 @@ namespace OutSystems.GridAPI.Selection {
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes
                     .API_FailedGetCheckedRowsData,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getCheckedRowsData();
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('Selection.GetCheckedRowsData-end');
@@ -82,12 +82,12 @@ namespace OutSystems.GridAPI.Selection {
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes
                     .API_FailedGetSelectedRowsCount,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectedRowsCount();
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('Selection.GetSelectedRowsCount-end');
@@ -107,12 +107,12 @@ namespace OutSystems.GridAPI.Selection {
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes
                     .API_FailedGetSelectedRowsData,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectedRowsData();
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('Selection.GetSelectedRowsData-end');
@@ -132,12 +132,12 @@ namespace OutSystems.GridAPI.Selection {
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes
                     .API_FailedGetSelectionAverage,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectionAverage();
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('Selection.GetSelectionAverage-end');
@@ -157,12 +157,13 @@ namespace OutSystems.GridAPI.Selection {
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes
                     .API_FailedGetSelectionCount,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectionCount();
-            }
+            },
+            hasValue: true,
+            defaultFailValue: -1
         });
 
         Performance.SetMark('Selection.GetSelectionCount-end');
@@ -181,12 +182,12 @@ namespace OutSystems.GridAPI.Selection {
             gridID,
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionMax,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectionMaxMin(true);
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('Selection.GetSelectionMax-end');
@@ -205,12 +206,12 @@ namespace OutSystems.GridAPI.Selection {
             gridID,
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionMin,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectionMaxMin(false);
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('Selection.GetSelectionMin-end');
@@ -229,12 +230,12 @@ namespace OutSystems.GridAPI.Selection {
             gridID,
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetSelectionSum,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.getSelectionSum();
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('Selection.GetSelectionSum-end');
@@ -253,12 +254,12 @@ namespace OutSystems.GridAPI.Selection {
             gridID,
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedHasSelectedRows,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
                 return grid.features.selection.hasSelectedRows();
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('Selection.HasSelectedRows-end');
@@ -281,7 +282,6 @@ namespace OutSystems.GridAPI.Selection {
             gridID,
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetRowAsSelected,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
@@ -289,7 +289,8 @@ namespace OutSystems.GridAPI.Selection {
                     rowsIndex,
                     isSelected
                 );
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('Selection.SelectRows-end');
