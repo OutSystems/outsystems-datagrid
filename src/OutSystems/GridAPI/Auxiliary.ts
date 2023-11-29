@@ -6,6 +6,7 @@ namespace OutSystems.GridAPI.Auxiliary {
     type APIHandler = {
         // eslint-disable-next-line
         callback: any;
+        defaultFailValue?: unknown;
         errorCode: OSFramework.DataGrid.Enum.ErrorCodes;
         gridID: string;
         hasValue?: boolean;
@@ -23,7 +24,8 @@ namespace OutSystems.GridAPI.Auxiliary {
         gridID,
         callback,
         errorCode,
-        hasValue = false
+        hasValue = false,
+        defaultFailValue = undefined
     }: APIHandler): string {
         const responseObj: APIResponse = {
             isSuccess: true,
@@ -50,6 +52,7 @@ namespace OutSystems.GridAPI.Auxiliary {
             responseObj.isSuccess = false;
             responseObj.message = error.message;
             responseObj.code = errorCode;
+            responseObj.value = defaultFailValue;
         }
 
         return JSON.stringify(responseObj);
