@@ -39,6 +39,7 @@ namespace OutSystems.GridAPI.Auxiliary {
                 OSFramework.DataGrid.Enum.ErrorMessages.Grid_NotFound;
             responseObj.code =
                 OSFramework.DataGrid.Enum.ErrorCodes.CFG_GridNotFound;
+            responseObj.value = defaultFailValue;
             return JSON.stringify(responseObj);
         }
 
