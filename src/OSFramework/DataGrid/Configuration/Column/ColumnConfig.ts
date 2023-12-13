@@ -23,6 +23,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         public editor: any;
         public errorMessage: string;
+        public externalLink: string;
         public format: string;
         public genericColumnId: string;
         public header: string;

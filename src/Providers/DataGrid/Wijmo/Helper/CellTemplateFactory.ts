@@ -10,11 +10,16 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
         type: OSFramework.DataGrid.Enum.CellTemplateElementType,
         binding: string,
         callback: (item) => void,
-        altText?: string
+        altText?: string,
+        externalLink?: string
     ): wijmo.grid.ICellTemplateFunction {
         let cellTemplate: wijmo.grid.ICellTemplateFunction;
 
         const hasFixedText = binding.startsWith('$');
+        const hasExternalURL = externalLink.substring(0, 4) === 'http';
+        const url = hasExternalURL
+            ? externalLink
+            : '${item.' + externalLink + '}';
         const text = hasFixedText
             ? binding.substring(1)
             : '${item.' + binding + '}';
@@ -45,12 +50,25 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
                 });
                 break;
             case OSFramework.DataGrid.Enum.CellTemplateElementType.Link: {
-                cellTemplate = wijmo.grid.cellmaker.CellMaker.makeLink({
-                    text,
-                    click: (e, ctx) => {
-                        callback(ctx);
-                    }
-                });
+                console.log('here', externalLink);
+
+                if (externalLink !== '') {
+                    cellTemplate = wijmo.grid.cellmaker.CellMaker.makeLink({
+                        text: text,
+                        href: url,
+                        attributes: {
+                            target: '_blank',
+                            tabIndex: -1
+                        }
+                    });
+                } else {
+                    cellTemplate = wijmo.grid.cellmaker.CellMaker.makeLink({
+                        text,
+                        click: (e, ctx) => {
+                            callback(ctx);
+                        }
+                    });
+                }
                 break;
             }
             default:
