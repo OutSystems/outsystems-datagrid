@@ -137,7 +137,6 @@ namespace OSFramework.DataGrid.Types {
         canBeHidden: boolean;
         conditionalFormat: Array<OSStructure.ConditionalFormat>;
         errorMessage: string;
-        externalURL: string;
         genericColumnId: string;
         headerTooltip: string;
         isMandatory: boolean;
@@ -153,7 +152,7 @@ namespace OSFramework.DataGrid.Types {
 
     export interface IActionColumnExtraConfigs extends IColumnExtraConfigs {
         actionColumnElementType: DataGrid.Enum.CellTemplateElementType;
-        externalURL: string;
+        externalURL?: string;
     }
 
     export interface IImageColumnExtraConfigs

@@ -9,14 +9,14 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
     export function MakeCellTemplate(
         type: OSFramework.DataGrid.Enum.CellTemplateElementType,
         binding: string,
-        externalURL: string,
         callback: (item) => void,
-        altText?: string
+        altText?: string,
+        externalURL?: string
     ): wijmo.grid.ICellTemplateFunction {
         let cellTemplate: wijmo.grid.ICellTemplateFunction;
 
         const hasFixedText = binding.startsWith('$');
-        const hasExternalURL = externalURL.substring(0, 4) === 'http';
+        const hasExternalURL = externalURL?.substring(0, 4) === 'http';
         const url = hasExternalURL
             ? externalURL
             : '${item.' + externalURL + '}';
