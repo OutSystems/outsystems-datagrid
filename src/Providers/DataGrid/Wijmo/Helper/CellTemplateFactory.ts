@@ -9,17 +9,17 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
     export function MakeCellTemplate(
         type: OSFramework.DataGrid.Enum.CellTemplateElementType,
         binding: string,
-        externalLink: string,
+        externalURL: string,
         callback: (item) => void,
         altText?: string
     ): wijmo.grid.ICellTemplateFunction {
         let cellTemplate: wijmo.grid.ICellTemplateFunction;
 
         const hasFixedText = binding.startsWith('$');
-        const hasExternalURL = externalLink.substring(0, 4) === 'http';
+        const hasExternalURL = externalURL.substring(0, 4) === 'http';
         const url = hasExternalURL
-            ? externalLink
-            : '${item.' + externalLink + '}';
+            ? externalURL
+            : '${item.' + externalURL + '}';
         const text = hasFixedText
             ? binding.substring(1)
             : '${item.' + binding + '}';
@@ -50,25 +50,34 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
                 });
                 break;
             case OSFramework.DataGrid.Enum.CellTemplateElementType.Link: {
-                console.log('here', externalLink);
+                console.log('here', externalURL);
 
-                if (externalLink !== '') {
-                    cellTemplate = wijmo.grid.cellmaker.CellMaker.makeLink({
-                        text: text,
-                        href: url,
-                        attributes: {
-                            target: '_blank',
-                            tabIndex: -1
-                        }
-                    });
+                // Set the object for Wijmo makeLink method call
+                const cellTemplateOptions = {
+                    text,
+                    href: undefined,
+                    attributes: undefined,
+                    click: undefined
+                };
+
+                // Validate if is a link and defined the default options
+                if (externalURL === '') {
+                    cellTemplateOptions.click = (e, ctx) => {
+                        callback(ctx);
+                    };
                 } else {
-                    cellTemplate = wijmo.grid.cellmaker.CellMaker.makeLink({
-                        text,
-                        click: (e, ctx) => {
-                            callback(ctx);
-                        }
-                    });
+                    cellTemplateOptions.href = url;
+                    cellTemplateOptions.attributes = {
+                        target: '_blank'
+                    };
                 }
+
+                // Set the Object with defined attributes based on validation
+                cellTemplate =
+                    wijmo.grid.cellmaker.CellMaker.makeLink(
+                        cellTemplateOptions
+                    );
+
                 break;
             }
             default:

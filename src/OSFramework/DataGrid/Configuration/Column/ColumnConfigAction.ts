@@ -14,7 +14,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         ) {
             super(config);
             this.actionColumnElementType = extraConfig.actionColumnElementType;
-            this.externalLink = extraConfig.externalLink;
+            this.externalURL = extraConfig.externalURL;
         }
 
         public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
