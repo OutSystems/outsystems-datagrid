@@ -39,6 +39,7 @@ namespace Providers.DataGrid.Wijmo.Column {
             config.cellTemplate = Helper.CellTemplateFactory.MakeCellTemplate(
                 this.config.actionColumnElementType,
                 config.binding,
+                this.config.externalLink,
                 this.handleActionEvent.bind(this)
             );
 

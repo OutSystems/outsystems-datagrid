@@ -9,9 +9,9 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
     export function MakeCellTemplate(
         type: OSFramework.DataGrid.Enum.CellTemplateElementType,
         binding: string,
+        externalLink: string,
         callback: (item) => void,
-        altText?: string,
-        externalLink?: string
+        altText?: string
     ): wijmo.grid.ICellTemplateFunction {
         let cellTemplate: wijmo.grid.ICellTemplateFunction;
 
