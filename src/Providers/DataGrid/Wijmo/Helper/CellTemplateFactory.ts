@@ -50,8 +50,6 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
                 });
                 break;
             case OSFramework.DataGrid.Enum.CellTemplateElementType.Link: {
-                console.log('here', externalURL);
-
                 // Set the object for Wijmo makeLink method call
                 const cellTemplateOptions = {
                     text,
