@@ -379,7 +379,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         ).valueFilter.maxValues = maxVisibleOptions;
                 } else {
                     throw new Error(
-                        `The SetColumnFilterOptions client action can only be applied to Text or Dropdowncolumns.`
+                        `The SetColumnFilterOptions client action can only be applied to Text, Number, Currency, Dropdown, Checkbox, Date, DateTime Columns.`
                     );
                 }
             } else {
