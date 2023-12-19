@@ -16,7 +16,10 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
         let cellTemplate: wijmo.grid.ICellTemplateFunction;
 
         const hasFixedText = binding.startsWith('$');
-        const hasExternalURL = externalURL?.substring(0, 4) === 'http';
+        const hasExternalURL = externalURL
+            ?.toLocaleLowerCase()
+            .startsWith('http');
+
         const url = hasExternalURL
             ? externalURL
             : '${item.' + externalURL + '}';
