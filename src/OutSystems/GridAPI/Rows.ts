@@ -297,8 +297,7 @@ namespace OutSystems.GridAPI.Rows {
                         gridID
                     ).dataSource.updateAddedRowKey(currentRowId, newKey)
                 );
-            },
-            hasValue: true
+            }
         });
 
         Performance.SetMark('Rows.UpdateAddedRowKey-end');

@@ -87,7 +87,8 @@ namespace OutSystems.GridAPI.Selection {
 
                 return grid.features.selection.getSelectedRowsCount();
             },
-            hasValue: true
+            hasValue: true,
+            defaultFailValue: -1
         });
 
         Performance.SetMark('Selection.GetSelectedRowsCount-end');
@@ -137,7 +138,8 @@ namespace OutSystems.GridAPI.Selection {
 
                 return grid.features.selection.getSelectionAverage();
             },
-            hasValue: true
+            hasValue: true,
+            defaultFailValue: -1
         });
 
         Performance.SetMark('Selection.GetSelectionAverage-end');
@@ -187,7 +189,8 @@ namespace OutSystems.GridAPI.Selection {
 
                 return grid.features.selection.getSelectionMaxMin(true);
             },
-            hasValue: true
+            hasValue: true,
+            defaultFailValue: -1
         });
 
         Performance.SetMark('Selection.GetSelectionMax-end');
@@ -211,7 +214,8 @@ namespace OutSystems.GridAPI.Selection {
 
                 return grid.features.selection.getSelectionMaxMin(false);
             },
-            hasValue: true
+            hasValue: true,
+            defaultFailValue: -1
         });
 
         Performance.SetMark('Selection.GetSelectionMin-end');
@@ -235,7 +239,8 @@ namespace OutSystems.GridAPI.Selection {
 
                 return grid.features.selection.getSelectionSum();
             },
-            hasValue: true
+            hasValue: true,
+            defaultFailValue: -1
         });
 
         Performance.SetMark('Selection.GetSelectionSum-end');
@@ -289,8 +294,7 @@ namespace OutSystems.GridAPI.Selection {
                     rowsIndex,
                     isSelected
                 );
-            },
-            hasValue: true
+            }
         });
 
         Performance.SetMark('Selection.SelectRows-end');
