@@ -71,7 +71,6 @@ namespace OutSystems.GridAPI.Pagination {
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes
                     .API_FailedPaginationGetCurrentPage,
-            hasValue: true,
             callback: () => {
                 const grid = GridManager.GetGridById(gridID);
 
@@ -82,7 +81,9 @@ namespace OutSystems.GridAPI.Pagination {
                     );
                 }
                 return grid.features.pagination.pageIndex;
-            }
+            },
+            hasValue: true,
+            defaultFailValue: -1
         });
 
         Performance.SetMark('Pagination.GetCurrentPage-end');
