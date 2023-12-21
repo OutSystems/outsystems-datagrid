@@ -46,6 +46,7 @@ namespace Providers.DataGrid.Wijmo.Column {
                 delete providerConfig.editor;
 
                 providerConfig.visible = this._getVisibility();
+                providerConfig.width = this._getWidth();
                 providerConfig.format = this.editorConfig.format;
 
                 wijmo.copy(this.provider, providerConfig);
