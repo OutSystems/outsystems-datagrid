@@ -84,6 +84,14 @@ namespace Providers.DataGrid.Wijmo.Grid {
             return this.config.getProviderConfig();
         }
 
+        private _updateColumnWidth(
+            grid: wijmo.grid.FlexGrid,
+            event: wijmo.grid.CellRangeEventArgs
+        ): void {
+            const column = event.getColumn();
+            this.getColumn(column.binding).config.width = column.width;
+        }
+
         public get autoGenerate(): boolean {
             return this.provider.autoGenerateColumns;
         }
@@ -126,6 +134,10 @@ namespace Providers.DataGrid.Wijmo.Grid {
 
             this._provider.itemsSource.calculatedFields =
                 this.features.calculatedField.calculatedFields;
+
+            this._provider.resizedColumn.addHandler(
+                this._updateColumnWidth.bind(this)
+            );
 
             this._safari14workaround();
 

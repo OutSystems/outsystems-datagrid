@@ -60,16 +60,11 @@ namespace Providers.DataGrid.Wijmo.Column {
             );
         }
 
-        protected _getWidth(): number {
-            return this.provider.width;
-        }
-
         public applyConfigs(): void {
             if (this.isReady) {
                 const providerConfig = this.getProviderConfig();
 
                 providerConfig.visible = this._getVisibility();
-                providerConfig.width = this._getWidth();
 
                 wijmo.copy(this.provider, providerConfig);
             } else {
