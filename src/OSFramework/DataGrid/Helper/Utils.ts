@@ -17,4 +17,22 @@ namespace OSFramework.DataGrid.Helper {
 
         chunk.forEach((part) => callback(part));
     }
+
+    /**
+     * Excludes the equal.
+     * @param object1 Array to be split
+     * @param object2 Callback to be executed on splitted arrays
+     * @return
+     */
+    export function GetObjectDifference<T>(object1: T, object2: T): Partial<T> {
+        return Object.keys(object1).reduce(
+            (newObject: T, currentKey: string) => {
+                if (object1[currentKey] === object2[currentKey]) {
+                    return newObject;
+                }
+                return { ...newObject, [currentKey]: object1[currentKey] };
+            },
+            {}
+        );
+    }
 }

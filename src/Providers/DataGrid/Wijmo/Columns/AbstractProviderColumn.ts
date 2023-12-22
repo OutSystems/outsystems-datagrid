@@ -62,7 +62,12 @@ namespace Providers.DataGrid.Wijmo.Column {
 
         public applyConfigs(): void {
             if (this.isReady) {
-                const providerConfig = this.getProviderConfig();
+                const providerConfig =
+                    OSFramework.DataGrid.Helper.GetObjectDifference(
+                        this.getProviderConfig(),
+                        this
+                            .provider as OSFramework.DataGrid.Types.IColumnProviderConfigs
+                    );
 
                 providerConfig.visible = this._getVisibility();
 
