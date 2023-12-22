@@ -122,7 +122,8 @@ namespace OutSystems.GridAPI.Rows {
                     ).dataSource.getRowNumberByKey(key)
                 );
             },
-            hasValue: true
+            hasValue: true,
+            defaultFailValue: -1
         });
 
         Performance.SetMark('Rows.GetRowNumberByKey-end');
@@ -296,8 +297,7 @@ namespace OutSystems.GridAPI.Rows {
                         gridID
                     ).dataSource.updateAddedRowKey(currentRowId, newKey)
                 );
-            },
-            hasValue: true
+            }
         });
 
         Performance.SetMark('Rows.UpdateAddedRowKey-end');
