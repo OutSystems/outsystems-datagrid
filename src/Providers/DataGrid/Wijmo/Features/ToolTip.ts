@@ -16,6 +16,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
             this._tooltip = new wijmo.Tooltip();
+            this._tooltip.trigger = wijmo.TooltipTrigger.Both;
             this._eventMouseEnter = this._onMouseEnter.bind(this);
             this._eventMouseOut = this._onMouseOut.bind(this);
         }
