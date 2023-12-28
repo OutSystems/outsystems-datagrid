@@ -14,7 +14,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
         private _invalidRows: Set<any>;
         /** Exposed methods to manipulate RowMetadata */
         private _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
-        private _previousValue: string | number;
 
         constructor(grid: Grid.IGridWijmo) {
             this._grid = grid;
@@ -34,35 +33,19 @@ namespace Providers.DataGrid.Wijmo.Feature {
         // }
 
         /**
-         * Handler for the beginningEdit.
-         * It stores the previous cell value to validate if it was changed in CellEditEnded handler.
-         */
-        private _beginningEditHandler(
-            s: wijmo.grid.FlexGrid,
-            e: wijmo.grid.CellRangeEventArgs
-        ): void {
-            // if the ESC key is pressed the e.cancel is true
-            if (e.cancel) return;
-
-            // Related to WJM-27988 that will be fixed in the Wijmo's 2023.2 release
-            this._previousValue = s.getCellData(e.row, e.col, false);
-        }
-
-        /**
          * Handler for the CellEditEnded.
          */
         private _cellEditEndedHandler(
             s: wijmo.grid.FlexGrid,
-            e: wijmo.grid.CellRangeEventArgs
+            e: wijmo.grid.CellEditEndingEventArgs
         ): void {
-            if (e.cancel) return;
-
             // get the new value
             const newValue = s.getCellData(e.row, e.col, false);
+            const previousValue = e.previousData;
 
             const isNewValue =
-                this._previousValue !== newValue &&
-                this._previousValue?.toString() !== newValue?.toString();
+                previousValue !== newValue &&
+                previousValue?.toString() !== newValue?.toString();
 
             if (isNewValue) {
                 const column = s.getColumn(e.col);
@@ -449,9 +432,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
         }
 
         public build(): void {
-            this._grid.provider.beginningEdit.addHandler(
-                this._beginningEditHandler.bind(this)
-            );
             this._grid.provider.cellEditEnded.addHandler(
                 this._cellEditEndedHandler.bind(this)
             );
