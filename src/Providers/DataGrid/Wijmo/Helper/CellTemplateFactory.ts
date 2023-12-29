@@ -23,9 +23,7 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
         const url = hasExternalURL
             ? externalURL
             : '${item.' + externalURL + '}';
-        const text = hasFixedText
-            ? binding.substring(1)
-            : '${item.' + binding + '}';
+        const text = hasFixedText ? binding.substring(1) : undefined;
 
         let imgAltText = '';
         if (altText !== undefined) {
