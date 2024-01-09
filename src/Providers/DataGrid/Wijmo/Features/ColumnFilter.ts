@@ -109,6 +109,24 @@ namespace Providers.DataGrid.Wijmo.Feature {
             );
         }
 
+        /**
+         * Tests if the string (corresponding to a Date) is a valid date.
+         * This means that the date is not undefined, null, "", or NullDate.
+         * Returns true if it's a valid date.
+         *
+         * @private
+         * @param {string} value
+         * @return {*}  {string}
+         * @memberof ColumnFilter
+         */
+        private _isValidDate(value: string): boolean {
+            //As all the cases are to know if the
+            return (
+                value &&
+                !value.startsWith(OSFramework.DataGrid.Constants.OSNullDate)
+            );
+        }
+
         public get filterType(): wijmo.grid.filter.FilterType {
             return this._grid.config.serverSidePagination
                 ? wijmo.grid.filter.FilterType.Condition
