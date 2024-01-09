@@ -87,9 +87,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     break;
                 case OSFramework.DataGrid.Enum.ColumnType.Date:
                 case OSFramework.DataGrid.Enum.ColumnType.DateTime:
-                    _formattedValue = new Date(
-                        conditionValue as string | number
-                    );
+                    _formattedValue = null;
+                    // Only if the date is valid, is that we'll create the value
+                    // otherwise, the value will be left as null (that in this case
+                    // is the same as empty or NullDate)
+                    if (this._isValidDate(conditionValue as string)) {
+                        _formattedValue = new Date(conditionValue as string);
+                    }
                     break;
                 default:
                     _formattedValue = conditionValue;
@@ -237,6 +241,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 const isColumnTypeCheckbox =
                     column.columnType ===
                     OSFramework.DataGrid.Enum.ColumnType.Checkbox;
+
+                const isColumnTypeDate =
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Date ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.DateTime;
+
                 const columnFilter = this._filter.getColumnFilter(
                     column.config.binding
                 ).valueFilter;
@@ -246,8 +257,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 columnFilter.showValues = Object.fromEntries(
                     values.map((val) => {
                         if (val === null) return [];
-                        if (isColumnTypeCheckbox)
+                        if (isColumnTypeCheckbox) {
                             return [val.toLowerCase(), true];
+                        } else if (isColumnTypeDate) {
+                            //In case it's a date column, and the date is empty OR NullDate, it will be
+                            //the same as an empty string.
+                            return [this._isValidDate(val) ? val : '', true];
+                        }
                         return [val, true];
                     })
                 );
