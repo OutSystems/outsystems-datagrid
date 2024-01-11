@@ -16,13 +16,14 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
         let cellTemplate: wijmo.grid.ICellTemplateFunction;
 
         const hasFixedText = binding.startsWith('$');
-        const hasExternalURL = externalURL?.substring(0, 4) === 'http';
+        const hasExternalURL = externalURL
+            ?.toLocaleLowerCase()
+            .startsWith('http');
+
         const url = hasExternalURL
             ? externalURL
             : '${item.' + externalURL + '}';
-        const text = hasFixedText
-            ? binding.substring(1)
-            : '${item.' + binding + '}';
+        const text = hasFixedText ? binding.substring(1) : undefined;
 
         let imgAltText = '';
         if (altText !== undefined) {
