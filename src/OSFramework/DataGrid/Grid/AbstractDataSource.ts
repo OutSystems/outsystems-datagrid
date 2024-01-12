@@ -172,8 +172,8 @@ namespace OSFramework.DataGrid.Grid {
 
         // remove null date time values from data, as we do not wish to display them.
         private _formatData(data) {
-            const nullDateTime = ':"1900-01-01T00:00:00"';
-            const nullDate = ':"1900-01-01"';
+            const nullDateTime = `:"${Constants.OSNullDateTime}"`;
+            const nullDate = `:"${Constants.OSNullDate}"`;
             const emptyString = ':""';
 
             const replaceDateTime = new RegExp(nullDateTime, 'g');
