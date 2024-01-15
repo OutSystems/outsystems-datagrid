@@ -311,6 +311,10 @@ namespace Providers.DataGrid.Wijmo.Grid {
 
             this._fBuilder.dispose();
 
+            this._provider.resizedColumn.removeHandler(
+                this._updateColumnWidth.bind(this)
+            );
+
             this._provider.dispose();
             this._provider = undefined;
         }
