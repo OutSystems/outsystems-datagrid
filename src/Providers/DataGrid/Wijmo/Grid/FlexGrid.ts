@@ -9,6 +9,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
     {
         private _fBuilder: Feature.FeatureBuilder;
         private _rowMetadata: RowMetadata;
+        private _resizedColumnHandler: OSFramework.DataGrid.Callbacks.Generic;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(gridID: string, configs: any) {
@@ -135,9 +136,8 @@ namespace Providers.DataGrid.Wijmo.Grid {
             this._provider.itemsSource.calculatedFields =
                 this.features.calculatedField.calculatedFields;
 
-            this._provider.resizedColumn.addHandler(
-                this._updateColumnWidth.bind(this)
-            );
+            this._resizedColumnHandler = this._updateColumnWidth.bind(this);
+            this._provider.resizedColumn.addHandler(this._resizedColumnHandler);
 
             this._safari14workaround();
 
@@ -312,7 +312,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
             this._fBuilder.dispose();
 
             this._provider.resizedColumn.removeHandler(
-                this._updateColumnWidth.bind(this)
+                this._resizedColumnHandler
             );
 
             this._provider.dispose();
