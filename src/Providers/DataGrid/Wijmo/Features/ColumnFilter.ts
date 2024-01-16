@@ -192,15 +192,35 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 const columnFilter = this._filter.getColumnFilter(
                     column.config.binding
                 ).conditionFilter;
+                let isNumericalColumn =
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Calculated ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Number;
 
                 if (values.length > 0) {
                     const condition1 = values[0];
                     const condition2 = values[1];
 
+                    if (isNumericalColumn) {
+                        if (
+                            isNaN(parseFloat(condition1.value)) ||
+                            (condition2 && isNaN(parseFloat(condition2.value)))
+                        ) {
+                            throw new Error(
+                                OSFramework.DataGrid.Enum.ErrorMessages.Filter_InvalidDataType
+                            );
+                        }
+                    }
+
                     columnFilter.condition1.value =
                         this._getFilterConditionValue(
                             column.columnType,
-                            condition1.value
+                            isNumericalColumn
+                                ? parseFloat(condition1.value)
+                                : condition1.value
                         );
                     columnFilter.condition1.operator =
                         wijmo.grid.filter.Operator[condition1.operatorTypeId];
@@ -210,7 +230,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         columnFilter.condition2.value =
                             this._getFilterConditionValue(
                                 column.columnType,
-                                condition2.value
+                                isNumericalColumn
+                                    ? parseFloat(condition2.value)
+                                    : condition2.value
                             );
                         columnFilter.condition2.operator =
                             wijmo.grid.filter.Operator[
