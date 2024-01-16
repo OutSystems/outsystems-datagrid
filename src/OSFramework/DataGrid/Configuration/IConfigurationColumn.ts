@@ -54,6 +54,10 @@ namespace OSFramework.DataGrid.Configuration {
          */
         visible: boolean;
         /**
+         * Determines whether or not the column is visible
+         */
+        width: number;
+        /**
          * Refresh config
          * @param providerConfig The config based on provider, used to update our internal config
          */
