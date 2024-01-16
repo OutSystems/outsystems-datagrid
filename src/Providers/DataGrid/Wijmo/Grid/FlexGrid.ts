@@ -8,8 +8,8 @@ namespace Providers.DataGrid.Wijmo.Grid {
         implements IGridWijmo
     {
         private _fBuilder: Feature.FeatureBuilder;
-        private _rowMetadata: RowMetadata;
         private _resizedColumnHandler: OSFramework.DataGrid.Callbacks.Generic;
+        private _rowMetadata: RowMetadata;
 
         // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
         constructor(gridID: string, configs: any) {
@@ -89,8 +89,11 @@ namespace Providers.DataGrid.Wijmo.Grid {
             grid: wijmo.grid.FlexGrid,
             event: wijmo.grid.CellRangeEventArgs
         ): void {
-            const column = event.getColumn();
-            this.getColumn(column.binding).config.width = column.width;
+            const columnProvider = event.getColumn();
+            const columnOS = this.getColumn(columnProvider.binding);
+            if (columnOS) {
+                columnOS.config.width = columnProvider.width;
+            }
         }
 
         public get autoGenerate(): boolean {
