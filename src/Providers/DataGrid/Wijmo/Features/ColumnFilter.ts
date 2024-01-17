@@ -190,7 +190,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
             const column = this._grid.getColumn(columnId);
             if (column) {
                 const columnFilter = this._filter.getColumnFilter(
-                    column.config.binding
+                    column.provider
                 ).conditionFilter;
                 const isNumericalColumn =
                     column.columnType ===
@@ -271,7 +271,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         OSFramework.DataGrid.Enum.ColumnType.DateTime;
 
                 const columnFilter = this._filter.getColumnFilter(
-                    column.config.binding
+                    column.provider
                 ).valueFilter;
 
                 // we receive values as an array ["Brazil", "Portugal"], but wijmo expects an object
