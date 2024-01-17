@@ -192,7 +192,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 const columnFilter = this._filter.getColumnFilter(
                     column.config.binding
                 ).conditionFilter;
-                let isNumericalColumn =
+                const isNumericalColumn =
                     column.columnType ===
                         OSFramework.DataGrid.Enum.ColumnType.Calculated ||
                     column.columnType ===
