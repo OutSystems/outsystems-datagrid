@@ -204,15 +204,16 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     const condition1 = values[0];
                     const condition2 = values[1];
 
-                    if (isNumericalColumn) {
-                        if (
-                            isNaN(parseFloat(condition1.value)) ||
-                            (condition2 && isNaN(parseFloat(condition2.value)))
-                        ) {
-                            throw new Error(
-                                OSFramework.DataGrid.Enum.ErrorMessages.Filter_InvalidDataType
-                            );
-                        }
+                    // If it is a numerical column and one of the conditions' value is not a number
+                    // Then throw an error
+                    if (
+                        isNumericalColumn &&
+                        (isNaN(parseFloat(condition1.value)) ||
+                            (condition2 && isNaN(parseFloat(condition2.value))))
+                    ) {
+                        throw new Error(
+                            OSFramework.DataGrid.Enum.ErrorMessages.Filter_InvalidDataType
+                        );
                     }
 
                     columnFilter.condition1.value =
