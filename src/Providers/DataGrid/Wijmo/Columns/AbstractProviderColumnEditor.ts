@@ -118,6 +118,6 @@ namespace Providers.DataGrid.Wijmo.Column {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        abstract get editorProviderType(): any;
+        public abstract get editorProviderType(): any;
     }
 }

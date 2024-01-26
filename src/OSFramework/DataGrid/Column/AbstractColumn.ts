@@ -30,7 +30,7 @@ namespace OSFramework.DataGrid.Column {
         /** External events associated to the column */
         protected _columnEvents: Event.Column.ColumnEventsManager;
         /** Verifies if the column has associated events */
-        abstract hasEvents: boolean;
+        public abstract hasEvents: boolean;
 
         /**
          * @param grid Grid where the column is located
@@ -219,19 +219,19 @@ namespace OSFramework.DataGrid.Column {
             this.applyConfigs();
         }
 
-        abstract get columnEvents(): Event.Column.ColumnEventsManager;
+        public abstract get columnEvents(): Event.Column.ColumnEventsManager;
 
-        abstract get columnType(): Enum.ColumnType;
+        public abstract get columnType(): Enum.ColumnType;
 
-        abstract get provider(): wijmo.grid.ColumnGroup;
+        public abstract get provider(): wijmo.grid.ColumnGroup;
 
-        abstract get providerIndex(): number;
+        public abstract get providerIndex(): number;
 
-        abstract set provider(provider: wijmo.grid.ColumnGroup);
+        public abstract set provider(provider: wijmo.grid.ColumnGroup);
 
-        abstract get providerType(): wijmo.DataType;
+        public abstract get providerType(): wijmo.DataType;
 
         /** Responsable for applying config definitions to the current provider */
-        abstract applyConfigs(): void;
+        protected abstract applyConfigs(): void;
     }
 }
