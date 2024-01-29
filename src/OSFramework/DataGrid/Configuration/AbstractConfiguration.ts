@@ -8,6 +8,6 @@ namespace OSFramework.DataGrid.Configuration {
                 if (config[key] !== undefined) this[key] = config[key];
             }
         }
-        abstract getProviderConfig(): DataGrid.Types.IProviderConfiguration<ProviderConfigType>;
+        public abstract getProviderConfig(): DataGrid.Types.IProviderConfiguration<ProviderConfigType>;
     }
 }
