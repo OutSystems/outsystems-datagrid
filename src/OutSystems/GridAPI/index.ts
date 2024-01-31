@@ -1,9 +1,9 @@
 namespace OutSystems.GridAPI {
-    /**
-     * Format of data as set in service center.
-     */
-    // eslint-disable-next-line prefer-const
-    export let dateFormat = '';
+	/**
+	 * Format of data as set in service center.
+	 */
+	// eslint-disable-next-line prefer-const
+	export let dateFormat = '';
 }
 
 /**
@@ -11,9 +11,9 @@ namespace OutSystems.GridAPI {
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace GridAPI {
-    /**
-     * Format of data as set in service center.
-     */
-    // eslint-disable-next-line prefer-const
-    export let dateFormat = OutSystems.GridAPI.dateFormat;
+	/**
+	 * Format of data as set in service center.
+	 */
+	// eslint-disable-next-line prefer-const
+	export let dateFormat = OutSystems.GridAPI.dateFormat;
 }
