@@ -5,7 +5,7 @@
 	"editor.wordWrapColumn": 170,
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": true
+		"source.fixAll.eslint": "explicit"
 	},
 	"css.lint.fontFaceProperties": "ignore",
 	"scss.lint.fontFaceProperties": "ignore",
@@ -27,5 +27,9 @@
 	},
 	"[jsonc]": {
 		"editor.defaultFormatter": "vscode.json-language-features"
+	},
+	"sonarlint.connectedMode.project": {
+		"connectionId": "outsystems",
+		"projectKey": "OutSystems_outsystems-datagrid-reactive"
 	}
 }

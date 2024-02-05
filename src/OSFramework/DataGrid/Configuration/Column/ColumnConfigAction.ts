@@ -6,6 +6,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
     export class ColumnConfigAction extends ColumnConfig {
         public actionColumnElementType: DataGrid.Enum.CellTemplateElementType;
         public extendedClass: string;
+        public externalURL: string;
         public url: string;
 
         constructor(
@@ -14,6 +15,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         ) {
             super(config);
             this.actionColumnElementType = extraConfig.actionColumnElementType;
+            this.externalURL = extraConfig.externalURL;
         }
 
         public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {

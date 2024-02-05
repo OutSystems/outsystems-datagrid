@@ -87,9 +87,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     break;
                 case OSFramework.DataGrid.Enum.ColumnType.Date:
                 case OSFramework.DataGrid.Enum.ColumnType.DateTime:
-                    _formattedValue = new Date(
-                        conditionValue as string | number
-                    );
+                    _formattedValue = null;
+                    // Only if the date is valid, is that we'll create the value
+                    // otherwise, the value will be left as null (that in this case
+                    // is the same as empty or NullDate)
+                    if (this._isValidDate(conditionValue as string)) {
+                        _formattedValue = new Date(conditionValue as string);
+                    }
                     break;
                 default:
                     _formattedValue = conditionValue;
@@ -106,6 +110,24 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 this._filter._filters.filter(
                     (columnFilter) => columnFilter.isActive
                 ).length > 0
+            );
+        }
+
+        /**
+         * Tests if the string (corresponding to a Date) is a valid date.
+         * This means that the date is not undefined, null, "", or NullDate.
+         * Returns true if it's a valid date.
+         *
+         * @private
+         * @param {string} value
+         * @return {*}  {string}
+         * @memberof ColumnFilter
+         */
+        private _isValidDate(value: string): boolean {
+            //As all the cases are to know if the
+            return (
+                value &&
+                !value.startsWith(OSFramework.DataGrid.Constants.OSNullDate)
             );
         }
 
@@ -168,17 +190,38 @@ namespace Providers.DataGrid.Wijmo.Feature {
             const column = this._grid.getColumn(columnId);
             if (column) {
                 const columnFilter = this._filter.getColumnFilter(
-                    column.config.binding
+                    column.provider
                 ).conditionFilter;
+                const isNumericalColumn =
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Calculated ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Number;
 
                 if (values.length > 0) {
                     const condition1 = values[0];
                     const condition2 = values[1];
 
+                    // If it is a numerical column and one of the conditions' value is not a number
+                    // Then throw an error
+                    if (
+                        isNumericalColumn &&
+                        (isNaN(parseFloat(condition1.value)) ||
+                            (condition2 && isNaN(parseFloat(condition2.value))))
+                    ) {
+                        throw new Error(
+                            OSFramework.DataGrid.Enum.ErrorMessages.Filter_InvalidDataType
+                        );
+                    }
+
                     columnFilter.condition1.value =
                         this._getFilterConditionValue(
                             column.columnType,
-                            condition1.value
+                            isNumericalColumn
+                                ? parseFloat(condition1.value)
+                                : condition1.value
                         );
                     columnFilter.condition1.operator =
                         wijmo.grid.filter.Operator[condition1.operatorTypeId];
@@ -188,7 +231,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         columnFilter.condition2.value =
                             this._getFilterConditionValue(
                                 column.columnType,
-                                condition2.value
+                                isNumericalColumn
+                                    ? parseFloat(condition2.value)
+                                    : condition2.value
                             );
                         columnFilter.condition2.operator =
                             wijmo.grid.filter.Operator[
@@ -219,8 +264,15 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 const isColumnTypeCheckbox =
                     column.columnType ===
                     OSFramework.DataGrid.Enum.ColumnType.Checkbox;
+
+                const isColumnTypeDate =
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Date ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.DateTime;
+
                 const columnFilter = this._filter.getColumnFilter(
-                    column.config.binding
+                    column.provider
                 ).valueFilter;
 
                 // we receive values as an array ["Brazil", "Portugal"], but wijmo expects an object
@@ -228,8 +280,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
                 columnFilter.showValues = Object.fromEntries(
                     values.map((val) => {
                         if (val === null) return [];
-                        if (isColumnTypeCheckbox)
+                        if (isColumnTypeCheckbox) {
                             return [val.toLowerCase(), true];
+                        } else if (isColumnTypeDate) {
+                            //In case it's a date column, and the date is empty OR NullDate, it will be
+                            //the same as an empty string.
+                            return [this._isValidDate(val) ? val : '', true];
+                        }
                         return [val, true];
                     })
                 );
@@ -349,7 +406,17 @@ namespace Providers.DataGrid.Wijmo.Feature {
                     column.columnType ===
                         OSFramework.DataGrid.Enum.ColumnType.Text ||
                     column.columnType ===
-                        OSFramework.DataGrid.Enum.ColumnType.Dropdown
+                        OSFramework.DataGrid.Enum.ColumnType.Dropdown ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Checkbox ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Currency ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Date ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.DateTime ||
+                    column.columnType ===
+                        OSFramework.DataGrid.Enum.ColumnType.Number
                 ) {
                     // this column will have both filter types
                     this.changeFilterType(
@@ -369,7 +436,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
                         ).valueFilter.maxValues = maxVisibleOptions;
                 } else {
                     throw new Error(
-                        `The SetColumnFilterOptions client action can only be applied to Text or Dropdowncolumns.`
+                        `The SetColumnFilterOptions client action can only be applied to Text, Number, Currency, Dropdown, Checkbox, Date, DateTime Columns.`
                     );
                 }
             } else {

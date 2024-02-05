@@ -10,14 +10,20 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
         type: OSFramework.DataGrid.Enum.CellTemplateElementType,
         binding: string,
         callback: (item) => void,
-        altText?: string
+        altText?: string,
+        externalURL?: string
     ): wijmo.grid.ICellTemplateFunction {
         let cellTemplate: wijmo.grid.ICellTemplateFunction;
 
         const hasFixedText = binding.startsWith('$');
-        const text = hasFixedText
-            ? binding.substring(1)
-            : '${item.' + binding + '}';
+        const hasExternalURL = externalURL
+            ?.toLocaleLowerCase()
+            .startsWith('http');
+
+        const url = hasExternalURL
+            ? externalURL
+            : '${item.' + externalURL + '}';
+        const text = hasFixedText ? binding.substring(1) : undefined;
 
         let imgAltText = '';
         if (altText !== undefined) {
@@ -45,12 +51,32 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
                 });
                 break;
             case OSFramework.DataGrid.Enum.CellTemplateElementType.Link: {
-                cellTemplate = wijmo.grid.cellmaker.CellMaker.makeLink({
+                // Set the object for Wijmo makeLink method call
+                const cellTemplateOptions = {
                     text,
-                    click: (e, ctx) => {
+                    href: undefined,
+                    attributes: undefined,
+                    click: undefined
+                };
+
+                // Validate if is a link and defined the default options
+                if (externalURL === '') {
+                    cellTemplateOptions.click = (e, ctx) => {
                         callback(ctx);
-                    }
-                });
+                    };
+                } else {
+                    cellTemplateOptions.href = url;
+                    cellTemplateOptions.attributes = {
+                        target: '_blank'
+                    };
+                }
+
+                // Set the Object with defined attributes based on validation
+                cellTemplate =
+                    wijmo.grid.cellmaker.CellMaker.makeLink(
+                        cellTemplateOptions
+                    );
+
                 break;
             }
             default:
