@@ -152,6 +152,7 @@ namespace OSFramework.DataGrid.Types {
 
     export interface IActionColumnExtraConfigs extends IColumnExtraConfigs {
         actionColumnElementType: DataGrid.Enum.CellTemplateElementType;
+        externalURL?: string;
     }
 
     export interface IImageColumnExtraConfigs

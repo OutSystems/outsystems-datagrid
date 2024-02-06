@@ -142,6 +142,6 @@ namespace Providers.DataGrid.Wijmo.Column {
                 ).remove(this.provider);
         }
 
-        abstract get providerType(): wijmo.DataType;
+        public abstract get providerType(): wijmo.DataType;
     }
 }

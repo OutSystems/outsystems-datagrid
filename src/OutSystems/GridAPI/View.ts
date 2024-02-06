@@ -12,10 +12,10 @@ namespace OutSystems.GridAPI.View {
             gridID,
             errorCode:
                 OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetViewLayout,
-            hasValue: true,
             callback: () => {
                 return GridManager.GetGridById(gridID).getViewLayout();
-            }
+            },
+            hasValue: true
         });
 
         Performance.SetMark('View.GetViewLayout-end');

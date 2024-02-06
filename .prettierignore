@@ -1,3 +1,8 @@
-/* prettier-ignore */
-*.md
-*.d.ts
+dist
+dependencies
+node_modules
+
+*.css
+
+# don't lint settings
+*.snyk

@@ -14,6 +14,7 @@ namespace OSFramework.DataGrid.Enum {
         AutoGenerateGridWrite = 'The auto generation of columns based on Data is not available when the Grid is editable. Please use ArrangeData action for this scenario.',
         Column_NotFound = 'Column not found',
         CustomizeExportingMessageEmptyString = 'It seems you are passing an empty message. Please pass a valid message.',
+        Filter_InvalidDataType = 'It seems you are trying to filter a Number/Currency column with a value that is not a number.',
         FreezeColumnPositiveNumberExpected = 'Unable to freeze column. Please use a positive number.',
         Grid_NotFound = 'Grid not found.',
         InvalidColumnIdentifier = 'It seems you are not passing a valid column.',

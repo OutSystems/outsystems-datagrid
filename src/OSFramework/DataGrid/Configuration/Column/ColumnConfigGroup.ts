@@ -28,6 +28,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
         public uniqueId: string;
         public validateBinding: boolean;
         public visible: boolean;
+        public width: number;
 
         constructor(
             config: DataGrid.Types.IColumnConfigs,
