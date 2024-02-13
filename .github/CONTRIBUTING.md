@@ -1,4 +1,4 @@
-# Contributing to OUTSYSTEMS-UI
+# Contributing to OUTSYSTEMS-DATAGRID
 
 Thank you for considering contributing to our project! 🚀
 
