@@ -3,22 +3,22 @@
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.DataGrid.Callbacks.ContextMenu {
-    /**
-     * Callback signature for the MenuItem click Event
-     * @param {string} gridID which grid triggered the event
-     * @param {OSFramework.DataGrid.Grid.IGrid} gridObj object of the grid which triggered the event
-     */
-    export type OSClickEvent = {
-        (gridID: string, gridObject: OSFramework.DataGrid.Grid.IGrid): void;
-    };
+	/**
+	 * Callback signature for the MenuItem click Event
+	 * @param {string} gridID which grid triggered the event
+	 * @param {OSFramework.DataGrid.Grid.IGrid} gridObj object of the grid which triggered the event
+	 */
+	export type OSClickEvent = {
+		(gridID: string, gridObject: OSFramework.DataGrid.Grid.IGrid): void;
+	};
 
-    /**
-     * This is the callback signature for events triggerend by column action.
-     * @param {string} gridID which grid triggered the event
-     * @param {boolean} isOpening defines if context menu is opening or closing
-     * @param {string} columnId which column was clicked
-     */
-    export type Toggle = {
-        (gridID: string, isOpening: boolean, columnId: string): void;
-    };
+	/**
+	 * This is the callback signature for events triggerend by column action.
+	 * @param {string} gridID which grid triggered the event
+	 * @param {boolean} isOpening defines if context menu is opening or closing
+	 * @param {string} columnId which column was clicked
+	 */
+	export type Toggle = {
+		(gridID: string, isOpening: boolean, columnId: string): void;
+	};
 }
