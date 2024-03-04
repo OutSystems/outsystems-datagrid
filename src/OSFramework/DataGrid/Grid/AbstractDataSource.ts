@@ -80,6 +80,8 @@ namespace OSFramework.DataGrid.Grid {
 					saveConvertion('date', key);
 				}
 				return handleValue(value);
+			} else if (typeMap.get(key) === 'Dropdown') {
+				return value.toString();
 			}
 			return value;
 		});
