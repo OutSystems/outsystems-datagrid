@@ -80,6 +80,8 @@ namespace OSFramework.DataGrid.Grid {
 					saveConvertion('date', key);
 				}
 				return handleValue(value);
+			// To avoid issue with the GetChangedLines when returnin the Dropdown cell to its original vlaue,
+			// we need to match the dataMap values data type of the Dropdown Column converting the Dropdown Column values to string.
 			} else if (typeMap.get(key) === 'Dropdown') {
 				return value.toString();
 			}
