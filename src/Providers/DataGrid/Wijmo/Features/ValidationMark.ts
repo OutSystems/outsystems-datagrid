@@ -602,11 +602,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			triggerOnCellValueChange = true
 		): void {
 			// This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
-			const currValue = this._grid.provider.getCellData(
-				rowNumber,
-				column.provider.index,
-				column.columnType === OSFramework.DataGrid.Enum.ColumnType.Dropdown
-			);
+			const currValue = this._grid.provider.getCellData(rowNumber, column.provider.index, false);
 
 			//If we decide not to trigger the column events we will skip this step
 			if (triggerOnCellValueChange) {
@@ -634,11 +630,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				// We need to skip Group Column since it is not a column we can validate
 				if (column.columnType !== OSFramework.DataGrid.Enum.ColumnType.Group) {
 					// This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
-					const currValue = this._grid.provider.getCellData(
-						rowNumber,
-						column.provider.index,
-						column.columnType === OSFramework.DataGrid.Enum.ColumnType.Dropdown
-					);
+					const currValue = this._grid.provider.getCellData(rowNumber, column.provider.index, false);
 
 					// Triggers the events of OnCellValueChange associated to a specific column in OS
 					this._triggerEventsFromColumn(rowNumber, column.uniqueId, currValue, currValue);
