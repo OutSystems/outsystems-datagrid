@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -663,6 +663,10 @@ declare module wijmo.xlsx {
          * Gets or sets the word wrap setting of row.
          */
         wordWrap: boolean;
+        /**
+         * Gets or sets the number format Id.
+         */
+        numFormatId: number;
         /**
          * Initializes a new instance of the {@link WorkbookStyle} class.
          */
@@ -1430,6 +1434,10 @@ declare module wijmo.xlsx {
          * Word wrap setting.
          */
         wordWrap?: boolean;
+        /**
+         * Underlying number format Id
+         */
+        numFormatId?: number;
     }
     /**
      * Represents the Workbook Object Model font definition.

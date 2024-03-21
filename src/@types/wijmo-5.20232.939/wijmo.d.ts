@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -448,7 +448,7 @@ declare module wijmo.collections {
         /**
          * Gets or sets the collection object from which to create this view.
          */
-        sourceCollection: any;
+        sourceCollection: T[];
         /**
          * Returns a value that indicates whether a given item belongs to this view.
          *
@@ -524,7 +524,7 @@ declare module wijmo.collections {
      * Defines methods and properties that extend {@link ICollectionView} to provide
      * editing capabilities.
      */
-    interface IEditableCollectionView extends ICollectionView {
+    interface IEditableCollectionView<T = any> extends ICollectionView {
         /**
          * Gets a value that indicates whether a new item can be added to the collection.
          */
@@ -541,11 +541,11 @@ declare module wijmo.collections {
         /**
          * Gets the item that is being added during the current add transaction.
          */
-        currentAddItem: any;
+        currentAddItem: T;
         /**
          * Gets the item that is being edited during the current edit transaction.
          */
-        currentEditItem: any;
+        currentEditItem: T;
         /**
          * Gets a value that indicates whether an add transaction is in progress.
          */
@@ -582,13 +582,13 @@ declare module wijmo.collections {
          *
          * @param item Item to edit.
          */
-        editItem(item: any): void;
+        editItem(item: T): void;
         /**
          * Removes the specified item from the collection.
          *
          * @param item Item to remove from the collection.
          */
-        remove(item: any): void;
+        remove(item: T): void;
         /**
          * Removes the item at the specified index from the collection.
          *
@@ -1033,7 +1033,7 @@ declare module wijmo {
      * '{name:format}' with properties of the <b>data</b> parameter. For example:
      *
      * ```typescript
-     * import { format } from '@grapecity/wijmo';
+     * import { format } from '@mescius/wijmo';
      * let data = { name: 'Joe', amount: 123456 },
      *     msg = format('Hello {name}, you won {amount:n2}!', data);
      * ```
@@ -1044,7 +1044,7 @@ declare module wijmo {
      * from the 'when' property. For example:
      *
      * ```typescript
-     * import { format } from '@grapecity/wijmo';
+     * import { format } from '@mescius/wijmo';
      * fmtObj fmt = {
      *     count: 'count',
      *     when: {
@@ -1068,7 +1068,7 @@ declare module wijmo {
      * For example:
      *
      * ```typescript
-     * import { format, isString, escapeHtml } from '@grapecity/wijmo';
+     * import { format, isString, escapeHtml } from '@mescius/wijmo';
      * let data = { name: 'Joe', amount: 123456 },
      *     msg = format('Hello {name}, you won {amount:n2}!', data,
      *     (data, name, fmt, val) => {
@@ -1099,7 +1099,7 @@ declare module wijmo {
      * For example:
      *
      * ```typescript
-     * import { glbz } from '@grapecity/wijmo';
+     * import { glbz } from '@mescius/wijmo';
      * let num = 42,
      *     dt = new Date(),
      *     msg = glbz`the number is ${num}:n2, and the date is ${dt}:'MMM d, yyyy'!`;
@@ -1124,7 +1124,7 @@ declare module wijmo {
      *
      * For example:
      * ```typescript
-     * import { evalTemplate } from '@grapecity/wijmo';
+     * import { evalTemplate } from '@mescius/wijmo';
      * const msg = evalTemplate('hello ${user}, want some ${Math.PI}:n2?', { user: 'Chris' }));
      * console.log(msg);
      * > hello Chris, want some 3.14?
@@ -1405,7 +1405,7 @@ declare module wijmo {
      * For example, this code saves the current selection of a FlexGrid to a CSV file:
      *
      * ```typescript
-     * import { saveFile } from '@grapecity/wijmo';
+     * import { saveFile } from '@mescius/wijmo';
      * const clipString = theGrid.getClipString(null, true, true, false);
      * saveFile(clipString, 'grid.csv', 'text/csv');
      * ```
@@ -1413,7 +1413,7 @@ declare module wijmo {
      * And this code saves the content of a canvas element to a JPG file:
      *
      * ```typescript
-     * import { saveFile } from '@grapecity/wijmo';
+     * import { saveFile } from '@mescius/wijmo';
      *
      * canvas.toBlob(blob => {
      *    saveFile(blob, 'image.jpg');
@@ -1511,7 +1511,7 @@ declare module wijmo {
      * to one in one second:
      *
      * ```typescript
-     * import { animate } from '@grapecity/wijmo';
+     * import { animate } from '@mescius/wijmo';
      * const element = document.getElementById('someElement');
      * animate(pct => {
      *     element.style.opacity = pct;
@@ -1525,7 +1525,7 @@ declare module wijmo {
      * if before starting a new animation:
      *
      * ```typescript
-     * import { animate } from '@grapecity/wijmo';
+     * import { animate } from '@mescius/wijmo';
      * const element = document.getElementById('someElement');
      * if (this._animInterval) {
      *     clearInterval(this._animInterval);
@@ -1686,7 +1686,7 @@ declare module wijmo {
          * @param dx The amount by which to expand or shrink the left and right sides of the rectangle.
          * @param dy The amount by which to expand or shrink the top and bottom sides of the rectangle.
          */
-        inflate(dx: number, dy: number): Rect;
+        inflate(dx: number, dy: number, rectWidth?: number, rectHeight?: number): Rect;
     }
     /**
      * Provides date and time utilities.
@@ -1903,7 +1903,7 @@ declare module wijmo {
      * the {@link httpRequest} method to retrieve a list of customers from an OData service:
      *
      * ```typescript
-     * import { httpRequest } from '@grapecity/wijmo';
+     * import { httpRequest } from '@mescius/wijmo';
      * httpRequest('https://services.odata.org/Northwind/Northwind.svc/Customers?$format=json', {
      *   success: xhr => {
      *     let response = JSON.parse(xhr.responseText),
@@ -2244,7 +2244,7 @@ declare module wijmo {
          * in millions and GDP in trillions:
          *
          * ```typescript
-         * import { FlexChart} from '@grapecity/wijmo.chart';
+         * import { FlexChart} from '@mescius/wijmo.chart';
          * new FlexChart('#theChart', {
          *     itemsSource: countriesGDP,
          *     bindingX: 'pop',
@@ -2269,7 +2269,7 @@ declare module wijmo {
          * strings at the start and end of the format string:
          *
          * ```typescript
-         * import { Globalize } from '@grapecity/wijmo';
+         * import { Globalize } from '@mescius/wijmo';
          * console.log(Globalize.formatNumber(value, '"thousands: "c3," k"'));
          * console.log(Globalize.formatNumber(value, '"millions: "c1,," M"'));
          * ```
@@ -2299,7 +2299,7 @@ declare module wijmo {
          * For example:
          *
          * ```typescript
-         * import { Globalize } from '@grapecity/wijmo';
+         * import { Globalize } from '@mescius/wijmo';
          * let dt = new Date(2015, 9, 1); // Oct 1, 2015
          * console.log('result', Globalize.format(dt, '"FY"EEEE"Q"U') + ' (US culture)');
          * **result** FY2016Q1 (US culture)
@@ -2819,7 +2819,7 @@ declare module wijmo.collections {
      * property. For example:
      *
      * ```typescript
-     * import { CollectionView, SortDescription} from '@grapecity/wijmo';
+     * import { CollectionView, SortDescription} from '@mescius/wijmo';
      *
      * // create a CollectionView based on a data array
      * let view = new CollectionView(dataArray);
@@ -2843,11 +2843,11 @@ declare module wijmo.collections {
      * {@sample Core/CollectionView/CreatingViews/Sorting/Overview Example}
      */
     class CollectionView<T = any> implements IEditableCollectionView, IPagedCollectionView {
-        _srcRaw: T[];
-        _src: T[];
+        _srcRaw: (Partial<T> | T)[];
+        _src: (Partial<T> | T)[];
         _ncc: INotifyCollectionChanged;
-        _view: T[];
-        _pgView: T[];
+        _view: (Partial<T> | T)[];
+        _pgView: (Partial<T> | T)[];
         _groups: CollectionViewGroup[] | null;
         _fullGroups: CollectionViewGroup[] | null;
         _digest: string;
@@ -2856,7 +2856,7 @@ declare module wijmo.collections {
         _filters: ObservableArray<IPredicate<any>>;
         _srtDsc: ObservableArray<SortDescription>;
         _grpDesc: ObservableArray<GroupDescription>;
-        _newItem: T | null;
+        _newItem: (Partial<T> | T) | null;
         _edtItem: T | null;
         _edtClone: any;
         _committing: boolean;
@@ -2878,9 +2878,9 @@ declare module wijmo.collections {
         _canChangePage: boolean;
         _refreshOnEdit: boolean;
         _trackChanges: boolean;
-        _chgAdded: ObservableArray<T>;
-        _chgRemoved: ObservableArray<T>;
-        _chgEdited: ObservableArray<T>;
+        _chgAdded: ObservableArray<T | Partial<T>>;
+        _chgRemoved: ObservableArray<T | Partial<T>>;
+        _chgEdited: ObservableArray<T | Partial<T>>;
         _orgVals: Map<any, any>;
         _srtCvt: ISortConverter<T> | null;
         _srtCmp: IComparer<T> | null;
@@ -2896,7 +2896,7 @@ declare module wijmo.collections {
          * {@link CollectionView}.
          * @param options JavaScript object containing initialization data for the control.
          */
-        constructor(sourceCollection?: any, options?: any);
+        constructor(sourceCollection?: Array<(Partial<T> | T)>, options?: any);
         _copy(key: string, value: any): boolean;
         /**
          * Gets or sets an object where the keys represent calculated fields
@@ -3066,7 +3066,7 @@ declare module wijmo.collections {
          * The example below shows a typical use for the {@link sortComparer} property:
          *
          * ```typescript
-         * import { CollectionView, isString } from '@grapecity/wijmo';
+         * import { CollectionView, isString } from '@mescius/wijmo';
          *
          * // create a CollectionView with a custom sort comparer
          * const view = new CollectionView(data, {
@@ -3083,7 +3083,7 @@ declare module wijmo.collections {
          * to control the sort order:
          *
          * ```typescript
-         * import { CollectionView, isString } from '@grapecity/wijmo';
+         * import { CollectionView, isString } from '@mescius/wijmo';
          *
          * // create a CollectionView that uses an Intl.Collator to sort
          * const collator = window.Intl ? new Intl.Collator() : null;
@@ -3179,17 +3179,17 @@ declare module wijmo.collections {
          * Gets an {@link ObservableArray} containing the records that were added to
          * the collection since {@link trackChanges} was enabled.
          */
-        readonly itemsAdded: ObservableArray;
+        readonly itemsAdded: ObservableArray<(Partial<T> | T)>;
         /**
          * Gets an {@link ObservableArray} containing the records that were removed from
          * the collection since {@link trackChanges} was enabled.
          */
-        readonly itemsRemoved: ObservableArray;
+        readonly itemsRemoved: ObservableArray<(Partial<T> | T)>;
         /**
          * Gets an {@link ObservableArray} containing the records that were edited in
          * the collection since {@link trackChanges} was enabled.
          */
-        readonly itemsEdited: ObservableArray;
+        readonly itemsEdited: ObservableArray<(Partial<T> | T)>;
         /**
          * Clears all changes by removing all items in the {@link itemsAdded},
          * {@link itemsRemoved}, and {@link itemsEdited} collections.
@@ -3253,7 +3253,7 @@ declare module wijmo.collections {
          * @param e Contains a description of the change.
          */
         onCollectionChanged(e?: NotifyCollectionChangedEventArgs<any>, clone?: any): void;
-        protected _raiseCollectionChanged(action?: NotifyCollectionChangedAction, item?: T, index?: number): void;
+        protected _raiseCollectionChanged(action?: NotifyCollectionChangedAction, item?: (Partial<T> | T), index?: number): void;
         /**
          * Occurs before the value of the {@link sourceCollection} property changes.
          */
@@ -3293,7 +3293,7 @@ declare module wijmo.collections {
         /**
          * Gets or sets the current item in the view.
          */
-        currentItem: T;
+        currentItem: (Partial<T> | T) & any;
         /**
          * Gets the ordinal position of the current item in the view.
          */
@@ -3340,7 +3340,7 @@ declare module wijmo.collections {
         /**
          * Gets or sets the underlying (unfiltered and unsorted) collection.
          */
-        sourceCollection: any;
+        sourceCollection: (Partial<T> | T)[];
         private _sourceChanged;
         /**
          * Returns a value indicating whether a given item belongs to this view.
@@ -3353,7 +3353,7 @@ declare module wijmo.collections {
          *
          * @param item Item that will become current.
          */
-        moveCurrentTo(item: T): boolean;
+        moveCurrentTo(item: (Partial<T> | T)): boolean;
         /**
          * Sets the first item in the view as the current item.
          */
@@ -3407,7 +3407,7 @@ declare module wijmo.collections {
         /**
          * Gets items in the view.
          */
-        readonly items: T[];
+        readonly items: (Partial<T> | T)[];
         /**
          * Suspend refreshes until the next call to {@link endUpdate}.
          */
@@ -3451,7 +3451,7 @@ declare module wijmo.collections {
         /**
          * Gets the item that is being added during the current add transaction.
          */
-        readonly currentAddItem: T;
+        readonly currentAddItem: (Partial<T> | T);
         /**
          * Gets the item that is being edited during the current edit transaction.
          */
@@ -3523,7 +3523,7 @@ declare module wijmo.collections {
          * @return The item that was added to the collection, or null if the transaction
          * failed.
          */
-        addNew(item?: T, commit?: boolean): T;
+        addNew(item?: (Partial<T> | T), commit?: boolean): (Partial<T> | T);
         /**
          * Ends the current add transaction and saves the pending new item.
          */
@@ -3537,7 +3537,7 @@ declare module wijmo.collections {
          *
          * @param item Item to be removed from the collection.
          */
-        remove(item: T): void;
+        remove(item: (Partial<T> | T)): void;
         /**
          * Removes the item at the specified index from the collection.
          *
@@ -3634,7 +3634,7 @@ declare module wijmo.collections {
         onPageChanging(e: PageChangingEventArgs): boolean;
         _getFullGroup(g: CollectionViewGroup): CollectionViewGroup;
         _getGroupByPath(groups: CollectionViewGroup[], level: number, path: string): CollectionViewGroup;
-        _getPageView(): T[];
+        _getPageView(): (T | Partial<T>)[];
         _createGroups(items: any[]): CollectionViewGroup[] | null;
         private _getGroupsDigest;
         private _mergeGroupItems;
@@ -3694,6 +3694,12 @@ declare module wijmo.collections {
          * @return The aggregate value.
          */
         getAggregate(aggType: wijmo.Aggregate, binding: string, view?: ICollectionView, sheet?: any): any;
+        /**
+         * Clones the current CollectionViewGroup group instance
+         *
+         * @returns cloned CollectionViewGroup instance
+         */
+        _clone(): CollectionViewGroup;
     }
 }
 declare module wijmo {
@@ -4055,6 +4061,7 @@ declare module wijmo {
          */
         onRefreshed(e?: EventArgs): void;
         _getProductInfo(): string;
+        _getFocusedElements(element: HTMLElement): any[] | NodeListOf<Element>;
         private _updateWme;
         _hasPendingUpdates(): boolean;
         protected _handleResize(): void;
@@ -4083,7 +4090,7 @@ declare module wijmo {
      *
      * For example:
      * ```typescript
-     * import { PrintDocument } from '@grapecity/wijmo';
+     * import { PrintDocument } from '@mescius/wijmo';
      *
      * // create the document
      * var doc = new PrintDocument({
@@ -4362,7 +4369,7 @@ declare module wijmo {
      * For example:
      *
      * ```typescript
-     * import { Tooltip } from '@grapecity/wijmo';
+     * import { Tooltip } from '@mescius/wijmo';
      * let tt = new Tooltip();
      * tt.setTooltip('#menu', 'Select commands.');
      * tt.setTooltip('#tree', 'Explore the hierarchy.');
@@ -4373,7 +4380,7 @@ declare module wijmo {
      * the tooltip using the {@link show} and {@link hide} methods. For example:
      *
      * ```typescript
-     * import { Tooltip } from '@grapecity/wijmo';
+     * import { Tooltip } from '@mescius/wijmo';
      * let tt = new Tooltip();
      * element.addEventListener('click', () => {
      *     if (tt.isVisible) {
@@ -4396,6 +4403,9 @@ declare module wijmo {
         private _showAutoTipBnd;
         private _hideAutoTipBnd;
         private _mousemoveBnd;
+        private _focusBnd;
+        private _mousemovedocBnd;
+        private _keydownBnd;
         private _eMouse;
         private _html;
         private _cssClass;
@@ -4406,6 +4416,7 @@ declare module wijmo {
         private _showAtMouse;
         private _showDelay;
         private _hideDelay;
+        _tooltipVisibleOnHover: boolean;
         _tips: _ITooltipInfo[];
         /**
          * Initializes a new instance of the {@link Tooltip} class.
@@ -4542,12 +4553,17 @@ declare module wijmo {
         private _indexOf;
         private _attach;
         private _detach;
+        _keydown(e?: KeyboardEvent, element?: HTMLElement): void;
+        private _focus;
         _showAutoTip(e?: MouseEvent, element?: HTMLElement): void;
         _mousemove(e: MouseEvent): void;
+        _mousemovedoc(e: MouseEvent): void;
         private _hideAutoTip;
+        private _checkBoundsAndHide;
         private _clearTimeouts;
         private _getContent;
         private _setContent;
+        private _hasOffset;
     }
     /**
      * Provides arguments for the {@link Tooltip.popup} event.

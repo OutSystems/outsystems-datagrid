@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -454,6 +454,7 @@ declare module wijmo.grid.multirow {
         _addBoundRow(items: any[], index: number): void;
         _addNode(items: any[], index: number, level: number): void;
         _addGroupRow(group: wijmo.collections.CollectionViewGroup): void;
+        protected _addGroupSummaryRow(group: wijmo.collections.CollectionViewGroup): void;
         _bindColumns(): void;
         _updateCollapsedHeaders(): void;
         _updateColumnTypes(): void;
@@ -487,6 +488,7 @@ declare module wijmo.grid.multirow {
          */
         getMergedRange(p: wijmo.grid.GridPanel, r: number, c: number, clip?: boolean): wijmo.grid.CellRange;
         private _getGroupRowMergedRange;
+        private _adjustMergedGroupRange;
     }
 }
 declare module wijmo.grid.multirow {

@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -30,7 +30,7 @@ declare module wijmo.cloud {
      * of the application:
      *
      * ```typescript
-     * import { OAuth2 } from '@grapecity/wijmo.cloud';
+     * import { OAuth2 } from '@mescius/wijmo.cloud';
      *
      * // create OAuth2 object
      * const API_KEY = 'XXXX';
@@ -558,8 +558,8 @@ declare module wijmo.cloud {
          * with names ending in "Date" as dates:
          *
          * ```typescript
-         * import { DataType } from '@grapecity/wijmo';
-         * import { GoogleSheet } from '@grapecity/google';
+         * import { DataType } from '@mescius/wijmo';
+         * import { GoogleSheet } from '@mescius/google';
          * let ssNWind = new GoogleSheet(SHEET_ID_NW, {
          *     apiKey: API_KEY,
          *     columnDataTypes: [
@@ -660,7 +660,7 @@ declare module wijmo.cloud {
      * object that loads data from three collections:
      *
      * ```typescript
-     * import { Firestore } from '@grapecity/wijmo.cloud';
+     * import { Firestore } from '@mescius/wijmo.cloud';
      * const PROJECT_ID = 'XXXX-YYYY';
      * const API_KEY = 'ZZZZ';
      * let fsNWind = new Firestore(PROJECT_ID, API_KEY, {
@@ -758,7 +758,7 @@ declare module wijmo.cloud {
      * the {@link Collection} constructor directly. For example:
      *
      * ```typescript
-     * import { Firestore, Collection } from '@grapecity/wijmo.cloud';
+     * import { Firestore, Collection } from '@mescius/wijmo.cloud';
      *
      * // create a Firestore with three Collections
      * const PROJECT_ID = 'XXXX-YYYY';
@@ -776,8 +776,8 @@ declare module wijmo.cloud {
      * or {@link MultiRow} grid. For example:
      *
      * ```typescript
-     * import { FireStore, Collection } from '@grapecity/wijmo.cloud';
-     * import { FlexGrid } from '@grapecity/wijmo.cloud';
+     * import { FireStore, Collection } from '@mescius/wijmo.cloud';
+     * import { FlexGrid } from '@mescius/wijmo.cloud';
      *
      * // create a Firestore with three Collections
      * const PROJECT_ID = 'XXXX-YYYY';
@@ -845,7 +845,7 @@ declare module wijmo.cloud {
          * data for five fields only (the collection has 11 fields):
          *
          * ```typescript
-         * import { Firestore, Collection } from '@grapecity/wijmo.cloud';
+         * import { Firestore, Collection } from '@mescius/wijmo.cloud';
          *
          * // get the store (provides credentials)
          * const store = new Firestore(PROJECT_ID, API_KEY);
@@ -935,7 +935,7 @@ declare module wijmo.cloud {
          *
          * For example:
          * ```typescript
-         * import { Firestore} from '@grapecity/wijmo.cloud';
+         * import { Firestore} from '@mescius/wijmo.cloud';
          *
          * // create Firestore data source
          * let fs = new Firestore(PROJECT_ID, API_KEY, {
@@ -1057,7 +1057,7 @@ declare module wijmo.cloud {
          * For example:
          *
          * ```typescript
-         * import { Firestore, Collection } from '@grapecity/wijmo.cloud';
+         * import { Firestore, Collection } from '@mescius/wijmo.cloud';
          *
          * // create the store object
          * const PROJECT_ID = 'XXXX-YYYY';

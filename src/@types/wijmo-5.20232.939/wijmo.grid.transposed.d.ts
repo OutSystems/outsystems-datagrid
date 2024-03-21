@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -56,7 +56,7 @@ declare module wijmo.grid.transposed {
      * {@link Column.editor}, {@link FlexGridFilter},
      * {@link Selector}.
      */
-    class TransposedGrid extends wijmo.grid.FlexGrid {
+    class TransposedGrid<T = any> extends wijmo.grid.FlexGrid {
         protected _sourceItems: any;
         protected _keyPrefix: string;
         protected _autoGenRows: boolean;
@@ -131,7 +131,7 @@ declare module wijmo.grid.transposed {
          */
         columnGroups: any[];
         onRowEditEnded(e: wijmo.grid.CellRangeEventArgs): void;
-        protected _getCollectionView(value: any): wijmo.collections.ICollectionView;
+        protected _getCollectionView(value: any): wijmo.collections.ICollectionView<T>;
         _getColumnTypes(arr: any[]): wijmo.IBindingInfo[];
         _copy(key: string, value: any): boolean;
         onLoadedRows(e?: wijmo.EventArgs): void;
@@ -150,6 +150,7 @@ declare module wijmo.grid.transposed {
             _rowInfo: any;
         };
         _getRowInfo(arr: any[]): any[];
+        getRowDataItem(r: number, c: number): any;
     }
     /**
      * This class is for internal use only.

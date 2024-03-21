@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -55,8 +55,8 @@ declare module wijmo.chart.webgl {
      * set <b>renderEngine<b> property of {@link FlexChart} to
      * an instance of the {@link WebGLRenderEngine}. For example:
      *```typescript
-     * import { FlexChart } from '@grapecity/wijmo.chart';
-     * import { WebGLRenderEngine } from '@grapecity/wijmo.chart.webgl';
+     * import { FlexChart } from '@mescius/wijmo.chart';
+     * import { WebGLRenderEngine } from '@mescius/wijmo.chart.webgl';
      * let flexChart = new FlexChart('#theGrid'); // create the chart
      * flexChart.renderEngine = new WebGLRenderEngine(); // set the render engine
      * ```

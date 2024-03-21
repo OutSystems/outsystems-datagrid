@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -84,7 +84,7 @@ declare module wijmo.rest {
          * is required. For example:
          *
          * ```typescript
-         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+         * import { ODataCollectionView } from '@mescius/wijmo.odata';
          * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
          * const categories = new ODataCollectionView(serviceUrl, 'Categories', {
          *   fields: ['Category_ID', 'Category_Name'],

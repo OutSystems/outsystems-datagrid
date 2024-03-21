@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -27,8 +27,8 @@ declare module wijmo.grid.search {
      * The example below shows how you can create a {@link FlexGridSearch}
      * control and connect it to a {@link FlexGrid}:
      * ```typescript
-     * import { FlexGrid } from '@grapecity/wijmo.grid';
-     * import { FlexGridSearch } from '@grapecity/wijmo.grid.search';
+     * import { FlexGrid } from '@mescius/wijmo.grid';
+     * import { FlexGridSearch } from '@mescius/wijmo.grid.search';
      *
      * // create FlexGrid
      * let grid = new FlexGrid('#gridElement', {
@@ -41,7 +41,7 @@ declare module wijmo.grid.search {
      * });
      * ```
      */
-    class FlexGridSearch extends wijmo.Control {
+    class FlexGridSearch<T = any> extends wijmo.Control {
         _tbx: HTMLInputElement;
         _btn: HTMLElement;
         private _g;

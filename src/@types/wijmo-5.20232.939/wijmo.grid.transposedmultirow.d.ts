@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -148,12 +148,12 @@ declare module wijmo.grid.transposedmultirow {
      * {@link FlexGrid.allowSorting}, {@link FlexGrid.columnLayout},
      * {@link Column.width}, {@link FlexGridFilter}, {@link Selector}.
      */
-    class TransposedMultiRow extends wijmo.grid.FlexGrid {
+    class TransposedMultiRow<T = any> extends wijmo.grid.FlexGrid {
         private _currentPos;
         _layoutDef: any[];
         _layout: _MultiRowLayout;
         _bindingColumns: any;
-        protected _view: wijmo.collections.ICollectionView;
+        protected _view: wijmo.collections.ICollectionView<T>;
         protected _keyPrefix: string;
         _rowInfo: wijmo.grid.ColumnCollection;
         /**
@@ -224,7 +224,8 @@ declare module wijmo.grid.transposedmultirow {
         _isTransposed(): boolean;
         _autoSizeRows(): void;
         onRowEditEnded(e: wijmo.grid.CellRangeEventArgs): void;
-        protected _getCollectionView(value: any): wijmo.collections.ICollectionView;
+        protected _getCollectionView(value: any): wijmo.collections.ICollectionView<T>;
+        getRowDataItem(r: number, c: number): any;
         private _rowInfoChanged;
         private _formatItem;
         private _sourceViewChanged;

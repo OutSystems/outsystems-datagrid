@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -35,7 +35,9 @@ declare module wijmo.grid {
         /** Use an input element with auto-complete, validation, and a drop-down list. */
         DropDownList = 1,
         /** Use radio buttons with mouse and keyboard support. */
-        RadioButtons = 2
+        RadioButtons = 2,
+        /** Use Menu type control, only display dropdown and not accompied input element  */
+        Menu = 3
     }
     /**
      * Represents a data map for use with a column's {@link Column.dataMap} property.
@@ -53,7 +55,7 @@ declare module wijmo.grid {
      * a drop-down list containing the values on the map.
      *
      * ```typescript
-     * import { FlexGrid, Column } from '@grapecity/wijmo.grid';
+     * import { FlexGrid, Column } from '@mescius/wijmo.grid';
      *
      * // bind grid to products
      * let flex = new FlexGrid({
@@ -116,8 +118,8 @@ declare module wijmo.grid {
      * this mode if your keys are complex objects or arrays of complex objects. See the
      * {@link serializeKeys} property documentation for more details.
      */
-    class DataMap<K = any, V = any> {
-        _cv: wijmo.collections.ICollectionView;
+    class DataMap<K = any, V = any, T = any> {
+        _cv: wijmo.collections.ICollectionView<T>;
         _keyPath: string;
         _displayPath: string;
         _sortByVal: boolean;
@@ -162,7 +164,7 @@ declare module wijmo.grid {
         /**
          * Gets the {@link ICollectionView} object that contains the map data.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets the name of the property to use as a key for the item (data value).
          */
@@ -199,6 +201,21 @@ declare module wijmo.grid {
          */
         getDisplayValues(dataItem?: V): string[];
         /**
+         * Gets an array with all of the items that is filtered.
+         *
+         * @param dataItem Data item for which to filter.
+         * This parameter is optional. If not provided, all items of the collection view
+         * should be returned.
+         */
+        getFilteredItems(dataItem?: V): any[];
+        /**
+         * Gets or sets a value that determines whether the DataMap allows filter by items instead of display values.
+         *
+         * The default value for this property is <b>true</b>.
+         */
+        _useFilter: boolean;
+        useFilter: boolean;
+        /**
          * Gets an array with all of the keys on the map.
          */
         getKeyValues(): K[];
@@ -225,7 +242,7 @@ declare module wijmo.grid {
         /**
          * Occurs when the map data changes.
          */
-        readonly mapChanged: Event<DataMap<any, any>, EventArgs>;
+        readonly mapChanged: Event<DataMap<any, any, any>, EventArgs>;
         /**
          * Raises the {@link mapChanged} event.
          */
@@ -437,6 +454,10 @@ declare module wijmo.grid {
          */
         constructor(g: FlexGrid, cellType: CellType, rows: RowCollection, cols: ColumnCollection, host: HTMLElement);
         /**
+         * Gets the active cell in this panel.
+         */
+        readonly activeCell: HTMLElement | null;
+        /**
          * Gets the grid that owns the panel.
          */
         readonly grid: FlexGrid;
@@ -484,6 +505,8 @@ declare module wijmo.grid {
          * @return Returns true if the value is stored successfully, false otherwise (failed cast).
          */
         setCellData(r: number, c: number | string, value: any, coerce?: boolean, invalidate?: boolean, isMapKeyValue?: boolean): boolean;
+        _getRowData(r: number): any;
+        _getSpecialData(r: number, row: Row, c: number, col: Column, bindingCol: any, isGroupRow: boolean, group: wijmo.collections.CollectionViewGroup): any;
         /**
          * Gets a cell's bounds in viewport coordinates.
          *
@@ -519,6 +542,40 @@ declare module wijmo.grid {
          * Gets the host element for the panel.
          */
         readonly hostElement: HTMLElement;
+        /**
+         * Checks whether a given CellRange is valid for this panel's row and column collections.
+         *
+         * @param rng Range to check.
+         */
+        isRangeValid(rng: CellRange): boolean;
+        /**
+         * Returns the next visible row present in the panel including the start position.
+         * return -1 if no visible row is present
+         *
+         * @param start Starting index of row.
+         */
+        getNextVisibleRow(start?: number): number;
+        /**
+         * Returns the last visible row present in the panel upto and including the end position.
+         * return -1 if no visible row is present
+         *
+         * @param end Last index of row to check.
+         */
+        getLastVisibleRow(end?: number): number;
+        /**
+         * Returns the next visible column present in the panel including the start position.
+         * return -1 if no visible column is present
+         *
+         * @param start Starting index of column.
+         */
+        getNextVisibleColumn(start?: number): number;
+        /**
+         * Returns the last visible column present in the panel upto and including the end position.
+         * return -1 if no visible column is present
+         *
+         * @param end Last index of column to check.
+         */
+        getLastVisibleColumn(end?: number): number;
         _toIndex(c: number | string): number;
         _getAdjustedSelection(sel: CellRange): CellRange;
         _getOffsetY(): number;
@@ -737,9 +794,17 @@ declare module wijmo.grid {
          * @param rng Range to select (or index of the row to select).
          * @param show Whether to scroll the new selection into view (or index/name of the column to select).
          * @param force Whether to update the selection even if the {@link selectionChanging}
+         * @param panel The GridPanel to the selected range belongs {@link GridPanel}
          * event cancels the change.
          */
-        select(rng: CellRange | number, show?: boolean | number | string, force?: boolean): boolean;
+        select(rng: CellRange | number, show?: boolean | number | string, force?: boolean, panel?: GridPanel): boolean;
+        /**
+         * Moves the selection by specified amount in the vertical and horizontal direction
+         * inside the selected panel
+         * @param rowMove Number to rows to move selection.
+         * @param colMove Number to columns to move selection.
+         */
+        moveSelectionWithinSelectedPanel(rowMove: number, colMove: number): void;
         /**
          * Moves the selection by a specified amount in the vertical and horizontal directions.
          * @param rowMove How to move the row selection.
@@ -747,7 +812,6 @@ declare module wijmo.grid {
          * @param extend Whether to extend the current selection or start a new one.
          */
         moveSelection(rowMove: SelMove, colMove: SelMove, extend: boolean): void;
-        private moveHeaderCells;
         _getNextColumnCell(r: number, c: number, move: SelMove, pageSize?: number): any;
         _getNextRowCell(r: number, c: number, move: SelMove, pageSize?: number): any;
         _setSelectionMode(value: SelectionMode): void;
@@ -758,6 +822,7 @@ declare module wijmo.grid {
         private _expandSelectionRange;
         private _selectRows;
         private _showSelection;
+        private _showHeaderSelection;
         private _adjustReferenceCell;
     }
 }
@@ -802,7 +867,7 @@ declare module wijmo.grid {
     /**
      * An abstract class that serves as a base for the {@link Row} and {@link Column} classes.
      */
-    class RowCol {
+    class RowCol<T = any> {
         protected _type: wijmo.DataType;
         protected _align: string;
         protected _inpType: string;
@@ -1088,6 +1153,9 @@ declare module wijmo.grid {
          * Gets or sets a CSS class name to use when rendering
          * data (non-header) cells in the column or row.
          *
+         * This property can also be used to get or set a CSS class name for
+         * group column header cells.
+         *
          * The default value for this property is **null**.
          */
         cssClass: string | null;
@@ -1105,7 +1173,7 @@ declare module wijmo.grid {
         /**
          * Gets the {@link ICollectionView} bound to this column or row.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Marks the owner list as dirty and refreshes the owner grid.
          */
@@ -1113,7 +1181,7 @@ declare module wijmo.grid {
         /**
          * Occurs when the value of the {@link grid} property changes.
          */
-        readonly gridChanged: Event<RowCol, EventArgs>;
+        readonly gridChanged: Event<RowCol<any>, EventArgs>;
         /**
          * Raises the {@link gridChanged} event.
          */
@@ -1347,7 +1415,7 @@ declare module wijmo.grid {
          * date columns on a grid with a single **InputDate** control:
          *
          * ```typescript
-         * import { InputDate } from '@grapecity/wijmo.input';
+         * import { InputDate } from '@mescius/wijmo.input';
          * let inputDate = new InputDate(document.createElement('div'));
          * theGrid.columns.forEach(col => {
          *     if (col.DataType == DateType.Date) {
@@ -1359,7 +1427,7 @@ declare module wijmo.grid {
          * columns on a grid with **AutoComplete** controls:
          *
          * ```typescript
-         * import { AutoComplete } from '@grapecity/wijmo.input';
+         * import { AutoComplete } from '@mescius/wijmo.input';
          * theGrid.columns.forEach(col => {
          *     let map = col.dataMap;
          *     if (map) {
@@ -1506,10 +1574,15 @@ declare module wijmo.grid {
      */
     class GroupRow extends Row {
         _level: number;
+        protected _isSummary: boolean;
         /**
          * Initializes a new instance of the {@link GroupRow} class.
          */
         constructor(dataItem?: any);
+        /**
+         * Gets or sets a value that indicates whether this {@link GroupRow} is used as summary row.
+         */
+        isSummary: boolean;
         /**
          * Gets or sets the hierarchical level of the group associated with this {@link GroupRow}.
          */
@@ -1723,7 +1796,7 @@ declare module wijmo.grid {
     }
 }
 declare module wijmo.grid {
-    const colHdrAriaAttributes: (cell: HTMLElement, col: Column, gridPanel: GridPanel, g: FlexGrid, isRowHeader?: boolean) => void;
+    const colHdrAriaAttributes: (cell: HTMLElement, col: Column, gridPanel: GridPanel, g: FlexGrid<any>, isRowHeader?: boolean) => void;
 }
 declare module wijmo.grid {
     /**
@@ -2101,13 +2174,13 @@ declare module wijmo.grid {
      * Specifies constants that define the focusability of row and column headers.
      */
     enum HeadersFocusability {
-        /** No header cells are focusability. */
+        /** No header cells are focusable. */
         None = 0,
-        /** Only column header cells are focusability. */
+        /** Only column header cells are focusable. */
         Column = 1,
-        /** Only row header cells are focusability. */
+        /** Only row header cells are focusable. */
         Row = 2,
-        /** Both column and row header cells are focusability. */
+        /** Both column and row header cells are focusable. */
         All = 3
     }
     /**
@@ -2118,6 +2191,17 @@ declare module wijmo.grid {
         Column = 0,
         /** Represents a frozen row in the grid.*/
         Row = 1
+    }
+    /**
+    Specifies the positions of GroupSummary row.
+     */
+    enum GroupSummaryPosition {
+        /** Group Summary Row is displayed at Top*/
+        Top = 0,
+        /** Group Summary Row is always displayed at the bottom of the group.*/
+        Bottom = 1,
+        /** Group Summary Row is displayed at the bottom of the group when Group is in expanded State, but when Group is collapsed, Group summary is displayed at top.*/
+        Auto = 2
     }
     /**
      * Represents a method that can be used to customize the
@@ -2190,7 +2274,7 @@ declare module wijmo.grid {
      *
      * {@sample Grid/Overview/purejs Example}
      */
-    class FlexGrid extends wijmo.Control {
+    class FlexGrid<T = any> extends wijmo.Control {
         static _WJS_STICKY: string;
         static _WJS_MEASURE: string;
         static _WJS_UPDATING: string;
@@ -2216,14 +2300,13 @@ declare module wijmo.grid {
         _eSz: HTMLDivElement;
         _eMarquee: HTMLDivElement;
         _activeCell: HTMLElement;
-        private _gpTL;
-        private _gpCHdr;
-        private _gpRHdr;
+        _gpTL: GridPanel;
+        _gpCHdr: GridPanel;
+        _gpRHdr: GridPanel;
         _gpCells: GridPanel;
         private _gpBL;
         private _gpCFtr;
         private _activePanel;
-        private _activePanelType;
         private _maxOffsetY;
         private _heightBrowser;
         private _heightReal;
@@ -2289,7 +2372,7 @@ declare module wijmo.grid {
         protected _itemFormatter: IItemFormatter;
         protected _items: any;
         protected _ariaLabel: string;
-        protected _cv: wijmo.collections.ICollectionView;
+        protected _cv: wijmo.collections.ICollectionView<T>;
         protected _childItemsPath: any;
         protected _rowHdrPath: wijmo.Binding;
         protected _sortRowIndex: number;
@@ -2304,6 +2387,9 @@ declare module wijmo.grid {
         protected _bigChecks: boolean;
         protected _skipMerged: boolean;
         protected _commitEmptyEdits: boolean;
+        protected _maxContent: boolean;
+        protected _pasteEmptyCells: boolean;
+        protected _groupSummaryPosition: GroupSummaryPosition;
         private _bndSortConverter;
         private _afClip;
         private _afSticky;
@@ -2319,8 +2405,15 @@ declare module wijmo.grid {
         _lazyRender: boolean;
         _refreshOnEdit: boolean;
         _reorderCells: boolean;
+        private _lastStickyScroll;
+        private _scrollStickyThrottleTimeout;
+        private _scrollEndTimer;
+        private _contentEstimationLimit;
+        private isScrollingSilent;
         private _isISChanging;
         _isScrollingByWheel: boolean;
+        private cachedDefaultHeight;
+        private cachedHeights;
         /**
          * Gets or sets the template used to instantiate {@link FlexGrid} controls.
          */
@@ -2333,7 +2426,7 @@ declare module wijmo.grid {
          */
         constructor(element: any, options?: any);
         activePanel: GridPanel;
-        activePanelType: CellType;
+        readonly activePanelType: CellType;
         _handleResize(): void;
         _touchEdit: boolean;
         /**
@@ -2357,6 +2450,13 @@ declare module wijmo.grid {
          * The default value for this property is **false**.
          */
         stickyHeaders: boolean;
+        /**
+         * Gets or sets a value that determines whether the grid should adjust its size
+         * to fit the maximum content width and available height.
+         *
+         * The default value for this property is **false**.
+         */
+        maxContent: boolean;
         /**
          * Gets or sets a value that determines whether the grid should preserve
          * the selected state of rows when the data is refreshed.
@@ -2470,7 +2570,7 @@ declare module wijmo.grid {
          * the columns explicitly. For example:
          *
          * ```typescript
-         * import { FlexGrid } from '@grapecity/wijmo.grid';
+         * import { FlexGrid } from '@mescius/wijmo.grid';
          * let grid = new FlexGrid('#theGrid', {
          *   autoGenerateColumns: false, // data items may contain null values
          *   columns: [                  // so define columns explicitly
@@ -2630,6 +2730,12 @@ declare module wijmo.grid {
         * The default value for this property is **false**.
         */
         skipMerged: boolean;
+        /**
+        * Gets or sets a value that determines whether when pasting,
+        * paste all cells or only not empty cells
+        * The default value for this property is **true**.
+        */
+        pasteEmptyCells: boolean;
         /**
          * Gets or sets a value that determines whether the control is disabled.
          *
@@ -3035,11 +3141,11 @@ declare module wijmo.grid {
          * this property returns the internal {@link CollectionView} created
          * by the grid to support currency, editing, and sorting.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets the {@link IEditableCollectionView} that contains the grid data.
          */
-        readonly editableCollectionView: wijmo.collections.IEditableCollectionView;
+        readonly editableCollectionView: wijmo.collections.IEditableCollectionView<T>;
         /**
          * Gets or sets the name of the property (or properties) used to generate
          * child rows in hierarchical grids.
@@ -3263,8 +3369,16 @@ declare module wijmo.grid {
          */
         itemFormatter: IItemFormatter;
         /**
-         * Gets a value that indicates whether a given cell can be edited.
+         * Gets or sets a value that determines the position of
+         * group summary row in the group.
+         * This property does not work if {@link childItemsPath} property is set
          *
+         * The default value for this property is **GroupSummaryPosition.Top**.
+         */
+        groupSummaryPosition: GroupSummaryPosition;
+        /**
+         * Gets a value that indicates whether a given cell can be edited.
+        *
          * @param r Index of the row that contains the cell.
          * @param c Index of the column that contains the cell.
          */
@@ -3277,6 +3391,8 @@ declare module wijmo.grid {
          * @param formatted Whether to format the value for display.
          */
         getCellData(r: number, c: number | string, formatted: boolean): any;
+        getRowDataItem(r: number, c: number): any;
+        _getRowData(r: number): any;
         /**
          * Gets a the bounds of a cell element in viewport coordinates.
          *
@@ -3508,9 +3624,10 @@ declare module wijmo.grid {
          * @param rng Range to select (or index of the row to select).
          * @param show Whether to scroll the new selection into view
          * (or index, name, or binding of the column to select).
+         * @param panel The GridPanel to the selected range belongs {@link GridPanel}
          * @return True if the new selection was applied.
          */
-        select(rng: (CellRange | number), show?: (boolean | number | string)): boolean;
+        select(rng: (CellRange | number), show?: (boolean | number | string), panel?: GridPanel): boolean;
         /**
          * Selects all the cells on the grid.
          */
@@ -3756,8 +3873,8 @@ declare module wijmo.grid {
          * For example:
          *
          * ```typescript
-         * import { FlexGrid } from '@grapecity/wijmo.grid';
-         * import { DataType } from '@grapecity/wijmo';
+         * import { FlexGrid } from '@mescius/wijmo.grid';
+         * import { DataType } from '@mescius/wijmo';
          *
          * // make boolean columns on all grids 100px wide by default
          * FlexGrid.defaultTypeWidth[DataType.Boolean] = 100;
@@ -3770,7 +3887,7 @@ declare module wijmo.grid {
         /**
          * Occurs before the grid is bound to a new items source.
          */
-        readonly itemsSourceChanging: Event<FlexGrid, CancelEventArgs>;
+        readonly itemsSourceChanging: Event<FlexGrid<any>, CancelEventArgs>;
         /**
          * Raises the {@link itemsSourceChanging} event.
          *
@@ -3781,7 +3898,7 @@ declare module wijmo.grid {
         /**
          * Occurs after the grid has been bound to a new items source.
          */
-        readonly itemsSourceChanged: Event<FlexGrid, EventArgs>;
+        readonly itemsSourceChanged: Event<FlexGrid<any>, EventArgs>;
         /**
          * Raises the {@link itemsSourceChanged} event.
          */
@@ -3789,7 +3906,7 @@ declare module wijmo.grid {
         /**
          * Occurs after the control has scrolled.
          */
-        readonly scrollPositionChanged: Event<FlexGrid, EventArgs>;
+        readonly scrollPositionChanged: Event<FlexGrid<any>, EventArgs>;
         /**
          * Raises the {@link scrollPositionChanged} event.
          */
@@ -3797,7 +3914,7 @@ declare module wijmo.grid {
         /**
          * Occurs before selection changes.
          */
-        readonly selectionChanging: Event<FlexGrid, CellRangeEventArgs>;
+        readonly selectionChanging: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link selectionChanging} event.
          *
@@ -3808,7 +3925,7 @@ declare module wijmo.grid {
         /**
          * Occurs after selection changes.
          */
-        readonly selectionChanged: Event<FlexGrid, CellRangeEventArgs>;
+        readonly selectionChanged: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link selectionChanged} event.
          *
@@ -3818,7 +3935,7 @@ declare module wijmo.grid {
         /**
          * Occurs before the grid rows are bound to items in the data source.
          */
-        readonly loadingRows: Event<FlexGrid, CancelEventArgs>;
+        readonly loadingRows: Event<FlexGrid<any>, CancelEventArgs>;
         /**
          * Raises the {@link loadingRows} event.
          *
@@ -3829,7 +3946,7 @@ declare module wijmo.grid {
         /**
          * Occurs after the grid rows have been bound to items in the data source.
          */
-        readonly loadedRows: Event<FlexGrid, EventArgs>;
+        readonly loadedRows: Event<FlexGrid<any>, EventArgs>;
         /**
          * Raises the {@link loadedRows} event.
          */
@@ -3837,7 +3954,7 @@ declare module wijmo.grid {
         /**
          * Occurs before the grid updates its internal layout.
          */
-        readonly updatingLayout: Event<FlexGrid, CancelEventArgs>;
+        readonly updatingLayout: Event<FlexGrid<any>, CancelEventArgs>;
         /**
          * Raises the {@link updatingLayout} event.
          *
@@ -3848,7 +3965,7 @@ declare module wijmo.grid {
         /**
          * Occurs after the grid has updated its internal layout.
          */
-        readonly updatedLayout: Event<FlexGrid, EventArgs>;
+        readonly updatedLayout: Event<FlexGrid<any>, EventArgs>;
         /**
          * Raises the {@link updatedLayout} event.
          */
@@ -3856,7 +3973,7 @@ declare module wijmo.grid {
         /**
          * Occurs as columns are resized.
          */
-        readonly resizingColumn: Event<FlexGrid, CellRangeEventArgs>;
+        readonly resizingColumn: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link resizingColumn} event.
          *
@@ -3867,7 +3984,7 @@ declare module wijmo.grid {
         /**
          * Occurs when the user finishes resizing a column.
          */
-        readonly resizedColumn: Event<FlexGrid, CellRangeEventArgs>;
+        readonly resizedColumn: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link resizedColumn} event.
          *
@@ -3878,7 +3995,7 @@ declare module wijmo.grid {
          * Occurs before the user auto-sizes a column by double-clicking the
          * right edge of a column header cell.
          */
-        readonly autoSizingColumn: Event<FlexGrid, CellRangeEventArgs>;
+        readonly autoSizingColumn: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link autoSizingColumn} event.
          *
@@ -3890,7 +4007,7 @@ declare module wijmo.grid {
          * Occurs after the user auto-sizes a column by double-clicking the
          * right edge of a column header cell.
          */
-        readonly autoSizedColumn: Event<FlexGrid, CellRangeEventArgs>;
+        readonly autoSizedColumn: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link autoSizedColumn} event.
          *
@@ -3900,7 +4017,7 @@ declare module wijmo.grid {
         /**
          * When one or more columns have been resized due to star-sizing.
          */
-        readonly starSizedColumns: Event<FlexGrid, EventArgs>;
+        readonly starSizedColumns: Event<FlexGrid<any>, EventArgs>;
         /**
          * Raises the {@link starSizedColumns} event.
          */
@@ -3908,7 +4025,7 @@ declare module wijmo.grid {
         /**
          * Occurs when the user starts dragging a column.
          */
-        readonly draggingColumn: Event<FlexGrid, CellRangeEventArgs>;
+        readonly draggingColumn: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link draggingColumn} event.
          *
@@ -3936,7 +4053,7 @@ declare module wijmo.grid {
          * });
          * ```
          */
-        readonly draggingColumnOver: Event<FlexGrid, CellRangeEventArgs>;
+        readonly draggingColumnOver: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link draggingColumnOver} event.
          *
@@ -3947,7 +4064,7 @@ declare module wijmo.grid {
         /**
          * Occurs when the user finishes dragging a column.
          */
-        readonly draggedColumn: Event<FlexGrid, CellRangeEventArgs>;
+        readonly draggedColumn: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link draggedColumn} event.
          *
@@ -3957,7 +4074,7 @@ declare module wijmo.grid {
         /**
          * Occurs before one or more columns are pinned (or unpinned).
          */
-        readonly pinningColumn: Event<FlexGrid, CellRangeEventArgs>;
+        readonly pinningColumn: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link pinningColumn} event.
          *
@@ -3968,7 +4085,7 @@ declare module wijmo.grid {
         /**
          * Occurs after one or more columns are pinned (or unpinned).
          */
-        readonly pinnedColumn: Event<FlexGrid, CellRangeEventArgs>;
+        readonly pinnedColumn: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link pinnedColumn} event.
          *
@@ -3978,7 +4095,7 @@ declare module wijmo.grid {
         /**
          * Occurs as rows are resized.
          */
-        readonly resizingRow: Event<FlexGrid, CellRangeEventArgs>;
+        readonly resizingRow: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link resizingRow} event.
          *
@@ -3989,7 +4106,7 @@ declare module wijmo.grid {
         /**
          * Occurs when the user finishes resizing rows.
          */
-        readonly resizedRow: Event<FlexGrid, CellRangeEventArgs>;
+        readonly resizedRow: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link resizedRow} event.
          *
@@ -4000,7 +4117,7 @@ declare module wijmo.grid {
          * Occurs before the user auto-sizes a row by double-clicking the
          * bottom edge of a row header cell.
          */
-        readonly autoSizingRow: Event<FlexGrid, CellRangeEventArgs>;
+        readonly autoSizingRow: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link autoSizingRow} event.
          *
@@ -4012,7 +4129,7 @@ declare module wijmo.grid {
          * Occurs after the user auto-sizes a row by double-clicking the
          * bottom edge of a row header cell.
          */
-        readonly autoSizedRow: Event<FlexGrid, CellRangeEventArgs>;
+        readonly autoSizedRow: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link autoSizedRow} event.
          *
@@ -4022,7 +4139,7 @@ declare module wijmo.grid {
         /**
          * Occurs when the user starts dragging a row.
          */
-        readonly draggingRow: Event<FlexGrid, CellRangeEventArgs>;
+        readonly draggingRow: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link draggingRow} event.
          *
@@ -4033,7 +4150,7 @@ declare module wijmo.grid {
         /**
          * Occurs as the user drags a row to a new position.
          */
-        readonly draggingRowOver: Event<FlexGrid, CellRangeEventArgs>;
+        readonly draggingRowOver: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link draggingRowOver} event.
          *
@@ -4044,7 +4161,7 @@ declare module wijmo.grid {
         /**
          * Occurs when the user finishes dragging a row.
          */
-        readonly draggedRow: Event<FlexGrid, CellRangeEventArgs>;
+        readonly draggedRow: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link draggedRow} event.
          *
@@ -4054,7 +4171,7 @@ declare module wijmo.grid {
         /**
          * Occurs when a group is about to be expanded or collapsed.
          */
-        readonly groupCollapsedChanging: Event<FlexGrid, CellRangeEventArgs>;
+        readonly groupCollapsedChanging: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link groupCollapsedChanging} event.
          *
@@ -4065,7 +4182,7 @@ declare module wijmo.grid {
         /**
          * Occurs after a group has been expanded or collapsed.
          */
-        readonly groupCollapsedChanged: Event<FlexGrid, CellRangeEventArgs>;
+        readonly groupCollapsedChanged: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link groupCollapsedChanged} event.
          *
@@ -4078,7 +4195,7 @@ declare module wijmo.grid {
          * The 'data' property of the handler parameters contains a reference
          * to the {@link ColumnGroup} that is about to change.
          */
-        readonly columnGroupCollapsedChanging: Event<FlexGrid, CellRangeEventArgs>;
+        readonly columnGroupCollapsedChanging: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link columnGroupCollapsedChanging} event.
          *
@@ -4092,7 +4209,7 @@ declare module wijmo.grid {
          * The 'data' property of the handler parameters contains a reference
          * to the {@link ColumnGroup} that is about to change.
          */
-        readonly columnGroupCollapsedChanged: Event<FlexGrid, CellRangeEventArgs>;
+        readonly columnGroupCollapsedChanged: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link columnGroupCollapsedChanged} event.
          *
@@ -4107,7 +4224,7 @@ declare module wijmo.grid {
          *
          * The event handler may cancel the sort action.
          */
-        readonly sortingColumn: Event<FlexGrid, CellRangeEventArgs>;
+        readonly sortingColumn: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link sortingColumn} event.
          *
@@ -4118,7 +4235,7 @@ declare module wijmo.grid {
         /**
          * Occurs after the user applies a sort by clicking on a column header.
          */
-        readonly sortedColumn: Event<FlexGrid, CellRangeEventArgs>;
+        readonly sortedColumn: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link sortedColumn} event.
          *
@@ -4133,7 +4250,7 @@ declare module wijmo.grid {
          *
          * The event handler may cancel the edit operation.
          */
-        readonly beginningEdit: Event<FlexGrid, CellRangeEventArgs>;
+        readonly beginningEdit: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link beginningEdit} event.
          *
@@ -4147,7 +4264,7 @@ declare module wijmo.grid {
          * The event handler can access the editor element using the grid's
          * {@link activeEditor} property.
          */
-        readonly prepareCellForEdit: Event<FlexGrid, CellRangeEventArgs>;
+        readonly prepareCellForEdit: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link prepareCellForEdit} event.
          *
@@ -4182,7 +4299,7 @@ declare module wijmo.grid {
          * parameter to true, the grid will remain in edit mode so the user
          * can correct invalid entries before committing the edits.
          */
-        readonly cellEditEnding: Event<FlexGrid, CellEditEndingEventArgs>;
+        readonly cellEditEnding: Event<FlexGrid<any>, CellEditEndingEventArgs>;
         /**
          * Raises the {@link cellEditEnding} event.
          *
@@ -4193,7 +4310,7 @@ declare module wijmo.grid {
         /**
          * Occurs when a cell edit has been committed or canceled.
          */
-        readonly cellEditEnded: Event<FlexGrid, CellRangeEventArgs>;
+        readonly cellEditEnded: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link cellEditEnded} event.
          *
@@ -4203,7 +4320,7 @@ declare module wijmo.grid {
         /**
          * Occurs before a row enters edit mode.
          */
-        readonly rowEditStarting: Event<FlexGrid, CellRangeEventArgs>;
+        readonly rowEditStarting: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link rowEditStarting} event.
          *
@@ -4214,7 +4331,7 @@ declare module wijmo.grid {
         /**
          * Occurs after a row enters edit mode.
          */
-        readonly rowEditStarted: Event<FlexGrid, CellRangeEventArgs>;
+        readonly rowEditStarted: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link rowEditStarted} event.
          *
@@ -4254,7 +4371,7 @@ declare module wijmo.grid {
          * });
          * ```
          */
-        readonly rowEditEnding: Event<FlexGrid, CellRangeEventArgs>;
+        readonly rowEditEnding: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link rowEditEnding} event.
          *
@@ -4264,7 +4381,7 @@ declare module wijmo.grid {
         /**
          * Occurs when a row edit has been committed or canceled.
          */
-        readonly rowEditEnded: Event<FlexGrid, CellRangeEventArgs>;
+        readonly rowEditEnded: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link rowEditEnded} event.
          *
@@ -4278,7 +4395,7 @@ declare module wijmo.grid {
          * The event handler may customize the content of the new item or cancel
          * the new item creation.
          */
-        readonly rowAdded: Event<FlexGrid, CellRangeEventArgs>;
+        readonly rowAdded: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link rowAdded} event.
          *
@@ -4292,7 +4409,7 @@ declare module wijmo.grid {
          *
          * The event handler may cancel the row deletion.
          */
-        readonly deletingRow: Event<FlexGrid, CellRangeEventArgs>;
+        readonly deletingRow: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link deletingRow} event.
          *
@@ -4304,7 +4421,7 @@ declare module wijmo.grid {
          * Occurs after the user has deleted a row by pressing the Delete
          * key (see the {@link allowDelete} property).
          */
-        readonly deletedRow: Event<FlexGrid, CellRangeEventArgs>;
+        readonly deletedRow: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link deletedRow} event.
          *
@@ -4318,7 +4435,7 @@ declare module wijmo.grid {
          *
          * The event handler may cancel the copy operation.
          */
-        readonly copying: Event<FlexGrid, CellRangeEventArgs>;
+        readonly copying: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link copying} event.
          *
@@ -4331,7 +4448,7 @@ declare module wijmo.grid {
          * clipboard by pressing one of the clipboard shortcut keys
          * (see the {@link autoClipboard} property).
          */
-        readonly copied: Event<FlexGrid, CellRangeEventArgs>;
+        readonly copied: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link copied} event.
          *
@@ -4348,7 +4465,7 @@ declare module wijmo.grid {
          *
          * The event handler may cancel the paste operation.
          */
-        readonly pasting: Event<FlexGrid, CellRangeEventArgs>;
+        readonly pasting: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link pasting} event.
          *
@@ -4361,7 +4478,7 @@ declare module wijmo.grid {
          * clipboard by pressing one of the clipboard shortcut keys
          * (see the {@link autoClipboard} property).
          */
-        readonly pasted: Event<FlexGrid, CellRangeEventArgs>;
+        readonly pasted: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link pasted} event.
          *
@@ -4377,7 +4494,7 @@ declare module wijmo.grid {
          *
          * The event handler may cancel the paste operation.
          */
-        readonly pastingCell: Event<FlexGrid, CellRangeEventArgs>;
+        readonly pastingCell: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link pastingCell} event.
          *
@@ -4392,7 +4509,7 @@ declare module wijmo.grid {
          * The 'data' property of the handler parameters contains the
          * cell's original value (before the new value was pasted).
          */
-        readonly pastedCell: Event<FlexGrid, CellRangeEventArgs>;
+        readonly pastedCell: Event<FlexGrid<any>, CellRangeEventArgs>;
         /**
          * Raises the {@link pastedCell} event.
          *
@@ -4417,7 +4534,7 @@ declare module wijmo.grid {
          * });
          * ```
          */
-        readonly formatItem: Event<FlexGrid, FormatItemEventArgs>;
+        readonly formatItem: Event<FlexGrid<any>, FormatItemEventArgs>;
         /**
          * Raises the {@link formatItem} event.
          *
@@ -4428,7 +4545,7 @@ declare module wijmo.grid {
          * Occurs when the grid starts creating/updating the elements that
          * make up the current view.
          */
-        readonly updatingView: Event<FlexGrid, CancelEventArgs>;
+        readonly updatingView: Event<FlexGrid<any>, CancelEventArgs>;
         /**
          * Raises the {@link updatingView} event.
          *
@@ -4449,7 +4566,7 @@ declare module wijmo.grid {
          * <li>Changing the selection.</li>
          * </ul>
          */
-        readonly updatedView: Event<FlexGrid, EventArgs>;
+        readonly updatedView: Event<FlexGrid<any>, EventArgs>;
         /**
          * Raises the {@link updatedView} event.
          */
@@ -4472,7 +4589,7 @@ declare module wijmo.grid {
         _getAnchorCell(): wijmo.Point;
         protected _updateDefaultSizes(): number;
         private _getDefaultRowHeight;
-        protected _getCollectionView(value: any): wijmo.collections.ICollectionView;
+        protected _getCollectionView(value: any): wijmo.collections.ICollectionView<T>;
         private _getCanvasContext;
         private _getWidestRow;
         private _getDesiredWidth;
@@ -4521,6 +4638,7 @@ declare module wijmo.grid {
         _addGroupRow(group: wijmo.collections.CollectionViewGroup): void;
         _addNode(items: any[], index: number, level: number): void;
         private _addGroup;
+        protected _addGroupSummaryRow(group: wijmo.collections.CollectionViewGroup): void;
         protected static _getSerializableProperties(obj: any): string[];
         _hasColumnGroups(): boolean;
         _getColumnGroup(r: number, c: number): Column & _ColumnGroupProperties;
@@ -4543,6 +4661,21 @@ declare module wijmo.grid {
          * @param {number?} delta - Change in size.
         */
         adjustFrozenRowColSize(index: number, type: FrozenRowCol, delta?: number): void;
+        /**
+         * Adjusts grid size to fit content width and available height when 'maxContent' is enabled.
+         *
+         * When 'maxContent' is true, this method calculates the optimal column widths to display all content
+         * without horizontal overflow and sets the grid's maximum dimensions. The grid's `maxWidth` is set
+         * to '100%' if the total content width is greater than the container's width, enabling horizontal scrolling.
+         * The `maxHeight` is adjusted to fit within the available vertical space from the grid's current position
+         * to the bottom of the viewport, allowing vertical scrolling if the content height exceeds this space.
+         *
+        */
+        private _adjustMaxContentWidth;
+        private scrollToSilently;
+        _finishResizing(e: MouseEvent, doubleClick: boolean, selections?: CellRange[]): void;
+        private _handleScrollEnd;
+        _updateLayoutOnPin(): void;
     }
 }
 declare module wijmo.grid {
@@ -4558,6 +4691,7 @@ declare module wijmo.grid {
         _keypressBnd: any;
         _maskProvider: wijmo._MaskProvider;
         _toFocus: any;
+        _suspended: boolean;
         static _cssHidden: {
             position: string;
             width: string;
@@ -4583,6 +4717,8 @@ declare module wijmo.grid {
         _updateImeFocus(): void;
         _updateImeFocusAsync(): void;
         _resetTabIndex(): void;
+        _suspendIME(): void;
+        _resumeIME(): void;
         _enableIme(): boolean;
     }
 }
@@ -4922,6 +5058,7 @@ declare module wijmo.grid {
         private _updateRowHeaderCell;
         private _updateCell;
         private _getValidationError;
+        readonly validate: boolean;
         _getRequiredMsg(): string;
         _getBadInputMsg(): string;
         _allowEdit(r?: number, c?: number): boolean;
@@ -4932,6 +5069,7 @@ declare module wijmo.grid {
         _findString(items: string[], text: string, caseSensitive: boolean): number;
         _toggleListBox(evt: any, rng?: CellRange): boolean;
         private _createListBox;
+        private _getListBoxItemField;
         private _findKeyValue;
         private _findDuplicateValues;
         private _removeListBox;
@@ -4959,6 +5097,7 @@ declare module wijmo.grid {
         _keydownBnd: any;
         _cmpstartBnd: any;
         _mousedownBnd: any;
+        isOpen: boolean;
         static _cssHidden: {
             position: string;
             left: number;
@@ -5008,7 +5147,7 @@ declare module wijmo.grid {
         private _checkColumn;
         private _mousedown;
         private _activateEditor;
-        private _showEditor;
+        private showEditor;
         private _hideEditor;
         _resetTabIndex(): void;
         private _updateFocus;
@@ -5051,6 +5190,8 @@ declare module wijmo.grid {
          * @param g {@link FlexGrid} that owns this {@link _KeyboardHandler}.
          */
         constructor(g: FlexGrid);
+        _keydownMetaHeaders(e: KeyboardEvent): void;
+        _keydownHeaders(e: KeyboardEvent): void;
         _keydown(e: KeyboardEvent): void;
         _performKeyAction(action: KeyAction, shift: boolean): boolean;
         private _keypress;
@@ -5116,6 +5257,7 @@ declare module wijmo.grid {
         _htDown: HitTestInfo;
         _htDrag: HitTestInfo;
         _selDown: CellRange;
+        _selPanelType: CellType;
         _isDown: boolean;
         _eMouse: MouseEvent;
         _lbSelState: boolean;
@@ -5133,6 +5275,7 @@ declare module wijmo.grid {
         _anchorCol: number;
         static _SZ_MIN: number;
         static _SZ_MAX_COLGRP_EDGE: number;
+        private mouseWhellTimer;
         /**
          * Initializes a new instance of the {@link _MouseHandler} class.
          *
@@ -5152,6 +5295,7 @@ declare module wijmo.grid {
         private _clickSort;
         private _clickPin;
         private _dblclick;
+        _prepareAutoSize(e: MouseEvent, selections: CellRange[]): void;
         private _hover;
         private _getResizeColHt;
         private _getResizeRowHt;
@@ -5168,9 +5312,12 @@ declare module wijmo.grid {
         private _hitTest;
         private _showResizeMarker;
         private _showDragMarker;
-        private _finishResizing;
+        _finishResizing(e: MouseEvent, selections: CellRange[]): void;
         private _handleSelection;
         private _splitRange;
+        private isDetailRow;
+        private moveDetailRow;
+        private _resizeColumns;
     }
 }
 declare module wijmo.grid {

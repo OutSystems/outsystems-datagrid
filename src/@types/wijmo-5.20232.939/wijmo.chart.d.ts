@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -29,6 +29,13 @@ declare module wijmo.chart {
     }
 }
 declare module wijmo.chart {
+    class _Curve {
+        private monoX;
+        private monoY;
+        private calc;
+        constructor(x: number[], y: number[], num?: number, curve?: string);
+        calculate(): any;
+    }
     /**
      * Calculates Spline curves.
      */
@@ -566,6 +573,7 @@ declare module wijmo.chart {
     class _SvgRenderEngine implements IRenderEngine {
         private static svgNS;
         private static xlinkNS;
+        private _STROKE_JOIN;
         private _element;
         private _svg;
         private _text;
@@ -589,6 +597,7 @@ declare module wijmo.chart {
         private _readOnly;
         private _isRtl;
         private _precision;
+        private _options;
         constructor(element?: HTMLElement);
         attach(el: HTMLElement): void;
         detach(): void;
@@ -606,6 +615,7 @@ declare module wijmo.chart {
         readOnly: boolean;
         precision: number;
         readonly group: Element;
+        options: any;
         addClipRect(clipRect: wijmo.Rect, id: string): void;
         drawEllipse(cx: number, cy: number, rx: number, ry: number, className?: string, style?: any): SVGElement;
         drawRect(x: number, y: number, w: number, h: number, className?: string, style?: any, clipPath?: string): SVGElement;
@@ -826,7 +836,7 @@ declare module wijmo.chart {
     /**
      * The {@link FlexChartBase} control from which the FlexChart and FlexPie derive.
      */
-    class FlexChartBase extends wijmo.Control implements _IPalette {
+    class FlexChartBase<T = any> extends wijmo.Control implements _IPalette {
         static _WIDTH: number;
         static _HEIGHT: number;
         static _SELECTION_THRESHOLD: number;
@@ -839,7 +849,7 @@ declare module wijmo.chart {
         static _CSS_PLOT_AREA: string;
         static _FG: string;
         _items: any;
-        _cv: wijmo.collections.ICollectionView;
+        _cv: wijmo.collections.ICollectionView<T>;
         protected _palette: string[];
         private _selectionMode;
         private _itemFormatter;
@@ -872,7 +882,7 @@ declare module wijmo.chart {
         /**
          * Gets the {@link ICollectionView} object that contains the chart data.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets or sets an array of default colors to use for displaying each series.
          *
@@ -992,7 +1002,7 @@ declare module wijmo.chart {
         /**
          * Occurs before the chart starts rendering data.
          */
-        readonly rendering: Event<FlexChartBase, RenderEventArgs>;
+        readonly rendering: Event<FlexChartBase<any>, RenderEventArgs>;
         /**
          * Raises the {@link rendering} event.
          *
@@ -1002,7 +1012,7 @@ declare module wijmo.chart {
         /**
          * Occurs after the chart finishes rendering.
          */
-        readonly rendered: Event<FlexChartBase, RenderEventArgs>;
+        readonly rendered: Event<FlexChartBase<any>, RenderEventArgs>;
         /**
          * Raises the {@link rendered} event.
          *
@@ -1012,7 +1022,7 @@ declare module wijmo.chart {
         /**
          * Occurs before the chart is bound to a new items source.
          */
-        readonly itemsSourceChanging: Event<FlexChartBase, CancelEventArgs>;
+        readonly itemsSourceChanging: Event<FlexChartBase<any>, CancelEventArgs>;
         /**
          * Raises the {@link itemsSourceChanging} event.
          *
@@ -1023,7 +1033,7 @@ declare module wijmo.chart {
         /**
          * Occurs after the chart has been bound to a new items source.
          */
-        readonly itemsSourceChanged: Event<FlexChartBase, EventArgs>;
+        readonly itemsSourceChanged: Event<FlexChartBase<any>, EventArgs>;
         /**
          * Raises the {@link itemsSourceChanged} event.
          */
@@ -1076,7 +1086,7 @@ declare module wijmo.chart {
          * when you want to update details in a textbox showing the current
          * selection.
          */
-        readonly selectionChanged: Event<FlexChartBase, EventArgs>;
+        readonly selectionChanged: Event<FlexChartBase<any>, EventArgs>;
         /**
          * Raises the {@link selectionChanged} event.
          */
@@ -1888,9 +1898,12 @@ declare module wijmo.chart {
         ShowGrid = 2
     }
     /**
-     * Provides options for axis groups display.
+     * Provides options for axis groups.
      */
     interface IAxisGroupsOptions {
+        /**
+         * Gets or sets the options for axis groups display.
+         */
         display: AxisGroupsDisplay;
     }
     /**
@@ -2620,7 +2633,7 @@ declare module wijmo.chart {
     /**
      * Represents a series of data points to display in the chart.
      */
-    class SeriesBase implements _ISeries {
+    class SeriesBase<T = any> implements _ISeries {
         static _LEGEND_ITEM_WIDTH: number;
         static _LEGEND_ITEM_HEIGHT: number;
         static _LEGEND_ITEM_MARGIN: number;
@@ -2633,7 +2646,7 @@ declare module wijmo.chart {
         private _symbolSize;
         private _style;
         private _altStyle;
-        _cv: wijmo.collections.ICollectionView;
+        _cv: wijmo.collections.ICollectionView<T>;
         private _itemsSource;
         private _values;
         private _valueDataType;
@@ -2728,7 +2741,7 @@ declare module wijmo.chart {
         /**
          * Gets the {@link ICollectionView} object that contains the data for this series.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets the {@link FlexChart} object that owns this series.
          */
@@ -2808,7 +2821,7 @@ declare module wijmo.chart {
         /**
          * Occurs when series is rendering.
          */
-        readonly rendering: Event<SeriesBase, SeriesRenderingEventArgs>;
+        readonly rendering: Event<SeriesBase<any>, SeriesRenderingEventArgs>;
         /**
          * Raises the {@link rendering} event.
          *
@@ -2820,7 +2833,7 @@ declare module wijmo.chart {
         /**
          * Occurs when series is rendered.
          */
-        readonly rendered: Event<SeriesBase, RenderEventArgs>;
+        readonly rendered: Event<SeriesBase<any>, RenderEventArgs>;
         /**
          * Raises the {@link rendered} event.
          *
@@ -3080,9 +3093,12 @@ declare module wijmo.chart {
          *
          * @param pt The point to investigate, in window coordinates.
          * @param y The Y coordinate of the point (if the first parameter is a number).
+         * @param isTooltip Enables hit testing for tooltip.
          * @return A {@link HitTestInfo} object containing information about the point.
          */
-        hitTest(pt: any, y?: number): HitTestInfo;
+        hitTest(pt: any, y?: number, isTooltip?: boolean): HitTestInfo;
+        private _hitTestData;
+        private _isSmallSegment;
         _performBind(): void;
         _getBindings(): string[];
         _initData(): void;

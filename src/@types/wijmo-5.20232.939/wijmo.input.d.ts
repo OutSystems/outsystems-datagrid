@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -499,7 +499,7 @@ declare module wijmo.input {
      * You may use the {@link headerFormat} property to customize the text displayed
      * by the navigator.
      */
-    class CollectionViewNavigator extends wijmo.Control {
+    class CollectionViewNavigator<T = any> extends wijmo.Control {
         private _btnFirst;
         private _btnPrev;
         private _btnNext;
@@ -524,7 +524,7 @@ declare module wijmo.input {
         /**
          * Gets or sets the {@link CollectionView} controlled by this {@link CollectionViewNavigator}.
          */
-        cv: wijmo.collections.CollectionView;
+        cv: wijmo.collections.CollectionView<T>;
         /**
          * Gets or sets a value that determines whether this {@link CollectionViewNavigator} should
          * navigate items or pages.
@@ -618,9 +618,9 @@ declare module wijmo.input {
      *
      * {@sample Input/ListBox/Overview/purejs Example}
      */
-    class ListBox extends wijmo.Control {
+    class ListBox<T = any> extends wijmo.Control {
         _items: any;
-        _cv: wijmo.collections.ICollectionView | null;
+        _cv: wijmo.collections.ICollectionView<T> | null;
         _itemFormatter: IItemFormatter | null;
         _pathDisplay: Binding;
         _pathValue: Binding;
@@ -667,7 +667,7 @@ declare module wijmo.input {
         /**
          * Gets the {@link ICollectionView} object used as the item source.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets or sets the minimum number of rows and/or columns required to enable
          * virtualization.
@@ -869,7 +869,7 @@ declare module wijmo.input {
         /**
          * Occurs when the value of the {@link selectedIndex} property changes.
          */
-        readonly selectedIndexChanged: Event<ListBox, EventArgs>;
+        readonly selectedIndexChanged: Event<ListBox<any>, EventArgs>;
         /**
          * Raises the {@link selectedIndexChanged} event.
          */
@@ -877,7 +877,7 @@ declare module wijmo.input {
         /**
          * Occurs when the list of items changes.
          */
-        readonly itemsChanged: Event<ListBox, EventArgs>;
+        readonly itemsChanged: Event<ListBox<any>, EventArgs>;
         /**
          * Raises the {@link itemsChanged} event.
          */
@@ -885,7 +885,7 @@ declare module wijmo.input {
         /**
          * Occurs before the list items are generated.
          */
-        readonly loadingItems: Event<ListBox, EventArgs>;
+        readonly loadingItems: Event<ListBox<any>, EventArgs>;
         /**
          * Raises the {@link loadingItems} event.
          */
@@ -893,7 +893,7 @@ declare module wijmo.input {
         /**
          * Occurs after the list items have been generated.
          */
-        readonly loadedItems: Event<ListBox, EventArgs>;
+        readonly loadedItems: Event<ListBox<any>, EventArgs>;
         /**
          * Raises the {@link loadedItems} event.
          */
@@ -907,7 +907,7 @@ declare module wijmo.input {
          * Use the {@link selectedItem} property to retrieve the item that was
          * checked or unchecked.
          */
-        readonly itemChecked: Event<ListBox, EventArgs>;
+        readonly itemChecked: Event<ListBox<any>, EventArgs>;
         /**
          * Raises the {@link itemChecked} event.
          */
@@ -915,7 +915,7 @@ declare module wijmo.input {
         /**
          * Occurs when the value of the {@link checkedItems} property changes.
          */
-        readonly checkedItemsChanged: Event<ListBox, EventArgs>;
+        readonly checkedItemsChanged: Event<ListBox<any>, EventArgs>;
         /**
          * Raises the {@link checkedItemsChanged} event.
          */
@@ -940,7 +940,7 @@ declare module wijmo.input {
          * Since group headers do not correspond to actual data items,
          * the **index** property in this case is set to **-1**.
          */
-        readonly formatItem: Event<ListBox, FormatItemEventArgs>;
+        readonly formatItem: Event<ListBox<any>, FormatItemEventArgs>;
         /**
          * Raises the {@link formatItem} event.
          *
@@ -962,6 +962,8 @@ declare module wijmo.input {
         _getElementIndex(index: number): number;
         private _setItemChecked;
         private _checkedItemsUpdate;
+        private _isEqual;
+        private _findArrayItem;
         private _cvCollectionChanged;
         private _cvCurrentChanged;
         protected _populateList(): void;
@@ -1030,7 +1032,7 @@ declare module wijmo.input {
      * The {@link MultiSelectListBox} control is used as a drop-down by the
      * {@link MultiSelect} control.
      */
-    class MultiSelectListBox extends wijmo.Control {
+    class MultiSelectListBox<T = any> extends wijmo.Control {
         _selectAll: HTMLElement;
         _filter: HTMLInputElement;
         _lbHost: HTMLElement;
@@ -1063,7 +1065,7 @@ declare module wijmo.input {
         /**
          * Gets the {@link ICollectionView} object used as the item source.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets or sets the minimum number of rows and/or columns required to enable
          * virtualization in the drop-down {@link ListBox}.
@@ -1189,7 +1191,7 @@ declare module wijmo.input {
         /**
          * Occurs when the value of the {@link checkedItems} property changes.
          */
-        readonly checkedItemsChanged: Event<MultiSelectListBox, EventArgs>;
+        readonly checkedItemsChanged: Event<MultiSelectListBox<any>, EventArgs>;
         /**
          * Raises the {@link checkedItemsChanged} event.
          */
@@ -1197,7 +1199,7 @@ declare module wijmo.input {
         /**
          * Occurs when the value of the {@link selectedIndex} property changes.
          */
-        readonly selectedIndexChanged: Event<MultiSelectListBox, EventArgs>;
+        readonly selectedIndexChanged: Event<MultiSelectListBox<any>, EventArgs>;
         /**
          * Raises the {@link selectedIndexChanged} event.
          */
@@ -2203,9 +2205,9 @@ declare module wijmo.input {
          * attributes) that should not be activated when the {@link Popup} is not
          * visible, you should remove the {@link Popup} from the DOM after it is
          * created. For example:
-         * ```typesript
-         * import { Popup} from '@grapecity/wijmo.input';
-         * import { removeChild } from '@grapecity/wijmo';
+         * ```typescript
+         * import { Popup} from '@mescius/wijmo.input';
+         * import { removeChild } from '@mescius/wijmo';
          * // create the Popup
          * let popup = new Popup('#popup', {
          *     owner: '#show'
@@ -2723,8 +2725,8 @@ declare module wijmo.input {
          *
          * For example:
          * ```typescript
-         * import { DateTime } from '@grapecity/wijmo';
-         * import { InputDate } from '@grapecity/wijmo.input';
+         * import { DateTime } from '@mescius/wijmo';
+         * import { InputDate } from '@mescius/wijmo.input';
          *
          * new InputDate(host, {
          *     selectionMode: 'Range',
@@ -2835,7 +2837,7 @@ declare module wijmo.input {
          * does not include the day. For example:
          *
          * ```typescript
-         * import { InputDate } from '@grapecity/wijmo.input';
+         * import { InputDate } from '@mescius/wijmo.input';
          * var inputDate = new InputDate('#el, {
          *   selectionMode: 'Month',
          *   format: 'MMM yyyy'
@@ -2860,7 +2862,7 @@ declare module wijmo.input {
          * For example this code creates an {@link InputDate} control with a drop-down
          * that shows three months per row:
          * ```typescript
-         * import { InputDate } from '@grapecity/wijmo.input';
+         * import { InputDate } from '@mescius/wijmo.input';
          * let idt = new InputDate(document.createElement('#theInputDate'), {
          *     monthCount: 6,
          *     dropDownCssClass: 'three-months-per-row'
@@ -3048,6 +3050,7 @@ declare module wijmo.input {
          * Gets or sets the text shown on the control.
          */
         text: string;
+        inputType: string;
         /**
          * Gets or sets a value indicating whether the {@link ColorPicker}
          * allows users to edit the color's alpha channel (transparency).
@@ -3123,7 +3126,7 @@ declare module wijmo.input {
      *
      * {@sample Input/ComboBox/Overview/purejs Example}
      */
-    class ComboBox extends DropDown {
+    class ComboBox<T = any> extends DropDown {
         _lbx: ListBox;
         _editable: boolean;
         _trimText: boolean;
@@ -3164,7 +3167,7 @@ declare module wijmo.input {
         /**
          * Gets the {@link ICollectionView} object used as the item source.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets or sets the minimum number of rows and/or columns required to enable
          * virtualization in the drop-down {@link ListBox}.
@@ -3347,7 +3350,7 @@ declare module wijmo.input {
         /**
          * Occurs when the value of the {@link itemsSource} property changes.
          */
-        readonly itemsSourceChanged: Event<ComboBox, EventArgs>;
+        readonly itemsSourceChanged: Event<ComboBox<any>, EventArgs>;
         /**
          * Raises the {@link itemsSourceChanged} event.
          */
@@ -3355,7 +3358,7 @@ declare module wijmo.input {
         /**
          * Occurs when the value of the {@link selectedIndex} property changes.
          */
-        readonly selectedIndexChanged: Event<ComboBox, EventArgs>;
+        readonly selectedIndexChanged: Event<ComboBox<any>, EventArgs>;
         /**
          * Raises the {@link selectedIndexChanged} event.
          */
@@ -3597,7 +3600,7 @@ declare module wijmo.input {
      * to determine which item was clicked. For example:
      *
      * ```typescript
-     * import { Menu } from '@grapecity/wijmo.input';
+     * import { Menu } from '@mescius/wijmo.input';
      * let menu = new Menu('#theMenu', {
      *     header: 'Main Menu',
      *     itemsSource: ['option 1', 'option 2', 'option 3'],
@@ -3725,7 +3728,7 @@ declare module wijmo.input {
          * the button is clicked:
          *
          * ```typescript
-         * import { Menu } from '@grapecity/wijmo.input';
+         * import { Menu } from '@mescius/wijmo.input';
          * let theMenu = new Menu('#theMenu', {
          *     isButton: true,
          *     itemClicked: s => {
@@ -3771,7 +3774,7 @@ declare module wijmo.input {
          * menu attached to one or more elements on the page. For example:
          *
          * ```typescript
-         * import { Menu } from '@grapecity/wijmo.input';
+         * import { Menu } from '@mescius/wijmo.input';
          * let theMenu = new Menu(document.createElement('div'), {
          *     itemsSource: 'New,Open,Save,Exit'.split(','),
          *     itemClicked: s => {
@@ -4172,7 +4175,7 @@ declare module wijmo.input {
          * name and search by company name, symbol, and country:
          *
          * ```typescript
-         * import { AutoComplete } from '@grapecity/wijmo.input';
+         * import { AutoComplete } from '@mescius/wijmo.input';
          * var ac = new AutoComplete('#autoComplete', {
          *   itemsSource: companies,
          *   displayMemberPath: 'name',

@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -38,8 +38,8 @@ declare module wijmo.grid.grouppanel {
      * {@link FlexGrid} control. For example:
      *
      * ```typescript
-     * import { FlexGrid } from '@grapecity/wijmo.grid';
-     * import { GroupPanel } from '@grapecity/wijmo.grid.grouppanel';
+     * import { FlexGrid } from '@mescius/wijmo.grid';
+     * import { GroupPanel } from '@mescius/wijmo.grid.grouppanel';
      *
      * // create a FlexGrid
      * let theGrid = new FlexGrid('#theGrid', {
@@ -58,9 +58,9 @@ declare module wijmo.grid.grouppanel {
      *
      * {@sample Grid/Grouping/GroupPanel/purejs Example}
      */
-    class GroupPanel extends wijmo.Control {
+    class GroupPanel<T = any> extends wijmo.Control {
         _g: any;
-        _view: wijmo.collections.ICollectionView;
+        _view: wijmo.collections.ICollectionView<T>;
         _gds: wijmo.collections.ObservableArray<wijmo.collections.GroupDescription>;
         _hideGroupedCols: boolean;
         _showDragGlyphs: boolean;
@@ -138,7 +138,7 @@ declare module wijmo.grid.grouppanel {
          * Gets the {@link ICollectionView} whose groups are being managed by this
          * {@link GroupPanel}.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets or sets the {@link wijmo.grid.filter.FlexGridFilter} to use for filtering
          * the grid data.

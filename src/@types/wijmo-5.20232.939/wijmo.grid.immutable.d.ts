@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -127,8 +127,8 @@ declare module wijmo.grid.immutable {
      * **ImmutabilityProvider** component bound to an array from the _Redux Store_. The dataChanged
      * event handler dispatches corresponding data change actions to the _Store_.
      * ```typescript
-     *   import { ImmutabilityProvider, DataChangeEventArgs, DataChangeAction } from '@grapecity/wijmo.grid.immutable';
-     *   import { FlexGrid } from '@grapecity/wijmo.grid';
+     *   import { ImmutabilityProvider, DataChangeEventArgs, DataChangeAction } from '@mescius/wijmo.grid.immutable';
+     *   import { FlexGrid } from '@mescius/wijmo.grid';
      *   import { store } from './store';
      *   import { addItemAction, removeItemAction, changeItemAction } from './actions';
      *
@@ -157,7 +157,7 @@ declare module wijmo.grid.immutable {
      *   })
      * ```
      */
-    class ImmutabilityProvider {
+    class ImmutabilityProvider<T = any> {
         private readonly _grid;
         private _items;
         private readonly _cv;
@@ -184,7 +184,7 @@ declare module wijmo.grid.immutable {
          * But you can change its sort/group/filter settings, use currency
          * and data change events.
          */
-        readonly collectionView: wijmo.collections.CollectionView;
+        readonly collectionView: wijmo.collections.CollectionView<T>;
         /**
          * Gets or sets a source data array that should be displayed in the controlled
          * FlexGrid. The **FlexGrid.itemsSource** property **should not** be assigned.
@@ -198,7 +198,7 @@ declare module wijmo.grid.immutable {
          * controlled FlexGrid instance.
          * Can be used to dispatch a corresponding data change action to the _Store_.
          */
-        readonly dataChanged: Event<FlexGrid, DataChangeEventArgs>;
+        readonly dataChanged: Event<FlexGrid<any>, DataChangeEventArgs>;
         /**
          * Raises the {@link dataChanged} event.
          * @param e {@link DataChangeEventArgs} that contains the event data.
@@ -212,7 +212,7 @@ declare module wijmo.grid.immutable {
          * The cloned item should be assigned to the {@link CloningItemEventArgs.clonedItem}
          * property of the event arguments.
          */
-        readonly cloningItem: Event<FlexGrid, CloningItemEventArgs>;
+        readonly cloningItem: Event<FlexGrid<any>, CloningItemEventArgs>;
         /**
          * Raises the {@link cloningItem} event.
          * @param e {@link CloningItemEventArgs} that contains the event data.

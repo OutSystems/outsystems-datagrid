@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -769,7 +769,7 @@ declare module wijmo.nav {
          * top-level nodes, each with two child nodes:
          *
          * ```typescript
-         * import { TreeView } from '@grapecity/wijmo.nav';
+         * import { TreeView } from '@mescius/wijmo.nav';
          * var tree = new TreeView('#treeView', {
          *     displayMemberPath: 'header',
          *     childItemsPath: 'items',
@@ -1006,7 +1006,7 @@ declare module wijmo.nav {
          * For example:
          *
          * ```typescript
-         * import { TreeView } from '@grapecity/wijmo.nav';
+         * import { TreeView } from '@mescius/wijmo.nav';
          * var treeViewChk = new TreeView('#gsTreeViewChk', {
          *    displayMemberPath: 'header',
          *    childItemsPath: 'items',
@@ -1052,7 +1052,7 @@ declare module wijmo.nav {
          * For example:
          *
          * ```typescript
-         * import { TreeView } from '@grapecity/wijmo.nav';
+         * import { TreeView } from '@mescius/wijmo.nav';
          * var treeViewLazyLoad = new TreeView('#treeViewLazyLoad', {
          *    displayMemberPath: 'header',
          *    childItemsPath: 'items',
@@ -1240,7 +1240,7 @@ declare module wijmo.nav {
          * badge to the right of new items on the tree.
          *
          * ```typescript
-         * import { TreeView } from '@grapecity/wijmo.nav';
+         * import { TreeView } from '@mescius/wijmo.nav';
          * var treeViewFmtItem = new TreeView('#treeViewFmtItem', {
          *     displayMemberPath: 'header',
          *     childItemsPath: 'items',

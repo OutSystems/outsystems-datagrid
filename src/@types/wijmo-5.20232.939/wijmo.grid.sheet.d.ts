@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -1393,8 +1393,9 @@ declare module wijmo.grid.sheet {
          *
          * @param rng The cell range to select.
          * @param show Indicates whether to scroll the new selection into view.
+         * @param panel The GridPanel to the selected range belongs {@link GridPanel}
          */
-        select(rng: any, show?: any): boolean;
+        select(rng: any, show?: any, panel?: wijmo.grid.GridPanel): boolean;
         addCustomFunction(name: string, func: Function, description?: string, minParamsCount?: number, maxParamsCount?: number): void;
         /**
          * Add custom function in {@link FlexSheet}.
@@ -1627,6 +1628,7 @@ declare module wijmo.grid.sheet {
         static _fromOADate(oADate: number): Date;
         setHeights(heights: (number | null)[]): void;
         updateRowHeights(): void;
+        _finishResizing(e: MouseEvent, doubleClick: boolean, selections?: wijmo.grid.CellRange[]): void;
     }
     /**
      * Provides arguments for the {@link FlexSheet.draggingRowColumn} event.

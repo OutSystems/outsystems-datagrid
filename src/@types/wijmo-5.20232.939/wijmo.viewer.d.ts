@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -2455,7 +2455,7 @@ declare module wijmo.viewer {
      *
      * Here is the sample to show a PDF document:
      * ```typescript
-     * import { PdfViewer } from '@grapecity/wijmo.viewer';
+     * import { PdfViewer } from '@mescius/wijmo.viewer';
      * var pdfViewer = new PdfViewer('#pdfViewer');
      * pdfViewer.serviceUrl= 'http://demos.componentone.com/ASPNET/c1webapi/4.0.20172.105/api/report';
      * pdfViewer.filePath= 'PdfRoot/DefaultDocument.pdf';
@@ -2734,7 +2734,7 @@ declare module wijmo.viewer {
      *
      * Here is a sample of how to show a FlexReport:
      * ```typescript
-     * import { ReportViewer } from '@grapecity/wijmo.viewer';
+     * import { ReportViewer } from '@mescius/wijmo.viewer';
      * var reportViewer = new ReportViewer('#reportViewer');
      * reportViewer.serviceUrl = 'http://demos.componentone.com/ASPNET/c1webapi/4.0.20172.105/api/report';
      * reportViewer.filePath = 'ReportsRoot/Formatting/AlternateBackground.flxr';
@@ -2743,7 +2743,7 @@ declare module wijmo.viewer {
      *
      * Here is a sample of how to show an SSRS report:
      * ```typescript
-     * import { ReportViewer } from '@grapecity/wijmo.viewer';
+     * import { ReportViewer } from '@mescius/wijmo.viewer';
      * var reportViewer = new ReportViewer('#reportViewer');
      * reportViewer.serviceUrl = 'http://demos.componentone.com/ASPNET/c1webapi/4.0.20172.105/api/report';
      * reportViewer.filePath = 'c1ssrs/AdventureWorks/Company Sales';

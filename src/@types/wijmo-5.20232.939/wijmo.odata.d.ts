@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -34,7 +34,7 @@ declare module wijmo.odata {
      * data, which is the same approach used when initializing controls:
      *
      * ```typescript
-     * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+     * import { ODataCollectionView } from '@mescius/wijmo.odata';
      * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
      * const categories = new ODataCollectionView(url, 'Categories', {
      *   fields: ['CategoryID', 'CategoryName', 'Description'],
@@ -109,7 +109,7 @@ declare module wijmo.odata {
          * gets only three fields from the 'Categories' table in the database:
          *
          * ```typescript
-         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+         * import { ODataCollectionView } from '@mescius/wijmo.odata';
          * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
          * const categories = new ODataCollectionView(url, 'Categories', {
          *   fields: ['CategoryID', 'CategoryName', 'Description']
@@ -125,7 +125,7 @@ declare module wijmo.odata {
          * is required. For example:
          *
          * ```typescript
-         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+         * import { ODataCollectionView } from '@mescius/wijmo.odata';
          * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
          * const categories = new ODataCollectionView(serviceUrl, 'Categories', {
          *   fields: ['Category_ID', 'Category_Name'],
@@ -151,7 +151,7 @@ declare module wijmo.odata {
          * field that contains an array of order objects:
          *
          * ```typescript
-         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+         * import { ODataCollectionView } from '@mescius/wijmo.odata';
          * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
          * const customersOrders = new ODataCollectionView(url, 'Customers', {
          *   expand: 'Orders'
@@ -184,8 +184,8 @@ declare module wijmo.odata {
          * converted into numbers; and that three date fields should be converted into dates:
          *
          * ```typescript
-         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
-         * import { DataType } from '@grapecity/wijmo';
+         * import { ODataCollectionView } from '@mescius/wijmo.odata';
+         * import { DataType } from '@mescius/wijmo';
          * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
          * const orders = new ODataCollectionView(url, 'Orders', {
          *   dataTypes: {
@@ -296,7 +296,7 @@ declare module wijmo.odata {
          * names that start with 'C' and have unit prices greater than 20:
          *
          * ```typescript
-         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+         * import { ODataCollectionView } from '@mescius/wijmo.odata';
          * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
          * const data = new ODataCollectionView(url, 'Products', {
          *   oDataVersion: 4,
@@ -329,7 +329,7 @@ declare module wijmo.odata {
          * creating the {@link ODataCollectionView} (see example below).
          *
          * ```typescript
-         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+         * import { ODataCollectionView } from '@mescius/wijmo.odata';
          * let url = 'https://services.odata.org/Northwind/Northwind.svc/';
          * let categories = new ODataCollectionView(url, 'Categories', {
          *   oDataVersion: 1.0, // legacy OData source
@@ -368,7 +368,7 @@ declare module wijmo.odata {
          *
          * For example:
          * ```typescript
-         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+         * import { ODataCollectionView } from '@mescius/wijmo.odata';
          *
          * // create data source
          * let url = 'https://services.odata.org/...';

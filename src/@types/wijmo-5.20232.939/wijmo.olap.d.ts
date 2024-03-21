@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -219,7 +219,7 @@ declare module wijmo.olap {
     /**
      * Represents a property of the items in the wijmo.olap data source.
      */
-    class PivotField {
+    class PivotField<T = any> {
         private _ng;
         _header: string;
         _binding: PivotFieldBinding;
@@ -505,7 +505,7 @@ declare module wijmo.olap {
         /**
          * Gets the {@link ICollectionView} bound to this field.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets or sets a value that determines whether this field is
          * currently being used in the view.
@@ -535,7 +535,7 @@ declare module wijmo.olap {
         /**
          * Occurs when the value of a property in this {@link Range} changes.
          */
-        readonly propertyChanged: Event<PivotField, PropertyChangedEventArgs>;
+        readonly propertyChanged: Event<PivotField<any>, PropertyChangedEventArgs>;
         /**
          * Raises the {@link propertyChanged} event.
          *
@@ -1005,7 +1005,7 @@ declare module wijmo.olap {
      * Pivot tables group data into one or more dimensions. The dimensions are represented
      * by rows and columns on a grid, and the data is stored in the grid cells.
      */
-    class PivotEngine {
+    class PivotEngine<T = any> {
         private _items;
         private _cv;
         private _autoGenFields;
@@ -1066,7 +1066,7 @@ declare module wijmo.olap {
          * For example:
          *
          * ```typescript
-         * import { PivotEngine } from '@grapecity/wijmo.olap';
+         * import { PivotEngine } from '@mescius/wijmo.olap';
          * let ng = PivotEngine({
          *     itemsSource = getDataArray(1000);
          * });
@@ -1082,7 +1082,7 @@ declare module wijmo.olap {
          * that specifies how the component should access the service. For example:
          *
          * ```typescript
-         * import { PivotEngine } from '@grapecity/wijmo.olap';
+         * import { PivotEngine } from '@mescius/wijmo.olap';
          * let ng = PivotEngine({
          *     itemsSource: {
          *         url: 'http://ssrs.componentone.com/OLAP/msmdpump.dll',
@@ -1114,7 +1114,7 @@ declare module wijmo.olap {
          * For example:
          *
          * ```typescript
-         * import { PivotEngine } from '@grapecity/wijmo.olap';
+         * import { PivotEngine } from '@mescius/wijmo.olap';
          * let ng = new wijmo.olap.PivotEngine({
          *     itemsSource: 'http://demos.componentone.com/ASPNET/c1webapi/4.5.20193.222/api/dataengine/cube'
          * });
@@ -1143,11 +1143,11 @@ declare module wijmo.olap {
         /**
          * Gets the {@link ICollectionView} that contains the raw data.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets the {@link ICollectionView} containing the output pivot view.
          */
-        readonly pivotView: wijmo.collections.ICollectionView;
+        readonly pivotView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets or sets a value that determines whether the output {@link pivotView}
          * should include rows containing subtotals or grand totals.
@@ -1268,7 +1268,7 @@ declare module wijmo.olap {
          * {@link valueFields} lists.
          *
          * ```typescript
-         * import { PivotEngine } from '@grapecity/wijmo.olap';
+         * import { PivotEngine } from '@mescius/wijmo.olap';
     
          * // create pivot engine
          * let pe = new PivotEngine();
@@ -1445,7 +1445,7 @@ declare module wijmo.olap {
          * @param item Data item in the {@link pivotView} list.
          * @param binding Name of the property being summarized.
          */
-        getDetailView(item: any, binding: string): wijmo.collections.ICollectionView;
+        getDetailView(item: any, binding: string): wijmo.collections.ICollectionView<T>;
         /**
          * Gets an object with information about a property in the {@link pivotView} list.
          *
@@ -1493,7 +1493,7 @@ declare module wijmo.olap {
         /**
          * Occurs after the value of the {@link itemsSource} property changes.
          */
-        readonly itemsSourceChanged: Event<PivotEngine, EventArgs>;
+        readonly itemsSourceChanged: Event<PivotEngine<any>, EventArgs>;
         /**
          * Raises the {@link itemsSourceChanged} event.
          */
@@ -1501,7 +1501,7 @@ declare module wijmo.olap {
         /**
          * Occurs after the view definition changes.
          */
-        readonly viewDefinitionChanged: Event<PivotEngine, EventArgs>;
+        readonly viewDefinitionChanged: Event<PivotEngine<any>, EventArgs>;
         /**
          * Raises the {@link viewDefinitionChanged} event.
          */
@@ -1509,7 +1509,7 @@ declare module wijmo.olap {
         /**
          * Occurs when the engine starts updating the {@link pivotView} list.
          */
-        readonly updatingView: Event<PivotEngine, ProgressEventArgs>;
+        readonly updatingView: Event<PivotEngine<any>, ProgressEventArgs>;
         /**
          * Raises the {@link updatingView} event.
          *
@@ -1519,7 +1519,7 @@ declare module wijmo.olap {
         /**
          * Occurs after the engine has finished updating the {@link pivotView} list.
          */
-        readonly updatedView: Event<PivotEngine, EventArgs>;
+        readonly updatedView: Event<PivotEngine<any>, EventArgs>;
         /**
          * Raises the {@link updatedView} event.
          */
@@ -1527,16 +1527,16 @@ declare module wijmo.olap {
         /**
          * Occurs when there is an error getting data from the server.
          */
-        readonly error: Event<PivotEngine, RequestErrorEventArgs>;
+        readonly error: Event<PivotEngine<any>, RequestErrorEventArgs>;
         /**
          * Raises the {@link error} event.
          *
          * @param e {@link RequestErrorEventArgs} that contains information about the error.
          */
         onError(e: wijmo.RequestErrorEventArgs): boolean;
-        readonly _isUpdatingChanged: Event<PivotEngine, EventArgs>;
+        readonly _isUpdatingChanged: Event<PivotEngine<any>, EventArgs>;
         _onIsUpdatingChanged(e?: wijmo.EventArgs): void;
-        readonly _hasDeferredUpdatesChanged: Event<PivotEngine, EventArgs>;
+        readonly _hasDeferredUpdatesChanged: Event<PivotEngine<any>, EventArgs>;
         _onHasDeferredUpdatesChanged(e?: wijmo.EventArgs): void;
         _copy(key: string, value: any): boolean;
         _getKey(keyString: string): _PivotKey;
@@ -1627,7 +1627,7 @@ declare module wijmo.olap {
      * Use the {@link itemsSource} property to set the source data, and the {@link pivotView}
      * property to get the output table containing the summarized data.
      */
-    class PivotPanel extends wijmo.Control {
+    class PivotPanel<T = any> extends wijmo.Control {
         private _ng;
         private _dFields;
         private _dFilters;
@@ -1681,11 +1681,11 @@ declare module wijmo.olap {
         /**
          * Gets the {@link ICollectionView} that contains the raw data.
          */
-        readonly collectionView: wijmo.collections.ICollectionView;
+        readonly collectionView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets the {@link ICollectionView} containing the output pivot view.
          */
-        readonly pivotView: wijmo.collections.ICollectionView;
+        readonly pivotView: wijmo.collections.ICollectionView<T>;
         /**
          * Gets or sets a value that determines whether the engine should populate
          * the {@link fields} collection automatically based on the {@link itemsSource}.
@@ -1769,7 +1769,7 @@ declare module wijmo.olap {
         /**
          * Occurs after the value of the {@link deferredUpdate} property changes.
          */
-        readonly deferredUpdateChanged: Event<PivotPanel, EventArgs>;
+        readonly deferredUpdateChanged: Event<PivotPanel<any>, EventArgs>;
         /**
          * Raises the {@link deferredUpdateChanged} event.
          */
@@ -1777,7 +1777,7 @@ declare module wijmo.olap {
         /**
          * Occurs after the value of the {@link itemsSource} property changes.
          */
-        readonly itemsSourceChanged: Event<PivotPanel, EventArgs>;
+        readonly itemsSourceChanged: Event<PivotPanel<any>, EventArgs>;
         /**
          * Raises the {@link itemsSourceChanged} event.
          */
@@ -1785,7 +1785,7 @@ declare module wijmo.olap {
         /**
          * Occurs after the view definition changes.
          */
-        readonly viewDefinitionChanged: Event<PivotPanel, EventArgs>;
+        readonly viewDefinitionChanged: Event<PivotPanel<any>, EventArgs>;
         /**
          * Raises the {@link viewDefinitionChanged} event.
          */
@@ -1793,7 +1793,7 @@ declare module wijmo.olap {
         /**
          * Occurs when the engine starts updating the {@link pivotView} list.
          */
-        readonly updatingView: Event<PivotPanel, EventArgs>;
+        readonly updatingView: Event<PivotPanel<any>, EventArgs>;
         /**
          * Raises the {@link updatingView} event.
          *
@@ -1803,7 +1803,7 @@ declare module wijmo.olap {
         /**
          * Occurs after the engine has finished updating the {@link pivotView} list.
          */
-        readonly updatedView: Event<PivotPanel, EventArgs>;
+        readonly updatedView: Event<PivotPanel<any>, EventArgs>;
         /**
          * Raises the {@link updatedView} event.
          */
@@ -1837,7 +1837,7 @@ declare module wijmo.olap {
      * To use this control, set its {@link itemsSource} property to an instance of a
      * {@link PivotPanel} control or to a {@link PivotEngine}.
      */
-    class PivotGrid extends wijmo.grid.FlexGrid {
+    class PivotGrid<T = any> extends wijmo.grid.FlexGrid {
         private _ng;
         private _htDown;
         private _showDetailOnDoubleClick;
@@ -1854,7 +1854,7 @@ declare module wijmo.olap {
         private _dlgDetail;
         private _outlineMode;
         private _ignoreClick;
-        _colRowFields: Map<grid.Column, PivotField>;
+        _colRowFields: Map<grid.Column, PivotField<any>>;
         private _prevCulture;
         static _WJC_COLLAPSE: string;
         static _WJC_DISABLED: string;
@@ -1887,7 +1887,7 @@ declare module wijmo.olap {
          * control. For example, this code disables the default animations used when
          * showing and hiding the detail dialog:
          *
-         * ```typscript
+         * ```typescript
          * let dlg = thePivotGrid.detailDialog;
          * dlg.fadeIn = false;
          * dlg.fadeOut = false;
@@ -1969,7 +1969,7 @@ declare module wijmo.olap {
          * For example:
          *
          * ```typescript
-         * import { PivotEngine, ShowTotals} from '@grapecity/wijmo.olap';
+         * import { PivotEngine, ShowTotals} from '@mescius/wijmo.olap';
          * let theEngine = new PivotEngine({
          *     showRowTotals: ShowTotals.Subtotals,
          *     totalsBeforeData: true,
@@ -2006,7 +2006,7 @@ declare module wijmo.olap {
          * @param row Index of the row that contains the cell.
          * @param col Index of the column that contains the cell.
          */
-        getDetailView(row: number, col: number): wijmo.collections.ICollectionView;
+        getDetailView(row: number, col: number): wijmo.collections.ICollectionView<T>;
         /**
          * Shows a dialog containing details for a given grid cell.
          *
@@ -2032,7 +2032,7 @@ declare module wijmo.olap {
         collapseColumnsToLevel(level: number): void;
         _getQuickAutoSize(): boolean;
         _bindGrid(full: boolean): void;
-        protected _getCollectionView(value: any): wijmo.collections.ICollectionView;
+        protected _getCollectionView(value: any): wijmo.collections.ICollectionView<T>;
         refresh(fullUpdate?: boolean): void;
         onItemsSourceChanged(e?: wijmo.EventArgs): void;
         onResizedColumn(e: wijmo.grid.CellRangeEventArgs): void;

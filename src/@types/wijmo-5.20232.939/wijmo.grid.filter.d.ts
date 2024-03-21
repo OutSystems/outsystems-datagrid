@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -32,8 +32,8 @@ declare module wijmo.grid.filter {
      * constructor. For example:
      *
      * ```typescript
-     * import { FlexGrid } from '@grapecity/wijmo.grid';
-     * import { FlexGridFilter } from '@grapecity/wijmo.grid.filter';
+     * import { FlexGrid } from '@mescius/wijmo.grid';
+     * import { FlexGridFilter } from '@mescius/wijmo.grid.filter';
      * let flex = new FlexGrid('#theGrid'); // create the grid
      * let filter = new FlexGridFilter(flex); // add a filter to the grid
      * ```
@@ -62,6 +62,7 @@ declare module wijmo.grid.filter {
         private _showSort;
         private _defFilterType;
         private _xValueSearch;
+        private _includeUpdatedRowsInFilter;
         static _skipColumn: wijmo.grid.Column;
         /**
          * Initializes a new instance of the {@link FlexGridFilter} class.
@@ -70,6 +71,15 @@ declare module wijmo.grid.filter {
          * @param options Initialization options for the {@link FlexGridFilter}.
          */
         constructor(grid: wijmo.grid.FlexGrid, options?: any);
+        /**
+         * Basic initialization steps required for FlexGridFilter
+         */
+        protected _init(): void;
+        /**
+         * Gets/set the Set that contains rows updated after filter is applied, WJM-32107
+         *
+         */
+        protected excludedRowsSet: WeakSet<any>;
         /**
          * Gets a reference to the {@link FlexGrid} that owns this filter.
          */
@@ -104,6 +114,32 @@ declare module wijmo.grid.filter {
          */
         showSortButtons: boolean;
         /**
+         * Gets or sets a value indicating whether to apply filter on the updated
+         * rows.
+         * If this property is set to true, then events such as row update,
+         * row insertion, sorting etc refreshes filter and rows which do not pass
+         * filter gets filtered out.
+         * IF this property is set to false, then filter is not applied immediately
+         * and we need to click the apply button again to refresh filter.
+         * For complete excel behavior you also need to set the refreshOnEdit property {@link CollectionView.refreshOnEdit}
+         * of CollectionView to false
+         * * ```typescript
+         * // For flexgrid
+         * flexgrid.collectionView.refreshOnEdit = false;
+         *
+         * // For flexsheet
+         * flexSheet.itemsSourceChanged.addHandler((s, e) => {
+         *   if(s.collectionView){
+         *     s.collectionView.refreshOnEdit = false;
+         *   }
+         * });
+         *
+         * ```
+         *
+         * The default value for this property is **false**.
+         */
+        reApplyFilterOnUpdate: boolean;
+        /**
          * Gets the filter for the given column.
          *
          * @param col The {@link Column} that the filter applies to (or column name or index).
@@ -119,7 +155,7 @@ declare module wijmo.grid.filter {
          * conditions on all columns except the "ByValue" column:
          *
          * ```typescript
-         * import { FlexGridFilter, FilterType } from '@grapecity/wijmo.grid.filter';
+         * import { FlexGridFilter, FilterType } from '@mescius/wijmo.grid.filter';
          * let filter = new FlexGridFilter(flex);
          * filter.defaultFilterType = FilterType.Condition;
          * let col = flex.getColumn('ByValue'),
@@ -301,7 +337,7 @@ declare module wijmo.grid.filter {
         _mousedown(e: MouseEvent): void;
         _click(e: MouseEvent): void;
         private _toggleEditor;
-        _keydown(e: KeyboardEvent): void;
+        _keydown(e: KeyboardEvent): boolean;
     }
 }
 declare module wijmo.grid.filter {
@@ -542,6 +578,17 @@ declare module wijmo.grid.filter {
 }
 declare module wijmo.grid.filter {
     /**
+     * Specifies type of Search to use inside ValueFilterEditor.
+     */
+    enum ValueFilterSearchKind {
+        /** Simple includes text filter. */
+        Text = 0,
+        /** Regex filter. */
+        Regex = 1,
+        /** Excel style wilcard(?, *, ~) character support. */
+        Excel = 2
+    }
+    /**
      * Defines a value filter for a column on a {@link FlexGrid} control.
      *
      * Value filters contain an explicit list of values that should be
@@ -556,12 +603,29 @@ declare module wijmo.grid.filter {
         private _uniqueValues;
         private _sortValues;
         private _map;
+        private _searchType;
+        private _exceedsMaxValues;
         /**
          * Initializes a new instance of the {@link ValueFilter} class.
          *
          * @param column The column to filter.
          */
         constructor(column: wijmo.grid.Column);
+        /**
+         * Gets or sets the search type to use for ValueFilterEditor.
+         *
+         * For example, the code below sets up the ValueFilter for
+         * 'country' column to use Excel style wildcards
+         *
+         * ```typescript
+         * import { FlexGridFilter, ValueFilterSearchKind } from '@mescius/wijmo.grid.filter';
+         * let filter = new FlexGridFilter(flex);
+         * filter.getColumnFilter("country").valueFilter.searchType = ValueFilterSearchKind.Excel;
+         * ```
+         *
+         * The default value for this property is **ValueFilterSearchKind.Excel**.
+         */
+        searchType: ValueFilterSearchKind;
         /**
          * Gets or sets an object with the selected (checked) values on the
          * value list.
@@ -611,7 +675,7 @@ declare module wijmo.grid.filter {
          * values for the field:
          *
          * ```typescript
-         * import { FlexGridFilter} from '@grapecity/wijmo.grid.filter';
+         * import { FlexGridFilter} from '@mescius/wijmo.grid.filter';
          *
          * // change the maxItems property for the 'id' column:
          * let f = new FlexGridFilter(theGrid);
@@ -637,7 +701,7 @@ declare module wijmo.grid.filter {
          * {@link ValueFilter} for the column bound to the 'country' field:
          *
          * ```typescript
-         * import { FlexGridFilter} from '@grapecity/wijmo.grid.filter';
+         * import { FlexGridFilter} from '@mescius/wijmo.grid.filter';
          *
          * // create filter for a FlexGrid
          * let filter = new FlexGridFilter(grid);
@@ -705,6 +769,7 @@ declare module wijmo.grid.filter {
          * the values from the data source.
          */
         getUniqueValues(filtered?: boolean): any[];
+        readonly exceedsMaxValues: boolean;
         /**
          * Returns true if this object supports a given interface.
          *
@@ -791,6 +856,10 @@ declare module wijmo.grid.filter {
         protected _getCaseSensitive(): boolean;
         protected _getItems(): any[];
         private _filterTextChanged;
+        protected _getSearchExp(text: string, isCaseSensitive: boolean): RegExp;
+        private _getTextSearchExp;
+        private _getRegexSearchExp;
+        private _getExcelSearchExp;
         private _filterValues;
         private _cbSelectAllClicked;
         private _updateSelectAllCheck;
@@ -836,7 +905,7 @@ declare module wijmo.grid.filter {
          * so the filter editor displays 'Yes' and 'No' instead of 'true' and 'false':
          *
          * ```typescript
-         * import { FlexGridFilter } from '@grapecity/wijmo.grid.filter';
+         * import { FlexGridFilter } from '@mescius/wijmo.grid.filter';
          * var filter = new FlexGridFilter(grid),
          *     map = new wijmo.grid.DataMap([
          *             { value: true, caption: 'Yes' },
@@ -904,9 +973,11 @@ declare module wijmo.grid.filter {
         private _aVal;
         private _divEdtVal;
         private _divEdtCnd;
+        private _aExceeds;
         private _btnApply;
         private _btnCancel;
         private _btnClear;
+        private _popup;
         /**
          * Gets or sets the template used to instantiate {@link ColumnFilterEditor} controls.
          */
@@ -953,6 +1024,8 @@ declare module wijmo.grid.filter {
         private _updateSortButtonState;
         private _getFilterType;
         private _btnClicked;
+        private _updateExceedsLinkVisibility;
+        private _initPopup;
     }
 }
 declare module wijmo.grid.filter {

@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -13,6 +13,7 @@
 declare module wijmo.grid.selector {
     const _CLS_CB_ITEM = "wj-column-selector";
     const _CLS_CB_GROUP = "wj-column-selector-group";
+    const _CLS_STATE_DISABLED = "wj-state-disabled";
     /**
      * Class that modifies a {@link FlexGrid} {@link Column} by adding checkboxes
      * that can be used to select or de-select rows and groups.

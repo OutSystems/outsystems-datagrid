@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -87,7 +87,7 @@ declare module wijmo.touch {
      * To use it, import the module into your application using this statement:
      *
      * ```typescript
-     * import '@grapecity/wijmo.touch';
+     * import '@mescius/wijmo.touch';
      * ```
      *
      * This will create a single instance of a {@link DragDropTouch} that

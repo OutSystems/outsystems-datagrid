@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20232.939
+    * Wijmo Library 5.20241.7
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -138,8 +138,8 @@ declare module wijmo.grid.detail {
      * For example:
      *
      * ```typescript
-     * import { FlexGrid } from '@grapecity/wijmo.grid';
-     * import { FlexGridDetailProvider } from '@grapecity/wijmo.grid.detail';
+     * import { FlexGrid } from '@mescius/wijmo.grid';
+     * import { FlexGridDetailProvider } from '@mescius/wijmo.grid.detail';
      *
      * // create FlexGrid to show categories
      * let gridCat = new FlexGrid('#gridCat', {
