@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20241.7
+    * Wijmo Library 5.20241.9
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
