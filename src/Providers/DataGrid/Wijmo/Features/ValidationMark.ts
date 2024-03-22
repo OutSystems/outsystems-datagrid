@@ -369,6 +369,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			rowKeys.forEach((element) => {
 				if (element !== '') {
 					this._metadata.clearPropertyByRowKey(element, this._internalLabel);
+					this._setRowStatusByKey(element, true);
 				}
 			});
 			this._grid.provider.invalidate(); //Mark to be refreshed
