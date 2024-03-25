@@ -30,7 +30,7 @@ If you're using OutSystems, this is how you can use this component in your appli
 
 ## About this repository
 
-This repository contains the code that enable the usage of an external provider ([Wijmo](https://www.grapecity.com/wijmo/)), to create grids in OutSystems applications with the least possible effort.
+This repository contains the code that enable the usage of an external provider ([Wijmo](https://developer.mescius.com/wijmo)), to create grids in OutSystems applications with the least possible effort.
 The code is written in TypeScript🖤, and you branch it and PR your changes/proposals!
 
 ### What tools should you use?
