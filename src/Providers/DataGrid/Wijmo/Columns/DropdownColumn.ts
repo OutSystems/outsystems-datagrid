@@ -104,6 +104,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 				new OSFramework.DataGrid.Configuration.Column.ColumnConfigDropdown(configs, extraConfig)
 			);
 			this.config.dataMap = new wijmo.grid.DataMap([], 'key', 'text');
+			this.config.dataMap.useFilter = true;
 			this._columnEvents = new OSFramework.DataGrid.Event.Column.ColumnEventsManager(this);
 			this._handlerAdded = false;
 		}
@@ -254,9 +255,9 @@ namespace Providers.DataGrid.Wijmo.Column {
 			const parentColumn = this.grid.getColumn(this.config.parentBinding);
 
 			if (parentColumn && parentColumn.columnType === OSFramework.DataGrid.Enum.ColumnType.Dropdown) {
-				// override getDisplayValues method to get values that
-				// correspond to the parent
-				dataMap.getDisplayValues = (dataItem) => {
+				// assign the callback to the getFilteredItems method
+				// to get values that correspond to the parent
+				dataMap.getFilteredItems = (dataItem) => {
 					const colBinding = this.config.parentBinding.split('.');
 					let value = dataItem;
 					for (let i = 0; i < colBinding.length; i++) {
@@ -270,7 +271,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 					// if there is no value, we don't return anything
 					if (value) {
 						const validValues = values.filter((x) => x.parentKey === value.toString());
-						return validValues.map((value) => value.text);
+						return validValues;
 					}
 				};
 			}
