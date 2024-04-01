@@ -273,6 +273,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 						const validValues = values.filter((x) => x.parentKey === value.toString());
 						return validValues;
 					}
+					return [];
 				};
 			}
 		}
