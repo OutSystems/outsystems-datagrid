@@ -268,11 +268,11 @@ namespace Providers.DataGrid.Wijmo.Column {
 						value = value[colBinding[i]];
 					}
 
-					// if there is no value, we don't return anything
 					if (value) {
 						const validValues = values.filter((x) => x.parentKey === value.toString());
 						return validValues;
 					}
+					return [];
 				};
 			}
 		}
