@@ -45,7 +45,13 @@ namespace OSFramework.DataGrid.Event.Column {
 		 * @param value Value to be passed to OS in the type of a string.
 		 * @param rowNumber (Optional) Number of the row in which the event ocurrs.
 		 */
-		public trigger(eventType: ColumnEventType, value: string, oldValue?: string, rowNumber?: number): void {
+		public trigger(
+			eventType: ColumnEventType,
+			value: string,
+			oldValue?: string,
+			rowNumber?: number,
+			isFromApplyRowValidations = false
+		): void {
 			if (this.events.has(eventType)) {
 				const handlerEvent = this.events.get(eventType);
 
@@ -64,7 +70,8 @@ namespace OSFramework.DataGrid.Event.Column {
 							this._column.widgetId, // ID of the Column block in which the cell value has changed.
 							rowNumber, // Number of the row in which the cell value has changed.
 							oldValue, // Value of the cell before its value has changed (Old)
-							value // Value of the cell after its value has changed (New)
+							value, // Value of the cell after its value has changed (New)
+							isFromApplyRowValidations
 						);
 						break;
 					case ColumnEventType.OnColumnReorder:
