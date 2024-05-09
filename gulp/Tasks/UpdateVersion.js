@@ -12,7 +12,7 @@ let filesList = {
 	constants: './src/OSFramework/DataGrid/Constants.ts',
 	package: './package.json',
 	readme: './README.md',
-	specs: './gulp/Tasks/DefaultSpecs.js',
+	specs: './gulp/DefaultSpecs.js',
 };
 
 // Prompt question about the new version to be set
