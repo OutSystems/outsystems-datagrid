@@ -11,6 +11,7 @@ let newVersionToBeSet = '';
 let filesList = {
 	constants: './src/OSFramework/DataGrid/Constants.ts',
 	package: './package.json',
+	readme: './README.md',
 	specs: './gulp/DefaultSpecs.js',
 };
 
@@ -66,6 +67,11 @@ function getFilesList(cb) {
 			case filesList.specs:
 				findFor = `version: '${defaultSpecs.info.version}',`;
 				replaceTo = `version: '${newVersionToBeSet}',`;
+				break;
+
+			case filesList.readme:
+				findFor = `# OutSystems Data Grid · v${defaultSpecs.info.version}`;
+				replaceTo = `# OutSystems Data Grid · v${newVersionToBeSet}`;
 				break;
 		}
 
