@@ -6,6 +6,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			OSFramework.DataGrid.Interface.IBuilder,
 			OSFramework.DataGrid.Interface.IDisposable
 	{
+		private _cellClickEventHandler: OSFramework.DataGrid.Callbacks.Generic;
 		protected _grid: Providers.DataGrid.Wijmo.Grid.IGridWijmo;
 
 		constructor(
@@ -37,11 +38,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		public build(): void {
-			this.setCellClickEvent(this._raiseCellClickEvent.bind(this));
+			this._cellClickEventHandler = this._raiseCellClickEvent.bind(this);
+			this.setCellClickEvent(this._cellClickEventHandler);
 		}
 
 		public dispose(): void {
-			this.removeCellClickEvent(this._raiseCellClickEvent.bind(this));
+			this.removeCellClickEvent(this._cellClickEventHandler);
+			this._cellClickEventHandler = undefined;
 		}
 
 		public removeCellClickEvent(callback: (ev: MouseEvent) => void): void {
