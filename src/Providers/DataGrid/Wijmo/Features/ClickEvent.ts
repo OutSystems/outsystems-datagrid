@@ -18,10 +18,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		private _raiseCellClickEvent(e: MouseEvent) {
 			const ht = this._grid.provider.hitTest(e);
 			if (ht.cellType === wijmo.grid.CellType.Cell) {
-				const column = this._grid.getColumns()[ht.col];
-				const columnWidgetId = column.widgetId;
+				const column = ht.getColumn();
 				const rowNumber = ht.row;
-				const binding = column.config.binding;
+				const binding = column.binding;
+				const columnWidgetId = this._grid.getColumn(column.describedById).widgetId;
 				const line = _.cloneDeep(this._grid.provider.rows[rowNumber].dataItem);
 				this._grid.rowMetadata.clear(line);
 
