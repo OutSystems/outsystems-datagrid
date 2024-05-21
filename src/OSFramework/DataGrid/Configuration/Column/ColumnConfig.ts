@@ -60,6 +60,7 @@ namespace OSFramework.DataGrid.Configuration.Column {
 				wordWrap: this.wordWrap,
 				multiLine: this.multiLine,
 				dataType: this.dataType,
+				describedById: this.uniqueId,
 				editor: this.editor,
 				width: this.width > 0 ? this.width : null, // when the column's width is not set, the default value should be managed by wijmo
 			};
