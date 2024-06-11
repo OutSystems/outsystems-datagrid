@@ -60,6 +60,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 			//Sort menu by order - Usefull when the developer inserts a IF statement hiding/showing elements
 			this._sortMenuItems(this._rootMenuItems);
+			//If the menu is opening, let's refresh the itemsSource
+			if (this._isOpening) {
+				this._provider.itemsSource.refresh();
+			}
 		}
 
 		/**
@@ -381,6 +385,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 			//Remove it from the Map
 			this._menuItems.delete(menuItemId);
+
+			//If the menu is opening, let's refresh the itemsSource
+			if (this._isOpening) {
+				this._provider.itemsSource.refresh();
+			}
 		}
 	}
 }
