@@ -8,7 +8,15 @@ namespace OSFramework.DataGrid.Event.Feature {
 	 */
 	export class ToggleContextMenu extends Event.AbstractEvent<string> {
 		public trigger(gridID: string, isOpening: boolean, columnId: string): void {
-			this.handlers.slice(0).forEach((h) => Helper.AsyncInvocation(h, gridID, isOpening, columnId));
+			this.handlers.slice(0).forEach((h) => {
+				if (isOpening) {
+					//only when opening the context menu, we need the operation
+					//to be synchronous, so that the items can be updated.
+					h(gridID, isOpening, columnId);
+				} else {
+					Helper.AsyncInvocation(h, gridID, isOpening, columnId);
+				}
+			});
 		}
 	}
 }
