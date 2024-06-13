@@ -93,6 +93,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					if (e.isDroppedDown) {
 						// It is easier to understand if it will open instead of analysing if the menu is dropped down.
 						this._isOpening = false;
+						//Trigger the event menu was closed.
 						this._contextMenuEvents.trigger(OSFramework.DataGrid.Event.Feature.ContextMenuEventType.Toggle);
 					}
 				},
@@ -230,8 +231,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					}
 				}
 			}
-
-			this._contextMenuEvents.trigger(OSFramework.DataGrid.Event.Feature.ContextMenuEventType.Toggle);
+			//Trigger the event Opening. It is synchronous to allow the developer to change the
+			//Context Menu items before the menu is visible.
+			this._contextMenuEvents.trigger(OSFramework.DataGrid.Event.Feature.ContextMenuEventType.Opening);
 
 			//Filtering menuItem based on the clicked area =D
 			this._provider.collectionView.filter = this._filterMenuItem.bind(this, e);
@@ -243,6 +245,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 				// cancel the browser's default menu
 				e.preventDefault();
+
+				//Trigger the event menu was opened.
+				this._contextMenuEvents.trigger(OSFramework.DataGrid.Event.Feature.ContextMenuEventType.Toggle);
 			}
 		}
 
