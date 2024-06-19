@@ -20,6 +20,9 @@ namespace OSFramework.DataGrid.Event.Feature {
 			let event: Event.IEvent<string>;
 
 			switch (eventType) {
+				case ContextMenuEventType.Opening:
+					event = new OpeningContextMenu();
+					break;
 				case ContextMenuEventType.Toggle:
 					event = new ToggleContextMenu();
 					break;
@@ -34,7 +37,7 @@ namespace OSFramework.DataGrid.Event.Feature {
 			if (this.events.has(event)) {
 				this.events
 					.get(event)
-					.trigger(this._contextMenu.grid.widgetId, this._contextMenu.isOpening, this._contextMenu.columnId);
+					.trigger(this._contextMenu.grid.widgetId, this._contextMenu.columnId, this._contextMenu.isOpening);
 			}
 		}
 	}

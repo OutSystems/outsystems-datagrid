@@ -7,6 +7,13 @@ namespace OSFramework.DataGrid.Event.Feature {
 	 * @enum {number}
 	 */
 	export enum ContextMenuEventType {
+		/**
+		 * When the menu is opening, but not yet visible/open.
+		 */
+		Opening = 'Opening',
+		/**
+		 * When the menu was opened or closed.
+		 */
 		Toggle = 'Toggle',
 	}
 }
