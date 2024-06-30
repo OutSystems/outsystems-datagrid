@@ -128,7 +128,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				};
 				const book = wijmo.grid.xlsx.FlexGridXlsxConverter.save(this._grid.provider, params);
 				book.sheets[0].name = 'DataGrid Data';
-				book.save(this._handleFilename(filename, false));
+				book.saveAsync(this._handleFilename(filename, false));
 				this._reApplyPagination();
 
 				if (this._hasLoadingMessage) {
