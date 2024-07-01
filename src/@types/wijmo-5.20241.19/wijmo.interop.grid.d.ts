@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20241.9
+    * Wijmo Library 5.20241.19
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -24,6 +24,17 @@ import * as wjcCore from '@mescius/wijmo';
 import * as wjcGrid from '@mescius/wijmo.grid';
 export declare function softInput(): typeof mInput;
 export declare function softGridDetail(): typeof mGridDetail;
+interface _IProcessTemplateCtx {
+    needCellValue: boolean;
+    isCvGroup: boolean;
+    isEdit: boolean;
+    riOriginal: number;
+    ciOriginal: number;
+    templContextProp: string;
+    rng?: wjcGrid.CellRange;
+    row: wjcGrid.Row;
+    col: wjcGrid.Column;
+}
 export declare abstract class DirectiveCellFactoryBase extends wjcGrid.CellFactory {
     private static _templateTypes;
     protected static _cellStampProp: string;
@@ -40,11 +51,21 @@ export declare abstract class DirectiveCellFactoryBase extends wjcGrid.CellFacto
     private _cellStampCounter;
     private _cellEditorVars;
     private _composing;
+    private _autoSizeCache;
     protected _isCheckingHeight: boolean;
     protected _backupHeight: number;
     protected _cacheRow: wjcGrid.Row;
     constructor(grid: wjcGrid.FlexGrid);
+    protected _updatedViewHandler(): void;
+    protected canRender(tplCtx: any): boolean;
     updateCell(panel: wjcGrid.GridPanel, rowIndex: number, colIndex: number, cell: HTMLElement, rng?: wjcGrid.CellRange): void;
+    _processTemplate(panel: wjcGrid.GridPanel, rowIndex: number, colIndex: number, cell: HTMLElement, templContext: ICellTemplateInfo, ctx: _IProcessTemplateCtx): boolean;
+    private _updateEditRowSize;
+    private _autoSizePanelCells;
+    protected getHeight(panel: wjcGrid.GridPanel, r: number, c: number, cell: HTMLElement): number;
+    protected _autoSizeIfRequired(): void;
+    private _autoSizePendingCells;
+    private _markForAutoSize;
     getEditorValue(g: wjcGrid.FlexGrid): any;
     disposeCell(cell: HTMLElement): void;
     /**
@@ -150,3 +171,4 @@ export interface CellBindingsData {
     };
     bindings?: any;
 }
+export {};
