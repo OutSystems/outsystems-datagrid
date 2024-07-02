@@ -84,7 +84,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			column: OSFramework.DataGrid.Column.IColumn,
 			rowNumber: number,
 			newValue: string,
-			oldValue: string
+			oldValue: string,
+			isFromApplyRowValidations = false
 		): void {
 			if (
 				column.hasEvents &&
@@ -94,7 +95,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					OSFramework.DataGrid.Event.Column.ColumnEventType.OnCellValueChange,
 					this._convertToFormat(column, newValue),
 					this._convertToFormat(column, oldValue),
-					rowNumber
+					rowNumber,
+					isFromApplyRowValidations
 				);
 			}
 		}
@@ -268,13 +270,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			oldValue: any,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			newValue: any
+			newValue: any,
+			isFromApplyRowValidations = false
 		) {
 			const column = this._grid.getColumn(columnUniqueID);
 
 			if (column !== undefined) {
 				this._setCellStatus(column, rowNumber, newValue);
-				this._handleOnCellChangeEvent(column, rowNumber, newValue, oldValue);
+				this._handleOnCellChangeEvent(column, rowNumber, newValue, oldValue, isFromApplyRowValidations);
 			}
 		}
 
@@ -634,7 +637,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					const currValue = this._grid.provider.getCellData(rowNumber, column.provider.index, false);
 
 					// Triggers the events of OnCellValueChange associated to a specific column in OS
-					this._triggerEventsFromColumn(rowNumber, column.uniqueId, currValue, currValue);
+					this._triggerEventsFromColumn(rowNumber, column.uniqueId, currValue, currValue, true);
 				}
 			});
 		}

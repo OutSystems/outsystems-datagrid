@@ -7,9 +7,16 @@ namespace OSFramework.DataGrid.Event.Column {
 	 * @extends AbstractColumnEvent
 	 */
 	export class OnCellValueChange extends AbstractColumnEvent {
-		public trigger(gridID: string, columnID: string, rowNumber: number, oldValue: string, newValue: string): void {
+		public trigger(
+			gridID: string,
+			columnID: string,
+			rowNumber: number,
+			oldValue: string,
+			newValue: string,
+			isFromApplyRowValidations = false
+		): void {
 			this.handlers.slice(0).forEach((h) => {
-				Helper.SyncInvocation(h, gridID, rowNumber, columnID, oldValue, newValue);
+				Helper.SyncInvocation(h, gridID, rowNumber, columnID, oldValue, newValue, isFromApplyRowValidations);
 			});
 		}
 	}

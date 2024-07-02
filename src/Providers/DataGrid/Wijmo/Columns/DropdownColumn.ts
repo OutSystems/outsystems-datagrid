@@ -116,11 +116,14 @@ namespace Providers.DataGrid.Wijmo.Column {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			oldValue: any,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			newValue: any
+			newValue: any,
+			isFromApplyRowValidations = false
 		): void {
 			if (oldValue !== newValue && oldValue.toString() !== newValue.toString()) {
 				this.grid.features.dirtyMark.saveOriginalValue(rowNumber, this.provider.index);
 			}
+
+			if (isFromApplyRowValidations) return;
 
 			const column = this.grid.getColumn(columnID);
 
