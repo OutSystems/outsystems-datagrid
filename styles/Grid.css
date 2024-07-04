@@ -1055,7 +1055,7 @@
     -servicestudio-position: relative;
     -servicestudio-right: 0;
     -servicestudio-width: 160px;
-    -servicestudio-z-index: 2;
+    -servicestudio-z-index: 3;
     -servicestudio-margin-top: -35px;
 }
 
@@ -1143,6 +1143,15 @@
     border-radius: 5px;
     color: #fff;
     padding: 2px 4px 2px;
+}
+
+.full-size {
+  width: 100%;
+  height: 100%;
+}
+
+.ml-10 {
+  margin-left: 10px;
 }
 
 /* Tooltip class */

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Providers.DataGrid.Wijmo.Column {
 	function _columnGeneratorInternal(
 		grid: OSFramework.DataGrid.Grid.IGrid,
