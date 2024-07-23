@@ -12,8 +12,6 @@ namespace OSFramework.DataGrid.Feature.Auxiliar {
 		public items: MenuItem[] = [];
 		/** The label or display name on the context menu */
 		public label: string;
-		/** Order of the element on a menu, calculated based on DOM element position */
-		public order: number;
 		/** Parent Id reference */
 		public parentMenuItemId: string;
 		/** Menu item string identifier */

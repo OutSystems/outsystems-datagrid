@@ -272,12 +272,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 * Sort menu by its order
 		 * @param items list of menu items
 		 */
-		private _sortMenuItems(items: OSFramework.DataGrid.Feature.Auxiliar.MenuItem[]) {
-			items.sort((a, b): number => {
-				this._sortMenuItems(a.items);
-				return a.order - b.order;
-			});
-		}
+		// private _sortMenuItems(items: OSFramework.DataGrid.Feature.Auxiliar.MenuItem[]) {
+		// 	items.sort((a, b): number => {
+		// 		this._sortMenuItems(a.items);
+		// 		return a.order - b.order;
+		// 	});
+		// }
 		public get contextMenuEvents(): OSFramework.DataGrid.Event.Feature.ContextMenuEventManager {
 			return this._contextMenuEvents;
 		}
