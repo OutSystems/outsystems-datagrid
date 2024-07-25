@@ -47,19 +47,24 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			menuItem.parentMenuItemId = this._getMenuParentId(menuItem.uniqueId);
 
 			//Define menu item's order
-			menuItem.order = this._defineMenuItemOrder(menuItem.uniqueId);
+			const menuItemOrder = this._defineMenuItemOrder(menuItem.uniqueId);
 
-			//If this menuItem is rootItem, means has no parent menu item
-			if (menuItem.isRootItem) {
-				this._rootMenuItems.push(menuItem);
-			}
-			//Otherwise find its parent and save it as a child
-			else {
-				this._menuItems.get(menuItem.parentMenuItemId).items.push(menuItem);
+			//If it is a root item, push it to the rootMenuItems array.
+			//Otherwise, get the correct array.
+			const arrayItem = menuItem.isRootItem
+				? this._rootMenuItems
+				: this._menuItems.get(menuItem.parentMenuItemId).items;
+
+			//Check if it is the last item, if so, push it to the end of the array.
+			//Otherwise, insert it in the correct position.
+			const isLastItem = menuItemOrder === arrayItem.length;
+
+			if (isLastItem) {
+				arrayItem.push(menuItem);
+			} else {
+				arrayItem.splice(menuItemOrder, 0, menuItem);
 			}
 
-			//Sort menu by order - Usefull when the developer inserts a IF statement hiding/showing elements
-			this._sortMenuItems(this._rootMenuItems);
 			//If the menu is opening, let's refresh the itemsSource
 			if (this._isOpening) {
 				this._provider.itemsSource.refresh();
@@ -263,16 +268,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			}
 		}
 
-		/**
-		 * Sort menu by its order
-		 * @param items list of menu items
-		 */
-		private _sortMenuItems(items: OSFramework.DataGrid.Feature.Auxiliar.MenuItem[]) {
-			items.sort((a, b): number => {
-				this._sortMenuItems(a.items);
-				return a.order - b.order;
-			});
-		}
 		public get contextMenuEvents(): OSFramework.DataGrid.Event.Feature.ContextMenuEventManager {
 			return this._contextMenuEvents;
 		}
@@ -340,12 +335,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			host.addEventListener('contextmenu', this._handleRightClick.bind(this), true);
 		}
 
-		public changeProperty(
-			menuItemId: string,
-			propertyName: string,
-			// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-			propertyValue: any
-		): void {
+		public changeProperty(menuItemId: string, propertyName: string, propertyValue: unknown): void {
 			const menuItem = this._menuItems.get(menuItemId);
 			if (menuItem) {
 				if (menuItem.hasOwnProperty(propertyName)) {
