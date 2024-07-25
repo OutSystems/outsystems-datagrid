@@ -268,16 +268,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			}
 		}
 
-		/**
-		 * Sort menu by its order
-		 * @param items list of menu items
-		 */
-		// private _sortMenuItems(items: OSFramework.DataGrid.Feature.Auxiliar.MenuItem[]) {
-		// 	items.sort((a, b): number => {
-		// 		this._sortMenuItems(a.items);
-		// 		return a.order - b.order;
-		// 	});
-		// }
 		public get contextMenuEvents(): OSFramework.DataGrid.Event.Feature.ContextMenuEventManager {
 			return this._contextMenuEvents;
 		}
@@ -345,12 +335,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			host.addEventListener('contextmenu', this._handleRightClick.bind(this), true);
 		}
 
-		public changeProperty(
-			menuItemId: string,
-			propertyName: string,
-			// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-			propertyValue: any
-		): void {
+		public changeProperty(menuItemId: string, propertyName: string, propertyValue: unknown): void {
 			const menuItem = this._menuItems.get(menuItemId);
 			if (menuItem) {
 				if (menuItem.hasOwnProperty(propertyName)) {
