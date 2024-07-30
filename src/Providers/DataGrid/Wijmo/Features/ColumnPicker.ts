@@ -170,7 +170,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		// This code fixes WJM-34234
-		private _issueWorkaround(e) {
+		private _issueWorkaround(e): void {
 			if (e.ctrlKey && e.code === 'KeyA') {
 				const checkedItems = [...this._theColumnPicker.checkedItems];
 				this._theColumnPicker._children.forEach((item, index) => {
