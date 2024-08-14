@@ -1,7 +1,14 @@
 node_modules
-dist
-
 /*.bat
 
+# MacOS folder icon (hidden file)
+**/Icon?
+**/.DS_Store
 
-docs/
+package-lock.json
+
+# gta artifact
+new-version-artf.txt
+
+# Distribution files folder
+dist/**
