@@ -51,7 +51,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				this._grid.uniqueId
 			).parentElement;
 
-			const loadingPlaceholderContent = `<div class="datagrid-loading heading4 OSInline" style="width: 100%; height: 100%;"><i class="icon fa-spin fa fa-spinner fa-1x"></i><div class="OSInline" style="margin-left: 10px;">${this._loadingMessage}</div></div>`;
+			const loadingPlaceholderContent = `<div class="datagrid-loading full-size heading4 OSInline"><i class="icon fa-spin fa fa-spinner fa-1x"></i><div class="ml-10 OSInline">${this._loadingMessage}</div></div>`;
 			const createdDivElem = document.createElement('div');
 			createdDivElem.className = OSFramework.DataGrid.Helper.Constants.overlayExportFeedbackCss;
 			createdDivElem.innerHTML = loadingPlaceholderContent;
@@ -128,7 +128,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				};
 				const book = wijmo.grid.xlsx.FlexGridXlsxConverter.save(this._grid.provider, params);
 				book.sheets[0].name = 'DataGrid Data';
-				book.save(this._handleFilename(filename, false));
+				book.saveAsync(this._handleFilename(filename, false));
 				this._reApplyPagination();
 
 				if (this._hasLoadingMessage) {

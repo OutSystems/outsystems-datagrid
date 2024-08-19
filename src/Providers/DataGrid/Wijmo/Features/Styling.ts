@@ -13,8 +13,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			let classList = [];
 			const column = this._grid.getColumn(columnID);
 
-			if (column) {
-				const classListString = column.provider.cssClass || ' ';
+			if (column && column.provider.cssClass) {
+				const classListString = column.provider.cssClass;
 				classList = classListString.split(' ');
 			}
 
@@ -25,8 +25,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			let classList = [];
 			const column = this._grid.getColumn(columnID);
 
-			if (column) {
-				const classListString = column.provider.cssClassAll || ' ';
+			if (column && column.provider.cssClassAll) {
+				const classListString = column.provider.cssClassAll;
 				classList = classListString.split(' ');
 			}
 

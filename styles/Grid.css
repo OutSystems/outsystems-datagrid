@@ -279,6 +279,12 @@
     filter: drop-shadow(10px 1px 5px rgba(1, 1, 1, 0.08));
 }
 
+/* Overrides scenarios where we have for instance elements like dropdowns on top of it when having frozen columns*/
+div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
+    z-index: 3 !important;
+}
+
+
 .wj-cell.wj-state-invalid.wj-header.wj-alt:not(.wj-state-multi-selected),
 .wj-cell.wj-state-invalid.wj-header.wj-header-alt:not(.wj-state-multi-selected),
 .wj-cell.wj-alt {
@@ -1055,7 +1061,7 @@
     -servicestudio-position: relative;
     -servicestudio-right: 0;
     -servicestudio-width: 160px;
-    -servicestudio-z-index: 2;
+    -servicestudio-z-index: 3;
     -servicestudio-margin-top: -35px;
 }
 
@@ -1143,6 +1149,15 @@
     border-radius: 5px;
     color: #fff;
     padding: 2px 4px 2px;
+}
+
+.full-size {
+  width: 100%;
+  height: 100%;
+}
+
+.ml-10 {
+  margin-left: 10px;
 }
 
 /* Tooltip class */
