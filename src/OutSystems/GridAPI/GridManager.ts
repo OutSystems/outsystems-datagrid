@@ -15,6 +15,7 @@ namespace OutSystems.GridAPI.GridManager {
 			let output = false;
 			if (grid !== undefined) {
 				if (grid.isReady && data !== '' && data !== '{}') {
+					if (grid.config.sanitizeInputValues) data = OSFramework.DataGrid.Helper.Sanitize(data);
 					grid.setData(data);
 				}
 				output = true;
