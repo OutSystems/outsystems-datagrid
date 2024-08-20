@@ -11,7 +11,8 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
 		binding: string,
 		callback: (item) => void,
 		altText?: string,
-		externalURL?: string
+		externalURL?: string,
+		sanitizeInputValues?: boolean
 	): wijmo.grid.ICellTemplateFunction {
 		let cellTemplate: wijmo.grid.ICellTemplateFunction;
 
@@ -19,11 +20,18 @@ namespace Providers.DataGrid.Wijmo.Helper.CellTemplateFactory {
 		const hasExternalURL = externalURL?.toLocaleLowerCase().startsWith('http');
 
 		const url = hasExternalURL ? externalURL : '${item.' + externalURL + '}';
-		const text = hasFixedText ? binding.substring(1) : undefined;
+		let text = hasFixedText ? binding.substring(1) : undefined;
+
+		// Sanitize the text if the configuration is set to do so
+		if (text !== undefined) {
+			text = sanitizeInputValues ? OSFramework.DataGrid.Helper.Sanitize(text) : text;
+		}
 
 		let imgAltText = '';
 		if (altText !== undefined) {
 			const hasFixedAltText = altText.startsWith('$');
+			// Sanitize the alternative text if the configuration is set to do so
+			altText = sanitizeInputValues ? OSFramework.DataGrid.Helper.Sanitize(altText) : altText;
 			imgAltText = hasFixedAltText ? altText.substring(1) : '${item.' + altText + '}';
 		}
 
