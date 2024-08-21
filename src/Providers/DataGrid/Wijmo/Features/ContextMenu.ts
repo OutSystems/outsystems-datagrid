@@ -313,8 +313,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			executeCommand: OSFramework.DataGrid.Callbacks.ContextMenu.OSClickEvent
 		): void {
 			const menuItem = new OSFramework.DataGrid.Feature.Auxiliar.MenuItem(menuItemId);
-
-			menuItem.label = label;
+			// Sanitize the label if the configuration is set to do so
+			menuItem.label = this.grid.config.sanitizeInputValues ? OSFramework.DataGrid.Helper.Sanitize(label) : label;
 			menuItem.enabled = enabled;
 			menuItem.clickEvent = executeCommand;
 
@@ -339,7 +339,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			const menuItem = this._menuItems.get(menuItemId);
 			if (menuItem) {
 				if (menuItem.hasOwnProperty(propertyName)) {
-					menuItem[propertyName] = propertyValue;
+					if (propertyName === 'label' && this.grid.config.sanitizeInputValues) {
+						// Sanitize the label if the configuration is set to do so
+						menuItem.label = OSFramework.DataGrid.Helper.Sanitize(propertyValue as string);
+					} else {
+						menuItem[propertyName] = propertyValue;
+					}
 				} else {
 					console.error(`MenuItem "${menuItem.label}" has no property "${propertyName}" defined.`);
 				}

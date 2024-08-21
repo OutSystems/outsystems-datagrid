@@ -15,6 +15,10 @@ namespace OutSystems.GridAPI.GridManager {
 			let output = false;
 			if (grid !== undefined) {
 				if (grid.isReady && data !== '' && data !== '{}') {
+					// When the configurantion is set to sanitize the input values, we need to sanitize the data before setting it
+					if (grid.config.sanitizeInputValues) {
+						data = OSFramework.DataGrid.Helper.Sanitize(data);
+					}
 					grid.setData(data);
 				}
 				output = true;

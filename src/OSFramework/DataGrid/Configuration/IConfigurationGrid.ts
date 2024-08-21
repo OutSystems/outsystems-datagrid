@@ -22,6 +22,10 @@ namespace OSFramework.DataGrid.Configuration {
         */
 		keyBinding: string;
 		/**
+		 * Indicates if the grid should sanitize the input values or not
+		 */
+		sanitizeInputValues: boolean;
+		/**
          Indicates if the grid is in server side pagination mode
         */
 		serverSidePagination: boolean;
