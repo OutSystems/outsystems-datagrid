@@ -313,8 +313,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			executeCommand: OSFramework.DataGrid.Callbacks.ContextMenu.OSClickEvent
 		): void {
 			const menuItem = new OSFramework.DataGrid.Feature.Auxiliar.MenuItem(menuItemId);
-
-			menuItem.label = label;
+			// Sanitize the label if the configuration is set to do so
+			menuItem.label = this.grid.config.sanitizeInputValues ? OSFramework.DataGrid.Helper.Sanitize(label) : label;
 			menuItem.enabled = enabled;
 			menuItem.clickEvent = executeCommand;
 
