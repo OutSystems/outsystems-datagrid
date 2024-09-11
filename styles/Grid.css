@@ -151,6 +151,7 @@
     border-bottom: var(--datagrid-cell-border-bottom);
     border-right: var(--datagrid-cell-border-right);
     color: var(--datagrid-cell-color);
+    font-weight: normal;
     padding: 14px 8px 0px 8px;
 }
 
@@ -474,6 +475,7 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     align-self: center;
     color: var(--datagrid-pagination-records-color);
     display: flex;
+    font-weight: normal;
 }
 
 .datagrid-pagination-controller {
@@ -641,6 +643,14 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 }
 
 /****** FILTER STYLE ********/
+
+.wj-dropdown-panel .wj-control {
+    text-align: start;
+}
+
+.wj-listbox .wj-listbox-item {
+    text-align: start;
+}
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor {
     font-size: var(--datagrid-filter-font-size);
