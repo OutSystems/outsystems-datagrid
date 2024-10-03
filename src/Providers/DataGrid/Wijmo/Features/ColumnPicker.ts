@@ -169,39 +169,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			);
 		}
 
-		// This code fixes WJM-34234
-		private _issueWorkaround(e): void {
-			if (e.ctrlKey && e.code === 'KeyA') {
-				const checkedItems = [...this._theColumnPicker.checkedItems];
-				this._theColumnPicker._children.forEach((item, index) => {
-					const input = item.querySelector('input');
-
-					// If the checkbox item is disabled
-					if ((input && input.disabled) || item.classList.contains('wj-state-disabled')) {
-						const data = this._theColumnPicker.collectionView.items[index];
-						const isVisible = this._grid.getColumn(data.binding).config.visible;
-
-						// Then check if the column must be visible
-						// If it is NOT included in the checked items, let's add to it
-						if (isVisible && !checkedItems.includes(data)) {
-							checkedItems.push(data);
-						}
-						// If the column must NOT be visible
-						// And it is included in the checked items, let's remove it
-						else if (!isVisible && checkedItems.includes(data)) {
-							const indexToRemove = checkedItems.indexOf(data);
-							checkedItems.splice(indexToRemove, 1);
-						}
-					}
-				});
-
-				// Updated the checkedItems array
-				this._theColumnPicker.checkedItems = checkedItems;
-				this._grid.provider.invalidate(true);
-			}
-			e.preventDefault();
-		}
-
 		private _makeColumnPicker(): void {
 			const theGrid = this._grid.provider;
 			const picker = document.createElement('div');
@@ -266,9 +233,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 				e.preventDefault();
 			};
-
-			// This code fixes WJM-34234
-			this._theColumnPicker.hostElement.addEventListener('keydown', this._issueWorkaround.bind(this));
 		}
 
 		public build(): void {
