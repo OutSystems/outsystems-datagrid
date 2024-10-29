@@ -32,8 +32,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					this._setCellTooltip(_currTarget, ht.getColumn().binding, ht.row);
 				}
 			} else if (cellType === wijmo.grid.CellType.ColumnHeader) {
-				// If the Column Header is from a Group Column, we need to use a different approach that the regular header
-				if (_currTarget.classList.contains(Helper.Constants.CssClasses.ColumnGroup)) {
+				// If the Column Header is from a Group Column, we need to use a different approach than the regular header
+				// We can check if the current target is a ColumnGroup by checking its class and if providerIndex is -1
+				if (
+					_currTarget.classList.contains(Helper.Constants.CssClasses.ColumnGroup) &&
+					this._grid.getColumnByIndex(ht.getColumn().index).providerIndex === -1
+				) {
 					this._setColumnGroupHeaderTooltip(_currTarget);
 				} else {
 					this._setHeaderTooltip(_currTarget, ht);
