@@ -33,12 +33,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				}
 			} else if (cellType === wijmo.grid.CellType.ColumnHeader) {
 				// If the Column Header is from a Group Column, we need to use a different approach than the regular header
-				// We can check if the current target is a ColumnGroup by checking its class and if providerIndex is -1
-				if (
-					_currTarget.classList.contains(Helper.Constants.CssClasses.ColumnGroup) &&
-					this._grid.getColumnByIndex(ht.getColumn().index).providerIndex === -1
-				) {
-					this._setColumnGroupHeaderTooltip(_currTarget);
+				if (_currTarget.classList.contains(Helper.Constants.CssClasses.ColumnGroup)) {
+					this._setColumnGroupHeaderTooltip(_currTarget, ht);
 				} else {
 					this._setHeaderTooltip(_currTarget, ht);
 				}
@@ -76,14 +72,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			}
 		}
 
-		private _setColumnGroupHeaderTooltip(cell: HTMLElement) {
+		private _setColumnGroupHeaderTooltip(cell: HTMLElement, htCell: wijmo.grid.HitTestInfo) {
 			// Do nothing if a tooltip is already set for this column
 			if (this._tooltip.getTooltip(cell)) return;
 			// Otherwise, the tooltip will be the header text
-			const headerTooltip = OSFramework.DataGrid.Helper.Sanitize(cell.innerText);
-
-			this._tooltipClass(false);
-			this._tooltip.show(cell, headerTooltip);
+			this._setHeaderTooltip(cell, htCell);
 		}
 
 		private _setHeaderTooltip(cell: HTMLElement, htCell: wijmo.grid.HitTestInfo) {
