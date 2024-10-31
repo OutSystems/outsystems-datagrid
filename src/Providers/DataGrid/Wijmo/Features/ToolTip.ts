@@ -32,15 +32,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					this._setCellTooltip(_currTarget, ht.getColumn().binding, ht.row);
 				}
 			} else if (cellType === wijmo.grid.CellType.ColumnHeader) {
+				const col = ht.getColumn(true) as wijmo.grid.ColumnGroup;
 				// If the Column Header is from a Group Column, we need to use a different approach than the regular header
 				// We can check if the current target is a ColumnGroup by checking its class and if it has columns or columnGroups
 				if (
 					_currTarget.classList.contains(Helper.Constants.CssClasses.ColumnGroup) &&
-					((ht.getColumn(true)._binding === undefined &&
-						(ht.getColumn(true) as wijmo.grid.ColumnGroup).columns !== undefined &&
-						(ht.getColumn(true) as wijmo.grid.ColumnGroup).columns.length > 0) ||
-						((ht.getColumn(true) as wijmo.grid.ColumnGroup).columnGroups !== undefined &&
-							(ht.getColumn(true) as wijmo.grid.ColumnGroup).columnGroups.length > 0))
+					((col._binding === undefined && col.columns !== undefined && col.columns.length > 0) ||
+						(col.columnGroups !== undefined && col.columnGroups.length > 0))
 				) {
 					this._setColumnGroupHeaderTooltip(_currTarget);
 				} else {
