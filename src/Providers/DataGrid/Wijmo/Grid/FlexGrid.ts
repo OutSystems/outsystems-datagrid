@@ -134,7 +134,10 @@ namespace Providers.DataGrid.Wijmo.Grid {
 		 * @memberof FlexGrid
 		 */
 		private _handleListSelection(col: wijmo.grid.Column, editor: HTMLInputElement): void {
-			const listDropDown = document.querySelector('.wj-grid-listbox');
+			// When dropdowns are open subsequently, causing to exist multiple dropdowns popups in the DOM.
+			const listDropDownAll = document.querySelectorAll('.wj-grid-listbox');
+			// Get the last dropdown popup in the DOM.
+			const listDropDown = listDropDownAll[listDropDownAll.length - 1];
 			const listBox = listDropDown ? (wijmo.Control.getControl(listDropDown) as wijmo.input.ListBox) : null;
 			if (listBox) {
 				listBox.selectedIndexChanged.addHandler((lbx: wijmo.input.ListBox<unknown>) => {
