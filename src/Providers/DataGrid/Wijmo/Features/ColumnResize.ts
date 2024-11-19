@@ -11,8 +11,23 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._enabled = enabled;
 		}
 
+		// workaround for WJM-35264
+		private _setResizeWorkaround() {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const oldMouseDownHandler = (wijmo.grid._MouseHandler.prototype as any)._mousedown;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			(wijmo.grid._MouseHandler.prototype as any)._mousedown = function (e) {
+				oldMouseDownHandler.call(this, e);
+
+				if (this._szInitial && this._szInitial.canHaveHScrl) {
+					this._szInitial.canHaveHScrl = false;
+				}
+			};
+		}
+
 		public build(): void {
 			this.setState(this._enabled);
+			this._setResizeWorkaround();
 		}
 
 		public setState(value: boolean): void {
