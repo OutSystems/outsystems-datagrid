@@ -36,7 +36,9 @@ namespace Providers.DataGrid.Wijmo.Column {
 				this.config.actionColumnElementType,
 				config.binding,
 				this.handleActionEvent.bind(this),
-				this.config.altText
+				this.config.altText,
+				undefined /* externalURL */,
+				this.grid.config.sanitizeInputValues
 			);
 
 			return config;

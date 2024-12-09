@@ -19,6 +19,7 @@ namespace OSFramework.DataGrid.Configuration.Grid {
 		public rowHeader: Enum.RowHeader;
 		public rowHeight: number;
 		public rowsPerPage: number;
+		public sanitizeInputValues: boolean;
 		public selectionMode: number;
 		public serverSidePagination: boolean;
 		public showAggregateValues: boolean;

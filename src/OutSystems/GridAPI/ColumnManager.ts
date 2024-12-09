@@ -143,7 +143,12 @@ namespace OutSystems.GridAPI.ColumnManager {
 	): void {
 		Performance.SetMark('ColumnManager.changeProperty');
 
-		const grid = GetGridByColumnId(columnID);
+		const column = GetColumnById(columnID);
+		if(column === undefined){
+			throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.Column_NotFound);
+		}
+
+		const grid = column.grid;
 
 		if (grid !== undefined) {
 			grid.changeColumnProperty(columnID, propertyName, propertyValue);
