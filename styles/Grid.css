@@ -152,16 +152,15 @@
     border-right: var(--datagrid-cell-border-right);
     color: var(--datagrid-cell-color);
     font-weight: normal;
-    padding: 14px 8px 0px 8px;
+    padding: 14px 8px 0 8px;
 }
 
-.wj-flexgrid .wj-grid-editor,
+.wj-flexgrid .wj-grid-editor {
+    height: 20px;
+}
+
 .wj-flexgrid .wj-cell.wj-hasdropdown .wj-btn.wj-btn-glyph.wj-right {
-    height: auto;
-}
-
-.wj-flexgrid .wj-cell.wj-hasdropdown input {
-    width: 80%;
+    height: 15px;
 }
 
 .wj-flexgrid .wj-cell.wj-hasdropdown .wj-dropdown.wj-inputdate input {
