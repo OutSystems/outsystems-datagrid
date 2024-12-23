@@ -29,7 +29,7 @@
     --datagrid-header-cell-color: var(--color-neutral-9);
     --datagrid-header-cell-font-weight: var(--font-semi-bold);
     --datagrid-header-cell-margin-top: 4px;
-    --datagrid-header-cell-padding-bottom: 16px;
+    --datagrid-header-cell-padding-bottom: 17px;
 
     /* Data grid cells */
     --datagrid-cell-background: var(--color-neutral-0);
@@ -151,8 +151,36 @@
     border-bottom: var(--datagrid-cell-border-bottom);
     border-right: var(--datagrid-cell-border-right);
     color: var(--datagrid-cell-color);
-    font-weight: normal;
-    padding: 14px 8px 0 8px;
+    padding: 0 8px 0 8px;
+
+    &:not(.wj-header) {
+        line-height: var(--row-height);
+
+        &:has(button.wj-right)  {
+            padding-right: 24px; /* to account for arrow width */
+        }
+
+        .wj-btn.wj-btn-glyph.wj-right {
+            position: absolute;
+            top: 50%;
+            right: 8px; /* to equal horizontal padding */
+            transform: translateY(-50%);
+        }
+    }
+
+    &.wj-align-center:not(.wj-colgroup) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &.wj-align-center.wj-colgroup {
+        padding-top: 14px;
+    }
+}
+
+.wj-cell.wj-hasdropdown {
+    align-items: center;
 }
 
 .wj-flexgrid .wj-grid-editor {
