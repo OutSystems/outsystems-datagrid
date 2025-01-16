@@ -75,8 +75,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		public changeRowHeight(rowHeight: number): void {
 			this._rowHeight = rowHeight;
 			this._grid.provider.cells.rows.defaultSize = rowHeight;
-
-			this._grid.provider._root.style.setProperty('--row-height', `${this._rowHeight}px`);
 		}
 
 		public removeColumnCssClass(columnID: string, className: string): void {
