@@ -59,9 +59,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		// Workaround for HTML tags being exported in CSV with Grouped Columns
-		private _stripHtmlTags(htmlString: string): string {
+		private _stripHtmlBoldTag(htmlString: string): string {
 			if (!htmlString) return '';
-			return htmlString.replace(/<(?!>)[a-zA-Z0-9/][^>]*>/g, '');
+			return htmlString.replace(/<b>|<\/b>/g, '');
 		}
 
 		public build(): void {
@@ -107,7 +107,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._resetPagination();
 
 			const params = { fileName: this._handleFilename(filename, true) };
-			const result = this._stripHtmlTags(this._grid.provider.getClipString(this._getFullCellRange(), true, true));
+			let result = this._grid.provider.getClipString(this._getFullCellRange(), true, true);
+
+			// Remove text bold tags only when the grid is grouped
+			if (this._grid.features.groupPanel.isGridGrouped) {
+				result = this._stripHtmlBoldTag(result);
+			}
 
 			this._reApplyPagination();
 			wijmo.saveFile(result, params.fileName);
