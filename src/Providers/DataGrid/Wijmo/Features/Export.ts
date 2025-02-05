@@ -46,7 +46,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._grid.features.pagination.changePageSize(0);
 		}
 
-		private _showLoadingMessage() {
+		private _showLoadingMessage(): void {
 			const parentPlaceholder = OSFramework.DataGrid.Helper.GetElementByUniqueId(
 				this._grid.uniqueId
 			).parentElement;
@@ -56,6 +56,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			createdDivElem.className = OSFramework.DataGrid.Helper.Constants.overlayExportFeedbackCss;
 			createdDivElem.innerHTML = loadingPlaceholderContent;
 			parentPlaceholder.appendChild(createdDivElem);
+		}
+
+		// Workaround for HTML tags being exported in CSV with Grouped Columns
+		private _stripHtmlTags(htmlString: string): string {
+			if (!htmlString) return '';
+			return htmlString.replace(/<(?!>)[a-zA-Z0-9/][^>]*>/g, '');
 		}
 
 		public build(): void {
@@ -101,7 +107,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._resetPagination();
 
 			const params = { fileName: this._handleFilename(filename, true) };
-			const result = this._grid.provider.getClipString(this._getFullCellRange(), true, true);
+			const result = this._stripHtmlTags(this._grid.provider.getClipString(this._getFullCellRange(), true, true));
 
 			this._reApplyPagination();
 			wijmo.saveFile(result, params.fileName);
