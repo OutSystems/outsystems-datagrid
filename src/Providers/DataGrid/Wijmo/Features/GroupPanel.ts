@@ -38,7 +38,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			OSFramework.DataGrid.Interface.IBuilder,
 			OSFramework.DataGrid.Interface.IDisposable
 	{
-		private _currGroupDescription = new Array<wijmo.collections.PropertyGroupDescription>();
+		private _currGroupDescription: Array<wijmo.collections.PropertyGroupDescription>;
 		private _grid: Grid.IGridWijmo;
 		private _groupPanel: wijmo.grid.grouppanel.GroupPanel;
 		private _panelId: string;
@@ -46,6 +46,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		constructor(grid: Grid.IGridWijmo, panelId: string) {
 			this._grid = grid;
 			this._panelId = panelId;
+			this._currGroupDescription = new Array<wijmo.collections.PropertyGroupDescription>();
 		}
 
 		private _drop(e: DragEvent) {
@@ -112,23 +113,26 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					);
 					grid.features.undoStack.closeAction(GroupPanelAction);
 
-					const newGroupedDescriptions = o.filter((gd) => !this._currGroupDescription.includes(gd));
-					const ungroupedDescriptions = this._currGroupDescription.filter((gd) => !o.includes(gd));
+					const oldGroupDescription = this._currGroupDescription;
 
 					// Workaround for HTML tags and encoded symbols being exported in CSV when the Grid present Grouped Columns.
 					// Loop through the columns just added to the Group Panel and set isContentHtml to true.
-					newGroupedDescriptions.forEach(function (groupDesc: wijmo.collections.PropertyGroupDescription) {
-						const col = grid.provider.getColumn(groupDesc.propertyName);
-						if (col) {
-							col.isContentHtml = true;
+					o.forEach(function (groupDesc: wijmo.collections.PropertyGroupDescription) {
+						if (!oldGroupDescription.includes(groupDesc)) {
+							const col = grid.provider.getColumn(groupDesc.propertyName);
+							if (col) {
+								col.isContentHtml = true;
+							}
 						}
 					});
 
 					// Loop through the group descriptions just removed from the Group Panel and set isContentHtml to false.
-					ungroupedDescriptions.forEach(function (groupDesc: wijmo.collections.PropertyGroupDescription) {
-						const col = grid.provider.getColumn(groupDesc.propertyName);
-						if (col) {
-							col.isContentHtml = false;
+					oldGroupDescription.forEach(function (groupDesc: wijmo.collections.PropertyGroupDescription) {
+						if (!o.includes(groupDesc)) {
+							const col = grid.provider.getColumn(groupDesc.propertyName);
+							if (col) {
+								col.isContentHtml = false;
+							}
 						}
 					});
 
