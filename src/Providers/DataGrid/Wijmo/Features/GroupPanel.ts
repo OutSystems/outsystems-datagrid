@@ -115,7 +115,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 					const oldGroupDescription = this._currGroupDescription;
 
-					// Workaround for HTML tags and encoded symbols being exported in CSV when the Grid present Grouped Columns.
+					// Workaround for HTML tags and encoded symbols being exported in CSV when the Grid present Grouped Columns. (WJM-35579)
 					// Loop through the columns just added to the Group Panel and set isContentHtml to true.
 					o.forEach(function (groupDesc: wijmo.collections.PropertyGroupDescription) {
 						if (!oldGroupDescription.includes(groupDesc)) {
