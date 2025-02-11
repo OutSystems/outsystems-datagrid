@@ -26,7 +26,7 @@ namespace OutSystems.GridAPI.ColumnManager {
 			'ColumnManager.AddColumnToGroupPanel-end'
 		);
 
-		return JSON.stringify(result);
+		return result;
 	}
 
 	/**
