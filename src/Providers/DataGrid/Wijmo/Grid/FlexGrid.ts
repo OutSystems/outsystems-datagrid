@@ -9,14 +9,8 @@ namespace Providers.DataGrid.Wijmo.Grid {
 	{
 		private _fBuilder: Feature.FeatureBuilder;
 
-		//TODO: Workaround to be removed with wijmo update (2015v1?). See task ROU-11338.
-		private _inUseWorkaroundRou11338: boolean;
-
 		private _resizedColumnHandler: OSFramework.DataGrid.Callbacks.Generic;
 		private _rowMetadata: RowMetadata;
-
-		//TODO: Workaround to be removed with wijmo update (2015v1?). See task ROU-11338.
-		private _useWorkaroundRou11338: boolean;
 
 		// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 		constructor(gridID: string, configs: any) {
@@ -26,25 +20,6 @@ namespace Providers.DataGrid.Wijmo.Grid {
 				new Grid.ProviderDataSource(),
 				new Column.ColumnGenerator()
 			);
-
-			//TODO: Workaround to be removed with wijmo update (2015v1?). See task ROU-11338.
-			this._useWorkaroundRou11338 = false;
-			this._inUseWorkaroundRou11338 = false;
-		}
-
-		//TODO: Workaround to be removed with wijmo update (2015v1?). See task ROU-11338.
-		/**
-		 * This action performs a workaround for an issue related with using up and down keys in the dropdown.
-		 *
-		 * @private
-		 * @memberof FlexGrid
-		 */
-		private _dropdownWorkaround(): void {
-			if (this._useWorkaroundRou11338 && this._inUseWorkaroundRou11338 === false) {
-				this._inUseWorkaroundRou11338 = true;
-				this._provider.hostElement.addEventListener('keydown', this._handleEvent.bind(this));
-				this._provider.hostElement.addEventListener('mousedown', this._handleEvent.bind(this));
-			}
 		}
 
 		/**
@@ -99,55 +74,6 @@ namespace Providers.DataGrid.Wijmo.Grid {
 			return this.config.getProviderConfig();
 		}
 
-		//TODO: Workaround to be removed with wijmo update (2015v1?). See task ROU-11338.
-		/**
-		 * Handles the keydown and mousedown events for the FlexGrid.
-		 *
-		 * @private
-		 * @param {KeyboardEvent} event
-		 * @memberof FlexGrid
-		 */
-		private _handleEvent(event: KeyboardEvent): void {
-			const { key, altKey, target, type } = event;
-			const isMousedown = type === 'mousedown';
-			const isKeyTrigger = type === 'keydown' && ((altKey && key === 'ArrowDown') || key === 'F4');
-
-			if (isMousedown || isKeyTrigger) {
-				const col = this.provider.columns[this.provider.selection.col];
-
-				if (col?.dataMap) {
-					const isDropdownClick = isMousedown && wijmo.closestClass(target, 'wj-elem-dropdown');
-					if (isDropdownClick || isKeyTrigger) {
-						this._handleListSelection(col, this.provider.activeEditor);
-					}
-				}
-			}
-		}
-
-		//TODO: Workaround to be removed with wijmo update (2015v1?). See task ROU-11338.
-		/**
-		 * Handles the selection of a dropdown list.
-		 *
-		 * @private
-		 * @param {*} col
-		 * @param {*} editor
-		 * @memberof FlexGrid
-		 */
-		private _handleListSelection(col: wijmo.grid.Column, editor: HTMLInputElement): void {
-			// When dropdowns are open subsequently, causing to exist multiple dropdowns popups in the DOM.
-			const listDropDownAll = document.querySelectorAll('.wj-grid-listbox');
-			// Get the last dropdown popup in the DOM.
-			const listDropDown = listDropDownAll[listDropDownAll.length - 1];
-			const listBox = listDropDown ? (wijmo.Control.getControl(listDropDown) as wijmo.input.ListBox) : null;
-			if (listBox) {
-				listBox.selectedIndexChanged.addHandler((lbx: wijmo.input.ListBox<unknown>) => {
-					const selectedItem = lbx.collectionView.items[lbx.selectedIndex];
-					editor.value =
-						col.dataMap.useFilter && selectedItem ? (selectedItem[lbx.displayMemberPath] ?? '') : '';
-				});
-			}
-		}
-
 		private _updateColumnWidth(grid: wijmo.grid.FlexGrid, event: wijmo.grid.CellRangeEventArgs): void {
 			const columnProvider = event.getColumn();
 			const columnOS = this.getColumn(columnProvider.binding);
@@ -171,14 +97,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
 		public addColumn(col: OSFramework.DataGrid.Column.IColumn): Promise<void> {
 			super.addColumn(col);
 
-			//TODO: Workaround to be removed with wijmo update (2015v1?). See task ROU-11338.
-			this._useWorkaroundRou11338 =
-				this._useWorkaroundRou11338 || col.columnType === OSFramework.DataGrid.Enum.ColumnType.Dropdown;
-
 			if (this.isReady) {
-				//TODO: Workaround to be removed with wijmo update (2015v1?). See task ROU-11338.
-				this._dropdownWorkaround();
-
 				//OS takes a while to set the WidgetId
 				return OSFramework.DataGrid.Helper.AsyncInvocationPromise(col.build.bind(col));
 			}
@@ -204,9 +123,6 @@ namespace Providers.DataGrid.Wijmo.Grid {
 			this._provider.resizedColumn.addHandler(this._resizedColumnHandler);
 
 			this._safari14workaround();
-
-			//TODO: Workaround to be removed with wijmo update (2015v1?). See task ROU-11338.
-			this._dropdownWorkaround();
 
 			this.finishBuild();
 		}
