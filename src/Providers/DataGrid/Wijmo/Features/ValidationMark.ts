@@ -269,7 +269,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			oldValue: any,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			newValue: any
-		) {
+		) : void {
 			const column = this._grid.getColumn(columnUniqueID);
 
 			if (column !== undefined) {
@@ -600,17 +600,20 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		public validateCell(
 			rowNumber: number,
 			column: OSFramework.DataGrid.Column.IColumn,
-			triggerOnCellValueChange = true
+			triggerOnCellValueChange: boolean,
+			currValue: unknown,
+			oldValue: unknown
 		): void {
 			// This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
-			const currValue = this._grid.provider.getCellData(rowNumber, column.provider.index, false);
+			const newValue = currValue ?? this._grid.provider.getCellData(rowNumber, column.provider.index, false);
+			const previousValue = oldValue ?? newValue;
 
 			//If we decide not to trigger the column events we will skip this step
 			if (triggerOnCellValueChange) {
 				// Triggers the events of OnCellValueChange associated to a specific column in OS
-				this._triggerEventsFromColumn(rowNumber, column.uniqueId, currValue, currValue);
+				this._triggerEventsFromColumn(rowNumber, column.uniqueId, newValue, previousValue);
 			} else {
-				this._setCellStatus(column, rowNumber, currValue);
+				this._setCellStatus(column, rowNumber, newValue);
 			}
 		}
 

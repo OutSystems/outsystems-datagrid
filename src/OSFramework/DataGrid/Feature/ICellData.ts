@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.DataGrid.Feature {
 	export interface ICellData {
+		getCellData(rowNumber: number, column: OSFramework.DataGrid.Column.IColumn): unknown;
 		/**
 		 * Responsible for updating a specific cell -
 		 * This is needed in a case we wnat to update another column cell, for example when a cell content is denpendent on another.
