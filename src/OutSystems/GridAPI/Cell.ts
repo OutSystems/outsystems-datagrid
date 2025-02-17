@@ -60,7 +60,7 @@ namespace OutSystems.GridAPI.Cells {
 		const grid = GridManager.GetGridById(gridID);
 		const column = grid.getColumn(columnID);
 		if (column === undefined) return;
-		grid.features.validationMark.validateCell(rowIndex, column, null, null, triggerOnCellValueChange);
+		grid.features.validationMark.validateCell(rowIndex, column, triggerOnCellValueChange);
 		Performance.SetMark('Cells.validateCell-end');
 		Performance.GetMeasure('@datagrid-Cells.validateCell', 'Cells.validateCell', 'Cells.validateCell-end');
 	}
@@ -126,7 +126,7 @@ namespace OutSystems.GridAPI.Cells {
 				}
 				const oldValue = grid.features.cellData.getCellData(rowIndex, column);
 				grid.features.cellData.setCellData(rowIndex, column, value);
-				grid.features.validationMark.validateCell(rowIndex, column, value, oldValue, triggerOnCellValueChange);
+				grid.features.validationMark.validateCell(rowIndex, column, triggerOnCellValueChange, value, oldValue);
 			},
 		});
 

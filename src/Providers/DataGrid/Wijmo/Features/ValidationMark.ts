@@ -269,7 +269,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			oldValue: any,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			newValue: any
-		) {
+		) : void {
 			const column = this._grid.getColumn(columnUniqueID);
 
 			if (column !== undefined) {
@@ -600,9 +600,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		public validateCell(
 			rowNumber: number,
 			column: OSFramework.DataGrid.Column.IColumn,
+			triggerOnCellValueChange: boolean,
 			currValue: unknown,
-			oldValue: unknown,
-			triggerOnCellValueChange: boolean
+			oldValue: unknown
 		): void {
 			// This method gets executed by an API. No values change in columns, so the current value and the original one (old value) are the same.
 			const newValue = currValue ?? this._grid.provider.getCellData(rowNumber, column.provider.index, false);

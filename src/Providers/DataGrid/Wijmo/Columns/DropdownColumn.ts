@@ -172,7 +172,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 				// always clear the child cell when the parent changes
 				this.grid.provider.setCellData(rowNumber, this.provider.index, '', true);
 
-				this.grid.features.validationMark.validateCell(rowNumber, this, "", originalValue, true);
+				this.grid.features.validationMark.validateCell(rowNumber, this, true, "", originalValue);
 			}
 		}
 
