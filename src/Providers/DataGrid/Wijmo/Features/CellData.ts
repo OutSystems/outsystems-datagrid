@@ -17,6 +17,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			//
 		}
 
+		public getCellData(rowNumber: number, column: OSFramework.DataGrid.Column.IColumn): unknown {
+			return this._grid.provider.getCellData(rowNumber, column.provider.index, false);
+		}
+
 		public setCellData(rowNumber: number, column: OSFramework.DataGrid.Column.IColumn, value: string): void {
 			if (column.columnType === OSFramework.DataGrid.Enum.ColumnType.DateTime) {
 				value = this._grid.dataSource.trimSecondsFromDate(value);

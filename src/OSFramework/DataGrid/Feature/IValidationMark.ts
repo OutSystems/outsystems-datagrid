@@ -17,7 +17,9 @@ namespace OSFramework.DataGrid.Feature {
 		validateCell(
 			rowNumber: number,
 			column: OSFramework.DataGrid.Column.IColumn,
-			triggerOnCellValueChange: boolean
+			currValue?: unknown,
+			oldValue?: unknown,
+			triggerOnCellValueChange?: boolean
 		): void;
 		validateRow(rowNumber: number): void;
 		// clearByRow(row: number): void;
