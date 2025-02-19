@@ -83,6 +83,7 @@ namespace OSFramework.DataGrid.Enum {
 		API_FailedSetColumnWordWrap = 'GRID-API-10008',
 		API_FailedSetColumnHeader = 'GRID-API-10009',
 		API_FailedSetNumberAggregateConditionalFormatting = 'GRID-API-10010',
+		API_FailedRemoveColumnsFromGroupPanel = 'GRID-API-10011',
 		//EXPORT
 		API_FailedCustomizeExportingMessage = 'GRID-API-11001',
 		//COLUMNPICKER

@@ -161,6 +161,36 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			});
 		}
 
+		public removeColumnsFromGroupPanel(bindingList: string): void {
+			const groupDescriptions = this._grid.provider.collectionView.groupDescriptions; // Group array
+			const columnList = JSON.parse(bindingList);
+			const source = this._grid.provider.itemsSource;
+
+			source.deferUpdate(() => {
+				for (const binding of columnList) {
+					const column = this._grid.getColumn(binding);
+					if (column) {
+						// Find the index of the group description for the column's binding
+						const index = groupDescriptions.findIndex((gd) => {
+							if (gd instanceof wijmo.collections.PropertyGroupDescription) {
+								return gd.propertyName === column.config.binding;
+							}
+							return false;
+						});
+
+						// If the group description exists, remove it
+						if (index > -1) {
+							groupDescriptions.splice(index, 1);
+							// Make the column visible again
+							column.provider.visible = true;
+						}
+					} else {
+						throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier);
+					}
+				}
+			});
+		}
+
 		public setAggregate(binding: string, aggregate: wijmo.Aggregate): void {
 			const column = this._grid.getColumn(binding);
 

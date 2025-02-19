@@ -3,11 +3,11 @@ namespace OutSystems.GridAPI.ColumnManager {
 	const columnArr = new Array<OSFramework.DataGrid.Column.IColumn>();
 
 	/**
-	 * Add a given column to the grid group panel.
+	 * Add a given column or columns list to the grid group panel.
 	 *
 	 * @export
 	 * @param {string} gridID ID of the Grid where the change will occur.
-	 * @param {string} columnID ID of the Column block that will be programmatically added to the grid group panel.
+	 * @param {string} ListOfColumnIDs List of Ids of the Column blocks that will be programmatically added to the grid group panel.
 	 */
 	export function AddColumnsToGroupPanel(gridID: string, ListOfColumnIDs: string): string {
 		Performance.SetMark('ColumnManager.AddColumnToGroupPanel');
@@ -144,7 +144,7 @@ namespace OutSystems.GridAPI.ColumnManager {
 		Performance.SetMark('ColumnManager.changeProperty');
 
 		const column = GetColumnById(columnID);
-		if(column === undefined){
+		if (column === undefined) {
 			throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.Column_NotFound);
 		}
 
@@ -186,6 +186,33 @@ namespace OutSystems.GridAPI.ColumnManager {
 			'ColumnManager.destroyColumn',
 			'ColumnManager.destroyColumn-end'
 		);
+	}
+
+	/**
+	 * Remove a given column or columns list from the grid group panel
+	 *
+	 * @export
+	 * @param {string} gridID ID of the Grid where the change will occur.
+	 * @param {string} ListOfColumnIDs List of Ids of the Column blocks that will be programmatically removed from the grid group panel.
+	 */
+	export function RemoveColumnsFromGroupPanel(gridID: string, ListOfColumnIDs: string): string {
+		Performance.SetMark('ColumnManager.RemoveColumnsFromGroupPanel');
+		const result = Auxiliary.CreateApiResponse({
+			gridID,
+			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveColumnsFromGroupPanel,
+			callback: () => {
+				GridManager.GetGridById(gridID).features.groupPanel.removeColumnsFromGroupPanel(ListOfColumnIDs);
+			},
+		});
+
+		Performance.SetMark('ColumnManager.RemoveColumnsFromGroupPanel-end');
+		Performance.GetMeasure(
+			'@datagrid-ColumnManager.RemoveColumnsFromGroupPanell',
+			'ColumnManager.RemoveColumnsFromGroupPanel',
+			'ColumnManager.RemoveColumnsFromGroupPanel-end'
+		);
+
+		return result;
 	}
 
 	/**
