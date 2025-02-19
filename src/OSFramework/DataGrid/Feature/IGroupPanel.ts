@@ -4,7 +4,7 @@ namespace OSFramework.DataGrid.Feature {
 		/** Boolean that indicates whether the grid is grouped or not */
 		isGridGrouped: boolean;
 		/**
-		 * Add a given given column or columns list to the grid group panel
+		 * Add a given column or columns list to the grid group panel
 		 * @param binding binding of the column
 		 */
 		addColumnsToGroupPanel(binding: string): void;
