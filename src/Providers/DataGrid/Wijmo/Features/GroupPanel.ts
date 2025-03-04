@@ -46,6 +46,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		constructor(grid: Grid.IGridWijmo, panelId: string) {
 			this._grid = grid;
 			this._panelId = panelId;
+			this._currGroupDescription = new Array<wijmo.collections.PropertyGroupDescription>();
 		}
 
 		private _drop(e: DragEvent) {
@@ -104,11 +105,36 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					o: wijmo.collections.ObservableArray /*,
                     e: wijmo.collections.NotifyCollectionChangedEventArgs*/
 				) => {
+					const grid = this._grid;
+
 					//Add and close to the Stack the global value with the last config
-					this._grid.features.undoStack.startAction(
-						new GroupPanelAction(this._grid.provider, this._currGroupDescription)
+					grid.features.undoStack.startAction(
+						new GroupPanelAction(grid.provider, this._currGroupDescription)
 					);
-					this._grid.features.undoStack.closeAction(GroupPanelAction);
+					grid.features.undoStack.closeAction(GroupPanelAction);
+
+					const oldGroupDescription = this._currGroupDescription;
+
+					// Workaround for HTML tags and encoded symbols being exported in CSV when the Grid present Grouped Columns. (WJM-35579)
+					// Loop through the columns just added to the Group Panel and set isContentHtml to true.
+					o.forEach(function (groupDesc: wijmo.collections.PropertyGroupDescription) {
+						if (!oldGroupDescription.includes(groupDesc)) {
+							const col = grid.provider.getColumn(groupDesc.propertyName);
+							if (col) {
+								col.isContentHtml = true;
+							}
+						}
+					});
+
+					// Loop through the group descriptions just removed from the Group Panel and set isContentHtml to false.
+					oldGroupDescription.forEach(function (groupDesc: wijmo.collections.PropertyGroupDescription) {
+						if (!o.includes(groupDesc)) {
+							const col = grid.provider.getColumn(groupDesc.propertyName);
+							if (col) {
+								col.isContentHtml = false;
+							}
+						}
+					});
 
 					//Updates the global variable wih the current config
 					this._currGroupDescription = o.slice();
@@ -132,6 +158,36 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		public getViewLayout(): any {
 			return this._grid.provider.itemsSource.groupDescriptions.map((gd) => {
 				return { property: gd.propertyName };
+			});
+		}
+
+		public removeColumnsFromGroupPanel(bindingList: string): void {
+			const groupDescriptions = this._grid.provider.collectionView.groupDescriptions; // Group array
+			const columnList = JSON.parse(bindingList);
+			const source = this._grid.provider.itemsSource;
+
+			source.deferUpdate(() => {
+				for (const binding of columnList) {
+					const column = this._grid.getColumn(binding);
+					if (column) {
+						// Find the index of the group description for the column's binding
+						const index = groupDescriptions.findIndex((gd) => {
+							if (gd instanceof wijmo.collections.PropertyGroupDescription) {
+								return gd.propertyName === column.config.binding;
+							}
+							return false;
+						});
+
+						// If the group description exists, remove it
+						if (index > -1) {
+							groupDescriptions.splice(index, 1);
+							// Make the column visible again
+							column.provider.visible = true;
+						}
+					} else {
+						throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier);
+					}
+				}
 			});
 		}
 

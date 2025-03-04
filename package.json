@@ -1,6 +1,6 @@
 {
   "name": "outsystems-datagrid",
-  "version": "2.18.1",
+  "version": "2.19.0",
   "description": "OutSystems Data Grid for Reactive Web",
   "author": "UI Components Team",
   "license": "BSD-3-Clause",
@@ -30,7 +30,7 @@
     "UI Components"
   ],
   "devDependencies": {
-    "@types/lodash": "^4.17.6",
+    "@types/lodash": "^4.17.15",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "browser-sync": "^3.0.2",
