@@ -51,6 +51,15 @@ namespace Providers.DataGrid.Wijmo.Column {
 			return wijmo.DataType.Number;
 		}
 
+		private _onPastedCellHandler(s: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs): void {
+			if (this.columnType === OSFramework.DataGrid.Enum.ColumnType.Number) {
+				const grid = this.grid.provider as wijmo.grid.FlexGrid;
+				const value = grid.getCellData(e.range.row, e.range.col, false);
+				const result = wijmo.Globalize.format(value, this.config.format);
+				grid.setCellData(e.range.row, e.range.col, result);
+			}
+		}
+
 		// by default, we want numbers to have thousand separator
 		private _setEditorFormat(hasThousandSeparator = true): void {
 			// if format starts with n, the number will have thousand separator
@@ -122,8 +131,9 @@ namespace Providers.DataGrid.Wijmo.Column {
 		}
 
 		public build(): void {
+			const grid = this.grid.provider as wijmo.grid.FlexGrid;
 			this._setFormat(this.editorConfig.decimalPlaces);
-
+			grid.pastedCell.addHandler(this._onPastedCellHandler, this);
 			super.build();
 		}
 
