@@ -18,7 +18,7 @@ on:
 
 jobs:
     set-release-latest:
-        uses: OutSystems/ui-components.github-reusable-workflows/.github/workflows/release.yaml@ff22715af93207fcdc56fcd5c0688eb497913f7f #v0.1.0-alpha
+        uses: OutSystems/ui-components.github-reusable-workflows/.github/workflows/release.yaml@5849cd2fd1ccfd786ba0ba28f5ef4270b57ed3a3 #v0.1.1-alpha
         with:
             new-version: ${{ inputs.new-version }}
             update-prerelease-into-latest: ${{ inputs.update-prerelease-into-latest }}
