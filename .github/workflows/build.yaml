@@ -5,6 +5,10 @@ on:
         branches: ['dev']
         types: [opened, reopened]
 
+concurrency:
+    group: ${{ github.ref }}
+    cancel-in-progress: true
+
 jobs:
     get-ado-token:
         uses: OutSystems/rd.github-reusable-workflows/.github/workflows/az-vault-get-key@CommitHash #v?.?.?
