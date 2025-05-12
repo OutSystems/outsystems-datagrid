@@ -607,8 +607,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 			//If we decide not to trigger the column events we will skip this step
 			if (triggerOnCellValueChange) {
+				const oldValue = this._grid.features.dirtyMark.getOldValue(rowNumber, column.config.binding);
 				// Triggers the events of OnCellValueChange associated to a specific column in OS
-				this._triggerEventsFromColumn(rowNumber, column.uniqueId, currValue, currValue);
+				this._triggerEventsFromColumn(rowNumber, column.uniqueId, oldValue, currValue);
 			} else {
 				this._setCellStatus(column, rowNumber, currValue);
 			}

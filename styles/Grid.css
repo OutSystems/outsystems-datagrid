@@ -463,7 +463,7 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 }
 
 .datagrid-container {
-    height: 100%;
+    height: inherit;
     width: 100%;
     -servicestudio-height: 100% !important;
     -servicestudio-position: relative;
@@ -517,9 +517,7 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     width: var(--datagrid-pagination-button-width);
 
     -servicestudio-background: var(--datagrid-pagination-button-background);
-    -servicestudio-border-radius: var(
-        --datagrid-pagination-button-border-radius
-    );
+    -servicestudio-border-radius: var(--datagrid-pagination-button-border-radius);
     -servicestudio-border: var(--datagrid-pagination-button-border);
     -servicestudio-height: 32px;
     -servicestudio-margin-left: var(--datagrid-pagination-button-margin-left);
