@@ -262,9 +262,18 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 */
 		private _raiseClickEvent(menuItemId: string): void {
 			const menuItem = this._menuItems.get(menuItemId);
+			const provider = this.grid.provider;
+			const sel = provider.selection;
+			const cell = provider.cells.getCellElement(sel.row, sel.col);
+
 			if (menuItem && menuItem.clickEvent) {
 				//RUG: the platform requires to receive the input parameters inline
 				menuItem.clickEvent(this._grid.uniqueId, this._grid);
+			}
+
+			// Restore focus to active grid cell
+			if (cell) {
+				cell.focus();
 			}
 		}
 
