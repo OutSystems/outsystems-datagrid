@@ -100,6 +100,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			const collectionView = this._target.itemsSource;
 			if (collectionView) {
 				if (state.action === 'insert') {
+					//undo
 					state.items
 						.sort((a, b) => a.datasourceIdx - b.datasourceIdx)
 						.forEach((item) => {
@@ -181,6 +182,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			}
 		}
 
+		/**
+		 * Get the data item from a specific row.
+		 */
 		private _getDataItemFromRow(rowNumber: number) {
 			return this._grid.isSingleEntity
 				? OSFramework.DataGrid.Helper.Flatten(this._grid.provider.rows[rowNumber]?.dataItem)
@@ -207,6 +211,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			return topRow === Infinity ? 0 : topRow;
 		}
 
+		/**
+		 * Validates if it is possible to add new rows to the grid.
+		 */
 		private _validateAddNewRow(rowsAmount: number, topRowIndex: number): void {
 			if (!this._canAddRows()) {
 				throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.AddRowWithActiveFilterOrSort);
@@ -308,11 +315,20 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			return addedRowsNumber;
 		}
 
+		/**
+		 * Builds the rows feature.
+		 *
+		 * @memberof Rows
+		 */
 		public build(): void {
 			this._grid.provider.formatItem.addHandler(this._formatItems.bind(this));
 		}
 
-		/** Clears all the cssClass metadata associated to the rows */
+		/**
+		 * Clears all the cssClass metadata associated to the rows.
+		 *
+		 * @memberof Rows
+		 */
 		public clear(): void {
 			this._metadata.clearProperty(this._internalLabel);
 			this._grid.provider.invalidate(); //Mark to be refreshed
