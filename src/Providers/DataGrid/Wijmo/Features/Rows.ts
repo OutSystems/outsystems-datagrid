@@ -18,9 +18,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				collectionView.itemsAdded.push(...chunk)
 			);
 		}
-		// eslint-disable-next-line
-		public applyState(state: any): void {
-			const collectionView = this._target.itemsSource;
+
+		public applyState(state: { action?: string; datasourceIdx?: number; items?: unknown[] }): void {
+			const collectionView = this._target.itemsSource as wijmo.collections.CollectionView;
 			if (collectionView) {
 				if (state.action === 'remove') {
 					//undo
@@ -337,8 +337,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			) as OSFramework.DataGrid.Feature.Auxiliar.RowStyleInfo;
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		public getRowData(rowNumber: number): any {
+		/**
+		 * Gets the data from a specific row.
+		 *
+		 * @param {number} rowNumber
+		 * @return {*}  {unknown}
+		 * @memberof Rows
+		 */
+		public getRowData(rowNumber: number): unknown {
 			const row = this._getDataItemFromRow(rowNumber);
 
 			if (!row) {
