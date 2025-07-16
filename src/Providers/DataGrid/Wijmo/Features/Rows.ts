@@ -70,17 +70,29 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._newState = undoableItems;
 		}
 
-		private _addItemToCollectionView(collectionView, item) {
-			if (collectionView.itemsRemoved.indexOf(item.item) === -1) {
-				collectionView.sourceCollection.splice(item.datasourceIdx, 1);
-				collectionView.trackChanges && collectionView.itemsRemoved.push(item.item);
+		/** Method to redo the operation */
+		private _addItemToCollectionView(
+			collectionView: wijmo.collections.CollectionView,
+			item: { datasourceIdx: number; item: unknown }
+		) {
+			// Let's remove the item from the collectionView, as it was added before.
+			collectionView.sourceCollection.splice(item.datasourceIdx, 1);
+			if (collectionView.trackChanges && collectionView.itemsRemoved.indexOf(item.item) === -1) {
+				collectionView.itemsRemoved.push(item.item);
 			}
 		}
 
-		private _removeItemFromCollectionView(collectionView, item) {
-			if (collectionView.itemsRemoved.indexOf(item.item) > -1) {
-				collectionView.sourceCollection.splice(item.datasourceIdx, 0, item.item);
-				collectionView.trackChanges && collectionView.itemsRemoved.remove(item.item);
+		/** Method to undo the operation */
+		private _removeItemFromCollectionView(
+			collectionView: wijmo.collections.CollectionView,
+			item: { datasourceIdx: number; item: unknown }
+		) {
+			// Let's add the item back to the collectionView, as it was removed before.
+			collectionView.sourceCollection.splice(item.datasourceIdx, 0, item.item);
+			// If the row existed before, we need to remove it from the itemsRemoved list.
+			// When the row is added and then removed, it does not go to the itemsRemoved list.
+			if (collectionView.trackChanges && collectionView.itemsRemoved.indexOf(item.item) > -1) {
+				collectionView.itemsRemoved.remove(item.item);
 			}
 		}
 		// eslint-disable-next-line
