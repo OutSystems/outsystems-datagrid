@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Providers.DataGrid.Wijmo.Feature {
 	export class GridInsertRowAction extends wijmo.undo.UndoableAction {
-		private _grid: Grid.IGridWijmo;
+		private readonly _grid: Grid.IGridWijmo;
 
 		constructor(
 			grid: Grid.IGridWijmo,
@@ -57,7 +57,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 	}
 
 	export class GridRemoveRowAction extends wijmo.undo.UndoableAction {
-		private _grid: Grid.IGridWijmo;
+		private readonly _grid: Grid.IGridWijmo;
 
 		constructor(
 			grid: Grid.IGridWijmo,
@@ -117,7 +117,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 				if (this._grid.gridEvents.hasHandlers(OSFramework.DataGrid.Event.Grid.GridEventType.OnDataChange)) {
 					const dataChanges = new OSFramework.DataGrid.OSStructure.DataChanges();
-					dataChanges.changedRows = state.items || state.map((state) => state.item);
+					dataChanges.changedRows = state.items ?? state.map((state) => state.item);
 					dataChanges.totalRows = this._grid.features.pagination.rowTotal;
 					this._grid.gridEvents.trigger(
 						OSFramework.DataGrid.Event.Grid.GridEventType.OnDataChange,
@@ -130,12 +130,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
 	}
 
 	export class Rows implements OSFramework.DataGrid.Interface.IBuilder, OSFramework.DataGrid.Feature.IRows {
-		private _grid: Grid.IGridWijmo;
+		private readonly _grid: Grid.IGridWijmo;
 
 		/** This is going to be used as a label for the css classes saved on the metadata of the Row */
 		private readonly _internalLabel = OSFramework.DataGrid.Enum.RowMetadata.RowCss;
 
-		private _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
+		private readonly _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
 
 		constructor(grid: Grid.IGridWijmo) {
 			this._grid = grid;
@@ -143,10 +143,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		/**
-		 * Check if it is possible to add rows to the grid.
-		 * @returns Boolean indicating if it is possible to add rows to the grid.
+		 * Getter that checks if it is possible to add or remove rows from the grid.
+		 * This is true when the grid is not sorted, grouped or filtered.
 		 */
-		private _canAddRows(): boolean {
+		private get _canAddRemoveRows(): boolean {
 			return (
 				!this._grid.features.sort.isGridSorted &&
 				!this._grid.features.groupPanel.isGridGrouped &&
@@ -155,15 +155,19 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		/**
+		 * Check if it is possible to add/remove rows to the grid.
+		 * @returns Boolean indicating if it is possible to add rows to the grid.
+		 */
+		private _canAddRows(): boolean {
+			return this._canAddRemoveRows;
+		}
+
+		/**
 		 * Check if it is possible to remove rows from the grid.
 		 * @returns Boolean indicating if it is possible to remove rows from the grid.
 		 */
 		private _canRemoveRows(): boolean {
-			return (
-				!this._grid.features.sort.isGridSorted &&
-				!this._grid.features.groupPanel.isGridGrouped &&
-				!this._grid.features.filter.isGridFiltered
-			);
+			return this._canAddRemoveRows;
 		}
 
 		/**
