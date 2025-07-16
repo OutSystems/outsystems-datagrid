@@ -32,7 +32,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					// which is 9.
 					const startingIndex = collectionView.itemsAdded.length - state.items.length;
 
-					collectionView.itemsAdded.splice(startingIndex, state.items.length);
+					collectionView.trackChanges && collectionView.itemsAdded.splice(startingIndex, state.items.length);
 				} else {
 					//redo
 					collectionView.sourceCollection.splice(state.datasourceIdx, 0, ...state.items);
