@@ -20,7 +20,7 @@ namespace OSFramework.DataGrid.Feature {
 		/**
 		 * Get data from a specific row.
 		 */
-		getRowData(rowNumber: number): string;
+		getRowData(rowNumber: number): unknown;
 		/**
 		 * Clear all classes from a specific row.
 		 */

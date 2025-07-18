@@ -68,8 +68,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
 			});
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		private _getProviderConfig(): any {
+		private _getProviderConfig(): unknown {
 			if (this.hasColumnsDefined()) {
 				this.config.autoGenerateColumns = false;
 			}
@@ -270,7 +269,6 @@ namespace Providers.DataGrid.Wijmo.Grid {
 		}
 
 		public getChangesMade(): OSFramework.DataGrid.OSStructure.GridChanges {
-			// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 			const changes = this.dataSource.getChanges(OSFramework.DataGrid.OSStructure.GridChanges);
 
 			if (this._features.validationMark.invalidRows.size > 0) {
