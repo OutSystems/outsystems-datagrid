@@ -62,11 +62,13 @@ namespace Providers.DataGrid.Wijmo.Grid {
 				this._provider.itemsSource.itemsEdited.remove(row.dataItem);
 				this._provider.itemsSource.itemsRemoved.remove(row.dataItem);
 				this._provider.itemsSource.itemsAdded.remove(row.dataItem);
+				// RUG: Workaround provided by Mescius, July 2025
+				// Fixes the issue described in ROU-12063.
+				this._provider.itemsSource._orgVals?.delete(row.dataItem);
 			});
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		private _getProviderConfig(): any {
+		private _getProviderConfig(): unknown {
 			if (this.hasColumnsDefined()) {
 				this.config.autoGenerateColumns = false;
 			}
@@ -267,7 +269,6 @@ namespace Providers.DataGrid.Wijmo.Grid {
 		}
 
 		public getChangesMade(): OSFramework.DataGrid.OSStructure.GridChanges {
-			// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 			const changes = this.dataSource.getChanges(OSFramework.DataGrid.OSStructure.GridChanges);
 
 			if (this._features.validationMark.invalidRows.size > 0) {
