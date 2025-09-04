@@ -302,6 +302,13 @@
     filter: drop-shadow(10px 1px 5px rgba(1, 1, 1, 0.08));
 }
 
+/*Overrides the clones frozen cells to prevent columns/rows swiping*/
+.ios .wj-flexgrid .wj-frozen-clone .wj-cell,
+.android .wj-flexgrid .wj-frozen-clone .wj-cell
+ {
+    pointer-events: none;
+}
+
 /* Overrides scenarios where we have for instance elements like dropdowns on top of it when having frozen columns*/
 div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     z-index: 3 !important;
