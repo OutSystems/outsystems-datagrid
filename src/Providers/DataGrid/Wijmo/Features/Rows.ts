@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Providers.DataGrid.Wijmo.Feature {
 	export class GridInsertRowAction extends wijmo.undo.UndoableAction {
-		private _grid: Grid.IGridWijmo;
+		private readonly _grid: Grid.IGridWijmo;
 
 		constructor(
 			grid: Grid.IGridWijmo,
@@ -18,9 +18,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				collectionView.itemsAdded.push(...chunk)
 			);
 		}
-		// eslint-disable-next-line
-		public applyState(state: any): void {
-			const collectionView = this._target.itemsSource;
+
+		public applyState(state: { action?: string; datasourceIdx?: number; items?: unknown[] }): void {
+			const collectionView = this._target.itemsSource as wijmo.collections.CollectionView;
 			if (collectionView) {
 				if (state.action === 'remove') {
 					//undo
@@ -32,7 +32,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					// which is 9.
 					const startingIndex = collectionView.itemsAdded.length - state.items.length;
 
-					collectionView.itemsAdded.splice(startingIndex, state.items.length);
+					collectionView.trackChanges && collectionView.itemsAdded.splice(startingIndex, state.items.length);
 				} else {
 					//redo
 					collectionView.sourceCollection.splice(state.datasourceIdx, 0, ...state.items);
@@ -57,7 +57,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 	}
 
 	export class GridRemoveRowAction extends wijmo.undo.UndoableAction {
-		private _grid: Grid.IGridWijmo;
+		private readonly _grid: Grid.IGridWijmo;
 
 		constructor(
 			grid: Grid.IGridWijmo,
@@ -70,17 +70,29 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._newState = undoableItems;
 		}
 
-		private _addItemToCollectionView(collectionView, item) {
-			if (collectionView.itemsRemoved.indexOf(item.item) === -1) {
-				collectionView.sourceCollection.splice(item.datasourceIdx, 1);
-				collectionView.trackChanges && collectionView.itemsRemoved.push(item.item);
+		/** Method to redo the operation */
+		private _addItemToCollectionView(
+			collectionView: wijmo.collections.CollectionView,
+			item: { datasourceIdx: number; item: unknown }
+		) {
+			// Let's remove the item from the collectionView, as it was added before.
+			collectionView.sourceCollection.splice(item.datasourceIdx, 1);
+			if (collectionView.trackChanges && collectionView.itemsRemoved.indexOf(item.item) === -1) {
+				collectionView.itemsRemoved.push(item.item);
 			}
 		}
 
-		private _removeItemFromCollectionView(collectionView, item) {
-			if (collectionView.itemsRemoved.indexOf(item.item) > -1) {
-				collectionView.sourceCollection.splice(item.datasourceIdx, 0, item.item);
-				collectionView.trackChanges && collectionView.itemsRemoved.remove(item.item);
+		/** Method to undo the operation */
+		private _removeItemFromCollectionView(
+			collectionView: wijmo.collections.CollectionView,
+			item: { datasourceIdx: number; item: unknown }
+		) {
+			// Let's add the item back to the collectionView, as it was removed before.
+			collectionView.sourceCollection.splice(item.datasourceIdx, 0, item.item);
+			// If the row existed before, we need to remove it from the itemsRemoved list.
+			// When the row is added and then removed, it does not go to the itemsRemoved list.
+			if (collectionView.trackChanges && collectionView.itemsRemoved.indexOf(item.item) > -1) {
+				collectionView.itemsRemoved.remove(item.item);
 			}
 		}
 		// eslint-disable-next-line
@@ -88,6 +100,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			const collectionView = this._target.itemsSource;
 			if (collectionView) {
 				if (state.action === 'insert') {
+					//undo
 					state.items
 						.sort((a, b) => a.datasourceIdx - b.datasourceIdx)
 						.forEach((item) => {
@@ -105,7 +118,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 				if (this._grid.gridEvents.hasHandlers(OSFramework.DataGrid.Event.Grid.GridEventType.OnDataChange)) {
 					const dataChanges = new OSFramework.DataGrid.OSStructure.DataChanges();
-					dataChanges.changedRows = state.items || state.map((state) => state.item);
+					dataChanges.changedRows = state.items ?? state.map((state) => state.item);
 					dataChanges.totalRows = this._grid.features.pagination.rowTotal;
 					this._grid.gridEvents.trigger(
 						OSFramework.DataGrid.Event.Grid.GridEventType.OnDataChange,
@@ -118,12 +131,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
 	}
 
 	export class Rows implements OSFramework.DataGrid.Interface.IBuilder, OSFramework.DataGrid.Feature.IRows {
-		private _grid: Grid.IGridWijmo;
+		private readonly _grid: Grid.IGridWijmo;
 
 		/** This is going to be used as a label for the css classes saved on the metadata of the Row */
 		private readonly _internalLabel = OSFramework.DataGrid.Enum.RowMetadata.RowCss;
 
-		private _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
+		private readonly _metadata: OSFramework.DataGrid.Interface.IRowMetadata;
 
 		constructor(grid: Grid.IGridWijmo) {
 			this._grid = grid;
@@ -131,10 +144,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		/**
-		 * Check if it is possible to add rows to the grid.
-		 * @returns Boolean indicating if it is possible to add rows to the grid.
+		 * Getter that checks if it is possible to add or remove rows from the grid.
+		 * This is true when the grid is not sorted, grouped or filtered.
 		 */
-		private _canAddRows(): boolean {
+		private get _canAddRemoveRows(): boolean {
 			return (
 				!this._grid.features.sort.isGridSorted &&
 				!this._grid.features.groupPanel.isGridGrouped &&
@@ -143,15 +156,19 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		/**
+		 * Check if it is possible to add/remove rows to the grid.
+		 * @returns Boolean indicating if it is possible to add rows to the grid.
+		 */
+		private _canAddRows(): boolean {
+			return this._canAddRemoveRows;
+		}
+
+		/**
 		 * Check if it is possible to remove rows from the grid.
 		 * @returns Boolean indicating if it is possible to remove rows from the grid.
 		 */
 		private _canRemoveRows(): boolean {
-			return (
-				!this._grid.features.sort.isGridSorted &&
-				!this._grid.features.groupPanel.isGridGrouped &&
-				!this._grid.features.filter.isGridFiltered
-			);
+			return this._canAddRemoveRows;
 		}
 
 		/**
@@ -165,6 +182,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			}
 		}
 
+		/**
+		 * Get the data item from a specific row.
+		 */
 		private _getDataItemFromRow(rowNumber: number) {
 			return this._grid.isSingleEntity
 				? OSFramework.DataGrid.Helper.Flatten(this._grid.provider.rows[rowNumber]?.dataItem)
@@ -191,6 +211,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			return topRow === Infinity ? 0 : topRow;
 		}
 
+		/**
+		 * Validates if it is possible to add new rows to the grid.
+		 */
 		private _validateAddNewRow(rowsAmount: number, topRowIndex: number): void {
 			if (!this._canAddRows()) {
 				throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.AddRowWithActiveFilterOrSort);
@@ -292,11 +315,20 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			return addedRowsNumber;
 		}
 
+		/**
+		 * Builds the rows feature.
+		 *
+		 * @memberof Rows
+		 */
 		public build(): void {
 			this._grid.provider.formatItem.addHandler(this._formatItems.bind(this));
 		}
 
-		/** Clears all the cssClass metadata associated to the rows */
+		/**
+		 * Clears all the cssClass metadata associated to the rows.
+		 *
+		 * @memberof Rows
+		 */
 		public clear(): void {
 			this._metadata.clearProperty(this._internalLabel);
 			this._grid.provider.invalidate(); //Mark to be refreshed
@@ -321,8 +353,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			) as OSFramework.DataGrid.Feature.Auxiliar.RowStyleInfo;
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		public getRowData(rowNumber: number): any {
+		/**
+		 * Gets the data from a specific row.
+		 *
+		 * @param {number} rowNumber
+		 * @return {*}  {unknown}
+		 * @memberof Rows
+		 */
+		public getRowData(rowNumber: number): unknown {
 			const row = this._getDataItemFromRow(rowNumber);
 
 			if (!row) {
