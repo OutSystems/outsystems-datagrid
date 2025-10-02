@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -67,6 +67,7 @@ export declare abstract class DirectiveCellFactoryBase extends wjcGrid.CellFacto
     private _autoSizePendingCells;
     private _markForAutoSize;
     getEditorValue(g: wjcGrid.FlexGrid): any;
+    _interopDisposeCell(cell: HTMLElement): void;
     disposeCell(cell: HTMLElement): void;
     /**
      * Indicates whether a new template instance must be created for the cell.
