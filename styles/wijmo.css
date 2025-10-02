@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -539,7 +539,7 @@
   display: inline-block;
   flex-shrink: 0;
   width: auto;
-  height: 100%;
+  height: auto;
   min-width: 26px;
   white-space: nowrap;
   vertical-align: top;
@@ -639,6 +639,7 @@
   -ms-appearance: none;
   -moz-appearance: none;
   position: relative;
+  flex-shrink: 0;
   width: 13px;
   height: 13px;
   display: inline-block;
@@ -699,6 +700,11 @@
   padding: 0;
   background: rgba(0, 0, 0, 0.1);
 }
+@media (forced-colors: active) {
+  .wj-listbox .wj-listbox-item.wj-separator {
+    background: WindowText;
+  }
+}
 .wj-listbox .wj-listbox-item.wj-header {
   opacity: 1;
   position: sticky;
@@ -725,6 +731,7 @@
   -ms-appearance: none;
   -moz-appearance: none;
   position: relative;
+  flex-shrink: 0;
   width: 13px;
   height: 13px;
   display: inline-block;
@@ -787,6 +794,7 @@
   border: none;
   width: 100%;
   color: inherit;
+  background: transparent;
   padding: 5px 8px;
 }
 
@@ -977,11 +985,6 @@
     transition-duration: unset !important;
   }
 }
-.wj-calendar .wj-calendar-confirmation-button-container {
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-around;
-}
 
 .wj-dropdown-panel .wj-calendar-outer {
   background: none;
@@ -1006,7 +1009,7 @@
   width: 4em;
 }
 
-.wj-outer-flex, .wj-inputdate-dropdown .wj-calendar-outer, .wj-calendar.wj-calendar-multimonth .wj-calendar-outer {
+.wj-outer-flex, .wj-inputdate-dropdown .wj-inputdate-dropdown-container .wj-calendar-outer, .wj-calendar.wj-calendar-multimonth .wj-calendar-outer {
   display: flex;
   flex-direction: column;
   min-width: 21em;
@@ -1016,19 +1019,84 @@
 .wj-inputdate-dropdown {
   display: flex;
   background: white;
+  flex-direction: column;
 }
-.wj-inputdate-dropdown > .wj-calendar {
+.wj-inputdate-dropdown .wj-inputdate-dropdown-container {
+  display: flex;
+}
+.wj-inputdate-dropdown .wj-inputdate-dropdown-container > .wj-calendar {
   flex-grow: 1;
   border: none;
 }
-.wj-inputdate-dropdown > .wj-listbox {
+.wj-inputdate-dropdown .wj-inputdate-dropdown-container > .wj-listbox {
   flex-grow: 1;
   margin: 10px;
   min-width: 8em;
   max-height: 16em;
 }
-.wj-inputdate-dropdown > .wj-listbox .wj-listbox-item {
+.wj-inputdate-dropdown .wj-inputdate-dropdown-container > .wj-listbox .wj-listbox-item {
   white-space: nowrap;
+}
+.wj-inputdate-dropdown .wj-inputdate-dropdown-container > .wj-listbox .wj-state-selected:focus {
+  outline: 2px solid rgb(100, 100, 100);
+  outline-offset: -1px;
+}
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container {
+  margin: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control .wj-applybutton, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-applybutton {
+  background: #eee;
+  cursor: pointer;
+  color: black;
+  display: inline-block;
+  border-style: none;
+  padding: 0 10px;
+  text-align: center;
+  min-width: 30px;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn:focus, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control .wj-applybutton:focus, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-applybutton:focus, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn:hover, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control .wj-applybutton:hover, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-applybutton:hover {
+  background: #e1e1e1;
+  transition-duration: 0.4s;
+}
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn.wj-state-active, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control .wj-state-active.wj-applybutton, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-state-active.wj-applybutton {
+  background: #d5d5d5;
+}
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn[disabled], .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control [disabled].wj-applybutton, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container [disabled].wj-applybutton {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.6;
+}
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container :focus {
+  outline: none;
+}
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container a.wj-btn, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control a.wj-applybutton, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container a.wj-applybutton,
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container button.wj-btn:not(.wj-btn-default),
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control button.wj-applybutton:not(.wj-btn-default),
+.wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container button.wj-applybutton:not(.wj-btn-default) {
+  border-radius: 4px;
+  padding: 6px 15px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 12px;
+}
+@media (forced-colors: active) {
+  .wj-inputdate-dropdown .wj-state-multi-selected {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}
+
+.wj-inputdatetime .wj-input-group-btn > .wj-btn.wj-btn-default.wj-show-dropdown-button, .wj-inputdatetime .wj-viewer .wj-control .wj-input-group-btn > .wj-btn-default.wj-show-dropdown-button.wj-applybutton, .wj-viewer .wj-control .wj-inputdatetime .wj-input-group-btn > .wj-btn-default.wj-show-dropdown-button.wj-applybutton {
+  background: #e1e1e1;
+}
+@media (forced-colors: active) {
+  .wj-inputdatetime .wj-input-group-btn > .wj-btn.wj-btn-default.wj-show-dropdown-button, .wj-inputdatetime .wj-viewer .wj-control .wj-input-group-btn > .wj-btn-default.wj-show-dropdown-button.wj-applybutton, .wj-viewer .wj-control .wj-inputdatetime .wj-input-group-btn > .wj-btn-default.wj-show-dropdown-button.wj-applybutton {
+    background-color: Highlight;
+  }
 }
 
 .wj-colorpicker {
@@ -1042,6 +1110,46 @@
   height: 100%;
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+.wj-colorpicker .wj-colorbox:focus-visible {
+  outline: 2px solid #1a73e8;
+}
+.wj-colorpicker div[role=gridcell]:focus,
+.wj-colorpicker div[role=columnheader]:focus {
+  outline: 2px solid #050cef;
+  transform: scale(0.92);
+}
+.wj-colorpicker .wj-colorpicker-cursor {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  transform: translate(-50%, -50%);
+  border: 2px solid #f0f0f0;
+  border-radius: 50px;
+  box-shadow: 0px 0px 4px 2px #0f0f0f;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.wj-colorpicker .palette-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 80%;
+}
+.wj-colorpicker .palette-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 13%;
+}
+.wj-colorpicker .palette-gridcell {
+  cursor: pointer;
+  width: 10%;
+  margin-right: 2px;
+}
+.wj-colorpicker .palette-grid > .palette-row:first-child {
+  margin-bottom: 4px;
 }
 
 .wj-inputcolor .wj-input-group input.wj-form-control {
@@ -1115,6 +1223,8 @@
 .wj-multi-autocomplete .wj-token-helper {
   position: absolute;
   left: -10000px;
+  color: inherit;
+  background: transparent;
 }
 
 .wj-popup {
@@ -1151,6 +1261,17 @@
   cursor: pointer;
 }
 
+.wj-menu.wj-state-focused {
+  outline: 2px solid #007CBE;
+  outline-offset: -1px;
+}
+
+@media (forced-colors: active) {
+  .wj-menu.wj-state-focused {
+    outline: 2px solid Highlight;
+    outline-offset: -1px;
+  }
+}
 .wj-listbox.wj-menu-items .wj-listbox-item:not(.wj-state-disabled):not(.wj-separator) {
   cursor: pointer;
 }
@@ -1302,7 +1423,7 @@
   visibility: hidden;
   display: block;
 }
-.wj-labeled-input .wj-control.wj-state-invalid ~ .wj-error {
+.wj-labeled-input .wj-error.wj-error-visible {
   visibility: visible;
 }
 .wj-labeled-input .wj-state-invalid + label {
@@ -1462,7 +1583,7 @@
   overflow: hidden;
   display: none;
 }
-.wj-accordion > .wj-header.wj-state-active + .wj-content {
+.wj-accordion > .wj-content.wj-active-content {
   display: block;
 }
 .wj-accordion > .wj-header {
@@ -2007,7 +2128,6 @@
 
 .wj-columnfiltereditor {
   padding: 10px;
-  min-width: 240px;
   max-width: 400px;
 }
 .wj-columnfiltereditor .wj-filtertype {
@@ -2025,9 +2145,15 @@
 .wj-columnfiltereditor .wj-tabpanel .wj-filter-tabPanel-top-border {
   border-top: 1px solid transparent;
 }
-.wj-columnfiltereditor .wj-valuefilter-editor,
-.wj-columnfiltereditor .wj-conditionfilter-editor {
+.wj-columnfiltereditor [wj-part=tabpanes] .wj-valuefilter-editor,
+.wj-columnfiltereditor [wj-part=tabpanes] .wj-conditionfilter-editor {
   margin-top: 1em;
+}
+.wj-columnfiltereditor [wj-part=div-multi-filter] {
+  min-width: 270px;
+}
+.wj-columnfiltereditor [wj-part=div-multi-filter] .wj-conditionfilter-editor {
+  margin-top: 10px;
 }
 .wj-columnfiltereditor .wj-valuefilter-editor [wj-part=div-options] {
   margin-bottom: 6px;
@@ -2241,6 +2367,9 @@ div[wj-part=div-exceeds] {
   background: yellow;
   color: black;
   font-weight: bold;
+}
+.wj-flexgrid .wj-cell span.wj-state-exact-match-space {
+  white-space: pre;
 }
 @media (forced-colors: active) {
   .wj-flexgrid .wj-cell span.wj-state-match {
@@ -2948,6 +3077,12 @@ div[wj-part=div-exceeds] {
   overflow: inherit;
   text-overflow: inherit;
   width: 100%;
+}
+.wj-multirow .wj-cell.wj-center-vert:not(.wj-hasdropdown) div.wj-no-children-container {
+  pointer-events: none;
+}
+.wj-multirow .wj-cell.wj-center-vert:not(.wj-hasdropdown) div.wj-no-children-container * {
+  pointer-events: auto;
 }
 .wj-multirow .wj-cell.wj-center-vert:not(.wj-hasdropdown) div.wj-btn.wj-btn-glyph.wj-elem-detail, .wj-multirow .wj-cell.wj-center-vert:not(.wj-hasdropdown) .wj-viewer .wj-control div.wj-btn-glyph.wj-elem-detail.wj-applybutton, .wj-viewer .wj-control .wj-multirow .wj-cell.wj-center-vert:not(.wj-hasdropdown) div.wj-btn-glyph.wj-elem-detail.wj-applybutton {
   vertical-align: top;
