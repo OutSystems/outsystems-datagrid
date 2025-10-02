@@ -713,7 +713,17 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     .wj-input-group
     .wj-form-control {
     padding: var(--datagrid-filter-input-padding);
+    width: 100%;
 }
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
+    .wj-control
+    .wj-input-group
+    [wj-part=btn] {
+    min-height: 0;
+    height: auto;
+}
+
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
     .wj-control
