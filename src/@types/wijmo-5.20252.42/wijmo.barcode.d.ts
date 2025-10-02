@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -245,6 +245,7 @@ declare module wijmo.barcode {
     function toZeroOnePattern(data: any, evenIsBar?: any): any;
     function range(from: any, to: any): any[];
     function makeEnums(mapping: any): void;
+    function isNumberString(str: string): boolean;
     const Utils: {
         isFunction: typeof isFunction;
         isWindow: typeof isWindow;
@@ -276,6 +277,7 @@ declare module wijmo.barcode {
         toZeroOnePattern: typeof toZeroOnePattern;
         range: typeof range;
         makeEnums: typeof makeEnums;
+        isNumberString: typeof isNumberString;
     };
 }
 declare module wijmo.barcode {

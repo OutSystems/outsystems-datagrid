@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -15,6 +15,7 @@ declare module wijmo.nav {
         header: string;
         hostElement: string;
         showIcons: string;
+        activeContent: string;
     };
     const TabPanelClsNames: {
         hostElement: string;
@@ -147,6 +148,7 @@ declare module wijmo.nav {
         _setIsDisabled(value: boolean): void;
         _setTabOrder(value: number): void;
         _updateTabIndex(): void;
+        dispose(): void;
     }
     /**
      * Represents a tab within a {@link TabPanel} control.
@@ -187,6 +189,7 @@ declare module wijmo.nav {
         isVisible: boolean;
         _setParts(header: HTMLElement, pane: HTMLElement): void;
         _setPanel(panel: TabPanel): void;
+        dispose(): void;
     }
 }
 declare module wijmo.nav {
@@ -209,6 +212,7 @@ declare module wijmo.nav {
         private _alExpandMany;
         private _autoSwitching;
         private _hidePane;
+        private _toAnim;
         /**
          * Initializes a new instance of the {@link Accordion} class.
          *
@@ -310,6 +314,7 @@ declare module wijmo.nav {
         private _getIndexOfPane;
         private _getNextActiveIndex;
         _togglePane(pane: AccordionPane, collapse: boolean): void;
+        dispose(): void;
     }
     /**
      * Represents a pane in an {@link Accordion} control.
@@ -355,6 +360,7 @@ declare module wijmo.nav {
         isCollapsed: boolean;
         _setParts(header: HTMLElement, content: HTMLElement): void;
         _setAccordion(accordion: Accordion): void;
+        dispose(): void;
     }
 }
 declare module wijmo.nav {
@@ -635,6 +641,7 @@ declare module wijmo.nav {
         _updateState(): void;
         _updateEmptyState(): void;
         _updateCheckedState(): void;
+        dispose(): void;
         static _getChildNodes(treeView: TreeView, nodeList: HTMLElement): TreeNode[];
         static _isNode(e: HTMLElement): boolean;
         static _isNodeList(e: HTMLElement): boolean;
@@ -792,6 +799,8 @@ declare module wijmo.nav {
         private _preserveSelNode;
         private _allowMultiSelect;
         static _ctrlTemplate: string;
+        private _updateCheckedTimer;
+        private _setFocusTimer;
         /**
          * Gets or sets the template used to instantiate {@link TreeView} controls.
          */
@@ -1450,6 +1459,10 @@ declare module wijmo.nav {
         private _lazyLoadNodeDone;
         private isTxtSelected;
         _clearMultiSelectedNodes(preserveCurrentNode?: boolean): void;
+        /**
+     * Disposes of the control and all its resources.
+     */
+        dispose(): void;
     }
 }
 declare module wijmo.nav {
@@ -1465,8 +1478,9 @@ declare module wijmo.nav {
         static CLS_DRAG_FEEDBACK: string;
         static CLS_DRAG_ITEMCOUNT: string;
         static CLS_DRAG_ITEMCOUNT_LARGE: string;
-        private static _dMarker;
+        private static _activeTreeCount;
         private static _drgSrc;
+        static _markerInstance: any;
         /**
          * Initializes a new instance of a {@link _TreeViewDragDropManager}.
          *
@@ -1483,6 +1497,7 @@ declare module wijmo.nav {
         private _drop;
         private _dragend;
         private _keydown;
+        private static readonly _dMarker;
         private _handleDragDrop;
         private _getTopLevelSelectedNodes;
         private _showDragMarker;

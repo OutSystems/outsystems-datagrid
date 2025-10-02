@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -2170,6 +2170,7 @@ declare module wijmo.grid.sheet {
          * @param value The value to test.
          */
         apply(value: any): boolean;
+        setInitialAllValues(): void;
     }
 }
 declare module wijmo.grid.sheet {
@@ -2255,7 +2256,7 @@ declare module wijmo.grid.sheet {
          * @param col The {@link Column} that contains the filter.
          */
         _updateColumnFilter(col: any): void;
-        _getValueFilters(col: wijmo.grid.Column): any[];
+        _getValueFilters(col: wijmo.grid.Column, filtered?: boolean): any[];
         /**
          * Closes the filter editor.
          */

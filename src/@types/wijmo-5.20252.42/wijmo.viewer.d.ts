@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -582,6 +582,24 @@ declare module wijmo.viewer {
     };
 }
 declare module wijmo.viewer {
+    class _VScroller extends _Scroller {
+        private _wrapper;
+        private _height;
+        private _max;
+        private _desiredValue;
+        static _ctrlTemplate: string;
+        static controlTemplate: string;
+        constructor(element: any);
+        readonly valueChanged: Event<_VScroller, EventArgs>;
+        onValueChanged(): void;
+        preventScrollEvent(): void;
+        height: number;
+        value: number;
+        max: number;
+        refresh(fullUpdate?: boolean): void;
+    }
+}
+declare module wijmo.viewer {
     enum _UnitType {
         Document = 0,
         Inch = 1,
@@ -1116,24 +1134,6 @@ declare module wijmo.viewer {
 declare module wijmo.viewer {
 }
 declare module wijmo.viewer {
-    class _VScroller extends _Scroller {
-        private _wrapper;
-        private _height;
-        private _max;
-        private _desiredValue;
-        static _ctrlTemplate: string;
-        static controlTemplate: string;
-        constructor(element: any);
-        readonly valueChanged: Event<_VScroller, EventArgs>;
-        onValueChanged(): void;
-        preventScrollEvent(): void;
-        height: number;
-        value: number;
-        max: number;
-        refresh(fullUpdate?: boolean): void;
-    }
-}
-declare module wijmo.viewer {
     class _ExportOptionEditor extends wijmo.Control {
         private _exportDescription;
         private _options;
@@ -1145,6 +1145,11 @@ declare module wijmo.viewer {
         private static _generalGroupName;
         private _optionLabels;
         private _groupTitleField;
+        private _clickHandlerTimer;
+        private _selectedHandlerTimer;
+        private _comboBox;
+        private _boolComboBox;
+        private _inputNumber;
         constructor(element: any);
         readonly options: Object;
         exportDescription: _IExportDescription;
@@ -1164,6 +1169,7 @@ declare module wijmo.viewer {
         private readonly _optionLabelsText;
         private readonly _groupTitle;
         private _globalize;
+        dispose(): void;
         refresh(fullUpdate?: boolean): void;
     }
 }
@@ -1569,6 +1575,7 @@ declare module wijmo.viewer {
         private _onSearchCompleted;
         private _onResultsCleared;
         private _onTextChanged;
+        dispose(): void;
     }
 }
 declare module wijmo.viewer {
@@ -1643,6 +1650,7 @@ declare module wijmo.viewer {
         resetPages(): any;
         invalidate(): any;
         refresh(): any;
+        dispose(): any;
     }
     interface _IZoomModeChangedEventArgs {
         oldValue: ZoomMode;
@@ -1666,7 +1674,7 @@ declare module wijmo.viewer {
         private _pages;
         private _zoomFactor;
         private _zoomMode;
-        private _touchManager;
+        _touchManager: _TouchManager;
         private _zoomModeUpdating;
         protected _pagesWrapper: HTMLElement;
         private _fBorderBoxMode;
@@ -1782,6 +1790,8 @@ declare module wijmo.viewer {
         private _innerNavigating;
         private _virtualScrollMode;
         static _ctrlTemplate: string;
+        private _timeoutId;
+        private _swipeHandler;
         static controlTemplate: string;
         constructor(element: any);
         _init(): void;
@@ -1823,6 +1833,7 @@ declare module wijmo.viewer {
         _zoomToViewWidth(): void;
         protected _calcZoomToViewWidthFactor(): number;
         refresh(fullUpdate?: boolean): void;
+        dispose(): void;
     }
 }
 declare module wijmo.viewer {
@@ -1874,6 +1885,7 @@ declare module wijmo.viewer {
         resetPages(): void;
         refresh(fullUpdate?: boolean): void;
         isPageContentLoaded(pageIndex: number): boolean;
+        dispose(): void;
     }
 }
 declare module wijmo.viewer {
@@ -2033,6 +2045,7 @@ declare module wijmo.viewer {
         _updateUI(): void;
         private _findIndex;
         refresh(fullUpdate?: boolean): void;
+        dispose(): void;
     }
 }
 declare module wijmo.viewer {
@@ -2056,6 +2069,7 @@ declare module wijmo.viewer {
         private onApplied;
         showWithValue(pageSettings: _IPageSettings): void;
         refresh(fullUpdate?: boolean): void;
+        dispose(): void;
     }
 }
 declare module wijmo.viewer {
@@ -2207,6 +2221,11 @@ declare module wijmo.viewer {
         }[];
         private static _exportItems;
         static _ctrlTemplate: string;
+        private _positionChangedTimeout;
+        private _exportOptionEditor;
+        private _searchBarInstance;
+        private _viewerZoomBarInstance;
+        private _compositePageViewInstance;
         /**
          * Gets or sets the template used to instantiate the viewer controls.
          */
@@ -2540,6 +2559,7 @@ declare module wijmo.viewer {
          */
         onPageLoaded(e: PageLoadedEventArgs): void;
         beforeSend(e: RequestEventArgs): void;
+        dispose(): void;
     }
 }
 declare module wijmo.viewer {
@@ -2960,6 +2980,7 @@ declare module wijmo.viewer {
         _createPage(index: number, defPageSize: _ISize): _Page;
         protected _actionElementClicked(element: SVGElement): void;
         protected _getActionInfo(element: SVGElement): _IDocAction;
+        dispose(): void;
     }
 }
 declare module wijmo.viewer {

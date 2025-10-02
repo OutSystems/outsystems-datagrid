@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -762,6 +762,7 @@ declare module wijmo {
         lastSelected: string;
         loading: string;
         match: string;
+        exactMatchSpace: string;
         measuring: string;
         multiSelected: string;
         pinned: string;
@@ -769,6 +770,9 @@ declare module wijmo {
         selected: string;
         sticky: string;
         updating: string;
+        labeledInput: string;
+        wjError: string;
+        errorVisible: string;
     };
     const GlyphClsNames: {
         backward: string;
@@ -1085,9 +1089,12 @@ declare module wijmo {
      * Creates a new unique id for an element by adding sequential
      * numbers to a given base id.
      *
+     * Use getSafeUniqueId instead.
+     *
      * @param baseId String to use as a basis for generating the unique id.
      */
     function getUniqueId(baseId: string): string;
+    function getSafeUniqueId(baseId: string, prefix?: string, forcePrefix?: boolean): string;
     /**
     * Creates an unique id
     */
@@ -1452,7 +1459,7 @@ declare module wijmo {
      * @param e Element that will have the class added.
      * @param className Class (or space-separated list of classes) to add to the element.
      */
-    function addClass(e: Element, className: string): void;
+    function addClass(e: Element, className?: string): void;
     /**
      * Removes a class from an element.
      *
@@ -2094,6 +2101,11 @@ declare module wijmo {
     };
     function _isMacOS(): boolean;
     function _setAriaLabelBy(instance: any, targetElement: HTMLElement, value: string, afterUpdate?: Function): void;
+    function deepElementFromPoint(x: any, y: any): Element;
+    function roundTo(value: number, digits: number): number;
+    function addAttributeValueToElement(element: Element, attribute: string, value: any): void;
+    function removeAttributeValueFromElement(element: any, attribute: any, value: any): void;
+    function replaceItems(base: any, override: any): any;
 }
 declare module wijmo {
     interface _IMap<K, V> {
@@ -2678,6 +2690,7 @@ declare module wijmo {
         _isLetter(c: string): boolean;
         _validatePosition(start: number): void;
         _parseMask(): void;
+        dispose(): void;
     }
     /**
      * Class that contains information about a position in an input mask.
@@ -3954,6 +3967,8 @@ declare module wijmo {
         protected _rtlDir: boolean;
         _listenResizeEvents: boolean;
         private focusService;
+        private _getInputValueTimer;
+        private _updateFocusStateTimer;
         /**
          * Initializes a new instance of the {@link Control} class and attaches it to a DOM element.
          *
@@ -4527,6 +4542,7 @@ declare module wijmo {
      * @return An interval id that you can use to suspend the fade-out animation.
      */
     function hidePopup(popup: HTMLElement, remove?: any, fadeOut?: boolean): any;
+    function _updatePopupPosition(popup: HTMLElement, ref: any, pp: PopupPosition): void;
 }
 declare module wijmo {
     interface _ITooltipInfo {
@@ -4590,6 +4606,7 @@ declare module wijmo {
         static _eTip: HTMLElement;
         private _toShow;
         private _toHide;
+        private _forScreenReader;
         private _showAutoTipBnd;
         private _hideAutoTipBnd;
         private _mousemoveBnd;
@@ -4624,11 +4641,11 @@ declare module wijmo {
          */
         position: PopupPosition;
         /**
-        * Gets or sets the {@link TooltipTrigger} that determines how the tooltip should be
-        * triggered.
-        *
-        * The default value for this property is **TooltipTrigger.Focus**.
-        */
+         * Gets or sets the {@link TooltipTrigger} that determines how the tooltip should be
+         * triggered.
+         *
+         * The default value for this property is **TooltipTrigger.Focus**.
+         */
         trigger: TooltipTrigger;
         /**
          * Gets or sets a value that determines whether tooltips should use a
@@ -4673,7 +4690,8 @@ declare module wijmo {
         /**
          * Hides the tooltip if it is currently visible.
          */
-        hide(): void; /**
+        hide(): void;
+        /**
          * Removes all tooltips associated with this {@link Tooltip} instance.
          */
         dispose(): void;

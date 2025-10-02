@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -83,10 +83,15 @@ declare module wijmo.grid.grouppanel {
         _gdc: IGroupDescriptionCreator;
         _placeholder: string | null;
         _dragEndBnd: any;
+        _keyDownBnd: any;
         _focusGd: wijmo.collections.GroupDescription;
         _ariaLabel: string;
         static _ctrlTemplate: string;
         static readonly _INDEX_KEY: string;
+        private _mkfocus;
+        private _newMkFocus;
+        private _markerKeydownHandler;
+        private _markerFocusHandler;
         /**
          * Gets or sets the template used to instantiate {@link GroupPanel} controls.
          */
@@ -223,8 +228,11 @@ declare module wijmo.grid.grouppanel {
         _dragOver(e: DragEvent): void;
         _drop(e: DragEvent): void;
         _dragEnd(e: DragEvent): void;
+        _keyDown(e: KeyboardEvent): void;
         _click(e: MouseEvent): void;
         _updateSort(e: MouseEvent, marker: HTMLElement): void;
+        _removeEventForGrid(): void;
+        dispose(): void;
     }
 }
 declare module wijmo.grid.grouppanel {

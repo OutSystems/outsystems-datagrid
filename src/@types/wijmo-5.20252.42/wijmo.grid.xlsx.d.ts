@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -28,6 +28,8 @@ declare module wijmo.grid.xlsx {
      */
     class FlexGridXlsxConverter {
         private static hasCssText;
+        private static mergedCells;
+        private static blankXlsxCell;
         static _stopExportsOnGridChange: boolean;
         /**
          * Save the {@link FlexGrid} instance to the {@link Workbook} instance.
@@ -186,6 +188,10 @@ declare module wijmo.grid.xlsx {
         private static _getColumnHeadersHeight;
         private static _escapePlainText;
         private static _parseFlexGridRowToSheetRow;
+        private static addMergedCell;
+        private static addMergedCellRange;
+        private static mergedCellsHasRowCol;
+        private static clearMergedCells;
         static _parseCellStyle(cellStyle: CSSStyleDeclaration, isTableStyle?: boolean): wijmo.xlsx.IWorkbookStyle;
         private static _parseBorder;
         private static _parseEgdeBorder;

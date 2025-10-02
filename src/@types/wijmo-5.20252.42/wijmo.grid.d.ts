@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -2606,9 +2606,15 @@ declare module wijmo.grid {
         private cachedHeights;
         private _isSourceChanging;
         private _invalidateTimer;
+        private _setInvalidScrollTimer;
+        private _triggerInvalidateTimer;
+        private _invalidScrollWithWheelTimer;
+        private _showAutoTipTimer;
+        private _startEditingTimer;
         _canOverRuleCtrlPress: boolean;
         _isShiftTab: boolean;
         static _ctrlTemplate: string;
+        private _updateContentAnim;
         /**
          * Gets or sets the template used to instantiate {@link FlexGrid} controls.
          */
@@ -3735,8 +3741,9 @@ declare module wijmo.grid {
          * refreshed, which in some cases can improve performance.
          *
          * @param rng {@link CellRange} to be refreshed.
+         * @param panel {@link GridPanel}  to which the range to be refreshed belongs (defaults to the cellPanel).
          */
-        refreshRange(rng: CellRange): void;
+        refreshRange(rng: CellRange, panel?: GridPanel): void;
         /**
          * Resizes a column to fit its content.
          *
@@ -4809,6 +4816,37 @@ declare module wijmo.grid {
          * Raises the {@link updatedView} event.
          */
         onUpdatedView(e?: wijmo.EventArgs): void;
+        /**
+         * Occurs when the user is getting the content of a {@link CellRange} as a string suitable for
+         * copying to the clipboard or exporting to CSV (comma-separated values) files.
+         *
+         * This event provides an opportunity for the customer to perform data cleaning or escape dangerous characters
+         * in each cell based on specific business requirements.
+         *
+         * The 'data' attribute of the handler paramaters represents the cell data
+         * (The default is the string data after formatting, unless ClipStringOptions.Unformatted is used).
+         * If the user performs data processing on it, the processed data will take precedence.
+         *
+         * For example, the following code demonstrates how to handle formula injection issues:
+         * ```typescript
+         * flex.gettingCellClipString.addHandler((s, e) => {
+         *   const cellData = e.data;
+         *   const isFormula = ["=", "+", "-", "@"].some(char => cellData.indexOf(char) === 0);
+         *   if (isFormula) {
+         *     e.data = `'${cellData}`; // prepend a single quote to escape the formula
+         *   }
+         * });
+         * ```
+         *
+         * Note: The 'e.cancel' attribute of the handler paramaters will be ignored.
+         */
+        readonly gettingCellClipString: Event<FlexGrid<any>, CellRangeEventArgs>;
+        /**
+         * Raises the {@link gettingCellClipString} event.
+         *
+         * @param e {@link CellRangeEventArgs} that contains the event data.
+         */
+        onGettingCellClipString(e: CellRangeEventArgs): void;
         getMergedRangeRawData(p: GridPanel, r: number, c: number, clip?: boolean): CellRange;
         protected _createSelHdl(): _SelectionHandler;
         _getTabIndex(): number;
@@ -4934,6 +4972,8 @@ declare module wijmo.grid {
         protected _handleRefreshForA11y(): void;
         announceShortcut(message: string): void;
         destroyScreenReaderShortCutNotifier(): void;
+        readonly rowColSelected: Event<FlexGrid<any>, CellRangeEventArgs>;
+        onRowColSelected(e: CellRangeEventArgs): void;
     }
 }
 declare module wijmo.grid {
@@ -4958,6 +4998,9 @@ declare module wijmo.grid {
             top: number;
             overflow: string;
         };
+        private _setValueInSafariTimer;
+        private _tbxFocusTimer;
+        private _aeFocusTimer;
         /**
          * Initializes a new instance of the {@link _ImeHandler} class
          * and attaches it to a {@link FlexGrid}.
@@ -4997,6 +5040,7 @@ declare module wijmo.grid {
         protected _keydownBnd: any;
         protected _committing: boolean;
         private _pasting;
+        private _addNewTimer;
         /**
          * Initializes a new instance of the {@link _AddNewHandler} class.
          *
@@ -5024,6 +5068,7 @@ declare module wijmo.grid {
         _rowEditEnding(s: FlexGrid, e: CellRangeEventArgs): void;
         _rowEditEnded(s: FlexGrid, e: CellRangeEventArgs): void;
         private _handleEditStarting;
+        dispose(): void;
     }
     /**
      * Represents a row template used to add items to the source collection.
@@ -5116,6 +5161,7 @@ declare module wijmo.grid {
          * @param cell The element that represents the cell.
          */
         disposeCell(cell: HTMLElement): void;
+        _interopDisposeCell(cell: HTMLElement): void;
         /**
          * Gets the value of the editor currently being used.
          *
@@ -5165,6 +5211,9 @@ declare module wijmo.grid {
             height: string;
             display: string;
         };
+        private _ieKeypressTimer;
+        private _ieActivateEditorTimer;
+        private _setSelectionRangeTimer;
         /**
          * Initializes a new instance of a {@link _CustomEditor}.
          *
@@ -5237,6 +5286,7 @@ declare module wijmo.grid {
         _search: string;
         _toSearch: any;
         _isHeadersHandled: boolean;
+        private _finishEditingTimer;
         /**
          * Initializes a new instance of the {@link _KeyboardHandler} class.
          *
@@ -5414,6 +5464,15 @@ declare module wijmo.grid {
         _composing: boolean;
         static _msgRequired: string;
         static _msgBadInput: string;
+        private _invInputHandler;
+        private _mousedownHandler;
+        private _selectionChangingHandler;
+        private _lostFocusHandler;
+        private _compositionendHandler;
+        private _compositionstartHandler;
+        private _selectTimer;
+        private _startEditingTimer;
+        private _addRangeTimer;
         /**
          * Initializes a new instance of the {@link _EditHandler} class.
          *
@@ -5503,6 +5562,7 @@ declare module wijmo.grid {
         private _removeListBox;
         private isEqualValue;
         protected _selectionChanging(e: CellRangeEventArgs): void;
+        dispose(): void;
     }
 }
 declare module wijmo.grid {
@@ -5600,7 +5660,9 @@ declare module wijmo.grid {
         };
         static _SZ_MIN: number;
         static _SZ_MAX_COLGRP_EDGE: number;
-        private mouseWhellTimer;
+        private _mouseWhellTimer;
+        private _mouseSelectTimer;
+        private _focusTimer;
         /**
          * Initializes a new instance of the {@link _MouseHandler} class.
          *
@@ -5643,6 +5705,7 @@ declare module wijmo.grid {
         private _splitRange;
         private isDetailRow;
         private moveDetailRow;
+        private _canResizeOverflow;
         dispose(): void;
     }
 }

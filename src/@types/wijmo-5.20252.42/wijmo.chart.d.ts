@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -3129,6 +3129,8 @@ declare module wijmo.chart {
         private _format;
         _actualMin: number;
         _actualMax: number;
+        _isMinimumAuto: boolean;
+        _isMaximumAuto: boolean;
         _axisType: AxisType;
         private _majorTickMarks;
         private _minorTickMarks;

@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -176,6 +176,10 @@ declare module wijmo.grid.selector {
         private _setRangeChecked;
         private _formatItem;
         private _getColumn;
+        private _rowColSelected;
+        private _getIsColumnInHeader;
+        _addHandler(): void;
+        _isInTreeGrid(): boolean;
     }
     /**
      * Class that adds extra checkboxes to header and group cells of
@@ -200,6 +204,7 @@ declare module wijmo.grid.selector {
         constructor(column?: wijmo.grid.Column, options?: any);
         onColumnChanged(e?: wijmo.EventArgs): void;
         protected _initialize(): void;
+        _addHandler(): void;
     }
 }
 declare module wijmo.grid.selector {

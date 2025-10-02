@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -64,12 +64,14 @@ declare module wijmo.input {
     const InputDateClsNames: {
         hostElement: string;
         inputDateDropDown: string;
+        inputDateDropDownContainer: string;
     };
     const InputDateRangeClsNames: {
         hostElement: string;
     };
     const InputDateTimeClsNames: {
         hostElement: string;
+        showDropDownButton: string;
     };
     const InputMaskClsNames: {
         hostElement: string;
@@ -99,6 +101,7 @@ declare module wijmo.input {
         tokenClose: string;
         tokenHelper: string;
         tokenLabel: string;
+        screenReaderOnly: string;
     };
     const MultiSelectClsNames: {
         hostElement: string;
@@ -334,6 +337,13 @@ declare module wijmo.input {
         protected _keypress(e: KeyboardEvent): void;
         protected _keydown(e: KeyboardEvent): void;
         protected _input(): void;
+        /**
+         * Checks if the value represents a negative currency entered using parentheses.
+         * Scenario:
+         *   1. First input "(" → value changes to "-$0.00"
+         *   2. Then input a digit (e.g., "1") → value changes to "-$01.00"
+         */
+        private _isNegativeCurrencyByParenthesis;
         protected _clickSpinner(e: MouseEvent): void;
         protected _updateAria(): void;
         _updateInputAriaLabel(): void;
@@ -394,6 +404,8 @@ declare module wijmo.input {
         _msk: wijmo._MaskProvider;
         _fullEdit: boolean;
         static _ctrlTemplate: string;
+        _inputElementAriaLabel: string;
+        _ariaLabelledby: string;
         /**
          * Gets or sets the template used to instantiate {@link InputMask} controls.
          */
@@ -496,10 +508,24 @@ declare module wijmo.input {
         dispose(): void;
         refresh(fullUpdate?: boolean): void;
         onGotFocus(e: any): void;
+        /**
+         * Gets or sets the aria-labelledby attribute of input element.
+         */
+        ariaLabelledBy: string;
+        _updateInputAriaLabel(): void;
         getAriaLabelForScreenReader(): any;
     }
 }
 declare module wijmo.input {
+    /**
+     * Specifies constants that define the action to be performed when the TAB key is pressed.
+     */
+    enum ColorPickerTabKeyAction {
+        /** No special action (let the browser handle the key). */
+        None = 0,
+        /** All buttons in the color picker can be selected using the tab key. */
+        All = 1
+    }
     /**
      * The {@link ColorPicker} control allows users to select a color by clicking
      * on panels to adjust color channels (hue, saturation, brightness, alpha).
@@ -524,7 +550,11 @@ declare module wijmo.input {
         _ePal: HTMLElement;
         _ePreview: HTMLElement;
         _eText: HTMLElement;
+        _ePalMainFirst: HTMLElement;
+        _ePalShadeFirst: HTMLElement;
         _htDown: Element;
+        _ariaLabel: string;
+        private _keyActionTab;
         static _ctrlTemplate: string;
         /**
          * Gets or sets the template used to instantiate {@link ColorPicker} controls.
@@ -582,6 +612,20 @@ declare module wijmo.input {
          */
         palette: string[];
         /**
+         * Gets or sets the aria-label attribute of {@link ColorPicker} host element.
+         *
+         * The default value for this property is "Color Picker".
+         */
+        ariaLabel: string;
+        /**
+         * Gets or sets the action to perform when the Tab key is pressed.
+         *
+         * The default setting for this property is {@link ColorPickerTabKeyAction.None},
+         * This means that pressing the tab key will have no effect and follow the browser's default behavior.
+         */
+        keyActionTab: ColorPickerTabKeyAction;
+        _setTabOrder(value: number): void;
+        /**
          * Occurs when the value of the {@link value} property changes, either
          * as a result of user actions or by assignment in code.
          */
@@ -597,7 +641,18 @@ declare module wijmo.input {
         private _updatePalette;
         private _makePalEntry;
         private _updatePanels;
+        private getColorsDiv;
         private _getTargetPanel;
+        protected getActualTabIndex(): string;
+        private _updateTabIndex;
+        protected _setIsDisabled(value: boolean): void;
+        private _updateAriaValues;
+        private _keydown;
+        private _isInColorPalette;
+        private _handleColorNavigation;
+        private _handleHSBNavigation;
+        _refreshSelection(): void;
+        private _handleAlphaNavigation;
     }
 }
 declare module wijmo.input {
@@ -797,6 +852,7 @@ declare module wijmo.input {
         _ariaLabel: string;
         static _DIDX_KEY: string;
         static _VTHRESH: number;
+        _isNeedUpdateBnd: boolean;
         /**
          * Initializes a new instance of the {@link ListBox} class.
          *
@@ -1146,8 +1202,10 @@ declare module wijmo.input {
         _initFromSelect(hostElement: HTMLElement): void;
         _setIsDisabled(value: boolean): void;
         _setTabOrder(value: number): void;
+        _isMenuItem(): boolean;
         _updateTabIndex(): void;
         private _selectRange;
+        dispose(): void;
     }
     /**
      * Provides arguments for the {@link ListBox.formatItem} event.
@@ -1196,6 +1254,7 @@ declare module wijmo.input {
         _lbx: ListBox;
         _cbSelectAll: HTMLInputElement;
         _spSelectAll: HTMLSpanElement;
+        _ariaLabel: string;
         _selectAllLabel: string;
         _filterPlaceholder: string;
         _filterText: string;
@@ -1346,6 +1405,11 @@ declare module wijmo.input {
          * Gets or sets an array containing the items that are currently checked.
          */
         checkedItems: any[];
+        /**
+         * Gets or sets the aria-labelledby attribute of {@link MultiSelectListBox} input element.
+         */
+        ariaLabelledBy: string;
+        _updateAriaLabel(): void;
         /**
          * Occurs when the value of the {@link checkedItems} property changes.
          */
@@ -1546,6 +1610,7 @@ declare module wijmo.input {
         private _keyActionTab;
         private _ariaLabel;
         private _showConfirmationButtons;
+        private _isSpaceDownForSetValue;
         private _tmYrHidden;
         private _syncing;
         private _cals;
@@ -1955,10 +2020,8 @@ declare module wijmo.input {
          */
         keyActionTab: CalendarTabKeyAction;
         private _isButtonFocused;
-        private _isSameDay;
         private _isSameMonth;
         private _dateViewContainsFocus;
-        getFocusableElements(): HTMLElement[];
         private _updateMonthButtonAria;
         private _isDayValid;
         readonly cancelButtonClicked: Event<Calendar, EventArgs>;
@@ -1976,6 +2039,12 @@ declare module wijmo.input {
         _onEnterKeyDownToSetValue(e?: wijmo.EventArgs): void;
         showConfirmationButtons: boolean;
         protected _setIsDisabled(value: boolean): void;
+        private updateCalendarsTabindex;
+        private setFocusModeValue;
+        private _getCalendarsHostElements;
+        updateConfirmationButtons(hostElement: HTMLElement): void;
+        setFocusValueToFirstOrLastCalendar(isFirst: boolean): void;
+        isCalendarDateCell(element: HTMLElement): boolean;
     }
 }
 declare module wijmo.input {
@@ -2035,6 +2104,7 @@ declare module wijmo.input {
         _isInvalidInputCancelled: boolean;
         _keyActionDownArrow: KeyAction;
         _keyActionUpArrow: KeyAction;
+        _keyActionTab: TabKeyAction;
         static _ctrlTemplate: string;
         /**
          * Gets or sets the template used to instantiate {@link DropDown} controls.
@@ -2162,6 +2232,27 @@ declare module wijmo.input {
          */
         keyActionUpArrow: KeyAction;
         /**
+         * Gets or sets the action to perform when the TAB key is pressed.
+         *
+         * The default setting for this property is {@link TabKeyAction.CloseAndMoveFocus},
+         * which provides standard form navigation behavior by:
+         * - Closing the dropdown (if open)
+         * - Moving focus to the next focusable element
+         *
+         * For specialized cases, you can set this to {@link TabKeyAction.CloseAndKeepFocus}
+         * to maintain focus on the control after closing the dropdown.
+         *
+         * This setting is particularly useful for controlling accessibility behavior
+         * and keyboard navigation flow in form controls.
+         *
+         * Example:
+         * ```typescript
+         * // Change TAB key behavior
+         * dropDown.keyActionTab = TabKeyAction.CloseAndMoveFocus;
+         * ```
+         */
+        keyActionTab: TabKeyAction;
+        /**
          * Sets the focus to the control and selects all its content.
          */
         selectAll(): void;
@@ -2218,6 +2309,7 @@ declare module wijmo.input {
         protected _createDropDown(): void;
         protected _commitText(noFocus?: boolean, shouldInvalid?: boolean): void;
         _updateDropDown(): void;
+        _shouldRaiseInvalidInput(shouldInvalid: boolean): boolean;
     }
 }
 declare module wijmo.input {
@@ -2347,6 +2439,7 @@ declare module wijmo.input {
         static _DRAG_THRESHOLD: number;
         static _SZ_EDGE: number;
         static _SZ_MIN: number;
+        static _PopupInstanceCount: number;
         static _evtHover: MouseEvent;
         protected _owner: HTMLElement;
         protected _ariaLabel: string;
@@ -2393,6 +2486,9 @@ declare module wijmo.input {
         protected _lastShow: number;
         protected _initialOwner: HTMLElement;
         protected _activeEdge: _Edges;
+        private _toHidePopupTimer;
+        private _toGetFocusTimer;
+        private _hideTimer;
         /**
          * Initializes a new instance of the {@link Popup} class.
          *
@@ -2801,7 +2897,6 @@ declare module wijmo.input {
          */
         onPositionChanged(e?: wijmo.EventArgs): void;
         onLostFocus(e?: wijmo.EventArgs): void;
-        dispose(): void;
         refresh(fullUpdate?: boolean): void;
         _clearTimeouts(): void;
         protected _handleDragResize(on: boolean): void;
@@ -2822,6 +2917,7 @@ declare module wijmo.input {
         protected _validateAndHide(result: any): void;
         protected _updateAriaLabel(): void;
         protected _updateAriaLabelImp(oldLabels: any): void;
+        dispose(): void;
     }
     /**
      * Provides arguments for the {@link Popup} control's {@link sizeChanging} and
@@ -2912,7 +3008,6 @@ declare module wijmo.input {
         protected _currentInput: string;
         static _ctrlTemplate: string;
         _ariaLabelledby: string;
-        _keyActionTab: TabKeyAction;
         /**
          * Gets or sets the template used to instantiate {@link InputDate} control.
          */
@@ -3329,28 +3424,6 @@ declare module wijmo.input {
         ariaLabelledBy: string;
         protected _updateInputAriaLabel(): void;
         getAriaLabelForScreenReader(): any;
-        /**
-         * Gets or sets the action to perform when the TAB key is pressed.
-         *
-         * The default setting for this property is {@link TabKeyAction.CloseAndMoveFocus},
-         * which provides standard form navigation behavior by:
-         * - Closing the dropdown (if open)
-         * - Moving focus to the next focusable element
-         *
-         * For specialized cases, you can set this to {@link TabKeyAction.CloseAndKeepFocus}
-         * to maintain focus on the control after closing the dropdown.
-         *
-         * This setting is particularly useful for controlling accessibility behavior
-         * and keyboard navigation flow in form controls.
-         *
-         * Example:
-         * ```typescript
-         * // Change TAB key behavior
-         * inputDate.keyActionTab = TabKeyAction.CloseAndMoveFocus;
-         * ```
-         */
-        keyActionTab: TabKeyAction;
-        _shouldRaiseInvalidInput(shouldInvalid: boolean): boolean;
     }
 }
 declare module wijmo.input {
@@ -3402,6 +3475,8 @@ declare module wijmo.input {
         private _colorPicker;
         private _value;
         private _textInitialized;
+        _ariaLabelledby: string;
+        protected _inputAriaLabel: string;
         static _ctrlTemplate: string;
         /**
          * Gets or sets the template used to instantiate {@link InputColor} control.
@@ -3463,6 +3538,14 @@ declare module wijmo.input {
          */
         readonly colorPicker: ColorPicker;
         /**
+         * Gets or sets the aria-labelledby attribute of input color element.
+         */
+        ariaLabelledBy: string;
+        /**
+         * Gets or sets the colorPicker's keyActionTab property.
+         */
+        colorPickerKeyActionTab: ColorPickerTabKeyAction;
+        /**
          * Occurs when the value of the {@link value} property changes, either
          * as a result of user actions or by assignment in code.
          */
@@ -3477,6 +3560,7 @@ declare module wijmo.input {
         protected _commitText(): void;
         protected _copy(key: string, value: any): boolean;
         getAriaLabelForScreenReader(): any;
+        protected _updateInputAriaLabel(): void;
     }
 }
 declare module wijmo.input {
@@ -3533,7 +3617,6 @@ declare module wijmo.input {
         _selItems: any;
         _oldFilter: any;
         static _ctrlTemplate: string;
-        _keyActionTab: TabKeyAction;
         _keyActionPrintCharacters: KeyAction;
         _inputElementAriaLabel: string;
         _ariaLabelledby: string;
@@ -3739,27 +3822,6 @@ declare module wijmo.input {
          */
         keyActionPrintCharacters: KeyAction;
         /**
-         * Gets or sets the action to perform when the TAB key is pressed.
-         *
-         * The default setting for this property is {@link TabKeyAction.CloseAndMoveFocus},
-         * which provides standard form navigation behavior by:
-         * - Closing the dropdown (if open)
-         * - Moving focus to the next focusable element
-         *
-         * For specialized cases, you can set this to {@link TabKeyAction.CloseAndKeepFocus}
-         * to maintain focus on the control after closing the dropdown.
-         *
-         * This setting is particularly useful for controlling accessibility behavior
-         * and keyboard navigation flow in form controls.
-         *
-         * Example:
-         * ```typescript
-         * // Change TAB key behavior
-         * comboBox.keyActionTab = TabKeyAction.CloseAndMoveFocus;
-         * ```
-         */
-        keyActionTab: TabKeyAction;
-        /**
          * Gets or sets the aria-labelledby attribute of input element.
          */
         ariaLabelledBy: string;
@@ -3835,6 +3897,7 @@ declare module wijmo.input {
         private _getSelEnd;
         private _setSelRange;
         getAriaLabelForScreenReader(): any;
+        _updateDropDownWhenInput(): void;
     }
 }
 declare module wijmo.input {
@@ -4013,6 +4076,8 @@ declare module wijmo.input {
         onIsDroppedDownChanged(e?: wijmo.EventArgs): void;
         onLostFocus(): void;
         protected _createDropDown(): void;
+        _updateBtnAria(): void;
+        _updateTbxAria(): void;
         isReadOnly: boolean;
         refresh(fullUpdate?: boolean): void;
         protected _setText(text: string, fullMatch: boolean): void;
@@ -4094,7 +4159,9 @@ declare module wijmo.input {
         _ariaLabel: string;
         _aFEnabledItem: boolean;
         static _evtHover: MouseEvent;
+        static _MenuInstanceCount: number;
         static _ctrlTemplate: string;
+        _parentMenu: Menu;
         /**
          * Gets or sets the template used to instantiate {@link Menu} control.
          */
@@ -4106,6 +4173,9 @@ declare module wijmo.input {
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
+        _updateBtnAria(): void;
+        _updateHdrAria(): void;
+        _updateLbxAria(): void;
         /**
          * Gets or sets the aria-label attribute of {@link Menu} element.
          *
@@ -4305,13 +4375,16 @@ declare module wijmo.input {
         onItemClicked(e?: wijmo.EventArgs): void;
         refresh(fullUpdate?: boolean): void;
         onIsDroppedDownChanged(e?: wijmo.EventArgs): void;
+        private _restoreSelectedItem;
         _updateHoverEvents(): void;
         _getSubItems(item: any): any[];
         _formatMenuItem(s: ListBox, e: FormatItemEventArgs): void;
         protected _keydown(e: KeyboardEvent): void;
+        _afterOpenDropdownByDownArrow(): void;
         protected _dropDownClick(e: MouseEvent): void;
         private _showSubMenu;
         private _raiseCommand;
+        private _focusMenuOwner;
         private _getCommand;
         private _getCommandParm;
         private _executeCommand;
@@ -4324,6 +4397,7 @@ declare module wijmo.input {
         private _hoverLeave;
         _setIsDisabled(value: boolean): void;
         _setTabOrder(value: number): void;
+        dispose(): void;
     }
 }
 declare module wijmo.input {
@@ -4469,7 +4543,7 @@ declare module wijmo.input {
         protected _keydown(e: KeyboardEvent): void;
         protected _updateTimeValue(step: number, specialChars: any, actualFormat: string): void;
         private _reselectText;
-        protected _commitText(): void;
+        protected _commitText(noFocus?: boolean, shouldInvalid?: boolean): void;
         protected _copy(key: string, value: any): boolean;
         getAriaLabelForScreenReader(): any;
         _input(e: wijmo.Event): void;
@@ -4571,6 +4645,31 @@ declare module wijmo.input {
         protected _keydown(e: KeyboardEvent): void;
         protected _updateDateTimeValue(step: number, specialChars: any, actualFormat: string): void;
         protected _commitText(noFocus?: boolean, shouldInvalid?: boolean): void;
+        _updateTbxAria(): void;
+        /**
+         * Gets or sets the action to perform when the TAB key is pressed.
+         *
+         * The default setting for this property is {@link TabKeyAction.CloseAndMoveFocus},
+         * which provides standard form navigation behavior by:
+         * - Closing the dropdown (if open)
+         * - Moving focus to the next focusable element
+         *
+         * For specialized cases, you can set this to {@link TabKeyAction.CloseAndKeepFocus}
+         * to maintain focus on the control after closing the dropdown.
+         *
+         * This setting is particularly useful for controlling accessibility behavior
+         * and keyboard navigation flow in form controls.
+         *
+         * Example:
+         * ```typescript
+         * // Change TAB key behavior
+         * dropDown.keyActionTab = TabKeyAction.CloseAndMoveFocus;
+         * ```
+         */
+        keyActionTab: TabKeyAction;
+        private _setDropDownByEvent;
+        _updateBtnAria(): void;
+        private inputDateTimeIsDroppedDownChanged;
     }
 }
 declare module wijmo.input {
@@ -4769,6 +4868,7 @@ declare module wijmo.input {
         private _wjTpl;
         private _wjInput;
         private _helperInput;
+        private _screenReaderHelper;
         private _maxSelItems;
         private _lastInputValue;
         private _selPath;
@@ -4776,6 +4876,8 @@ declare module wijmo.input {
         static _clsActive: string;
         static _ctrlTemplate: string;
         _inputElementAriaLabel: string;
+        _helperInputElementAriaLabel: string;
+        _ariaLabelledby: string;
         /**
          * Gets or sets the template used to instantiate {@link MultiAutoComplete} control.
          */
@@ -4809,6 +4911,10 @@ declare module wijmo.input {
          */
         selectedItems: any[];
         /**
+         * Gets or sets the aria-labelledby attribute of input element.
+         */
+        ariaLabelledBy: string;
+        /**
          * Occurs when the value of the {@link selectedItems} property changes.
          */
         readonly selectedItemsChanged: Event<MultiAutoComplete, EventArgs>;
@@ -4822,6 +4928,7 @@ declare module wijmo.input {
         protected _updateState(): void;
         protected _keyup(e: KeyboardEvent): void;
         private _addHelperInput;
+        private _addScreenReaderHelper;
         private _refreshHeader;
         private _insertToken;
         private _updateMaxItems;

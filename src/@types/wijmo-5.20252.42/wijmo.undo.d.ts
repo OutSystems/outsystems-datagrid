@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -324,6 +324,97 @@ declare module wijmo.undo {
         private static _addGauge;
         private static _addTreeView;
         private static _addFlexGrid;
+    }
+    class GaugeChangeAction extends UndoableAction {
+        constructor(gauge: wijmo.gauge.Gauge);
+        readonly control: wijmo.Control;
+        close(): boolean;
+        applyState(state: any): void;
+    }
+    class GridEditAction extends UndoableAction {
+        _rng: wijmo.grid.CellRange;
+        _dataItems: any[];
+        _timeStamp: number;
+        _page: number;
+        constructor(grid: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs);
+        readonly control: wijmo.Control;
+        readonly range: wijmo.grid.CellRange;
+        readonly row: number;
+        readonly col: number;
+        readonly dataItem: any;
+        readonly dataItems: any[];
+        close(): boolean;
+        applyState(state: any): void;
+        shouldAddAsChildAction(action: UndoableAction): boolean;
+    }
+    class GridSortAction extends UndoableAction {
+        constructor(grid: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs);
+        readonly control: wijmo.Control;
+        close(): boolean;
+        applyState(state: any[]): void;
+    }
+    class GridResizeAction extends UndoableAction {
+        _col: wijmo.grid.Column;
+        _timeStamp: number;
+        constructor(grid: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs);
+        readonly control: wijmo.Control;
+        readonly col: wijmo.grid.Column;
+        close(): boolean;
+        applyState(state: any): void;
+        shouldAddAsChildAction(action: UndoableAction): boolean;
+    }
+    class GridDragAction extends UndoableAction {
+        _col: wijmo.grid.Column;
+        constructor(grid: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs);
+        readonly control: wijmo.Control;
+        readonly col: wijmo.grid.Column;
+        close(): boolean;
+        applyState(state: any): void;
+        private _getState;
+        private _areStatesEqual;
+    }
+    class GridAddRowAction extends UndoableAction {
+        constructor(grid: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs);
+        readonly control: wijmo.Control;
+        close(): boolean;
+        applyState(state: any): void;
+    }
+    class GridRemoveRowAction extends UndoableAction {
+        _timeStamp: number;
+        _edtIndex: number;
+        constructor(grid: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs);
+        readonly control: wijmo.Control;
+        readonly dataItem: any;
+        close(): boolean;
+        applyState(state: any): void;
+        shouldAddAsChildAction(action: UndoableAction): boolean;
+    }
+    class ExpandCollapseColumnGroupAction extends UndoableAction {
+        protected _group: wijmo.grid.ColumnGroup;
+        constructor(grid: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs);
+        readonly control: wijmo.Control;
+        readonly group: wijmo.grid.Column;
+        close(): boolean;
+        applyState(state: any): void;
+    }
+    class TreeViewEditAction extends UndoableAction {
+        _nd: wijmo.nav.TreeNode;
+        constructor(tree: wijmo.nav.TreeView, e: wijmo.nav.TreeNodeEventArgs);
+        readonly control: wijmo.Control;
+        readonly node: wijmo.nav.TreeNode;
+        close(): boolean;
+        applyState(state: any): void;
+        _getNodeText(): string;
+        _setNodeText(state: string): void;
+        _getDisplayMemberPath(): string;
+    }
+    class TreeViewCheckAction extends UndoableAction {
+        _nd: wijmo.nav.TreeNode;
+        constructor(tree: wijmo.nav.TreeView, e: wijmo.nav.TreeNodeEventArgs);
+        readonly control: wijmo.Control;
+        readonly node: wijmo.nav.TreeNode;
+        close(): boolean;
+        applyState(state: any): void;
     }
 }
 declare module wijmo.undo {

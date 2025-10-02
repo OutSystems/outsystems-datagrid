@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -50,6 +50,15 @@ declare module wijmo.grid.filter {
         Both = 3
     }
     /**
+     * Specifies mode of column filter.
+     */
+    enum FilterMode {
+        /** single filter mode that only one filter type can be selected from value filter type or condition filter type. */
+        SingleFilter = 0,
+        /** multiple filters mode that apply both value filter type and condition filter type. */
+        MultiFilter = 1
+    }
+    /**
      * Implements an Excel-style filter for {@link FlexGrid} controls.
      *
      * To enable filtering on a {@link FlexGrid} control, create an instance
@@ -86,6 +95,7 @@ declare module wijmo.grid.filter {
         private _showIcons;
         private _showSort;
         private _defFilterType;
+        private _defFilterMode;
         private _xValueSearch;
         private _includeUpdatedRowsInFilter;
         private _showIncludeSelection;
@@ -198,6 +208,25 @@ declare module wijmo.grid.filter {
          * The default value for this property is **FilterType.Both**.
          */
         defaultFilterType: FilterType;
+        /**
+         * Gets or sets the default filter mode to use.
+         *
+         * This value can be overridden in filter mode for specific columns.
+         * For example, the code below creates a filter that filter mode by
+         * single filter mode on all columns except the "ByMultiFilter" column:
+         *
+         * ```typescript
+         * import { FlexGridFilter, FilterMode } from '@mescius/wijmo.grid.filter';
+         * let filter = new FlexGridFilter(flex);
+         * filter.defaultFilterMode = FilterMode.SingleFilter;
+         * let col = flex.getColumn('ByMultiFilter'),
+         *     cf = filter.getColumnFilter(col);
+         * cf.filterMode = FilterMode.MultiFilter;
+         * ```
+         *
+         * The default value for this property is **FilterType.Both**.
+         */
+        defaultFilterMode: FilterMode;
         /**
          * Gets or sets a value that determines whether the filter should
          * include only values selected by the {@link ValueFilter.filterText}
@@ -400,60 +429,92 @@ declare module wijmo.grid.filter {
 }
 declare module wijmo.grid.filter {
     /**
-     * Defines a condition filter for a column on a {@link FlexGrid} control.
+     * Defines a filter for a column on a {@link FlexGrid} control.
      *
-     * Condition filters contain two conditions that may be combined
-     * using an 'and' or an 'or' operator.
+     * The {@link ColumnFilter} contains a {@link ConditionFilter} and a
+     * {@link ValueFilter}; only one of them may be active at a time.
      *
-     * This class is used by the {@link FlexGridFilter} class; you will
+     * This class is used by the {@link FlexGridFilter} class; you
      * rarely use it directly.
      */
-    class ConditionFilter implements IColumnFilter {
+    class ColumnFilter implements IColumnFilter {
+        _owner: FlexGridFilter;
         private _col;
-        private _c1;
-        private _c2;
-        private _and;
-        private _map;
+        private _valueFilter;
+        _conditionFilter: ConditionFilter;
+        private _filterType;
+        private _filterMode;
+        _ariaLabel: string;
         /**
-         * Initializes a new instance of the {@link ConditionFilter} class.
+         * Initializes a new instance of the {@link ColumnFilter} class.
          *
-         * @param column The column to filter.
+         * @param owner The {@link FlexGridFilter} that owns this column filter.
+         * @param column The {@link Column} to filter.
          */
-        constructor(column: wijmo.grid.Column);
+        constructor(owner: FlexGridFilter, column: wijmo.grid.Column);
         /**
-         * Gets the first condition in the filter.
-         */
-        readonly condition1: FilterCondition;
-        /**
-         * Gets the second condition in the filter.
-         */
-        readonly condition2: FilterCondition;
-        /**
-         * Gets a value that indicates whether to combine the two conditions
-         * with an AND or an OR operator.
+         * Gets or sets the types of filtering provided by this filter.
          *
-         * The default value for this property is **true**.
+         * Setting this property to null causes the filter to use the value
+         * defined by the owner filter's {@link FlexGridFilter.defaultFilterType}
+         * property.
          */
-        and: boolean;
+        filterType: FilterType;
+        /**
+         * Gets or sets the mode of filtering provided by this filter.
+         *
+         * Setting this property to null causes the filter mode to use the value
+         * defined by the owner filter's {@link FlexGridFilter.defaultFilterMode}
+         * property.
+         */
+        filterMode: FilterMode;
         /**
          * Gets or sets the {@link DataMap} used to convert raw values into display
          * values shown when editing this filter.
+         *
+         * The example below assigns a {@link DataMap} to Boolean column filters
+         * so the filter editor displays 'Yes' and 'No' instead of 'true' and 'false':
+         *
+         * ```typescript
+         * import { FlexGridFilter } from '@mescius/wijmo.grid.filter';
+         * var filter = new FlexGridFilter(grid),
+         *     map = new wijmo.grid.DataMap([
+         *             { value: true, caption: 'Yes' },
+         *             { value: false, caption: 'No' },
+         *         ], 'value', 'caption');
+         * for (var c = 0; c &lt; grid.columns.length; c++) {
+         *     if (grid.columns[c].dataType == wijmo.DataType.Boolean) {
+         *         filter.getColumnFilter(c).dataMap = map;
+         *     }
+         * }
+         * ```
          */
         dataMap: wijmo.grid.DataMap;
         /**
-         * Gets the {@link Column} to filter.
+         * Gets the {@link ValueFilter} in this {@link ColumnFilter}.
+         */
+        readonly valueFilter: ValueFilter;
+        /**
+         * Gets the {@link ConditionFilter} in this {@link ColumnFilter}.
+         */
+        readonly conditionFilter: ConditionFilter;
+        /**
+         * Gets the {@link Column} being filtered.
          */
         readonly column: wijmo.grid.Column;
         _setColumn(column: wijmo.grid.Column): void;
         /**
-         * Gets a value that indicates whether the filter is active.
+         * Gets or sets the aria-label attribute of {@link ColumnFilterEditor} host element.
          *
-         * The filter is active if at least one of the two conditions
-         * has its operator and value set to a valid combination.
+         * The default value for this property is "Filter Editor for Column".
+         */
+        ariaLabel: string;
+        /**
+         * Gets a value that indicates whether the filter is active.
          */
         readonly isActive: boolean;
         /**
-         * Returns a value indicating whether a value passes this filter.
+         * Gets a value that indicates whether a value passes the filter.
          *
          * @param value The value to test.
          */
@@ -462,167 +523,12 @@ declare module wijmo.grid.filter {
          * Clears the filter.
          */
         clear(): void;
-        _hasDatePart(): boolean;
-        _hasTimePart(): boolean;
         /**
          * Returns true if this object supports a given interface.
          *
          * @param interfaceName Name of the interface to look for.
          */
         implementsInterface(interfaceName: string): boolean;
-    }
-}
-declare module wijmo.grid.filter {
-    /**
-     * The editor used to inspect and modify {@link ConditionFilter} objects.
-     *
-     * This class is used by the {@link FlexGridFilter} class; you
-     * rarely use it directly.
-     */
-    class ConditionFilterEditor extends wijmo.Control {
-        private _filter;
-        private _cmb1;
-        private _val1;
-        private _cmb2;
-        private _val2;
-        private _canApply;
-        private _divHdr;
-        private _divCmb1;
-        private _divVal1;
-        private _divCmb2;
-        private _divVal2;
-        private _spAnd;
-        private _spOr;
-        private _btnAnd;
-        private _btnOr;
-        static _ctrlTemplate: string;
-        /**
-         * Gets or sets the template used to instantiate {@link ConditionFilterEditor} controls.
-         */
-        static controlTemplate: string;
-        /**
-         * Initializes a new instance of the {@link ConditionFilterEditor} class.
-         *
-         * @param element The DOM element that hosts the control, or a selector
-         * for the host element (e.g. '#theCtrl').
-         * @param filter The {@link ConditionFilter} to edit.
-         */
-        constructor(element: any, filter: ConditionFilter);
-        /**
-         * Gets a reference to the {@link ConditionFilter} being edited.
-         */
-        readonly filter: ConditionFilter;
-        /**
-         * Gets or sets a value that indicates whether the current edits
-         * can be applied to make the filter active.
-         */
-        canApply: boolean;
-        /**
-         * Updates editor with current filter settings.
-         */
-        updateEditor(): void;
-        /**
-         * Clears the editor without applying changes to the filter.
-         */
-        clearEditor(): void;
-        /**
-         * Gets a value that determines whether the editor has been cleared.
-         */
-        readonly isEditorClear: boolean;
-        /**
-         * Updates filter to reflect the current editor values.
-         */
-        updateFilter(): void;
-        /**
-         * Occurs when the value of the {@linj canApply} property changes.
-         */
-        readonly canApplyChanged: Event<ConditionFilterEditor, EventArgs>;
-        /**
-         * Raises the {@link canApplyChanged} event.
-         */
-        onCanApplyChanged(e?: wijmo.EventArgs): void;
-        private _getComboValue;
-        private _createOperatorCombo;
-        private _createValueInput;
-        private _btnAndOrChanged;
-        private _checkRadio;
-        private _keydown;
-    }
-}
-declare module wijmo.grid.filter {
-    /**
-     * Defines a filter condition.
-     *
-     * This class is used by the {@link FlexGridFilter} class;
-     * you will rarely have to use it directly.
-     */
-    class FilterCondition {
-        private _op;
-        private _val;
-        private _strVal;
-        private _filter;
-        static _refDateTime: Date;
-        /**
-         * Initializes a new instance of the {@link FilterCondition} class.
-         *
-         * @param filter The {@link ConditionFilter} that owns this {@link FilterCondition}.
-         */
-        constructor(filter?: ConditionFilter);
-        /**
-         * Gets or sets the operator used by this {@link FilterCondition}.
-         */
-        operator: Operator;
-        /**
-         * Gets or sets the value used by this {@link FilterCondition}.
-         */
-        value: any;
-        /**
-         * Gets a value that indicates whether the condition is active.
-         */
-        readonly isActive: boolean;
-        /**
-         * Clears the condition.
-         */
-        clear(): void;
-        /**
-         * Returns a value that determines whether the given value passes this
-         * {@link FilterCondition}.
-         *
-         * @param value The value to test.
-         * @param dateOnly Whether to disregard the time part of **Date** values.
-         * @param timeOnly Whether to disregard the date part of **Date** values.
-         */
-        apply(value: any, dateOnly?: boolean, timeOnly?: boolean): boolean;
-        _getCaseString(value: string): string;
-    }
-    /**
-     * Specifies filter condition operators.
-     */
-    enum Operator {
-        /** Equals. */
-        EQ = 0,
-        /** Does not equal. */
-        NE = 1,
-        /** Greater than. */
-        GT = 2,
-        /** Greater than or equal to. */
-        GE = 3,
-        /** Less than. */
-        LT = 4,
-        /** Less than or equal to. */
-        LE = 5,
-        /** Begins with. */
-        BW = 6,
-        /** Ends with. */
-        EW = 7,
-        /** Contains. */
-        CT = 8,
-        /** Does not contain. */
-        NC = 9,
-        /** Does not begin with */
-        NBW = 10,
-        /** Does not end with */
-        NEW = 11
     }
 }
 declare module wijmo.grid.filter {
@@ -654,6 +560,9 @@ declare module wijmo.grid.filter {
         private _map;
         private _searchType;
         private _showIncludeSelection;
+        _columnFilter: ColumnFilter;
+        _cancelFilter: boolean;
+        _allValues: any;
         /**
          * Initializes a new instance of the {@link ValueFilter} class.
          *
@@ -831,6 +740,9 @@ declare module wijmo.grid.filter {
          * @param interfaceName Name of the interface to look for.
          */
         implementsInterface(interfaceName: string): boolean;
+        setColumnFilter(columnFilter: ColumnFilter): void;
+        updateShowStatus(values: any): any;
+        setInitialAllValues(): void;
     }
 }
 declare module wijmo.grid.filter {
@@ -841,28 +753,32 @@ declare module wijmo.grid.filter {
      * rarely use it directly.
      */
     class ValueFilterEditor extends wijmo.Control {
-        private _filter;
+        _filter: ValueFilter;
         private _toFilter;
         private _filterText;
         private _rxFilter;
-        private _view;
+        _view: wijmo.collections.CollectionView;
         private _initialItems;
         private _canApply;
         _isFiltering: boolean;
         private _divFilter;
         private _cmbFilter;
-        private _cbSelectAll;
+        _cbSelectAll: HTMLInputElement;
         private _spSelectAll;
         private _cbIncludeSel;
         private _spIncludeSel;
         protected _lblIncludeSel: HTMLLabelElement;
         private _divValues;
         protected _divOptions: HTMLElement;
-        private _lbValues;
+        _lbValues: wijmo.input.ListBox;
         private _aExceeds;
         private _divExceeds;
         private _popup;
         static _ctrlTemplate: string;
+        private _adjustWidthsTimer;
+        private _updateFilterTimer;
+        private _filterTextChangedBnd;
+        private _cbSelectAllClickedBnd;
         /**
          * Gets or sets the template used to instantiate {@link ValueFilterEditor} controls.
          */
@@ -925,93 +841,74 @@ declare module wijmo.grid.filter {
         private _getRegexSearchExp;
         private _getExcelSearchExp;
         private _filterValues;
+        private _getActualItems;
         private _cbSelectAllClicked;
         private _updateSelectAllCheck;
         private _adjustWidths;
         readonly exceedsMaxValues: boolean;
         _updateExceedsMaxValuesDisplay(): void;
         private _initPopup;
+        _isSingleFilterMode(): boolean;
+        dispose(): void;
     }
 }
 declare module wijmo.grid.filter {
     /**
-     * Defines a filter for a column on a {@link FlexGrid} control.
+     * Defines a condition filter for a column on a {@link FlexGrid} control.
      *
-     * The {@link ColumnFilter} contains a {@link ConditionFilter} and a
-     * {@link ValueFilter}; only one of them may be active at a time.
+     * Condition filters contain two conditions that may be combined
+     * using an 'and' or an 'or' operator.
      *
-     * This class is used by the {@link FlexGridFilter} class; you
+     * This class is used by the {@link FlexGridFilter} class; you will
      * rarely use it directly.
      */
-    class ColumnFilter implements IColumnFilter {
-        private _owner;
+    class ConditionFilter implements IColumnFilter {
         private _col;
-        private _valueFilter;
-        private _conditionFilter;
-        private _filterType;
-        _ariaLabel: string;
+        private _c1;
+        private _c2;
+        private _and;
+        private _map;
+        _columnFilter: ColumnFilter;
         /**
-         * Initializes a new instance of the {@link ColumnFilter} class.
+         * Initializes a new instance of the {@link ConditionFilter} class.
          *
-         * @param owner The {@link FlexGridFilter} that owns this column filter.
-         * @param column The {@link Column} to filter.
+         * @param column The column to filter.
          */
-        constructor(owner: FlexGridFilter, column: wijmo.grid.Column);
+        constructor(column: wijmo.grid.Column);
         /**
-         * Gets or sets the types of filtering provided by this filter.
-         *
-         * Setting this property to null causes the filter to use the value
-         * defined by the owner filter's {@link FlexGridFilter.defaultFilterType}
-         * property.
+         * Gets the first condition in the filter.
          */
-        filterType: FilterType;
+        readonly condition1: FilterCondition;
+        /**
+         * Gets the second condition in the filter.
+         */
+        readonly condition2: FilterCondition;
+        /**
+         * Gets a value that indicates whether to combine the two conditions
+         * with an AND or an OR operator.
+         *
+         * The default value for this property is **true**.
+         */
+        and: boolean;
         /**
          * Gets or sets the {@link DataMap} used to convert raw values into display
          * values shown when editing this filter.
-         *
-         * The example below assigns a {@link DataMap} to Boolean column filters
-         * so the filter editor displays 'Yes' and 'No' instead of 'true' and 'false':
-         *
-         * ```typescript
-         * import { FlexGridFilter } from '@mescius/wijmo.grid.filter';
-         * var filter = new FlexGridFilter(grid),
-         *     map = new wijmo.grid.DataMap([
-         *             { value: true, caption: 'Yes' },
-         *             { value: false, caption: 'No' },
-         *         ], 'value', 'caption');
-         * for (var c = 0; c &lt; grid.columns.length; c++) {
-         *     if (grid.columns[c].dataType == wijmo.DataType.Boolean) {
-         *         filter.getColumnFilter(c).dataMap = map;
-         *     }
-         * }
-         * ```
          */
         dataMap: wijmo.grid.DataMap;
         /**
-         * Gets the {@link ValueFilter} in this {@link ColumnFilter}.
-         */
-        readonly valueFilter: ValueFilter;
-        /**
-         * Gets the {@link ConditionFilter} in this {@link ColumnFilter}.
-         */
-        readonly conditionFilter: ConditionFilter;
-        /**
-         * Gets the {@link Column} being filtered.
+         * Gets the {@link Column} to filter.
          */
         readonly column: wijmo.grid.Column;
         _setColumn(column: wijmo.grid.Column): void;
         /**
-         * Gets or sets the aria-label attribute of {@link ColumnFilterEditor} host element.
-         *
-         * The default value for this property is "Filter Editor for Column".
-         */
-        ariaLabel: string;
-        /**
          * Gets a value that indicates whether the filter is active.
+         *
+         * The filter is active if at least one of the two conditions
+         * has its operator and value set to a valid combination.
          */
         readonly isActive: boolean;
         /**
-         * Gets a value that indicates whether a value passes the filter.
+         * Returns a value indicating whether a value passes this filter.
          *
          * @param value The value to test.
          */
@@ -1020,12 +917,171 @@ declare module wijmo.grid.filter {
          * Clears the filter.
          */
         clear(): void;
+        _hasDatePart(): boolean;
+        _hasTimePart(): boolean;
         /**
          * Returns true if this object supports a given interface.
          *
          * @param interfaceName Name of the interface to look for.
          */
         implementsInterface(interfaceName: string): boolean;
+        setColumnFilter(columnFilter: ColumnFilter): void;
+    }
+}
+declare module wijmo.grid.filter {
+    /**
+     * Defines a filter condition.
+     *
+     * This class is used by the {@link FlexGridFilter} class;
+     * you will rarely have to use it directly.
+     */
+    class FilterCondition {
+        private _op;
+        private _val;
+        private _strVal;
+        private _filter;
+        static _refDateTime: Date;
+        /**
+         * Initializes a new instance of the {@link FilterCondition} class.
+         *
+         * @param filter The {@link ConditionFilter} that owns this {@link FilterCondition}.
+         */
+        constructor(filter?: ConditionFilter);
+        /**
+         * Gets or sets the operator used by this {@link FilterCondition}.
+         */
+        operator: Operator;
+        /**
+         * Gets or sets the value used by this {@link FilterCondition}.
+         */
+        value: any;
+        /**
+         * Gets a value that indicates whether the condition is active.
+         */
+        readonly isActive: boolean;
+        /**
+         * Clears the condition.
+         */
+        clear(): void;
+        /**
+         * Returns a value that determines whether the given value passes this
+         * {@link FilterCondition}.
+         *
+         * @param value The value to test.
+         * @param dateOnly Whether to disregard the time part of **Date** values.
+         * @param timeOnly Whether to disregard the date part of **Date** values.
+         */
+        apply(value: any, dateOnly?: boolean, timeOnly?: boolean): boolean;
+        _getCaseString(value: string): string;
+    }
+    /**
+     * Specifies filter condition operators.
+     */
+    enum Operator {
+        /** Equals. */
+        EQ = 0,
+        /** Does not equal. */
+        NE = 1,
+        /** Greater than. */
+        GT = 2,
+        /** Greater than or equal to. */
+        GE = 3,
+        /** Less than. */
+        LT = 4,
+        /** Less than or equal to. */
+        LE = 5,
+        /** Begins with. */
+        BW = 6,
+        /** Ends with. */
+        EW = 7,
+        /** Contains. */
+        CT = 8,
+        /** Does not contain. */
+        NC = 9,
+        /** Does not begin with */
+        NBW = 10,
+        /** Does not end with */
+        NEW = 11,
+        BLANK = 100,
+        NOTBLANK = 101
+    }
+}
+declare module wijmo.grid.filter {
+    /**
+     * The editor used to inspect and modify {@link ConditionFilter} objects.
+     *
+     * This class is used by the {@link FlexGridFilter} class; you
+     * rarely use it directly.
+     */
+    class ConditionFilterEditor extends wijmo.Control {
+        private _filter;
+        _cmb1: wijmo.input.ComboBox;
+        _val1: any;
+        _cmb2: wijmo.input.ComboBox;
+        _val2: any;
+        private _canApply;
+        private _divHdr;
+        private _divCmb1;
+        private _divVal1;
+        private _divCmb2;
+        private _divVal2;
+        private _spAnd;
+        private _spOr;
+        _btnAnd: HTMLInputElement;
+        _btnOr: HTMLInputElement;
+        static _ctrlTemplate: string;
+        /**
+         * Gets or sets the template used to instantiate {@link ConditionFilterEditor} controls.
+         */
+        static controlTemplate: string;
+        /**
+         * Initializes a new instance of the {@link ConditionFilterEditor} class.
+         *
+         * @param element The DOM element that hosts the control, or a selector
+         * for the host element (e.g. '#theCtrl').
+         * @param filter The {@link ConditionFilter} to edit.
+         */
+        constructor(element: any, filter: ConditionFilter);
+        private _isShowConditionValuePart;
+        /**
+         * Gets a reference to the {@link ConditionFilter} being edited.
+         */
+        readonly filter: ConditionFilter;
+        /**
+         * Gets or sets a value that indicates whether the current edits
+         * can be applied to make the filter active.
+         */
+        canApply: boolean;
+        /**
+         * Updates editor with current filter settings.
+         */
+        updateEditor(): void;
+        /**
+         * Clears the editor without applying changes to the filter.
+         */
+        clearEditor(): void;
+        /**
+         * Gets a value that determines whether the editor has been cleared.
+         */
+        readonly isEditorClear: boolean;
+        /**
+         * Updates filter to reflect the current editor values.
+         */
+        updateFilter(): void;
+        /**
+         * Occurs when the value of the {@linj canApply} property changes.
+         */
+        readonly canApplyChanged: Event<ConditionFilterEditor, EventArgs>;
+        /**
+         * Raises the {@link canApplyChanged} event.
+         */
+        onCanApplyChanged(e?: wijmo.EventArgs): void;
+        private _getComboValue;
+        private _createOperatorCombo;
+        private _createValueInput;
+        private _btnAndOrChanged;
+        private _checkRadio;
+        private _keydown;
     }
 }
 declare module wijmo.grid.filter {
@@ -1054,10 +1110,23 @@ declare module wijmo.grid.filter {
         private _tabPanel;
         static _ctrlTemplate: string;
         private _disallowedControls;
+        private _btnClickedHandle;
+        private _cbSelectAllClickedHandle;
+        private _andOrChangedHandle;
+        private _filterAppliedHandler;
+        private _cmb1Timer;
+        private _cmb2Timer;
+        private _val1Timer;
+        private _val2Timer;
+        private _andOrTimer;
+        private _isConditionFilterChanged;
         /**
          * Gets or sets the template used to instantiate {@link ColumnFilterEditor} controls.
          */
         static controlTemplate: string;
+        static readonly _multiFilterTemplate: string;
+        static readonly _singleFilterTemplate: string;
+        static isCustomedTemplate(template: string): boolean;
         /**
          * Initializes a new instance of the {@link ColumnFilterEditor} class.
          *
@@ -1095,11 +1164,18 @@ declare module wijmo.grid.filter {
          * Raises the {@link buttonClicked} event.
          */
         onButtonClicked(e?: wijmo.EventArgs): void;
-        _showFilter(filterType: FilterType): void;
+        _showFilter(filterType?: FilterType): void;
         private getActiveFilterType;
+        private raiseFilterChangedHandler;
+        private bindEventsForMultiFilter;
+        private updateConditionEditorAndTirggerFilterChanged;
+        private _cbSelectAllClicked;
+        private _andOrChanged;
         private _updateSortButtonState;
         private _getFilterType;
+        private setConditionFilterChanged;
         private _btnClicked;
+        dispose(): void;
     }
 }
 declare module wijmo.grid.filter {

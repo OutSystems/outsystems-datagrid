@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -19,6 +19,7 @@ declare module wijmo.grid.multirow {
         hostElement: string;
         recordEnd: string;
         recordStart: string;
+        noChildrenContainer: string;
     };
 }
 declare module wijmo.grid.multirow {

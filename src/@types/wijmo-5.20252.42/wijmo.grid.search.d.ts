@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -53,14 +53,18 @@ declare module wijmo.grid.search {
         private _cv;
         private _delay;
         private _cssMatch;
+        private _cssExactMatchSpace;
         private _searchAllColumns;
         private _rxSrch;
         private _rxHilite;
         private _toSearch;
         private _filterBnd;
         private _isSubmitOnChange;
+        private _exactMatch;
         _inputAriaLabel: any;
         _ariaLabelledby: string;
+        private _applySearchTextBnd;
+        private _clearButtonClickHandlerBnd;
         static _ctrlTemplate: string;
         /**
          * Gets or sets the template used to instantiate {@link FlexGridSearch} controls.
@@ -128,6 +132,7 @@ declare module wijmo.grid.search {
         private _itemsSourceChanged;
         private _applySearch;
         private _filter;
+        private _getColBindingValue;
         private _getItemText;
         private _applySearchText;
         /**
@@ -139,6 +144,16 @@ declare module wijmo.grid.search {
          */
         ariaLabelledBy: string;
         protected _updateInputAriaLabel(): void;
+        /**
+         * Gets or sets whether to enable exact matching.
+         * When this flag is turned on, an exact match is performed on each field in the row.
+         * The default value is false.
+         */
+        exactMatch: boolean;
+        private _getItemMatch;
+        private _isSearchTextExactMatch;
+        private _clearButtonClickHandler;
+        dispose(): void;
     }
 }
 declare module wijmo.grid.search {

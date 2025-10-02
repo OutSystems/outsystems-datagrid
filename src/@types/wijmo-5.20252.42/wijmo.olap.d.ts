@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20251.40
+    * Wijmo Library 5.20252.42
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -706,6 +706,8 @@ declare module wijmo.olap {
         _uniqueValues: any[];
         _fldPropChangeBnd: any;
         static _ctrlTemplate: string;
+        private _tt;
+        private _setCssTimer;
         /**
          * Gets or sets the template used to instantiate {@link Slicer} controls.
          */
@@ -764,6 +766,7 @@ declare module wijmo.olap {
         _updateHeader(): void;
         _clear(): void;
         _updateFilter(): void;
+        dispose(): void;
     }
 }
 declare module wijmo.olap {
@@ -774,6 +777,8 @@ declare module wijmo.olap {
         private _targetField;
         private _htDown;
         static _ctrlTemplate: string;
+        private _contextMenuHandler;
+        private _gridOwner;
         static controlTemplate: string;
         /**
          * Initializes a new instance of the {@link _GridContextMenu} class.
@@ -790,6 +795,7 @@ declare module wijmo.olap {
         _getMenuItems(): any[];
         _execute(parm: string): void;
         _canExecute(parm: string): boolean;
+        dispose(): void;
     }
 }
 declare module wijmo.olap {
@@ -1085,6 +1091,9 @@ declare module wijmo.olap {
         static _BATCH_TIMEOUT: number;
         static _BATCH_DELAY: number;
         static _props: string[];
+        private _dlg;
+        private edt;
+        isDisposed: boolean;
         /**
          * Initializes a new instance of the {@link PivotEngine} class.
          *
@@ -1613,6 +1622,7 @@ declare module wijmo.olap {
         private _getFieldDefinition;
         private _getFieldCollectionProxy;
         private _setFieldCollectionProxy;
+        dispose(): void;
     }
     /**
      * Provides arguments for progress events.
@@ -1638,6 +1648,7 @@ declare module wijmo.olap {
     class _ListContextMenu extends wijmo.input.Menu {
         _full: boolean;
         static _ctrlTemplate: string;
+        private _contextMenuHandler;
         static controlTemplate: string;
         /**
          * Initializes a new instance of the {@link _ListContextMenu} class.
@@ -1657,6 +1668,7 @@ declare module wijmo.olap {
         _execute(parm: any): void;
         _canExecute(parm: any): boolean;
         _getTargetList(engine: PivotEngine, parm: string): PivotFieldCollection;
+        dispose(): void;
     }
 }
 declare module wijmo.olap {
@@ -1701,6 +1713,8 @@ declare module wijmo.olap {
         private _showIcons;
         private _restrictDrag;
         private _isUpdatingChangedBnd;
+        private _filterFieldVisibleOnly;
+        private _filterFieldVisibleWithRoot;
         static _ctrlTemplate: string;
         /**
          * Gets or sets the template used to instantiate {@link PivotPanel} controls.
@@ -1872,6 +1886,7 @@ declare module wijmo.olap {
         _resetMouseState(): void;
         _getFlexGridTarget(e: DragEvent): wijmo.grid.FlexGrid;
         _updateDropMarker(grid?: wijmo.grid.FlexGrid, e?: DragEvent): void;
+        dispose(): void;
     }
 }
 declare module wijmo.olap {
@@ -2115,6 +2130,7 @@ declare module wijmo.olap {
         _getColCollapsed(rng: wijmo.grid.CellRange): boolean;
         _setColCollapsed(rng: wijmo.grid.CellRange, collapse: boolean): void;
         _collapseColsToLevel(level: number): void;
+        dispose(): void;
     }
 }
 declare module wijmo.olap {
@@ -2202,6 +2218,7 @@ declare module wijmo.olap {
          * @return A {@link CellRange} that specifies the merged range, or null if the cell is not merged.
          */
         getMergedRange(p: wijmo.grid.GridPanel, r: number, c: number, clip?: boolean): wijmo.grid.CellRange;
+        _getMergedRange(p: wijmo.grid.GridPanel, r: number, c: number, clip?: boolean, compareFormattedData?: boolean): wijmo.grid.CellRange | null;
         _getMergedTopLeftRange(p: wijmo.grid.GridPanel, r: number, c: number): wijmo.grid.CellRange;
         _getMergedRowHeaderRange(p: wijmo.grid.GridPanel, r: number, c: number, rng: wijmo.grid.CellRange): wijmo.grid.CellRange;
         _sameColumnValues(p: wijmo.grid.GridPanel, r1: number, r2: number, c: number): boolean;
@@ -2272,6 +2289,7 @@ declare module wijmo.olap {
         private _dataItms;
         private _lblsSrc;
         private _grpLblsSrc;
+        private _clearStyleTopTimer;
         /**
          * Initializes a new instance of the {@link PivotChart} class.
          *
@@ -2428,6 +2446,7 @@ declare module wijmo.olap {
         private _isRotatedChart;
         private _getMergeIndex;
         private _getOffsetWidth;
+        dispose(): void;
     }
 }
 declare module wijmo.olap {
@@ -2727,7 +2746,10 @@ declare module wijmo.olap {
         private _gFlt;
         private _gFmt;
         private _gSmp;
+        private _lostFocusHandler;
+        private _closeFilterTimer;
         static _ctrlTemplate: string;
+        private _closeAndFocusTimer;
         /**
          * Gets or sets the template used to instantiate {@link PivotFieldEditor} controls.
          */
@@ -2761,6 +2783,7 @@ declare module wijmo.olap {
         _editFilter(): void;
         _createFilterEditor(): void;
         _closeFilter(): void;
+        dispose(): void;
     }
 }
 declare module wijmo.olap {
