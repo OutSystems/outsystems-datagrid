@@ -271,7 +271,7 @@ namespace OSFramework.DataGrid.Grid {
 
 			columns
 				.map((col) => col.config.binding)
-				.filter((colBinding) => !colBinding.startsWith('$') && colBinding) // remove Action/Calculated columns and the ones that don't have bindings as Group columns
+				.filter((colBinding) => colBinding && !colBinding.startsWith('$')) // remove Action/Calculated columns and the ones that don't have bindings as Group columns
 				.forEach((colBinding) => this._createObjectFromString(obj, colBinding));
 			return obj;
 		}
