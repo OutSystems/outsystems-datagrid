@@ -36,8 +36,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._enabled = enabled;
 		}
 
-		private _filterChangedHandler(s: wijmo.grid.filter.FlexGridFilter) {
-			this._grid.features.undoStack.closeAction(ColumnFilterAction, false);
+		private _filterChangedHandler(s: wijmo.grid.filter.FlexGridFilter, focusOnGrid = true) {
+			this._grid.features.undoStack.closeAction(ColumnFilterAction, focusOnGrid);
 
 			if (this._grid.gridEvents.hasHandlers(OSFramework.DataGrid.Event.Grid.GridEventType.OnFiltersChange)) {
 				this._grid.gridEvents.trigger(
@@ -200,10 +200,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 					this._filter.apply();
 					// trigger event
-					this._filterChangedHandler(this._filter);
-					if (focusOnGrid) {
-						this._grid.provider.focus();
-					}
+					this._filterChangedHandler(this._filter, focusOnGrid);
 				}
 			} else {
 				throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier);
@@ -245,10 +242,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 				this._filter.apply();
 				// trigger event
-				this._filterChangedHandler(this._filter);
-				if (focusOnGrid) {
-					this._grid.provider.focus();
-				}
+				this._filterChangedHandler(this._filter, focusOnGrid);
 			} else {
 				throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier);
 			}
@@ -284,9 +278,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				this._filter.getColumnFilter(column.provider).clear();
 				this._grid.provider.collectionView.refresh();
 				if (triggerOnFiltersChange) {
-					this._filterChangedHandler(this._filter);
+					this._filterChangedHandler(this._filter, focusOnGrid);
 				}
-				if (focusOnGrid) {
+				// If not triggering the event and focusOnGrid is true, we focus the grid
+				else if (focusOnGrid) {
 					this._grid.provider.focus();
 				}
 			} else {
