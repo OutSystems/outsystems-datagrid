@@ -8,14 +8,15 @@ namespace OutSystems.GridAPI.ColumnManager {
 	 * @export
 	 * @param {string} gridID ID of the Grid where the change will occur.
 	 * @param {string} ListOfColumnIDs List of Ids of the Column blocks that will be programmatically added to the grid group panel.
+	 * @param {boolean} [focusOnGrid=true] If true, the Grid will be focused after the end of the operation
 	 */
-	export function AddColumnsToGroupPanel(gridID: string, ListOfColumnIDs: string): string {
+	export function AddColumnsToGroupPanel(gridID: string, ListOfColumnIDs: string, focusOnGrid = true): string {
 		Performance.SetMark('ColumnManager.AddColumnToGroupPanel');
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedAddColumnToGroupPanel,
 			callback: () => {
-				GridManager.GetGridById(gridID).features.groupPanel.addColumnsToGroupPanel(ListOfColumnIDs);
+				GridManager.GetGridById(gridID).features.groupPanel.addColumnsToGroupPanel(ListOfColumnIDs, focusOnGrid);
 			},
 		});
 
@@ -194,14 +195,15 @@ namespace OutSystems.GridAPI.ColumnManager {
 	 * @export
 	 * @param {string} gridID ID of the Grid where the change will occur.
 	 * @param {string} ListOfColumnIDs List of Ids of the Column blocks that will be programmatically removed from the grid group panel.
+	 * @param {boolean} [focusOnGrid=true] If true, the Grid will be focused after the end of the operation
 	 */
-	export function RemoveColumnsFromGroupPanel(gridID: string, ListOfColumnIDs: string): string {
+	export function RemoveColumnsFromGroupPanel(gridID: string, ListOfColumnIDs: string, focusOnGrid = true): string {
 		Performance.SetMark('ColumnManager.RemoveColumnsFromGroupPanel');
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveColumnsFromGroupPanel,
 			callback: () => {
-				GridManager.GetGridById(gridID).features.groupPanel.removeColumnsFromGroupPanel(ListOfColumnIDs);
+				GridManager.GetGridById(gridID).features.groupPanel.removeColumnsFromGroupPanel(ListOfColumnIDs, focusOnGrid);
 			},
 		});
 

@@ -6,8 +6,9 @@ namespace OSFramework.DataGrid.Feature {
 		/**
 		 * Add a given column or columns list to the grid group panel
 		 * @param binding binding of the column
+		 * @param focusOnGrid boolean to indicate if the grid should focus after adding the column to the group panel
 		 */
-		addColumnsToGroupPanel(binding: string): void;
+		addColumnsToGroupPanel(binding: string, focusOnGrid?: boolean): void;
 		/**
 		 * Check if the column is inside the Group Panel
 		 * @param binding binding of the column
@@ -16,8 +17,9 @@ namespace OSFramework.DataGrid.Feature {
 		/**
 		 * Remove a given column or columns list from the grid group panel
 		 * @param binding binding of the column
+		 * @param focusOnGrid boolean to indicate if the grid should focus after removing the column from the group panel
 		 */
-		removeColumnsFromGroupPanel(binding: string): void;
+		removeColumnsFromGroupPanel(binding: string, focusOnGrid?: boolean): void;
 		/**
 		 * Sets the column aggregation function inside the Group Panel
 		 * @param binding binding of the column
