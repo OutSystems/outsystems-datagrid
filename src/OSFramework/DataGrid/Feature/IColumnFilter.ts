@@ -7,10 +7,10 @@ namespace OSFramework.DataGrid.Feature {
 			IView {
 		isGridFiltered: boolean;
 		activate(columnID: string): void;
-		byCondition(columnId: string, values: Array<OSFramework.DataGrid.OSStructure.FilterCondition>): void;
-		byValue(columnId: string, values: Array<string>): void;
+		byCondition(columnId: string, values: Array<OSFramework.DataGrid.OSStructure.FilterCondition>, focusOnGrid?: boolean): void;
+		byValue(columnId: string, values: Array<string>, focusOnGrid?: boolean): void;
 		changeFilterType(columnID: string, filterType: wijmo.grid.filter.FilterType): void;
-		clear(columnID: string, triggerOnFiltersChange?: boolean): void;
+		clear(columnID: string, triggerOnFiltersChange?: boolean, focusOnGrid?: boolean): void;
 		deactivate(columnID: string): void;
 		setColumnFilterOptions(columnID: string, options: Array<string>, maxVisibleOptions?: number): void;
 	}

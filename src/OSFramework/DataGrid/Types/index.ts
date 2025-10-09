@@ -239,4 +239,9 @@ namespace OSFramework.DataGrid.Types {
 		rowIndex: number;
 		selected: OSStructure.BindingValue[];
 	};
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	export type ObservableArray<T = any> = wijmo.collections.ObservableArray<T> & {
+		focusOnGrid?: boolean;
+	};
 }
