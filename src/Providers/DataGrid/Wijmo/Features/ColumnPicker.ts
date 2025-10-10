@@ -103,11 +103,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		// GROUP_NAME > COLUMN_NAME
 		private _addGroupToColumnPicker(col: OSFramework.DataGrid.Column.IColumn, item: HTMLElement) {
 			if (col.hasParentColumn) {
-				const lastChildText = item.querySelector('label').lastChild;
+				const captionElem = item.querySelector('label span.wj-checklist-caption');
 
-				if (lastChildText) {
+				if (captionElem) {
 					const parentCol = this._grid.getColumn(col.parentColumnId);
-					lastChildText.textContent = `${parentCol.config.header} >${lastChildText.textContent}`;
+					captionElem.textContent = `${parentCol.config.header} > ${captionElem.textContent}`;
 				}
 			}
 		}
