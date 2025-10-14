@@ -62,9 +62,6 @@ namespace Providers.DataGrid.Wijmo.Grid {
 				this._provider.itemsSource.itemsEdited.remove(row.dataItem);
 				this._provider.itemsSource.itemsRemoved.remove(row.dataItem);
 				this._provider.itemsSource.itemsAdded.remove(row.dataItem);
-				// RUG: Workaround provided by Mescius, July 2025
-				// Fixes the issue described in ROU-12063.
-				this._provider.itemsSource._orgVals?.delete(row.dataItem);
 			});
 		}
 
