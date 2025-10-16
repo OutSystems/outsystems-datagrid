@@ -881,10 +881,11 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     justify-content: center;
 }
 
-.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
+/**** Commented because of layout issues in the filter introduced by Wijmo and need to be uncommented once fixed (ROU-12277) ****/
+/* .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
     .wj-valuefilter-editor {
     margin-top: -6px;
-}
+} */
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-filtertype {
     color: transparent;
@@ -1292,7 +1293,7 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     -servicestudio-color: #006de9;
 }
 
-/**** The styles below fix layout issues in the filter introduced by Wijmo ****/
+/**** The styles below fix layout issues in the filter introduced by Wijmo and need be removed once fixed (ROU-12277) ****/
 /* container */
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-type] {
     flex-direction: column;
