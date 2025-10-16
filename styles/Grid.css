@@ -1294,151 +1294,96 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 
 /**** The styles below fix layout issues in the filter introduced by Wijmo ****/
 /* container */
-
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-type] {
-
     flex-direction: column;
-
 }
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-type] > div.wj-tabpanel {
-
     margin-bottom: 0;
-
 }
 
 /* header(tab panel) */
-
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-tabpanel .wj-tabheaders {
-
     display: flex;
-
     font-size: 10px;
-
     margin-bottom: 10px;
-
 }
 
 .wj-tabpanel > div > .wj-tabheaders > .wj-tabheader {
-
     padding-bottom: 12px;
-
 }
 
 .wj-tabpanel > div > .wj-tabheaders > .wj-tabheader:after {
-
     left: 0;
-
     width: 100%;
-
     visibility: visible;
-
     opacity: 0;
-
     transition: all 180ms linear;
-
     height: 2px;
-
 }
 
 .wj-tabpanel > div > .wj-tabheaders > .wj-tabheader:not(.wj-state-active):hover:after {
-
     background: var(--color-neutral-5);
-
     opacity: 1;
-
 }
 
 .wj-tabpanel > div > .wj-tabheaders > .wj-tabheader.wj-state-active:after {
-
     background: var(--color-primary);
-
     opacity: 1;
-
 }
 
 .wj-tabpanel > div > .wj-tabheaders > .wj-tabheader.wj-state-active {
-
     color: var(--datagrid-color);
-
 }
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-valuefilter-editor {
-
     margin-top: 0;
-
 }
 
 /* footer(button container) */
-
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-type] > div:last-child {
-
     display: flex;
-
 }
 
 /* search */
-
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor span.wj-glyph-search {
-
     margin-top: 6px;
-
 }
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-tabpanel .wj-tabpanes {
-
     border-top: none;
-
 }
 
 /* select all and include selection */
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-options] label[wj-part=select-all-container] span[wj-part=sp-select-all],
-
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-options] label[wj-part=lbl-include-sel] span[wj-part=sp-include-sel]{
-
     top: 0;
-
 }
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-options] label[wj-part=select-all-container] span[wj-part=sp-select-all] {
-
     top: 0;
-
 }
 
 /* checklist item */
-
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor label.wj-checklist-item {
-
     display: flex;
-
     align-items: center;
-
 }
 
 /* checklist first item */
-
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor label.wj-checklist-item:nth-of-type(1) {
-
     margin-top: 4px;
-
 }
 
 /* checklist item checkbox */
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-values] .wj-checklist-item span.wj-checklist-mark {
-
     position: absolute;
-
     top: 55%;
-
 }
 
 /* checklist item caption */
-
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-values] .wj-checklist-item span.wj-checklist-caption {
-
     margin-left: 2px;
-
 }
