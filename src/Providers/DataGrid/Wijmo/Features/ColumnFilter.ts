@@ -36,8 +36,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._enabled = enabled;
 		}
 
-		private _filterChangedHandler(s: wijmo.grid.filter.FlexGridFilter) {
-			this._grid.features.undoStack.closeAction(ColumnFilterAction);
+		private _filterChangedHandler(s: wijmo.grid.filter.FlexGridFilter, focusOnGrid = true) {
+			this._grid.features.undoStack.closeAction(ColumnFilterAction, focusOnGrid);
 
 			if (this._grid.gridEvents.hasHandlers(OSFramework.DataGrid.Event.Grid.GridEventType.OnFiltersChange)) {
 				this._grid.gridEvents.trigger(
@@ -157,7 +157,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 * @param columnId Column Id where the Filter will be performed
 		 * @param values Values to apply as column filter
 		 */
-		public byCondition(columnId: string, values: OSFramework.DataGrid.OSStructure.FilterCondition[]): void {
+		public byCondition(
+			columnId: string,
+			values: OSFramework.DataGrid.OSStructure.FilterCondition[],
+			focusOnGrid = true
+		): void {
 			const column = this._grid.getColumn(columnId);
 			if (column) {
 				const columnFilter = this._filter.getColumnFilter(column.provider).conditionFilter;
@@ -196,7 +200,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 					this._filter.apply();
 					// trigger event
-					this._filterChangedHandler(this._filter);
+					this._filterChangedHandler(this._filter, focusOnGrid);
 				}
 			} else {
 				throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier);
@@ -209,7 +213,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 * @param columnId Column Id where the Filter will be performed
 		 * @param values Values to apply as column filter
 		 */
-		public byValue(columnId: string, values: Array<string>): void {
+		public byValue(columnId: string, values: Array<string>, focusOnGrid = true): void {
 			const column = this._grid.getColumn(columnId);
 			if (column) {
 				const isColumnTypeCheckbox = column.columnType === OSFramework.DataGrid.Enum.ColumnType.Checkbox;
@@ -238,7 +242,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 				this._filter.apply();
 				// trigger event
-				this._filterChangedHandler(this._filter);
+				this._filterChangedHandler(this._filter, focusOnGrid);
 			} else {
 				throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier);
 			}
@@ -267,14 +271,18 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 * @param {boolean} [triggerOnFiltersChange=true] Flag to indicate if the OnFiltersChange event is to be triggered or not.
 		 * @memberof ColumnFilter
 		 */
-		public clear(columnID: string, triggerOnFiltersChange = true): void {
+		public clear(columnID: string, triggerOnFiltersChange = true, focusOnGrid = true): void {
 			const column = this._grid.getColumn(columnID);
 
 			if (column) {
 				this._filter.getColumnFilter(column.provider).clear();
 				this._grid.provider.collectionView.refresh();
 				if (triggerOnFiltersChange) {
-					this._filterChangedHandler(this._filter);
+					this._filterChangedHandler(this._filter, focusOnGrid);
+				}
+				// If not triggering the event and focusOnGrid is true, we focus the grid
+				else if (focusOnGrid) {
+					this._grid.provider.focus();
 				}
 			} else {
 				throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier);

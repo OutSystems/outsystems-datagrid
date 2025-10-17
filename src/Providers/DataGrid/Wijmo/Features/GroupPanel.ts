@@ -64,8 +64,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					this._dragCol && this._addGroup(this._dragCol, e);
 		}
 
-		public addColumnsToGroupPanel(bindingList: string): void {
-			const groupDescriptions = this._grid.provider.collectionView.groupDescriptions; // Group array
+		public addColumnsToGroupPanel(bindingList: string, focusOnGrid = true): void {
+			const groupDescriptions = this._grid.provider.collectionView
+				.groupDescriptions as OSFramework.DataGrid.Types.ObservableArray; // Group array
 			const columnList = JSON.parse(bindingList);
 			const source = this._grid.provider.itemsSource;
 			source.deferUpdate(() => {
@@ -76,7 +77,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 							const groupDescription = new wijmo.collections.PropertyGroupDescription(
 								column.config.binding
 							);
-
+							groupDescriptions.focusOnGrid = focusOnGrid;
 							groupDescriptions.push(groupDescription);
 							column.provider.visible = false;
 						}
@@ -102,7 +103,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			//this way we can easily handle the "x" to remove items from grouppanel
 			this._grid.provider.itemsSource.groupDescriptions.collectionChanged.addHandler(
 				(
-					o: wijmo.collections.ObservableArray /*,
+					o: OSFramework.DataGrid.Types.ObservableArray /*,
                     e: wijmo.collections.NotifyCollectionChangedEventArgs*/
 				) => {
 					const grid = this._grid;
@@ -111,7 +112,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					grid.features.undoStack.startAction(
 						new GroupPanelAction(grid.provider, this._currGroupDescription)
 					);
-					grid.features.undoStack.closeAction(GroupPanelAction);
+					grid.features.undoStack.closeAction(GroupPanelAction, o.focusOnGrid);
 
 					const oldGroupDescription = this._currGroupDescription;
 
@@ -161,8 +162,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			});
 		}
 
-		public removeColumnsFromGroupPanel(bindingList: string): void {
-			const groupDescriptions = this._grid.provider.collectionView.groupDescriptions; // Group array
+		public removeColumnsFromGroupPanel(bindingList: string, focusOnGrid = true): void {
+			const groupDescriptions = this._grid.provider.collectionView.groupDescriptions as OSFramework.DataGrid.Types.ObservableArray; // Group array
 			const columnList = JSON.parse(bindingList);
 			const source = this._grid.provider.itemsSource;
 
@@ -180,6 +181,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 						// If the group description exists, remove it
 						if (index > -1) {
+							groupDescriptions.focusOnGrid = focusOnGrid;
 							groupDescriptions.splice(index, 1);
 							// Make the column visible again
 							column.provider.visible = true;
