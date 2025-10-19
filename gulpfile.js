@@ -6,7 +6,7 @@ const fs = require('fs');
 
 // Get dependencies tasks
 const project = require('./gulp/DefaultSpecs');
-const tsTranspile = require('./gulp/Tasks/TsTanspile');
+const tsTranspile = require('./gulp/Tasks/TsTranspile');
 const updatetVersion = require('./gulp/Tasks/UpdateVersion');
 
 // Local configs
