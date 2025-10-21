@@ -291,10 +291,6 @@
     box-shadow: inset 0 0 0 1px var(--color-primary);
 }
 
-.wj-cells .wj-cell[aria-selected='true']:not(.wj-state-multi-selected) {
-    box-shadow: inset 0 0 0 1px var(--color-primary);
-}
-
 .wj-frozen.wj-frozen-col.wj-state-active.wj-state-selected,
 .wj-frozen.wj-frozen-col,
 .wj-header.wj-state-multi-selected.wj-frozen-col,
