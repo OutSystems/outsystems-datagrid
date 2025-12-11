@@ -157,28 +157,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				const btn = document.createElement('button');
 				btn.innerText = innerText;
 				btn.setAttribute('type', 'button');
-				btn.setAttribute('class', 'datagrid-pagination-button');
+				btn.setAttribute(
+					'class',
+					i === currPage
+						? 'datagrid-pagination-button datagrid-pagination-selected-page'
+						: 'datagrid-pagination-button'
+				);
 				btn.onclick = () => this._grid.features.pagination.moveToPage(i);
-
-				switch (i) {
-					case 0:
-						btn.setAttribute('aria-label', 'First page');
-						break;
-					case this.pageCount - 1:
-						btn.setAttribute('aria-label', 'Last page');
-						break;
-					case currPage:
-						btn.setAttribute('aria-label', 'Current page');
-						break;
-					default:
-						btn.setAttribute('aria-label', `Go to page ${innerText}`);
-						break;
-				}
-
-				//The current selected button-page
-				if (i === currPage) {
-					btn.classList.add('datagrid-pagination-selected-page');
-				}
+				btn.setAttribute('aria-label', i === currPage ? `page ${innerText}` : `go to page ${innerText}`);
 
 				parent.appendChild(btn);
 			};
