@@ -850,6 +850,7 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     font-size: var(--datagrid-filter-font-size);
     font-weight: var(--font-regular);
     line-height: 18px;
+    flex-grow: 1;
 }
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
@@ -898,6 +899,13 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     color: var(--datagrid-color);
 }
 
+/* footer(button container) */
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-type] > div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    justify-items:stretch;
+}
+
 /* search */
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor span.wj-glyph-search {
     margin-top: 6px;
@@ -908,7 +916,6 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 }
 
 /* select all and include selection */
-
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-options] label[wj-part=select-all-container] span[wj-part=sp-select-all],
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-options] label[wj-part=lbl-include-sel] span[wj-part=sp-include-sel]{
     top: 0;
@@ -922,7 +929,6 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 }
 
 /* checklist item checkbox */
-
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-values] .wj-checklist-item span.wj-checklist-mark {
     position: absolute;
     top: 55%;
