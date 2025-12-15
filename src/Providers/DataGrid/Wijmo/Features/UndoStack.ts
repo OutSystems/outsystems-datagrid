@@ -20,6 +20,15 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			}
 		}
 
+		private _undoingActionHandler(undoStack: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
+			if (e.action instanceof wijmo.undo.GridEditAction) {
+				const gridAction = e.action as wijmo.undo.GridEditAction;
+				const row = gridAction.row;
+				const col = gridAction.col;
+				this._grid.features.dirtyMark.saveOriginalValue(row, col);
+			}
+		}
+
 		public get stack(): wijmo.undo.UndoStack {
 			return this._undoStack;
 		}
@@ -31,6 +40,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					maxActions: 50,
 				}
 			);
+			this._undoStack.undoingAction.addHandler(this._undoingActionHandler.bind(this));
 		}
 
 		public clear(): void {
