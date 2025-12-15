@@ -163,6 +163,10 @@
     }
 }
 
+.wj-control.wj-flexgrid .wj-cell a {
+    color: var(--color-primary);
+}
+
 .wj-flexgrid .wj-grid-editor,
 .wj-flexgrid .wj-cell.wj-hasdropdown .wj-btn.wj-btn-glyph.wj-right {
     height: auto;
@@ -280,10 +284,12 @@
 
 .wj-flexgrid .wj-colheaders .wj-header.wj-state-multi-selected {
     border-bottom: var(--datagrid-cell-border-bottom);
+    color: var(--datagrid-header-cell-color);
 }
 
 .wj-flexgrid .wj-rowheaders .wj-header.wj-state-multi-selected {
     border-right: var(--datagrid-cell-border-right);
+    color: var(--datagrid-header-cell-color); 
 }
 
 .wj-cell.wj-state-active.wj-state-selected {
@@ -827,6 +833,12 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 }
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
+    label
+    input[type='checkbox'] {
+        margin-left: 0;
+}
+
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
     span:not(.wj-glyph-up):not(.wj-glyph-down):not(.wj-input-group-btn) {
     position: relative;
     top: -3px;
@@ -850,6 +862,7 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     font-size: var(--datagrid-filter-font-size);
     font-weight: var(--font-regular);
     line-height: 18px;
+    padding: var(--datagrid-button-padding) 0px;
     flex-grow: 1;
 }
 
@@ -908,7 +921,7 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 
 /* search */
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor span.wj-glyph-search {
-    margin-top: 6px;
+    display: none;
 }
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-tabpanel .wj-tabpanes {
@@ -928,10 +941,21 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     margin-top: 4px;
 }
 
+/* checklist checkbox */
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-checklist-item .wj-checklist-base {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    height: var(--datagrid-filter-input-size);
+    width: var(--datagrid-filter-input-size);
+}
+
 /* checklist item checkbox */
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-values] .wj-checklist-item span.wj-checklist-mark {
     position: absolute;
     top: 55%;
+    height: 11px;
+    width: 6px;
+    border-width: 0 3px 3px 0;
 }
 
 /* checklist item caption */
