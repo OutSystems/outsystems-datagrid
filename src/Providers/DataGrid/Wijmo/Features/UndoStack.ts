@@ -22,7 +22,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 		private _undoingActionHandler(undoStack: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
 			if (e.action instanceof wijmo.undo.GridEditAction) {
-				const gridAction = e.action as wijmo.undo.GridEditAction;
+				const gridAction = e.action;
 				const row = gridAction.row;
 				const col = gridAction.col;
 				this._grid.features.dirtyMark.saveOriginalValue(row, col);
