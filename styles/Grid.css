@@ -108,6 +108,7 @@
     appearance: checkbox;
     -moz-appearance: checkbox;
     -webkit-appearance: checkbox;
+    accent-color: var(--color-primary);
 }
 
 .wj-dropdown-panel [type='radio']:not(.radio),
@@ -440,7 +441,8 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 }
 
 .wj-listbox.column-picker .wj-listbox-item > label {
-    display: block;
+    align-items: center;
+    display: flex;
     margin: 0 0 3px 0;
 }
 
@@ -863,7 +865,8 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     font-weight: var(--font-regular);
     line-height: 18px;
     padding: var(--datagrid-button-padding) 0px;
-    flex-grow: 1;
+    text-align: center;
+    width: 100%;
 }
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
@@ -893,10 +896,12 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 }
 
 .wj-tabpanel > div > .wj-tabheaders > .wj-tabheader:after {
-    left: 0;
-    width: 100%;
-    transition: all 180ms linear;
+    background:none;
     height: 2px;
+    left: 0;
+    -webkit-transition: all 300ms ease-in-out;
+    transition: all 300ms ease-in-out;
+    width: 100%;
 }
 
 .wj-tabpanel > div > .wj-tabheaders > .wj-tabheader:not(.wj-state-active):hover:after {
@@ -915,8 +920,6 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 /* footer(button container) */
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-type] > div:last-child {
     display: flex;
-    flex-wrap: wrap;
-    justify-items:stretch;
 }
 
 /* search */
