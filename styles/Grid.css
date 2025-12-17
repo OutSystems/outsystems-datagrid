@@ -102,15 +102,6 @@
 }
 
 /**** OUTSYSTEMSUI OVERRIDES ****/
-.wj-dropdown-panel [type='checkbox']:not(.checkbox),
-.datagrid-container [type='checkbox']:not(.checkbox),
-.column-picker [type='checkbox']:not(.checkbox) {
-    appearance: checkbox;
-    -moz-appearance: checkbox;
-    -webkit-appearance: checkbox;
-    accent-color: var(--color-primary);
-}
-
 .wj-dropdown-panel [type='radio']:not(.radio),
 .datagrid-container [type='radio']:not(.radio),
 .column-picker [type='radio']:not(.radio) {
@@ -291,6 +282,11 @@
 .wj-flexgrid .wj-rowheaders .wj-header.wj-state-multi-selected {
     border-right: var(--datagrid-cell-border-right);
     color: var(--datagrid-header-cell-color); 
+}
+
+.wj-flexgrid .wj-colheaders .wj-cell.wj-header.wj-sort-asc, 
+.wj-flexgrid .wj-colheaders .wj-cell.wj-header.wj-sort-desc {
+    color: var(--color-primary);
 }
 
 .wj-cell.wj-state-active.wj-state-selected {
@@ -946,19 +942,30 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 
 /* checklist checkbox */
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-checklist-item .wj-checklist-base {
-    background: var(--color-primary);
     border-color: var(--color-primary);
     height: var(--datagrid-filter-input-size);
     width: var(--datagrid-filter-input-size);
 }
 
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor [aria-selected=true] .wj-checklist-item .wj-checklist-base {
+    background: var(--color-primary);
+}
+
 /* checklist item checkbox */
-.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-values] .wj-checklist-item span.wj-checklist-mark {
-    position: absolute;
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-values] .wj-checklist-item span.wj-checklist-mark{
     top: 55%;
-    height: 11px;
-    width: 6px;
-    border-width: 0 3px 3px 0;
+}
+
+.column-picker.wj-control.wj-content.wj-listbox .wj-checklist-base,
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-custom-checkbox {
+    border: 1px solid var(--color-primary);
+}
+
+.column-picker.wj-control.wj-content.wj-listbox [aria-selected=true] .wj-checklist-base,
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-custom-checkbox:checked,
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-custom-checkbox[data-indeterminate=true] {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
 }
 
 /* checklist item caption */
