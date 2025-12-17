@@ -952,7 +952,7 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 }
 
 /* checklist item checkbox */
-.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-values] .wj-checklist-item span.wj-checklist-mark{
+.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-values] .wj-checklist-item span.wj-checklist-mark {
     top: 55%;
 }
 
