@@ -984,17 +984,14 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 
 /* checkbox styles for checkbox column */
 .wj-cell-check:checked::after {
-    content: "";
+    content: ""; 
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 5px;
-    height: 9px;
+    width: 3px;
+    height: 7px;
     border: solid var(--color-neutral-0);
     border-width: 0 2px 2px 0;
-    transform: scale(1.1) translate(-110%, -76%) rotate(40deg);
-    box-sizing: inherit;
-  }
+    transform: scale(1.1) rotate(40deg) translate(3px, -2px);
+}
 
 /***** PLACEHOLDERS STYLE *****/
 
