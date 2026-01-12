@@ -102,6 +102,14 @@
 }
 
 /**** OUTSYSTEMSUI OVERRIDES ****/
+.wj-dropdown-panel [type='checkbox']:not(.checkbox),
+.datagrid-container [type='checkbox']:not(.checkbox),
+.column-picker [type='checkbox']:not(.checkbox) {
+    appearance: checkbox;
+    -moz-appearance: checkbox;
+    -webkit-appearance: checkbox;
+}
+
 .wj-dropdown-panel [type='radio']:not(.radio),
 .datagrid-container [type='radio']:not(.radio),
 .column-picker [type='radio']:not(.radio) {
@@ -942,13 +950,8 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 
 /* checklist checkbox */
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-checklist-item .wj-checklist-base {
-    border-color: var(--color-primary);
     height: var(--datagrid-filter-input-size);
     width: var(--datagrid-filter-input-size);
-}
-
-.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor [aria-selected=true] .wj-checklist-item .wj-checklist-base {
-    background: var(--color-primary);
 }
 
 /* checklist item checkbox */
