@@ -102,6 +102,15 @@
 }
 
 /**** OUTSYSTEMSUI OVERRIDES ****/
+.wj-dropdown-panel [type='checkbox']:not(.checkbox),
+.datagrid-container [type='checkbox']:not(.checkbox),
+.column-picker [type='checkbox']:not(.checkbox) {
+    appearance: checkbox;
+    -moz-appearance: checkbox;
+    -webkit-appearance: checkbox;
+    accent-color: var(--color-primary);
+}
+
 .wj-dropdown-panel [type='radio']:not(.radio),
 .datagrid-container [type='radio']:not(.radio),
 .column-picker [type='radio']:not(.radio) {
