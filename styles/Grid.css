@@ -108,7 +108,6 @@
     appearance: checkbox;
     -moz-appearance: checkbox;
     -webkit-appearance: checkbox;
-    accent-color: var(--color-primary);
 }
 
 .wj-dropdown-panel [type='radio']:not(.radio),
@@ -951,13 +950,8 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 
 /* checklist checkbox */
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor .wj-checklist-item .wj-checklist-base {
-    border-color: var(--color-primary);
     height: var(--datagrid-filter-input-size);
     width: var(--datagrid-filter-input-size);
-}
-
-.wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor [aria-selected=true] .wj-checklist-item .wj-checklist-base {
-    background: var(--color-primary);
 }
 
 /* checklist item checkbox */
@@ -980,17 +974,6 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
 /* checklist item caption */
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor div[wj-part=div-values] .wj-checklist-item span.wj-checklist-caption {
     margin-left: 2px;
-}
-
-/* checkbox styles for checkbox column */
-.wj-cell-check:checked::after {
-    content: ""; 
-    position: absolute;
-    width: 3px;
-    height: 7px;
-    border: solid var(--color-neutral-0);
-    border-width: 0 2px 2px 0;
-    transform: scale(1.1) rotate(40deg) translate(3px, -2px);
 }
 
 /***** PLACEHOLDERS STYLE *****/
