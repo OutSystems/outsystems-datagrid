@@ -63,8 +63,9 @@ stages:
               publishLocation: 'Container'
 
   - stage: Deploy
-    #Only run if not in dev branch
-    condition: ne(variables['Build.SourceBranchName'], 'dev')
+    #Only run if not in dev branch AND Build stage succeeded
+    dependsOn: Build
+    condition: and(succeeded(), ne(variables['Build.SourceBranchName'], 'dev'))
     displayName: 'Deploy'
     jobs:
       - job: Deploy
@@ -74,22 +75,20 @@ stages:
           vmImage: 'windows-latest'
         steps:
           #Download artifact
-          - task: DownloadBuildArtifacts@0
+          - task: DownloadPipelineArtifact@2
             displayName: 'Download GridFramework.js'
             inputs:
               buildType: 'current'
-              downloadType: 'single'
               artifactName: 'GridFramework.js'
-              downloadPath: '$(Build.SourcesDirectory)/bin'
+              targetPath: '$(Build.SourcesDirectory)/bin/GridFramework.js'
 
           #Download artifact
-          - task: DownloadBuildArtifacts@0
+          - task: DownloadPipelineArtifact@2
             displayName: 'Download Grid.css'
             inputs:
               buildType: 'current'
-              downloadType: 'single'
               artifactName: 'Grid.css'
-              downloadPath: '$(Build.SourcesDirectory)/bin'
+              targetPath: '$(Build.SourcesDirectory)/bin/Grid.css'
 
           #Define Python version
           - task: UsePythonVersion@0
