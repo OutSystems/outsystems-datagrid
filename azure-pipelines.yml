@@ -7,10 +7,23 @@ resources:
       name: OutSystems/outsystems-datagrid-tests
       endpoint: OutSystems
 
+# Allow manual trigger
 trigger:
   branches:
     include:
       - dev
+
+# Parameters for manual runs
+parameters:
+  - name: runDeploy
+    displayName: 'Run Deploy Stage'
+    type: boolean
+    default: false
+  - name: runTests
+    displayName: 'Run Tests Stage'
+    type: boolean
+    default: false
+
 variables:
   SourcesDirectory: '$(Build.SourcesDirectory)'
   Project: 'outsystems-datagrid'
@@ -63,9 +76,9 @@ stages:
               publishLocation: 'Container'
 
   - stage: Deploy
-    #Only run if not in dev branch AND Build stage succeeded
+    #Run if: (not dev branch OR manual runDeploy=true) AND Build succeeded
     dependsOn: Build
-    condition: and(succeeded(), ne(variables['Build.SourceBranchName'], 'dev'))
+    condition: and(succeeded(), or(eq('${{ parameters.runDeploy }}', 'true'), ne(variables['Build.SourceBranchName'], 'dev')))
     displayName: 'Deploy'
     jobs:
       - job: Deploy
@@ -154,3 +167,4 @@ stages:
     parameters:
       currentBranch: $(CurrentBranchName)
       sourceBranch: $(SourceBranchName)
+      runTests: ${{ parameters.runTests }}

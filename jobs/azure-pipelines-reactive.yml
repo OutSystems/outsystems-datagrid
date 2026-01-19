@@ -47,6 +47,10 @@ parameters:
       displayName: Max driver instances
       type: number
       default: 2
+    - name: runTests
+      displayName: 'Run Tests (manual trigger)'
+      type: boolean
+      default: false
 
 stages:
     - stage: CheckBranch
@@ -79,8 +83,8 @@ stages:
                   name: 'skipTests'
 
     - stage: Tests
-      #Only run tests if not in dev branch
-      condition: and(ne(stageDependencies.CheckBranch.outputs['CheckBranchJob.skipTests.skip'], 'true'), ne(variables['Build.SourceBranchName'], 'dev'))
+      #Run tests if: (not dev branch OR manual runTests=true) AND sample page exists
+      condition: and(ne(stageDependencies.CheckBranch.outputs['CheckBranchJob.skipTests.skip'], 'true'), or(eq('${{ parameters.runTests }}', 'true'), ne(variables['Build.SourceBranchName'], 'dev')))
       displayName: 'Tests'
       variables:
           - group: 'Services Credentials'
