@@ -6,7 +6,7 @@ resources:
       type: github
       name: OutSystems/outsystems-datagrid-tests
       endpoint: OutSystems
-      ref: refs/heads/ROU-12523
+      ref: refs/heads/ROU-12357
 
 # Allow manual trigger
 trigger:
