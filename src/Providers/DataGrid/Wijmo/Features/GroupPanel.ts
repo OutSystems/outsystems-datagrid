@@ -78,7 +78,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 								column.config.binding
 							);
 							groupDescriptions.focusOnGrid = focusOnGrid;
-							column.provider.visible = false;
 							groupDescriptions.push(groupDescription);
 						}
 					} else {
