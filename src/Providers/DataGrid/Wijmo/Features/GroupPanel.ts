@@ -48,6 +48,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._panelId = panelId;
 			this._currGroupDescription = new Array<wijmo.collections.PropertyGroupDescription>();
 		}
+		addColumnsToGroupPanel(binding: string, focusOnGrid?: boolean): void {
+			throw new Error('Method not implemented.');
+		}
 
 		private _drop(e: DragEvent) {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -62,29 +65,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				: // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					//@ts-ignore
 					this._dragCol && this._addGroup(this._dragCol, e);
-		}
-
-		public addColumnsToGroupPanel(bindingList: string, focusOnGrid = true): void {
-			const groupDescriptions = this._grid.provider.collectionView
-				.groupDescriptions as OSFramework.DataGrid.Types.ObservableArray; // Group array
-			const columnList = JSON.parse(bindingList);
-			const source = this._grid.provider.itemsSource;
-			source.deferUpdate(() => {
-				for (const binding of columnList) {
-					const column = this._grid.getColumn(binding);
-					if (column) {
-						if (this.columnInGroupPanel(column.config.binding) === false) {
-							const groupDescription = new wijmo.collections.PropertyGroupDescription(
-								column.config.binding
-							);
-							groupDescriptions.focusOnGrid = focusOnGrid;
-							groupDescriptions.push(groupDescription);
-						}
-					} else {
-						throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier);
-					}
-				}
-			});
 		}
 
 		public build(): void {
@@ -162,7 +142,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		public removeColumnsFromGroupPanel(bindingList: string, focusOnGrid = true): void {
-			const groupDescriptions = this._grid.provider.collectionView.groupDescriptions as OSFramework.DataGrid.Types.ObservableArray; // Group array
+			const groupDescriptions = this._grid.provider.collectionView
+				.groupDescriptions as OSFramework.DataGrid.Types.ObservableArray; // Group array
 			const columnList = JSON.parse(bindingList);
 			const source = this._grid.provider.itemsSource;
 
