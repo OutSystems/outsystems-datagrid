@@ -78,8 +78,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 								column.config.binding
 							);
 							groupDescriptions.focusOnGrid = focusOnGrid;
-							groupDescriptions.push(groupDescription);
 							column.provider.visible = false;
+							groupDescriptions.push(groupDescription);
 						}
 					} else {
 						throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.InvalidColumnIdentifier);
