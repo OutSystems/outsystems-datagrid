@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -153,6 +153,13 @@ declare module wijmo.grid.search {
         private _getItemMatch;
         private _isSearchTextExactMatch;
         private _clearButtonClickHandler;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }

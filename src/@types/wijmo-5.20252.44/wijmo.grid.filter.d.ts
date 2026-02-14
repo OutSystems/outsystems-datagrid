@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -224,7 +224,7 @@ declare module wijmo.grid.filter {
          * cf.filterMode = FilterMode.MultiFilter;
          * ```
          *
-         * The default value for this property is **FilterType.Both**.
+         * The default value for this property is **FilterMode.SingleFilter**.
          */
         defaultFilterMode: FilterMode;
         /**
@@ -849,6 +849,13 @@ declare module wijmo.grid.filter {
         _updateExceedsMaxValuesDisplay(): void;
         private _initPopup;
         _isSingleFilterMode(): boolean;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }
@@ -1029,6 +1036,9 @@ declare module wijmo.grid.filter {
         private _spOr;
         _btnAnd: HTMLInputElement;
         _btnOr: HTMLInputElement;
+        private _lblVal;
+        private _divHdr2;
+        private _lblVal2;
         static _ctrlTemplate: string;
         /**
          * Gets or sets the template used to instantiate {@link ConditionFilterEditor} controls.
@@ -1043,6 +1053,7 @@ declare module wijmo.grid.filter {
          */
         constructor(element: any, filter: ConditionFilter);
         private _isShowConditionValuePart;
+        private _linkLabelToInput;
         /**
          * Gets a reference to the {@link ConditionFilter} being edited.
          */
@@ -1082,6 +1093,8 @@ declare module wijmo.grid.filter {
         private _btnAndOrChanged;
         private _checkRadio;
         private _keydown;
+        private _onLabelClick;
+        private _isSingleFilterMode;
     }
 }
 declare module wijmo.grid.filter {
@@ -1175,6 +1188,13 @@ declare module wijmo.grid.filter {
         private _getFilterType;
         private setConditionFilterChanged;
         private _btnClicked;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }

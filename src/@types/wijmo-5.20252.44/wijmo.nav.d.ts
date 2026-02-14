@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -31,6 +31,7 @@ declare module wijmo.nav {
         hostElement: string;
         largerDragItemCount: string;
         marker: string;
+        lineMarker: string;
         node: string;
         nodeCheck: string;
         nodeList: string;
@@ -148,6 +149,13 @@ declare module wijmo.nav {
         _setIsDisabled(value: boolean): void;
         _setTabOrder(value: number): void;
         _updateTabIndex(): void;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
     /**
@@ -314,6 +322,13 @@ declare module wijmo.nav {
         private _getIndexOfPane;
         private _getNextActiveIndex;
         _togglePane(pane: AccordionPane, collapse: boolean): void;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
     /**
@@ -482,6 +497,7 @@ declare module wijmo.nav {
          * ancestors and scrolling the element into view.
          */
         ensureVisible(): void;
+        _scrollIntoView(): void;
         /**
          * Checks whether this node refers to the same element as another node.
          *
@@ -765,6 +781,7 @@ declare module wijmo.nav {
         static _CCLD: string;
         static _CCLG: string;
         static _CLDG: string;
+        _scrollNode: TreeNode;
         _root: HTMLElement;
         private _items;
         _selNode: TreeNode;
@@ -1460,8 +1477,8 @@ declare module wijmo.nav {
         private isTxtSelected;
         _clearMultiSelectedNodes(preserveCurrentNode?: boolean): void;
         /**
-     * Disposes of the control and all its resources.
-     */
+          * Disposes of the control and all its resources.
+        */
         dispose(): void;
     }
 }

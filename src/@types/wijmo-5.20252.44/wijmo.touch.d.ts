@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -118,6 +118,7 @@ declare module wijmo.touch {
          * Initializes the single instance of the {@link DragDropTouch} class.
          */
         constructor();
+        readonly isDragging: boolean;
         /**
          * Gets a reference to the {@link DragDropTouch} singleton.
          */

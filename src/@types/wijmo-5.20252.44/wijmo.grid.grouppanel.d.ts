@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -212,6 +212,13 @@ declare module wijmo.grid.grouppanel {
         hitTest(e: MouseEvent | Element): wijmo.collections.GroupDescription;
         _filterChanged(): void;
         _getColumnFilter(col: wijmo.grid.Column): any;
+        _getColumnDisplayName(col: wijmo.grid.Column): string;
+        _getColumnInfoByProperty(propertyName: string): {
+            col: wijmo.grid.Column | null;
+            displayName: string;
+        };
+        _announceToScreenReader(message: string): void;
+        _getSortStateDescription(propertyName: string, panel: any, colIndex: number): string;
         _moveGroupByIndex(oldIndex: number, newIndex: number): void;
         _removeGroupByColumn(col: wijmo.grid.Column): void;
         _editFilter(marker: HTMLElement): void;
@@ -232,6 +239,13 @@ declare module wijmo.grid.grouppanel {
         _click(e: MouseEvent): void;
         _updateSort(e: MouseEvent, marker: HTMLElement): void;
         _removeEventForGrid(): void;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }

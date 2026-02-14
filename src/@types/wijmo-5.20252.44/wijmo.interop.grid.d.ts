@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -18,10 +18,10 @@
  *
  */
 export declare var ___keepComment: any;
-import * as mInput from '@mescius/wijmo.input';
-import * as mGridDetail from '@mescius/wijmo.grid.detail';
-import * as wjcCore from '@mescius/wijmo';
-import * as wjcGrid from '@mescius/wijmo.grid';
+import * as mInput from 'wijmo/wijmo.input';
+import * as mGridDetail from 'wijmo/wijmo.grid.detail';
+import * as wjcCore from 'wijmo/wijmo';
+import * as wjcGrid from 'wijmo/wijmo.grid';
 export declare function softInput(): typeof mInput;
 export declare function softGridDetail(): typeof mGridDetail;
 interface _IProcessTemplateCtx {

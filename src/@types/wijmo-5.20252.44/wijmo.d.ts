@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -10,6 +10,9 @@
     * https://developer.mescius.com/wijmo/licensing
     *
     */
+declare module wijmo {
+    const ipaddr: any;
+}
 declare module wijmo {
     /**
      * Provides binding to complex properties (e.g. 'customer.address.city')
@@ -838,6 +841,7 @@ declare module wijmo {
 }
 declare module wijmo {
     function isMobile(): boolean;
+    function isSupportTouch(): boolean;
     function isiOS(): boolean;
     function isFirefox(): boolean;
     function isSafari(): boolean;
@@ -869,6 +873,10 @@ declare module wijmo {
     function _getTargetObject(item: any): any;
 }
 declare module wijmo {
+    class _ENV_TOOLS {
+        static isSameInstance: (value1: any, value2: any) => boolean;
+        static indexOf: (array: any[], value: any) => number;
+    }
     const _CLS_STATE_DISABLED: string;
     /**
      * Gets the version of the Wijmo library that is currently loaded.
@@ -1477,6 +1485,8 @@ declare module wijmo {
     function toggleClass(e: Element, className: string, addOrRemove?: boolean): void;
     /**
      * Sets or clears an attribute on an element.
+     * Note: For CSP compliance, when setting the 'style' attribute, this function
+     * uses element.style.cssText instead of setAttribute to avoid CSP violations.
      *
      * @param e Element that will be updated.
      * @param name Name of the attribute to add or remove.
@@ -1485,6 +1495,7 @@ declare module wijmo {
      * @param keep Whether to keep original attribute if present.
      */
     function setAttribute(e: Element, name: string, value?: any, keep?: boolean): void;
+    function setInnerHTMLSafe(element: HTMLElement, html: string): void;
     /**
      * Sets the checked and indeterminate properties of a checkbox input
      * element.
@@ -1694,7 +1705,7 @@ declare module wijmo {
      * @param step The interval between animation frames, in milliseconds.
      * @return An interval id that you can use to suspend the animation.
      */
-    function animate(apply: IAnimateCallback, duration?: number, step?: number): any;
+    function animate(apply: IAnimateCallback, duration?: number, step?: number, completed?: () => void): any;
     /**
      * Class that represents a point (with x and y coordinates).
      */
@@ -2106,6 +2117,7 @@ declare module wijmo {
     function addAttributeValueToElement(element: Element, attribute: string, value: any): void;
     function removeAttributeValueFromElement(element: any, attribute: any, value: any): void;
     function replaceItems(base: any, override: any): any;
+    function _getTextDecorations(font: any): string;
 }
 declare module wijmo {
     interface _IMap<K, V> {
@@ -2354,6 +2366,7 @@ declare module wijmo {
      * {@sample Core/Globalization/Formatting Example}
      */
     class Globalize {
+        static DefaultDateFormat: string;
         /**
          * Formats a number or a date.
          *
@@ -3948,7 +3961,7 @@ declare module wijmo {
         protected _szObserver: any;
         protected _e: HTMLElement;
         protected _orgTabIndex: number;
-        protected disposed: boolean;
+        disposed: boolean;
         _orgAttributes: {
             name: string;
             value: string;
@@ -4274,6 +4287,7 @@ declare module wijmo {
         _handleFocusBlur(): void;
         protected _updateFocusState(): void;
         protected _updateState(): void;
+        protected _getRtlStates(): boolean;
         private _handleDisabled;
         private _replaceWithDiv;
         private _copyAttributes;
@@ -4644,7 +4658,7 @@ declare module wijmo {
          * Gets or sets the {@link TooltipTrigger} that determines how the tooltip should be
          * triggered.
          *
-         * The default value for this property is **TooltipTrigger.Focus**.
+         * The default value for this property is **TooltipTrigger.Hover**.
          */
         trigger: TooltipTrigger;
         /**
@@ -4775,6 +4789,7 @@ declare module wijmo {
         private _setContent;
         private _hasOffset;
         forceRecreate: boolean;
+        private _isMouseOutOfTipAndOwner;
     }
     /**
      * Provides arguments for the {@link Tooltip.popup} event.
@@ -4807,7 +4822,8 @@ declare module wijmo {
     }
 }
 declare module wijmo {
+    function _updateWme(ctl: Control, key: string): void;
+    function _ckHT(host: any, domain: any): any;
 }
 declare module wijmo {
-    function _updateWme(ctl: Control, key: string): void;
 }

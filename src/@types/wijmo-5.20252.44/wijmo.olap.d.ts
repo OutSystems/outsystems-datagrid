@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -766,6 +766,13 @@ declare module wijmo.olap {
         _updateHeader(): void;
         _clear(): void;
         _updateFilter(): void;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }
@@ -1886,6 +1893,13 @@ declare module wijmo.olap {
         _resetMouseState(): void;
         _getFlexGridTarget(e: DragEvent): wijmo.grid.FlexGrid;
         _updateDropMarker(grid?: wijmo.grid.FlexGrid, e?: DragEvent): void;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }
@@ -2130,6 +2144,13 @@ declare module wijmo.olap {
         _getColCollapsed(rng: wijmo.grid.CellRange): boolean;
         _setColCollapsed(rng: wijmo.grid.CellRange, collapse: boolean): void;
         _collapseColsToLevel(level: number): void;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }
@@ -2446,6 +2467,13 @@ declare module wijmo.olap {
         private _isRotatedChart;
         private _getMergeIndex;
         private _getOffsetWidth;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }
@@ -2783,6 +2811,13 @@ declare module wijmo.olap {
         _editFilter(): void;
         _createFilterEditor(): void;
         _closeFilter(): void;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }

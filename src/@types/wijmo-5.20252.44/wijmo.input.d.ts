@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -334,7 +334,11 @@ declare module wijmo.input {
         private _increment;
         protected _updateBtn(): void;
         _setText(text: string, truncate?: boolean, forceDelete?: boolean): void;
+        private _handleDecimalInput;
+        protected _beforeinput(e: any): void;
         protected _keypress(e: KeyboardEvent): void;
+        private _handlePlusSign;
+        private _handleMinusSign;
         protected _keydown(e: KeyboardEvent): void;
         protected _input(): void;
         /**
@@ -762,6 +766,7 @@ declare module wijmo.input {
         protected _setTabOrder(value: number): void;
         _keydown(e: KeyboardEvent): void;
         protected _setIsDisabled(value: boolean): void;
+        _updateTabIndex(): void;
     }
 }
 declare module wijmo.input {
@@ -1205,6 +1210,13 @@ declare module wijmo.input {
         _isMenuItem(): boolean;
         _updateTabIndex(): void;
         private _selectRange;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
     /**
@@ -2045,7 +2057,12 @@ declare module wijmo.input {
         updateConfirmationButtons(hostElement: HTMLElement): void;
         setFocusValueToFirstOrLastCalendar(isFirst: boolean): void;
         isCalendarDateCell(element: HTMLElement): boolean;
+        isThisMainCalendar(): boolean;
     }
+}
+declare module wijmo.input {
+    function softTouch(): any;
+    function getDragDropTouch(): any;
 }
 declare module wijmo.input {
     /**
@@ -2106,6 +2123,7 @@ declare module wijmo.input {
         _keyActionUpArrow: KeyAction;
         _keyActionTab: TabKeyAction;
         static _ctrlTemplate: string;
+        _touchMove: boolean;
         /**
          * Gets or sets the template used to instantiate {@link DropDown} controls.
          */
@@ -2117,6 +2135,7 @@ declare module wijmo.input {
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
+        _isTouchMoved(): boolean;
         /**
          * Gets or sets the text shown on the control.
          */
@@ -2917,6 +2936,13 @@ declare module wijmo.input {
         protected _validateAndHide(result: any): void;
         protected _updateAriaLabel(): void;
         protected _updateAriaLabelImp(oldLabels: any): void;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
     /**
@@ -3388,6 +3414,7 @@ declare module wijmo.input {
          * Raises the {@link rangeChanged} event.
          */
         onRangeChanged(e?: wijmo.EventArgs): void;
+        protected _getParsedValue(): Date;
         refresh(fullUpdate?: boolean): void;
         onIsDroppedDownChanging(e: wijmo.CancelEventArgs): boolean;
         onIsDroppedDownChanged(e?: wijmo.EventArgs): void;
@@ -3558,6 +3585,7 @@ declare module wijmo.input {
         protected _createDropDown(): void;
         protected _keydown(e: KeyboardEvent): void;
         protected _commitText(): void;
+        protected _changeAllValue(): void;
         protected _copy(key: string, value: any): boolean;
         getAriaLabelForScreenReader(): any;
         protected _updateInputAriaLabel(): void;
@@ -3884,7 +3912,6 @@ declare module wijmo.input {
         _afterOpenDropdownByDownArrow(): void;
         _input(e: wijmo.Event): void;
         _handleDragTextState(): void;
-        _handleComposingState(): void;
         _shouldOpenDropdown(): boolean;
         _handleIsEditableFalseInput(): void;
         _updateSelection(index: number, editStart: number): void;
@@ -4149,6 +4176,7 @@ declare module wijmo.input {
         _defaultItem: any;
         _owner: HTMLElement;
         _isButton: boolean;
+        _keepOpen: boolean;
         _openOnHover: boolean;
         _closeOnLeave: boolean;
         _toHover: any;
@@ -4303,6 +4331,22 @@ declare module wijmo.input {
          */
         isButton: boolean;
         /**
+         * Gets or sets a value that indicates whether the menu should remain open
+         * after the user selects an item.
+         *
+         * When this property is set to **true**, the menu remains open after an item
+         * is clicked, allowing users to perform multiple selections or execute
+         * consecutive commands without having to reopen the menu.
+         *
+         * When set to **false** (the default), the menu automatically closes as soon
+         * as an item is selected, which aligns with the standard behavior of most
+         * dropdown or context menus.
+         *
+         * This property is useful in scenarios where continuous user interaction with
+         * the menu is required。
+         */
+        keepOpen: boolean;
+        /**
          * Gets or sets the element that owns this {@link Menu}.
          *
          * This property is set by the wj-context-menu directive in case a
@@ -4382,6 +4426,7 @@ declare module wijmo.input {
         protected _keydown(e: KeyboardEvent): void;
         _afterOpenDropdownByDownArrow(): void;
         protected _dropDownClick(e: MouseEvent): void;
+        private _closeSubMenuAndFocusOwner;
         private _showSubMenu;
         private _raiseCommand;
         private _focusMenuOwner;
@@ -4397,6 +4442,14 @@ declare module wijmo.input {
         private _hoverLeave;
         _setIsDisabled(value: boolean): void;
         _setTabOrder(value: number): void;
+        protected _getRtlStates(): boolean;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }

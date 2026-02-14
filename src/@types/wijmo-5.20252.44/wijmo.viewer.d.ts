@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -2559,6 +2559,13 @@ declare module wijmo.viewer {
          */
         onPageLoaded(e: PageLoadedEventArgs): void;
         beforeSend(e: RequestEventArgs): void;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }
@@ -2980,6 +2987,13 @@ declare module wijmo.viewer {
         _createPage(index: number, defPageSize: _ISize): _Page;
         protected _actionElementClicked(element: SVGElement): void;
         protected _getActionInfo(element: SVGElement): _IDocAction;
+        /**
+         * Disposes of the control and all its resources.
+         *
+         * Calling the {@link dispose} method is important in applications that create
+         * and remove controls dynamically. Failing to dispose of the controls may
+         * cause memory leaks.
+         */
         dispose(): void;
     }
 }

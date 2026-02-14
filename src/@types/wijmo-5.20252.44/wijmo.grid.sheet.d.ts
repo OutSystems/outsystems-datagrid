@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -845,6 +845,7 @@ declare module wijmo.grid.sheet {
         private _sheets;
         private _selectedSheetIndex;
         _tabHolder: _TabHolder;
+        private _isTabHolderVisibleCache;
         private _contextMenu;
         private _divContainer;
         private _columnHeaderClicked;
@@ -2000,6 +2001,10 @@ declare module wijmo.grid.sheet {
          * Indicates whether the italic style is applied.
          */
         isItalic?: boolean;
+        /**
+         * Indicates whether the strikethrough style is applied.
+         */
+        isStrikethrough?: boolean;
         /**
          * Indicates whether the underlined style is applied.
          */

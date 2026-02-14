@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -160,7 +160,7 @@ declare module wijmo.grid.immutable {
     class ImmutabilityProvider<T = any> {
         private readonly _grid;
         private _items;
-        private readonly _cv;
+        private _cv;
         private _isAddNew;
         private _isPasting;
         private _chg;
@@ -238,6 +238,9 @@ declare module wijmo.grid.immutable {
          * CV.sourceCollection. -1 if not a data row due to any reason.
          */
         private _dataIndex;
+        private _isTransposedGrid;
+        private _getSourceItems;
+        private _getTransposedItemAndIndex;
         /**
          * Removes all items from the target array, and adds items into it from the source array.
          * Returns the target array.

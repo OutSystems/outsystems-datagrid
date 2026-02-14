@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -2483,6 +2483,8 @@ declare module wijmo.grid {
         _srFocusHelper: any;
         _srMessageHelper: any;
         _imeContainer: any;
+        _mainContainer: HTMLDivElement;
+        _helperContainer: HTMLDivElement;
         _eEditorsContainer: HTMLElement;
         _gpTL: GridPanel;
         _gpCHdr: GridPanel;
@@ -2570,6 +2572,7 @@ declare module wijmo.grid {
         protected _errorTip: wijmo.Tooltip;
         protected _pSel: boolean;
         protected _pOutline: boolean;
+        protected _collapsedGroups: any;
         protected _stickyHdr: boolean;
         protected _anchorCursor: boolean;
         protected _copyHeaders: HeadersVisibility;
@@ -4879,6 +4882,9 @@ declare module wijmo.grid {
         private _sortConverter;
         protected _bindGrid(full: boolean): void;
         private _getMap;
+        private _saveCollapsedState;
+        private _restoreCollapsedState;
+        private _updateAllGroupsCollapseState;
         _cvCollectionChanged(sender: any, e: wijmo.collections.NotifyCollectionChangedEventArgs): void;
         private _cvCurrentChanged;
         private _syncSelection;
@@ -4964,9 +4970,10 @@ declare module wijmo.grid {
         protected _isFrozenObjectAllowed(): boolean;
         private _isFlexSheetInstance;
         _isServerCollectionView(cv: any, grid?: FlexGrid): boolean;
-        private _updateRowCount;
-        private _updateColumnCount;
+        _updateAriaRowCount(): void;
+        private _updateAriaColumnCount;
         _ensureEditSelectionForParentGrid(): void;
+        private _createHelperContainer;
         protected _gridRoleElement(): HTMLElement;
         protected _modifyRole(element: any, role: any, removeCondition: any): void;
         protected _handleRefreshForA11y(): void;
@@ -4974,6 +4981,7 @@ declare module wijmo.grid {
         destroyScreenReaderShortCutNotifier(): void;
         readonly rowColSelected: Event<FlexGrid<any>, CellRangeEventArgs>;
         onRowColSelected(e: CellRangeEventArgs): void;
+        isAddingInvalidNewRow(rowNumber: number): T;
     }
 }
 declare module wijmo.grid {
@@ -5658,6 +5666,7 @@ declare module wijmo.grid {
             row: boolean;
             col: boolean;
         };
+        private _mousedownPoint;
         static _SZ_MIN: number;
         static _SZ_MAX_COLGRP_EDGE: number;
         private _mouseWhellTimer;

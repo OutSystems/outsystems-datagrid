@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.42
+    * Wijmo Library 5.20252.44
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -5412,6 +5412,10 @@ declare module wijmo.xlsx {
          */
         underline: boolean;
         /**
+         * Indicates whether the current font is strikethrough.
+         */
+        strikethrough: boolean;
+        /**
          * Gets or sets the font color.
          *
          * For export, the color can be specified in any valid HTML format
@@ -6175,6 +6179,10 @@ declare module wijmo.xlsx {
          * Gets or sets a value indicating whether this font is underlined.
          */
         underline?: boolean;
+        /**
+         * Whether to strike through.
+         */
+        strikethrough?: boolean;
         /**
          * Gets or sets the font color.
          *
