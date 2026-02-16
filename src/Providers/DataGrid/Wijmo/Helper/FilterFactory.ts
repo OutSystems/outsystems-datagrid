@@ -60,8 +60,12 @@ namespace Providers.DataGrid.Wijmo.Helper.FilterFactory {
 	 *    wijmo.grid.filter.Operator.GT = 'GT'
 	 *    wijmo.grid.filter.Operator.LE = 'LE'
 	 *    wijmo.grid.filter.Operator.LT = 'LT'
+	 *    wijmo.grid.filter.Operator.NBW = 'NBW'
 	 *    wijmo.grid.filter.Operator.NC = 'NC'
 	 *    wijmo.grid.filter.Operator.NE = 'NE'
+	 *    wijmo.grid.filter.Operator.NEW = 'NEW'
+	 *    wijmo.grid.filter.Operator.BLANK = 'BLANK'
+	 *    wijmo.grid.filter.Operator.NOTBLANK = 'NOTBLANK'
 	 * @param {wijmo.grid.filter.Operator} operator
 	 * @returns {*}  {string}
 	 */
