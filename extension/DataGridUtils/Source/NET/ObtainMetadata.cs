@@ -133,7 +133,7 @@ namespace OutSystems.NssDataGridUtils {
             dataMetadata = sb.ToString();
         }
 
-        public static void fromObjectToMetadata(object data, out string dataMetadata) {
+        public static void writeMetadata(object data, out string dataMetadata) {
             Type type = data.GetType();
             if (typeof(IOSList).IsAssignableFrom(type)) {
                 IOSList list = (IOSList)data;
