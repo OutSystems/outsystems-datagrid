@@ -232,7 +232,6 @@ namespace OutSystems.NssDataGridUtils {
         public static void OutSystemsObjToJSON(object ssValue, int ssDateFormat, out string ssJSON) {
             ssJSON = string.Empty;
             StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
 
             using(StringWriter sw = new StringWriter(sb))
             using (JsonWriter json = new JsonTextWriter(sw)) {
