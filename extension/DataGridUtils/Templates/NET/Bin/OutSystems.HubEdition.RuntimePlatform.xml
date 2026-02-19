@@ -159,6 +159,89 @@
             <param name="data"></param>
             <returns>A String with the the Html code to be used in the Web Page request.</returns>
         </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Communication.REST.RuntimeClient.CreateTenantAsync(System.String,OutSystems.HubEdition.RuntimePlatform.Communication.REST.CreateTenantInput)">
+            <summary>
+            Create a Tenant
+            </summary>
+            <remarks>
+            Sample request:
+            <br/>
+            <br/>   PUT /create-tenant
+            </remarks>
+            <param name="username">Username to be used in the operation</param>
+            <param name="input">Input parameters needed for the operation</param>
+            <returns>Output content coming from the CreateTenant function</returns>
+            <exception cref="T:OutSystems.HubEdition.RuntimePlatform.Communication.REST.ApiException">A server side error occurred.</exception>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Communication.REST.RuntimeClient.CreateTenant(System.String,OutSystems.HubEdition.RuntimePlatform.Communication.REST.CreateTenantInput)">
+            <summary>
+            Create a Tenant
+            </summary>
+            <remarks>
+            Sample request:
+            <br/>
+            <br/>   PUT /create-tenant
+            </remarks>
+            <param name="username">Username to be used in the operation</param>
+            <param name="input">Input parameters needed for the operation</param>
+            <returns>Output content coming from the CreateTenant function</returns>
+            <exception cref="T:OutSystems.HubEdition.RuntimePlatform.Communication.REST.ApiException">A server side error occurred.</exception>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Communication.REST.RuntimeClient.CreateTenantAsync(System.String,OutSystems.HubEdition.RuntimePlatform.Communication.REST.CreateTenantInput,System.Threading.CancellationToken)">
+            <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+            <summary>
+            Create a Tenant
+            </summary>
+            <remarks>
+            Sample request:
+            <br/>
+            <br/>   PUT /create-tenant
+            </remarks>
+            <param name="username">Username to be used in the operation</param>
+            <param name="input">Input parameters needed for the operation</param>
+            <returns>Output content coming from the CreateTenant function</returns>
+            <exception cref="T:OutSystems.HubEdition.RuntimePlatform.Communication.REST.ApiException">A server side error occurred.</exception>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Communication.REST.RuntimeClient.UpdateTenantViewsAsync(OutSystems.HubEdition.RuntimePlatform.Communication.REST.UpdateTenantViewsInput)">
+            <summary>
+            Update the tenant views
+            </summary>
+            <remarks>
+            Sample request:
+            <br/>
+            <br/>  POST /update-tenant-views
+            </remarks>
+            <param name="input">Input parameters needed for the operation</param>
+            <returns>Output content coming from the UpdateTenantViews function</returns>
+            <exception cref="T:OutSystems.HubEdition.RuntimePlatform.Communication.REST.ApiException">A server side error occurred.</exception>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Communication.REST.RuntimeClient.UpdateTenantViews(OutSystems.HubEdition.RuntimePlatform.Communication.REST.UpdateTenantViewsInput)">
+            <summary>
+            Update the tenant views
+            </summary>
+            <remarks>
+            Sample request:
+            <br/>
+            <br/>  POST /update-tenant-views
+            </remarks>
+            <param name="input">Input parameters needed for the operation</param>
+            <returns>Output content coming from the UpdateTenantViews function</returns>
+            <exception cref="T:OutSystems.HubEdition.RuntimePlatform.Communication.REST.ApiException">A server side error occurred.</exception>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Communication.REST.RuntimeClient.UpdateTenantViewsAsync(OutSystems.HubEdition.RuntimePlatform.Communication.REST.UpdateTenantViewsInput,System.Threading.CancellationToken)">
+            <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+            <summary>
+            Update the tenant views
+            </summary>
+            <remarks>
+            Sample request:
+            <br/>
+            <br/>  POST /update-tenant-views
+            </remarks>
+            <param name="input">Input parameters needed for the operation</param>
+            <returns>Output content coming from the UpdateTenantViews function</returns>
+            <exception cref="T:OutSystems.HubEdition.RuntimePlatform.Communication.REST.ApiException">A server side error occurred.</exception>
+        </member>
         <member name="T:OutSystems.HubEdition.RuntimePlatform.HeContext">
             <summary>
             Platform Runtime Context with info to be used in current request processing.
@@ -168,6 +251,79 @@
             <summary>
             Will dispose pending objects that have been added for later disposable
             </summary>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Cryptography.RuntimeCryptHelper.EncryptWithSymmetricAlgorithm(System.Byte[],System.String,OutSystems.HubEdition.RuntimePlatform.Cryptography.ICryptographySymmetricAlgorithm,OutSystems.HubEdition.RuntimePlatform.Cryptography.ICryptographySymmetricAlgorithm.IOptions)">
+            <summary>
+            Encrypts the text string using the specified symmetric algorithm.
+            </summary>
+            <param name="key">Key to use, as a byte array.</param>
+            <param name="content">Clear text to encrypt.</param>
+            <param name="algorithm">Instance of the algorithm to be used. It must implement the <c>ICryptographySymmetricAlgorithm</c> and be registered on to be used on this helper class.</param>
+            <param name="options">Optional options of the specific algorithm. See if the algorithm implementation provides a <c>CreateOptions</c> method.</param>
+            <returns>The result encrypting the <paramref name="content"/> value with the specified <paramref name="algorithm"/>.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Cryptography.RuntimeCryptHelper.EncryptWithSymmetricAlgorithm(System.Byte[],System.String)">
+            <summary>
+            Encrypts the text string using the best symmetric algorithm available.
+            </summary>
+            <param name="key">Key to use, as a byte array.</param>
+            <param name="content">Clear text to encrypt.</param>
+            <returns>The result encrypting the <paramref name="content"/> value with the best symmetric algorithm available.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Cryptography.RuntimeCryptHelper.DecryptWithSymmetricAlgorithm(System.Byte[],System.String)">
+            <summary>
+            Decrypt method that checks the ciphered text value to determine what algoritm to use.
+            This method should be used when the content has been encrypted with any of the symmetric encryption methods of this class.
+            </summary>
+            <param name="key">Key to use, as a byte array.</param>
+            <param name="cipherText">Encrypted string to decrypt.</param>
+            <returns>The <paramref name="cipherText"/> value decrypted.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Cryptography.RuntimeCryptHelper.DecryptWithAES256(System.String,System.String)">
+            <summary>
+            Decrypt method that uses AES256 algorithm with the Salt retrieved from the cipherText value.
+            This method should be used when the content has been encrypted with the <c>EncryptWithAES256</c> method.
+            </summary>
+            <param name="password">Password to use, encoded in Base64.</param>
+            <param name="cipherText">Encrypted string to decrypt.</param>
+            <returns>The <paramref name="cipherText"/> value decrypted.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Cryptography.RuntimeCryptHelper.EncryptWithAES256(System.String,System.String)">
+            <summary>
+            Encrypt method that uses AES256 algorithm with a random Salt.
+            </summary>
+            <param name="password">Password to use, encoded in Base64.</param>
+            <param name="content">Clear text to encrypt.</param>
+            <returns>The result encrypting the <paramref name="content"/> value with an AES 256 algorithm.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Cryptography.RuntimeCryptHelper.EncryptWithAES256(System.Byte[],System.String)">
+            <summary>
+            Encrypt method that uses AES256 algorithm with a random Salt.
+            </summary>
+            <param name="key">Key to use, as a byte array.</param>
+            <param name="content">Clear text to encrypt.</param>
+            <returns>The result encrypting the <paramref name="content"/> value with an AES 256 algorithm.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Cryptography.RuntimeCryptHelper.DecryptWithAES256Fallback(System.String,System.String)">
+            <summary>
+            Decrypt method that uses AES256 algorithm with the Salt retrieved from the cipherText value or with a fixed Salt.
+            This method decrypts content that has been encrypted with <c>EncryptWithAES256</c>, which uses a random Salt.
+            It also ensures retrocompatibility when the existing content was encrypted with the <c>SymmCryptHelper.EncryptWithAES256FixedIV</c> method, which uses a fixed Salt.
+            </summary>
+            <remarks>The parameter <paramref name="cipherText"/> is mandatory, the caller should check if it's not null or empty and decide if it doesn't want an exception.</remarks>
+            <param name="password">Password to use. When the encrypted value is not using the fallback algorithm, it must be a Base64 valid string.</param>
+            <param name="cipherText">Encrypted string to decrypt.</param>
+            <returns>The <paramref name="cipherText"/> value decrypted.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Cryptography.VersionedSymmetricAlgorithms.#ctor(OutSystems.HubEdition.RuntimePlatform.Cryptography.ICryptographySymmetricAlgorithm[])">
+            <summary>
+            Create a new VersionedAlgorithm class
+            </summary>
+            <param name="algorithms">
+            List of algorithms by order of security. 
+            A more secure algorithms should always be added to the end of this list.
+            The first algorithm is the default to use when processing the result and the result isn't in the correct format.
+            </param>
         </member>
         <member name="M:OutSystems.HubEdition.RuntimePlatform.DBRuntimePlatform.FillAndCheckActivationParameter(OutSystems.Internal.Db.Transaction,System.Collections.Generic.IDictionary{OutSystems.RuntimeCommon.ActivationParameter,OutSystems.HubEdition.RuntimePlatform.Licensing.ILicenseParametersRepoValue})">
             <summary>
@@ -665,165 +821,6 @@
             HttpHandler used to send debug events to Service Studio.
             </summary>
         </member>
-        <member name="T:OutSystems.HubEdition.RuntimePlatform._Debugger">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.#ctor(System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.GetIsRunning">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginGetIsRunning(System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndGetIsRunning(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.StartDebugSession(System.String,System.String,System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginStartDebugSession(System.String,System.String,System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndStartDebugSession(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.StopDebugSession(System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginStopDebugSession(System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndStopDebugSession(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.OnBeforeDeploy(System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginOnBeforeDeploy(System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndOnBeforeDeploy(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.SetHandleExceptionMode(System.String,System.Boolean)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginSetHandleExceptionMode(System.String,System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndSetHandleExceptionMode(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.AddBreakpoints(System.String,System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginAddBreakpoints(System.String,System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndAddBreakpoints(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.RemoveBreakpoint(System.String,System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginRemoveBreakpoint(System.String,System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndRemoveBreakpoint(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.ClearBreakpoints(System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginClearBreakpoints(System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndClearBreakpoints(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.SuspendAllThreads(System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginSuspendAllThreads(System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndSuspendAllThreads(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.ContinueThread(System.String,System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginContinueThread(System.String,System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndContinueThread(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.Stop(System.String,System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginStop(System.String,System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndStop(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.RunTo(System.String,System.String,System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginRunTo(System.String,System.String,System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndRunTo(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.StepInto(System.String,System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginStepInto(System.String,System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndStepInto(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.StepOver(System.String,System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginStepOver(System.String,System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndStepOver(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.StepOut(System.String,System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginStepOut(System.String,System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndStepOut(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.GetDebugEvent(System.String,System.Int64)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginGetDebugEvent(System.String,System.Int64,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndGetDebugEvent(System.IAsyncResult)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.Evaluate(System.String,System.String,System.String)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.BeginEvaluate(System.String,System.String,System.String,System.AsyncCallback,System.Object)">
-            <remarks/>
-        </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform._Debugger.EndEvaluate(System.IAsyncResult)">
-            <remarks/>
-        </member>
         <member name="T:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.ProcessDeletion">
             <summary>
             CLass to perform the deletion of processes.
@@ -841,6 +838,100 @@
             Determines whether there are processes to delete.
             </summary>
             <returns><c>true</c> if there are processes to delete, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.Db.DBProcess.DeleteProcesses(OutSystems.Internal.Db.Transaction,System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Main method of the Processes Delete where it's define the SQL Server flow
+            </summary>
+            <param name="trans"></param>
+            <param name="processId"></param>
+            <param name="olderThan"></param>
+            <param name="bulkSizeLimit"></param>
+            <param name="processDefinitionId"></param>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.Db.DBProcess.CheckProcessIdIsValid(OutSystems.Internal.Db.Transaction,System.Nullable{System.Int32})">
+            <summary>
+            Check if the process id provided is valid to delete
+            </summary>
+            <param name="trans"></param>
+            <param name="processId"></param>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.Db.DBProcess.HasProcessesToDelete(OutSystems.Internal.Db.Transaction,System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Checks if there is more Processes to delete older than the date in olderThan parameter
+            </summary>
+            <param name="trans"></param>
+            <param name="olderThan"></param>
+            <param name="processDefinitionId"></param>
+            <returns>The count of processes that are still to delete</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.Db.DBProcess.DropProcToDeleteTable(OutSystems.Internal.Db.Transaction)">
+            <summary>
+            Drop the temporary table if exists
+            </summary>
+            <param name="trans"></param>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.Db.DBProcess.CreateProcToDeleteTable(OutSystems.Internal.Db.Transaction,System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Create a table with the ID of all processes to be deleted
+            </summary>
+            <param name="trans"></param>
+            <param name="processId"></param>
+            <param name="olderThan"></param>
+            <param name="bulkSizeLimit"></param>
+            <param name="processDefinitionId"></param>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.Db.DBProcess.RemoveCircularReferences(OutSystems.Internal.Db.Transaction)">
+            <summary>
+            Remove circular references for all processes to be removed
+            </summary>
+            <param name="trans"></param>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.Db.DBProcess.InnerDeleteProcesses(OutSystems.Internal.Db.Transaction,System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Delete the processes
+            </summary>
+            <param name="trans"></param>
+            <param name="processId"></param>
+            <param name="olderThan"></param>
+            <param name="processDefinitionId"></param>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.Db.DBProcess.ExecuteProcedure(OutSystems.Internal.Db.Transaction,System.String,System.String)">
+            <summary>
+            Execute the provided Procedure
+            </summary>
+            <param name="trans"></param>
+            <param name="sqlProocedureName"></param>
+            <param name="osTraceMessage"></param>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.Db.DBProcessOracle.DeleteProcesses(OutSystems.Internal.Db.Transaction,System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Main method of the Processes Delete where it's define the ORACLE SQL flow
+            </summary>
+            <param name="trans"></param>
+            <param name="processId"></param>
+            <param name="olderThan"></param>
+            <param name="bulkSizeLimit"></param>
+            <param name="processDefinitionId"></param>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.Db.DBProcessOracle.FillProcToDeleteTable(OutSystems.Internal.Db.Transaction,System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Fills the global temporary table ProcIds with the ID of all processes to be deleted
+            </summary>
+            <param name="trans"></param>
+            <param name="processId"></param>
+            <param name="olderThan"></param>
+            <param name="bulkSizeLimit"></param>
+            <param name="processDefinitionId"></param>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePublic.Db.DBProcessOracle.InnerDeleteProcesses(OutSystems.Internal.Db.Transaction,System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Delete the processes
+            </summary>
+            <param name="trans"></param>
+            <param name="processId"></param>
+            <param name="olderThan"></param>
+            <param name="processDefinitionId"></param>
         </member>
         <member name="P:OutSystems.HubEdition.RuntimePlatform.Email.EmailProcessor.MailUA">
             <summary>
@@ -1106,13 +1197,15 @@
             It does not make any distinction about cookies with different Options.
             </summary>
         </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform.Internal.SecurityTokenAPI.GetValidatedToken``1(OutSystems.RuntimeCommon.Settings.ISettingsProvider,System.String)">
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.Internal.TelemetryProvider.TelemetryDBProviderCache.SetCache(System.String,System.String)">
             <summary>
-            Validates autorization token string
+            It adds the application and connection into a ConcurrentDictionary to make sure
+            we don't send the same telemetry many times.
+            It returns true if the application-connection was added, false if not.
             </summary>
-            <param name="settingsProvider">settings provider to be used in the validation</param>
-            <param name="authToken">token string to be validated</param>
-            <returns>validated token object</returns>
+            <param name="applicationName">Name of the application currently executed</param>
+            <param name="connectionName">Name of the database connection being cached</param>
+            <returns>Returns true if the application-connection was added to the cache, false if it already exists</returns>
         </member>
         <member name="T:OutSystems.HubEdition.RuntimePlatform.IPAddressRangeLib.Bits">
             Source code from https://github.com/jsakamoto/ipaddressrange, forked by us in https://github.com/OutSystems/ipaddressrange
@@ -1264,11 +1357,6 @@
             Serialize to a string in JSON format the snippets to replace in the page
             </summary>
         </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform.ProcessDeletion.ProcessesToDeleteQuery(OutSystems.HubEdition.Extensibility.Data.IDatabaseServices,System.Boolean)">
-            <summary>
-            Construct the select that gather which are the actual processes that will be deleted
-            </summary>
-        </member>
         <member name="M:OutSystems.HubEdition.RuntimePlatform.ProcessDeletion.DeleteProcesses(OutSystems.Internal.Db.Transaction)">
             <summary>
             Deletes all the logged information of the instances of Processes that fit the criteria specified in the constructor.
@@ -1276,6 +1364,13 @@
             </summary>
             <param name="trans">Transaction to use</param>
             <returns>True if the operation deleted all the processes that fit the criteria.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.ProcessDeletion.HasProcessesToDelete(OutSystems.Internal.Db.Transaction)">
+            <summary>
+            Determines whether there are processes to delete.
+            </summary>
+            <param name="trans"></param>
+            <returns></returns>
         </member>
         <member name="P:OutSystems.HubEdition.RuntimePlatform.Processes.ProcessBase.AbstractProcessActivityBase.IsDummy">
             <summary>
@@ -1491,7 +1586,7 @@
             Closes a process, all its activities and sets the parent activity (if any) to execute
             </summary>
             <param name="heContext"></param>
-            <param name="processDefiniton">Instance of the process to close, can be a dummy instance</param>
+            <param name="processDefinition">Instance of the process to close, can be a dummy instance</param>
             <param name="processId">Id of the process, cannot be dummy</param>
             <param name="manualTerminate"></param>
         </member>
@@ -1500,7 +1595,7 @@
             Closes a process, all its activities and sets the parent activity (if any) to execute
             </summary>
             <param name="heContext"></param>
-            <param name="processDefiniton">Instance of the process to close, can be a dummy instance</param>
+            <param name="processDefinition">Instance of the process to close, can be a dummy instance</param>
             <param name="processId">Id of the process, cannot be dummy</param>
             <param name="recursive"></param>
         </member>
@@ -1672,6 +1767,16 @@
             </summary>
             <param name="val">String to be converted</param>
             <param name="datatype">The runtime string representation of the desired datatype.</param>
+            <returns>An object created from the given String based on the data type.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.RuntimePlatformUtils.ConvertFromString(System.String,System.String,System.Boolean)">
+            <summary>
+            Convert an string to object.
+            To be used for retrieve values from a database string field
+            </summary>
+            <param name="val">String to be converted</param>
+            <param name="datatype">The runtime string representation of the desired datatype.</param>
+            <param name="isSecret">Indicates if the value needs to be hidden</param>
             <returns>An object created from the given String based on the data type.</returns>
         </member>
         <member name="F:OutSystems.HubEdition.RuntimePlatform.RuntimePlatformUtils.Hashing.hashes">
@@ -1847,10 +1952,21 @@
             Site Property constructor used for Text System properties only
             </summary>
         </member>
-        <member name="M:OutSystems.HubEdition.RuntimePlatform.SiteProperty.#ctor(OutSystems.ObjectKeys.ObjectKey,System.String,System.String)">
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.SiteProperty.#ctor(OutSystems.ObjectKeys.ObjectKey,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>
             Site Property constructor used by runtime settings.
             </summary>
+        </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.SiteProperty.ResolveObjectValue(System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            R11BRT-764 If the site property is secret and inactive we are not going to throw an exception if we failed
+            to load the value since the encryption method may be different
+            </summary>
+            <param name="inputValue">site property value</param>
+            <param name="rttype">site property type</param>
+            <param name="isSecret">true if site property is secret</param>
+            <param name="isActive">optional parameter, true if the site property is active</param>
+            <returns>Retrieves the value of site properties</returns>
         </member>
         <member name="M:OutSystems.HubEdition.RuntimePlatform.StaticEntityRuntime.StaticRecordMetadata.Read(System.Data.IDataReader)">
             <summary>
@@ -2249,12 +2365,13 @@
             The dbConnectionProviders dictionary stores all external database connections
             </summary>
         </member>
-        <member name="M:OutSystems.Internal.Db.DatabaseAccess.#ctor(System.Boolean,OutSystems.RuntimeCommon.Settings.ISettingsProvider)">
+        <member name="M:OutSystems.Internal.Db.DatabaseAccess.#ctor(System.Boolean,OutSystems.RuntimeCommon.Settings.ISettingsProvider,OutSystems.HubEdition.RuntimePlatform.Internal.TelemetryProvider.ITelemetryDbProviderService)">
             <summary>
             Create a new instance of the <see cref="T:OutSystems.Internal.Db.DatabaseAccess"/> class using the given <c>IDatabaseServices</c>.
             </summary>
             <param name="initialize">True to initialize the providers, false otherwise</param>
             <param name="settingsProvider">True to initialize the providers, false otherwise</param>
+            <param name="telemetryDBProvider">Telemetry service for DB Provider</param>
         </member>
         <member name="P:OutSystems.Internal.Db.DatabaseAccess.Current">
             <summary>
@@ -2558,6 +2675,17 @@
             Returns a hash code for this instance.
             </summary>
             <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. </returns>
+        </member>
+        <member name="M:OutSystems.Internal.Db.DatabaseConfigurationHelper.ChangeConnectionString(OutSystems.HubEdition.Extensibility.Data.ConfigurationService.IIntegrationDatabaseConfiguration,System.String,System.String)">
+            <summary>
+            Creates new IRuntimeDatabaseConfiguration based on an IIntegrationDatabaseConfiguration but with a new connection string and database identifier if applicable.
+            
+            This method does not change the original configuration to avoid modifying an object that can be in use on other threads. A copy is created instead.
+            </summary>
+            <param name="configuration">base configurations to use</param>
+            <param name="connectionString"></param>
+            <param name="databaseIdentifier"></param>
+            <returns></returns>
         </member>
         <member name="M:OutSystems.RuntimePublic.Audit.CreateAuditLog(System.String,System.String,System.String)">
             <summary>

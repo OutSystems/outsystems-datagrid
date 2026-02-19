@@ -4,6 +4,69 @@
         <name>OutSystems.HubEdition.DatabaseAbstractionLayer</name>
     </assembly>
     <members>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.AdditionalSettings.BaseAdditionalSettings.GetValue``1(System.String,``0)">
+            <summary>
+            Gets the value associated with the specified key.
+            Similar behavior of the <code>TryGetValue</code>, the only difference being that no information is returned about the key existence.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key of the value to get.</param>
+            <param name="defaultValue">The default value to return when the key is not found or if it was not possible to convert to the <code>T</code> type</param>
+            <returns></returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.AdditionalSettings.BaseAdditionalSettings.Set``1(System.String,``0)">
+            <summary>
+            Adds the specified <code>key</code> and <code>value</code> to the settings storage.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key of the element to set.</param>
+            <param name="value">The value of the element to set. The value cannot be null, even for reference types.</param>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.AdditionalSettings.BaseAdditionalSettings.TryGetValue``1(System.String,``0@,``0)">
+            <summary>
+            Gets the value associated with the specified <code>key</code>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key of the value to get.</param>
+            <param name="value">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, the <code>defaultValue</code> value.</param>
+            <param name="defaultValue">The default value to return when the key is not found or if it was not possible to convert to the <code>T</code> type</param>
+            <returns></returns>
+        </member>
+        <member name="T:OutSystems.HubEdition.Extensibility.Data.AdditionalSettings.IAdditionalSettings">
+            <summary>
+            Represents the storage of additional settings that a database provider can consider. 
+            This is can be used to stored configurations that are not being provided via the normal <code>DatabaseConfiguration</code>. 
+            When possible <code>DatabaseConfiguration</code> should be used instead.
+            </summary>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.AdditionalSettings.IAdditionalSettings.GetValue``1(System.String,``0)">
+            <summary>
+            Gets the value associated with the specified key.
+            Similar behavior of the <code>TryGetValue</code>, the only difference being that no information is returned about the key existence.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key of the value to get.</param>
+            <param name="defaultValue">The default value to return when the key is not found or if it was not possible to convert to the <code>T</code> type</param>
+            <returns></returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.AdditionalSettings.IAdditionalSettings.Set``1(System.String,``0)">
+            <summary>
+            Adds the specified <code>key</code> and <code>value</code> to the settings storage.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key of the element to set.</param>
+            <param name="value">The value of the element to set. The value cannot be null, even for reference types.</param>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.AdditionalSettings.IAdditionalSettings.TryGetValue``1(System.String,``0@,``0)">
+            <summary>
+            Gets the value associated with the specified <code>key</code>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key of the value to get.</param>
+            <param name="value">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, the <code>defaultValue</code> value.</param>
+            <param name="defaultValue">The default value to return when the key is not found or if it was not possible to convert to the <code>T</code> type</param>
+            <returns></returns>
+        </member>
         <member name="P:OutSystems.HubEdition.Extensibility.Data.BaseDatabaseProvider.Key">
             <summary>
             Returns a unique identifier of the database provider, used to identify it as a plugin
@@ -3208,6 +3271,226 @@
             The data types.
             </value>
         </member>
+        <member name="T:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.StructWrapper`1">
+            <summary>
+            Helper class to ensure we can use nullable structs/enums with generics.<br/><br/>
+            Note that we can't force <typeparamref name="T"/> to be <see cref="T:System.IEquatable`1"/> (which would be the ideal) as enums don't implement it.
+            This forces uses to override <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.StructWrapper`1.Equals(System.Object)"/> <i>without any enforcement from the type system</i> to ensure that uses of <see cref="M:System.Linq.Enumerable.Contains``1(System.Collections.Generic.IEnumerable{``0},``0)"/> work as intended.
+            </summary>
+            <typeparam name="T">A struct/enum.</typeparam>
+        </member>
+        <member name="T:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2">
+            <summary>
+            The main objective of this class is to standardise access and storage of Version and Engine Database Properties. <br/><br/>
+            These properties are ensured to be cached, avoiding unnecessary accesses to the Database (or to whichever other datasource these properties will be obtained from).<br/><br/>
+            Additionally, error messages are also uniformised, aiming to provide simple but helpful explanations of why a Version or Engine is not supported.<br/><br/>
+            Although this class is currently locked to only two Database Properties, it could easily be modified to support more.
+            </summary>
+            <typeparam name="TVersion">Represents the Server Version Property. Must be a class and implement IComparable.</typeparam>
+            <typeparam name="TEngine">Represents the Server Engine Property. Must be a class and implement IComparable.</typeparam>
+        </member>
+        <member name="P:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.DatabaseServices">
+            <summary>
+            The <see cref="T:OutSystems.HubEdition.Extensibility.Data.IDatabaseServices"/> instance associated with this service.
+            </summary>
+        </member>
+        <member name="F:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.serverVersionLockObject">
+            <summary>
+            The lock object that will be used to protect the Server Version property.
+            </summary>
+        </member>
+        <member name="F:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.serverEngineLockObject">
+            <summary>
+            The lock object that will be used to protect the Server Engine property.
+            </summary>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.#ctor(OutSystems.HubEdition.Extensibility.Data.IDatabaseServices)">
+            <summary>
+            Single construtor entrypoint for the class. Requires a <see cref="T:OutSystems.HubEdition.Extensibility.Data.IDatabaseServices"/> as it may need to create <see cref="T:System.Data.IDbConnection"/>s.
+            </summary>
+            <param name="databaseServices">A reference to a specific Database Provider's Database Services. Cannot be null.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="databaseServices"/> is null.</exception>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetDBDisplayName">
+            <summary>
+            Gets the Database's display name based on the <see cref="T:OutSystems.HubEdition.Extensibility.Data.IDatabaseProvider"/>'s Key. Used to prettify the various error messages.
+            </summary>
+            <returns>The Database's display name.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableVersion">
+            <summary>
+            Defines an "Unidentifiable Version". This is for scenarios where, for some reason, we were unable to retrieve the Database's version and want to store it as such. 
+            For instance, for the <see cref="T:System.Version"/> type it would make sense for it to be <code>new Version(0,0,0,0)</code>
+            </summary>
+            <returns>The value of type <typeparamref name="TVersion"/> that represents an "Unidentifiable Version".</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableEngine">
+            <summary>
+            Defines an "Unidentifiable Engine". This is for scenarios where, for some reason, we were unable to retrieve the Database's engine and want to store it as such. 
+            For instance, for a <see cref="T:System.String"/> type it would make sense for it to be "N/A".
+            </summary>
+            <returns>The value of type <typeparamref name="TEngine"/> that represents an "Unidentifiable Engine".</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetMinimumRequiredVersion">
+            <summary>
+            The minimum Version that should be supported/required by the Database Provider.
+            </summary>
+            <returns>The value of type <typeparamref name="TVersion"/> that represents the "Minimum Required Version".</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetMaximumSupportedVersion">
+            <summary>
+            The maximum Version that should be supported by the Database Provider.
+            </summary>
+            <returns>The value of type <typeparamref name="TVersion"/> that represents the "Maximum Supported Version".</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetSupportedEngines">
+            <summary>
+            The set of Engines that are supported by the Database Provider. <b>A "null" <see cref="T:System.Collections.Generic.ISet`1"/> represents that all Engines are supported.</b>
+            </summary>
+            <returns>An <see cref="T:System.Collections.Generic.ISet`1"/> of type <typeparamref name="TEngine"/> with the Engines that should be supported.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableVersionErrorMessage">
+            <summary>
+            Get end-user friendly message warning that the Database's Version was unidentifiable.
+            </summary>
+            <returns>The message.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableEngineErrorMessage">
+            <summary>
+            Get end-user friendly message warning that the Database's Engine was unidentifiable.
+            </summary>
+            <returns>The message.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnsupportedVersionErrorMessage(`0)">
+            <summary>
+            Get end-user friendly message warning that the Database's Version is unsupported.
+            </summary>
+            <param name="dbServerVersion">The obtained Database Version for the currently configured Database.</param>
+            <returns>The message. If <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetMaximumSupportedVersion"/> is overriden (with something different from "null") the message will clearly state the "Maximum Supported Version".</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnsupportedEngineErrorMessage(`1)">
+            <summary>
+            Get end-user friendly message warning that the Database's Engine is unsupported.
+            </summary>
+            <param name="dbServerEngine">The obtained Database Engine for the currently configured Database.</param>
+            <returns>The message.></returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.SetExceptionsToUnidentifiableVersion">
+            <summary>
+            Overridable function to define which <see cref="T:System.Exception"/>s thrown by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.InnerGetServerVersion(System.Data.IDbConnection)"/> should be ignored, logged and transformed into an "Unidentifiable Version" (as defined by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableVersion"/>). <br/><br/>
+            Note that we can't enforce at compile time that all Types in this ISet actually inherit from Exception.
+            </summary>
+            <returns>An <see cref="T:System.Collections.Generic.ISet`1"/> containing the Exceptions that should be transformed into an "Unidentifiable Version".</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.SetExceptionsToUnidentifiableEngine">
+            <summary>
+            Overridable function to define which <see cref="T:System.Exception"/>s thrown by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.InnerGetServerEngine(System.Data.IDbConnection)"/> should be ignored, logged and transformed into an "Unidentifiable Engine" (as defined by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableEngine"/>). <br/><br/>
+            Note that we can't enforce at compile time that all Types in this ISet actually inherit from Exception.
+            </summary>
+            <returns>An <see cref="T:System.Collections.Generic.ISet`1"/> containing the Exceptions that should be transformed into an "Unidentifiable Engine".</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetPropertyInsideLock``1(OutSystems.HubEdition.Extensibility.Data.IDatabaseServices,System.Object,``0@,System.Func{System.Data.IDbConnection,``0},System.Func{``0,System.String},System.Func{System.Collections.Generic.ISet{System.Type}},System.Func{``0},System.Data.IDbConnection)">
+            <summary>
+            Private function to safely obtain the value of a given Database Property - <paramref name="propertyToObtain"/>.<br/><br/>
+            It abstracts:
+            <list type="bullet">
+            <item>Lock over <paramref name="propertyToObtain"/> to ensure thread safety (avoiding unecessary executions of <paramref name="innerFunction"/>).</item>
+            <item>Obtaining a connection if none is given.</item>
+            <item>Transforming configured exceptions (<paramref name="exceptionsToUnidentifiableProperties"/>) into an "unidentifiable property" (either <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableVersion"/> or <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableEngine"/>).</item>
+            </list>
+            </summary>
+            <typeparam name="TProperty">The type of one the Properties associated with this class.</typeparam>
+            <param name="databaseServices">The <see cref="T:OutSystems.HubEdition.Extensibility.Data.IDatabaseServices"/> instance associated with the service.</param>
+            <param name="theLock">The object used to lock the code execution of <paramref name="innerFunction"/>. Each property must have its own lock object.</param>
+            <param name="propertyToObtain">A reference to the property we want to obtain. If it is "null" it means it is not cached and we need to use <paramref name="innerFunction"/>, otherwise we simply return it.</param>
+            <param name="innerFunction">The function reference that will do the actual work to obtain the Database property.<br/><br/> Either <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.InnerGetServerVersion(System.Data.IDbConnection)"/> or <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.InnerGetServerEngine(System.Data.IDbConnection)"/>.</param>
+            <param name="unsupportedErrorFunction">The function that returns the "unsupported error message" for the property - <paramref name="propertyToObtain"/> - we are checking (e.g. <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnsupportedEngineErrorMessage(`1)"/>).</param>
+            <param name="exceptionsToUnidentifiableProperties">The set of Exception types that the function will catch and transform into <paramref name="unidentifiablePropertyFunction"/>. <br/><br/> This is will be a runtime check. <br/><br/> Either <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.SetExceptionsToUnidentifiableVersion"/> or <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.SetExceptionsToUnidentifiableEngine"/>.</param>
+            <param name="unidentifiablePropertyFunction">The function that returns the "unidentifiable property" associated with the property - <paramref name="propertyToObtain"/> - we are checking (e.g. <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableEngine"/>).</param>
+            <param name="connection">An optional <see cref="T:System.Data.IDbConnection"/> that will be passed to <paramref name="innerFunction"/>. <br/><br/> If it is not "null" it should be used and <b>never disposed</b>. If it is "null", a fresh connection will be obtained from the connection pool (with <see cref="M:OutSystems.HubEdition.Extensibility.Data.TransactionService.ITransactionService.CreateConnection"/> from <see cref="P:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.DatabaseServices"/>) and <b>disposed after use</b>.</param>
+            <returns></returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetVersionFromDBUsingRegex(System.Data.IDbConnection,System.String,System.Text.RegularExpressions.Regex)">
+            <summary>
+            Helper function that simplifies getting the Database's version value as a <see cref="T:System.Version"/> object, a common use-case. If no regex is given, a default <paramref name="versionRegex"/> will be used.
+            </summary>
+            <param name="connection">Connection to the currently configured database. It is not guaranteed that the connection will be usable. <br/><br/>It should be used and <b>never disposed</b>.</param>
+            <param name="commandText">The SQL statement that returns the relevant Database Engine Version information.</param>
+            <param name="versionRegex">Is optional. If not given or null, will default to a regex that captures version numbers with the format A.B(.C)?(.D)? - e.g. 10.1 | 10.1.2 | 10.1.2.3 are all valid versions; 10.1.2.3.4 | 10.1.2.3.4.5 are valid, but .4 / .4.5 would be ignored. Anything else will be considered unidentifiable. Note that <see cref="T:System.Version"/> always requires the format A.B at the very least.</param>
+            <returns>The version number captured from the Database as a <see cref="T:System.Version"/> object.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.InnerGetServerVersion(System.Data.IDbConnection)">
+            <summary>
+            Overridable function to define the Database Provider specific logic which obtains the Database's Version.
+            </summary>
+            <param name="connection">Connection to the currently configured database. It is not guaranteed that the connection will be usable. <br/><br/>It should be used and <b>never disposed</b>.</param>
+            <returns>A value of type <typeparamref name="TVersion"/> that contains either: the actual Database Version of the currently configured Database or a representation of an "Unidentifiable Version" (as defined by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableVersion"/>).</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetServerVersion(System.Data.IDbConnection)">
+            <summary>
+            Internal override of <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetServerVersion"/>. Needs an explicit <paramref name="connection"/> as it can be called from different flows (<see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetServerVersion"/> vs. <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.CheckIfVersionIsSupported(System.String@,System.Data.IDbConnection)"/>) with different semantics depending if it is null or not. <br/><br/>
+            It should take the value obtained from <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetPropertyInsideLock``1(OutSystems.HubEdition.Extensibility.Data.IDatabaseServices,System.Object,``0@,System.Func{System.Data.IDbConnection,``0},System.Func{``0,System.String},System.Func{System.Collections.Generic.ISet{System.Type}},System.Func{``0},System.Data.IDbConnection)"/> and save it to <see cref="F:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.serverVersion"/>.
+            </summary>
+            <param name="connection">Will be used further down by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.InnerGetServerVersion(System.Data.IDbConnection)"/> (inside <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetPropertyInsideLock``1(OutSystems.HubEdition.Extensibility.Data.IDatabaseServices,System.Object,``0@,System.Func{System.Data.IDbConnection,``0},System.Func{``0,System.String},System.Func{System.Collections.Generic.ISet{System.Type}},System.Func{``0},System.Data.IDbConnection)"/>). <br/><br/> If it is not "null" it should be used and <b>never disposed</b>. If it is "null", a fresh connection will be obtained from the connection pool (with <see cref="M:OutSystems.HubEdition.Extensibility.Data.TransactionService.ITransactionService.CreateConnection"/> from <see cref="P:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.DatabaseServices"/>) and <b>disposed after use</b>.</param>
+            <returns>A value of type <typeparamref name="TVersion"/> that contains either: the actual Database Version of the currently configured Database or a representation of an "Unidentifiable Version" (as defined by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableVersion"/>).</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetServerVersion">
+            <summary>
+            Returns the value of the Database Version. Value will be cached after being obtained.
+            </summary>
+            <returns>A value of type <typeparamref name="TVersion"/> that contains either: the actual Database Version of the currently configured Database or a representation of an "Unidentifiable Version" (as defined by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableVersion"/>) </returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.InnerGetServerEngine(System.Data.IDbConnection)">
+            <summary>
+            Overridable function to define the Database Provider specific logic which obtains the Database's Engine.
+            </summary>
+            <param name="connection">Connection to the currently configured database. It is not guaranteed that the connection will be usable. <br/><br/>It should be used and <b>never disposed</b>.</param>
+            <returns>A value of type <typeparamref name="TEngine"/> that contains either: the actual Database Engine of the currently configured Database or a representation of an "Unidentifiable Engine" (as defined by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableEngine"/>).</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetServerEngine(System.Data.IDbConnection)">
+            <summary>
+            Internal override of <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetServerEngine"/>. Needs an explicit <paramref name="connection"/> as it can be called from different flows (<see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetServerEngine"/> vs. <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.CheckIfEngineIsSupported(System.String@,System.Data.IDbConnection)"/>) with different semanticss depending if it is null or not. <br/><br/>
+            It should take the value obtained from <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetPropertyInsideLock``1(OutSystems.HubEdition.Extensibility.Data.IDatabaseServices,System.Object,``0@,System.Func{System.Data.IDbConnection,``0},System.Func{``0,System.String},System.Func{System.Collections.Generic.ISet{System.Type}},System.Func{``0},System.Data.IDbConnection)"/> and save it to <see cref="F:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.serverEngine"/>.
+            </summary>
+            <param name="connection">Will be used further down by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.InnerGetServerEngine(System.Data.IDbConnection)"/> (inside <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetPropertyInsideLock``1(OutSystems.HubEdition.Extensibility.Data.IDatabaseServices,System.Object,``0@,System.Func{System.Data.IDbConnection,``0},System.Func{``0,System.String},System.Func{System.Collections.Generic.ISet{System.Type}},System.Func{``0},System.Data.IDbConnection)"/>).<br/><br/> If it is not "null" it should be used and <b>never disposed</b>. If it is "null", a fresh connection will be obtained from the connection pool (with <see cref="M:OutSystems.HubEdition.Extensibility.Data.TransactionService.ITransactionService.CreateConnection"/> from <see cref="P:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.DatabaseServices"/>) and <b>disposed after use</b>.</param>
+            <returns>A value of type <typeparamref name="TEngine"/> that contains either: the actual Database Engine of the currently configured Database or a representation of an "Unidentifiable Engine" (as defined by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableEngine"/>).</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetServerEngine">
+            <summary>
+            Returns the value of the Database Engine. Value will be cached after being obtained.
+            </summary>
+            <returns>A value of type <typeparamref name="TEngine"/> that contains either: the actual Database Engine of the currently configured Database or a representation of an "Unidentifiable Engine" (as defined by <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableEngine"/>).</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.CheckIfSupported``1(System.Func{System.Data.IDbConnection,``0},System.Func{``0,System.Boolean},System.Func{``0},System.Func{System.String},System.Func{``0,System.String},System.String@,System.Data.IDbConnection)">
+            <summary>
+            Function to abstract the actual code that evaluates if a property is supported or not. Function references are received as arguments to avoid executing unecessary code.
+            </summary>
+            <typeparam name="T">The type of one the Properties associated with this class.</typeparam>
+            <param name="getterFunction">Reference to the Getter function for the Property we are evaluating (e.g. <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetServerEngine"/>).</param>
+            <param name="checkerFunction">Reference to the function that will validate the Property we are checking.</param>
+            <param name="unidentifiablePropertyFunction">The function that returns the "unidentifiable property" associated with the property we are checking (e.g. <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableEngine"/>).</param>
+            <param name="unidentifiableErrorFunction">The function that returns the "unidentifiable error message" for the property (e.g. <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnidentifiableEngineErrorMessage"/>).</param>
+            <param name="unsupportedErrorFunction">The function that returns the "unsupported error message" for the property (e.g. <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetUnsupportedEngineErrorMessage(`1)"/>).</param>
+            <param name="errorSupportedMessage">The end-user facing message. Empty if the check is successful. If the check is unsuccessful, and depending on the error, it will be constructed with either the <paramref name="unidentifiableErrorFunction"/> or the <paramref name="unsupportedErrorFunction"/> functions.</param>
+            <param name="connection">Is optional.<br/><br/> If given, connection will be used and should be left undisposed, the caller of this function should handle it accordingly.<br/><br/> If null/not given, a fresh connection will be obtained from the connection pool (with <see cref="M:OutSystems.HubEdition.Extensibility.Data.TransactionService.ITransactionService.CreateConnection"/> from <see cref="P:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.DatabaseServices"/>, via the <paramref name="getterFunction"/>) and disposed after use.</param>
+            <returns>True if check is successful. False if not.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.CheckIfVersionIsSupported(System.String@,System.Data.IDbConnection)">
+            <summary>
+            Checks support for the Version of the Database that the Database Provider is configured for.
+            </summary>
+            <param name="errorSupportedMessage">The end-user facing friendly message detailling why the Version is not supported.</param>
+            <param name="connection">Is optional.<br/><br/> If given, connection will be used and should be left undisposed, the caller of this function should handle it accordingly.<br/><br/>  If null/not given, a fresh connection will be obtained from the connection pool (with <see cref="M:OutSystems.HubEdition.Extensibility.Data.TransactionService.ITransactionService.CreateConnection"/> from <see cref="P:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.DatabaseServices"/>) and disposed after use.</param>
+            <returns>True if Version of currently configured Database is supported (&gt;= <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetMinimumRequiredVersion"/> and &lt;= <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetMaximumSupportedVersion"/>). False if not supported.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.CheckIfEngineIsSupported(System.String@,System.Data.IDbConnection)">
+            <summary>
+            Checks support for the Engine of the Database that the Database Provider is configured for.
+            </summary>
+            <param name="errorSupportedMessage">The end-user facing friendly message detailling why the Engine is not supported.</param>
+            <param name="connection">Is optional.<br/><br/> If given, connection will be used and should be left undisposed, the caller of this function should handle it accordingly. If null/not given, a fresh connection will be obtained from the connection pool (with <see cref="M:OutSystems.HubEdition.Extensibility.Data.TransactionService.ITransactionService.CreateConnection"/> from <see cref="P:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.DatabaseServices"/>) and disposed after use.</param>
+            <returns>True if Engine of currently configured Database is supported (either the Engine is present in <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetSupportedEngines"/> or <see cref="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.DatabasePropertiesService.BaseDatabasePropertiesService`2.GetSupportedEngines"/> is empty). False if not supported.</returns>
+        </member>
         <member name="T:OutSystems.HubEdition.Extensibility.Data.ExecutionService.BaseExecutionService">
              <summary>
             Base implementation of a database service that handles the execution of statements made while connected to a database.
@@ -3418,6 +3701,22 @@
             <param name="executionService">The execution service to use to check if a type is a unicode string.</param>
             <param name="dbType">Type to be checked.</param>
             <returns>A boolean indicating if the type is a unicode string.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.IDatabasePropertiesService.CheckIfVersionIsSupported(System.String@,System.Data.IDbConnection)">
+            <summary>
+            Checks support for the Version of the Database that the Database Provider is configured for.
+            </summary>
+            <param name="errorSupportedMessage">The end-user facing friendly message detailling why the Version is not supported.</param>
+            <param name="connection">Is optional. If given, connection will be used and should be left undisposed, the caller of this function should handle it accordingly. If null/not given, a fresh connection should be obtained from the connection pool and disposed after being used.</param>
+            <returns>True if Version of currently configured Database is supported. False if not supported.</returns>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.ExecutionService.IDatabasePropertiesService.CheckIfEngineIsSupported(System.String@,System.Data.IDbConnection)">
+            <summary>
+            Checks support for the Engine of the Database that the Database Provider is configured for.
+            </summary>
+            <param name="errorSupportedMessage">The end-user facing friendly message detailing why the Engine is not supported.</param>
+            <param name="connection">Is optional. If given, connection will be used and should be left undisposed, the caller of this function should handle it accordingly. If null/not given, a fresh connection should be obtained from the connection pool and disposed after being used.</param>
+            <returns>True if Engine of currently configured Database is supported. False if not supported.</returns>
         </member>
         <member name="T:OutSystems.HubEdition.Extensibility.Data.ExecutionService.IExecutionService">
             <summary>
@@ -3661,6 +3960,14 @@
             The introspection service.
             </value>
         </member>
+        <member name="P:OutSystems.HubEdition.Extensibility.Data.IDatabaseServicesWithAdditionalSettings.AdditionalSettings">
+            <summary>
+            Gets the <code>IAdditionalSettings</code> object responsable for storing any additional settings that are not being provided via the DatabaseConfiguration.
+            </summary>
+            <value>
+            The additional settings storage.
+            </value>
+        </member>
         <member name="T:OutSystems.HubEdition.Extensibility.Data.IInternalDatabaseProvider">
             <summary>
             Represents a database management system that is only used internally by the platform.
@@ -3725,6 +4032,23 @@
             <param name="tableSource">Table source from which we want to fetch the list of columns</param>        
             <returns>The columns of the table</returns>
             <exception cref="T:System.Data.Common.DbException">if an error occurs while accessing the database</exception>
+        </member>
+        <member name="T:OutSystems.HubEdition.Extensibility.Data.IntrospectionService.IIntrospectionServiceWithPagination">
+            <summary>
+            Inspects a database server to retrieve information about its data model.
+            Allows pagination of the list of table sources.
+            </summary>
+        </member>
+        <member name="M:OutSystems.HubEdition.Extensibility.Data.IntrospectionService.IIntrospectionServiceWithPagination.ListTableSources(OutSystems.HubEdition.Extensibility.Data.DatabaseObjects.IDatabaseInfo,OutSystems.HubEdition.Extensibility.Data.IntrospectionService.IsTableSourceToIgnore,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Returns a list of table sources starting at specified offset with a max number of results less or equal than limit (e.g. tables, views) that belong to a given database. 
+            </summary>
+            <param name="database">Database from which we want to fetch the list of tables</param>
+            <param name="isTableSourceToIgnore">The delegate to call to see if the table source should be ignored and excluded from the returned list</param>
+            <param name="limit">Limit of results that we want to retrieve</param>
+            <param name="offset">Starting index of the results</param>
+            <param name="total">Total number of tables</param>  
+            <returns>List of table sources paginated, in the given database</returns>
         </member>
         <member name="M:OutSystems.HubEdition.Extensibility.Data.IntrospectionService.IntrospectionServiceExtensions.ListTableSourcesWithoutFilter(OutSystems.HubEdition.Extensibility.Data.IntrospectionService.IIntrospectionService,OutSystems.HubEdition.Extensibility.Data.DatabaseObjects.IDatabaseInfo)">
             <summary>
@@ -5295,14 +5619,6 @@
             <value>
             True if Aggregates/SQL can have their Iteration Multiplicity optimized to IterationMultiplicity.Single (e.g. Lazy Loaded), False if it needs to be forced as IterationMultiplicity.Multiple (e.g. Eager Loaded).
             </value>
-        </member>
-        <member name="P:OutSystems.HubEdition.Extensibility.Data.Platform.IPlatformAdditionalSettings.NoValidateFK">
-            <summary>
-            In some Database stacks, adding a Foreign Key (DDL) adds an exclusive lock on both the parent and child tables.
-            Some database stacks support a "No validation" mode for the Foreign key creation which avoids the exclusive lock.
-            When this is True, the "No validation" mode should be used in the FK ddl generation.
-            By default this is False to maintain retrocompatibility with previous versions of the Platform.
-            </summary>
         </member>
         <member name="P:OutSystems.HubEdition.Extensibility.Data.Platform.QueryProvider.BaseQueryProvider`1.Instance">
             <summary>
