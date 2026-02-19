@@ -205,24 +205,27 @@ namespace OutSystems.NssDataGridUtils {
                 }
 
                 l.StartIteration();
-                json.WriteStartArray();
-                while (!l.Eof)
-                {
-                    if (!isRecord)
+                try {
+                    json.WriteStartArray();
+                    while (!l.Eof)
                     {
-                        writeValue(json, elementType, l.Current, dateFormat);
+                        if (!isRecord)
+                        {
+                            writeValue(json, elementType, l.Current, dateFormat);
+                        }
+                        else if (flatten)
+                        {
+                            writeValue(json, f1.type(), f1.get(f.GetValue(l.Current)), dateFormat);
+                        }
+                        else
+                        {
+                            writeRecord(json, l.Current, dateFormat);
+                        }
+                        l.Advance();
                     }
-                    else if (flatten)
-                    {
-                        writeValue(json, f1.type(), f1.get(f.GetValue(l.Current)), dateFormat);
-                    }
-                    else
-                    {
-                        writeRecord(json, l.Current, dateFormat);
-                    }
-                    l.Advance();
+                } finally {
+                    l.EndIteration();
                 }
-                l.EndIteration();
                 json.WriteEndArray();
             }
             else // default does a good job for most of the cases
