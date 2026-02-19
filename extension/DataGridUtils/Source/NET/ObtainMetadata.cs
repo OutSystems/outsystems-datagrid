@@ -100,7 +100,8 @@ namespace OutSystems.NssDataGridUtils {
                 } else {
                     //RGRIDT-364 - removing columns of the type BinaryData.
                     if (typeof(Byte[]).IsAssignableFrom(field.FieldType) == false) {
-                        addSimpleField(json, cleanAttrName(field.Name), cleanTypeName(field.FieldType), field.GetValue(rec));
+                        // When we will have the need to have a time column, the value should be passed here: field.GetValue(rec)
+                        addSimpleField(json, cleanAttrName(field.Name), cleanTypeName(field.FieldType), null);
                     }
                 }
             }
@@ -124,23 +125,27 @@ namespace OutSystems.NssDataGridUtils {
         }
 
         public static void fromObject(object data, out string dataMetadata) {
-            StringBuilder strbuilder = new StringBuilder();
-            StringWriter sw = new StringWriter(strbuilder);
-            object singleItem;
+            var sb = new StringBuilder();
+            using (var sw = new StringWriter(sb))
+            using (JsonWriter json = new JsonTextWriter(sw)) {
+                writeMetadata(json, data);
+            }
+            dataMetadata = sb.ToString();
+        }
 
+        public static void fromObjectToMetadata(object data, out string dataMetadata) {
             Type type = data.GetType();
-
-
             if (typeof(IOSList).IsAssignableFrom(type)) {
                 IOSList list = (IOSList)data;
-                singleItem = list.Current;
+                if (list.Length == 0) {
+                    json.WriteStartObject();
+                    json.WriteEndObject();
+                    return;
+                }
+                getDataMetadata(json, list.Current);
             } else {
-                singleItem = data;
+                getDataMetadata(json, data);
             }
-            using (JsonWriter json = new JsonTextWriter(sw)) {
-                getDataMetadata(json, singleItem);
-            }
-            dataMetadata = strbuilder.ToString();
         }
     }
 }

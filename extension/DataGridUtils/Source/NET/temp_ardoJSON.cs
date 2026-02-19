@@ -233,12 +233,17 @@ namespace OutSystems.NssDataGridUtils {
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
 
+            using(StringWriter sw = new StringWriter(sb))
             using (JsonWriter json = new JsonTextWriter(sw)) {
                 writeValue(json, ssValue.GetType(), ssValue, ssDateFormat);
             }
 
             ssJSON = sb.ToString();
         } // MssOutSystems2JSON
+
+        public static void writeData(JsonWriter json, object ssValue, int ssDateFormat) {
+            writeValue(json, ssValue.GetType(), ssValue, ssDateFormat);
+        }
 
     }
 }
