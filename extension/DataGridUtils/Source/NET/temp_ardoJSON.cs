@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using OutSystems.HubEdition.RuntimePlatform;
+using System.Collections.Concurrent;
 
 namespace OutSystems.NssDataGridUtils {
     public class temp_ardoJSON {
