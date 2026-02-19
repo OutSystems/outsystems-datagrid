@@ -1,0 +1,36 @@
+---
+description: Project context for the OutSystems DataGrid extension (.NET server-side code)
+globs: extension/DataGridUtils/**/*.cs
+alwaysApply: false
+---
+
+# DataGridUtils .NET Extension
+
+OutSystems Integration Studio extension (assembly `OutSystems.NssDataGridUtils`) that converts OutSystems platform objects (entities, structures, records, lists) into JSON for the front-end Data Grid component.
+
+## Directory Layout
+
+- `extension/DataGridUtils/Templates/NET/` — Auto-generated stubs from Integration Studio (do not edit).
+- `extension/DataGridUtils/Source/NET/` — Actual implementation (edit here).
+
+## Key Files (under `Source/NET/`)
+
+| File | Role |
+|---|---|
+| `Interface.cs` | `IssDataGridUtils` — public API with `MssConvertData2JSON` and deprecated `MssConvertData2JSON_deprecated` |
+| `DataGridUtils.cs` | `CssDataGridUtils` — implementation; bundles data + metadata into `{"data": ..., "metadata": ...}` |
+| `ObtainMetadata.cs` | Reflection-based schema extractor; walks fields/properties prefixed with `ss` to produce a JSON type map |
+| `temp_ardoJSON.cs` | Forked `ardoJSON` serializer; reflection + caching (`recCache`), smart ISO 8601 dates, list flattening, `Byte[]` exclusion |
+| `Structures.cs`, `Records.cs`, `RecordLists.cs`, `Entities.cs` | Empty namespace placeholders from Integration Studio |
+
+## Conventions
+
+- OutSystems runtime objects prefix fields/properties with `ss` (simple), `ssEN` (entity), `ssST` (structure). The code strips these prefixes when writing JSON keys.
+- `Byte[]` fields are excluded from both data and metadata (ticket RGRIDT-364).
+- DateTime handling (format `3` — smart ISO 8601): `1900-01-01 00:00:00` → `""`, date-only → `yyyy-MM-dd`, time-only → `HH:mm:ss`, full → UTC `yyyy-MM-dd'T'HH:mm:ssZ`.
+
+## Dependencies
+
+- .NET Framework 4.6.1
+- Newtonsoft.Json 6.0 (from OutSystems Dev Environment)
+- OutSystems.HubEdition.RuntimePlatform (`IRecord`, `ISimpleRecord`, `IOSList`)
