@@ -12,3 +12,10 @@ new-version-artf.txt
 
 # Distribution files folder
 dist/**
+
+# Extension compiled files
+extension/DataGridUtils/Source/NET/bin/**
+extension/DataGridUtils/Source/NET/obj/**
+
+# Ignoring .vs folder
+extension/DataGridUtils/Source/NET/.vs/**
