@@ -31,6 +31,6 @@ OutSystems Integration Studio extension (assembly `OutSystems.NssDataGridUtils`)
 
 ## Dependencies
 
-- .NET Framework 4.6.1
+- .NET Framework 4.7.2
 - Newtonsoft.Json 6.0 (from OutSystems Dev Environment)
 - OutSystems.HubEdition.RuntimePlatform (`IRecord`, `ISimpleRecord`, `IOSList`)
