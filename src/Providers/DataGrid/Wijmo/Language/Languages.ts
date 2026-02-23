@@ -12,6 +12,7 @@ namespace Providers.DataGrid.Wijmo.Language {
 			case 'de-CH':
 			case 'en-CA':
 			case 'en-GB':
+			case 'es-419':
 			case 'es-MX':
 			case 'fr-CA':
 			case 'mn-MN':
