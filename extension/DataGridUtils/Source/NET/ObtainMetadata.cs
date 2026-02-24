@@ -100,7 +100,7 @@ namespace OutSystems.NssDataGridUtils {
                 } else {
                     //RGRIDT-364 - removing columns of the type BinaryData.
                     if (typeof(Byte[]).IsAssignableFrom(field.FieldType) == false) {
-                        // When we will have the need to have a time column, the value should be passed here: field.GetValue(rec)
+                        // If the time column is created in low-code, the third parameter should be: field.GetValue(rec)
                         addSimpleField(json, cleanAttrName(field.Name), cleanTypeName(field.FieldType), null);
                     }
                 }
