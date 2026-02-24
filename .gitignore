@@ -16,6 +16,11 @@ dist/**
 # Extension compiled files
 /extension/DataGridUtils/Source/NET/Bin/**
 /extension/DataGridUtils/Source/NET/obj/**
+/extension/tests/bin/**
+/extension/tests/obj/**
 
 # Ignoring .vs folder
-/extension/DataGridUtils/Source/NET/.vs/**
+/NET/.vs/**
+/tests/.vs/**
+
+/extension/DataGridUtils/Backups/**
