@@ -27,5 +27,4 @@ Each ADR should follow the template in `ADR-0000-Title-of-ADR.md`.
 | ADR Number | Title                                                             | Status   | Date                                |
 | :--------- | :---------------------------------------------------------------- | :------- | :---------------------------------- |
 | ADR-0000   | Template for ADRs                                                 | Meta     | 2026-02-04                          |
-| ADR-0001   | Use AI for Development Assistance                                 | Accepted | 2026-02-04                          |
-| ADR-0002   | Highcharts TypeScript typings compatibility fixes v12 Assistance                                 | Accepted | 2026-02-04                          |
+| ADR-0001   | Extension .NET Upgrade and Improvements                           | Accepted | 2026-02-24                          |
