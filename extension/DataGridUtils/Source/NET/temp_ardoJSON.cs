@@ -110,7 +110,16 @@ namespace OutSystems.NssDataGridUtils {
             } catch { }
 
             foreach (var field in leClass.GetFields().Where(f => f.Name.StartsWith("ss"))) {
-                clearStart = field.Name.StartsWith("ssEN") || field.Name.StartsWith("ssST");
+                // we must check if field is Record or RecordList, if they are, we remove ssEN(ssEntity) or ssST(ssStructure);
+                clearStart = 
+                    (
+                        typeof(IRecord).IsAssignableFrom(field.FieldType) || 
+                        typeof(ISimpleRecord).IsAssignableFrom(field.FieldType)
+                    ) && (
+                        field.Name.StartsWith("ssEN") || 
+                        field.Name.StartsWith("ssST")
+                    );
+
                 //RGRIDT-364 - removing columns of the type BinaryData.
                 if (typeof(Byte[]).IsAssignableFrom(field.FieldType) == false) {
                     json.WritePropertyName(field.Name.Substring(clearStart ? 4 : 2));
