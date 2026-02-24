@@ -14,13 +14,11 @@ new-version-artf.txt
 dist/**
 
 # Extension compiled files
-/extension/DataGridUtils/Source/NET/Bin/**
-/extension/DataGridUtils/Source/NET/obj/**
-/extension/tests/bin/**
-/extension/tests/obj/**
+/**/Bin/**
+/**/obj/**
 
 # Ignoring .vs folder
-/NET/.vs/**
-/tests/.vs/**
+/**/.vs/**
 
+# Ignoring DataGridUtils backups
 /extension/DataGridUtils/Backups/**
