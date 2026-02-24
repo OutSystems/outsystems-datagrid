@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="OutSystems.HubEdition.RuntimePlatform">
+      <HintPath>..\DataGridUtils\Source\NET\Bin\OutSystems.HubEdition.RuntimePlatform.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="OutSystems.HubEdition.DatabaseAbstractionLayer">
+      <HintPath>..\DataGridUtils\Source\NET\Bin\OutSystems.HubEdition.DatabaseAbstractionLayer.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="OutSystems.NssDataGridUtils">
+      <HintPath>..\..\..\..\Users\rgo\Desktop\DataGridUtils\Source\NET\obj\Debug\OutSystems.NssDataGridUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="OutSystems.RuntimeCommon">
+      <HintPath>..\DataGridUtils\Source\NET\Bin\OutSystems.RuntimeCommon.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\DataGridUtils\Source\NET\Bin\Newtonsoft.Json.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>
