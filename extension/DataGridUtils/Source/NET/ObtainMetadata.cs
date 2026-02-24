@@ -135,17 +135,13 @@ namespace OutSystems.NssDataGridUtils {
 
         public static void writeMetadata(JsonWriter json, object data) {
             Type type = data.GetType();
+            object singleItem;
             if (typeof(IOSList).IsAssignableFrom(type)) {
-                IOSList list = (IOSList)data;
-                if (list.Length == 0) {
-                    json.WriteStartObject();
-                    json.WriteEndObject();
-                    return;
-                }
-                getDataMetadata(json, list.Current);
+                singleItem = ((IOSList)data).Current;
             } else {
-                getDataMetadata(json, data);
+                singleItem = data;
             }
+            getDataMetadata(json, singleItem);
         }
     }
 }
