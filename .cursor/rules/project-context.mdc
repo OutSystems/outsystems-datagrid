@@ -1,6 +1,6 @@
 ---
 description: Project context for the OutSystems DataGrid extension (.NET server-side code)
-globs: extension/DataGridUtils/**/*.cs
+globs: extension/**/*.cs
 alwaysApply: false
 ---
 
@@ -12,6 +12,7 @@ OutSystems Integration Studio extension (assembly `OutSystems.NssDataGridUtils`)
 
 - `extension/DataGridUtils/Templates/NET/` — Auto-generated stubs from Integration Studio (do not edit).
 - `extension/DataGridUtils/Source/NET/` — Actual implementation (edit here).
+- `extension/tests/` — Standalone test project (`DataGridUtils.Tests.csproj`).
 
 ## Key Files (under `Source/NET/`)
 
@@ -22,6 +23,18 @@ OutSystems Integration Studio extension (assembly `OutSystems.NssDataGridUtils`)
 | `ObtainMetadata.cs` | Reflection-based schema extractor; walks fields/properties prefixed with `ss` to produce a JSON type map |
 | `temp_ardoJSON.cs` | Forked `ardoJSON` serializer; reflection + caching (`recCache`), smart ISO 8601 dates, list flattening, `Byte[]` exclusion |
 | `Structures.cs`, `Records.cs`, `RecordLists.cs`, `Entities.cs` | Empty namespace placeholders from Integration Studio |
+
+## Test Project (`extension/tests/`)
+
+A .NET Framework 4.7.2 console app that tests the extension without the OutSystems platform.
+
+| File | Role |
+|---|---|
+| `DataGridUtils.Tests.csproj` | Project file; references the compiled extension DLL and platform DLLs from `Source/NET/Bin/` |
+| `ConvertData2JSONTests.cs` | Tests for `MssConvertData2JSON`; contains mock OutSystems types (`ISimpleRecord`, `IRecord`, `IOSList`) and a lightweight pass/fail console runner |
+
+- **Mock types** — `STCenasListStructure`, `RCCenasListRecord`, `RLCenasListRecordList` replicate the OutSystems record-list hierarchy so `CssDataGridUtils` can be exercised in isolation.
+- **Runner pattern** — `RunTest(name, Action)` catches exceptions; `AssertEqual` provides positional diff on failure. Exit code 1 on any failure.
 
 ## Conventions
 
