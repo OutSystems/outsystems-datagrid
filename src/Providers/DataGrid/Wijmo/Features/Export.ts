@@ -2,7 +2,7 @@
 namespace Providers.DataGrid.Wijmo.Feature {
 	export class Export implements OSFramework.DataGrid.Feature.IExport, OSFramework.DataGrid.Interface.IBuilder {
 		private _currPage: number;
-		// Dangerous starts for CSV injection
+		// Characters that can trigger CSV injection by being interpreted as formula starts in spreadsheet applications (Excel, LibreOffice, etc.)
 		private readonly _dangerousStarts = ['=', '+', '-', '@'];
 		private readonly _grid: Grid.IGridWijmo;
 		private _hasLoadingMessage = true;
