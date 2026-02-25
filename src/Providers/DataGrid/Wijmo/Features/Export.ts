@@ -45,18 +45,18 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 */
 		private _escapeCsvInjection(cellString: string): string | null {
 			if (!cellString) return cellString;
-			// Handle the formula with ' before
+			// Prefix values that start with dangerous characters with a single quote to prevent CSV injection
 			const needEscape = this._dangerousStarts.some((char) => cellString.startsWith(char));
 			if (needEscape) {
 				cellString = `'${cellString}`;
 			}
-			// Handle the formula with " before
+			// Also handle values that start with a quote followed by a dangerous character
 			const containsQuote = this._dangerousStarts.some((char) => cellString.startsWith('"' + char));
 
 			if (containsQuote) {
 				cellString = cellString.replace(/^"([=+\-@])/, (match, $1) => '"\'' + $1);
 			}
-			// Handle the split and wrap situations
+			// Escape dangerous characters that appear immediately after tab/newline characters
 			const containsWrap = /[\t\n\r]/.test(cellString);
 			if (containsWrap) {
 				cellString = cellString.replace(/([\t\n\r])([=+\-@])/g, (match, $1, $2) => $1 + "'" + $2);
