@@ -3,12 +3,36 @@ namespace Providers.DataGrid.Wijmo.Feature {
 	export class Export implements OSFramework.DataGrid.Feature.IExport, OSFramework.DataGrid.Interface.IBuilder {
 		private _curPage: number;
 		private _grid: Grid.IGridWijmo;
+		// Dangerous starts for CSV injection
+		private readonly _dangerousStarts = ['=', '+', '-', '@'];
 		private _hasLoadingMessage = true;
 		private _loadingMessage = 'Your data is being exported.';
 		private _pageSize: number;
 
 		constructor(grid: Grid.IGridWijmo) {
 			this._grid = grid;
+		}
+
+		// Escape CSV injection
+		private _escapeCsvInjection(cellString: string): string | null {
+			if (!cellString) return cellString;
+			// Handle the formula with ' before
+			const needEscape = this._dangerousStarts.some((char) => cellString.startsWith(char));
+			if (needEscape) {
+				cellString = `'${cellString}`;
+			}
+			// Handle the formula with " before
+			const containsQuote = this._dangerousStarts.some((char) => cellString.startsWith('"' + char));
+
+			if (containsQuote) {
+				cellString = cellString.replace(/^"([=+\-@])/, (match, $1) => '"\'' + $1);
+			}
+			// Handle the split and wrap situations
+			const containsWrap = /[\t\n\r]/.test(cellString);
+			if (containsWrap) {
+				cellString = cellString.replace(/([\t\n\r])([=+\-@])/g, (match, $1, $2) => $1 + "'" + $2);
+			}
+			return cellString;
 		}
 
 		//Return CellRange considering all rows and columns
@@ -65,7 +89,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		public build(): void {
-			return;
+			// Callback for when the grid is being exported to CSV.
+			// Made available in the Wijmo 2025 v2 (Build 5.20252.42).
+			this._grid.provider.gettingCellClipString.addHandler(
+				(s: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs) => {
+					e.data = this._escapeCsvInjection(e.data);
+				}
+			);
 		}
 
 		public customizeExportingMessage(exportingMessage: string, showMessage = true): void {
