@@ -13,7 +13,36 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._grid = grid;
 		}
 
-		// Escape CSV injection
+		/**
+		 * Mitigates CSV/Excel formula injection by neutralizing values that could be
+		 * interpreted as formulas by spreadsheet applications.
+		 *
+		 * A value is considered dangerous if it starts with any of the characters
+		 * defined in `_dangerousStarts` (`=`, `+`, `-`, `@`), either directly, inside
+		 * an initial double-quoted field (e.g. `"=1+1"`), or immediately after a
+		 * tab, newline, or carriage-return character within the string.
+		 *
+		 * Escaping strategy:
+		 * - If the string starts with a dangerous character (e.g. `=1+1`), a single
+		 *   quote (`'`) is prepended (resulting in `'=1+1`), so the value is treated
+		 *   as literal text by most CSV/Excel consumers.
+		 * - If the string starts with a double quote followed by a dangerous
+		 *   character (e.g. `"=1+1"`), a single quote is inserted after the opening
+		 *   quote (resulting in `"'=1+1"`).
+		 * - If a dangerous character appears immediately after a tab, newline, or
+		 *   carriage-return character, a single quote is inserted between the
+		 *   whitespace and the dangerous character (e.g. `\n=1+1` becomes
+		 *   `\n'=1+1`).
+		 *
+		 * This function does not perform general CSV quoting/escaping; it only
+		 * addresses formula-like patterns to reduce the risk of CSV injection.
+		 *
+		 * @param cellString Raw cell content to be exported to CSV. If this value is
+		 *        falsy (e.g. empty string), it is returned as-is without modification.
+		 * @returns The sanitized string with potentially dangerous formula prefixes
+		 *          neutralized, or the original falsy value (such as `''` or `null`)
+		 *          unchanged.
+		 */
 		private _escapeCsvInjection(cellString: string): string | null {
 			if (!cellString) return cellString;
 			// Handle the formula with ' before
