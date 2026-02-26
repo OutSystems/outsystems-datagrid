@@ -13,27 +13,27 @@ namespace DataGridUtils.Tests
 {
     #region Mock OutSystems Types
 
-    public class STCenasListStructure : ISimpleRecord
+    public class STComplexListStructure : ISimpleRecord
     {
         public DateTime ssSTARTDate { get; set; }
         public DateTime ssENDDate { get; set; }
-        public string ssJose { get; set; }
+        public string ssProduct { get; set; }
 
-        public STCenasListStructure()
+        public STComplexListStructure()
         {
             ssSTARTDate = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             ssENDDate = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            ssJose = "";
+            ssProduct = "";
         }
     }
 
-    public class RCCenasListRecord : IRecord
+    public class RCComplexListRecord : IRecord
     {
-        public STCenasListStructure ssCenasList;
+        public STComplexListStructure ssComplexList;
 
-        public RCCenasListRecord()
+        public RCComplexListRecord()
         {
-            ssCenasList = new STCenasListStructure();
+            ssComplexList = new STComplexListStructure();
         }
 
         #region IRecord stubs
@@ -49,13 +49,13 @@ namespace DataGridUtils.Tests
         #endregion
     }
 
-    public class RLCenasListRecordList : IOSList
+    public class RLComplexListRecordList : IOSList
     {
-        private readonly List<RCCenasListRecord> _items = new List<RCCenasListRecord>();
+        private readonly List<RCComplexListRecord> _items = new List<RCComplexListRecord>();
         private int _index = -1;
         private bool _iterating;
 
-        public void Add(RCCenasListRecord item) => _items.Add(item);
+        public void Add(RCComplexListRecord item) => _items.Add(item);
 
         public object Current => _index >= 0 && _index < _items.Count ? _items[_index] : _items.Count > 0 ? _items[0] : null;
         public int CurrentRowNumber { get => _index; set => _index = value; }
@@ -75,8 +75,8 @@ namespace DataGridUtils.Tests
         public bool Advance() { _index++; return !Eof; }
         public bool Advance(int count) { _index += count; return !Eof; }
         public void SetPosition(int pos) { _index = pos; }
-        public void Set(int index, object value) => _items[index] = (RCCenasListRecord)value;
-        public void Insert(object value, int index) => _items.Insert(index, (RCCenasListRecord)value);
+        public void Set(int index, object value) => _items[index] = (RCComplexListRecord)value;
+        public void Insert(object value, int index) => _items.Insert(index, (RCComplexListRecord)value);
         public void Remove(int index) => _items.RemoveAt(index);
         public void FillFromOther(IOSList other) => throw new NotImplementedException();
         public void RestoreRecordListEmptyState(bool b) { }
@@ -108,8 +108,8 @@ namespace DataGridUtils.Tests
             Console.WriteLine("=== DataGridUtils Tests ===");
             Console.WriteLine();
 
-            RunTest(nameof(MssConvertData2JSON_WithCenasListData_ReturnsExpectedJSON),
-                    MssConvertData2JSON_WithCenasListData_ReturnsExpectedJSON);
+            RunTest(nameof(MssConvertData2JSON_WithComplexListData_ReturnsExpectedJSON),
+                    MssConvertData2JSON_WithComplexListData_ReturnsExpectedJSON);
 
             Console.WriteLine();
             Console.WriteLine($"Results: {_passed} passed, {_failed} failed, {_passed + _failed} total");
@@ -134,21 +134,21 @@ namespace DataGridUtils.Tests
             }
         }
 
-        static RCCenasListRecord MakeRecord(string startDate, string endDate, string jose)
+        static RCComplexListRecord MakeRecord(string startDate, string endDate, string Product)
         {
-            var rec = new RCCenasListRecord();
+            var rec = new RCComplexListRecord();
 
             if (TimeSpan.TryParse(startDate, out var ts))
-                rec.ssCenasList.ssSTARTDate = new DateTime(1900, 1, 1, ts.Hours, ts.Minutes, ts.Seconds, DateTimeKind.Utc);
+                rec.ssComplexList.ssSTARTDate = new DateTime(1900, 1, 1, ts.Hours, ts.Minutes, ts.Seconds, DateTimeKind.Utc);
             else
-                rec.ssCenasList.ssSTARTDate = DateTime.Parse(startDate).ToUniversalTime();
+                rec.ssComplexList.ssSTARTDate = DateTime.Parse(startDate).ToUniversalTime();
 
-            rec.ssCenasList.ssENDDate = new DateTime(
+            rec.ssComplexList.ssENDDate = new DateTime(
                 DateTime.Parse(endDate).Year,
                 DateTime.Parse(endDate).Month,
                 DateTime.Parse(endDate).Day,
                 0, 0, 0, DateTimeKind.Utc);
-            rec.ssCenasList.ssJose = jose;
+            rec.ssComplexList.ssProduct = Product;
 
             return rec;
         }
@@ -170,20 +170,20 @@ namespace DataGridUtils.Tests
             }
         }
 
-        static void MssConvertData2JSON_WithCenasListData_ReturnsExpectedJSON()
+        static void MssConvertData2JSON_WithComplexListData_ReturnsExpectedJSON()
         {
-            var list = new RLCenasListRecordList();
+            var list = new RLComplexListRecordList();
 
-            string[] joseValues = new[]
+            string[] ProductValues = new[]
             {
                 "Black and Grey", "Black and Grey", "Black and Grey Pro",
                 "Black and Silver", "Black and Silver", "Black and Silver",
                 "Black and White", "Black and White"
             };
 
-            foreach (var jose in joseValues)
+            foreach (var Product in ProductValues)
             {
-                list.Add(MakeRecord("09:08:30", "2026-02-24", jose));
+                list.Add(MakeRecord("09:08:30", "2026-02-24", Product));
             }
 
             var sut = new CssDataGridUtils();
@@ -191,15 +191,15 @@ namespace DataGridUtils.Tests
 
             string expected =
                 @"{""data"":[" +
-                @"{""CenasList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Jose"":""Black and Grey""}}," +
-                @"{""CenasList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Jose"":""Black and Grey""}}," +
-                @"{""CenasList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Jose"":""Black and Grey Pro""}}," +
-                @"{""CenasList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Jose"":""Black and Silver""}}," +
-                @"{""CenasList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Jose"":""Black and Silver""}}," +
-                @"{""CenasList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Jose"":""Black and Silver""}}," +
-                @"{""CenasList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Jose"":""Black and White""}}," +
-                @"{""CenasList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Jose"":""Black and White""}}]," +
-                @"""metadata"":{""CenasList"":{""STARTDate"":""DateTime"",""ENDDate"":""DateTime"",""Jose"":""String""}}}";
+                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Grey""}}," +
+                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Grey""}}," +
+                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Grey Pro""}}," +
+                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Silver""}}," +
+                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Silver""}}," +
+                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Silver""}}," +
+                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and White""}}," +
+                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and White""}}]," +
+                @"""metadata"":{""ComplexList"":{""STARTDate"":""DateTime"",""ENDDate"":""DateTime"",""Product"":""String""}}}";
 
             AssertEqual(expected, result);
         }
