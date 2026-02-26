@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -101,7 +100,8 @@ namespace OutSystems.NssDataGridUtils {
                 } else {
                     //RGRIDT-364 - removing columns of the type BinaryData.
                     if (typeof(Byte[]).IsAssignableFrom(field.FieldType) == false) {
-                        addSimpleField(json, cleanAttrName(field.Name), cleanTypeName(field.FieldType), field.GetValue(rec));
+                        // If the time column is created in low-code, the third parameter should be: field.GetValue(rec)
+                        addSimpleField(json, cleanAttrName(field.Name), cleanTypeName(field.FieldType), null);
                     }
                 }
             }
@@ -125,23 +125,23 @@ namespace OutSystems.NssDataGridUtils {
         }
 
         public static void fromObject(object data, out string dataMetadata) {
-            StringBuilder strbuilder = new StringBuilder();
-            StringWriter sw = new StringWriter(strbuilder);
-            object singleItem;
+            var sb = new StringBuilder();
+            using (var sw = new StringWriter(sb))
+            using (JsonWriter json = new JsonTextWriter(sw)) {
+                writeMetadata(json, data);
+            }
+            dataMetadata = sb.ToString();
+        }
 
+        public static void writeMetadata(JsonWriter json, object data) {
             Type type = data.GetType();
-
-
+            object singleItem;
             if (typeof(IOSList).IsAssignableFrom(type)) {
-                IOSList list = (IOSList)data;
-                singleItem = list.Current;
+                singleItem = ((IOSList)data).Current;
             } else {
                 singleItem = data;
             }
-            using (JsonWriter json = new JsonTextWriter(sw)) {
-                getDataMetadata(json, singleItem);
-            }
-            dataMetadata = strbuilder.ToString();
+            getDataMetadata(json, singleItem);
         }
     }
 }

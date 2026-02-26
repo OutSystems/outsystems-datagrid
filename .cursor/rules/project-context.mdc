@@ -1,0 +1,49 @@
+---
+description: Project context for the OutSystems DataGrid extension (.NET server-side code)
+globs: extension/**/*.cs
+alwaysApply: false
+---
+
+# DataGridUtils .NET Extension
+
+OutSystems Integration Studio extension (assembly `OutSystems.NssDataGridUtils`) that converts OutSystems platform objects (entities, structures, records, lists) into JSON for the front-end Data Grid component.
+
+## Directory Layout
+
+- `extension/DataGridUtils/Templates/NET/` — Auto-generated stubs from Integration Studio (do not edit).
+- `extension/DataGridUtils/Source/NET/` — Actual implementation (edit here).
+- `extension/tests/` — Standalone test project (`DataGridUtils.Tests.csproj`).
+
+## Key Files (under `Source/NET/`)
+
+| File | Role |
+|---|---|
+| `Interface.cs` | `IssDataGridUtils` — public API with `MssConvertData2JSON` and deprecated `MssConvertData2JSON_deprecated` |
+| `DataGridUtils.cs` | `CssDataGridUtils` — implementation; bundles data + metadata into `{"data": ..., "metadata": ...}` |
+| `ObtainMetadata.cs` | Reflection-based schema extractor; walks fields/properties prefixed with `ss` to produce a JSON type map |
+| `temp_ardoJSON.cs` | Forked `ardoJSON` serializer; reflection + caching (`recCache`), smart ISO 8601 dates, list flattening, `Byte[]` exclusion |
+| `Structures.cs`, `Records.cs`, `RecordLists.cs`, `Entities.cs` | Empty namespace placeholders from Integration Studio |
+
+## Test Project (`extension/tests/`)
+
+A .NET Framework 4.7.2 console app that tests the extension without the OutSystems platform.
+
+| File | Role |
+|---|---|
+| `DataGridUtils.Tests.csproj` | Project file; references the compiled extension DLL and platform DLLs from `Source/NET/Bin/` |
+| `ConvertData2JSONTests.cs` | Tests for `MssConvertData2JSON`; contains mock OutSystems types (`ISimpleRecord`, `IRecord`, `IOSList`) and a lightweight pass/fail console runner |
+
+- **Mock types** — `STCenasListStructure`, `RCCenasListRecord`, `RLCenasListRecordList` replicate the OutSystems record-list hierarchy so `CssDataGridUtils` can be exercised in isolation.
+- **Runner pattern** — `RunTest(name, Action)` catches exceptions; `AssertEqual` provides positional diff on failure. Exit code 1 on any failure.
+
+## Conventions
+
+- OutSystems runtime objects prefix fields/properties with `ss` (simple), `ssEN` (entity), `ssST` (structure). The code strips these prefixes when writing JSON keys.
+- `Byte[]` fields are excluded from both data and metadata (ticket RGRIDT-364).
+- DateTime handling (format `3` — smart ISO 8601): `1900-01-01 00:00:00` → `""`, date-only → `yyyy-MM-dd`, time-only → `HH:mm:ss`, full → UTC `yyyy-MM-dd'T'HH:mm:ssZ`.
+
+## Dependencies
+
+- .NET Framework 4.7.2
+- Newtonsoft.Json 6.0 (from OutSystems Dev Environment)
+- OutSystems.HubEdition.RuntimePlatform (`IRecord`, `ISimpleRecord`, `IOSList`)

@@ -58,22 +58,6 @@
             <param name="eSpaceKey">The eSpace Key.</param>
             <returns>The corresponding Configuration.</returns>
         </member>
-        <member name="T:OutSystems.SOAP.API.Internal.CheckLoggingInspectorBehavior">
-            <summary>
-            Internal class used as an aid during the logging process.
-            This implementation can be changed without notice.
-            </summary>
-        </member>
-        <member name="M:OutSystems.SOAP.API.Internal.CheckLoggingInspectorBehavior.#ctor">
-            <summary>
-            Default constructor, invoked internally
-            </summary>
-        </member>
-        <member name="P:OutSystems.SOAP.API.Internal.CheckLoggingInspectorBehavior.HasPassed">
-            <summary>
-            Flag to indicate whether runtime validations were performed or not
-            </summary>
-        </member>
         <member name="T:OutSystems.SOAP.API.Internal.AfterResponseLoggingContractBehavior">
             <summary>
             Logging endpoint behavior to save the request message and http headers sent
@@ -158,6 +142,22 @@
             In this situation, it's ensuring the order of the endpoint behaviors so that the BeforeRequestLoggingBehavior runs always as the last behavior before sending the request
             </summary>
         </member>
+        <member name="T:OutSystems.SOAP.API.Internal.CheckLoggingInspectorBehavior">
+            <summary>
+            Internal class used as an aid during the logging process.
+            This implementation can be changed without notice.
+            </summary>
+        </member>
+        <member name="M:OutSystems.SOAP.API.Internal.CheckLoggingInspectorBehavior.#ctor">
+            <summary>
+            Default constructor, invoked internally
+            </summary>
+        </member>
+        <member name="P:OutSystems.SOAP.API.Internal.CheckLoggingInspectorBehavior.HasPassed">
+            <summary>
+            Flag to indicate whether runtime validations were performed or not
+            </summary>
+        </member>
         <member name="T:OutSystems.SOAP.API.Internal.RequestContext">
             <summary>
             Internal class used to store the context of a Soap Request.
@@ -188,6 +188,15 @@
             This implementation can be changed without notice.
             </summary>
             <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OutSystems.SOAP.API.Internal.TypeConversionHelper.ConvertToStringAndDispose(System.IO.Stream,System.Text.Encoding)">
+            <summary>
+            Save the contents of a Stream to string, based on a given encoding, and dispose of the Stream.
+            This implementation can be changed without notice.
+            </summary>
+            <param name="stream"></param>
+            <param name="encode"></param>
             <returns></returns>
         </member>
         <member name="M:OutSystems.SOAP.API.Internal.TypeConversionHelper.ToDateTimeWithLocalTimezone(System.DateTime)">
@@ -306,6 +315,47 @@
             Class with useful methods related to SOAP.
             </summary>
         </member>
+        <member name="T:OutSystems.SOAP.API.Utils.Enums">
+            <summary>
+            Class with useful methods related to enumerations.
+            </summary>
+        </member>
+        <member name="M:OutSystems.SOAP.API.Utils.Enums.ParseEnum(System.Type,System.String)">
+            <summary>
+            Method to get the original enumeration value
+            </summary>
+            <param name="enumType"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OutSystems.SOAP.API.Utils.Enums.ParseEnum``1(System.String)">
+            <summary>
+            Method to get the original enumeration value
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OutSystems.SOAP.API.Utils.Enums.ParseEnumList``1(OutSystems.HubEdition.RuntimePlatform.Db.BasicTypeList{System.String})">
+            <summary>
+            Method to get the original enumeration values
+            </summary>
+            <param name="names"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OutSystems.SOAP.API.Utils.Enums.GetEnumValue(System.Object)">
+            <summary>
+            Method to get a value from a enumeration
+            </summary>
+            <param name="enumField"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OutSystems.SOAP.API.Utils.Enums.GetEnumFlagNames(System.Enum)">
+            <summary>
+            Method to get the list of names from a flag enumeration
+            </summary>
+            <param name="enumValue"></param>
+            <returns></returns>
+        </member>
         <member name="T:OutSystems.SOAP.API.Utils.Xml">
             <summary>
             Class with useful methods related to XML elements (any, anyAttribute, etc.). Internal.
@@ -373,47 +423,6 @@
             Internal method
             </summary>
             <param name="xml"></param>
-            <returns></returns>
-        </member>
-        <member name="T:OutSystems.SOAP.API.Utils.Enums">
-            <summary>
-            Class with useful methods related to enumerations.
-            </summary>
-        </member>
-        <member name="M:OutSystems.SOAP.API.Utils.Enums.ParseEnum(System.Type,System.String)">
-            <summary>
-            Method to get the original enumeration value
-            </summary>
-            <param name="enumType"></param>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OutSystems.SOAP.API.Utils.Enums.ParseEnum``1(System.String)">
-            <summary>
-            Method to get the original enumeration value
-            </summary>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OutSystems.SOAP.API.Utils.Enums.ParseEnumList``1(OutSystems.HubEdition.RuntimePlatform.Db.BasicTypeList{System.String})">
-            <summary>
-            Method to get the original enumeration values
-            </summary>
-            <param name="names"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OutSystems.SOAP.API.Utils.Enums.GetEnumValue(System.Object)">
-            <summary>
-            Method to get a value from a enumeration
-            </summary>
-            <param name="enumField"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OutSystems.SOAP.API.Utils.Enums.GetEnumFlagNames(System.Enum)">
-            <summary>
-            Method to get the list of names from a flag enumeration
-            </summary>
-            <param name="enumValue"></param>
             <returns></returns>
         </member>
     </members>

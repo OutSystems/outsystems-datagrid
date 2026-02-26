@@ -4,6 +4,14 @@
         <name>OutSystems.NssDataGridUtils</name>
     </assembly>
     <members>
+        <member name="M:OutSystems.NssDataGridUtils.CssDataGridUtils.ConvertDataToJSON(System.Object,System.String@,System.String@)">
+            <summary>
+            Converts the data to JSON.
+            </summary>
+            <param name="ssData">The data to convert.</param>
+            <param name="ssDataJSON">The JSON representation of the data.</param>
+            <param name="ssDataMetadata">The metadata of the data.</param>
+        </member>
         <member name="M:OutSystems.NssDataGridUtils.CssDataGridUtils.MssConvertData2JSON_deprecated(System.Object,System.String@,System.String@)">
             <summary>
             Prepares your data to be used in the Data Grid.
