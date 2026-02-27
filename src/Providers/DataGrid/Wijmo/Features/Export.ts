@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Providers.DataGrid.Wijmo.Feature {
 	export class Export implements OSFramework.DataGrid.Feature.IExport, OSFramework.DataGrid.Interface.IBuilder {
-		private _curPage: number;
-		private _grid: Grid.IGridWijmo;
+		private _currPage: number;
+		private readonly _grid: Grid.IGridWijmo;
 		private _hasLoadingMessage = true;
 		private _loadingMessage = 'Your data is being exported.';
 		private _pageSize: number;
@@ -28,7 +28,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		//Then re-apply the pagination
 		private _reApplyPagination(): void {
 			this._grid.features.pagination.changePageSize(this._pageSize);
-			this._grid.features.pagination.moveToPage(this._curPage);
+			this._grid.features.pagination.moveToPage(this._currPage);
 		}
 
 		private _removeLoadingMessage() {
@@ -41,7 +41,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		//Exporting to Excel Consider only the current page, so we need to remove the pagination first of all
 		private _resetPagination(): void {
 			this._pageSize = this._grid.features.pagination.pageSize;
-			this._curPage = this._grid.features.pagination.pageIndex;
+			this._currPage = this._grid.features.pagination.pageIndex;
 			this._grid.features.pagination.moveToFirstPage();
 			this._grid.features.pagination.changePageSize(0);
 		}
