@@ -302,42 +302,7 @@ namespace OutSystems.GridAPI.GridManager {
 			grid.dispose();
 		}
 	);
-
-	export function DisableCellDataSanitizer(gridID: string): void {
-		Performance.SetMark('GridManager.DisableCellDataSanitizer');
-		try {
-			GetGridById(gridID).features.cellDataSanitizer.disableCellDataSanitizer();
-		} finally {
-			Performance.SetMark('GridManager.DisableCellDataSanitizer-end');
-			Performance.GetMeasure(
-				'@datagrid-GridManager.DisableCellDataSanitizer',
-				'GridManager.DisableCellDataSanitizer',
-				'GridManager.DisableCellDataSanitizer-end'
-			);
-		}
-	}
-
-	/**
-	 * Function that enables the cell data sanitizer in the respective grid.
-	 *
-	 * @export
-	 * @param {string} gridID ID of the Grid where the change will occur.
-	 * @returns {*}  {void}
-	 */
-	export function EnableCellDataSanitizer(gridID: string): void {
-		Performance.SetMark('GridManager.EnableCellDataSanitizer');
-		try {
-			GetGridById(gridID).features.cellDataSanitizer.enableCellDataSanitizer();
-		} finally {
-			Performance.SetMark('GridManager.EnableCellDataSanitizer-end');
-			Performance.GetMeasure(
-				'@datagrid-GridManager.EnableCellDataSanitizer',
-				'GridManager.EnableCellDataSanitizer',
-				'GridManager.EnableCellDataSanitizer-end'
-			);
-		}
-	}
-
+	
 	/**
 	 * Function responsible for setting up the the date format to be used in all grids.
 	 *
