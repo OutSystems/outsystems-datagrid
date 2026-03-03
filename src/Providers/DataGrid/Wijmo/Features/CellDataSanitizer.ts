@@ -5,6 +5,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 	{
 		// Characters that can trigger CSV injection by being interpreted as formula starts in spreadsheet applications (Excel, LibreOffice, etc.)
 		private readonly _dangerousStarts = ['=', '+', '-', '@'];
+		private _enabled: boolean;
 		private readonly _grid: Grid.IGridWijmo;
 		private readonly _handlerInstance: OSFramework.DataGrid.Callbacks.Generic;
 
@@ -22,6 +23,35 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		public build(): void {
+			this.enableCellDataSanitizer();
+		}
+
+		/**
+		 * Method that disables the cell data sanitizer in the respective grid.
+		 * This will remove the handler from the grid's provider.gettingCellClipString event.
+		 * Made available in the Wijmo 2025 v2 (Build 5.20252.42).
+		 *
+		 * @memberof CellDataSanitizer
+		 */
+		public disableCellDataSanitizer(): void {
+			if (this._enabled) {
+				this._grid.provider.gettingCellClipString.removeHandler(this._handlerInstance);
+				this._enabled = false;
+			}
+		}
+
+		/**
+		 * Method that enables the cell data sanitizer in the respective grid.
+		 * This will add a handler to the grid's provider.gettingCellClipString event.
+		 * Made available in the Wijmo 2025 v2 (Build 5.20252.42).
+		 *
+		 * @memberof CellDataSanitizer
+		 */
+		public enableCellDataSanitizer(): void {
+			if (!this._enabled) {
+				this._grid.provider.gettingCellClipString.addHandler(this._handlerInstance);
+				this._enabled = true;
+			}
 		}
 
 		/**
