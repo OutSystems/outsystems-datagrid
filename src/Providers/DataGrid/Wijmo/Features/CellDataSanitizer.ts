@@ -12,6 +12,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		constructor(grid: Grid.IGridWijmo) {
 			this._grid = grid;
 			this._handlerInstance = this._gettingCellClipStringHandler.bind(this);
+			this._enabled = false;
 		}
 
 		/*
