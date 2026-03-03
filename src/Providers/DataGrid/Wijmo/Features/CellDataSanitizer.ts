@@ -5,20 +5,54 @@ namespace Providers.DataGrid.Wijmo.Feature {
 	{
 		// Characters that can trigger CSV injection by being interpreted as formula starts in spreadsheet applications (Excel, LibreOffice, etc.)
 		private readonly _dangerousStarts = ['=', '+', '-', '@'];
+		private _enabled: boolean;
 		private readonly _grid: Grid.IGridWijmo;
+		private readonly _handlerInstance: OSFramework.DataGrid.Callbacks.Generic;
 
 		constructor(grid: Grid.IGridWijmo) {
 			this._grid = grid;
+			this._handlerInstance = this._gettingCellClipStringHandler.bind(this);
+			this._enabled = false;
+		}
+
+		/*
+		 * Handler for the grid's provider.gettingCellClipString event.
+		 * This will escape the cell data if it starts with a dangerous character.
+		 */
+		private _gettingCellClipStringHandler(s: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs): void {
+			e.data = this.escapeCsvInjection(e.data);
 		}
 
 		public build(): void {
-			// Callback for when the grid is being exported to CSV.
-			// Made available in the Wijmo 2025 v2 (Build 5.20252.42).
-			this._grid.provider.gettingCellClipString.addHandler(
-				(s: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs) => {
-					e.data = this.escapeCsvInjection(e.data);
-				}
-			);
+			this.enableCellDataSanitizer();
+		}
+
+		/**
+		 * Method that disables the cell data sanitizer in the respective grid.
+		 * This will remove the handler from the grid's provider.gettingCellClipString event.
+		 * Made available in the Wijmo 2025 v2 (Build 5.20252.42).
+		 *
+		 * @memberof CellDataSanitizer
+		 */
+		public disableCellDataSanitizer(): void {
+			if (this._enabled) {
+				this._grid.provider.gettingCellClipString.removeHandler(this._handlerInstance);
+				this._enabled = false;
+			}
+		}
+
+		/**
+		 * Method that enables the cell data sanitizer in the respective grid.
+		 * This will add a handler to the grid's provider.gettingCellClipString event.
+		 * Made available in the Wijmo 2025 v2 (Build 5.20252.42).
+		 *
+		 * @memberof CellDataSanitizer
+		 */
+		public enableCellDataSanitizer(): void {
+			if (!this._enabled) {
+				this._grid.provider.gettingCellClipString.addHandler(this._handlerInstance);
+				this._enabled = true;
+			}
 		}
 
 		/**
