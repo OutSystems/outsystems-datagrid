@@ -8,13 +8,15 @@ The goal for the OutSystems Data Grid component is to help you develop applicati
 
 Use the OutSystems Data Grid to create enterprise-grade interfaces that are more suitable and time-effective than designing a custom solution every time you need to manipulate dense datasets.
 
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup, workflow, code standards, and PR requirements.
+
 #### Key features
 
--   Built for Reactive Web apps
--   Data selection and editing in a familiar interface
--   Data sorting by parameter
--   Data grouping
--   Virtual Scrolling
+- Built for Reactive Web apps
+- Data selection and editing in a familiar interface
+- Data sorting by parameter
+- Data grouping
+- Virtual Scrolling
 
 Please check the [tutorial OutSystems Data Grid in less than 4 minutes](https://www.youtube.com/watch?v=OFXOPrkRlrI).
 
@@ -37,11 +39,11 @@ The code is written in TypeScript🖤, and you branch it and PR your changes/pro
 
 We highly recommend the usage of the following tools:
 
--   [Visual Studio Code](https://code.visualstudio.com/)
--   With these extensions:
-    -   Document This
-    -   ESLint
-    -   Prettier - Code formatter
+- [Visual Studio Code](https://code.visualstudio.com/)
+- With these extensions:
+    - Document This
+    - ESLint
+    - Prettier - Code formatter
 
 ### How to use change this code?
 
@@ -59,9 +61,9 @@ We highly recommend the usage of the following tools:
 
 ### How to add new feature/fix?
 
--   A new branch from **master** should be created.
--   If possible the branch should be kept updated with the master branch.
--   If possible unnecessary commit messages should be omitted.
+- A new branch from **master** should be created.
+- If possible the branch should be kept updated with the master branch.
+- If possible unnecessary commit messages should be omitted.
 
 ### How to do a Pull Request?
 
@@ -70,7 +72,6 @@ After completing your changes, and testing, please proceed with submitting a Pul
 To be accepted, a Pull Request needs to:
 
 1. **Fulfill the following requirements**
-
     - Needs to compile without errors
     - Needs to follow the code style rules (without warnings and errors)
     - Needs to be approved by 2 team members (owners of the repo)
@@ -90,10 +91,10 @@ To be accepted, a Pull Request needs to:
 
 ## Useful Links
 
--   Download latest version in [OutSystems forge](https://www.outsystems.com/forge/component-versions/9764)
--   Test the latest changes in the [sample app](https://www.outsystems.com/forge/component-overview/9765/data-grid-sample-reactive)
--   Component [living documentation](https://outsystemsui.outsystems.com/OutSystemsDataGridSample/)
--   [Tutorial OutSystems Data Grid in less than 4 minutes](https://www.youtube.com/watch?v=OFXOPrkRlrI)
+- Download latest version in [OutSystems forge](https://www.outsystems.com/forge/component-versions/9764)
+- Test the latest changes in the [sample app](https://www.outsystems.com/forge/component-overview/9765/data-grid-sample-reactive)
+- Component [living documentation](https://outsystemsui.outsystems.com/OutSystemsDataGridSample/)
+- [Tutorial OutSystems Data Grid in less than 4 minutes](https://www.youtube.com/watch?v=OFXOPrkRlrI)
 
 ## 📫&nbsp; Have a question? Want to chat? Ran into a problem?
 

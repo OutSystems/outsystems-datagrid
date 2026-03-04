@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:success.outsystems.com)",
+      "WebFetch(domain:developer.mescius.com)",
+      "Bash(cd /c/GitHubProjects/outsystems-datagrid && node --version 2>&1)",
+      "WebFetch(domain:outsystemsui.outsystems.com)",
+      "Bash(cd C:\\\\GitHubProjects\\\\outsystems-datagrid:*)",
+      "Bash(node:*)"
+    ]
+  }
+}

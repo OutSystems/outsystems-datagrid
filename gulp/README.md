@@ -7,7 +7,6 @@
   <p align="center">Our streaming build system</p>
 </p>
 
-
 ## This folder contains:
 
 <ul>
@@ -31,5 +30,5 @@ Bellow there is some comments about the application structure.
     |   └── Tasks
     |       ├── TsTranspile.js                      # TypeScript transpile task definition
     |       └── UpdateVersion.js                    # Task used to update the repository task dynamically
-    |    
+    |
     ├── ...
