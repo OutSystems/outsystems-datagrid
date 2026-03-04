@@ -22,7 +22,7 @@ Please check the [tutorial OutSystems Data Grid in less than 4 minutes](https://
 
 ### Where can you find the component?
 
-The OutSystems component, like all components, can be found in [OutSystems Forge](https://www.outsystems.com/forge/component-overview/9764/outsystems-data-grid-o11) and and [OutSystems Forge Component Page (ODC)](https://www.outsystems.com/forge/component-overview/15929/outsystems-data-grid-odc).
+The OutSystems component, like all components, can be found in [OutSystems Forge](https://www.outsystems.com/forge/component-overview/9764/outsystems-data-grid-o11) and [OutSystems Forge Component Page (ODC)](https://www.outsystems.com/forge/component-overview/15929/outsystems-data-grid-odc).
 There you can also find a [sample application](https://www.outsystems.com/forge/component-overview/9765/data-grid-sample-reactive) that show-cases several uses of the component, that is also [the documentation].
 
 ### Why use this component?
