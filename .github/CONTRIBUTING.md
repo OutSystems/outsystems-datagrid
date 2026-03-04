@@ -176,7 +176,8 @@ For internal contributors, testing setup information is available via the `#rd-u
 
 ## Useful Resources
 
-- [Component on OutSystems Forge](https://www.outsystems.com/forge/component-overview/9764/data-grid-reactive)
+- [Forge component - O11:](https://www.outsystems.com/forge/component-overview/9764/outsystems-data-grid-o11)
+- [Forge component - ODC:](https://www.outsystems.com/forge/component-overview/15929/outsystems-data-grid-odc)
 - [Sample Application](https://www.outsystems.com/forge/component-overview/9765/data-grid-sample-reactive)
 - [Living Documentation](https://outsystemsui.outsystems.com/OutSystemsDataGridSample/)
 - [Tutorial: Data Grid in less than 4 minutes](https://www.youtube.com/watch?v=OFXOPrkRlrI)

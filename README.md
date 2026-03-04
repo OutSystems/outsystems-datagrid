@@ -22,7 +22,7 @@ Please check the [tutorial OutSystems Data Grid in less than 4 minutes](https://
 
 ### Where can you find the component?
 
-The OutSystems component, like all components, can be found in [OutSystems forge](https://www.outsystems.com/forge/component-overview/9764/data-grid-reactive).
+The OutSystems component, like all components, can be found in [OutSystems Forge](https://www.outsystems.com/forge/component-overview/9764/outsystems-data-grid-o11) and and [OutSystems Forge Component Page (ODC)](https://www.outsystems.com/forge/component-overview/15929/outsystems-data-grid-odc).
 There you can also find a [sample application](https://www.outsystems.com/forge/component-overview/9765/data-grid-sample-reactive) that show-cases several uses of the component, that is also [the documentation].
 
 ### Why use this component?
@@ -91,7 +91,8 @@ To be accepted, a Pull Request needs to:
 
 ## Useful Links
 
-- Download latest version in [OutSystems forge](https://www.outsystems.com/forge/component-versions/9764)
+- Download latest O11 version in [OutSystems forge](https://www.outsystems.com/forge/component-overview/9764/outsystems-data-grid-o11)
+- Download latest ODC version in [OutSystems Forge Component Page (ODC)](https://www.outsystems.com/forge/component-overview/15929/outsystems-data-grid-odc)
 - Test the latest changes in the [sample app](https://www.outsystems.com/forge/component-overview/9765/data-grid-sample-reactive)
 - Component [living documentation](https://outsystemsui.outsystems.com/OutSystemsDataGridSample/)
 - [Tutorial OutSystems Data Grid in less than 4 minutes](https://www.youtube.com/watch?v=OFXOPrkRlrI)

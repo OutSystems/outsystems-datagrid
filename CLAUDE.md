@@ -152,6 +152,7 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) T5 (security through sanitization layer
 ## Useful Resources
 
 - **Living documentation:** https://outsystemsui.outsystems.com/OutSystemsDataGridSample/
-- **Forge component:** https://www.outsystems.com/forge/component-overview/9764/data-grid-reactive
+- **Forge component - O11:** https://www.outsystems.com/forge/component-overview/9764/outsystems-data-grid-o11
+- **Forge component - ODC:** https://www.outsystems.com/forge/component-overview/15929/outsystems-data-grid-odc
 - **Sample app:** https://www.outsystems.com/forge/component-overview/9765/data-grid-sample-reactive
 - **Video tutorial:** https://www.youtube.com/watch?v=OFXOPrkRlrI
