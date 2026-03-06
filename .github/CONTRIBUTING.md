@@ -157,7 +157,7 @@ Enforced by `.eslintrc.json` and `.prettierrc.json`:
 4. Create a PR from your branch to `dev`
 5. Fill out the pull request template completely
 6. Address review feedback from team members
-7. Once approved by 2 team members, the PR will be merged
+7. Once approved by a team member, the PR will be merged
 
 ## Testing
 
