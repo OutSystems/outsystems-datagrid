@@ -129,7 +129,7 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) T5 (security through sanitization layer
 
 **Branch strategy:** Work on `dev` branch. Create feature branches named `ROU-12345` (JIRA ticket ID). Commits must include ticket ID: `ROU-12345: Add feature description`.
 
-**PR requirements:** Title format `ROU-12345: Description`, must have label (`feature`/`bug`/`chore`), 2 approvals required. See [CONTRIBUTING.md](./.github/CONTRIBUTING.md) for complete PR process and label requirements.
+**PR requirements:** Title format `ROU-12345: Description`, must have label (`feature`/`bug`/`chore`), 1 approval required. See [CONTRIBUTING.md](./.github/CONTRIBUTING.md) for complete PR process and label requirements.
 
 **ADRs available:** See `docs/adr/` for Architecture Decision Records. Currently documented: ADR-0001 (Extension .NET Upgrade).
 
