@@ -77,7 +77,7 @@ Validation defined in: `.github/actions/validate-pr-labels/action.yml`
 - Screenshots (animated GIFs preferred)
 - Checklist confirmation
 
-**Approval:** Requires approval from 2 UI Components team members.
+**Approval:** Requires approval from a UI Components team member.
 
 ## Building and Testing
 
