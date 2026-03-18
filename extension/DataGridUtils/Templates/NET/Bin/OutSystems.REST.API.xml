@@ -4,6 +4,111 @@
         <name>OutSystems.REST.API</name>
     </assembly>
     <members>
+        <member name="T:OutSystems.REST.Configuration">
+            <summary>
+            Stores configuration parameters on how to connect to a REST API. Each Consume REST API has the corresponding associated configuration.
+            </summary>
+        </member>
+        <member name="P:OutSystems.REST.Configuration.Url">
+            <summary>
+            The URL of the REST web service.
+            </summary>
+        </member>
+        <member name="P:OutSystems.REST.Configuration.Username">
+            <summary>
+            The username to use on requests.
+            </summary>
+        </member>
+        <member name="P:OutSystems.REST.Configuration.Password">
+            <summary>
+            User's password for the service.
+            </summary>
+        </member>
+        <member name="P:OutSystems.REST.Configuration.TraceErrors">
+            <summary>
+            Controls whether errors should be traced or not.
+            </summary>
+        </member>
+        <member name="P:OutSystems.REST.Configuration.TraceAll">
+            <summary>
+            Controls whether a request should be traced, even if finishes normally.
+            </summary>
+        </member>
+        <member name="P:OutSystems.REST.Configuration.Trace">
+            <summary>
+            Controls whether a request should be traced.
+            </summary>
+        </member>
+        <member name="P:OutSystems.REST.Configuration.ClientId">
+            <summary>
+            The clientId used for token requests when OAuth2.0 is defined.
+            </summary>
+        </member>
+        <member name="P:OutSystems.REST.Configuration.ClientSecret">
+            <summary>
+            The clientSecret used for token requests when OAuth2.0 is defined.
+            </summary>
+        </member>
+        <member name="P:OutSystems.REST.Configuration.TokenUrl">
+            <summary>
+            The endpoint to perform token requests when OAuth2.0 is defined.
+            </summary>
+        </member>
+        <member name="M:OutSystems.REST.Configuration.#ctor(System.String,System.String,System.String,System.Boolean,System.Boolean,System.String,System.String,System.String)">
+            <summary>
+            Constructs a new Configuration object with the given parameters.
+            </summary>
+            <param name="url">URL to connect to.</param>
+            <param name="username">Username to use.</param>
+            <param name="password">The user's password.</param>
+            <param name="traceErrors"><code>bool</code> indicating wether errors should be traced at runtime.</param>
+            <param name="traceAll"><code>bool</code> indicating wether tracing should enable at runtime, even when errors do not occurr.</param>
+            <param name="clientId">clientId used for token requests when OAuth2.0 is defined.</param>
+            <param name="clientSecret">clientSecret used for token request when OAuth2.0 is defined.</param>
+            <param name="tokenUrl">endpoint to make token requests when OAuth2.0 is defined.</param>
+        </member>
+        <member name="M:OutSystems.REST.Configuration.GetClientConfiguration(System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Return a previously defined REST API Configuration, based on its Service Studio key and eSpace Id.
+            </summary>
+            <param name="clientSSKey">The Service Studio key of the REST API source.</param>
+            <param name="eSpaceId">The eSpace Id.</param>
+            <param name="eSpaceKey">The eSpace Key.</param>
+            <param name="defaultUrl">Base URL defined in Service Studio</param>
+            <param name="defaultUsername">Username defined in Service Studio</param>
+            <param name="defaultPassword">Password defined in Service Studio</param>
+            <param name="defaultClientId">ClientId defined in Service Studio</param>
+            <param name="defaultClientSecret">ClientSecret defined in Service Studio</param>
+            <param name="defaultTokenUrl">Token Url defined in Service Studio</param>
+            <returns>The corresponding Configuration.</returns>
+        </member>
+        <member name="T:OutSystems.REST.HttpHelper">
+            <summary>
+            Helper class with methods related to HTTP and URL handling.
+            </summary>
+        </member>
+        <member name="M:OutSystems.REST.HttpHelper.SetRequestHeader(System.Net.HttpWebRequest,System.String,System.String)">
+            <summary>
+            On the passed HTTP Request, set an header field to some value.
+            </summary>
+            <param name="request">Request to update.</param>
+            <param name="headerName">Header field to set.</param>
+            <param name="headerValue">Value for the header field.</param>
+        </member>
+        <member name="M:OutSystems.REST.HttpHelper.UrlEncode(System.String)">
+            <summary>
+            Encode the URL received, escaping illegal characters.
+            </summary>
+            <param name="urlToEncode">The URL.</param>
+            <returns><code>urlToEncode</code>, appropriately encoded.</returns>
+        </member>
+        <member name="M:OutSystems.REST.HttpHelper.UrlQueryEncode(System.String)">
+            <summary>
+            Encode URL query parameters, escaping prohibited characters.
+            </summary>
+            <param name="urlToEncode">Text to encode.</param>
+            <returns><code>urlToEncode</code>, appropriately encoded.</returns>
+        </member>
         <member name="T:OutSystems.REST.JsonConverters">
             <summary>
             Utility class containing converters used to map between JSON and native data types.
@@ -93,90 +198,6 @@
             <param name="value">DateTime to serialize.</param>
             <param name="serializer">The calling serializer.</param>
         </member>
-        <member name="T:OutSystems.REST.Configuration">
-            <summary>
-            Stores configuration parameters on how to connect to a REST API. Each Consume REST API has the corresponding associated configuration.
-            </summary>
-        </member>
-        <member name="P:OutSystems.REST.Configuration.Url">
-            <summary>
-            The URL of the REST web service.
-            </summary>
-        </member>
-        <member name="P:OutSystems.REST.Configuration.Username">
-            <summary>
-            The username to use on requests.
-            </summary>
-        </member>
-        <member name="P:OutSystems.REST.Configuration.Password">
-            <summary>
-            User's password for the service.
-            </summary>
-        </member>
-        <member name="P:OutSystems.REST.Configuration.TraceErrors">
-            <summary>
-            Controls whether errors should be traced or not.
-            </summary>
-        </member>
-        <member name="P:OutSystems.REST.Configuration.TraceAll">
-            <summary>
-            Controls whether a request should be traced, even if finishes normally.
-            </summary>
-        </member>
-        <member name="P:OutSystems.REST.Configuration.Trace">
-            <summary>
-            Controls whether a request should be traced.
-            </summary>
-        </member>
-        <member name="M:OutSystems.REST.Configuration.#ctor(System.String,System.String,System.String,System.Boolean,System.Boolean)">
-            <summary>
-            Constructs a new Configuration object with the given parameters.
-            </summary>
-            <param name="url">URL to connect to.</param>
-            <param name="username">Username to use.</param>
-            <param name="password">The user's password.</param>
-            <param name="traceErrors"><code>bool</code> indicating wether errors should be traced at runtime.</param>
-            <param name="traceAll"><code>bool</code> indicating wether tracing should enable at runtime, even when errors do not occurr.</param>
-        </member>
-        <member name="M:OutSystems.REST.Configuration.GetClientConfiguration(System.String,System.Int32,System.String,System.String,System.String,System.String)">
-            <summary>
-            Return a previously defined REST API Configuration, based on its Service Studio key and eSpace Id.
-            </summary>
-            <param name="clientSSKey">The Service Studio key of the REST API source.</param>
-            <param name="eSpaceId">The eSpace Id.</param>
-            <param name="eSpaceKey">The eSpace Key.</param>
-            <param name="defaultUrlOverride"></param>
-            <param name="defaultUserNameOverride"></param>
-            <param name="defaultPasswordOverride"></param>
-            <returns>The corresponding Configuration.</returns>
-        </member>
-        <member name="T:OutSystems.REST.HttpHelper">
-            <summary>
-            Helper class with methods related to HTTP and URL handling.
-            </summary>
-        </member>
-        <member name="M:OutSystems.REST.HttpHelper.SetRequestHeader(System.Net.HttpWebRequest,System.String,System.String)">
-            <summary>
-            On the passed HTTP Request, set an header field to some value.
-            </summary>
-            <param name="request">Request to update.</param>
-            <param name="headerName">Header field to set.</param>
-            <param name="headerValue">Value for the header field.</param>
-        </member>
-        <member name="M:OutSystems.REST.HttpHelper.UrlEncode(System.String)">
-            <summary>
-            Encode the URL received, escaping illegal characters.
-            </summary>
-            <param name="urlToEncode">The URL.</param>
-            <returns><code>urlToEncode</code>, appropriately encoded.</returns>
-        </member>
-        <member name="M:OutSystems.REST.HttpHelper.UrlQueryEncode(System.String)">
-            <summary>
-            Encode URL query parameters, escaping prohibited characters.
-            </summary>
-            <param name="urlToEncode">Text to encode.</param>
-            <returns><code>urlToEncode</code>, appropriately encoded.</returns>
-        </member>
         <member name="T:OutSystems.REST.WCFDateTimeHelper">
             <summary>
             Utility class containing methods to parse and write dates in the WCF format.
@@ -197,118 +218,311 @@
             <param name="date"> Datetime to convert to string.</param>
             <returns>a string  of <code>date</code> in the WCF format.</returns>
         </member>
-        <member name="T:OutSystems.RuntimePublic.REST.RestResponse">
+        <member name="T:OutSystems.Internal.REST.AuthorizationServerException">
             <summary>
-            Provides access to the HTTP response object received when consuming a REST API method.
+            This class is intended to be used when there is an error encountered during the token request to the Authorization Server. 
             </summary>
         </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetCurrent">
+        <member name="P:OutSystems.Internal.REST.AuthorizationServerException.StatusCode">
             <summary>
-            Returns the response object used by a REST API.
-            This method should only be used inside the OnBeforeResponseAdvanced callback of a REST API.
+            Status code returned by the Authorization server.
             </summary>
-            <returns>The REST API response, or null when used outside the OnBeforeResponseAdvanced callback.</returns>
         </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetActionName">
+        <member name="P:OutSystems.Internal.REST.AuthorizationServerException.MessagePayload">
+            <summary>
+            Payload of the response returned by the Authorization server.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.AuthorizationServerException.#ctor(System.Net.HttpStatusCode,System.String)">
+            <summary>
+            Constructs a new AuthorizationServerException object with the given parameters.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.AuthorizationServerException.#ctor(System.Net.HttpStatusCode,System.String,System.Exception)">
+            <summary>
+            Constructs a new AuthorizationServerException object with the given parameters when an unexpected format is returned.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.AuthorizationServerException.#ctor(System.Net.HttpStatusCode)">
+            <summary>
+            Constructs a new AuthorizationServerException object with the given parameters.
+            </summary>
+        </member>
+        <member name="T:OutSystems.Internal.REST.IOAuth2Client">
+            <summary>
+            Represents a contract for classes that interact with an OAuth2 authorization server.
+            </summary>
+        </member>
+        <member name="P:OutSystems.Internal.REST.IOAuth2Client.Configs">
+            <summary>
+            Property that returns an instance with the OAuth2 configurations that are used in the token request.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.IOAuth2Client.SetForcing">
+            <summary>
+            Method that sets the isForcing variable to true.
+            This allows us to perform a new request to the authorization server, even if the token is not expired.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.IOAuth2Client.GetAuthorizationHeader(OutSystems.Internal.REST.IOAuth2Logger)">
+            <summary>
+            Method that returns the Authorization header (token_type + access_token).
+            It retrieves the access_token from the authorization server. 
+            </summary>
+        </member>
+        <member name="T:OutSystems.Internal.REST.IOAuth2ClientCreator">
+            <summary>
+            Represents a contract for classes responsible for creating instances of IOAuth2Client implementations. 
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.IOAuth2ClientCreator.CreateOAuth2Client(OutSystems.Internal.REST.GrantType,OutSystems.Internal.REST.OAuth2Configs)">
+            <summary>
+            The CreateOAuth2Client method is used to create an instance of IOAuth2Client based on the specified grant type and OAuth2Configs.
+            Implementing classes should provide the logic for creating the appropriate IOAuth2Client implementation based on the grant type and configuration provided. 
+            </summary>
+        </member>
+        <member name="T:OutSystems.Internal.REST.IOAuth2Logger">
+            <summary>
+            This class is intended to be used for logging HTTP requests and responses during OAuth2 access token acquisition.
+            </summary>
+        </member>
+        <member name="P:OutSystems.Internal.REST.IOAuth2Logger.HttpTrace">
+            <summary>
+            Property that holds the logged details of an HTTP request and response made during the OAuth2 access token acquisition process.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.IOAuth2Logger.LogRequest(OutSystems.Internal.REST.OAuth2Configs,System.Net.HttpWebRequest,System.Byte[])">
+            <summary>
+            Logs the details of an HTTP request made during the OAuth2 access token acquisition process.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.IOAuth2Logger.LogResponse(System.Net.HttpWebResponse,System.String)">
+            <summary>
+            Logs the details of an HTTP response received during the OAuth2 access token acquisition process.
+            </summary>
+        </member>
+        <member name="T:OutSystems.Internal.REST.MultipartHelper">
+            <summary>
+            Internal class used to perform multipart-related methods.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.MultipartHelper.ToByteArray(System.IO.Stream)">
+            <summary>
+            Converts a Stream to byte array
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:OutSystems.Internal.REST.MultipartHelper.EqualsIgnoreBoundaries(System.String,System.String,System.String@)">
+            <summary>
+            Compares two multipart payloads excluding boundaries
+            </summary>
+            <param name="oldMessageText"></param>
+            <param name="newMessageText"></param>
+            <param name="newBoundary"></param>
+        </member>
+        <member name="M:OutSystems.Internal.REST.MultipartHelper.GetMediaTypeHeaderInStringContent(System.String)">
+            <summary>
+            Get media type header value from the content-type property
+            </summary>
+            <param name="contentType"></param>
+        </member>
+        <member name="M:OutSystems.Internal.REST.MultipartHelper.GetMediaTypeHeaderInStreamContent(System.String)">
+            <summary>
+            Get media type header value from the content-type property
+            </summary>
+            <param name="contentType"></param>
+        </member>
+        <member name="T:OutSystems.Internal.REST.OAuth2ClientCreator">
+            <summary>
+            The OAuth2ClientCreator class is an implementation of the IOAuth2ClientCreator interface. 
+            It provides the logic for creating IOAuth2Client instances based on the grant type and OAuth2Configs.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.OAuth2ClientCreator.CreateOAuth2Client(OutSystems.Internal.REST.GrantType,OutSystems.Internal.REST.OAuth2Configs)">
+            <summary>
+            It uses a switch statement to determine the grant type and create the corresponding IOAuth2Client implementation.
+            Currently, it handles the grant_type=client_credentials case by creating an instance of the OAuth2ClientCredentials class.
+            </summary>
+        </member>
+        <member name="T:OutSystems.Internal.REST.OAuth2ClientCredentials">
+            <summary>
+            Class that implements the IOAuth2Client interface,
+            providing the necessary functionality for interacting with an OAuth2 authorization server using the client credentials grant type.
+            It encapsulates the logic and operations required to manage the access_token.
+            </summary>
+        </member>
+        <member name="P:OutSystems.Internal.REST.OAuth2ClientCredentials.Configs">
+            <summary>
+            Public getter that returns the OAuth2Configs object associated with the OAuth2ClientCredentials instance.
+            It contains the OAuth2 configurations that are used in the token request.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.OAuth2ClientCredentials.#ctor(OutSystems.Internal.REST.OAuth2Configs)">
+            <summary>
+            The internal constructor of the OAuth2ClientCredentials class is used to create an instance of the class with the provided OAuth2Configs object.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.OAuth2ClientCredentials.GetAuthorizationHeader(OutSystems.Internal.REST.IOAuth2Logger)">
+            <summary>
+            Method that returns the Authorization header (token_type + access_token).
+            It retrieves the access_token from the authorization server. 
+            </summary>
+        </member>
+        <member name="T:OutSystems.Internal.REST.OAuth2ClientCredentialsLogger">
+            <summary>
+            Class for logging HTTP requests and responses during client credentials grant type access token acquisition.
+            </summary>
+        </member>
+        <member name="P:OutSystems.Internal.REST.OAuth2ClientCredentialsLogger.HttpTrace">
+            <summary>
+            Property that holds the logged details of an HTTP request and response made during the client credentials grant type access token acquisition process.  
+            The property is reset after each request/response.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.OAuth2ClientCredentialsLogger.#ctor">
+            <summary>
+            The internal constructor of the OAuth2ClientCredentialsLogger class is used to create an instance of the class.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.OAuth2ClientCredentialsLogger.LogRequest(OutSystems.Internal.REST.OAuth2Configs,System.Net.HttpWebRequest,System.Byte[])">
+            <summary>
+            Logs the details of an HTTP request made during the client credentials grant type access token acquisition process.
+            The Authorization header is redacted.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.OAuth2ClientCredentialsLogger.LogResponse(System.Net.HttpWebResponse,System.String)">
+            <summary>
+            Logs the details of an HTTP response received during the client credentials grant type access token acquisition process.
+            The response body is redacted.
+            </summary>
+        </member>
+        <member name="T:OutSystems.Internal.REST.OAuth2Configs">
+            <summary>
+            Class that contains the properties used in the token request to obtain an access_token.
+            </summary>
+        </member>
+        <member name="P:OutSystems.Internal.REST.OAuth2Configs.TokenUrl">
+            <summary>
+            Authorization Server's endpoint used to perform the token request.
+            </summary>
+        </member>
+        <member name="P:OutSystems.Internal.REST.OAuth2Configs.ClientId">
+            <summary>
+            App identifier issued by the third-party during the app registration.
+            </summary>
+        </member>
+        <member name="P:OutSystems.Internal.REST.OAuth2Configs.ClientSecret">
+            <summary>
+            Secret issued by the third-party during the app registration.
+            </summary>
+        </member>
+        <member name="P:OutSystems.Internal.REST.OAuth2Configs.Scope">
+            <summary>
+            The scopes of the access request.
+            </summary>
+        </member>
+        <member name="P:OutSystems.Internal.REST.OAuth2Configs.ClientAuthentication">
+            <summary>
+            How to send the clientId and clientSecret for authorization.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.OAuth2Configs.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructs a new OAuth2Configs object with the given parameters.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.OAuth2Configs.#ctor(System.String,System.String,System.String,System.String,OutSystems.Internal.REST.ClientAuthentication)">
+            <summary>
+            Constructs a new OAuth2Configs object with the given parameters.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.OAuth2Configs.Equals(System.Object)">
+            <summary>
+            Used to determine whether the current instance of the OAuth2Configs object is equal to another object.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.OAuth2Configs.GetHashCode">
+            <summary>
+            Used to compute a hash code value for the current instance of the OAuth2Configs object.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.OAuth2Configs.CheckPreConditions(OutSystems.Internal.REST.OAuth2Configs)">
+            <summary>
+            Validates the pre-conditions of the OAuth2Configs object to ensure its properties are valid.
+            </summary>
+        </member>
+        <member name="P:OutSystems.Internal.REST.AuthServerResponse.access_token">
+            <summary>
+            The access_token issued by the authorization server.
+            </summary>
+        </member>
+        <member name="P:OutSystems.Internal.REST.AuthServerResponse.expires_in">
+            <summary>
+            The lifetime in seconds of the access_token.
+            </summary>
+        </member>
+        <member name="T:OutSystems.Internal.REST.ClientAuthentication">
+            <summary>
+            How to send the clientId and clientSecret for authorization.
+            </summary>
+        </member>
+        <member name="F:OutSystems.Internal.REST.ClientAuthentication.SendInHeader">
+            <summary>
+            Send in the header in base64.
+            </summary>
+        </member>
+        <member name="F:OutSystems.Internal.REST.ClientAuthentication.SendInBody">
+            <summary>
+            Send in body.
+            </summary>
+        </member>
+        <member name="T:OutSystems.Internal.REST.GrantType">
+            <summary>
+            OAuth2 grant types.
+            </summary>
+        </member>
+        <member name="F:OutSystems.Internal.REST.GrantType.ClientCredentials">
+            <summary>
+            grant_type=client_credentials.
+            </summary>
+        </member>
+        <member name="T:OutSystems.Internal.REST.RequestContext">
+            <summary>
+            Internal class used to store the context of a Rest Request.
+            Should never be used directly. Use the OutSystems.RuntimePublic.REST.RestRequest class instead.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.RequestContext.#ctor(System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Constructor for RequestContext.
+            This class is for internal use only. Use the OutSystems.RuntimePublic.REST.RestRequest class instead.
+            </summary>
+            <param name="actionName"></param>
+            <param name="url"></param>
+            <param name="requestMethod"></param>
+            <param name="requestTimeout"></param>
+        </member>
+        <member name="M:OutSystems.Internal.REST.RequestContext.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.RequestContext.GetActionName">
             <summary>
             Returns the name of the REST API Method that invoked the extension.
             </summary>
         </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetHttpWebResponse">
+        <member name="M:OutSystems.Internal.REST.RequestContext.GetHttpWebRequest">
             <summary>
-            Returns the native HttpWebResponse object that resulted from the web request.
+            Returns the HttpWebRequest object with the currently parameters.
             </summary>
         </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetResponseBodyAsBinary">
+        <member name="M:OutSystems.Internal.REST.RequestContext.GetText">
             <summary>
-            Returns the message body of the web response as binary content.
+            Returns the message body of the web request as a UTF-8 string.
             </summary>
         </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetResponseBodyAsText">
-            <summary>
-            Returns the message body of the web response as a string, respecting the encoding specified in the Content-Type header.
-            </summary>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.SetResponseBody(System.Byte[])">
-            <summary>
-            Sets the message body of the web response.
-            </summary>
-            <param name="bytes">The body of the web request.</param>        
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.SetResponseBody(System.String)">
-            <summary>
-            Sets the message body of the web response.
-            If the REST API Method has its 'Request Format' property set to 'Binary', no changes are made
-            to the message body.
-            </summary>
-            <param name="text">The body of the web request.</param>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetResponseStatusCode">
-            <summary>
-            Returns the status code of the web response.
-            </summary>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.SetResponseStatusCode(System.Int32)">
-            <summary>
-            Sets the status code of the web response with statusCode.
-            </summary>
-            <param name="statusCode">The status code of the web response.</param>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetResponseStatusLine">
-            <summary>
-            Returns the status line of the web response.
-            </summary>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.SetResponseStatusLine(System.String)">
-            <summary>
-            Sets the status line of the web response with statusLine.
-            </summary>
-            <param name="statusLine">The status line of the web response.</param>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetResponseHeaders">
-            <summary>
-            Returns the headers of the web response. It's possible to add, change or remove headers.
-            </summary>
-        </member>
-        <member name="T:OutSystems.RuntimePublic.REST.RestRequest">
-            <summary>
-            Provides access to the HTTP request object used for consuming a REST API method.
-            </summary>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetCurrent">
-            <summary>
-            Returns the request object used by a REST API.
-            This method should only be used inside the OnBeforeRequestAdvanced callback of a REST API.
-            </summary>
-            <returns>The REST API request, or null when used outside the OnBeforeRequestAdvanced callback.</returns>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetActionName">
-            <summary>
-            Returns the name of the REST API Method that invoked the extension.
-            </summary>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetHttpWebRequest">
-            <summary>
-            Returns the native HttpWebRequest object used to perform the web request.
-            </summary>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetRequestBodyAsBinary">
-            <summary>
-            Returns the message body of the web request as binary content.
-            </summary>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetRequestBodyAsText">
-            <summary>
-            Returns the message body of the web request as a string.
-            </summary>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.SetRequestBody(System.Byte[])">
-            <summary>
-            Sets the message body of the web request with binary content.
-            </summary>
-            <param name="bytes">The body of the web request.</param>
-        </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.SetRequestBody(System.String)">
+        <member name="M:OutSystems.Internal.REST.RequestContext.SetText(System.String)">
             <summary>
             Sets the message body of the web request.
             If the REST API Method has its 'Request Format' property set to 'Binary', no changes are made
@@ -316,19 +530,30 @@
             </summary>
             <param name="text">The body of the web request.</param>
         </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetRequestURL">
+        <member name="M:OutSystems.Internal.REST.RequestContext.GetBinary">
             <summary>
-            Returns the URL of the web request.
+            Returns the message body of the web request as binary content.
             </summary>
         </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.SetRequestURL(System.String)">
+        <member name="M:OutSystems.Internal.REST.RequestContext.SetBinary(System.Byte[])">
             <summary>
-            Sets the URL of the web request with url. If an HttpWebRequest has been previously obtained through the GetHttpWebRequest() method, it will become invalid and will have to be obtained again.
+            Sets the message body of the web request with binary content.
+            </summary>
+            <param name="bytes">The body of the web request.</param>
+        </member>
+        <member name="M:OutSystems.Internal.REST.RequestContext.GetRequestURL">
+            <summary>
+            Gets the request url of web request.
             </summary>
         </member>
-        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetRequestHeaders">
+        <member name="M:OutSystems.Internal.REST.RequestContext.SetRequestURL(System.String)">
             <summary>
-            Returns the headers of the web request. It's possible to add, change or remove headers.
+            Sets the request url and rebuild the HttpWebRequest object with the new URL.
+            </summary>
+        </member>
+        <member name="M:OutSystems.Internal.REST.RequestContext.GetHeaders">
+            <summary>
+            Returns the headers of the web request.
             </summary>
         </member>
         <member name="T:OutSystems.Internal.REST.ResponseContext">
@@ -409,43 +634,45 @@
             Returns the headers of the web response.
             </summary>
         </member>
-        <member name="T:OutSystems.Internal.REST.RequestContext">
+        <member name="T:OutSystems.RuntimePublic.REST.RestRequest">
             <summary>
-            Internal class used to store the context of a Rest Request.
-            Should never be used directly. Use the OutSystems.RuntimePublic.REST.RestRequest class instead.
+            Provides access to the HTTP request object used for consuming a REST API method.
             </summary>
         </member>
-        <member name="M:OutSystems.Internal.REST.RequestContext.#ctor(System.String,System.String,System.String,System.Int32)">
+        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetCurrent">
             <summary>
-            Constructor for RequestContext.
-            This class is for internal use only. Use the OutSystems.RuntimePublic.REST.RestRequest class instead.
+            Returns the request object used by a REST API.
+            This method should only be used inside the OnBeforeRequestAdvanced callback of a REST API.
             </summary>
-            <param name="actionName"></param>
-            <param name="url"></param>
-            <param name="requestMethod"></param>
-            <param name="requestTimeout"></param>
+            <returns>The REST API request, or null when used outside the OnBeforeRequestAdvanced callback.</returns>
         </member>
-        <member name="M:OutSystems.Internal.REST.RequestContext.Dispose">
-            <summary>
-            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-            </summary>
-        </member>
-        <member name="M:OutSystems.Internal.REST.RequestContext.GetActionName">
+        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetActionName">
             <summary>
             Returns the name of the REST API Method that invoked the extension.
             </summary>
         </member>
-        <member name="M:OutSystems.Internal.REST.RequestContext.GetHttpWebRequest">
+        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetHttpWebRequest">
             <summary>
-            Returns the HttpWebRequest object with the currently parameters.
+            Returns the native HttpWebRequest object used to perform the web request.
             </summary>
         </member>
-        <member name="M:OutSystems.Internal.REST.RequestContext.GetText">
+        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetRequestBodyAsBinary">
             <summary>
-            Returns the message body of the web request as a UTF-8 string.
+            Returns the message body of the web request as binary content.
             </summary>
         </member>
-        <member name="M:OutSystems.Internal.REST.RequestContext.SetText(System.String)">
+        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetRequestBodyAsText">
+            <summary>
+            Returns the message body of the web request as a string.
+            </summary>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.SetRequestBody(System.Byte[])">
+            <summary>
+            Sets the message body of the web request with binary content.
+            </summary>
+            <param name="bytes">The body of the web request.</param>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.SetRequestBody(System.String)">
             <summary>
             Sets the message body of the web request.
             If the REST API Method has its 'Request Format' property set to 'Binary', no changes are made
@@ -453,30 +680,92 @@
             </summary>
             <param name="text">The body of the web request.</param>
         </member>
-        <member name="M:OutSystems.Internal.REST.RequestContext.GetBinary">
+        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetRequestURL">
             <summary>
-            Returns the message body of the web request as binary content.
+            Returns the URL of the web request.
             </summary>
         </member>
-        <member name="M:OutSystems.Internal.REST.RequestContext.SetBinary(System.Byte[])">
+        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.SetRequestURL(System.String)">
             <summary>
-            Sets the message body of the web request with binary content.
-            </summary>
-            <param name="bytes">The body of the web request.</param>
-        </member>
-        <member name="M:OutSystems.Internal.REST.RequestContext.GetRequestURL">
-            <summary>
-            Gets the request url of web request.
+            Sets the URL of the web request with url. If an HttpWebRequest has been previously obtained through the GetHttpWebRequest() method, it will become invalid and will have to be obtained again.
             </summary>
         </member>
-        <member name="M:OutSystems.Internal.REST.RequestContext.SetRequestURL(System.String)">
+        <member name="M:OutSystems.RuntimePublic.REST.RestRequest.GetRequestHeaders">
             <summary>
-            Sets the request url and rebuild the HttpWebRequest object with the new URL.
+            Returns the headers of the web request. It's possible to add, change or remove headers.
             </summary>
         </member>
-        <member name="M:OutSystems.Internal.REST.RequestContext.GetHeaders">
+        <member name="T:OutSystems.RuntimePublic.REST.RestResponse">
             <summary>
-            Returns the headers of the web request.
+            Provides access to the HTTP response object received when consuming a REST API method.
+            </summary>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetCurrent">
+            <summary>
+            Returns the response object used by a REST API.
+            This method should only be used inside the OnBeforeResponseAdvanced callback of a REST API.
+            </summary>
+            <returns>The REST API response, or null when used outside the OnBeforeResponseAdvanced callback.</returns>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetActionName">
+            <summary>
+            Returns the name of the REST API Method that invoked the extension.
+            </summary>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetHttpWebResponse">
+            <summary>
+            Returns the native HttpWebResponse object that resulted from the web request.
+            </summary>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetResponseBodyAsBinary">
+            <summary>
+            Returns the message body of the web response as binary content.
+            </summary>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetResponseBodyAsText">
+            <summary>
+            Returns the message body of the web response as a string, respecting the encoding specified in the Content-Type header.
+            </summary>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.SetResponseBody(System.Byte[])">
+            <summary>
+            Sets the message body of the web response.
+            </summary>
+            <param name="bytes">The body of the web request.</param>        
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.SetResponseBody(System.String)">
+            <summary>
+            Sets the message body of the web response.
+            If the REST API Method has its 'Request Format' property set to 'Binary', no changes are made
+            to the message body.
+            </summary>
+            <param name="text">The body of the web request.</param>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetResponseStatusCode">
+            <summary>
+            Returns the status code of the web response.
+            </summary>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.SetResponseStatusCode(System.Int32)">
+            <summary>
+            Sets the status code of the web response with statusCode.
+            </summary>
+            <param name="statusCode">The status code of the web response.</param>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetResponseStatusLine">
+            <summary>
+            Returns the status line of the web response.
+            </summary>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.SetResponseStatusLine(System.String)">
+            <summary>
+            Sets the status line of the web response with statusLine.
+            </summary>
+            <param name="statusLine">The status line of the web response.</param>
+        </member>
+        <member name="M:OutSystems.RuntimePublic.REST.RestResponse.GetResponseHeaders">
+            <summary>
+            Returns the headers of the web response. It's possible to add, change or remove headers.
             </summary>
         </member>
     </members>

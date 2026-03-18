@@ -94,19 +94,16 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 */
 		private _setGroups(columns, config) {
 			for (let i = 0; i < config.length; i++) {
-				let colDef = columns.filter((x) => x.header === config[i].header);
+				const colDef = columns.filter((x) => x.header === config[i].header);
 				if (colDef.length > 0) {
-					colDef = colDef[0];
+					const colToUpdate = colDef[0];
 					if (config[i].children && config[i].children.length > 0) {
-						this._setGroups(colDef.columns, config[i].children[0]);
+						this._setGroups(colToUpdate.columns, config[i].children[0]);
 					}
-					columns.remove(colDef);
 					// due to Wijmo's breaking change, in case it is not defined, we need to assign an empty string to collapseTo property
-					colDef.collapseTo = config[i].collapseTo ?? '';
-					colDef.isCollapsed = config[i].isCollapsed || false; // in case it wasn't defined, set to false
-					colDef.align = config[i].align || colDef.align;
-
-					columns.insert(i, colDef);
+					colToUpdate.collapseTo = config[i].collapseTo ?? '';
+					colToUpdate.isCollapsed = config[i].isCollapsed || false; // in case it wasn't defined, set to false
+					colToUpdate.align = config[i].align || colToUpdate.align;
 				}
 			}
 		}
@@ -139,12 +136,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 			const config = JSON.parse(state);
 			this._grid.provider.deferUpdate(() => {
-				this._reloadColumns(config);
 				this._grid.features.filter.setViewLayout(config);
 				this._grid.features.groupPanel.setViewLayout(config);
 				this._grid.features.sort.setViewLayout(config);
 				this._grid.features.columnFreeze.setViewLayout(config);
 				this._setGroups(this._grid.provider.columnGroups, config.groupColumns);
+				this._reloadColumns(config);
 			});
 		}
 	}

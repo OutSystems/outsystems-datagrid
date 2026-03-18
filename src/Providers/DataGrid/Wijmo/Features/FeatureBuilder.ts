@@ -67,6 +67,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			return this;
 		}
 
+		private _makeCellDataSanitizer(): FeatureBuilder {
+			this._features.cellDataSanitizer = this._makeItem(CellDataSanitizer);
+			return this;
+		}
+
 		private _makeCellStyle(): FeatureBuilder {
 			this._features.cellStyle = this._makeItem(CellStyle);
 			return this;
@@ -212,6 +217,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				._makeExport()
 				._makeGroupPanel(config.groupPanelId)
 				._makeCellData()
+				._makeCellDataSanitizer()
 				._makeCellStyle()
 				._makeTooltip()
 				._makePagination(config.rowsPerPage)

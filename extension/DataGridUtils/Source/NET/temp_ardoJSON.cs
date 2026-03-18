@@ -6,12 +6,13 @@ using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using OutSystems.HubEdition.RuntimePlatform;
+using System.Collections.Concurrent;
 using OutSystems.HubEdition.RuntimePlatform.Db;
 
 namespace OutSystems.NssDataGridUtils {
     public class temp_ardoJSON {
         private static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        private static Dictionary<Type, Dictionary<string, FieldHolder>> recCache = new Dictionary<Type, Dictionary<string, FieldHolder>>();
+        private static ConcurrentDictionary<Type, Dictionary<string, FieldHolder>> recCache = new ConcurrentDictionary<Type, Dictionary<string, FieldHolder>>();
 
         private abstract class FieldHolder {
             abstract public void set(object rec, object value);
@@ -72,21 +73,16 @@ namespace OutSystems.NssDataGridUtils {
         }
 
         private static Dictionary<string, FieldHolder> getFields(Type leClass) {
-            if (recCache.ContainsKey(leClass))
-                return recCache[leClass];
-
-            Dictionary<string, FieldHolder> fields = new Dictionary<string, FieldHolder>();
-            foreach (var field in leClass.GetFields().Where(f => f.Name.StartsWith("ss"))) {
-                fields.Add(field.Name.Substring(2).ToLower(), new FieldField(field));
-            }
-
-            foreach (var prop in leClass.GetProperties().Where(p => p.Name.StartsWith("ss"))) {
-                fields.Add(prop.Name.Substring(2).ToLower(), new PropField(prop));
-            }
-
-            recCache[leClass] = fields;
-
-            return fields;
+            return recCache.GetOrAdd(leClass, t => {
+                var fields = new Dictionary<string, FieldHolder>();
+                foreach (var field in t.GetFields().Where(f => f.Name.StartsWith("ss"))) {
+                    fields.Add(field.Name.Substring(2).ToLower(), new FieldField(field));
+                }
+                foreach (var prop in t.GetProperties().Where(p => p.Name.StartsWith("ss"))) {
+                    fields.Add(prop.Name.Substring(2).ToLower(), new PropField(prop));
+                }
+                return fields;
+            });
         }
 
         private static void writeRecord(JsonWriter json, object rec, int dateFormat) {
@@ -113,12 +109,17 @@ namespace OutSystems.NssDataGridUtils {
                 }
             } catch { }
 
-            // structures and its attributes
             foreach (var field in leClass.GetFields().Where(f => f.Name.StartsWith("ss"))) {
-                // we must check if field is Record or RecordList, if they are, we remove ssEN (ssEntity) or ssST (ssStructure); 
-                clearStart = typeof(IRecord).IsAssignableFrom(field.FieldType) || typeof(ISimpleRecord).IsAssignableFrom(field.FieldType) ? 
-                    field.Name.StartsWith("ssEN") || field.Name.StartsWith("ssST") :
-                    false;
+                // we must check if field is Record or RecordList, if they are, we remove ssEN(ssEntity) or ssST(ssStructure);
+                clearStart = 
+                    (
+                        typeof(IRecord).IsAssignableFrom(field.FieldType) || 
+                        typeof(ISimpleRecord).IsAssignableFrom(field.FieldType)
+                    ) && (
+                        field.Name.StartsWith("ssEN") || 
+                        field.Name.StartsWith("ssST")
+                    );
+
                 //RGRIDT-364 - removing columns of the type BinaryData.
                 if (typeof(Byte[]).IsAssignableFrom(field.FieldType) == false) {
                     json.WritePropertyName(field.Name.Substring(clearStart ? 4 : 2));
@@ -126,7 +127,6 @@ namespace OutSystems.NssDataGridUtils {
                 }
             }
 
-            // entities and its attributes
             foreach (var property in leClass.GetProperties().Where(p => p.Name.StartsWith("ss"))) {
                 //RGRIDT-364 - removing columns of the type BinaryData.
                 if (typeof(Byte[]).IsAssignableFrom(property.PropertyType) == false) {
@@ -168,14 +168,14 @@ namespace OutSystems.NssDataGridUtils {
                     }
                     else
                     {
+                        //Add dates from the ArrangeData action should be returned in UTC
+                        dv = dv.ToUniversalTime();
                         if (dv.Hour == 0 && dv.Minute == 0 && dv.Second == 0) // extra milisecond check ?
                         {
                             json.WriteValue(dv.ToString("yyyy-MM-dd"));
                         }
                         else
                         {
-                            //Add dates from the ArrangeData action should be returned in UTC
-                            dv = dv.ToUniversalTime();
                             json.WriteValue(dv.ToString("yyyy-MM-dd'T'HH:mm:ssZ"));
                         }
                     }
@@ -214,24 +214,27 @@ namespace OutSystems.NssDataGridUtils {
                 }
 
                 l.StartIteration();
-                json.WriteStartArray();
-                while (!l.Eof)
-                {
-                    if (!isRecord)
+                try {
+                    json.WriteStartArray();
+                    while (!l.Eof)
                     {
-                        writeValue(json, elementType, l.Current, dateFormat);
+                        if (!isRecord)
+                        {
+                            writeValue(json, elementType, l.Current, dateFormat);
+                        }
+                        else if (flatten)
+                        {
+                            writeValue(json, f1.type(), f1.get(f.GetValue(l.Current)), dateFormat);
+                        }
+                        else
+                        {
+                            writeRecord(json, l.Current, dateFormat);
+                        }
+                        l.Advance();
                     }
-                    else if (flatten)
-                    {
-                        writeValue(json, f1.type(), f1.get(f.GetValue(l.Current)), dateFormat);
-                    }
-                    else
-                    {
-                        writeRecord(json, l.Current, dateFormat);
-                    }
-                    l.Advance();
+                } finally {
+                    l.EndIteration();
                 }
-                l.EndIteration();
                 json.WriteEndArray();
             }
             else // default does a good job for most of the cases
@@ -242,14 +245,18 @@ namespace OutSystems.NssDataGridUtils {
         public static void OutSystemsObjToJSON(object ssValue, int ssDateFormat, out string ssJSON) {
             ssJSON = string.Empty;
             StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
 
+            using(StringWriter sw = new StringWriter(sb))
             using (JsonWriter json = new JsonTextWriter(sw)) {
                 writeValue(json, ssValue.GetType(), ssValue, ssDateFormat);
             }
 
             ssJSON = sb.ToString();
         } // MssOutSystems2JSON
+
+        public static void writeData(JsonWriter json, object ssValue, int ssDateFormat) {
+            writeValue(json, ssValue.GetType(), ssValue, ssDateFormat);
+        }
 
     }
 }

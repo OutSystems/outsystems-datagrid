@@ -5,6 +5,7 @@ namespace OSFramework.DataGrid.Feature {
 		public autoRowNumber: IRowNumber;
 		public calculatedField: ICalculatedField;
 		public cellData: ICellData;
+		public cellDataSanitizer: ICellDataSanitizer;
 		public cellStyle: ICellStyle;
 		public clickEvent: IClickEvent;
 		public column: IColumn;

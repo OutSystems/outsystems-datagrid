@@ -273,7 +273,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 			// Restore focus to active grid cell
 			if (cell) {
-				cell.focus();
+				cell.focus({ preventScroll: true });
 			}
 		}
 

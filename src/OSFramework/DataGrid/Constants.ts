@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.DataGrid.Constants {
 	/* OutSystems Data Grid Version */
-	export const OSDataGridVersion = '2.20.2';
+	export const OSDataGridVersion = '2.22.0';
 	/* OutSystems null values */
 	export const OSNullDate = '1900-01-01';
 	export const OSNullDateTime = '1900-01-01T00:00:00';
@@ -11,4 +11,6 @@ namespace OSFramework.DataGrid.Constants {
 	 * - Do not change default string value!
 	 */
 	export const OSPlatform = '<->platformType<->';
+	/*Wijmo FlexGrid Version */
+	export const WijmoFlexGridVersion = '2025v2.1 Wijmo - Build 5.20252.44';
 }
