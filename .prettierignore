@@ -6,4 +6,4 @@ src/@types
 *.css
 
 # don't lint settings
-*.snyk
+.wiz
