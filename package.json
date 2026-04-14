@@ -30,7 +30,7 @@
     "UI Components"
   ],
   "devDependencies": {
-    "@types/lodash": "^4.17.23",
+    "@types/lodash": "^4.17.24",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "browser-sync": "^3.0.4",
