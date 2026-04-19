@@ -29,7 +29,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			const col = e.getColumn(true);
 			const column = this._grid.getColumn(col.binding);
 			if (
-				column && column.hasEvents &&
+				column &&
+				column.hasEvents &&
 				column.columnEvents.events.has(OSFramework.DataGrid.Event.Column.ColumnEventType.OnColumnReorder)
 			) {
 				column.columnEvents.trigger(OSFramework.DataGrid.Event.Column.ColumnEventType.OnColumnReorder, null);

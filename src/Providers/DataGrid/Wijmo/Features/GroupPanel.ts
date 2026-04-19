@@ -163,7 +163,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		public removeColumnsFromGroupPanel(bindingList: string, focusOnGrid = true): void {
-			const groupDescriptions = this._grid.provider.collectionView.groupDescriptions as OSFramework.DataGrid.Types.ObservableArray; // Group array
+			const groupDescriptions = this._grid.provider.collectionView
+				.groupDescriptions as OSFramework.DataGrid.Types.ObservableArray; // Group array
 			const columnList = JSON.parse(bindingList);
 			const source = this._grid.provider.itemsSource;
 
