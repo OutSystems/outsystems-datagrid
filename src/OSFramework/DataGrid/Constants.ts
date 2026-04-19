@@ -12,5 +12,5 @@ namespace OSFramework.DataGrid.Constants {
 	 */
 	export const OSPlatform = '<->platformType<->';
 	/*Wijmo FlexGrid Version */
-	export const WijmoFlexGridVersion = '2025v2.1 Wijmo - Build 5.20252.44';
+	export const WijmoFlexGridVersion = '2026v1 Wijmo - Build 5.20261.50';
 }
