@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20252.44
+    * Wijmo Library 5.20261.50
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -41,8 +41,6 @@ export declare abstract class DirectiveCellFactoryBase extends wjcGrid.CellFacto
     private static _FOCUS_INTERVAL;
     grid: wjcGrid.FlexGrid;
     private _baseCf;
-    private _closingApplyTimeOut;
-    private _lastApplyTimeStamp;
     private _noApplyLag;
     private _editChar;
     private _startingEditing;
@@ -76,7 +74,7 @@ export declare abstract class DirectiveCellFactoryBase extends wjcGrid.CellFacto
      */
     protected abstract shouldInstantiate(cellInfo: ICellRenderingInfo): boolean;
     protected abstract renderTemplate(cellInfo: ICellRenderingInfo, initNew: boolean): any;
-    protected disposeTemplate(cell: HTMLElement, templateCache: ICellTemplateCache, templateContext: ICellTemplateInfo): void;
+    protected disposeTemplate(cell: HTMLElement, templateCache: ICellTemplateCache, _templateContext: ICellTemplateInfo): void;
     /**
      * Forces template to apply all changes immediately (apply bindings, etc - whatever is relevant),
      * to make its size up to date. Usually used in cell size measurement scenarios.
@@ -106,9 +104,9 @@ export declare abstract class DirectiveCellFactoryBase extends wjcGrid.CellFacto
     private _setFullEdit;
 }
 /**
-* Defines the type of cell on which a template is to be applied. This value is specified in the <b>cellType</b> attribute
-* of the frameworks' cell template components/directives.
-*/
+ * Defines the type of cell on which a template is to be applied. This value is specified in the <b>cellType</b> attribute
+ * of the frameworks' cell template components/directives.
+ */
 export declare enum GridCellTemplateType {
     /** Defines a regular (data) cell. */
     Cell = 0,
