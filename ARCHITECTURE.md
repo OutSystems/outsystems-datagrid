@@ -2,7 +2,7 @@
 
 > **Repository:** outsystems-datagrid
 > **Runtime Environment:** User Browser (TypeScript/JavaScript) + OutSystems Server (.NET Extension)
-> **Last Updated:** 2026-04-15
+> **Last Updated:** 2026-04-19
 
 ## Overview
 
@@ -17,7 +17,7 @@ graph TB
     Extension["DataGridUtils Extension<br/>Runs on: OutSystems Server"]
 
     %% External services
-    WijmoLib[Wijmo FlexGrid v5.20252.44<br/>EXTERNAL]
+    WijmoLib[Wijmo FlexGrid v5.20261.50<br/>EXTERNAL]
     OSApp[OutSystems Reactive App<br/>EXTERNAL]
 
     %% Communication flows
@@ -39,7 +39,7 @@ graph TB
 
 | External Service | Communication Type | Purpose |
 |---|---|---|
-| Wijmo FlexGrid v5.20252.44 | Sync (JavaScript API) | Third-party grid provider offering data virtualization, editing, filtering, sorting, grouping, export, and multi-panel architecture |
+| Wijmo FlexGrid v5.20261.50 | Sync (JavaScript API) | Third-party grid provider offering data virtualization, editing, filtering, sorting, grouping, export, and multi-panel architecture |
 | OutSystems Reactive App | Sync (JavaScript API) | Consumer application instantiating and controlling grid instances via the `OutSystems.GridAPI` public API |
 | OutSystems Platform | Sync (Server Actions) | Host platform executing the .NET extension server-side and loading the compiled JS module client-side |
 | outsystems-datagrid-tests | Sync (WebDriver HTTP) | External test repository validating grid behavior across browsers via WebdriverIO + Cucumber |
@@ -55,7 +55,7 @@ The framework defines all grid behavior through abstract interfaces and classes 
 - `src/OSFramework/DataGrid/Column/AbstractColumn.ts` - base column behavior independent of provider
 - `src/Providers/DataGrid/Wijmo/Grid/FlexGrid.ts` (in `FlexGrid` class) - implements `AbstractGrid` with Wijmo provider
 - `src/Providers/DataGrid/Wijmo/Grid/Factory.ts` (in `GridFactory.MakeGrid`) - provider factory creates concrete implementations
-- `src/OSFramework/` - zero references to `Providers` namespace across all 146 files, confirming one-way dependency
+- `src/OSFramework/` - zero references to `Providers` namespace across all 147 files, confirming one-way dependency
 
 ### T2. Namespace-Based Layer Enforcement
 
@@ -65,7 +65,7 @@ TypeScript namespaces (`OSFramework`, `Providers`, `OutSystems`) compile to a si
 
 **Evidence:**
 - `tsconfig.json` - compiles all TypeScript to single AMD module `dist/GridFramework.js` via `outFile` option
-- `src/OSFramework/` - all 146 files declare `namespace OSFramework`, no references to `Providers` namespace
+- `src/OSFramework/` - all 147 files declare `namespace OSFramework`, no references to `Providers` namespace
 - `src/Providers/` - all 59 files declare `namespace Providers` and reference `OSFramework.DataGrid` interfaces
 - `src/OutSystems/GridAPI/GridManager.ts` (in `CreateGrid`) - API layer delegates to `Providers.DataGrid.Wijmo.Grid.GridFactory.MakeGrid`
 
@@ -121,7 +121,7 @@ Wijmo-specific implementations of framework interfaces. Directly interacts with 
 ### Server Runtime (.NET)
 
 **DataGridUtils Extension** (`extension/DataGridUtils/Source/NET/`)
-OutSystems Integration Studio extension that converts OutSystems entity records and structures to JSON format with embedded metadata. Runs in OutSystems application server process. See `docs/adr/ADR-0001-Extension-Dotnet-Upgrade-And-Improvements.md` for .NET upgrade decisions.
+OutSystems Integration Studio extension that converts OutSystems entity records and structures to JSON format with embedded metadata. Runs in OutSystems application server process. See `docs/adr/` for .NET upgrade decisions (ADR-0001) and Wijmo upgrade decisions (ADR-0002).
 
 ## Build Process
 

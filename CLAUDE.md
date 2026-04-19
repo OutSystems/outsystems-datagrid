@@ -1,29 +1,61 @@
 # CLAUDE.md
 
-OutSystems Data Grid wraps Wijmo FlexGrid to deliver enterprise-grade spreadsheet functionality in OutSystems Reactive Web applications. The repository contains TypeScript (browser-side grid wrapper) and a .NET extension (server-side data preparation).
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Overview
+
+OutSystems Data Grid wraps Wijmo FlexGrid v5.20261.50 to deliver enterprise-grade spreadsheet functionality in OutSystems Reactive Web applications. The repository contains TypeScript (browser-side grid wrapper) and a .NET extension (server-side data preparation).
 
 ## Foundation Documents
 
-- [ARCHITECTURE.md](./ARCHITECTURE.md) — five architectural tenets (T1–T5), component boundaries, external integrations table, and build process
-- [CONTRIBUTING.md](./.github/CONTRIBUTING.md) — branch naming (`ROU-12345`), PR title/label requirements, code standards (naming conventions, member ordering, formatting), and getting help
+- [ARCHITECTURE.md](./ARCHITECTURE.md) -- five architectural tenets (T1-T5), component boundary descriptions, external integrations table, and build process overview
+- [CONTRIBUTING.md](./.github/CONTRIBUTING.md) -- branch naming (`ROU-12345`), PR title/label requirements, code standards (naming conventions, member ordering, Prettier config), build/test command table, and getting help
+
+## Command Quick-Reference
+
+| Command            | Purpose                                    |
+| ------------------ | ------------------------------------------ |
+| `npm run setup`    | Install dependencies + start dev mode      |
+| `npm run build`    | Production build + lintfix + lint          |
+| `npm run dev`      | Dev server (browser-sync, port 3000)       |
+| `npm run lint`     | ESLint check                               |
+| `npm run lintfix`  | ESLint auto-fix                            |
+| `npm run prettier` | Format JS/TS/CSS                           |
+| `npm run docs`     | Generate TypeDoc documentation             |
+
+For .NET extension work, open `extension/DataGridUtils/Source/NET/DataGridUtils.sln` in Visual Studio (targets .NET Framework 4.7.2). Run console tests from `extension/tests/DataGridUtils.Tests.csproj`.
+
+See [CONTRIBUTING.md](./.github/CONTRIBUTING.md) for CI expectations (`npm run build` must pass before PR).
+
+## Repository Structure
+
+- `src/OSFramework/DataGrid/` -- provider-agnostic interfaces and base classes
+- `src/Providers/DataGrid/Wijmo/` -- Wijmo FlexGrid implementation of framework contracts
+- `src/OutSystems/GridAPI/` -- public JavaScript API consumed by OutSystems apps
+- `src/@types/wijmo-5.20261.50/` -- vendored Wijmo type definitions
+- `extension/DataGridUtils/Source/NET/` -- .NET extension implementation
+- `extension/DataGridUtils/Templates/NET/` -- auto-generated Integration Studio stubs
+- `extension/tests/` -- .NET console test project
+- `gulp/Tasks/` -- Gulp build tasks (TS transpile, SCSS, browser-sync, versioning)
+- `docs/adr/` -- Architecture Decision Records
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for component boundary details and the three-layer namespace design (OSFramework / OutSystems / Providers).
 
 ## .NET Extension Context
 
-The DataGridUtils extension converts OutSystems entities/structures to JSON with embedded metadata. Key files live under `extension/DataGridUtils/Source/NET/`:
+The DataGridUtils extension converts OutSystems entities/structures to JSON with embedded metadata. Key files under `extension/DataGridUtils/Source/NET/`:
 
-- `Interface.cs` — public API (`IssDataGridUtils.MssConvertData2JSON`)
-- `DataGridUtils.cs` — bundles data + metadata into `{"data": ..., "metadata": ...}`
-- `ObtainMetadata.cs` — reflection-based schema extraction
-- `temp_ardoJSON.cs` — forked JSON serializer with smart ISO 8601 date handling
+- `Interface.cs` -- public API (`IssDataGridUtils.MssConvertData2JSON`)
+- `DataGridUtils.cs` -- bundles data + metadata into `{"data": ..., "metadata": ...}`
+- `ObtainMetadata.cs` -- reflection-based schema extraction
+- `temp_ardoJSON.cs` -- forked JSON serializer with smart ISO 8601 date handling
 
 **OutSystems field prefix conventions** (stripped in JSON output):
-- `ss` — simple field, `ssEN` — entity, `ssST` — structure
+- `ss` -- simple field, `ssEN` -- entity, `ssST` -- structure
 - `Byte[]` fields are excluded from both data and metadata
-- DateTime: `1900-01-01 00:00:00` → empty string, date-only → `yyyy-MM-dd`, full → UTC ISO 8601
+- DateTime: `1900-01-01 00:00:00` maps to empty string, date-only to `yyyy-MM-dd`, full to UTC ISO 8601
 
-**Testing:** Run console tests from `extension/tests/DataGridUtils.Tests.csproj` (mock OutSystems types).
-
-See `.cursor/rules/project-context.mdc` for detailed extension context.
+See `.cursor/rules/project-context.mdc` for detailed extension context including mock types and test runner patterns.
 
 ## Wijmo Provider Context
 
@@ -38,18 +70,20 @@ When modifying provider layer code (`src/Providers/DataGrid/Wijmo/`), consult Wi
 
 ## Security Boundaries
 
-Input sanitization occurs at two distinct points — see [ARCHITECTURE.md](./ARCHITECTURE.md) T5 for rationale:
+Input sanitization occurs at two distinct points -- see [ARCHITECTURE.md](./ARCHITECTURE.md) tenet T5 for rationale:
 
-1. **Data entry** — HTML escaping via `OSFramework.DataGrid.Helper.Sanitize`
-2. **Data exit** — CSV injection prevention via `Providers.DataGrid.Wijmo.Features.CellDataSanitizer`
+1. **Data entry** -- HTML escaping via `OSFramework.DataGrid.Helper.Sanitize`
+2. **Data exit** -- CSV injection prevention via `Providers.DataGrid.Wijmo.Features.CellDataSanitizer`
 
 Runtime toggles: `OutSystems.GridAPI.Security.EnableCellDataSanitizer(gridID)` / `DisableCellDataSanitizer(gridID)`
 
 ## Do Not Modify
 
-- `extension/DataGridUtils/Templates/NET/` — auto-generated by Integration Studio
-- `src/@types/wijmo-5.20252.44/` — vendored Wijmo type definitions
+- `extension/DataGridUtils/Templates/NET/` -- auto-generated by Integration Studio
+- `src/@types/wijmo-5.20261.50/` -- vendored Wijmo type definitions
 
 ## ADRs
 
-Architecture Decision Records in `docs/adr/`. Currently: ADR-0001 (Extension .NET Upgrade).
+Architecture Decision Records live in `docs/adr/`:
+- ADR-0001: Extension .NET Upgrade
+- ADR-0002: Wijmo Upgrade 2026v1
