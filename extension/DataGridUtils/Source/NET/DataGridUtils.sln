@@ -1,21 +1,30 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36915.13 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridUtils", "DataGridUtils.csproj", "{3148EB34-DA22-4F72-8E53-26D03A0EC8FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridUtils.Tests", "..\..\..\tests\DataGridUtils.Tests.csproj", "{843C1FB4-2D1B-BA47-3790-E0FBFBC0B04F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Release|Any CPU = Release|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3148EB34-DA22-4F72-8E53-26D03A0EC8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3148EB34-DA22-4F72-8E53-26D03A0EC8FA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3148EB34-DA22-4F72-8E53-26D03A0EC8FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3148EB34-DA22-4F72-8E53-26D03A0EC8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3148EB34-DA22-4F72-8E53-26D03A0EC8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3148EB34-DA22-4F72-8E53-26D03A0EC8FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{843C1FB4-2D1B-BA47-3790-E0FBFBC0B04F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{843C1FB4-2D1B-BA47-3790-E0FBFBC0B04F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{843C1FB4-2D1B-BA47-3790-E0FBFBC0B04F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{843C1FB4-2D1B-BA47-3790-E0FBFBC0B04F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B984855A-E85D-4A5D-A2FB-1195A604CA75}
 	EndGlobalSection
 EndGlobal

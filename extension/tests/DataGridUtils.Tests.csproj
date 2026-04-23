@@ -1,9 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="OutSystems.HubEdition.RuntimePlatform">
@@ -15,14 +19,10 @@
       <Private>true</Private>
     </Reference>
     <Reference Include="OutSystems.NssDataGridUtils">
-      <HintPath>..\..\..\..\Users\rgo\Desktop\DataGridUtils\Source\NET\obj\Debug\OutSystems.NssDataGridUtils.dll</HintPath>
+      <HintPath>..\DataGridUtils\Source\NET\bin\OutSystems.NssDataGridUtils.dll</HintPath>
     </Reference>
     <Reference Include="OutSystems.RuntimeCommon">
       <HintPath>..\DataGridUtils\Source\NET\Bin\OutSystems.RuntimeCommon.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\DataGridUtils\Source\NET\Bin\Newtonsoft.Json.dll</HintPath>
       <Private>true</Private>
     </Reference>
   </ItemGroup>
