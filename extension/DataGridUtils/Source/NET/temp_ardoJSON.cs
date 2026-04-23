@@ -199,6 +199,7 @@ namespace OutSystems.NssDataGridUtils {
                     bool isSimpleRecord = typeof(ISimpleRecord).IsAssignableFrom(elementType);
                     if (isRecord && !isSimpleRecord)
                     {
+
                         // Flatten only when the row wraps a single entity/structure field AND that
                         // inner record itself has exactly one attribute (legacy "[{ssENX: X}]" shape).
                         // Multi-field rows (e.g. aggregates combining entities with Count/Sum outputs)
