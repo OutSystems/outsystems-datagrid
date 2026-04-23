@@ -338,11 +338,19 @@ namespace OSFramework.DataGrid.Grid {
 			this._metadata = dataJson.metadata;
 			this._isSingleEntity = Object.keys(this._metadata || dataJson[0] || {}).length <= 1;
 
-			if (this.hasMetadata) {
-				this._ds = [...dataJson.data];
-			} else {
-				this._ds = [...dataJson];
+			const rows = this.hasMetadata ? dataJson.data : dataJson;
+
+			// Wijmo 2026v1's CollectionView proxy-wraps every bound item, so a non-object row
+			// (null / primitive / undefined) throws "Cannot create proxy with a non-object as
+			// target or handler" at bind time. Older Wijmo versions silently rendered those
+			// rows as empty cells. Drop them here to preserve the forgiving contract and to
+			// guard against malformed backend payloads.
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const clean = rows.filter((r: any) => r !== null && typeof r === 'object');
+			if (clean.length !== rows.length) {
+				console.warn(`[DataGrid] Dropped ${rows.length - clean.length} non-object row(s) from data source.`);
 			}
+			this._ds = clean;
 		}
 
 		// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
