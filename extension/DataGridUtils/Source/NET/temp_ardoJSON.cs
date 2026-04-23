@@ -199,16 +199,24 @@ namespace OutSystems.NssDataGridUtils {
                     bool isSimpleRecord = typeof(ISimpleRecord).IsAssignableFrom(elementType);
                     if (isRecord && !isSimpleRecord)
                     {
+                        // Flatten only when the row wraps a single entity/structure field AND that
+                        // inner record itself has exactly one attribute (legacy "[{ssENX: X}]" shape).
+                        // Multi-field rows (e.g. aggregates combining entities with Count/Sum outputs)
+                        // must be emitted as full records so every column reaches the grid; otherwise
+                        // the output collapses to a list of scalars and downstream consumers break.
+                        var ssFields = elementType.GetFields()
+                            .Where(c => c.Name.StartsWith("ss"))
+                            .ToArray();
 
-                        f = elementType.GetFields().First(c => c.Name.StartsWith("ss"));
-                        Dictionary<string, FieldHolder> fields = getFields(f.FieldType);
-                        if (fields.Count == 1)
+                        if (ssFields.Length == 1)
                         {
-                            f1 = fields.First().Value;
-                            // records of a single attribute 
-                            // which is a record also get flattened
-                            // could check this strange case here
-                            flatten = true;
+                            f = ssFields[0];
+                            Dictionary<string, FieldHolder> fields = getFields(f.FieldType);
+                            if (fields.Count == 1)
+                            {
+                                f1 = fields.First().Value;
+                                flatten = true;
+                            }
                         }
                     }
                 }
