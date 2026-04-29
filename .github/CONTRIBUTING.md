@@ -93,7 +93,7 @@ Do not modify files under `extension/DataGridUtils/Templates/NET/` -- those are 
 
 ### Test Automation
 
-Browser-based integration tests live in a separate repository: [outsystems-datagrid-tests](https://github.com/OutSystems/outsystems-datagrid-tests) (WebDriverIO + Cucumber).
+Browser-based integration tests live in a separate private repository (WebDriverIO + Cucumber).
 
 ## Code Standards
 
