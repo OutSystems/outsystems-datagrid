@@ -935,11 +935,15 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     padding: var(--datagrid-button-padding) 0px;
     text-align: center;
     white-space: nowrap;
+    /* wijmo.css loads after Grid.css in the OutSystems runtime; flex layout on the
+       new a11y wrapper div (2026v1) collapses button width — !important overrides it */
     width: 100% !important;
 }
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
     [wj-part='btn-apply'].wj-btn {
+    /* wijmo.css loads after Grid.css — without !important the cascade order lets
+       Wijmo's .wj-control .wj-btn { background: #eee } win despite lower specificity */
     background-color: var(--color-primary) !important;
     color: var(--color-neutral-0) !important;
 }

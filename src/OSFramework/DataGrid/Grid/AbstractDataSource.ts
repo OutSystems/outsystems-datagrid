@@ -345,8 +345,7 @@ namespace OSFramework.DataGrid.Grid {
 			// target or handler" at bind time. Older Wijmo versions silently rendered those
 			// rows as empty cells. Drop them here to preserve the forgiving contract and to
 			// guard against malformed backend payloads.
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const clean = rows.filter((r: any) => r !== null && typeof r === 'object');
+			const clean = rows.filter((r: unknown) => r !== null && typeof r === 'object');
 			if (clean.length !== rows.length) {
 				console.warn(`[DataGrid] Dropped ${rows.length - clean.length} non-object row(s) from data source.`);
 			}
