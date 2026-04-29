@@ -333,6 +333,12 @@
             <param name="licenseParams">parameters list to obtain from the activation table</param>
             <returns>values stored in the activation table for each parameter, if the parameter does not exist in the table the default is defined</returns>
         </member>
+        <member name="M:OutSystems.HubEdition.RuntimePlatform.DBRuntimePlatform.IsEventBeyondBackoff(System.DateTime,System.DateTime,System.Int32)">
+            <summary>
+            Returns true if the event should be deleted (nextRun is after enqueueTime + backoffDays).
+            Exposed as internal for unit testing.
+            </summary>
+        </member>
         <member name="M:OutSystems.HubEdition.RuntimePlatform.Db.EntityConfiguration.GetEntityConfiguration(System.String,System.String,System.String,System.String)">
             <summary>
             Return an entity configuration, based on its Service Studio key by loading its definition from appSettings.config.

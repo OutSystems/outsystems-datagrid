@@ -6,9 +6,9 @@ namespace Providers.DataGrid.Wijmo.Column {
 	 * @example Date and Datetime columns has a custom editor which is calendar
 	 */
 	export abstract class AbstractProviderColumnEditor<
-			T extends OSFramework.DataGrid.Configuration.IConfigurationColumn,
-			K extends OSFramework.DataGrid.Configuration.IConfigurationColumnEditor,
-		>
+		T extends OSFramework.DataGrid.Configuration.IConfigurationColumn,
+		K extends OSFramework.DataGrid.Configuration.IConfigurationColumnEditor,
+	>
 		extends AbstractProviderColumn<T>
 		implements OSFramework.DataGrid.Column.IColumnCustom
 	{

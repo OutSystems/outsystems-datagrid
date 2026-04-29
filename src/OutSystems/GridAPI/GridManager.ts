@@ -302,7 +302,7 @@ namespace OutSystems.GridAPI.GridManager {
 			grid.dispose();
 		}
 	);
-	
+
 	/**
 	 * Function responsible for setting up the the date format to be used in all grids.
 	 *

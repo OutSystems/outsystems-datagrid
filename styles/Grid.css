@@ -918,9 +918,12 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     margin-top: 10px;
 }
 
+/* Apply/Clear/Cancel buttons -- wrapped in extra <div> in Wijmo 5.2026v1 for a11y */
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
-    div
-    > .wj-btn:not(.wj-btn-default) {
+    [wj-part='div-type']
+    > div:last-child
+    > div
+    > .wj-btn {
     background-color: var(--color-neutral-0);
     border: var(--datagrid-border-primary);
     box-sizing: content-box;
@@ -928,21 +931,27 @@ div[wj-part="ch"]:has(.wj-header.wj-frozen-col) {
     font-size: var(--datagrid-filter-font-size);
     font-weight: var(--font-regular);
     line-height: 18px;
+    min-width: 61px;
     padding: var(--datagrid-button-padding) 0px;
     text-align: center;
-    width: 100%;
+    white-space: nowrap;
+    /* wijmo.css loads after Grid.css in the OutSystems runtime; flex layout on the
+       new a11y wrapper div (2026v1) collapses button width — !important overrides it */
+    width: 100% !important;
 }
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
-    div
-    > .wj-btn:first-child {
-    /* Button Apply */
-    background-color: var(--color-primary);
-    color: var(--color-neutral-0);
+    [wj-part='btn-apply'].wj-btn {
+    /* wijmo.css loads after Grid.css — without !important the cascade order lets
+       Wijmo's .wj-control .wj-btn { background: #eee } win despite lower specificity */
+    background-color: var(--color-primary) !important;
+    color: var(--color-neutral-0) !important;
 }
 
 .wj-dropdown-panel.wj-control.wj-content.wj-columnfiltereditor
-    div
+    [wj-part='div-type']
+    > div:last-child
+    > div
     > .wj-btn:hover {
     filter: brightness(0.8);
     -webkit-filter: brightness(0.8);

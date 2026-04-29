@@ -7,17 +7,8 @@ This repository contains TypeScript code that wraps Wijmo FlexGrid for OutSystem
 ### Prerequisites
 
 - Node.js 12 or higher (see `engines` in `package.json`)
-- Visual Studio Code (recommended)
+- Visual Studio Code (recommended) with extensions listed in `.vscode/extensions.json`
 - For .NET extension work: Visual Studio with .NET Framework 4.7.2
-
-### Recommended VS Code Extensions
-
-Defined in `.vscode/extensions.json`:
-
-- Prettier (`esbenp.prettier-vscode`)
-- Document This (`oouo-diogo-perdigao.docthis`)
-- GitBlame (`waderyan.gitblame`)
-- ESLint (`dbaeumer.vscode-eslint`)
 
 ### Initial Setup
 
@@ -25,7 +16,7 @@ Defined in `.vscode/extensions.json`:
 npm run setup
 ```
 
-This installs dependencies and starts development mode with browser-sync.
+This installs dependencies and starts development mode with browser-sync on port 3000.
 
 ## Development Workflow
 
@@ -102,7 +93,7 @@ Do not modify files under `extension/DataGridUtils/Templates/NET/` -- those are 
 
 ### Test Automation
 
-Browser-based integration tests live in a separate repository: [outsystems-datagrid-tests](https://github.com/OutSystems/outsystems-datagrid-tests) (WebDriverIO + Cucumber). It is checked out locally at `../outsystems-datagrid-tests`.
+Browser-based integration tests live in a separate private repository (WebDriverIO + Cucumber).
 
 ## Code Standards
 
@@ -133,7 +124,7 @@ Classes: signature, private fields, protected fields, public fields, constructor
 ### General Guidelines
 
 - Keep changes scoped to the relevant JIRA ticket
-- Do not modify Wijmo type definitions in `src/@types/`
+- Do not modify vendored Wijmo type definitions in `src/@types/`
 - Do not expose sensitive information (server URLs, credentials)
 
 ## Getting Help

@@ -59,6 +59,58 @@ We highly recommend the usage of the following tools:
 8. Fix all errors & warnings! :)
 9. Create a PR, describing what was the (mis)behavior, what you changed and please provide a sample
 
+### How to run the .NET extension tests?
+
+The `DataGridUtils` extension ships with a standalone test project under [extension/tests/](./extension/tests/) that exercises `MssConvertData2JSON` against mock OutSystems types (`IRecord`, `ISimpleRecord`, `IOSList`). No OutSystems platform or Integration Studio install is required.
+
+The project is a .NET Framework 4.7.2 console app (`OutputType=Exe`): each test runs from `Main`, the runner prints pass/fail, and the process exits with a non-zero code if any test fails — CI-friendly out of the box.
+
+**Prerequisites**
+
+- .NET Framework 4.7.2 developer pack installed.
+- Either Visual Studio 2019+ or the Build Tools for Visual Studio (so `msbuild` is on `PATH`, e.g. via the _Developer Command Prompt for VS_).
+
+**Run with Visual Studio**
+
+1. Open `extension/DataGridUtils/Source/NET/DataGridUtils.sln` and build it (`Ctrl+Shift+B`) — this produces `OutSystems.NssDataGridUtils.dll` in `obj/Debug/`, which the test project consumes.
+2. Open `extension/tests/DataGridUtils.Tests.csproj` (add it to the solution or open in a second VS instance).
+3. If the `OutSystems.NssDataGridUtils` reference shows as unresolved, right-click it → **Properties** and repoint the _Path_ to the `obj/Debug/OutSystems.NssDataGridUtils.dll` produced in step 1. The checked-in `HintPath` may point at a contributor-specific location and is a known maintenance quirk.
+4. Set `DataGridUtils.Tests` as the startup project and press `F5` (debug) or `Ctrl+F5` (run without debugging).
+
+**Run from the command line**
+
+```bash
+# 1. Build the extension first — produces OutSystems.NssDataGridUtils.dll
+cd extension/DataGridUtils/Source/NET
+msbuild DataGridUtils.sln /p:Configuration=Debug
+
+# 2. Build and run the test project
+cd ../../../tests
+msbuild DataGridUtils.Tests.csproj /p:Configuration=Debug
+./bin/Debug/net472/DataGridUtils.Tests.exe
+```
+
+**Expected output**
+
+```
+=== DataGridUtils Tests ===
+
+  PASS: MssConvertData2JSON_WithComplexListData_ReturnsExpectedJSON
+  PASS: MssConvertData2JSON_MultiSsFieldRow_CountFirst_EmitsFullRecord
+  PASS: MssConvertData2JSON_MultiSsFieldRow_EmployeeFirst_EmitsFullRecord
+  PASS: MssConvertData2JSON_LegacySingleAttrWrapper_StillFlattens
+
+Results: 4 passed, 0 failed, 4 total
+```
+
+**Adding a new test**
+
+1. Declare the mock types (implementing `IRecord` / `ISimpleRecord` / `IOSList`) alongside the existing ones in `ConvertData2JSONTests.cs` — follow the `RCRow_*` / `RL<T>` patterns already established for ROU-12689.
+2. Write a `static void` test method inside `Program` that calls `sut.MssConvertData2JSON(list, out string result)` and compares against an explicit expected string via `AssertEqual`.
+3. Register it in `Main` with `RunTest(nameof(YourTest), YourTest)`.
+
+If a test fails, `AssertEqual` prints the first differing character position and a 60-char context window, which is usually enough to diagnose shape drift without a debugger.
+
 ### How to add new feature/fix?
 
 - A new branch from **master** should be created.

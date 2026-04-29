@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
     *
-    * Wijmo Library 5.20252.44
+    * Wijmo Library 5.20261.50
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -12,7 +12,8 @@
     *
     */
 
-.wj-glyph, .wj-glyph-search, .wj-glyph-filter, .wj-glyph-up-right, .wj-glyph-up-left, .wj-glyph-up, .wj-glyph-step-forward, .wj-glyph-step-backward, .wj-glyph-square, .wj-glyph-right, .wj-glyph-pencil, .wj-glyph-plus, .wj-glyph-minus, .wj-glyph-pin, .wj-glyph-measure, .wj-glyph-left, .wj-glyph-file, .wj-glyph-drag, .wj-glyph-down-right, .wj-glyph-down-left, .wj-glyph-down, .wj-glyph-dimension, .wj-glyph-diamond, .wj-glyph-clock, .wj-glyph-clipboard, .wj-glyph-circle, .wj-glyph-check, .wj-glyph-calendar, .wj-glyph-asterisk {
+.wj-glyph, .wj-glyph-search, .wj-glyph-filter, .wj-glyph-up-right, .wj-glyph-up-left, .wj-glyph-up, .wj-glyph-step-forward, .wj-glyph-step-backward, .wj-glyph-square, .wj-glyph-right, .wj-glyph-pencil, .wj-glyph-plus,
+.wj-glyph-minus, .wj-glyph-pin, .wj-glyph-measure, .wj-glyph-left, .wj-glyph-file, .wj-glyph-drag, .wj-glyph-down-right, .wj-glyph-down-left, .wj-glyph-down, .wj-glyph-dimension, .wj-glyph-diamond, .wj-glyph-clock, .wj-glyph-clipboard, .wj-glyph-circle, .wj-glyph-check, .wj-glyph-calendar, .wj-glyph-asterisk {
   position: relative;
   display: inline-block;
   box-sizing: border-box;
@@ -23,7 +24,8 @@
 }
 
 @media (forced-colors: active) {
-  .wj-glyph, .wj-glyph-search, .wj-glyph-filter, .wj-glyph-up-right, .wj-glyph-up-left, .wj-glyph-up, .wj-glyph-step-forward, .wj-glyph-step-backward, .wj-glyph-square, .wj-glyph-right, .wj-glyph-pencil, .wj-glyph-plus, .wj-glyph-minus, .wj-glyph-pin, .wj-glyph-measure, .wj-glyph-left, .wj-glyph-file, .wj-glyph-drag, .wj-glyph-down-right, .wj-glyph-down-left, .wj-glyph-down, .wj-glyph-dimension, .wj-glyph-diamond, .wj-glyph-clock, .wj-glyph-clipboard, .wj-glyph-circle, .wj-glyph-check, .wj-glyph-calendar, .wj-glyph-asterisk {
+  .wj-glyph, .wj-glyph-search, .wj-glyph-filter, .wj-glyph-up-right, .wj-glyph-up-left, .wj-glyph-up, .wj-glyph-step-forward, .wj-glyph-step-backward, .wj-glyph-square, .wj-glyph-right, .wj-glyph-pencil, .wj-glyph-plus,
+  .wj-glyph-minus, .wj-glyph-pin, .wj-glyph-measure, .wj-glyph-left, .wj-glyph-file, .wj-glyph-drag, .wj-glyph-down-right, .wj-glyph-down-left, .wj-glyph-down, .wj-glyph-dimension, .wj-glyph-diamond, .wj-glyph-clock, .wj-glyph-clipboard, .wj-glyph-circle, .wj-glyph-check, .wj-glyph-calendar, .wj-glyph-asterisk {
     forced-color-adjust: none;
     color: CanvasText;
     background-color: Canvas;
@@ -193,7 +195,8 @@
     left: 0.17em;
   }
 }
-.wj-glyph-plus, .wj-glyph-minus {
+.wj-glyph-plus,
+.wj-glyph-minus {
   border-top: 0.25em solid;
   width: 0.9em;
   top: -0.3em;
@@ -364,7 +367,7 @@
   box-shadow: none;
   outline: none;
 }
-.wj-control .wj-btn, .wj-viewer .wj-control .wj-applybutton {
+.wj-control .wj-btn {
   background: #eee;
   cursor: pointer;
   color: black;
@@ -375,21 +378,20 @@
   min-width: 30px;
   white-space: nowrap;
 }
-.wj-control .wj-btn:focus, .wj-viewer .wj-control .wj-applybutton:focus, .wj-control .wj-btn:hover, .wj-viewer .wj-control .wj-applybutton:hover {
-  background: #e1e1e1;
+.wj-control .wj-btn:focus, .wj-control .wj-btn:hover {
+  background: rgb(225.25, 225.25, 225.25);
   transition-duration: 0.4s;
 }
-.wj-control .wj-btn.wj-state-active, .wj-viewer .wj-control .wj-state-active.wj-applybutton {
-  background: #d5d5d5;
+.wj-control .wj-btn.wj-state-active {
+  background: rgb(212.5, 212.5, 212.5);
 }
-.wj-control .wj-btn[disabled], .wj-viewer .wj-control [disabled].wj-applybutton {
+.wj-control .wj-btn[disabled] {
   cursor: default;
   pointer-events: none;
   opacity: 0.6;
 }
-.wj-control a.wj-btn, .wj-viewer .wj-control a.wj-applybutton,
-.wj-control button.wj-btn:not(.wj-btn-default),
-.wj-viewer .wj-control button.wj-applybutton:not(.wj-btn-default) {
+.wj-control a.wj-btn,
+.wj-control button.wj-btn:not(.wj-btn-default) {
   border-radius: 4px;
   padding: 6px 15px;
   text-decoration: none;
@@ -404,13 +406,13 @@
 }
 
 .wj-state-multi-selected {
-  background: #4E7B8D;
+  background: #4e7b8d;
   color: white;
 }
 
 .wj-state-selected,
 .wj-state-last-selected {
-  background: #007CBE;
+  background: #007cbe;
   color: white;
 }
 
@@ -457,7 +459,7 @@
   -ms-word-break: break-all;
 }
 .wj-tooltip.wj-error-tip {
-  background: #EE0000;
+  background: #ee0000;
   color: white;
   white-space: pre-line;
   font-weight: bold;
@@ -541,10 +543,10 @@
   white-space: nowrap;
   vertical-align: top;
 }
-.wj-control .wj-input-group .wj-input-group-btn:last-child:not(:first-child) > .wj-btn, .wj-viewer .wj-control .wj-input-group .wj-input-group-btn:last-child:not(:first-child) > .wj-applybutton {
+.wj-control .wj-input-group .wj-input-group-btn:last-child:not(:first-child) > .wj-btn {
   border-left: 1px solid rgba(0, 0, 0, 0.2);
 }
-.wj-control .wj-input-group .wj-input-group-btn:first-child:not(:last-child) > .wj-btn, .wj-viewer .wj-control .wj-input-group .wj-input-group-btn:first-child:not(:last-child) > .wj-applybutton {
+.wj-control .wj-input-group .wj-input-group-btn:first-child:not(:last-child) > .wj-btn {
   border-right: 1px solid rgba(0, 0, 0, 0.2);
 }
 .wj-control .wj-input-group .wj-form-control {
@@ -557,7 +559,8 @@
   background: transparent;
   min-height: 2em;
 }
-.wj-control .wj-input-group button, .wj-control .wj-input-group input {
+.wj-control .wj-input-group button,
+.wj-control .wj-input-group input {
   margin: 0;
 }
 .wj-control .wj-btn-group {
@@ -576,44 +579,37 @@
 .wj-control .wj-btn-group > .wj-form-control:not(:first-child) {
   border-left: 1px solid rgba(0, 0, 0, 0.2);
 }
-.wj-control .wj-btn-group > .wj-btn, .wj-viewer .wj-control .wj-btn-group > .wj-applybutton,
-.wj-control .wj-input-group-btn > .wj-btn,
-.wj-viewer .wj-control .wj-input-group-btn > .wj-applybutton {
+.wj-control .wj-btn-group > .wj-btn,
+.wj-control .wj-input-group-btn > .wj-btn {
   height: 100%;
   min-height: 2em;
   background: #eee;
 }
-.wj-control .wj-btn-group > .wj-btn:focus, .wj-viewer .wj-control .wj-btn-group > .wj-applybutton:focus, .wj-control .wj-btn-group > .wj-btn:hover, .wj-viewer .wj-control .wj-btn-group > .wj-applybutton:hover,
+.wj-control .wj-btn-group > .wj-btn:focus, .wj-control .wj-btn-group > .wj-btn:hover,
 .wj-control .wj-input-group-btn > .wj-btn:focus,
-.wj-viewer .wj-control .wj-input-group-btn > .wj-applybutton:focus,
-.wj-control .wj-input-group-btn > .wj-btn:hover,
-.wj-viewer .wj-control .wj-input-group-btn > .wj-applybutton:hover {
-  background: #e1e1e1;
+.wj-control .wj-input-group-btn > .wj-btn:hover {
+  background: rgb(225.25, 225.25, 225.25);
   transition-duration: 0.4s;
 }
-.wj-control .wj-btn-group > .wj-btn.wj-btn-default, .wj-viewer .wj-control .wj-btn-group > .wj-btn-default.wj-applybutton,
-.wj-control .wj-input-group-btn > .wj-btn.wj-btn-default,
-.wj-viewer .wj-control .wj-input-group-btn > .wj-btn-default.wj-applybutton {
+.wj-control .wj-btn-group > .wj-btn.wj-btn-default,
+.wj-control .wj-input-group-btn > .wj-btn.wj-btn-default {
   color: black;
 }
-.wj-control .wj-btn-group > .wj-btn.wj-btn-default:enabled, .wj-viewer .wj-control .wj-btn-group > .wj-btn-default.wj-applybutton:enabled,
-.wj-control .wj-input-group-btn > .wj-btn.wj-btn-default:enabled,
-.wj-viewer .wj-control .wj-input-group-btn > .wj-btn-default.wj-applybutton:enabled {
+.wj-control .wj-btn-group > .wj-btn.wj-btn-default:enabled,
+.wj-control .wj-input-group-btn > .wj-btn.wj-btn-default:enabled {
   background: transparent;
 }
-.wj-control .wj-btn-group > .wj-btn.wj-btn-default:focus, .wj-viewer .wj-control .wj-btn-group > .wj-btn-default.wj-applybutton:focus, .wj-control .wj-btn-group > .wj-btn.wj-btn-default:hover, .wj-viewer .wj-control .wj-btn-group > .wj-btn-default.wj-applybutton:hover,
+.wj-control .wj-btn-group > .wj-btn.wj-btn-default:focus, .wj-control .wj-btn-group > .wj-btn.wj-btn-default:hover,
 .wj-control .wj-input-group-btn > .wj-btn.wj-btn-default:focus,
-.wj-viewer .wj-control .wj-input-group-btn > .wj-btn-default.wj-applybutton:focus,
-.wj-control .wj-input-group-btn > .wj-btn.wj-btn-default:hover,
-.wj-viewer .wj-control .wj-input-group-btn > .wj-btn-default.wj-applybutton:hover {
-  background: #e1e1e1;
+.wj-control .wj-input-group-btn > .wj-btn.wj-btn-default:hover {
+  background: rgb(225.25, 225.25, 225.25);
   transition-duration: 0.4s;
 }
-.wj-control.wj-rtl .wj-input-group-btn:last-child:not(:first-child) > .wj-btn, .wj-viewer .wj-control.wj-rtl .wj-input-group-btn:last-child:not(:first-child) > .wj-applybutton {
+.wj-control.wj-rtl .wj-input-group-btn:last-child:not(:first-child) > .wj-btn {
   border-right: 1px solid rgba(0, 0, 0, 0.2);
   border-left: none;
 }
-.wj-control.wj-rtl .wj-input-group-btn:first-child:not(:last-child) > .wj-btn, .wj-viewer .wj-control.wj-rtl .wj-input-group-btn:first-child:not(:last-child) > .wj-applybutton {
+.wj-control.wj-rtl .wj-input-group-btn:first-child:not(:last-child) > .wj-btn {
   border-left: 1px solid rgba(0, 0, 0, 0.2);
   border-right: none;
 }
@@ -840,10 +836,10 @@
   opacity: 0.5;
 }
 .wj-calendar .wj-calendar-header .wj-month-select:focus-visible {
-  outline: 2px solid #007CBE;
+  outline: 2px solid #007cbe;
   outline-offset: 2px;
 }
-.wj-calendar .wj-calendar-header .wj-btn-group .wj-btn, .wj-calendar .wj-calendar-header .wj-btn-group .wj-viewer .wj-control .wj-applybutton, .wj-viewer .wj-control .wj-calendar .wj-calendar-header .wj-btn-group .wj-applybutton {
+.wj-calendar .wj-calendar-header .wj-btn-group .wj-btn {
   padding: 2px 8px 0 8px;
 }
 .wj-calendar .wj-calendar-header .wj-btn-group span {
@@ -862,7 +858,7 @@
   width: 14.29%;
 }
 .wj-calendar .wj-calendar-month td:not(.wj-state-selected):hover {
-  background-color: #e1e1e1;
+  background-color: rgb(225.25, 225.25, 225.25);
 }
 .wj-calendar .wj-calendar-month td:not(.wj-state-selected):hover.wj-state-multi-selected {
   color: black;
@@ -883,29 +879,29 @@
   all: unset;
 }
 .wj-calendar .wj-calendar-year td:not(.wj-state-selected):hover {
-  background-color: #e1e1e1;
+  background-color: rgb(225.25, 225.25, 225.25);
 }
 .wj-calendar .wj-calendar-year tr:not(.wj-header) td {
   height: 3em;
 }
 .wj-calendar .wj-calendar-year .wj-select-year:focus {
-  outline: 2px solid #007CBE;
+  outline: 2px solid #007cbe;
 }
-.wj-calendar td, .wj-calendar th {
+.wj-calendar td,
+.wj-calendar th {
   text-align: center;
   padding: 4px 6px 3px 6px;
   border: none;
 }
-.wj-calendar td.wj-state-invalid, .wj-calendar th.wj-state-invalid {
+.wj-calendar td.wj-state-invalid,
+.wj-calendar th.wj-state-invalid {
   opacity: 0.65;
 }
 .wj-calendar.wj-rtl .wj-calendar-header .wj-btn-group {
   float: left;
 }
-.wj-calendar.wj-rtl .wj-calendar-header .wj-btn-group .wj-btn .wj-glyph-right, .wj-calendar.wj-rtl .wj-calendar-header .wj-btn-group .wj-viewer .wj-control .wj-applybutton .wj-glyph-right, .wj-viewer .wj-control .wj-calendar.wj-rtl .wj-calendar-header .wj-btn-group .wj-applybutton .wj-glyph-right,
-.wj-calendar.wj-rtl .wj-calendar-header .wj-btn-group .wj-btn .wj-glyph-left,
-.wj-calendar.wj-rtl .wj-calendar-header .wj-btn-group .wj-viewer .wj-control .wj-applybutton .wj-glyph-left,
-.wj-viewer .wj-control .wj-calendar.wj-rtl .wj-calendar-header .wj-btn-group .wj-applybutton .wj-glyph-left {
+.wj-calendar.wj-rtl .wj-calendar-header .wj-btn-group .wj-btn .wj-glyph-right,
+.wj-calendar.wj-rtl .wj-calendar-header .wj-btn-group .wj-btn .wj-glyph-left {
   transform: scale(-1, 1);
 }
 .wj-calendar.wj-calendar-multimonth {
@@ -921,10 +917,8 @@
 .wj-calendar.wj-calendar-multimonth .wj-calendar {
   display: flex;
 }
-.wj-calendar.wj-calendar-multimonth .wj-calendar-header .wj-btn-group .wj-btn .wj-glyph-right, .wj-calendar.wj-calendar-multimonth .wj-calendar-header .wj-btn-group .wj-viewer .wj-control .wj-applybutton .wj-glyph-right, .wj-viewer .wj-control .wj-calendar.wj-calendar-multimonth .wj-calendar-header .wj-btn-group .wj-applybutton .wj-glyph-right,
-.wj-calendar.wj-calendar-multimonth .wj-calendar-header .wj-btn-group .wj-btn .wj-glyph-left,
-.wj-calendar.wj-calendar-multimonth .wj-calendar-header .wj-btn-group .wj-viewer .wj-control .wj-applybutton .wj-glyph-left,
-.wj-viewer .wj-control .wj-calendar.wj-calendar-multimonth .wj-calendar-header .wj-btn-group .wj-applybutton .wj-glyph-left {
+.wj-calendar.wj-calendar-multimonth .wj-calendar-header .wj-btn-group .wj-btn .wj-glyph-right,
+.wj-calendar.wj-calendar-multimonth .wj-calendar-header .wj-btn-group .wj-btn .wj-glyph-left {
   transform: scale(1, -1);
 }
 .wj-calendar.wj-btns-outside {
@@ -967,7 +961,7 @@
     outline-offset: -2px;
   }
   .wj-calendar .wj-calendar-month td.wj-state-focus:focus,
-.wj-calendar .wj-calendar-year tbody td.wj-state-focus:focus {
+  .wj-calendar .wj-calendar-year tbody td.wj-state-focus:focus {
     outline: 1px solid WindowText;
     outline-offset: -1px;
   }
@@ -977,13 +971,13 @@
   .wj-calendar .wj-calendar-year .wj-select-year:focus {
     outline: 1px solid WindowText;
   }
-  .wj-calendar .wj-btn:focus, .wj-calendar .wj-viewer .wj-control .wj-applybutton:focus, .wj-viewer .wj-control .wj-calendar .wj-applybutton:focus {
+  .wj-calendar .wj-btn:focus {
     outline: 1px solid Highlight;
     outline-offset: -1px;
     transition-duration: unset !important;
   }
   .wj-calendar .wj-calendar-month td:hover,
-.wj-calendar .wj-calendar-year td:hover {
+  .wj-calendar .wj-calendar-year td:hover {
     outline: 1px solid WindowText;
     outline-offset: -1px;
   }
@@ -1054,7 +1048,7 @@
   display: flex;
   justify-content: flex-end;
 }
-.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control .wj-applybutton, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-applybutton {
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn {
   background: #eee;
   cursor: pointer;
   color: black;
@@ -1064,27 +1058,27 @@
   text-align: center;
   min-width: 30px;
   white-space: nowrap;
-  margin-left: 10px;
 }
-.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn:focus, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control .wj-applybutton:focus, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-applybutton:focus, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn:hover, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control .wj-applybutton:hover, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-applybutton:hover {
-  background: #e1e1e1;
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn:focus, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn:hover {
+  background: rgb(225.25, 225.25, 225.25);
   transition-duration: 0.4s;
 }
-.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn.wj-state-active, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control .wj-state-active.wj-applybutton, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-state-active.wj-applybutton {
-  background: #d5d5d5;
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn.wj-state-active {
+  background: rgb(212.5, 212.5, 212.5);
 }
-.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn[disabled], .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control [disabled].wj-applybutton, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container [disabled].wj-applybutton {
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn[disabled] {
   cursor: default;
   pointer-events: none;
   opacity: 0.6;
 }
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn {
+  margin-left: 10px;
+}
 .wj-inputdate-dropdown .wj-calendar-confirmation-button-container :focus {
   outline: none;
 }
-.wj-inputdate-dropdown .wj-calendar-confirmation-button-container a.wj-btn, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control a.wj-applybutton, .wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container a.wj-applybutton,
-.wj-inputdate-dropdown .wj-calendar-confirmation-button-container button.wj-btn:not(.wj-btn-default),
-.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-viewer .wj-control button.wj-applybutton:not(.wj-btn-default),
-.wj-viewer .wj-control .wj-inputdate-dropdown .wj-calendar-confirmation-button-container button.wj-applybutton:not(.wj-btn-default) {
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container a.wj-btn,
+.wj-inputdate-dropdown .wj-calendar-confirmation-button-container button.wj-btn:not(.wj-btn-default) {
   border-radius: 4px;
   padding: 6px 15px;
   text-decoration: none;
@@ -1092,11 +1086,11 @@
   font-size: 12px;
 }
 
-.wj-inputdatetime .wj-input-group-btn > .wj-btn.wj-btn-default.wj-show-dropdown-button, .wj-inputdatetime .wj-viewer .wj-control .wj-input-group-btn > .wj-btn-default.wj-show-dropdown-button.wj-applybutton, .wj-viewer .wj-control .wj-inputdatetime .wj-input-group-btn > .wj-btn-default.wj-show-dropdown-button.wj-applybutton {
-  background: #e1e1e1;
+.wj-inputdatetime .wj-input-group-btn > .wj-btn.wj-btn-default.wj-show-dropdown-button {
+  background: rgb(225.25, 225.25, 225.25);
 }
 @media (forced-colors: active) {
-  .wj-inputdatetime .wj-input-group-btn > .wj-btn.wj-btn-default.wj-show-dropdown-button, .wj-inputdatetime .wj-viewer .wj-control .wj-input-group-btn > .wj-btn-default.wj-show-dropdown-button.wj-applybutton, .wj-viewer .wj-control .wj-inputdatetime .wj-input-group-btn > .wj-btn-default.wj-show-dropdown-button.wj-applybutton {
+  .wj-inputdatetime .wj-input-group-btn > .wj-btn.wj-btn-default.wj-show-dropdown-button {
     background-color: Highlight;
   }
 }
@@ -1200,7 +1194,7 @@
   cursor: default;
 }
 .wj-multi-autocomplete .wj-token:focus, .wj-multi-autocomplete .wj-token:hover, .wj-multi-autocomplete .wj-token.wj-token-active {
-  background: #e1e1e1;
+  background: rgb(225.25, 225.25, 225.25);
   transition-duration: 0.4s;
 }
 .wj-multi-autocomplete .wj-token .wj-token-label {
@@ -1264,7 +1258,7 @@
 }
 
 .wj-menu.wj-state-focused {
-  outline: 2px solid #007CBE;
+  outline: 2px solid #007cbe;
   outline-offset: -1px;
 }
 
@@ -1308,7 +1302,7 @@
   user-select: auto;
   -webkit-user-select: auto;
 }
-.wj-pager .wj-input-group .wj-input-group-btn > .wj-btn, .wj-pager .wj-input-group .wj-viewer .wj-control .wj-input-group-btn > .wj-applybutton, .wj-viewer .wj-control .wj-pager .wj-input-group .wj-input-group-btn > .wj-applybutton {
+.wj-pager .wj-input-group .wj-input-group-btn > .wj-btn {
   min-width: 40px;
   padding: 0em 1em;
 }
@@ -1323,7 +1317,7 @@
   height: 100%;
   min-height: 2em;
 }
-.wj-pager .wj-input-group span[wj-part|=btn]:focus-within > .wj-btn:focus-visible, .wj-pager .wj-input-group .wj-viewer .wj-control span[wj-part|=btn]:focus-within > .wj-applybutton:focus-visible, .wj-viewer .wj-control .wj-pager .wj-input-group span[wj-part|=btn]:focus-within > .wj-applybutton:focus-visible {
+.wj-pager .wj-input-group span[wj-part|=btn]:focus-within > .wj-btn:focus-visible {
   transition-property: none;
   outline: 0.2em solid;
   outline-offset: -0.2em;
@@ -1334,19 +1328,17 @@
   background-color: white;
 }
 @media (forced-colors: active) {
-  .wj-pager .wj-input-group span[wj-part|=btn] button.wj-btn.wj-btn-default[tabindex], .wj-pager .wj-input-group span[wj-part|=btn] .wj-viewer .wj-control button.wj-btn-default[tabindex].wj-applybutton, .wj-viewer .wj-control .wj-pager .wj-input-group span[wj-part|=btn] button.wj-btn-default[tabindex].wj-applybutton {
+  .wj-pager .wj-input-group span[wj-part|=btn] button.wj-btn.wj-btn-default[tabindex]:active, .wj-pager .wj-input-group span[wj-part|=btn] button.wj-btn.wj-btn-default[tabindex]:hover {
+    transition-property: none;
+    background-color: Canvas;
+  }
+  .wj-pager .wj-input-group span[wj-part|=btn] button.wj-btn.wj-btn-default[tabindex] {
     border: 1px solid ButtonText;
     border-right-color: ButtonText;
     border-left-color: ButtonText;
   }
-  .wj-pager .wj-input-group span[wj-part|=btn] button.wj-btn.wj-btn-default[tabindex]:active, .wj-pager .wj-input-group span[wj-part|=btn] .wj-viewer .wj-control button.wj-btn-default[tabindex].wj-applybutton:active, .wj-viewer .wj-control .wj-pager .wj-input-group span[wj-part|=btn] button.wj-btn-default[tabindex].wj-applybutton:active, .wj-pager .wj-input-group span[wj-part|=btn] button.wj-btn.wj-btn-default[tabindex]:hover, .wj-pager .wj-input-group span[wj-part|=btn] .wj-viewer .wj-control button.wj-btn-default[tabindex].wj-applybutton:hover, .wj-viewer .wj-control .wj-pager .wj-input-group span[wj-part|=btn] button.wj-btn-default[tabindex].wj-applybutton:hover {
-    transition-property: none;
-    background-color: Canvas;
-  }
   .wj-pager .wj-input-group span[wj-part=txt-curr]:focus-visible,
-.wj-pager .wj-input-group span[wj-part|=btn]:focus-within > .wj-btn:focus-visible,
-.wj-pager .wj-input-group .wj-viewer .wj-control span[wj-part|=btn]:focus-within > .wj-applybutton:focus-visible,
-.wj-viewer .wj-control .wj-pager .wj-input-group span[wj-part|=btn]:focus-within > .wj-applybutton:focus-visible {
+  .wj-pager .wj-input-group span[wj-part|=btn]:focus-within > .wj-btn:focus-visible {
     outline-color: Highlight;
   }
 }
@@ -1359,7 +1351,10 @@
   margin: 0 20px;
   padding: 20px 0;
 }
-.wj-labeled-input, .wj-labeled-input *, .wj-labeled-input *:after, .wj-labeled-input *:before {
+.wj-labeled-input,
+.wj-labeled-input *,
+.wj-labeled-input *:after,
+.wj-labeled-input *:before {
   box-sizing: border-box;
 }
 .wj-labeled-input.wide {
@@ -1380,7 +1375,7 @@
   opacity: 0.75;
   border-color: rgba(0, 0, 0, 0.1);
 }
-.wj-labeled-input .wj-inputnumber.wj-state-empty:not(.wj-state-focused) .wj-btn, .wj-labeled-input .wj-inputnumber.wj-state-empty:not(.wj-state-focused) .wj-viewer .wj-control .wj-applybutton, .wj-viewer .wj-control .wj-labeled-input .wj-inputnumber.wj-state-empty:not(.wj-state-focused) .wj-applybutton {
+.wj-labeled-input .wj-inputnumber.wj-state-empty:not(.wj-state-focused) .wj-btn {
   display: none;
 }
 .wj-labeled-input label {
@@ -1401,7 +1396,7 @@
 }
 .wj-labeled-input label:after {
   content: "";
-  background-color: #007CBE;
+  background-color: #007cbe;
   bottom: 20px;
   height: 2px;
   left: 45%;
@@ -1468,7 +1463,7 @@
 .wj-labeled-input input[type=checkbox]:checked + label:after,
 .wj-labeled-input input[type=radio]:checked + label:after {
   content: "✔";
-  background: #007CBE;
+  background: #007cbe;
 }
 .wj-labeled-input input[type=radio] + label:after {
   border-radius: 1em;
@@ -1477,7 +1472,7 @@
 .wj-labeled-input input[type=radio]:checked + label:after {
   content: "";
   background: white;
-  border: 0.45em solid #007CBE;
+  border: 0.45em solid #007cbe;
 }
 .wj-labeled-input.switch input[type=checkbox] + label {
   padding-left: 3.1em;
@@ -1507,13 +1502,13 @@
   transition: all 0.3s;
 }
 .wj-labeled-input.switch input[type=checkbox]:checked + label:before {
-  background: #007CBE;
+  background: #007cbe;
   opacity: 0.4;
 }
 .wj-labeled-input.switch input[type=checkbox]:checked + label:after {
   margin-left: 1.25em;
-  border: 1px solid #007CBE;
-  background: #007CBE;
+  border: 1px solid #007cbe;
+  background: #007cbe;
 }
 
 .wj-static-labels .wj-labeled-input :not(.wj-state-focused) + label,
@@ -1521,7 +1516,7 @@
 .wj-labeled-input :not(.wj-state-empty) + label {
   font-size: 12px;
   top: 4px;
-  color: #007CBE;
+  color: #007cbe;
   visibility: visible;
 }
 
@@ -1552,7 +1547,7 @@
 }
 .wj-tabpanel > div > .wj-tabheaders > .wj-tabheader.wj-state-active {
   background: white;
-  color: #007CBE;
+  color: #007cbe;
 }
 .wj-tabpanel > div > .wj-tabheaders > .wj-tabheader:not(.wj-state-active):not(.wj-state-disabled):focus {
   background: rgba(0, 0, 0, 0.1);
@@ -1560,7 +1555,7 @@
 .wj-tabpanel > div > .wj-tabheaders > .wj-tabheader:after {
   content: "";
   position: absolute;
-  background: #007CBE;
+  background: #007cbe;
   height: 2.5px;
   left: 45%;
   width: 10%;
@@ -1595,11 +1590,11 @@
   cursor: pointer;
 }
 .wj-accordion > .wj-header.wj-state-active {
-  background: #007CBE;
+  background: #007cbe;
   color: white;
 }
 .wj-accordion > .wj-header:focus {
-  outline: 2px solid #007CBE;
+  outline: 2px solid #007cbe;
   outline-offset: -2px;
 }
 .wj-accordion.wj-show-icons > .wj-header:before {
@@ -1686,12 +1681,12 @@
 }
 .wj-treeview .wj-marker {
   position: absolute;
-  background: #007CBE;
+  background: #007cbe;
   opacity: 0.5;
   pointer-events: none;
 }
 .wj-treeview .wj-marker.wj-line-marker {
-  box-shadow: 0 0 0px 2px #007CBE;
+  box-shadow: 0 0 0px 2px #007cbe;
   overflow: hidden;
 }
 .wj-treeview.wj-state-loading * {
@@ -1774,17 +1769,17 @@
   position: absolute;
   top: 0;
 }
-.wj-flexgrid .wj-colheaders .wj-header .wj-btn.wj-btn-glyph.wj-elem-pin, .wj-flexgrid .wj-colheaders .wj-header .wj-viewer .wj-control .wj-btn-glyph.wj-elem-pin.wj-applybutton, .wj-viewer .wj-control .wj-flexgrid .wj-colheaders .wj-header .wj-btn-glyph.wj-elem-pin.wj-applybutton {
+.wj-flexgrid .wj-colheaders .wj-header .wj-btn.wj-btn-glyph.wj-elem-pin {
   opacity: 0.9;
 }
-.wj-flexgrid .wj-colheaders .wj-header .wj-btn.wj-btn-glyph.wj-elem-pin:not(.wj-state-pinned), .wj-flexgrid .wj-colheaders .wj-header .wj-viewer .wj-control .wj-btn-glyph.wj-elem-pin.wj-applybutton:not(.wj-state-pinned), .wj-viewer .wj-control .wj-flexgrid .wj-colheaders .wj-header .wj-btn-glyph.wj-elem-pin.wj-applybutton:not(.wj-state-pinned) {
+.wj-flexgrid .wj-colheaders .wj-header .wj-btn.wj-btn-glyph.wj-elem-pin:not(.wj-state-pinned) {
   opacity: 0.4;
 }
-.wj-flexgrid .wj-colheaders .wj-header .wj-btn.wj-btn-glyph.wj-elem-pin:not(.wj-state-pinned) .wj-glyph-pin, .wj-flexgrid .wj-colheaders .wj-header .wj-viewer .wj-control .wj-btn-glyph.wj-elem-pin.wj-applybutton:not(.wj-state-pinned) .wj-glyph-pin, .wj-viewer .wj-control .wj-flexgrid .wj-colheaders .wj-header .wj-btn-glyph.wj-elem-pin.wj-applybutton:not(.wj-state-pinned) .wj-glyph-pin {
+.wj-flexgrid .wj-colheaders .wj-header .wj-btn.wj-btn-glyph.wj-elem-pin:not(.wj-state-pinned) .wj-glyph-pin {
   transform: rotate(-45deg);
 }
 .wj-flexgrid .wj-colheaders .wj-header.wj-state-multi-selected {
-  border-bottom: 2px solid #007CBE;
+  border-bottom: 2px solid #007cbe;
 }
 .wj-flexgrid .wj-colheaders .wj-header.wj-colgroup {
   display: flex;
@@ -1805,7 +1800,7 @@
   content: "";
 }
 .wj-flexgrid .wj-rowheaders .wj-header.wj-state-multi-selected {
-  border-right: 2px solid #007CBE;
+  border-right: 2px solid #007cbe;
 }
 .wj-flexgrid .wj-rowheaders .wj-header.wj-big-header:after {
   position: absolute;
@@ -1831,15 +1826,20 @@
 }
 .wj-flexgrid .wj-marquee {
   position: absolute;
-  box-shadow: 0 0 0 1px #007CBE, inset 0 0 0 1px #007CBE;
+  box-shadow: 0 0 0 1px #007cbe, inset 0 0 0 1px #007cbe;
   pointer-events: none;
 }
 .wj-flexgrid .wj-marker {
   position: absolute;
-  background: #007CBE;
+  background: #007cbe;
   opacity: 0.5;
   pointer-events: none;
   z-index: 1000;
+}
+@media (forced-colors: active) {
+  .wj-flexgrid .wj-marker {
+    background: Highlight;
+  }
 }
 .wj-flexgrid .wj-state-sticky .wj-header {
   opacity: 0.8;
@@ -1856,7 +1856,7 @@
   resize: none;
 }
 .wj-flexgrid:focus-within .wj-header.wj-focus-header-cell {
-  box-shadow: 0px 0px 0px 0px #007CBE, inset 0px 0px 0px 1px #007CBE;
+  box-shadow: 0px 0px 0px 0px #007cbe, inset 0px 0px 0px 1px #007cbe;
 }
 @media (forced-colors: active) {
   .wj-flexgrid:focus-within .wj-header.wj-focus-header-cell:focus {
@@ -1869,35 +1869,35 @@
     outline-offset: -1px;
   }
 }
-.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph, .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-applybutton, .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-applybutton {
+.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph {
   padding: 0 4px;
   min-width: 1.5em;
   color: inherit;
   background: transparent;
   opacity: 0.4;
 }
-.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph:hover, .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-applybutton:hover, .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-applybutton:hover, .wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph:focus, .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-applybutton:focus, .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-applybutton:focus {
+.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph:hover, .wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph:focus {
   opacity: 1;
   transition-duration: 0.4s;
 }
-.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph.wj-right, .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-right.wj-applybutton, .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-right.wj-applybutton {
+.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph.wj-right {
   float: right;
   order: 2;
 }
-.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph.wj-right:nth-child(1), .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-right.wj-applybutton:nth-child(1), .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-right.wj-applybutton:nth-child(1) {
+.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph.wj-right:nth-child(1) {
   order: 5;
 }
-.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph.wj-right:nth-child(2), .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-right.wj-applybutton:nth-child(2), .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-right.wj-applybutton:nth-child(2) {
+.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph.wj-right:nth-child(2) {
   order: 4;
 }
-.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph.wj-right:nth-child(3), .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-right.wj-applybutton:nth-child(3), .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-right.wj-applybutton:nth-child(3) {
+.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph.wj-right:nth-child(3) {
   order: 3;
 }
-.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph.wj-elem-detail, .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-elem-detail.wj-applybutton, .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-elem-detail.wj-applybutton {
+.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph.wj-elem-detail {
   min-width: 1em;
   padding: 0;
 }
-.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph > span, .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-applybutton > span, .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-applybutton > span {
+.wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph > span {
   opacity: 1;
 }
 .wj-flexgrid .wj-cell.wj-hasdropdown {
@@ -1906,7 +1906,7 @@
 .wj-flexgrid .wj-cell.wj-hasdropdown > div {
   flex-grow: 1;
 }
-.wj-flexgrid .wj-cell.wj-hasdropdown .wj-btn.wj-btn-glyph.wj-right, .wj-flexgrid .wj-cell.wj-hasdropdown .wj-viewer .wj-control .wj-btn-glyph.wj-right.wj-applybutton, .wj-viewer .wj-control .wj-flexgrid .wj-cell.wj-hasdropdown .wj-btn-glyph.wj-right.wj-applybutton {
+.wj-flexgrid .wj-cell.wj-hasdropdown .wj-btn.wj-btn-glyph.wj-right {
   height: 100%;
 }
 .wj-flexgrid .wj-cell.wj-radio-map label {
@@ -1947,18 +1947,18 @@
   border-left: 1px solid rgba(0, 0, 0, 0.2);
   border-right: none;
 }
-.wj-flexgrid.wj-rtl .wj-cell .wj-btn.wj-btn-glyph.wj-right, .wj-flexgrid.wj-rtl .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-right.wj-applybutton, .wj-viewer .wj-control .wj-flexgrid.wj-rtl .wj-cell .wj-btn-glyph.wj-right.wj-applybutton {
+.wj-flexgrid.wj-rtl .wj-cell .wj-btn.wj-btn-glyph.wj-right {
   float: left;
 }
 .wj-flexgrid.wj-rtl .wj-cell.wj-last-visible-col {
   border-left: none;
 }
 .wj-flexgrid.wj-rtl .wj-frozen-col {
-  border-left: 1px solid #a2a2a2;
+  border-left: 1px solid rgb(161.5, 161.5, 161.5);
   border-right: none;
 }
 .wj-flexgrid.wj-rtl .wj-frozen-col-right-edge {
-  border-right: 1px solid #a2a2a2;
+  border-right: 1px solid rgb(161.5, 161.5, 161.5);
 }
 .wj-flexgrid.wj-rtl .wj-colheaders .wj-header.wj-filter-on, .wj-flexgrid.wj-rtl .wj-colheaders .wj-header.wj-filter-off {
   white-space: normal;
@@ -1972,7 +1972,7 @@
   padding: 0 0.2em 0 0;
 }
 .wj-flexgrid.wj-rtl .wj-rowheaders .wj-header.wj-state-multi-selected {
-  border-left: 2px solid #007CBE;
+  border-left: 2px solid #007cbe;
   border-right: none;
 }
 .wj-flexgrid.wj-rtl .wj-topleft .wj-header.wj-big-header:after {
@@ -1988,7 +1988,7 @@
 .wj-flexgrid.wj-whitespace-pre .wj-cell.wj-multiline {
   white-space: pre-wrap;
 }
-.wj-flexgrid [wj-state-measuring].wj-cell .wj-btn.wj-btn-glyph.wj-right, .wj-flexgrid [wj-state-measuring].wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-right.wj-applybutton, .wj-viewer .wj-control .wj-flexgrid [wj-state-measuring].wj-cell .wj-btn-glyph.wj-right.wj-applybutton {
+.wj-flexgrid [wj-state-measuring].wj-cell .wj-btn.wj-btn-glyph.wj-right {
   float: none;
 }
 
@@ -2006,7 +2006,7 @@
   text-overflow: ellipsis;
 }
 .wj-cell.wj-alt {
-  background: #f7f7f7;
+  background: rgb(247.35, 247.35, 247.35);
 }
 .wj-cell.wj-header {
   background: #eee;
@@ -2014,7 +2014,7 @@
   font-weight: bold;
 }
 .wj-cell.wj-header.wj-state-multi-selected {
-  background: #e1e1e1;
+  background: rgb(225.25, 225.25, 225.25);
   color: #000000;
   font-weight: bold;
 }
@@ -2023,24 +2023,24 @@
   font-weight: normal;
   font-size: 80%;
   vertical-align: top;
-  color: #00648F;
+  color: #00648f;
   padding: 0 0 0 0.2em;
   opacity: 1;
 }
 .wj-cell.wj-last-frozen-row {
-  border-bottom: 1px solid #a2a2a2;
+  border-bottom: 1px solid rgb(161.5, 161.5, 161.5);
 }
 .wj-cell.wj-last-frozen-row-bottom {
-  border-top: 1px solid #a2a2a2;
+  border-top: 1px solid rgb(161.5, 161.5, 161.5);
 }
 .wj-cell.wj-frozen-col {
-  border-right: 1px solid #a2a2a2;
+  border-right: 1px solid rgb(161.5, 161.5, 161.5);
 }
 .wj-cell.wj-frozen-col-right-edge {
-  border-left: 1px solid #a2a2a2;
+  border-left: 1px solid rgb(161.5, 161.5, 161.5);
 }
 .wj-cell.wj-group {
-  background: #e1e1e1;
+  background: rgb(225.25, 225.25, 225.25);
   color: #000000;
 }
 .wj-cell.wj-group .wj-elem-collapse-space::before {
@@ -2103,11 +2103,11 @@
 }
 
 .wj-cells .wj-cell.wj-state-selected {
-  background: #007CBE;
+  background: #007cbe;
   color: white;
 }
 .wj-cells .wj-cell.wj-state-multi-selected {
-  background: #4E7B8D;
+  background: #4e7b8d;
   color: white;
 }
 @media (forced-colors: active) {
@@ -2115,7 +2115,9 @@
     background-color: Highlight;
     color: ActiveText;
   }
-  .wj-cells .wj-cell.wj-state-selected .wj-glyph-down, .wj-cells .wj-cell.wj-state-selected .wj-glyph-right, .wj-cells .wj-cell.wj-state-selected .wj-glyph-down-right {
+  .wj-cells .wj-cell.wj-state-selected .wj-glyph-down,
+  .wj-cells .wj-cell.wj-state-selected .wj-glyph-right,
+  .wj-cells .wj-cell.wj-state-selected .wj-glyph-down-right {
     background-color: Highlight;
   }
   .wj-cells .wj-cell.wj-state-multi-selected {
@@ -2213,7 +2215,7 @@
 .wj-columnfiltereditor a.wj-state-disabled {
   text-decoration: none;
 }
-.wj-columnfiltereditor .wj-sort-buttons .wj-btn, .wj-columnfiltereditor .wj-sort-buttons .wj-viewer .wj-control .wj-applybutton, .wj-viewer .wj-control .wj-columnfiltereditor .wj-sort-buttons .wj-applybutton {
+.wj-columnfiltereditor .wj-sort-buttons .wj-btn {
   min-width: 95px;
 }
 .wj-columnfiltereditor .wj-combobox {
@@ -2268,27 +2270,25 @@ div[wj-part=div-exceeds] {
 
 @media (prefers-contrast: high), (forced-colors: active) {
   .wj-columnfiltereditor .wj-tabpane [wj-part=div-exceeds]:focus-visible,
-.wj-columnfiltereditor .wj-filter-header:focus-visible {
+  .wj-columnfiltereditor .wj-filter-header:focus-visible {
     outline: 1px dotted WindowText;
     outline-offset: -1px;
   }
-  .wj-columnfiltereditor .wj-btn, .wj-columnfiltereditor .wj-viewer .wj-control .wj-applybutton, .wj-viewer .wj-control .wj-columnfiltereditor .wj-applybutton {
+  .wj-columnfiltereditor .wj-btn {
     outline: 1px solid ButtonText;
     outline-offset: -1px;
     background-color: ButtonFace;
     color: ButtonText;
   }
-  .wj-columnfiltereditor .wj-btn:focus-visible, .wj-columnfiltereditor .wj-viewer .wj-control .wj-applybutton:focus-visible, .wj-viewer .wj-control .wj-columnfiltereditor .wj-applybutton:focus-visible,
-.wj-columnfiltereditor .wj-btn.wj-state-active,
-.wj-columnfiltereditor .wj-viewer .wj-control .wj-state-active.wj-applybutton,
-.wj-viewer .wj-control .wj-columnfiltereditor .wj-state-active.wj-applybutton {
+  .wj-columnfiltereditor .wj-btn:focus-visible,
+  .wj-columnfiltereditor .wj-btn.wj-state-active {
     outline: 1px dotted ButtonText;
     outline-offset: -1px;
   }
 }
 .wj-grouppanel {
   display: block;
-  background: #e1e1e1;
+  background: rgb(225.25, 225.25, 225.25);
   padding: 15px;
   min-height: 1em;
 }
@@ -2302,7 +2302,7 @@ div[wj-part=div-exceeds] {
   cursor: pointer;
 }
 .wj-grouppanel .wj-groupmarker:hover {
-  background: #e1e1e1;
+  background: rgb(225.25, 225.25, 225.25);
 }
 .wj-grouppanel .wj-groupmarker:focus {
   outline: 1px dotted #000000;
@@ -2401,10 +2401,9 @@ div[wj-part=div-exceeds] {
   left: 0;
   top: 0;
   color: black;
-  background-color: #eee;
 }
 .wj-flexgrid .wj-cell a.wj-cell-maker {
-  color: #0000EE;
+  color: #0000ee;
 }
 .wj-flexgrid .wj-cell.wj-state-selected a.wj-cell-maker, .wj-flexgrid .wj-cell.wj-state-multi-selected a.wj-cell-maker {
   color: inherit;
@@ -2419,7 +2418,8 @@ div[wj-part=div-exceeds] {
   stroke: #376092;
   fill: #376092;
 }
-.wj-flexgrid .wj-cell .wj-cell-maker svg rect, .wj-flexgrid .wj-cell .wj-cell-maker svg circle {
+.wj-flexgrid .wj-cell .wj-cell-maker svg rect,
+.wj-flexgrid .wj-cell .wj-cell-maker svg circle {
   stroke-width: 0;
 }
 .wj-flexgrid .wj-cell .wj-cell-maker svg line {
@@ -2440,7 +2440,8 @@ div[wj-part=div-exceeds] {
   color: orange;
   margin: 0 1em 0 0;
 }
-.wj-flexgrid .wj-cell.wj-cell-maker.wj-radio-map label input, .wj-flexgrid .wj-cell.wj-cell-maker.wj-radio-map label input:not(:checked) {
+.wj-flexgrid .wj-cell.wj-cell-maker.wj-radio-map label input,
+.wj-flexgrid .wj-cell.wj-cell-maker.wj-radio-map label input:not(:checked) {
   opacity: 0;
 }
 .wj-flexgrid .wj-cell.wj-cell-maker.wj-radio-map label:after {
@@ -2484,7 +2485,8 @@ div[wj-part=div-exceeds] {
   fill: #666;
   font-weight: normal;
 }
-.wj-flexchart .wj-label, .wj-flexchart .wj-data-label {
+.wj-flexchart .wj-label,
+.wj-flexchart .wj-data-label {
   fill: #666;
 }
 .wj-flexchart .wj-data-label-border {
@@ -2510,7 +2512,8 @@ div[wj-part=div-exceeds] {
 .wj-flexchart .wj-gridline-minor {
   opacity: 0.25;
 }
-.wj-flexchart .wj-tick, .wj-flexchart .wj-tick-minor {
+.wj-flexchart .wj-tick,
+.wj-flexchart .wj-tick-minor {
   stroke: #aaa;
   stroke-width: 1px;
 }
@@ -2673,25 +2676,28 @@ div[wj-part=div-exceeds] {
 .wj-flexchart .wj-chart-rangeselector-container .wj-rangeslider-rangehandle {
   opacity: 0.3;
 }
-.wj-flexchart .wj-chart-rangeselector-container .wj-rangeslider-minhandle, .wj-flexchart .wj-chart-rangeselector-container .wj-rangeslider-maxhandle {
+.wj-flexchart .wj-chart-rangeselector-container .wj-rangeslider-minhandle,
+.wj-flexchart .wj-chart-rangeselector-container .wj-rangeslider-maxhandle {
   background: transparent;
   opacity: 0.6;
   border: 2px solid Gray;
   border-radius: 0.5em;
 }
-.wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-minhandle, .wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-maxhandle {
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-minhandle,
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-maxhandle {
   height: 20px;
   width: 20px;
   border-radius: 50%;
   top: 0;
   bottom: 0;
   margin: auto;
-  border: 1px solid hsla(0deg, 0%, 50.2%, 0.75);
-  color: hsl(0deg, 0%, 50.2%);
+  border: 1px solid hsla(0, 0%, 50.2%, 0.75);
+  color: hsl(0, 0%, 50.2%);
   background: #d3d3d3;
   opacity: 1;
 }
-.wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-minhandle:after, .wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-maxhandle:after {
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-minhandle:after,
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-maxhandle:after {
   content: "║";
   text-align: center;
   width: 100%;
@@ -2703,19 +2709,21 @@ div[wj-part=div-exceeds] {
   opacity: 0.75;
   font-size: 10px;
 }
-.wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-minhandle, .wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-maxhandle {
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-minhandle,
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-maxhandle {
   height: 20px;
   width: 20px;
   left: 50%;
   border-radius: 50%;
-  border: 1px solid hsla(0deg, 0%, 50.2%, 0.75);
+  border: 1px solid hsla(0, 0%, 50.2%, 0.75);
   top: 0;
   bottom: 0;
-  color: hsl(0deg, 0%, 50.2%);
+  color: hsl(0, 0%, 50.2%);
   background: #d3d3d3;
   opacity: 1;
 }
-.wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-minhandle:after, .wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-maxhandle:after {
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-minhandle:after,
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-maxhandle:after {
   content: "═";
   text-align: center;
   height: 100%;
@@ -2756,7 +2764,7 @@ div[wj-part=div-exceeds] {
   display: none;
 }
 
-.wj-flexmap .wj-btn, .wj-flexmap .wj-viewer .wj-control .wj-applybutton, .wj-viewer .wj-control .wj-flexmap .wj-applybutton {
+.wj-flexmap .wj-btn {
   opacity: 0.9;
   padding: 10px 10px 6px 10px !important;
   border: solid 0.5px gray;
@@ -2776,7 +2784,7 @@ div[wj-part=div-exceeds] {
 }
 .wj-gauge .wj-pointer,
 .wj-gauge .wj-needle {
-  fill: #007CBE;
+  fill: #007cbe;
 }
 .wj-gauge .wj-ticks {
   stroke-width: 2px;
@@ -2967,7 +2975,7 @@ div[wj-part=div-exceeds] {
   cursor: pointer;
 }
 .wj-flexsheet .wj-tabholder .wj-sheet-tab ul li .wj-new-sheet:hover {
-  background: #007CBE;
+  background: #007cbe;
 }
 .wj-flexsheet .wj-tabholder .wj-sheet-tab ul li .wj-sheet-name-editor {
   height: 100%;
@@ -3049,12 +3057,12 @@ div[wj-part=div-exceeds] {
   background: rgba(0, 0, 0, 0.1);
 }
 .wj-flexsheet-context-menu .wj-context-menu-item-selected {
-  background: #007CBE;
+  background: #007cbe;
   color: #fff;
 }
 
 .wj-flexsheet-smart-tag {
-  background: #FFFFFF;
+  background: #ffffff;
   border: 1px solid #ababab;
   position: absolute;
   padding: 0px;
@@ -3088,7 +3096,7 @@ div[wj-part=div-exceeds] {
 .wj-multirow .wj-cell.wj-center-vert:not(.wj-hasdropdown) div.wj-no-children-container * {
   pointer-events: auto;
 }
-.wj-multirow .wj-cell.wj-center-vert:not(.wj-hasdropdown) div.wj-btn.wj-btn-glyph.wj-elem-detail, .wj-multirow .wj-cell.wj-center-vert:not(.wj-hasdropdown) .wj-viewer .wj-control div.wj-btn-glyph.wj-elem-detail.wj-applybutton, .wj-viewer .wj-control .wj-multirow .wj-cell.wj-center-vert:not(.wj-hasdropdown) div.wj-btn-glyph.wj-elem-detail.wj-applybutton {
+.wj-multirow .wj-cell.wj-center-vert:not(.wj-hasdropdown) div.wj-btn.wj-btn-glyph.wj-elem-detail {
   vertical-align: top;
   padding-top: 4px;
 }
@@ -3111,7 +3119,7 @@ div[wj-part=div-exceeds] {
   padding: 6px;
   right: 0;
   top: 0;
-  color: #007CBE;
+  color: #007cbe;
   opacity: 0.5;
 }
 .wj-multirow .wj-hdr-collapse:hover {
@@ -3139,7 +3147,8 @@ div[wj-part=div-exceeds] {
 .wj-pivotpanel div {
   width: 100%;
 }
-.wj-pivotpanel tr, .wj-pivotpanel td {
+.wj-pivotpanel tr,
+.wj-pivotpanel td {
   border: 1px none #e0e0e0;
   padding: 3px;
 }
@@ -3150,7 +3159,7 @@ div[wj-part=div-exceeds] {
 }
 .wj-pivotpanel .wj-marker {
   position: absolute;
-  background: #007CBE;
+  background: #007cbe;
   opacity: 0.5;
   pointer-events: none;
 }
@@ -3186,7 +3195,8 @@ div[wj-part=div-exceeds] {
   cursor: default;
   opacity: 0.5;
 }
-.wj-pivotpanel .wj-flexgrid .wj-glyph-dimension, .wj-pivotpanel .wj-flexgrid .wj-glyph-measure {
+.wj-pivotpanel .wj-flexgrid .wj-glyph-dimension,
+.wj-pivotpanel .wj-flexgrid .wj-glyph-measure {
   cursor: default;
 }
 .wj-pivotpanel .wj-flexgrid .wj-aggregate {
@@ -3324,7 +3334,8 @@ div[wj-part=div-exceeds] {
   padding: 35px 15px 10px;
 }
 
-.wj-slicer > div { /* slicer root */
+.wj-slicer > div {
+  /* slicer root */
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3351,7 +3362,7 @@ div[wj-part=div-exceeds] {
   flex-grow: 1;
   padding: 6px;
 }
-.wj-slicer .wj-header .wj-btn.wj-state-active, .wj-slicer .wj-header .wj-viewer .wj-control .wj-state-active.wj-applybutton, .wj-viewer .wj-control .wj-slicer .wj-header .wj-state-active.wj-applybutton {
+.wj-slicer .wj-header .wj-btn.wj-state-active {
   background: rgba(0, 0, 0, 0.2);
 }
 .wj-slicer .wj-listbox {
@@ -3368,11 +3379,11 @@ div[wj-part=div-exceeds] {
   border-radius: 4px;
 }
 .wj-slicer.wj-nocheck .wj-listbox .wj-listbox-item.wj-state-checked:not(:hover) {
-  background-color: #007CBE;
+  background-color: #007cbe;
   color: white;
 }
 .wj-slicer.wj-nocheck .wj-listbox .wj-listbox-item.wj-state-selected {
-  border-color: #4E7B8D;
+  border-color: #4e7b8d;
 }
 .wj-slicer.wj-nocheck .wj-listbox .wj-listbox-item.wj-state-selected:not(.wj-state-checked) {
   background-color: transparent;
@@ -3513,13 +3524,14 @@ div[wj-part=div-exceeds] {
   white-space: nowrap;
 }
 .wj-viewer .wj-view-page .highlight {
-  fill: #007CBE;
+  fill: #007cbe;
   fill-opacity: 0.5;
 }
 .wj-viewer .wj-view-page rect {
   pointer-events: none;
 }
-.wj-viewer .wj-view-page rect[arsvg\:data-action-type], .wj-viewer .wj-view-page a rect {
+.wj-viewer .wj-view-page rect[arsvg\:data-action-type],
+.wj-viewer .wj-view-page a rect {
   pointer-events: inherit;
 }
 .wj-viewer .wj-view-page:last-child {
@@ -3550,15 +3562,22 @@ div[wj-part=div-exceeds] {
 .wj-viewer .wj-toolbar:hover .wj-toolbar-move.enabled {
   opacity: 1;
 }
-.wj-viewer .wj-toolbar a:hover, .wj-viewer .wj-toolbar a:focus {
+.wj-viewer .wj-toolbar a:hover,
+.wj-viewer .wj-toolbar a:focus {
   background: #eee;
   outline: none;
 }
-.wj-viewer .wj-toolbar a:hover.disabled, .wj-viewer .wj-toolbar a:focus.disabled, .wj-viewer .wj-toolbar a:hover.checked, .wj-viewer .wj-toolbar a:focus.checked {
+.wj-viewer .wj-toolbar a:hover.disabled,
+.wj-viewer .wj-toolbar a:focus.disabled,
+.wj-viewer .wj-toolbar a:hover.checked,
+.wj-viewer .wj-toolbar a:focus.checked {
   background: transparent;
   cursor: default;
 }
-.wj-viewer .wj-toolbar > .wj-control, .wj-viewer .wj-toolbar .wj-tabcontent, .wj-viewer .wj-viewer-leftpanel > .wj-control, .wj-viewer .wj-viewer-leftpanel .wj-tabcontent {
+.wj-viewer .wj-toolbar > .wj-control,
+.wj-viewer .wj-toolbar .wj-tabcontent,
+.wj-viewer .wj-viewer-leftpanel > .wj-control,
+.wj-viewer .wj-viewer-leftpanel .wj-tabcontent {
   background: inherit;
   color: inherit;
 }
@@ -3578,7 +3597,8 @@ div[wj-part=div-exceeds] {
 .wj-viewer .wj-toolbar-move.right {
   float: right;
 }
-.wj-viewer .wj-toolbar-move .wj-glyph-left, .wj-viewer .wj-toolbar-move .wj-glyph-right {
+.wj-viewer .wj-toolbar-move .wj-glyph-left,
+.wj-viewer .wj-toolbar-move .wj-glyph-right {
   margin-top: 20px;
   margin-left: 2px;
 }
@@ -3666,7 +3686,8 @@ div[wj-part=div-exceeds] {
 .wj-viewer .wj-mini-toolbar .wj-btn-group > .wj-btn:hover, .wj-viewer .wj-mini-toolbar .wj-control .wj-btn-group > .wj-applybutton:hover, .wj-viewer .wj-control .wj-mini-toolbar .wj-btn-group > .wj-applybutton:hover {
   background: #555;
 }
-.wj-viewer .wj-mini-toolbar .slash, .wj-viewer .wj-mini-toolbar .wj-pagecount {
+.wj-viewer .wj-mini-toolbar .slash,
+.wj-viewer .wj-mini-toolbar .wj-pagecount {
   color: #e0e0e0;
 }
 .wj-viewer .wj-mini-toolbar .wj-pagenumber {
@@ -3841,7 +3862,9 @@ div[wj-part=div-exceeds] {
 .wj-viewer .wj-cell span {
   margin-right: 5px;
 }
-.wj-viewer .wj-cell a:link, .wj-viewer .wj-cell a:visited, .wj-viewer .wj-cell a:hover {
+.wj-viewer .wj-cell a:link,
+.wj-viewer .wj-cell a:visited,
+.wj-viewer .wj-cell a:hover {
   color: #000;
   text-decoration: none;
 }
@@ -3892,7 +3915,7 @@ div[wj-part=div-exceeds] {
   color: inherit;
 }
 .wj-viewer .wj-thumbnail-item.wj-state-selected .wj-pagethumbnail {
-  border-color: #007CBE;
+  border-color: #007cbe;
 }
 .wj-viewer .wj-thumbnail-item:not(.wj-state-selected):not(.wj-state-disabled):not(.wj-separator):hover {
   background: transparent;
@@ -3960,7 +3983,7 @@ div[wj-part=div-exceeds] {
   font-size: 125%;
 }
 .wj-viewer .wj-searchresultlist .wj-search-item:not(.wj-state-selected):not(:hover) .wj-search-text {
-  color: black;
+  color: hsl(0, 0%, -15%);
 }
 .wj-viewer .wj-control .wj-applybutton {
   float: right;
@@ -4013,14 +4036,14 @@ div[wj-part=div-exceeds] {
 .wj-viewer .wj-rubberband {
   position: absolute;
   border: solid;
-  border-color: #007CBE;
+  border-color: #007cbe;
   border-width: 2px;
   display: none;
   z-index: 1;
 }
 .wj-viewer .wj-magnifier {
   border: solid;
-  border-color: #007CBE;
+  border-color: #007cbe;
   border-width: 2px;
   width: 242px;
   height: 150px;
@@ -4075,7 +4098,7 @@ div[wj-part=div-exceeds] {
   background: transparent;
 }
 .wj-viewer .wj-btn-group > li > a.wj-btn:focus, .wj-viewer .wj-control .wj-btn-group > li > a.wj-applybutton:focus, .wj-viewer .wj-btn-group > li > a.wj-btn:hover, .wj-viewer .wj-control .wj-btn-group > li > a.wj-applybutton:hover {
-  background: #e1e1e1;
+  background: rgb(225.25, 225.25, 225.25);
 }
 .wj-viewer .wj-viewer-loading {
   background: rgba(204, 204, 204, 0.8);
@@ -4242,21 +4265,21 @@ div[wj-part=div-exceeds] {
   stroke: #000000;
 }
 .wj-viewer .wj-btn-group .wj-btn.wj-state-active svg.wj-svg-btn, .wj-viewer .wj-btn-group .wj-control .wj-state-active.wj-applybutton svg.wj-svg-btn, .wj-viewer .wj-control .wj-btn-group .wj-state-active.wj-applybutton svg.wj-svg-btn {
-  fill: #3986C7;
+  fill: #3986c7;
   opacity: 1;
-  stroke: #3986C7;
+  stroke: #3986c7;
 }
 .wj-viewer .wj-btn-group .wj-btn:hover svg.wj-svg-btn, .wj-viewer .wj-btn-group .wj-control .wj-applybutton:hover svg.wj-svg-btn, .wj-viewer .wj-control .wj-btn-group .wj-applybutton:hover svg.wj-svg-btn {
   opacity: 1;
 }
 
 .wj-viewer-menu.wj-btn-group-vertical .wj-listbox-item.wj-state-active .wj-btn .wj-svg-btn, .wj-viewer-menu.wj-btn-group-vertical .wj-listbox-item.wj-state-active .wj-viewer .wj-control .wj-applybutton .wj-svg-btn, .wj-viewer .wj-control .wj-viewer-menu.wj-btn-group-vertical .wj-listbox-item.wj-state-active .wj-applybutton .wj-svg-btn {
-  fill: #3986C7;
+  fill: #3986c7;
   opacity: 1;
 }
 .wj-viewer-menu.wj-btn-group-vertical .wj-listbox-item.wj-state-active .wj-btn .wj-svg-btn .wj-hollow-svg, .wj-viewer-menu.wj-btn-group-vertical .wj-listbox-item.wj-state-active .wj-viewer .wj-control .wj-applybutton .wj-svg-btn .wj-hollow-svg, .wj-viewer .wj-control .wj-viewer-menu.wj-btn-group-vertical .wj-listbox-item.wj-state-active .wj-applybutton .wj-svg-btn .wj-hollow-svg {
   fill: none;
-  stroke: #3986C7;
+  stroke: #3986c7;
 }
 .wj-viewer-menu > .wj-listbox-item {
   white-space: nowrap;
@@ -4279,7 +4302,8 @@ div[wj-part=div-exceeds] {
   visibility: hidden;
 }
 
-.wj-viewer svg.wj-svg-btn, .wj-viewer-menu svg.wj-svg-btn {
+.wj-viewer svg.wj-svg-btn,
+.wj-viewer-menu svg.wj-svg-btn {
   opacity: 0.75;
   width: 22px;
   height: 22px;
