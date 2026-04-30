@@ -1,28 +1,95 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Providers.DataGrid.Wijmo.Feature {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const getValueFromLine = (line: any, arrayKeys: string[]): number => {
+		const currKey = arrayKeys[0];
+		if (arrayKeys.length === 1) return line[currKey];
+		return getValueFromLine(line[currKey], arrayKeys.slice(1));
+	};
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const resolveValue = ($: any, value: string): number => {
+		if (isNaN(parseFloat(value))) {
+			return Number(getValueFromLine($, value.split('.')));
+		}
+		return Number(value);
+	};
+
 	function Evaluate(formula: OSFramework.DataGrid.OSStructure.Formula) {
 		const fn: OSFramework.DataGrid.OSStructure.Functions = formula.function;
 
-		const parsedValues = formula.values.map((val) => {
-			if (isNaN(parseInt(val))) return `$.${val}`;
-			return val;
-		});
-
 		switch (fn) {
 			case OSFramework.DataGrid.OSStructure.Functions.Avg:
-				return `(${parsedValues.join(' + ')}) / ${parsedValues.length}`;
+				//`(${parsedValues.join(' + ')}) / ${parsedValues.length}`;
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				return ($: any) => {
+					const total = formula.values.reduce(
+						(accumulation, value) => accumulation + resolveValue($, value),
+						0
+					);
+					return Number((total / formula.values.length).toFixed(2));
+				};
 			case OSFramework.DataGrid.OSStructure.Functions.Diff:
-				return parsedValues.join(' - ');
+				// parsedValues.join(' - ');
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				return ($: any) => {
+					const total = formula.values.reduce(
+						(accumulation, value) => resolveValue($, value) - accumulation,
+						0
+					);
+					return Number(total.toFixed(2));
+				};
 			case OSFramework.DataGrid.OSStructure.Functions.Div:
-				return parsedValues.join(' / ');
+				// parsedValues.join(' / ');
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				return ($: any) => {
+					const total = formula.values.reduce(
+						(accumulation, value, index) =>
+							index === 0 ? resolveValue($, value) : accumulation / resolveValue($, value),
+						0
+					);
+					return Number(total.toFixed(2));
+				};
 			case OSFramework.DataGrid.OSStructure.Functions.Max:
-				return `Math.max(${parsedValues.join(', ')})`;
+				// `Math.max(${parsedValues.join(', ')})`;
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				return ($: any) => {
+					const total = formula.values.reduce(
+						(accumulation, value) => Math.max(accumulation, resolveValue($, value)),
+						Number.MIN_SAFE_INTEGER
+					);
+					return Number(total.toFixed(2));
+				};
 			case OSFramework.DataGrid.OSStructure.Functions.Min:
-				return `Math.min(${parsedValues.join(', ')})`;
+				// `Math.min(${parsedValues.join(', ')})`;
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				return ($: any) => {
+					const total = formula.values.reduce(
+						(accumulation, value) => Math.min(accumulation, resolveValue($, value)),
+						Number.MAX_SAFE_INTEGER
+					);
+					return Number(total.toFixed(2));
+				};
 			case OSFramework.DataGrid.OSStructure.Functions.Mult:
-				return parsedValues.join(' * ');
+				// parsedValues.join(' * ');
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				return ($: any) => {
+					const total = formula.values.reduce(
+						(accumulation, value) => accumulation * resolveValue($, value),
+						1
+					);
+					return Number(total.toFixed(2));
+				};
 			case OSFramework.DataGrid.OSStructure.Functions.Sum:
-				return parsedValues.join(' + ');
+				// parsedValues.join(' + ');
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				return ($: any) => {
+					const total = formula.values.reduce(
+						(accumulation, value) => accumulation + resolveValue($, value),
+						0
+					);
+					return Number(total.toFixed(2));
+				};
 			default:
 				return '';
 		}
