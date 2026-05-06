@@ -4,10 +4,8 @@ namespace Providers.DataGrid.Wijmo.Column {
 		constructor(
 			grid: OSFramework.DataGrid.Grid.IGrid,
 			columnID: string,
-			// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-			configs: any,
-			// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-			extraConfig: any
+			configs: OSFramework.DataGrid.Types.IColumnConfigs,
+			extraConfig: OSFramework.DataGrid.Types.ICalculatedColumnExtraConfigs
 		) {
 			super(
 				grid,
@@ -27,7 +25,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 		 *
 		 * @param decimalPlaces Precision for numeric values
 		 */
-		private _setDecimalPlaces(decimalPlaces: number) {
+		private _setDecimalPlaces(decimalPlaces: number): void {
 			if (decimalPlaces > 11 || decimalPlaces < 0) {
 				throw new Error(
 					`Invalid parameter decimal places configuration for column "${this.provider.header}".\nAvailable range for decimal places 0 to 11.`
@@ -65,23 +63,21 @@ namespace Providers.DataGrid.Wijmo.Column {
 			return wijmo.DataType.String;
 		}
 
-		// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-		public build(): any {
+		public build(): void {
 			this._setDecimalPlaces(this.config.decimalPlaces);
 			super.build();
 			this.grid.features.filter.deactivate(this.uniqueId);
 			this.grid.features.calculatedField.addFormula(this.config.binding, this.config.header, this.config.formula);
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-		public changeProperty(propertyName: string, propertyValue: any): void {
+		public changeProperty(propertyName: string, propertyValue: unknown): void {
 			switch (propertyName) {
 				case OSFramework.DataGrid.OSStructure.ColumnProperties.DecimalPlaces:
-					this._setDecimalPlaces(propertyValue);
+					this._setDecimalPlaces(propertyValue as number);
 					this.applyConfigs();
 					break;
 				case OSFramework.DataGrid.OSStructure.ColumnProperties.HasThousandSeparator:
-					this.config.hasThousandSeparator = propertyValue;
+					this.config.hasThousandSeparator = propertyValue as boolean;
 					this._setFormat();
 					this.applyConfigs();
 					break;
