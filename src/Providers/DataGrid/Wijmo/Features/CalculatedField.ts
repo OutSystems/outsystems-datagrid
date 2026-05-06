@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Providers.DataGrid.Wijmo.Feature {
+	// The function is recursive to support obtaining the value of nested properties,
+	// like "Product.Price" or "Product.Struct.Value".
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const getValueFromLine = (lineObj: any, arrayKeys: string[]): number => {
 		const currKey = arrayKeys[0];
@@ -7,6 +9,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		return getValueFromLine(lineObj[currKey], arrayKeys.slice(1));
 	};
 
+	// This function orchestrates the retrieval of the value of the formula.
+	// If the value is a number, it will return the number.
+	// If the value is a string, it will invoke getValueFromLine function
+	// to retrieve the value of the cell.
 	const resolveValue = (lineObj: unknown, value: string): number => {
 		if (isNaN(parseFloat(value))) {
 			return Number(getValueFromLine(lineObj, value.split('.')));
@@ -14,6 +20,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		return Number(value);
 	};
 
+	// This function will return a function will be be used by wijmo,
+	// to calculate the value of the cell in the calculated column. CSP safe.
 	function Evaluate(formula: OSFramework.DataGrid.OSStructure.Formula): ($: unknown) => number | string {
 		const fn: OSFramework.DataGrid.OSStructure.Functions = formula.function;
 
