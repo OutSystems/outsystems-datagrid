@@ -34,7 +34,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 							(resolveValue($, accumulation) + resolveValue($, value)).toString()
 						)
 					);
-					return Number((total / formula.values.length).toFixed(2));
+					return total / formula.values.length;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Diff:
 				// parsedValues.join(' - ');
@@ -44,7 +44,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 							(resolveValue($, accumulation) - resolveValue($, value)).toString()
 						)
 					);
-					return Number(total.toFixed(2));
+					return total;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Div:
 				// parsedValues.join(' / ');
@@ -54,7 +54,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 							(resolveValue($, accumulation) / resolveValue($, value)).toString()
 						)
 					);
-					return Number(total.toFixed(2));
+					return total;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Max:
 				// `Math.max(${parsedValues.join(', ')})`;
@@ -64,7 +64,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 							Math.max(resolveValue($, accumulation), resolveValue($, value)).toString()
 						)
 					);
-					return Number(total.toFixed(2));
+					return total;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Min:
 				// `Math.min(${parsedValues.join(', ')})`;
