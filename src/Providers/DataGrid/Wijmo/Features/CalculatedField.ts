@@ -14,14 +14,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		return Number(value);
 	};
 
-	function Evaluate(formula: OSFramework.DataGrid.OSStructure.Formula) {
+	function Evaluate(formula: OSFramework.DataGrid.OSStructure.Formula): ($: unknown) => number | string {
 		const fn: OSFramework.DataGrid.OSStructure.Functions = formula.function;
 
 		switch (fn) {
 			case OSFramework.DataGrid.OSStructure.Functions.Avg:
 				//`(${parsedValues.join(' + ')}) / ${parsedValues.length}`;
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				return ($: any) => {
+				return ($: unknown) => {
 					const total = formula.values.reduce(
 						(accumulation, value) => accumulation + resolveValue($, value),
 						0
@@ -30,8 +29,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Diff:
 				// parsedValues.join(' - ');
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				return ($: any) => {
+				return ($: unknown) => {
 					const total = formula.values.reduce(
 						(accumulation, value) => resolveValue($, value) - accumulation,
 						0
@@ -40,8 +38,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Div:
 				// parsedValues.join(' / ');
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				return ($: any) => {
+				return ($: unknown) => {
 					const total = formula.values.reduce(
 						(accumulation, value, index) =>
 							index === 0 ? resolveValue($, value) : accumulation / resolveValue($, value),
@@ -51,8 +48,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Max:
 				// `Math.max(${parsedValues.join(', ')})`;
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				return ($: any) => {
+				return ($: unknown) => {
 					const total = formula.values.reduce(
 						(accumulation, value) => Math.max(accumulation, resolveValue($, value)),
 						Number.MIN_SAFE_INTEGER
@@ -61,8 +57,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Min:
 				// `Math.min(${parsedValues.join(', ')})`;
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				return ($: any) => {
+				return ($: unknown) => {
 					const total = formula.values.reduce(
 						(accumulation, value) => Math.min(accumulation, resolveValue($, value)),
 						Number.MAX_SAFE_INTEGER
@@ -71,8 +66,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Mult:
 				// parsedValues.join(' * ');
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				return ($: any) => {
+				return ($: unknown) => {
 					const total = formula.values.reduce(
 						(accumulation, value) => accumulation * resolveValue($, value),
 						1
@@ -81,8 +75,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Sum:
 				// parsedValues.join(' + ');
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				return ($: any) => {
+				return ($: unknown) => {
 					const total = formula.values.reduce(
 						(accumulation, value) => accumulation + resolveValue($, value),
 						0
@@ -90,7 +83,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					return Number(total.toFixed(2));
 				};
 			default:
-				return '';
+				return () => '';
 		}
 	}
 
@@ -106,7 +99,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._calculatedFields = {};
 		}
 
-		private _validateValues(values, header) {
+		private _validateValues(values: string[], header: string): void {
 			const isValid = values
 				.filter((val) => isNaN(parseInt(val)))
 				.every(
@@ -131,7 +124,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			}
 		}
 
-		public get calculatedFields(): boolean {
+		public get calculatedFields(): object {
 			return this._calculatedFields;
 		}
 
