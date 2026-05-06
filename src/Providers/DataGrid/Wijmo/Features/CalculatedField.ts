@@ -29,66 +29,72 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			case OSFramework.DataGrid.OSStructure.Functions.Avg:
 				//`(${parsedValues.join(' + ')}) / ${parsedValues.length}`;
 				return ($: unknown) => {
-					const total = formula.values.reduce(
-						(accumulation, value) => accumulation + resolveValue($, value),
-						0
+					const total = Number(
+						formula.values.reduce((accumulation, value) =>
+							(resolveValue($, accumulation) + resolveValue($, value)).toString()
+						)
 					);
 					return Number((total / formula.values.length).toFixed(2));
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Diff:
 				// parsedValues.join(' - ');
 				return ($: unknown) => {
-					const total = formula.values.reduce(
-						(accumulation, value) => resolveValue($, value) - accumulation,
-						0
+					const total = Number(
+						formula.values.reduce((accumulation, value) =>
+							(resolveValue($, accumulation) - resolveValue($, value)).toString()
+						)
 					);
 					return Number(total.toFixed(2));
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Div:
 				// parsedValues.join(' / ');
 				return ($: unknown) => {
-					const total = formula.values.reduce(
-						(accumulation, value, index) =>
-							index === 0 ? resolveValue($, value) : accumulation / resolveValue($, value),
-						0
+					const total = Number(
+						formula.values.reduce((accumulation, value) =>
+							(resolveValue($, accumulation) / resolveValue($, value)).toString()
+						)
 					);
 					return Number(total.toFixed(2));
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Max:
 				// `Math.max(${parsedValues.join(', ')})`;
 				return ($: unknown) => {
-					const total = formula.values.reduce(
-						(accumulation, value) => Math.max(accumulation, resolveValue($, value)),
-						Number.MIN_SAFE_INTEGER
+					const total = Number(
+						formula.values.reduce((accumulation, value) =>
+							Math.max(resolveValue($, accumulation), resolveValue($, value)).toString()
+						)
 					);
 					return Number(total.toFixed(2));
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Min:
 				// `Math.min(${parsedValues.join(', ')})`;
 				return ($: unknown) => {
-					const total = formula.values.reduce(
-						(accumulation, value) => Math.min(accumulation, resolveValue($, value)),
-						Number.MAX_SAFE_INTEGER
+					const total = Number(
+						formula.values.reduce((accumulation, value) =>
+							Math.min(resolveValue($, accumulation), resolveValue($, value)).toString()
+						)
 					);
-					return Number(total.toFixed(2));
+					return total;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Mult:
 				// parsedValues.join(' * ');
 				return ($: unknown) => {
-					const total = formula.values.reduce(
-						(accumulation, value) => accumulation * resolveValue($, value),
-						1
+					const total = Number(
+						formula.values.reduce((accumulation, value) =>
+							(resolveValue($, accumulation) * resolveValue($, value)).toString()
+						)
 					);
-					return Number(total.toFixed(2));
+					return total;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Sum:
 				// parsedValues.join(' + ');
 				return ($: unknown) => {
-					const total = formula.values.reduce(
-						(accumulation, value) => accumulation + resolveValue($, value),
-						0
+					const total = Number(
+						formula.values.reduce((accumulation, value) =>
+							(resolveValue($, accumulation) + resolveValue($, value)).toString()
+						)
 					);
-					return Number(total.toFixed(2));
+					return total;
 				};
 			default:
 				return () => '';
