@@ -27,7 +27,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 		switch (fn) {
 			case OSFramework.DataGrid.OSStructure.Functions.Avg:
-				//`(${parsedValues.join(' + ')}) / ${parsedValues.length}`;
 				return ($: unknown) => {
 					const total = Number(
 						formula.values.reduce((accumulation, value) =>
@@ -37,7 +36,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					return total / formula.values.length;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Diff:
-				// parsedValues.join(' - ');
 				return ($: unknown) => {
 					const total = Number(
 						formula.values.reduce((accumulation, value) =>
@@ -47,7 +45,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					return total;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Div:
-				// parsedValues.join(' / ');
 				return ($: unknown) => {
 					const total = Number(
 						formula.values.reduce((accumulation, value) =>
@@ -57,7 +54,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					return total;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Max:
-				// `Math.max(${parsedValues.join(', ')})`;
 				return ($: unknown) => {
 					const total = Number(
 						formula.values.reduce((accumulation, value) =>
@@ -67,7 +63,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					return total;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Min:
-				// `Math.min(${parsedValues.join(', ')})`;
 				return ($: unknown) => {
 					const total = Number(
 						formula.values.reduce((accumulation, value) =>
@@ -77,7 +72,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					return total;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Mult:
-				// parsedValues.join(' * ');
 				return ($: unknown) => {
 					const total = Number(
 						formula.values.reduce((accumulation, value) =>
@@ -87,7 +81,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					return total;
 				};
 			case OSFramework.DataGrid.OSStructure.Functions.Sum:
-				// parsedValues.join(' + ');
 				return ($: unknown) => {
 					const total = Number(
 						formula.values.reduce((accumulation, value) =>
