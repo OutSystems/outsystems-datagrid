@@ -20,7 +20,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		return Number(value);
 	};
 
-	// This function will return a function will be be used by wijmo,
+	// This function returns another function used by Wijmo
 	// to calculate the value of the cell in the calculated column. CSP safe.
 	function Evaluate(formula: OSFramework.DataGrid.OSStructure.Formula): ($: unknown) => number | string {
 		const fn: OSFramework.DataGrid.OSStructure.Functions = formula.function;
