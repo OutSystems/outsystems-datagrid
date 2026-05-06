@@ -14,7 +14,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 	// If the value is a string, it will invoke getValueFromLine function
 	// to retrieve the value of the cell.
 	const resolveValue = (lineObj: unknown, value: string): number => {
-		if (isNaN(parseFloat(value))) {
+		if (Number.isNaN(Number.parseFloat(value))) {
 			return Number(getValueFromLine(lineObj, value.split('.')));
 		}
 		return Number(value);
@@ -115,7 +115,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 		private _validateValues(values: string[], header: string): void {
 			const isValid = values
-				.filter((val) => isNaN(parseInt(val)))
+				.filter((val) => Number.isNaN(Number.parseInt(val)))
 				.every(
 					(value) =>
 						this._grid
