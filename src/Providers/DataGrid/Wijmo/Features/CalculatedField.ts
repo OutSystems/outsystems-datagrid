@@ -1,16 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace Providers.DataGrid.Wijmo.Feature {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const getValueFromLine = (line: any, arrayKeys: string[]): number => {
+	const getValueFromLine = (lineObj: any, arrayKeys: string[]): number => {
 		const currKey = arrayKeys[0];
-		if (arrayKeys.length === 1) return line[currKey];
-		return getValueFromLine(line[currKey], arrayKeys.slice(1));
+		if (arrayKeys.length === 1) return lineObj[currKey];
+		return getValueFromLine(lineObj[currKey], arrayKeys.slice(1));
 	};
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const resolveValue = ($: any, value: string): number => {
+	const resolveValue = (lineObj: unknown, value: string): number => {
 		if (isNaN(parseFloat(value))) {
-			return Number(getValueFromLine($, value.split('.')));
+			return Number(getValueFromLine(lineObj, value.split('.')));
 		}
 		return Number(value);
 	};
