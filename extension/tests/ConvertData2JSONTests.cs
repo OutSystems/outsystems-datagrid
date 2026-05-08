@@ -15,14 +15,16 @@ namespace DataGridUtils.Tests
 
     public class STComplexListStructure : ISimpleRecord
     {
-        public DateTime ssSTARTDate { get; set; }
-        public DateTime ssENDDate { get; set; }
+        public DateTime ssTimeField { get; set; }
+        public DateTime ssDateField { get; set; }
+        public DateTime ssDateTimeField { get; set; }
         public string ssProduct { get; set; }
 
         public STComplexListStructure()
         {
-            ssSTARTDate = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            ssENDDate = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            ssTimeField = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            ssDateField = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            ssDateTimeField = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             ssProduct = "";
         }
     }
@@ -297,20 +299,28 @@ namespace DataGridUtils.Tests
             }
         }
 
-        static RCComplexListRecord MakeRecord(string startDate, string endDate, string Product)
+        static RCComplexListRecord MakeRecord(string TimeField, string DateField, string DateTimeField, string Product)
         {
             var rec = new RCComplexListRecord();
 
-            if (TimeSpan.TryParse(startDate, out var ts))
-                rec.ssComplexList.ssSTARTDate = new DateTime(1900, 1, 1, ts.Hours, ts.Minutes, ts.Seconds, DateTimeKind.Utc);
+            if (TimeSpan.TryParse(TimeField, out var ts))
+                rec.ssComplexList.ssTimeField = new DateTime(1900, 1, 1, ts.Hours, ts.Minutes, ts.Seconds, DateTimeKind.Utc);
             else
-                rec.ssComplexList.ssSTARTDate = DateTime.Parse(startDate).ToUniversalTime();
+                rec.ssComplexList.ssTimeField = DateTime.Parse(TimeField).ToUniversalTime();
 
-            rec.ssComplexList.ssENDDate = new DateTime(
-                DateTime.Parse(endDate).Year,
-                DateTime.Parse(endDate).Month,
-                DateTime.Parse(endDate).Day,
+            rec.ssComplexList.ssDateField = new DateTime(
+                DateTime.Parse(DateField).Year,
+                DateTime.Parse(DateField).Month,
+                DateTime.Parse(DateField).Day,
                 0, 0, 0, DateTimeKind.Local);
+            rec.ssComplexList.ssDateTimeField = new DateTime(
+                DateTime.Parse(DateTimeField).Year,
+                DateTime.Parse(DateTimeField).Month,
+                DateTime.Parse(DateTimeField).Day,
+                DateTime.Parse(DateTimeField).Hour,
+                DateTime.Parse(DateTimeField).Minute,
+                DateTime.Parse(DateTimeField).Second, 
+                DateTimeKind.Utc);
             rec.ssComplexList.ssProduct = Product;
 
             return rec;
@@ -351,7 +361,7 @@ namespace DataGridUtils.Tests
 
             foreach (var Product in ProductValues)
             {
-                list.Add(MakeRecord("09:08:30", "2026-02-24 00:00:00", Product));
+                list.Add(MakeRecord("09:08:30", "2026-02-24 00:00:00", "2026-02-24 09:08:30", Product));
             }
 
             var sut = new CssDataGridUtils();
@@ -359,15 +369,15 @@ namespace DataGridUtils.Tests
 
             string expected =
                 @"{""data"":[" +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Grey""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Grey""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Grey Pro""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Silver""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Silver""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Silver""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and White""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and White""}}]," +
-                @"""metadata"":{""ComplexList"":{""STARTDate"":""DateTime"",""ENDDate"":""DateTime"",""Product"":""String""}}}";
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Grey""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Grey""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Grey Pro""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Silver""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Silver""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Silver""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and White""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and White""}}]," +
+                @"""metadata"":{""ComplexList"":{""TimeField"":""DateTime"",""DateField"":""DateTime"",""DateTimeField"":""DateTime"",""Product"":""String""}}}";
 
             AssertEqual(expected, result);
         }
