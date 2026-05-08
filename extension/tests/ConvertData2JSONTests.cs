@@ -310,7 +310,7 @@ namespace DataGridUtils.Tests
                 DateTime.Parse(endDate).Year,
                 DateTime.Parse(endDate).Month,
                 DateTime.Parse(endDate).Day,
-                0, 0, 0, DateTimeKind.Utc);
+                0, 0, 0, DateTimeKind.Local);
             rec.ssComplexList.ssProduct = Product;
 
             return rec;
@@ -346,7 +346,7 @@ namespace DataGridUtils.Tests
 
             foreach (var Product in ProductValues)
             {
-                list.Add(MakeRecord("09:08:30", "2026-02-24", Product));
+                list.Add(MakeRecord("09:08:30", "2026-02-24 00:00:00", Product));
             }
 
             var sut = new CssDataGridUtils();
