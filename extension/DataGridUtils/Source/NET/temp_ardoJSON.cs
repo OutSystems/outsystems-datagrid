@@ -168,14 +168,19 @@ namespace OutSystems.NssDataGridUtils {
                     }
                     else
                     {
-                        //Add dates from the ArrangeData action should be returned in UTC
-                        dv = dv.ToUniversalTime();
-                        if (dv.Hour == 0 && dv.Minute == 0 && dv.Second == 0) // extra milisecond check ?
+                        // If time is 00:00:00.000 we can assume it's a date-only value and use the shorter format.
+                        // OutSystems does not differentiate between Date and DateTime types at runtime — a DateTime
+                        // with a zeroed time component (e.g. 2024-06-17 00:00:00.000) is treated as a plain date.
+                        // Since values already arrive in UTC, only the time component determines whether timezone
+                        // information needs to be appended to the output.
+                        if (dv.Hour == 0 && dv.Minute == 0 && dv.Second == 0 && dv.Millisecond == 0)
                         {
                             json.WriteValue(dv.ToString("yyyy-MM-dd"));
                         }
                         else
                         {
+                            //Add dates from the ArrangeData action should be returned in UTC
+                            dv = dv.ToUniversalTime();
                             json.WriteValue(dv.ToString("yyyy-MM-dd'T'HH:mm:ssZ"));
                         }
                     }
