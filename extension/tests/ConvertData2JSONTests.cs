@@ -15,14 +15,16 @@ namespace DataGridUtils.Tests
 
     public class STComplexListStructure : ISimpleRecord
     {
-        public DateTime ssSTARTDate { get; set; }
-        public DateTime ssENDDate { get; set; }
+        public DateTime ssTimeField { get; set; }
+        public DateTime ssDateField { get; set; }
+        public DateTime ssDateTimeField { get; set; }
         public string ssProduct { get; set; }
 
         public STComplexListStructure()
         {
-            ssSTARTDate = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            ssENDDate = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            ssTimeField = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            ssDateField = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            ssDateTimeField = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             ssProduct = "";
         }
     }
@@ -297,21 +299,29 @@ namespace DataGridUtils.Tests
             }
         }
 
-        static RCComplexListRecord MakeRecord(string startDate, string endDate, string Product)
+        static RCComplexListRecord MakeRecord(string timeField, string dateField, string dateTimeField, string product)
         {
             var rec = new RCComplexListRecord();
 
-            if (TimeSpan.TryParse(startDate, out var ts))
-                rec.ssComplexList.ssSTARTDate = new DateTime(1900, 1, 1, ts.Hours, ts.Minutes, ts.Seconds, DateTimeKind.Utc);
+            if (TimeSpan.TryParse(timeField, out var ts))
+                rec.ssComplexList.ssTimeField = new DateTime(1900, 1, 1, ts.Hours, ts.Minutes, ts.Seconds, DateTimeKind.Utc);
             else
-                rec.ssComplexList.ssSTARTDate = DateTime.Parse(startDate).ToUniversalTime();
+                rec.ssComplexList.ssTimeField = DateTime.Parse(timeField).ToUniversalTime();
 
-            rec.ssComplexList.ssENDDate = new DateTime(
-                DateTime.Parse(endDate).Year,
-                DateTime.Parse(endDate).Month,
-                DateTime.Parse(endDate).Day,
-                0, 0, 0, DateTimeKind.Utc);
-            rec.ssComplexList.ssProduct = Product;
+            rec.ssComplexList.ssDateField = new DateTime(
+                DateTime.Parse(dateField).Year,
+                DateTime.Parse(dateField).Month,
+                DateTime.Parse(dateField).Day,
+                0, 0, 0, DateTimeKind.Local);
+            rec.ssComplexList.ssDateTimeField = new DateTime(
+                DateTime.Parse(dateTimeField).Year,
+                DateTime.Parse(dateTimeField).Month,
+                DateTime.Parse(dateTimeField).Day,
+                DateTime.Parse(dateTimeField).Hour,
+                DateTime.Parse(dateTimeField).Minute,
+                DateTime.Parse(dateTimeField).Second, 
+                DateTimeKind.Utc);
+            rec.ssComplexList.ssProduct = product;
 
             return rec;
         }
@@ -333,20 +343,29 @@ namespace DataGridUtils.Tests
             }
         }
 
+        // ROU-12794: Date column rendering to ISO DateTime format issue.
+        // This test covers a real-world scenario where the server is in a different timezone than UTC.
+        // It must not run on UTC machines because that would allow the regression check to pass without
+        // exercising the local-time-to-UTC conversion path in temp_ardoJSON.
         static void MssConvertData2JSON_WithComplexListData_ReturnsExpectedJSON()
         {
+            Console.WriteLine("DateTimeOffset.Now.Offset: " + DateTimeOffset.Now.Offset);
+            if (DateTimeOffset.Now.Offset == TimeSpan.Zero)
+                throw new InvalidOperationException(
+                    "ROU-12794 regression test requires a non-UTC local timezone to validate the local-time-to-UTC conversion path.");
+
             var list = new RLComplexListRecordList();
 
-            string[] ProductValues = new[]
+            string[] productValues = new[]
             {
                 "Black and Grey", "Black and Grey", "Black and Grey Pro",
                 "Black and Silver", "Black and Silver", "Black and Silver",
                 "Black and White", "Black and White"
             };
 
-            foreach (var Product in ProductValues)
+            foreach (var product in productValues)
             {
-                list.Add(MakeRecord("09:08:30", "2026-02-24", Product));
+                list.Add(MakeRecord("09:08:30", "2026-02-24 00:00:00", "2026-02-24 09:08:30", product));
             }
 
             var sut = new CssDataGridUtils();
@@ -354,15 +373,15 @@ namespace DataGridUtils.Tests
 
             string expected =
                 @"{""data"":[" +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Grey""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Grey""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Grey Pro""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Silver""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Silver""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and Silver""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and White""}}," +
-                @"{""ComplexList"":{""STARTDate"":""09:08:30"",""ENDDate"":""2026-02-24"",""Product"":""Black and White""}}]," +
-                @"""metadata"":{""ComplexList"":{""STARTDate"":""DateTime"",""ENDDate"":""DateTime"",""Product"":""String""}}}";
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Grey""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Grey""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Grey Pro""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Silver""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Silver""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and Silver""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and White""}}," +
+                @"{""ComplexList"":{""TimeField"":""09:08:30"",""DateField"":""2026-02-24"",""DateTimeField"":""2026-02-24T09:08:30Z"",""Product"":""Black and White""}}]," +
+                @"""metadata"":{""ComplexList"":{""TimeField"":""DateTime"",""DateField"":""DateTime"",""DateTimeField"":""DateTime"",""Product"":""String""}}}";
 
             AssertEqual(expected, result);
         }
