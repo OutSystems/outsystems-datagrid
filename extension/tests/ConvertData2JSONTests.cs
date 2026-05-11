@@ -345,11 +345,14 @@ namespace DataGridUtils.Tests
 
         // ROU-12794: Date column rendering to ISO DateTime format issue.
         // This test covers a real-world scenario where the server is in a different timezone than UTC.
-        // In order to run this test, change the system timezone to something other than UTC and make 
-        // sure the test dates are interpreted as local time (e.g. "2026-02-24" instead of "2026-02-24T00:00:00Z") 
-        // so they go through the UTC conversion code path in temp_ardoJSON.
+        // It must not run on UTC machines because that would allow the regression check to pass without
+        // exercising the local-time-to-UTC conversion path in temp_ardoJSON.
         static void MssConvertData2JSON_WithComplexListData_ReturnsExpectedJSON()
         {
+            if (DateTimeOffset.Now.Offset == TimeSpan.Zero)
+                throw new InvalidOperationException(
+                    "ROU-12794 regression test requires a non-UTC local timezone to validate the local-time-to-UTC conversion path.");
+
             var list = new RLComplexListRecordList();
 
             string[] ProductValues = new[]
