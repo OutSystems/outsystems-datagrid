@@ -170,9 +170,15 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			) {
 				const binding = this._grid.provider.getColumn(action.col).binding;
 
-				const OSColumn = this._grid.getColumns().find((item) => item.provider.index === action.col);
-				const oldValue = this._grid.features.dirtyMark.getOldValue(action.row, binding);
-				this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._newState);
+				const OSColumn = this._grid
+					.getColumns()
+					.filter((item) => item.columnType !== OSFramework.DataGrid.Enum.ColumnType.Group)
+					.find((item) => item.provider.index === action.col);
+
+				if (OSColumn !== undefined) {
+					const oldValue = this._grid.features.dirtyMark.getOldValue(action.row, binding);
+					this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._newState);
+				}
 			}
 		}
 
@@ -300,9 +306,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			) {
 				const binding = this._grid.provider.getColumn(action.col).binding;
 				const oldValue = this._grid.features.dirtyMark.getOldValue(action.row, binding);
-				const OSColumn = this._grid.getColumns().find((item) => item.provider.index === action.col);
-
-				this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._oldState);
+				const OSColumn = this._grid
+					.getColumns()
+					.filter((item) => item.columnType !== OSFramework.DataGrid.Enum.ColumnType.Group)
+					.find((item) => item.provider.index === action.col);
+				if (OSColumn !== undefined) {
+					this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._oldState);
+				}
 			}
 		}
 
