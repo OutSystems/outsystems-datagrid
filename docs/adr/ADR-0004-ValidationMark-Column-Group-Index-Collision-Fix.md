@@ -37,8 +37,8 @@ This exception surfaced in the browser console on every cell edit in grids that 
 
 -   **Filter out groups before the index lookup (chosen)** — Add `.filter((item) => item.columnType !== ColumnType.Group)` before `.find()`, then guard the trigger call with `if (OSColumn !== undefined)`.
 
-    -   Pros: minimal change, directly addresses the ambiguity at its source, no impact on undo/redo paths or other call sites.
-    -   Cons: the undo/redo handlers (`_undoActionHandler`, `_redoActionHandler`) still do the unfiltered lookup; those paths are lower-risk because undo actions carry a column index from a prior edit that already resolved correctly, but they are a latent concern.
+    -   Pros: minimal change, directly addresses the ambiguity at its source, no impact on undo/redo paths or other call sites. The same fix, is to be applied in all the undo/redo handlers (`_undoActionHandler`, `_redoActionHandler`).
+    -   Cons: none known.
 
 -   **Look up by column binding instead of index** — Resolve the OS column via `column.binding` rather than `column.index`.
     -   Pros: bindings are unique and unambiguous; avoids the index-sharing problem entirely.
