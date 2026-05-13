@@ -41,8 +41,8 @@ This exception surfaced in the browser console on every cell edit in grids that 
     -   Cons: none known.
 
 -   **Look up by column binding instead of index** — Resolve the OS column via `column.binding` rather than `column.index`.
-    -   Pros: bindings are unique and unambiguous; avoids the index-sharing problem entirely.
-    -   Cons: requires verifying that bindings are always populated and consistent across all column types and call sites, which is a broader refactor out of scope for this fix. Besides that there can be multiple columns with the same binding.
+    -   Pros: avoids the specific index-sharing collision between column groups and data columns, and may better reflect the data field being edited.
+    -   Cons: requires verifying that bindings are always populated, consistent across all column types and call sites, and unique enough for this lookup to be reliable. In some configurations, multiple columns may share the same binding, so this is a broader refactor out of scope for this fix.
 
 ## Decision Outcome
 
