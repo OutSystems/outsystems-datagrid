@@ -1,13 +1,14 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.DataGrid.Feature {
 	export interface IColumnFilter
-		extends Interface.IBuilder,
-			Interface.IValidation,
-			Interface.IProviderConfig<boolean>,
-			IView {
+		extends Interface.IBuilder, Interface.IValidation, Interface.IProviderConfig<boolean>, IView {
 		isGridFiltered: boolean;
 		activate(columnID: string): void;
-		byCondition(columnId: string, values: Array<OSFramework.DataGrid.OSStructure.FilterCondition>, focusOnGrid?: boolean): void;
+		byCondition(
+			columnId: string,
+			values: Array<OSFramework.DataGrid.OSStructure.FilterCondition>,
+			focusOnGrid?: boolean
+		): void;
 		byValue(columnId: string, values: Array<string>, focusOnGrid?: boolean): void;
 		changeFilterType(columnID: string, filterType: wijmo.grid.filter.FilterType): void;
 		clear(columnID: string, triggerOnFiltersChange?: boolean, focusOnGrid?: boolean): void;

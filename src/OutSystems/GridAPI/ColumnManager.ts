@@ -16,7 +16,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedAddColumnToGroupPanel,
 			callback: () => {
-				GridManager.GetGridById(gridID).features.groupPanel.addColumnsToGroupPanel(ListOfColumnIDs, focusOnGrid);
+				GridManager.GetGridById(gridID).features.groupPanel.addColumnsToGroupPanel(
+					ListOfColumnIDs,
+					focusOnGrid
+				);
 			},
 		});
 
@@ -203,7 +206,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveColumnsFromGroupPanel,
 			callback: () => {
-				GridManager.GetGridById(gridID).features.groupPanel.removeColumnsFromGroupPanel(ListOfColumnIDs, focusOnGrid);
+				GridManager.GetGridById(gridID).features.groupPanel.removeColumnsFromGroupPanel(
+					ListOfColumnIDs,
+					focusOnGrid
+				);
 			},
 		});
 

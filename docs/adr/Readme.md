@@ -28,3 +28,5 @@ Each ADR should follow the template in `ADR-0000-Title-of-ADR.md`.
 | :--------- | :---------------------------------------------------------------- | :------- | :---------------------------------- |
 | ADR-0000   | Template for ADRs                                                 | Meta     | 2026-02-04                          |
 | ADR-0001   | Extension .NET Upgrade and Improvements                           | Accepted | 2026-02-24                          |
+| ADR-0002   | Wijmo Upgrade to 2026v1 (Build 5.20261.50)                        | Accepted | 2026-04-19                          |
+| ADR-0003   | Fix Date Serialization Order-of-Operations in UTC Conversion      | Accepted | 2026-05-11                          |

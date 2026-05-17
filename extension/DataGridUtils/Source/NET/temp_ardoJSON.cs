@@ -168,14 +168,19 @@ namespace OutSystems.NssDataGridUtils {
                     }
                     else
                     {
-                        //Add dates from the ArrangeData action should be returned in UTC
-                        dv = dv.ToUniversalTime();
-                        if (dv.Hour == 0 && dv.Minute == 0 && dv.Second == 0) // extra milisecond check ?
+                        // If time is 00:00:00.000 we can assume it's a date-only value and use the shorter format.
+                        // OutSystems does not differentiate between Date and DateTime types at runtime — a DateTime
+                        // with a zeroed time component (e.g. 2024-06-17 00:00:00.000) is treated as a plain date.
+                        // Since values already arrive in UTC, only the time component determines whether timezone
+                        // information needs to be appended to the output.
+                        if (dv.Hour == 0 && dv.Minute == 0 && dv.Second == 0 && dv.Millisecond == 0)
                         {
                             json.WriteValue(dv.ToString("yyyy-MM-dd"));
                         }
                         else
                         {
+                            //Add dates from the ArrangeData action should be returned in UTC
+                            dv = dv.ToUniversalTime();
                             json.WriteValue(dv.ToString("yyyy-MM-dd'T'HH:mm:ssZ"));
                         }
                     }
@@ -200,15 +205,24 @@ namespace OutSystems.NssDataGridUtils {
                     if (isRecord && !isSimpleRecord)
                     {
 
-                        f = elementType.GetFields().First(c => c.Name.StartsWith("ss"));
-                        Dictionary<string, FieldHolder> fields = getFields(f.FieldType);
-                        if (fields.Count == 1)
+                        // Flatten only when the row wraps a single entity/structure field AND that
+                        // inner record itself has exactly one attribute (legacy "[{ssENX: X}]" shape).
+                        // Multi-field rows (e.g. aggregates combining entities with Count/Sum outputs)
+                        // must be emitted as full records so every column reaches the grid; otherwise
+                        // the output collapses to a list of scalars and downstream consumers break.
+                        var ssFields = elementType.GetFields()
+                            .Where(c => c.Name.StartsWith("ss"))
+                            .ToArray();
+
+                        if (ssFields.Length == 1)
                         {
-                            f1 = fields.First().Value;
-                            // records of a single attribute 
-                            // which is a record also get flattened
-                            // could check this strange case here
-                            flatten = true;
+                            f = ssFields[0];
+                            Dictionary<string, FieldHolder> fields = getFields(f.FieldType);
+                            if (fields.Count == 1)
+                            {
+                                f1 = fields.First().Value;
+                                flatten = true;
+                            }
                         }
                     }
                 }
