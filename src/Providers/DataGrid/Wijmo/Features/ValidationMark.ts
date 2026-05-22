@@ -41,11 +41,22 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 			if (isNewValue) {
 				const column = s.getColumn(e.col);
-				const OSColumn = this._grid.getColumns().find((item) => item.provider.index === column.index);
 
-				// The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
-				const oldValue = this._grid.features.dirtyMark.getOldValue(e.row, column.binding);
-				this._triggerEventsFromColumn(e.row, OSColumn.uniqueId, oldValue, newValue);
+				// The provider stores the columns and the groups in different arrays, so, in order to compare the
+				// column index, we need to make sure we are comparing with the columns and not with groups.
+				// It can occur that groups can have the same index as columns, however on OutSystems side, the
+				// columns and groups are mixed in the same array.
+				const OSColumn = this._grid
+					.getColumns()
+					// Let's only return columns that are not Group type.
+					.filter((item) => item.columnType !== OSFramework.DataGrid.Enum.ColumnType.Group)
+					.find((item) => item.provider.index === column.index);
+
+				if (OSColumn !== undefined) {
+					// The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
+					const oldValue = this._grid.features.dirtyMark.getOldValue(e.row, column.binding);
+					this._triggerEventsFromColumn(e.row, OSColumn.uniqueId, oldValue, newValue);
+				}
 			}
 		}
 
@@ -159,9 +170,15 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			) {
 				const binding = this._grid.provider.getColumn(action.col).binding;
 
-				const OSColumn = this._grid.getColumns().find((item) => item.provider.index === action.col);
-				const oldValue = this._grid.features.dirtyMark.getOldValue(action.row, binding);
-				this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._newState);
+				const OSColumn = this._grid
+					.getColumns()
+					.filter((item) => item.columnType !== OSFramework.DataGrid.Enum.ColumnType.Group)
+					.find((item) => item.provider.index === action.col);
+
+				if (OSColumn !== undefined) {
+					const oldValue = this._grid.features.dirtyMark.getOldValue(action.row, binding);
+					this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._newState);
+				}
 			}
 		}
 
@@ -289,9 +306,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			) {
 				const binding = this._grid.provider.getColumn(action.col).binding;
 				const oldValue = this._grid.features.dirtyMark.getOldValue(action.row, binding);
-				const OSColumn = this._grid.getColumns().find((item) => item.provider.index === action.col);
-
-				this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._oldState);
+				const OSColumn = this._grid
+					.getColumns()
+					.filter((item) => item.columnType !== OSFramework.DataGrid.Enum.ColumnType.Group)
+					.find((item) => item.provider.index === action.col);
+				if (OSColumn !== undefined) {
+					this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._oldState);
+				}
 			}
 		}
 
