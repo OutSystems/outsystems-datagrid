@@ -164,7 +164,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			// we don't want to redo on GridRemoveRowAction
 			if (
 				action.dataItem !== undefined &&
-				!_.isObject(action._oldState) &&
+				!(typeof action._oldState === 'object' && action._oldState !== null) &&
 				!(action instanceof GridInsertRowAction) &&
 				!(action instanceof GridRemoveRowAction)
 			) {
@@ -301,7 +301,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			// we don't want to undo on GridRemoveRowAction
 			if (
 				action.dataItem !== undefined &&
-				!_.isObject(action._oldState) &&
+				!(typeof action._oldState === 'object' && action._oldState !== null) &&
 				(!(action instanceof GridInsertRowAction) || !(action instanceof GridRemoveRowAction))
 			) {
 				const binding = this._grid.provider.getColumn(action.col).binding;

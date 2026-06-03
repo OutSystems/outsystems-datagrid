@@ -273,7 +273,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			//Take the selection off the grid so it is possible to add rows when a cell is in edit mode
 			providerGrid.select(-1, -1);
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			let items = new Array<any>(quantity).fill(_.cloneDeep({}));
+			let items = Array.from({ length: quantity }, () => ({}));
 
 			providerGrid.focus(); // In case of Undo action, the user will not need to click on the grid to undo.
 
@@ -367,7 +367,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.Row_NotFound);
 			}
 
-			return _.omit(row, OSFramework.DataGrid.Enum.RowMetadata.Key); // we must remove our metadata from returned object;
+			return OSFramework.DataGrid.Helper.Omit(row, OSFramework.DataGrid.Enum.RowMetadata.Key); // we must remove our metadata from returned object;
 		}
 
 		/**

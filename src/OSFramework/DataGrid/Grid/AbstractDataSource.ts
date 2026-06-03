@@ -166,7 +166,7 @@ namespace OSFramework.DataGrid.Grid {
 
 		private _getRowByKey(key: string) {
 			return this._ds.find((item) => {
-				return _.get(item, this.parentGrid.config.keyBinding).toString() === key;
+				return String(Helper.GetByPath(item, this.parentGrid.config.keyBinding)) === key;
 			});
 		}
 
@@ -190,7 +190,7 @@ namespace OSFramework.DataGrid.Grid {
 		private _setKeyBinding(data): any {
 			// we only want to do this if we have key binding set
 			if (this.parentGrid.config.keyBinding) {
-				_.set(data, this.parentGrid.config.keyBinding, this._counter--);
+				Helper.SetByPath(data, this.parentGrid.config.keyBinding, this._counter--);
 			}
 		}
 
@@ -212,7 +212,7 @@ namespace OSFramework.DataGrid.Grid {
 			stringify = true
 		): string {
 			let tempArray = itemsChanged.map((p) => {
-				const clonedDataItem = _.cloneDeep(p);
+				const clonedDataItem = Helper.DeepClone(p);
 				this._parentGrid.rowMetadata.clear(clonedDataItem);
 				return clonedDataItem;
 			});
@@ -248,8 +248,8 @@ namespace OSFramework.DataGrid.Grid {
 				return array;
 			}, []);
 			let parsedNewItem =
-				_.cloneDeep(this._metadata) ||
-				_.cloneDeep(_.omit(this._ds[0], [Enum.RowMetadata.Key, ...calculatedColumnsBinding]));
+				(this._metadata && Helper.DeepClone(this._metadata)) ||
+				Helper.DeepClone(Helper.Omit(this._ds[0], [Enum.RowMetadata.Key, ...calculatedColumnsBinding]));
 
 			parsedNewItem = Object.keys(parsedNewItem).length
 				? parsedNewItem
@@ -306,7 +306,7 @@ namespace OSFramework.DataGrid.Grid {
 		public getRowNumberByKey(key: string): number {
 			// Throws the error when is invalid
 			const row = this.parentGrid.provider.rows.findIndex(
-				(item) => _.get(item.dataItem, this.parentGrid.config.keyBinding).toString() === key
+				(item) => String(Helper.GetByPath(item.dataItem, this.parentGrid.config.keyBinding)) === key
 			);
 
 			// Validation of row to prevent the default row key
@@ -379,7 +379,7 @@ namespace OSFramework.DataGrid.Grid {
 			}
 
 			// set primary key with new value
-			_.set(row, this.parentGrid.config.keyBinding, newKey);
+			Helper.SetByPath(row, this.parentGrid.config.keyBinding, newKey);
 			// refresh grid with new value
 			this.parentGrid.provider.invalidate();
 

@@ -128,7 +128,7 @@ namespace OutSystems.GridAPI.ColumnManager {
 	 */
 	export function GetColumnById(columnID: string): OSFramework.DataGrid.Column.IColumn {
 		// we want to return the last column in our array that matches our predicate
-		return _.findLast(columnArr, (p) => p && p.equalsToID(columnID));
+		return columnArr.slice().reverse().find((p) => p && p.equalsToID(columnID));
 	}
 
 	/**
