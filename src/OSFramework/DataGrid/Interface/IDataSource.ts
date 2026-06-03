@@ -27,7 +27,7 @@ namespace OSFramework.DataGrid.Grid {
 		 * @param position index position (0-based)
 		 * @param data The array of items to be inserted
 		 */
-		addRow(position?: number, data?: JSON[]);
+		addRow(position?: number, data?: object[]);
 		/**
 		 * Clear all changes in the datasource
 		 */

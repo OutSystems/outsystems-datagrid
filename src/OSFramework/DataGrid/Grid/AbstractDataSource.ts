@@ -201,7 +201,8 @@ namespace OSFramework.DataGrid.Grid {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 		protected _converter(object: any): void {
 			Object.keys(object).forEach((key) => {
-				if (_.isObject(object[key]) && Object.keys(object[key]).length) this._converter(object[key]);
+				if (typeof object[key] === 'object' && object[key] !== null && Object.keys(object[key]).length)
+					this._converter(object[key]);
 				else object[key] = undefined;
 			});
 		}
@@ -278,7 +279,7 @@ namespace OSFramework.DataGrid.Grid {
 			}
 		}
 
-		public addRow(position?: number, data?: JSON[]): void {
+		public addRow(position?: number, data?: object[]): void {
 			for (let i = 0; i < data.length; i++) {
 				data[i] = this._parseNewItem();
 
