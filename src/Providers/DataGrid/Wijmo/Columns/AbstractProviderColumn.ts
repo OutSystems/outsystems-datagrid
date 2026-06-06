@@ -100,6 +100,10 @@ namespace Providers.DataGrid.Wijmo.Column {
 					providerGrid.columnGroups as wijmo.collections.ObservableArray<wijmo.grid.ColumnGroup>;
 				columnGroups.insert(indexPosition, this.provider);
 			}
+
+			// Tag the Wijmo column with the OutSystems uniqueId so features can map it back to
+			// its OutSystems column (see Helper.SetColumnUniqueId for the rationale).
+			Helper.SetColumnUniqueId(this.provider, this.uniqueId);
 		}
 
 		public dispose(): void {

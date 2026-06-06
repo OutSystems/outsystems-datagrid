@@ -44,6 +44,11 @@ namespace OSFramework.DataGrid.Configuration.Column {
 		}
 
 		public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
+			// NOTE: the column's uniqueId is intentionally NOT passed to Wijmo's `describedById`
+			// property here. Wijmo renders `describedById` as an `aria-describedby` attribute
+			// pointing to a non-existent element, which causes "Broken ARIA reference"
+			// accessibility errors. The uniqueId is instead stored directly on the Wijmo column
+			// instance in AbstractProviderColumn.build() (see Helper.Constants.ColumnProperty.OSUniqueId).
 			// eslint-disable-next-line prefer-const
 			let provider: DataGrid.Types.IColumnProviderConfigs = {
 				binding: this.binding,
@@ -60,12 +65,11 @@ namespace OSFramework.DataGrid.Configuration.Column {
 				wordWrap: this.wordWrap,
 				multiLine: this.multiLine,
 				dataType: this.dataType,
-				describedById: this.uniqueId,
 				editor: this.editor,
 				width: this.width > 0 ? this.width : null, // when the column's width is not set, the default value should be managed by wijmo
 			};
 
-			//Cleanning undefined properties
+			//Cleaning undefined properties
 			Object.keys(provider).forEach((key) => provider[key] === undefined && delete provider[key]);
 
 			return provider;
