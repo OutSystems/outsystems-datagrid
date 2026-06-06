@@ -80,10 +80,6 @@ namespace OSFramework.DataGrid.Types {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		dataMap?: any;
 		dataMapEditor?: wijmo.grid.DataMapEditor;
-		// NOTE: `describedById` is intentionally absent. Wijmo would render it as an
-		// `aria-describedby` attribute pointing to a non-existent element (a "Broken ARIA
-		// reference"). The column's uniqueId is stored on the Wijmo column instance instead
-		// (see Providers.DataGrid.Wijmo.Helper.Constants.ColumnProperty.OSUniqueId).
 		isCollapsed?: boolean;
 		isReadOnly: boolean;
 		isRequired: boolean;
