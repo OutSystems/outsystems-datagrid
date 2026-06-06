@@ -8,7 +8,7 @@ Accepted
 
 CI (`Build TypeScript Project / build-n-test`) began failing at the **Install dependencies** step with an `npm error code ERESOLVE` ("unable to resolve dependency tree"):
 
-```
+```typescript
 npm error While resolving: outsystems-datagrid@2.23.1
 npm error Found: typescript@4.9.5
 npm error Could not resolve dependency:
@@ -23,25 +23,23 @@ Because `package-lock.json` is **gitignored** in this repository (`.gitignore` l
 
 ## Decision Drivers
 
--   `npm install` must succeed in CI without `--force` / `--legacy-peer-deps` so the build, lint, and tests can run.
--   The project intends to remain on its pinned `typescript@^4.9.5` for this change; a TypeScript major upgrade is out of scope for an accessibility bug fix and warrants its own validation.
--   The fix must restore a mutually-coherent set of doc tooling (typedoc + merge-modules + umlclass).
+- `npm install` must succeed in CI without `--force` / `--legacy-peer-deps` so the build, lint, and tests can run.
+- The project intends to remain on its pinned `typescript@^4.9.5` for this change; a TypeScript major upgrade is out of scope for an accessibility bug fix and warrants its own validation.
+- The fix must restore a mutually-coherent set of doc tooling (typedoc + merge-modules + umlclass).
 
 ## Considered Options
 
--   **Revert TypeDoc to the last TypeScript-4.9-compatible versions (chosen)** — Set `typedoc` back to `^0.23.28` and `typedoc-umlclass` back to `^0.7.1`; leave `typedoc-plugin-merge-modules` at `^4.1.0`.
+- **Revert TypeDoc to the last TypeScript-4.9-compatible versions (chosen)** — Set `typedoc` back to `^0.23.28` and `typedoc-umlclass` back to `^0.7.1`; leave `typedoc-plugin-merge-modules` at `^4.1.0`.
+    - Pros: restores the exact previously-working, peer-coherent set (`typedoc@0.23.28` peer accepts `4.9.x`; both plugins target `0.23.x`); dev-only tooling, so no runtime impact; smallest possible change; unblocks CI immediately.
+    - Cons: stays on an older TypeDoc line; a future TypeScript upgrade will need to re-bump TypeDoc and its plugins together.
 
-    -   Pros: restores the exact previously-working, peer-coherent set (`typedoc@0.23.28` peer accepts `4.9.x`; both plugins target `0.23.x`); dev-only tooling, so no runtime impact; smallest possible change; unblocks CI immediately.
-    -   Cons: stays on an older TypeDoc line; a future TypeScript upgrade will need to re-bump TypeDoc and its plugins together.
+- **Upgrade TypeScript to `^5.x`** — Bump the compiler to satisfy `typedoc@0.28`'s peer.
+    - Pros: keeps TypeDoc current; aligns with the broader ecosystem direction.
+    - Cons: large blast radius — TS 4.9 → 5.x can surface new compile errors and changes transpilation of the AMD `outFile` build; unrelated to this PR's purpose; needs its own dedicated validation and review.
 
--   **Upgrade TypeScript to `^5.x`** — Bump the compiler to satisfy `typedoc@0.28`'s peer.
-
-    -   Pros: keeps TypeDoc current; aligns with the broader ecosystem direction.
-    -   Cons: large blast radius — TS 4.9 → 5.x can surface new compile errors and changes transpilation of the AMD `outFile` build; unrelated to this PR's purpose; needs its own dedicated validation and review.
-
--   **Add `legacy-peer-deps=true` to `.npmrc`** — Make npm ignore the peer conflict.
-    -   Pros: one-line, unblocks CI immediately.
-    -   Cons: ships a knowingly-inconsistent dependency tree and masks future real conflicts; a band-aid, not a fix.
+- **Add `legacy-peer-deps=true` to `.npmrc`** — Make npm ignore the peer conflict.
+    - Pros: one-line, unblocks CI immediately.
+    - Cons: ships a knowingly-inconsistent dependency tree and masks future real conflicts; a band-aid, not a fix.
 
 ## Decision Outcome
 
@@ -51,20 +49,20 @@ Because `package-lock.json` is gitignored, only `package.json` was changed; CI r
 
 Positive consequences:
 
--   `npm install` resolves cleanly; CI `build-n-test` and all downstream checks pass.
--   No runtime impact (doc-generation tooling only).
+- `npm install` resolves cleanly; CI `build-n-test` and all downstream checks pass.
+- No runtime impact (doc-generation tooling only).
 
 Negative consequences:
 
--   TypeDoc remains on the `0.23` line until a future, separately-validated TypeScript upgrade re-aligns the doc tooling.
--   Dependabot may re-propose the TypeDoc bump; it should not be merged without a corresponding TypeScript upgrade (and, ideally, a committed lockfile or grouped peer-aware update).
+- TypeDoc remains on the `0.23` line until a future, separately-validated TypeScript upgrade re-aligns the doc tooling.
+- Dependabot may re-propose the TypeDoc bump; it should not be merged without a corresponding TypeScript upgrade (and, ideally, a committed lockfile or grouped peer-aware update).
 
 ## Links
 
--   `package.json` — `typedoc` `^0.28.19` → `^0.23.28`, `typedoc-umlclass` `^0.10.2` → `^0.7.1`.
--   Offending bump: commit `af11b3b` ("Bump the minor-and-patch group across 1 directory with 2 updates", PR #495).
--   `.gitignore` line 8 — `package-lock.json` is not tracked.
--   Jira ticket: ROU-12848. PR #508.
+- `package.json` — `typedoc` `^0.28.19` → `^0.23.28`, `typedoc-umlclass` `^0.10.2` → `^0.7.1`.
+- Offending bump: commit `af11b3b` ("Bump the minor-and-patch group across 1 directory with 2 updates", PR #495).
+- `.gitignore` line 8 — `package-lock.json` is not tracked.
+- Jira ticket: ROU-12848. PR #508.
 
 ## Date
 

@@ -14,10 +14,10 @@ The defect was latent and invisible on UTC servers (where local time equals UTC)
 
 ## Decision Drivers
 
--   OutSystems platform servers can run in any timezone; the serializer must produce identical output regardless of the server's local timezone.
--   The Data Grid client relies on the JSON format of a field value (`yyyy-MM-dd` vs `yyyy-MM-dd'T'HH:mm:ssZ`) to decide how to render it — a datetime string causes Date columns to display timezone-adjusted values.
--   The existing midnight-check logic was conceptually correct but was rendered ineffective by the premature UTC conversion.
--   The regression test suite was previously using `DateTimeKind.Utc` for date-only fields in the mock records, which masked the bug on UTC machines by not exercising the local-time-to-UTC conversion path.
+- OutSystems platform servers can run in any timezone; the serializer must produce identical output regardless of the server's local timezone.
+- The Data Grid client relies on the JSON format of a field value (`yyyy-MM-dd` vs `yyyy-MM-dd'T'HH:mm:ssZ`) to decide how to render it — a datetime string causes Date columns to display timezone-adjusted values.
+- The existing midnight-check logic was conceptually correct but was rendered ineffective by the premature UTC conversion.
+- The regression test suite was previously using `DateTimeKind.Utc` for date-only fields in the mock records, which masked the bug on UTC machines by not exercising the local-time-to-UTC conversion path.
 
 ## Decision Outcome
 
@@ -29,9 +29,9 @@ The test project was updated to construct date-only mock records with `DateTimeK
 
 ## Links
 
--   `extension/DataGridUtils/Source/NET/temp_ardoJSON.cs` — corrected UTC conversion order and extended midnight check.
--   `extension/tests/ConvertData2JSONTests.cs` — updated mock records to use `DateTimeKind.Local` for date-only fields; added timezone guard to the regression test.
--   [PR #504](https://github.com/OutSystems/outsystems-datagrid/pull/504) — ROU-12794 fix.
+- `extension/DataGridUtils/Source/NET/temp_ardoJSON.cs` — corrected UTC conversion order and extended midnight check.
+- `extension/tests/ConvertData2JSONTests.cs` — updated mock records to use `DateTimeKind.Local` for date-only fields; added timezone guard to the regression test.
+- [PR #504](https://github.com/OutSystems/outsystems-datagrid/pull/504) — ROU-12794 fix.
 
 ## Date
 
