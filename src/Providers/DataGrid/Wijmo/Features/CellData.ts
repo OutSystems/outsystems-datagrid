@@ -19,7 +19,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 		public setCellData(rowNumber: number, column: OSFramework.DataGrid.Column.IColumn, value: string): void {
 			if (column.columnType === OSFramework.DataGrid.Enum.ColumnType.DateTime) {
-				if (column.config.format.trim().toLowerCase().includes('s')) {
+				if (!column.config.format.trim().toLowerCase().includes('s')) {
 					value = this._grid.dataSource.trimSecondsFromDate(value);
 				}
 			}
