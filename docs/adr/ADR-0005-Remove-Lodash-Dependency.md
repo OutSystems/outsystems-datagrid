@@ -11,7 +11,7 @@ The OutSystems Data Grid TypeScript codebase depended on [Lodash](https://lodash
 The dependency introduced two distinct risks:
 
 1. **Security exposure.** Lodash has accumulated a history of high-severity CVEs (prototype pollution, ReDoS). Each new Lodash vulnerability required triage and version-pinning work even though the functions actually used in this codebase are all straightforwardly replaceable with native JavaScript.
-2. **Unnecessary surface area.** All 9 Lodash functions used (`_.chunk`, `_.cloneDeep`, `_.get`, `_.set`, `_.isObject`, `_.omit`, `_.findLast`, `_.toArray`, `_.isEqualWith`) have direct, idiomatic native equivalents available in ES2019+, which is already the compilation target of this project.
+2. **Unnecessary surface area.** All 9 Lodash functions used (`_.chunk`, `_.cloneDeep`, `_.get`, `_.set`, `_.isObject`, `_.omit`, `_.findLast`, `_.toArray`, `_.isEqualWith`) have direct, idiomatic native equivalents available in ES2020+, which is the compilation target of this project.
 
 ## Decision Drivers
 
@@ -46,11 +46,13 @@ Positive consequences:
 -   No Lodash CVEs can affect this codebase going forward.
 -   The runtime no longer requires Lodash to be present as an OutSystems module resource.
 -   Four reusable utility functions (`GetByPath`, `SetByPath`, `DeepClone`, `Omit`) added to `OSFramework.DataGrid.Helper` (`src/OSFramework/DataGrid/Helper/Utils.ts`), typed without `any`.
--   Incidental improvement: `BatchArray`, `addRow` (interface + implementations), and `IDataSource.addRow` had incorrect `JSON` type annotations (referring to the global `JSON` object interface, not a plain data object). These were corrected to `object[]` / `object` during the migration.
+-   TypeScript target upgraded from `ES2019` to `ES2020`, enabling native emission of `?.` optional chaining and `??` nullish coalescing — used to simplify `GetByPath` and `SetByPath` respectively.
+-   `Omit` includes a null guard (`if (!obj) return {}`) for defensive safety when called with an uninitialised row.
+-   Incidental improvement: `BatchArray`, `addRow` (interface + implementations), and `IDataSource.addRow` had incorrect `JSON` type annotations (referring to the global `JSON` object interface, not a plain data object). These were corrected to `object[]` during the migration.
 
 Negative consequences:
 
--   None identified. `DeepClone` uses `structuredClone()`, which handles `Date`, `Map`, `Set`, `RegExp`, `ArrayBuffer`, and circular references. It does not clone functions or DOM nodes, but no cloning site in this codebase passes non-data objects.
+-   `DeepClone` calls `structuredClone()` and falls back to `JSON.parse(JSON.stringify())` if it throws (e.g. if a non-transferable value such as a function were passed). The fallback loses `Date` precision (serialised to ISO strings) and drops `undefined` properties. All current cloning sites operate on plain OutSystems JSON data rows, so the fallback is never exercised in practice — but callers must not pass non-serialisable objects.
 
 ## Replacement Map
 
@@ -77,4 +79,4 @@ Negative consequences:
 
 ## Date
 
-2026-06-02
+2026-06-02 (initial); 2026-06-08 (ES2020 target upgrade, `DeepClone` fallback, `Omit` null guard)
