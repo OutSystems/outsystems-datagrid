@@ -21,7 +21,7 @@
     "url": "git+https://github.com/OutSystems/outsystems-datagrid"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=24"
   },
   "keywords": [
     "OutSystems",

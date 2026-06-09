@@ -1,5 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.DataGrid.Helper {
+	// Prevents prototype pollution: paths containing these segments would mutate Object.prototype,
+	// affecting every object in the runtime.
+	const BLOCKED_PATH_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 	/**
 	 * Receives an array, splits it into smaller arrays and executes a callback.
 	 * @param data Array to be split
@@ -22,9 +25,16 @@ namespace OSFramework.DataGrid.Helper {
 
 	export function SetByPath(obj: Record<string, unknown>, path: string, value: unknown): void {
 		const keys = path.split('.');
+		if (keys.some((key) => BLOCKED_PATH_KEYS.has(key))) {
+			throw new Error('Unsafe path segment');
+		}
 		let current: Record<string, unknown> = obj;
 		for (let i = 0; i < keys.length - 1; i++) {
-			current[keys[i]] = current[keys[i]] ?? {};
+			// Overwrite primitives so the next descent doesn't throw in strict mode
+			// (assigning a property on a string/number is a TypeError).
+			if (typeof current[keys[i]] !== 'object' || current[keys[i]] === null) {
+				current[keys[i]] = {};
+			}
 			current = current[keys[i]] as Record<string, unknown>;
 		}
 		current[keys[keys.length - 1]] = value;
