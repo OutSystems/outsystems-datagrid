@@ -19,10 +19,25 @@ namespace OSFramework.DataGrid.Helper {
 		chunk.forEach((part) => callback(part));
 	}
 
+	/**
+	 * Gets a nested property value from an object using a dot-separated path.
+	 * @param obj The object to query
+	 * @param path The dot-separated path of the property to get
+	 * @returns The value at the specified path, or undefined if the path is invalid
+	 */
 	export function GetByPath(obj: Record<string, unknown>, path: string): unknown {
 		return path.split('.').reduce<unknown>((acc, part) => (acc as Record<string, unknown> | null)?.[part], obj);
 	}
 
+	/**
+	 * Sets a nested property value on an object using a dot-separated path.
+	 * If any part of the path does not exist, it will be created as an empty object.
+	 *
+	 * @export
+	 * @param {Record<string, unknown>} obj
+	 * @param {string} path
+	 * @param {unknown} value
+	 */
 	export function SetByPath(obj: Record<string, unknown>, path: string, value: unknown): void {
 		const keys = path.split('.');
 		if (keys.some((key) => BLOCKED_PATH_KEYS.has(key))) {
@@ -40,14 +55,30 @@ namespace OSFramework.DataGrid.Helper {
 		current[keys[keys.length - 1]] = value;
 	}
 
+	/**
+	 * Creates a deep clone of the given object.
+	 * Uses structuredClone if available, otherwise falls back to JSON methods.
+	 *
+	 * @param obj The object to clone
+	 * @returns A deep clone of the object
+	 */
 	export function DeepClone<T>(obj: T): T {
 		try {
+			// structuredClone is available in modern environments and handles more
+			// complex cases than JSON methods (like functions, Dates, Maps, Sets, etc.)
 			return structuredClone(obj);
 		} catch {
 			return JSON.parse(JSON.stringify(obj));
 		}
 	}
 
+	/**
+	 * Creates a new object by omitting specified keys from the original object.
+	 *
+	 * @param obj The original object
+	 * @param keys The keys to omit
+	 * @returns A new object without the specified keys
+	 */
 	export function Omit<T extends object>(obj: T, keys: string | string[]): Partial<T> {
 		if (!obj) return {} as Partial<T>;
 		const keysArray = Array.isArray(keys) ? keys : [keys];
