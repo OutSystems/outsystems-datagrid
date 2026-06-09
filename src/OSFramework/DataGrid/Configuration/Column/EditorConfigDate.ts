@@ -5,7 +5,6 @@ namespace OSFramework.DataGrid.Configuration.Column {
 	 */
 	export class EditorConfigDate extends AbstractEditorConfig {
 		public defaultFormat: string;
-		public format: string;
 		public max: Date;
 		public min: Date;
 
@@ -17,7 +16,6 @@ namespace OSFramework.DataGrid.Configuration.Column {
 			this.format = this.format || this.defaultFormat;
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		public getProviderConfig(): DataGrid.Types.IDateEditorProviderConfigs {
 			// eslint-disable-next-line prefer-const
 			let provider = {
