@@ -83,6 +83,9 @@ namespace OSFramework.DataGrid.Types {
 		isCollapsed?: boolean;
 		isReadOnly: boolean;
 		isRequired: boolean;
+		// Wijmo column `name` — a DOM-inert identifier used to map a Wijmo column back to its
+		// OutSystems column (set to the column uniqueId). See ColumnConfig.getProviderConfig.
+		name: string;
 	}
 	/**
 	 * Specific structure for group column provider configuration

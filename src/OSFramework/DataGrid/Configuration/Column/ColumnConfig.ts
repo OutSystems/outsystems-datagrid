@@ -44,11 +44,6 @@ namespace OSFramework.DataGrid.Configuration.Column {
 		}
 
 		public getProviderConfig(): DataGrid.Types.IColumnProviderConfigs {
-			// NOTE: the column's uniqueId is intentionally NOT passed to Wijmo's `describedById`
-			// property here. Wijmo renders `describedById` as an `aria-describedby` attribute
-			// pointing to a non-existent element, which causes "Broken ARIA reference"
-			// accessibility errors. The uniqueId is instead stored directly on the Wijmo column
-			// instance in AbstractProviderColumn.build() (see Helper.Constants.ColumnProperty.OSUniqueId).
 			// eslint-disable-next-line prefer-const
 			let provider: DataGrid.Types.IColumnProviderConfigs = {
 				binding: this.binding,
@@ -65,6 +60,13 @@ namespace OSFramework.DataGrid.Configuration.Column {
 				wordWrap: this.wordWrap,
 				multiLine: this.multiLine,
 				dataType: this.dataType,
+				// Store the column's uniqueId in Wijmo's `name` property so features (ClickEvent,
+				// DirtyMark) can map a Wijmo column back to its OutSystems column. `name` is a
+				// documented Wijmo identifier that is NOT rendered to the DOM. We must not reuse
+				// Wijmo's `describedById` for this: Wijmo renders it as an `aria-describedby`
+				// attribute pointing to a non-existent element, causing "Broken ARIA reference"
+				// accessibility errors.
+				name: this.uniqueId,
 				editor: this.editor,
 				width: this.width > 0 ? this.width : null, // when the column's width is not set, the default value should be managed by wijmo
 			};

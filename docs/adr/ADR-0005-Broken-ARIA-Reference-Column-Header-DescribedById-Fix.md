@@ -28,49 +28,49 @@ The grid's internal `_columns` map is keyed by both `binding` and `uniqueId`, an
 
 ## Considered Options
 
-- **Relocate the `uniqueId` off `describedById` onto a dedicated non-ARIA expando (chosen)** — Stop passing `describedById` to Wijmo; instead store the `uniqueId` on the Wijmo column instance under a private expando key, accessed exclusively through `Helper.GetColumnUniqueId` / `Helper.SetColumnUniqueId`.
+- **Store the `uniqueId` in Wijmo's native `Column.name` property (chosen)** — Pass `name: this.uniqueId` in `ColumnConfig.getProviderConfig()`; read it back via `column.name` in `ClickEvent` and `DirtyMark`, keeping the `binding` fallback.
 
-    - Pros: removes the invalid attribute entirely (no description ever existed); preserves the exact mapping value (the grid map is keyed by `uniqueId`); isolated from Wijmo; consistent with the existing pattern of stashing metadata on Wijmo objects (`RowMetadata` stores a `Map` on `dataItem`); O(1) read, set once in `build()`.
-    - Cons: requires a small typed-cast helper to access the expando.
+    - Pros: `name` is a documented Wijmo identifier that is **not** rendered to the DOM, so no `aria-describedby` (or any other attribute) is emitted; officially supported and explicitly intended for "multiple columns with the same binding value", which is exactly the disambiguation this mapping needs; preserves the exact mapping value; no custom storage, no casts, no helper.
+    - Cons: overloads a first-class Wijmo property — but verified that no wrapper or Wijmo code reads/writes `column.name`, so there is no collision.
+
+- **Stash the `uniqueId` on a private expando (`__osUniqueId`) via helpers** — Store the id on the Wijmo column instance under a non-standard property accessed through `Helper.GetColumnUniqueId` / `Helper.SetColumnUniqueId`.
+
+    - Pros: removes the invalid attribute; isolated from Wijmo; consistent with the existing `RowMetadata` expando pattern.
+    - Cons: relies on **undocumented** Wijmo behavior (writing arbitrary properties onto Wijmo objects); the team has previously hit problems with this exact approach in `RowMetadata`; requires a typed cast and a helper. This was the initial implementation; it was raised in PR review and rejected in favor of the supported `name` property.
 
 - **Create and persist a real description element for each id** — Inject a visually-hidden `<span id="…">` and re-inject it on every header refresh so it survives Wijmo's `formatItem` cell recycling.
 
     - Pros: keeps a (hypothetical) description.
     - Cons: significant complexity for zero benefit — there is no description text to convey; must survive virtualization recycling; higher regression risk.
 
-- **Look up the OS column by `binding` only (drop `uniqueId` storage)** — Remove `describedById` and resolve columns purely by `binding`.
-
-    - Pros: fewest lines; no expando.
+- **Look up the OS column by `binding` only (drop `uniqueId` storage)** — Resolve columns purely by `binding`.
+    - Pros: fewest lines; no stored id.
     - Cons: `binding` is not guaranteed unique (action columns / two columns on the same field); the original design deliberately preferred `uniqueId` with `binding` as a fallback. This is a behavioral change with collision risk.
-
-- **Reuse Wijmo's native `Column.name` property** — Store the `uniqueId` in `name`.
-    - Pros: type-clean, survives any Wijmo serialization.
-    - Cons: `name` has Wijmo semantics (`getColumn(name)`, cell access, layout) and could collide with Wijmo features. Overloads a first-class property.
 
 ## Decision Outcome
 
-Chosen option: relocate the `uniqueId` onto an isolated expando, accessed through two helpers in `Providers.DataGrid.Wijmo.Helper`. `describedById` was removed from `ColumnConfig.getProviderConfig()` and from the `IColumnProviderConfigs` interface; the expando is set once in `AbstractProviderColumn.build()` (the single instantiation point for data/group columns) and read by `ClickEvent` and `DirtyMark`, which keep their `binding` fallback unchanged.
+Chosen option: store the column `uniqueId` in Wijmo's documented `Column.name` property. `describedById` was removed from `ColumnConfig.getProviderConfig()` and from the `IColumnProviderConfigs` interface; `name: this.uniqueId` is set in the provider config and read back via `column.name` in `ClickEvent` and `DirtyMark`, which keep their `binding` fallback unchanged.
+
+An earlier iteration of this fix stored the id on a private expando (`__osUniqueId`) accessed through helpers. During PR review it was noted that this relies on undocumented Wijmo behavior and that the team had previously experienced issues with the same pattern in `RowMetadata`. The fix was changed to use the supported `name` property, which has no DOM/ARIA side effect and is explicitly intended for identifying columns (including ones that share a binding).
 
 Positive consequences:
 
 - No `aria-describedby` attribute is emitted, clearing all "Broken ARIA reference" errors. A dangling `aria-describedby` was already silently ignored by screen readers, so removing it loses nothing and is a net accessibility/compliance improvement.
-- Column-to-OutSystems-column mapping is behaviorally identical; autogenerated columns (which never pass through `build()`) still fall back to `binding`, exactly as before.
-- The storage mechanism is centralized behind helpers, so it can be swapped later (e.g. to a `WeakMap`) without touching call sites.
+- Column-to-OutSystems-column mapping is behaviorally identical; autogenerated columns (which never pass through `getProviderConfig`) have no `name` and still fall back to `binding`, exactly as before.
+- Uses only documented, DOM-inert Wijmo API — no custom storage, casts, or helpers.
 
 Negative consequences:
 
-- The expando is accessed via a typed cast, confined to the two helper functions.
+- The column `uniqueId` is now also discoverable through Wijmo's `getColumn(name)`; this is harmless, as no wrapper or Wijmo code depends on `name`.
 
 ## Links
 
-- `src/OSFramework/DataGrid/Configuration/Column/ColumnConfig.ts` — removed `describedById` from the provider config.
-- `src/OSFramework/DataGrid/Types/index.ts` — removed `describedById` from `IColumnProviderConfigs`.
-- `src/Providers/DataGrid/Wijmo/Helper/ColumnUtils.ts` — new `GetColumnUniqueId` / `SetColumnUniqueId` helpers.
-- `src/Providers/DataGrid/Wijmo/Helper/Constants.ts` — `ColumnProperty.OSUniqueId` expando key.
-- `src/Providers/DataGrid/Wijmo/Columns/AbstractProviderColumn.ts` — `build()` tags the Wijmo column with the `uniqueId`.
-- `src/Providers/DataGrid/Wijmo/Features/ClickEvent.ts` and `.../DirtyMark.ts` — read the `uniqueId` via the helper, `binding` fallback preserved.
+- `src/OSFramework/DataGrid/Configuration/Column/ColumnConfig.ts` — `describedById` removed; `name: this.uniqueId` set in the provider config.
+- `src/OSFramework/DataGrid/Types/index.ts` — `describedById` removed, `name` added to `IColumnProviderConfigs`.
+- `src/Providers/DataGrid/Wijmo/Features/ClickEvent.ts` and `.../DirtyMark.ts` — read the `uniqueId` via `column.name`, `binding` fallback preserved.
+- Wijmo `Column.name` API: [Wijmo_Grid.Column#name](https://developer.mescius.com/wijmo/api/classes/Wijmo_Grid.Column.html#name)
 - Jira ticket: ROU-12848. PR #508.
-- See ARCHITECTURE.md tenet T5 (sanitization/accessibility boundaries) and the established `RowMetadata` expando pattern.
+- See ARCHITECTURE.md tenet T5 (sanitization/accessibility boundaries).
 
 ## Date
 
