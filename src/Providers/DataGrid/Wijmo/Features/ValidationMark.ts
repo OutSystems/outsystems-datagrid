@@ -555,7 +555,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				column.binding,
 				// If the error message is empty we want to return the message -> Invalid [Column Name]
 				// Make sure all the end of lines from the error that comes from OS are replaced with <br>
-				errorMessage !== '' ? errorMessage.replace(/\n/g, '<br>') : 'Invalid ' + column.header
+				errorMessage !== '' ? errorMessage.replaceAll(/\n/g, '<br>') : 'Invalid ' + column.header
 			);
 
 			// set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
@@ -590,7 +590,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				column.binding,
 				// If the error message is empty we want to return the message -> Invalid [Column Name]
 				// Make sure all the end of lines from the error that comes from OS are replaced with <br>
-				errorMessage !== '' ? errorMessage.replace(/\n/g, '<br>') : 'Invalid ' + column.header
+				errorMessage !== '' ? errorMessage.replaceAll(/\n/g, '<br>') : 'Invalid ' + column.header
 			);
 
 			// set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata

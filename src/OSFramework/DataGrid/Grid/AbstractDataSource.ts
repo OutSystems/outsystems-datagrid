@@ -274,9 +274,7 @@ namespace OSFramework.DataGrid.Grid {
 		}
 
 		public set parentGrid(grid: IGrid) {
-			if (this._parentGrid === undefined) {
-				this._parentGrid = grid;
-			}
+			this._parentGrid ??= grid;
 		}
 
 		public addRow(position?: number, data?: object[]): void {

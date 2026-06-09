@@ -52,7 +52,8 @@ namespace OSFramework.DataGrid.Helper {
 			}
 			current = current[keys[i]] as Record<string, unknown>;
 		}
-		current[keys[keys.length - 1]] = value;
+		const lastKey = keys.at(-1);
+		lastKey && (current[lastKey] = value);
 	}
 
 	/**
@@ -80,7 +81,7 @@ namespace OSFramework.DataGrid.Helper {
 	 * @returns A new object without the specified keys
 	 */
 	export function Omit<T extends object>(obj: T, keys: string | string[]): Partial<T> {
-		if (!obj) return {} as Partial<T>;
+		if (!obj) return {};
 		const keysArray = Array.isArray(keys) ? keys : [keys];
 		return Object.fromEntries(Object.entries(obj).filter(([k]) => !keysArray.includes(k))) as Partial<T>;
 	}
