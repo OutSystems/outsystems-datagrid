@@ -33,7 +33,7 @@ Because `package-lock.json` is **gitignored** in this repository (`.gitignore` l
     - Pros: restores the exact previously-working, peer-coherent set (`typedoc@0.23.28` peer accepts `4.9.x`; both plugins target `0.23.x`); dev-only tooling, so no runtime impact; smallest possible change; unblocks CI immediately.
     - Cons: stays on an older TypeDoc line; a future TypeScript upgrade will need to re-bump TypeDoc and its plugins together.
 
-- **Upgrade TypeScript to `^5.x`** — Bump the compiler to satisfy `typedoc@0.28`'s peer.
+- **Upgrade TypeScript to `^5.x`** — Bump the compiler to satisfy `typedoc@0.28`'s peer. Tracked separately under ROU-11724.
     - Pros: keeps TypeDoc current; aligns with the broader ecosystem direction.
     - Cons: large blast radius — TS 4.9 → 5.x can surface new compile errors and changes transpilation of the AMD `outFile` build; unrelated to this PR's purpose; needs its own dedicated validation and review.
 
@@ -54,14 +54,15 @@ Positive consequences:
 
 Negative consequences:
 
-- TypeDoc remains on the `0.23` line until a future, separately-validated TypeScript upgrade re-aligns the doc tooling.
-- Dependabot may re-propose the TypeDoc bump; it should not be merged without a corresponding TypeScript upgrade (and, ideally, a committed lockfile or grouped peer-aware update).
+- TypeDoc remains on the `0.23` line until the TypeScript upgrade (tracked under ROU-11724) re-aligns the doc tooling.
+- Dependabot may re-propose the TypeDoc bump; it should not be merged without a corresponding TypeScript upgrade (ROU-11724) and, ideally, a committed lockfile or grouped peer-aware update.
 
 ## Links
 
 - `package.json` — `typedoc` `^0.28.19` → `^0.23.28`, `typedoc-umlclass` `^0.10.2` → `^0.7.1`.
 - Offending bump: commit `af11b3b` ("Bump the minor-and-patch group across 1 directory with 2 updates", PR #495).
 - `.gitignore` line 8 — `package-lock.json` is not tracked.
+- Follow-up: TypeScript upgrade tracked under ROU-11724 (re-aligns TypeDoc and clears the dev-only audit findings).
 - Jira ticket: ROU-12848. PR #508.
 
 ## Date
