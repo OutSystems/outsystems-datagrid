@@ -16,7 +16,7 @@ const OSColumn = this._grid.getColumns().find((item) => item.provider.index === 
 
 Without pre-filtering, a `ColumnType.Group` entry could satisfy `provider.index === column.index` before the actual data column was reached, causing `OSColumn` to be resolved as a group instead of the edited column. The group's `uniqueId` was then passed to `_triggerEventsFromColumn`, which retrieved the group via `getColumn()` and called `_handleOnCellChangeEvent` on it. Accessing `column.hasEvents` on a group column delegates to the `columnEvents` getter, which is explicitly unsupported and throws:
 
-```typescript
+```
 Uncaught Error: The column Group does not support events
     at get columnEvents (GridFramework.js)
     at get hasEvents (GridFramework.js)
@@ -29,20 +29,20 @@ This exception surfaced in the browser console on every cell edit in grids that 
 
 ## Decision Drivers
 
-- Grids that use column groups must fire validation and `OnCellValueChange` events correctly on cell edits.
-- The column lookup must be stable regardless of how many groups or columns are present and in what order `getColumns()` returns them.
-- The fix must not change the contract for grids without groups.
+-   Grids that use column groups must fire validation and `OnCellValueChange` events correctly on cell edits.
+-   The column lookup must be stable regardless of how many groups or columns are present and in what order `getColumns()` returns them.
+-   The fix must not change the contract for grids without groups.
 
 ## Considered Options
 
-- **Filter out groups before the index lookup (chosen)** — Add `.filter((item) => item.columnType !== ColumnType.Group)` before `.find()`, then guard the trigger call with `if (OSColumn !== undefined)`.
+-   **Filter out groups before the index lookup (chosen)** — Add `.filter((item) => item.columnType !== ColumnType.Group)` before `.find()`, then guard the trigger call with `if (OSColumn !== undefined)`.
 
-    - Pros: minimal change, directly addresses the ambiguity at its source, no impact on undo/redo paths or other call sites. The same fix, is to be applied in all the undo/redo handlers (`_undoActionHandler`, `_redoActionHandler`).
-    - Cons: none known.
+    -   Pros: minimal change, directly addresses the ambiguity at its source, no impact on undo/redo paths or other call sites. The same fix, is to be applied in all the undo/redo handlers (`_undoActionHandler`, `_redoActionHandler`).
+    -   Cons: none known.
 
-- **Look up by column binding instead of index** — Resolve the OS column via `column.binding` rather than `column.index`.
-    - Pros: avoids the specific index-sharing collision between column groups and data columns, and may better reflect the data field being edited.
-    - Cons: requires verifying that bindings are always populated, consistent across all column types and call sites, and unique enough for this lookup to be reliable. In some configurations, multiple columns may share the same binding, so this is a broader refactor out of scope for this fix.
+-   **Look up by column binding instead of index** — Resolve the OS column via `column.binding` rather than `column.index`.
+    -   Pros: avoids the specific index-sharing collision between column groups and data columns, and may better reflect the data field being edited.
+    -   Cons: requires verifying that bindings are always populated, consistent across all column types and call sites, and unique enough for this lookup to be reliable. In some configurations, multiple columns may share the same binding, so this is a broader refactor out of scope for this fix.
 
 ## Decision Outcome
 
@@ -50,17 +50,17 @@ The `.filter()` guard was applied in `_cellEditEndedHandler` so only non-Group c
 
 Positive consequences:
 
-- `OnCellValueChange` and mandatory-field validation events fire correctly in grids that contain column groups.
-- No behavioral change for grids without column groups.
+-   `OnCellValueChange` and mandatory-field validation events fire correctly in grids that contain column groups.
+-   No behavioral change for grids without column groups.
 
 Negative consequences:
 
-- None identified.
+-   None identified.
 
 ## Links
 
-- `src/Providers/DataGrid/Wijmo/Features/ValidationMark.ts` — `_cellEditEndedHandler` method, lines 42–60.
-- Jira ticket: ROU-12739.
+-   `src/Providers/DataGrid/Wijmo/Features/ValidationMark.ts` — `_cellEditEndedHandler` method, lines 42–60.
+-   Jira ticket: ROU-12739.
 
 ## Date
 

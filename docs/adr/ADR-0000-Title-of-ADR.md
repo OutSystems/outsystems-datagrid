@@ -14,32 +14,32 @@ What are the constraints (technical, business, etc.)?
 
 ## Decision Drivers
 
-- Driver 1
-- Driver 2
-- ...
+-   Driver 1
+-   Driver 2
+-   ...
 
 ## Considered Options
 
-- Option 1
-    - Pros:
-    - Cons:
-- Option 2
-    - Pros:
-    - Cons:
-- ...
+-   Option 1
+    -   Pros:
+    -   Cons:
+-   Option 2
+    -   Pros:
+    -   Cons:
+-   ...
 
 ## Decision Outcome
 
 Chosen option: "Option X", because [justification. e.g., only option that meets k.o. criteria decision driver | satisfies critical requirement | ... | comes out best (see below)].
 Positive consequences:
 
-- ...
-  Negative consequences:
-- ...
+-   ...
+    Negative consequences:
+-   ...
 
 ## Links
 
-- Link to related issues, discussions, or documents.
+-   Link to related issues, discussions, or documents.
 
 ## Date
 
