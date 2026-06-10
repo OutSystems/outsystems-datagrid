@@ -24,9 +24,12 @@ Each ADR should follow the template in `ADR-0000-Title-of-ADR.md`.
 
 ## ADR Log
 
-| ADR Number | Title                                                             | Status   | Date                                |
-| :--------- | :---------------------------------------------------------------- | :------- | :---------------------------------- |
-| ADR-0000   | Template for ADRs                                                 | Meta     | 2026-02-04                          |
-| ADR-0001   | Extension .NET Upgrade and Improvements                           | Accepted | 2026-02-24                          |
-| ADR-0002   | Wijmo Upgrade to 2026v1 (Build 5.20261.50)                        | Accepted | 2026-04-19                          |
-| ADR-0003   | Fix Date Serialization Order-of-Operations in UTC Conversion      | Accepted | 2026-05-11                          |
+| ADR Number | Title                                                                | Status   | Date       |
+| :--------- | :------------------------------------------------------------------- | :------- | :--------- |
+| ADR-0000   | Template for ADRs                                                    | Meta     | 2026-02-04 |
+| ADR-0001   | Extension .NET Upgrade and Improvements                              | Accepted | 2026-02-24 |
+| ADR-0002   | Wijmo Upgrade to 2026v1 (Build 5.20261.50)                           | Accepted | 2026-04-19 |
+| ADR-0003   | Fix Date Serialization Order-of-Operations in UTC Conversion         | Accepted | 2026-05-11 |
+| ADR-0004   | Fix Column-Group Index Collision in ValidationMark Cell Edit Handler | Accepted | 2026-05-12 |
+| ADR-0005   | Fix Broken ARIA Reference on Column Headers (describedById Misuse)   | Accepted | 2026-06-06 |
+| ADR-0006   | Roll Back Incompatible TypeDoc Dependency Bump                       | Accepted | 2026-06-06 |
