@@ -67,9 +67,13 @@ namespace OSFramework.DataGrid.Helper {
 	export function DeepClone<T>(obj: T): T {
 		try {
 			// structuredClone is available in modern environments and handles more
-			// complex cases than JSON methods (like functions, Dates, Maps, Sets, etc.)
+			// complex cases than JSON methods (like Dates, Maps, Sets, etc.).
+			// Functions are not cloned, and a DOMException will be thrown if the 
+			// object contains them.
 			return structuredClone(obj);
 		} catch {
+			// Fallback for environments without structuredClone or if the object contains
+			// unserializable values (like functions).
 			return JSON.parse(JSON.stringify(obj));
 		}
 	}
