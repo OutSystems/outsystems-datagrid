@@ -11,6 +11,7 @@ namespace OSFramework.DataGrid.Helper {
 	 */
 	export function BatchArray(data: object[], callback: (part: object[]) => void, chunkSize = 10): void {
 		if (!Array.isArray(data)) throw new Error('An array must be passed');
+		if (chunkSize <= 0) throw new Error('Chunk size must be a positive integer');
 
 		const chunk = Array.from({ length: Math.ceil(data.length / chunkSize) }, (_, i) =>
 			data.slice(i * chunkSize, (i + 1) * chunkSize)
