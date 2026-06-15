@@ -95,15 +95,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		// check if values are equal.
 		// since undefined is not equal to null or an empty string, we explicity say we want them to be considered equal
 		private _isOriginalValue(originalValue: string | number, cellValue: string | number): boolean {
-			return !_.isEqualWith(originalValue, cellValue, () => {
-				if (
-					(originalValue === undefined &&
-						(cellValue === undefined || cellValue === null || cellValue === '')) ||
-					originalValue?.toString() === cellValue?.toString()
-				) {
-					return true;
-				}
-			});
+			const isEqual =
+				(originalValue === undefined && (cellValue === undefined || cellValue === null || cellValue === '')) ||
+				originalValue?.toString() === cellValue?.toString();
+			return !isEqual;
 		}
 
 		public build(): void {

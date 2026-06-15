@@ -8,7 +8,7 @@ namespace OSFramework.DataGrid.Helper {
 			// eslint-disable-next-line prefer-const
 			let transformedObj = {};
 			Object.keys(obj).forEach((lineCol) => {
-				keys = Object.keys(obj[lineCol]);
+				keys = obj[lineCol] ? Object.keys(obj[lineCol]) : [];
 
 				if (typeof obj[lineCol] === 'string' || keys.length === 0) {
 					transformedObj[lineCol] = obj[lineCol];

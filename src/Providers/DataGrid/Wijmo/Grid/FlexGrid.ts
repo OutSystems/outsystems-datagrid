@@ -54,7 +54,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
 		private _clearDataSourceByKeys(rowKeys) {
 			rowKeys.forEach((element) => {
 				const row = this.provider.rows.find(
-					(item) => _.get(item.dataItem, this.config.keyBinding).toString() === element
+					(item) => String(OSFramework.DataGrid.Helper.GetByPath(item.dataItem, this.config.keyBinding)) === element
 				);
 				if (!row) {
 					throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.Row_NotFound);
@@ -231,7 +231,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
 				} else {
 					rowKeys.forEach((element) => {
 						const row = this.provider.rows.findIndex(
-							(item) => _.get(item.dataItem, this.config.keyBinding).toString() === element
+							(item) => String(OSFramework.DataGrid.Helper.GetByPath(item.dataItem, this.config.keyBinding)) === element
 						);
 
 						if (row === -1) {

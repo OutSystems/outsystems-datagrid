@@ -76,7 +76,7 @@ namespace OutSystems.GridAPI.GridManager {
 				grid = gridMap.get(gridID);
 			} else {
 				//Search for last inserted grid containing widgetId
-				grid = _.findLast(Array.from(gridMap.values()), (p) => p && p.equalsToID(gridID));
+				grid = Array.from(gridMap.values()).reverse().find((p) => p && p.equalsToID(gridID));
 			}
 
 			if (grid === undefined && raiseError) {
