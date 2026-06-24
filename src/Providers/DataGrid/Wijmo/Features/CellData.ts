@@ -17,14 +17,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			//
 		}
 
-		public setCellData(rowNumber: number, column: OSFramework.DataGrid.Column.IColumn, value: string): void {
+		public setCellData(rowNumber: number, column: OSFramework.DataGrid.Column.IColumn, value: string, valueIsKey: boolean): void {
 			if (column.columnType === OSFramework.DataGrid.Enum.ColumnType.DateTime) {
 				if (!column.config.format.trim().toLowerCase().includes('s')) {
 					value = this._grid.dataSource.trimSecondsFromDate(value);
 				}
 			}
 
-			this._grid.provider.setCellData(rowNumber, column.provider.index, value, true);
+			this._grid.provider.cells.setCellData(rowNumber, column.provider.index, value, true, true, valueIsKey);
 		}
 	}
 }
