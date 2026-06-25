@@ -278,6 +278,21 @@ namespace Providers.DataGrid.Wijmo.Grid {
 			return changes;
 		}
 
+		public getColumnByProvider(
+			providerColumn: wijmo.grid.Column
+		): OSFramework.DataGrid.Column.IColumn | undefined {
+			if (providerColumn === undefined || providerColumn === null) {
+				return undefined;
+			}
+			const columnKey = providerColumn.name;
+			const column = columnKey ? this.getColumn(columnKey) : undefined;
+			// Preserve the previous explicit Group filter: a Group column is never a valid data-column match.
+			if (column !== undefined && column.columnType === OSFramework.DataGrid.Enum.ColumnType.Group) {
+				return undefined;
+			}
+			return column;
+		}
+
 		// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 		public getViewLayout(): string {
 			return this._features.view.getViewLayout();
