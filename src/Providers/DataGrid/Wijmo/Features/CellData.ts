@@ -23,7 +23,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					value = this._grid.dataSource.trimSecondsFromDate(value);
 				}
 			}
-
+			// Calls the cells setCellData method to update the cell value
+			// The cells setCellData method is prefered since it allows us to pass a parameter to indicate if the value is a key value of dataMap
 			this._grid.provider.cells.setCellData(rowNumber, column.provider.index, value, true, true, valueIsKey);
 		}
 	}
