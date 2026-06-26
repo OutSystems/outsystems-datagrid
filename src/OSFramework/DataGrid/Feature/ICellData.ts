@@ -12,7 +12,8 @@ namespace OSFramework.DataGrid.Feature {
 			rowNumber: number,
 			column: OSFramework.DataGrid.Column.IColumn,
 			// eslint-disable-next-line
-			value: string
+			value: string,
+			valueIsKey: boolean
 		): void;
 	}
 }
