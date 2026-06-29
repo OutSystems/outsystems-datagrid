@@ -19,7 +19,7 @@ const constants = {
 
 // Store the default project specifications
 const specs = {
-	version: '2.23.1',
+	version: '2.24.0',
 	name: 'OutSystems DataGrid',
 	description: '',
 	url: 'Website:\n • ' + constants.websiteUrl,
