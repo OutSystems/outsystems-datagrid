@@ -98,6 +98,7 @@ namespace OutSystems.GridAPI.Cells {
 	 * @param {*} value New value to settled on the cell.
 	 * @param {boolean} [showDirtyMark=true] Boolean that represents if the action should also show a dirty mark.
 	 * @param {boolean} [triggerOnCellValueChange=true] Boolean that represents if we want to trigger the on value change event or not
+	 * @param {boolean} [valueIsKey=false] Boolean that represents if the value is already a key value of dataMap
 	 */
 	export function SetCellData(
 		gridID: string,
@@ -106,7 +107,8 @@ namespace OutSystems.GridAPI.Cells {
 		// eslint-disable-next-line
 		value: any,
 		showDirtyMark = true,
-		triggerOnCellValueChange = true
+		triggerOnCellValueChange = true,
+		valueIsKey = false
 	): string {
 		Performance.SetMark('Cells.setCellData');
 
@@ -124,7 +126,7 @@ namespace OutSystems.GridAPI.Cells {
 				if (showDirtyMark) {
 					grid.features.dirtyMark.saveOriginalValue(rowIndex, column.providerIndex);
 				}
-				grid.features.cellData.setCellData(rowIndex, column, value);
+				grid.features.cellData.setCellData(rowIndex, column, value, valueIsKey);
 				grid.features.validationMark.validateCell(rowIndex, column, triggerOnCellValueChange);
 			},
 		});

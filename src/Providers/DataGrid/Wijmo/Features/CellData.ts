@@ -17,14 +17,15 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			//
 		}
 
-		public setCellData(rowNumber: number, column: OSFramework.DataGrid.Column.IColumn, value: string): void {
+		public setCellData(rowNumber: number, column: OSFramework.DataGrid.Column.IColumn, value: string, valueIsKey: boolean): void {
 			if (column.columnType === OSFramework.DataGrid.Enum.ColumnType.DateTime) {
 				if (!column.config.format.trim().toLowerCase().includes('s')) {
 					value = this._grid.dataSource.trimSecondsFromDate(value);
 				}
 			}
-
-			this._grid.provider.setCellData(rowNumber, column.provider.index, value, true);
+			// Calls the cells setCellData method to update the cell value
+			// The cells setCellData method is prefered since it allows us to pass a parameter to indicate if the value is a key value of dataMap
+			this._grid.provider.cells.setCellData(rowNumber, column.provider.index, value, true, true, valueIsKey);
 		}
 	}
 }
