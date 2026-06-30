@@ -13,6 +13,10 @@ new-version-artf.txt
 # Distribution files folder
 dist/**
 
+# Generated TypeDoc output (keep ADRs)
+docs/*
+!docs/adr/
+
 # Extension compiled files
 /**/Bin/**
 /**/obj/**
