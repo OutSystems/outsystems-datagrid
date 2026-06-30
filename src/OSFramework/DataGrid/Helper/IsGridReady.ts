@@ -4,7 +4,7 @@ namespace OSFramework.DataGrid.Helper {
 		try {
 			const grid = OutSystems.GridAPI.GridManager.GetGridById(gridID);
 			return grid.isReady;
-		} catch (error) {
+		} catch {
 			return false;
 		}
 	}

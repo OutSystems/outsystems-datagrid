@@ -30,8 +30,8 @@
     "UI Components"
   ],
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
+    "@typescript-eslint/eslint-plugin": "8.62.1",
+    "@typescript-eslint/parser": "8.62.1",
     "browser-sync": "^3.0.4",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
@@ -54,7 +54,7 @@
     "typedoc": "^0.28.19",
     "typedoc-plugin-merge-modules": "^7.0.0",
     "typedoc-umlclass": "^0.10.2",
-    "typescript": "^5.9.3",
+    "typescript": "~5.9.3",
     "wijmo": "^5.20261.50"
   },
   "volta": {
