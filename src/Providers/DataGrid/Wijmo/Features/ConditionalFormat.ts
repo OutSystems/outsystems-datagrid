@@ -268,23 +268,30 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 			// Iterate columns in order to get aggregate cell values
 			columnsAggregate.forEach((column) => {
-				const colIndex = this._grid.provider.columns.find((x) => x.binding === column.provider.binding).index;
+				// Match the Wijmo provider column by the stable `name` identifier (which holds the
+				// OSFramework uniqueId). The resolved `.index` is read fresh.
+				const providerColumn = this._grid.provider.columns.find((x) => x.name === column.uniqueId);
 
-				if (this._grid.provider.columns[colIndex].aggregate === wijmo.Aggregate.None) {
+				if (!providerColumn) {
+					throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.Aggregate_NotFound);
+				}
+
+				if (providerColumn.aggregate === wijmo.Aggregate.None) {
 					throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.Aggregate_NotFound);
 				}
 
 				// We need to use the getAggregate function to get the current column aggregate value
 				const aggregateValue = this._grid.provider.itemsSource.getAggregate(
-					this._grid.provider.columns[colIndex].aggregate,
-					this._grid.provider.columns[colIndex].binding
+					providerColumn.aggregate,
+					providerColumn.binding
 				);
 
-				// Execute the rule
+				// Execute the rule. `col` is the column's stable string identifier, consistent with
+				// `_updateRows`; `ConditionExecuter` resolves it via `provider.getColumn`.
 				this._mappedRulesAggregate.get(column.config.binding).execute(
 					aggregateValue,
 					{
-						col: colIndex,
+						col: column.config.uniqueId || column.config.binding,
 					},
 					column.columnType
 				);
@@ -297,21 +304,24 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			// iterate all rows and columns in order to get cell values
 			columns.forEach((column) => {
 				const isDropdown = column.columnType === OSFramework.DataGrid.Enum.ColumnType.Dropdown;
-
-				const colIndex = this._grid.provider.columns.find((x) => x.binding === column.provider.binding).index;
+				// Address the column by its stable identifier (uniqueId, held by the Wijmo column `name`),
+				// falling back to binding, instead of a positional index.
+				const colId = column.config.uniqueId || column.config.binding;
+				// `columns` is pre-filtered to those that have a rule, so this is always defined.
+				const rule = this._mappedRules.get(column.config.binding);
 
 				this._grid.provider.rows.forEach((row, index) => {
 					const value = this._grid.provider.getCellData(
 						index,
-						colIndex,
+						colId,
 						isDropdown // on dropdown columns we want formatted value
 					);
 
-					this._mappedRules.get(column.config.binding).execute(
+					rule.execute(
 						value,
 						{
 							row: index,
-							col: colIndex,
+							col: colId,
 						},
 						column.columnType
 					);

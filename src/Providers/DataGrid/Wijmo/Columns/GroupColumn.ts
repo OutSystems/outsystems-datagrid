@@ -120,9 +120,13 @@ namespace Providers.DataGrid.Wijmo.Column {
 				return item !== column;
 			});
 
-			// Remove child from group
+			// Remove child from group, matching by the stable `name` identifier. Fall back to binding
+			// when the provider column has no name, so a null `name` can never match (and remove) other
+			// unnamed columns.
 			this.provider.columns
-				.filter((x) => x.binding === column.provider.binding)
+				.filter((x) =>
+					column.provider.name ? x.name === column.provider.name : x.binding === column.provider.binding
+				)
 				.forEach((x) => this.provider.columns.remove(x));
 		}
 	}
