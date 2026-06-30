@@ -287,7 +287,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
 			const columnKey = providerColumn.name;
 			const column = columnKey ? this.getColumn(columnKey) : undefined;
 			// Preserve the previous explicit Group filter: a Group column is never a valid data-column match.
-			if (column !== undefined && column.columnType === OSFramework.DataGrid.Enum.ColumnType.Group) {
+			if (column?.columnType === OSFramework.DataGrid.Enum.ColumnType.Group) {
 				return undefined;
 			}
 			return column;
