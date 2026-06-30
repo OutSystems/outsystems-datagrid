@@ -272,11 +272,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				// OSFramework uniqueId). The resolved `.index` is read fresh.
 				const providerColumn = this._grid.provider.columns.find((x) => x.name === column.uniqueId);
 
-				if (!providerColumn) {
-					throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.Aggregate_NotFound);
-				}
-
-				if (providerColumn.aggregate === wijmo.Aggregate.None) {
+				if (!providerColumn || providerColumn.aggregate === wijmo.Aggregate.None) {
 					throw new Error(OSFramework.DataGrid.Enum.ErrorMessages.Aggregate_NotFound);
 				}
 
