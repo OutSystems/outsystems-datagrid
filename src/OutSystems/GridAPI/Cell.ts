@@ -124,7 +124,7 @@ namespace OutSystems.GridAPI.Cells {
 				}
 
 				if (showDirtyMark) {
-					grid.features.dirtyMark.saveOriginalValue(rowIndex, column.providerIndex);
+					grid.features.dirtyMark.saveOriginalValue(rowIndex, column.uniqueId ?? column.config.binding);
 				}
 				grid.features.cellData.setCellData(rowIndex, column, value, valueIsKey);
 				grid.features.validationMark.validateCell(rowIndex, column, triggerOnCellValueChange);

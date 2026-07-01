@@ -119,7 +119,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 			newValue: any
 		): void {
 			if (oldValue !== newValue && oldValue.toString() !== newValue.toString()) {
-				this.grid.features.dirtyMark.saveOriginalValue(rowNumber, this.provider.index);
+				this.grid.features.dirtyMark.saveOriginalValue(rowNumber, this.provider.name || this.provider.binding);
 			}
 
 			const column = this.grid.getColumn(columnID);
@@ -162,7 +162,8 @@ namespace Providers.DataGrid.Wijmo.Column {
 						// add new child action into existing parent action in order
 						existingUndoAction.addChildAction(
 							new GridEditAction(
-								this.grid,
+								// In the Wijmo provider layer the grid is always an IGridWijmo (FlexGrid).
+								this.grid as Grid.IGridWijmo,
 								new wijmo.grid.CellRangeEventArgs(this.grid.provider.cells, cellRange)
 							)
 						);

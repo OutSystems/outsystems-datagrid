@@ -15,7 +15,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		private _cellEditHandler(_grid: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs): void {
-			this.saveOriginalValue(e.row, e.col);
+			const column = this._grid.provider.getColumn(e.col);
+			this.saveOriginalValue(e.row, column.name || column.binding);
 		}
 
 		private _formatItems(_grid: wijmo.grid.FlexGrid, e: wijmo.grid.FormatItemEventArgs) {
@@ -184,13 +185,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			return this._isDirtyRow(row);
 		}
 
-		public saveOriginalValue(rowNumber: number, columnNumber: number): void {
-			const binding = this._grid.provider.getColumn(columnNumber).binding;
+		public saveOriginalValue(rowNumber: number, columnId: string): void {
+			const binding = this._grid.provider.getColumn(columnId).binding;
 
 			if (!this._isNewRow(rowNumber) && !this._hasCellInitialValue(rowNumber, binding)) {
 				this.getMetadata(rowNumber).originalValues.set(
 					binding,
-					this._grid.provider.getCellData(rowNumber, columnNumber, false)
+					this._grid.provider.getCellData(rowNumber, columnId, false)
 				);
 			}
 		}
