@@ -88,6 +88,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				wijmo.addClass(e.cell, 'wj-state-invalid');
 			} else if (e.panel.cellType === wijmo.grid.CellType.RowHeader && this._isInvalidRowByRowNumber(e.row)) {
 				wijmo.addClass(e.cell, 'wj-state-invalid');
+			} else {
+				wijmo.removeClass(e.cell, 'wj-state-invalid');
 			}
 		}
 
@@ -311,6 +313,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					.filter((item) => item.columnType !== OSFramework.DataGrid.Enum.ColumnType.Group)
 					.find((item) => item.provider.index === action.col);
 				if (OSColumn !== undefined) {
+					this.setCellStatus(action.row, OSColumn.widgetId, true, '', true);
 					this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._oldState);
 				}
 			}
