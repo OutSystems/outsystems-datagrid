@@ -124,10 +124,12 @@ namespace Providers.DataGrid.Wijmo.Column {
 			// when the provider column has no name, so a null `name` can never match (and remove) other
 			// unnamed columns.
 			this.provider.columns
-				.filter((x) =>
-					column.provider.name ? x.name === column.provider.name : x.binding === column.provider.binding
+				.filter((wijmoColumn) =>
+					column.provider.name
+						? wijmoColumn.name === column.provider.name
+						: wijmoColumn.binding === column.provider.binding
 				)
-				.forEach((x) => this.provider.columns.remove(x));
+				.forEach((wijmoColumn) => this.provider.columns.remove(wijmoColumn));
 		}
 	}
 }
