@@ -119,7 +119,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 			newValue: any
 		): void {
 			if (oldValue !== newValue && oldValue.toString() !== newValue.toString()) {
-				this.grid.features.dirtyMark.saveOriginalValue(rowNumber, this.provider.index);
+				this.grid.features.dirtyMark.saveOriginalValue(rowNumber, this.provider.name || this.provider.binding);
 			}
 
 			const column = this.grid.getColumn(columnID);

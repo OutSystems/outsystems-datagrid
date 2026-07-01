@@ -24,8 +24,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			if (e.action instanceof wijmo.undo.GridEditAction) {
 				const gridAction = e.action;
 				const row = gridAction.row;
-				const col = gridAction.col;
-				this._grid.features.dirtyMark.saveOriginalValue(row, col);
+				const column = this._grid.provider.getColumn(gridAction.col);
+				this._grid.features.dirtyMark.saveOriginalValue(row, column.name || column.binding);
 			}
 		}
 
