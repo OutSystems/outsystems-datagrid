@@ -43,7 +43,7 @@ runs:
     using: composite
     steps:
         - name: Azure DevOps Login
-          uses: azure/login@a457da9ea143d694b1b9c7c869ebb04ebe844ef5 # v2.3.0
+          uses: OutSystems/rd.github-reusable-workflows/.github/actions/az-login@c8485a9aece78d1de3c56451a0a7a2cab0fb3212 #v2.0.9
           with:
               client-id: ${{ inputs.client-id }}
               tenant-id: ${{ inputs.tenant-id }}
