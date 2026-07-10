@@ -9,6 +9,7 @@ namespace OutSystems.GridAPI {
 	 * @export
 	 * @return {*}  {string}
 	 */
+	// test comment
 	export function GetVersion(): string {
 		return OSFramework.DataGrid.Constants.OSDataGridVersion;
 	}
