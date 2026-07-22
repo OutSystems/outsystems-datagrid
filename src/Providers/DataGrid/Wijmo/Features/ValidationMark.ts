@@ -33,25 +33,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 * Handler for the CellEditEnded.
 		 */
 		private _cellEditEndedHandler(s: wijmo.grid.FlexGrid, e: wijmo.grid.CellEditEndingEventArgs): void {
-			// get the new value
-			const newValue = s.getCellData(e.row, e.col, false);
-			const previousValue = e.previousData;
-
-			const isNewValue = previousValue !== newValue && previousValue?.toString() !== newValue?.toString();
-
-			if (isNewValue) {
-				const column = s.getColumn(e.col);
-
-				// Match the OSFramework column by the stable `name` identifier instead of the column
-				// index. Group columns are excluded by the helper.
-				const OSColumn = this._grid.getColumnByProvider(column);
-
-				if (OSColumn !== undefined) {
-					// The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
-					const oldValue = this._grid.features.dirtyMark.getOldValue(e.row, column.binding);
-					this._triggerEventsFromColumn(e.row, OSColumn.uniqueId, oldValue, newValue);
-				}
-			}
+			// For manual edits the original value (before the edit) is provided on `previousData`.
+			this._evaluateCellChange(s, e.row, e.col, e.previousData);
 		}
 
 		/** Helper to convert the formats of Date and DateTime columns to the format of OS */
@@ -73,6 +56,42 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					return value ?? false;
 				default:
 					return value ?? '';
+			}
+		}
+
+		/**
+		 * Shared change-gate + trigger logic used by both the edit and paste handlers.
+		 * Evaluates whether the cell value actually changed and, if so, triggers the column events.
+		 * @param s The Wijmo FlexGrid instance.
+		 * @param row Number of the row where the value may have changed.
+		 * @param col Number of the column where the value may have changed.
+		 * @param previousValue The cell's original value before the change. Sourced from
+		 * `previousData` for manual edits and from `data` for paste.
+		 */
+		private _evaluateCellChange(
+			s: wijmo.grid.FlexGrid,
+			row: number,
+			col: number,
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			previousValue: any
+		): void {
+			// get the new value
+			const newValue = s.getCellData(row, col, false);
+
+			const isNewValue = previousValue !== newValue && previousValue?.toString() !== newValue?.toString();
+
+			if (isNewValue) {
+				const column = s.getColumn(col);
+
+				// Match the OSFramework column by the stable `name` identifier instead of the column
+				// index. Group columns are excluded by the helper.
+				const OSColumn = this._grid.getColumnByProvider(column);
+
+				if (OSColumn !== undefined) {
+					// The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
+					const oldValue = this._grid.features.dirtyMark.getOldValue(row, column.binding);
+					this._triggerEventsFromColumn(row, OSColumn.uniqueId, oldValue, newValue);
+				}
 			}
 		}
 
@@ -150,6 +169,15 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			}
 
 			return false;
+		}
+
+		/**
+		 * Handler for the pastedCell event.
+		 */
+		private _pastedCellHandler(s: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs): void {
+			// On paste, `previousData` is undefined; the cell's original value (before the paste) is
+			// exposed on `data`.
+			this._evaluateCellChange(s, e.row, e.col, e.data);
 		}
 
 		// eslint-disable-next-line
@@ -352,7 +380,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 		public build(): void {
 			this._grid.provider.cellEditEnded.addHandler(this._cellEditEndedHandler.bind(this));
-			this._grid.provider.pastedCell.addHandler(this._cellEditEndedHandler.bind(this));
+			this._grid.provider.pastedCell.addHandler(this._pastedCellHandler.bind(this));
 			this._grid.features.undoStack.stack.undoingAction.addHandler(this._undoingActionHandler.bind(this));
 			this._grid.features.undoStack.stack.redoingAction.addHandler(this._redoingActionHandler.bind(this));
 			// Future Implementation -> adding new rows will trigger this event
