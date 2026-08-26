@@ -62,9 +62,10 @@ blocks, and once on Scripts, where a spec of six scalar fields silently dropped
 longer loaded before it, and `oml validate` reported nothing at all — load order is not a model
 constraint.
 
-`RequiredScripts` is a **plain array of script `GlobalKey` strings** (the `0KlZs1…*…` form, not the
-GUID that `Key` returns). Echo the queried array verbatim: the refresh replaces content, never
-identity, so the keys stay valid.
+`RequiredScripts` is a **plain array of script `GlobalKey` strings**. Note that two key spaces coexist:
+`GlobalKey` is the `<eSpace key>*<object key>` form used for every cross-reference, while `Key` returns
+a plain GUID. Query `GlobalKey` when resolving a reference and `Key` when addressing the object itself.
+Echo the queried array verbatim: the refresh replaces content, never identity, so the keys stay valid.
 
 **The lesson that generalises past this one field:** do not verify a replace against a hand-picked list
 of properties you happened to think of — that is what missed the blocks and then missed this. Verify
