@@ -110,6 +110,48 @@ Negative consequences:
     inventory against the recorded one and stopping on mismatch, but no such check exists for the
     Confluence targets.
 
+## Execution note — ROU-12860, the first run
+
+Added after the fact. This record's decisions held; three of its details did not, and one of its stated
+risks landed harder than written.
+
+**What held.** The skill/command split (Option 3) caused no friction: the command's `argument-hint` and
+the skill's Phase 0 stayed in sync, and no run loaded the module inventory before reaching the phase
+that needs it. Omitting the two documentation-PR phases (Option 4 rejected) was never regretted —
+neither documentation repository names a Wijmo build string, and nothing in the run wanted them.
+Guardrails-in-`SKILL.md` earned itself: several were consulted in phases that do not repeat them.
+
+**What changed.**
+
+-   **`references/` holds one more file than this record anticipated.** It said the directory carries
+    the module inventory, the changeset recipe, and the Confluence/Jira targets. The run added
+    `workaround-inventory.md`, because a keyword grep finds only four of the six workaround sites and
+    the two it misses are the two most sensitive to a Wijmo upgrade. Same principle, one more instance:
+    a code-derived list is wrong.
+-   **The phase order changed.** Commit-and-PR moved ahead of the two documentation phases, which both
+    need the PR link. The original order left them holding a placeholder for a later phase to fill —
+    correct only if someone remembers.
+-   **Jira enrichment delegates rather than implementing.** Phase 13 now calls `/enrich-jira-task`,
+    which injects into the ticket's existing slots as ADF. Writing that step by hand was a mistake:
+    one procedure per job is this record's own principle, and it applies to neighbouring procedures too.
+
+**The risk that landed.** This record's second negative consequence — "the skill is authored before it
+has ever run... until that run completes the procedure is unexercised" — was the accurate one. The run
+produced twenty corrections. Three were destructive and shared a root: the recorded changeset recipe
+called the block-stylesheet route *verified*, on a probe whose assertion could not tell success from
+destruction. `addOrReplace` gutted both blocks, wiped `GridFramework`'s 15 required-script
+dependencies, and carried the archive's UTF-8 BOM into all 63 scripts — each with `oml validate`
+reporting zero errors.
+
+That sharpens the third negative consequence too. Reference data does not only *drift*; it can be
+wrong on the day it is written, when the measurement that produced it was too weak to see the failure.
+The mitigation is now `oml diff` against the previous state as the module phase's first assertion,
+rather than a longer list of properties to check.
+
+**Verdict.** Option 3 was right, and authoring-before-running cost twenty corrections that a
+hand-performed upgrade would have absorbed silently. The trade was worth it, but the cost belongs on
+the record: this shape is only as good as the first real run is honest.
+
 ## Links
 
 -   [ROU-12860](https://outsystemsrd.atlassian.net/browse/ROU-12860) — the ticket requesting the
