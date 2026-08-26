@@ -165,8 +165,6 @@ and publish for validation.
 
 ## Links
 
--   [ROU-12860](https://outsystemsrd.atlassian.net/browse/ROU-12860) — this upgrade; predecessor
-    [ROU-12689](https://outsystemsrd.atlassian.net/browse/ROU-12689)
 -   [ADR-0002](./ADR-0002-Wijmo-Upgrade-2026v1.md) — the `5.20261.50` upgrade, and the caret this one
     reverses
 -   [ADR-0006](./ADR-0006-Roll-Back-Incompatible-TypeDoc-Dependency-Bump.md) — the absent-lockfile
