@@ -266,18 +266,18 @@ is in the ticket's working notes.
 Not done by this change. Each is named here because a follow-up that is not written down is a
 follow-up that does not happen.
 
-| # | Follow-up                                                                                          | Owner        |
-| - | -------------------------------------------------------------------------------------------------- | ------------ |
-| 1 | **External regression suite** — the WebdriverIO/Cucumber suite in `outsystems-datagrid-tests`, and its test-case spreadsheet. Its outcome is what takes PR #528 out of draft. | Task owner   |
-| 2 | **The Jira description's "What I Did" template** — content is in comment 1601169; fill the block itself with `/enrich-jira-task`. | Task owner   |
-| 3 | **The child page's operator sections** — `Fixed Issues`, `New issues found`, the RPMs and the automated-test runs, all left as visible placeholders. | Task owner   |
-| 4 | **Reported-issues page (3353313306)** — WJM-37650 is the only candidate, and its Status names `2026v1-HF` while the id is absent from the release changelog. Needs a human verdict. | Task owner   |
-| 5 | **RPM board** — likely N/A, since no reported issue was fixed in this release.                      | Task owner   |
-| 6 | **Third-Party Tools registry** (`engineering.outsystems.net/ThirdPartyTools/`) — once the component reaches production. | Task owner   |
-| 7 | **Release-notes draft**, calling out the XLSX `Company` change as the one user-visible difference.   | Task owner   |
-| 8 | **The module's release publish**, as distinct from the per-branch merge and publish done for validation. | Module owner |
-| 9 | **Does CI lose the gulp race?** `azure-pipelines.yml` publishes `dist/GridFramework.js`; before the `cleanOldFiles` fix it may have been publishing an empty directory. Open a past build's artifact and check. **Not investigated.** | Unassigned   |
-| 10 | **Duplicate `ADR-0005`** — two files carry that number, and `ADR-0005-Remove-Lodash-Dependency.md` has no row in the ADR log. Pre-existing; flagged in PR #528, worth a separate chore. | Unassigned   |
+| # | Follow-up                                                                                          | Owner        | Status |
+| - | -------------------------------------------------------------------------------------------------- | ------------ | ------ |
+| 1 | **External regression suite** — the WebdriverIO/Cucumber suite in `outsystems-datagrid-tests`, and its test-case spreadsheet. Its outcome is what takes PR #528 out of draft. | Task owner   | Done   |
+| 2 | **The Jira description's "What I Did" template** — content is in comment 1601169; fill the block itself with `/enrich-jira-task`. | Task owner   | Done   |
+| 3 | **The child page's operator sections** — `Fixed Issues`, `New issues found`, the RPMs and the automated-test runs, all left as visible placeholders. | Task owner   | Done   |
+| 4 | **Reported-issues page (3353313306)** — WJM-37650 is the only candidate. | Task owner   | Done   |
+| 5 | **RPM board** — likely N/A, since no reported issue was fixed in this release.                      | Task owner   | Done   |
+| 6 | **Third-Party Tools registry** (`engineering.outsystems.net/ThirdPartyTools/`) — once the component reaches production. | Task owner   | Open   |
+| 7 | **Release-notes draft**, calling out the XLSX `Company` change as the one user-visible difference.   | Task owner   | Done   |
+| 8 | **The module's release publish**, as distinct from the per-branch merge and publish done for validation. | Module owner | Done   |
+| 9 | **Does CI lose the gulp race?** `azure-pipelines.yml` publishes `dist/GridFramework.js`; before the `cleanOldFiles` fix it may have been publishing an empty directory. Open a past build's artifact and check. **Not investigated.** | Unassigned   | Open   |
+| 10 | **Duplicate `ADR-0005`** — two files carry that number, and `ADR-0005-Remove-Lodash-Dependency.md` has no row in the ADR log. Pre-existing; flagged in PR #528, worth a separate chore. | Unassigned   | Open   |
 
 Items 9 and 10 are the two with no owner. Item 9 is the one worth chasing: it is a live question about
 what CI has been publishing, raised by this ticket and not answered by it.
