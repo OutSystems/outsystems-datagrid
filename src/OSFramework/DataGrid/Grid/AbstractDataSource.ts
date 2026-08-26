@@ -346,7 +346,9 @@ namespace OSFramework.DataGrid.Grid {
 			// guard against malformed backend payloads.
 			const clean = rows.filter((r: unknown) => r !== null && typeof r === 'object');
 			if (clean.length !== rows.length) {
-				console.warn(`[DataGrid] Dropped ${rows.length - clean.length} non-object row(s) from data source.`);
+				Helper.Logger.LogWarning(
+					`[DataGrid] Dropped ${rows.length - clean.length} non-object row(s) from data source.`
+				);
 			}
 			this._ds = clean;
 		}

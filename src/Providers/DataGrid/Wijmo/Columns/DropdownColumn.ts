@@ -223,7 +223,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 
 				wijmo.copy(this.provider, providerConfig);
 			} else {
-				console.log('applyConfigs - Column needs to be build');
+				OSFramework.DataGrid.Helper.Logger.LogInfo('applyConfigs - Column needs to be build');
 			}
 		}
 

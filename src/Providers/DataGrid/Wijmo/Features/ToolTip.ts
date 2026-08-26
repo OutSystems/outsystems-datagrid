@@ -153,7 +153,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			if (cell.classList.contains(Helper.Constants.CssClasses.ColumnGroup)) {
 				this._tooltip.setTooltip(cell, tooltipContent);
 			} else {
-				console.warn(OSFramework.DataGrid.Enum.ErrorMessages.SetColumnHeaderTooltip);
+				OSFramework.DataGrid.Helper.Logger.LogWarning(OSFramework.DataGrid.Enum.ErrorMessages.SetColumnHeaderTooltip);
 			}
 		}
 	}

@@ -39,7 +39,7 @@ namespace OSFramework.DataGrid.Grid {
 			//The purpose here is to set the datasource parent grid.
 			this._dataSource.parentGrid = this;
 
-			console.log(`Constructor grid '${this.uniqueId}'`);
+			Helper.Logger.LogInfo(`Constructor grid '${this.uniqueId}'`);
 		}
 
 		public get validatingAction(): Event.Grid.ValidatingAction {
@@ -304,9 +304,9 @@ namespace OSFramework.DataGrid.Grid {
 				this._columns.delete(col.config.binding);
 				this._columnsSet.delete(col);
 
-				console.log(`Remove column '${columnID}': '${col.config.header}'`);
+				Helper.Logger.LogInfo(`Remove column '${columnID}': '${col.config.header}'`);
 			} else {
-				console.error(`removeColumn - Column id:${columnID} doesn't exist`);
+				Helper.Logger.LogError(`removeColumn - Column id:${columnID} doesn't exist`);
 			}
 		}
 

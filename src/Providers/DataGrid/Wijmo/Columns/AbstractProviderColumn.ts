@@ -57,7 +57,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 
 				wijmo.copy(this.provider, providerConfig);
 			} else {
-				console.log('applyConfigs - Column needs to be build');
+				OSFramework.DataGrid.Helper.Logger.LogInfo('applyConfigs - Column needs to be build');
 			}
 		}
 
@@ -84,7 +84,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 					//Inserting in the correct position
 					this.provider = new wijmo.grid.ColumnGroup(this.getProviderConfig(), parent.provider);
 				} else {
-					console.error(
+					OSFramework.DataGrid.Helper.Logger.LogError(
 						`build - GroupColumn "${parent.config.header}" needs to be build before its childs ("${this.config.header}")`
 					);
 				}

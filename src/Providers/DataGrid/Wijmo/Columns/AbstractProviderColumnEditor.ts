@@ -43,7 +43,7 @@ namespace Providers.DataGrid.Wijmo.Column {
 				wijmo.copy(this.provider, providerConfig);
 				wijmo.copy(this._editor, this._editorConfigs.getProviderConfig());
 			} else {
-				console.log('applyConfigs - Column needs to be build');
+				OSFramework.DataGrid.Helper.Logger.LogInfo('applyConfigs - Column needs to be build');
 			}
 		}
 

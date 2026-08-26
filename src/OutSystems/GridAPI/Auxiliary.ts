@@ -67,6 +67,16 @@ namespace OutSystems.GridAPI.Auxiliary {
 	}
 
 	/**
+	 * Gets the console logging level currently applied to all Grids on the page.
+	 *
+	 * @export
+	 * @returns {*}  {OSFramework.DataGrid.Enum.LogLevel} Level currently applied.
+	 */
+	export function GetLogLevel(): OSFramework.DataGrid.Enum.LogLevel {
+		return OSFramework.DataGrid.Helper.Logger.GetLevel();
+	}
+
+	/**
 	 * Receives a function and its name. Executes it and measures it properly.
 	 * @param functionName Name of the function that will be measured
 	 * @param fn Function that will be measured and executed
@@ -83,6 +93,30 @@ namespace OutSystems.GridAPI.Auxiliary {
 
 			return result;
 		}) as T;
+	}
+
+	/**
+	 * Sets the console logging level for all Grids on the page.
+	 * Client-side only — no server call is involved. Defaults to Warning, so
+	 * informational messages are silent unless verbosity is raised here.
+	 *
+	 * @export
+	 * @param {OSFramework.DataGrid.Enum.LogLevel} level Level to apply:
+	 * 0 = None, 1 = Error, 2 = Warning (default), 3 = Info.
+	 * @returns {*}  {void}
+	 */
+	export function SetLogLevel(level: OSFramework.DataGrid.Enum.LogLevel): void {
+		Performance.SetMark('Auxiliary.SetLogLevel');
+		try {
+			OSFramework.DataGrid.Helper.Logger.SetLevel(level);
+		} finally {
+			Performance.SetMark('Auxiliary.SetLogLevel-end');
+			Performance.GetMeasure(
+				'@datagrid-Auxiliary.SetLogLevel',
+				'Auxiliary.SetLogLevel',
+				'Auxiliary.SetLogLevel-end'
+			);
+		}
 	}
 }
 /// Overrides for the old namespace - calls the new one, lets users know this is no longer in use
