@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
     *
-    * Wijmo Library 5.20261.50
+    * Wijmo Library 5.20261.52
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -232,7 +232,7 @@
   border-top: 0.4em solid transparent;
   border-right: 0.5em solid;
   border-bottom: 0.4em solid transparent;
-  top: 0.12em;
+  top: 1px;
 }
 .wj-glyph-step-backward:after {
   position: absolute;
@@ -247,6 +247,7 @@
 }
 
 .wj-glyph-step-forward {
+  top: 1px;
   border-top: 0.4em solid transparent;
   border-bottom: 0.4em solid transparent;
   border-left: 0.5em solid;
@@ -1049,6 +1050,7 @@
   justify-content: flex-end;
 }
 .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn {
+  margin-left: 10px;
   background: #eee;
   cursor: pointer;
   color: black;
@@ -1070,9 +1072,6 @@
   cursor: default;
   pointer-events: none;
   opacity: 0.6;
-}
-.wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn {
-  margin-left: 10px;
 }
 .wj-inputdate-dropdown .wj-calendar-confirmation-button-container :focus {
   outline: none;
@@ -1462,7 +1461,7 @@
 }
 .wj-labeled-input input[type=checkbox]:checked + label:after,
 .wj-labeled-input input[type=radio]:checked + label:after {
-  content: "✔";
+  content: "✔︎";
   background: #007cbe;
 }
 .wj-labeled-input input[type=radio] + label:after {
@@ -1843,6 +1842,53 @@
 }
 .wj-flexgrid .wj-state-sticky .wj-header {
   opacity: 0.8;
+}
+.wj-flexgrid .wj-sticky-group-headers {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+.wj-flexgrid .wj-sticky-group-row {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+.wj-flexgrid .wj-sticky-group-cell {
+  position: absolute;
+  box-sizing: border-box;
+  background: inherit;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  pointer-events: auto;
+}
+.wj-flexgrid .wj-sticky-group-cell.wj-state-active {
+  box-shadow: 0 0 0 1px #007cbe, inset 0 0 0 1px #007cbe;
+}
+.wj-flexgrid .wj-sticky-group-cell.wj-state-selected {
+  background: #007cbe;
+  color: white;
+}
+.wj-flexgrid .wj-sticky-group-cell.wj-state-multi-selected {
+  background: #4e7b8d;
+  color: white;
+}
+@media (forced-colors: active) {
+  .wj-flexgrid .wj-sticky-group-cell.wj-state-active {
+    outline: 2px solid Highlight;
+    outline-offset: -1px;
+  }
+  .wj-flexgrid .wj-sticky-group-cell.wj-state-selected {
+    background-color: Highlight;
+    color: ActiveText;
+  }
+  .wj-flexgrid .wj-sticky-group-cell.wj-state-multi-selected {
+    background-color: Canvas;
+    color: ActiveText;
+  }
 }
 .wj-flexgrid .wj-grid-editor {
   width: 100%;
@@ -3227,6 +3273,25 @@ div[wj-part=div-exceeds] {
 .wj-pivotfiltereditor .wj-control {
   margin-bottom: 6px;
   width: 100%;
+}
+.wj-pivotfiltereditor .wj-input-group {
+  align-items: center;
+}
+.wj-pivotfiltereditor .wj-glyph-search {
+  top: 0;
+  transform: translate(6px, 0);
+}
+.wj-pivotfiltereditor .wj-valuefilter-editor [wj-part=div-options] {
+  margin-bottom: 3px;
+}
+.wj-pivotfiltereditor .wj-valuefilter-editor label[wj-part=lbl-include-sel],
+.wj-pivotfiltereditor .wj-valuefilter-editor label[wj-part=select-all-container] {
+  display: inline-flex;
+  align-items: center;
+}
+.wj-pivotfiltereditor .wj-valuefilter-editor label[wj-part=lbl-include-sel] > input[type=checkbox],
+.wj-pivotfiltereditor .wj-valuefilter-editor label[wj-part=select-all-container] > input[type=checkbox] {
+  margin: 0 2px 0 0;
 }
 .wj-pivotfiltereditor .wj-listbox {
   max-height: 150px;

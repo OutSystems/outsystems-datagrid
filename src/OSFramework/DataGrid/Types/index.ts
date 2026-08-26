@@ -58,6 +58,7 @@ namespace OSFramework.DataGrid.Types {
 		autoGenerateColumns: boolean;
 		headersFocusability: wijmo.grid.HeadersFocusability;
 		isReadOnly: boolean;
+		preventCut: boolean;
 		showSelectedHeaders: string;
 		validateEdits: boolean;
 	}

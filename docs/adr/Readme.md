@@ -33,3 +33,5 @@ Each ADR should follow the template in `ADR-0000-Title-of-ADR.md`.
 | ADR-0004   | Fix Column-Group Index Collision in ValidationMark Cell Edit Handler | Accepted | 2026-05-12 |
 | ADR-0005   | Fix Broken ARIA Reference on Column Headers (describedById Misuse)   | Accepted | 2026-06-06 |
 | ADR-0006   | Roll Back Incompatible TypeDoc Dependency Bump                       | Accepted | 2026-06-06 |
+| ADR-0007   | Wijmo Upgrade to 2026v1-Hotfix (Build 5.20261.52)                    | Accepted | 2026-08-26 |
+| ADR-0008   | Shape of the Wijmo Upgrade Automation                                | Accepted | 2026-08-25 |

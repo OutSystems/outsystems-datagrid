@@ -2,7 +2,7 @@
 
 > **Repository:** outsystems-datagrid
 > **Runtime Environment:** User Browser (TypeScript/JavaScript) + OutSystems Server (.NET Extension)
-> **Last Updated:** 2026-04-19
+> **Last Updated:** 2026-08-25
 
 ## Overview
 
@@ -17,7 +17,7 @@ graph TB
     Extension["DataGridUtils Extension<br/>Runs on: OutSystems Server"]
 
     %% External services
-    WijmoLib[Wijmo FlexGrid v5.20261.50<br/>EXTERNAL]
+    WijmoLib[Wijmo FlexGrid v5.20261.52<br/>EXTERNAL]
     OSApp[OutSystems Reactive App<br/>EXTERNAL]
 
     %% Communication flows
@@ -39,7 +39,7 @@ graph TB
 
 | External Service | Communication Type | Purpose |
 |---|---|---|
-| Wijmo FlexGrid v5.20261.50 | Sync (JavaScript API) | Third-party grid provider offering data virtualization, editing, filtering, sorting, grouping, export, and multi-panel architecture |
+| Wijmo FlexGrid v5.20261.52 | Sync (JavaScript API) | Third-party grid provider offering data virtualization, editing, filtering, sorting, grouping, export, and multi-panel architecture |
 | OutSystems Reactive App | Sync (JavaScript API) | Consumer application instantiating and controlling grid instances via the `OutSystems.GridAPI` public API |
 | OutSystems Platform | Sync (Server Actions) | Host platform executing the .NET extension server-side and loading the compiled JS module client-side |
 | outsystems-datagrid-tests | Sync (WebDriver HTTP) | External test repository validating grid behavior across browsers via WebdriverIO + Cucumber |
