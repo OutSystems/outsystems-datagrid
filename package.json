@@ -54,7 +54,7 @@
     "typedoc-plugin-merge-modules": "^7.0.0",
     "typedoc-umlclass": "^0.10.2",
     "typescript": "~5.9.3",
-    "wijmo": "^5.20261.50"
+    "wijmo": "5.20261.52"
   },
   "volta": {
     "node": "24.13.1",

@@ -37,6 +37,10 @@ namespace OSFramework.DataGrid.Configuration.Grid {
 				allowMerging: 'Cells', // allow mergeCells API. This option does nothing, without the proper column config.
 				headersFocusability: wijmo.grid.HeadersFocusability.All, // by default, Row and Column headers are focusable via keyboard.
 				isReadOnly: this.allowEdit === false,
+				// Wijmo 5.20261.52 (WJM-37524) handles Ctrl+X while autoClipboard is on. 
+				// Opt out to preserve the pre-upgrade contract to maintain the same behavior 
+				// before the upgrade; the key event still reaches the browser.
+				preventCut: true,
 				validateEdits: this.validateEdits,
 				showSelectedHeaders: 'All', // highlight row/column header
 			};
