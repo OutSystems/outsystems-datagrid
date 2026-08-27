@@ -191,15 +191,32 @@ Report anything missing rather than working around it:
 - Signed commits: `git config user.signingkey` and `git config commit.gpgsign`. **No key ⇒ abort
   here**, before anything is edited.
 - `dotnet --version` reports 8 or above.
-- An `OutSystems.Cli` checkout (`C:/Repos/OutSystems.Cli` by default) that is **non-shallow**
-  (`git rev-parse --is-shallow-repository` → `false`; `git fetch --unshallow` first, because
-  Nerdbank.GitVersioning rejects shallow clones), whose LFS objects are **real rather than pointer
-  stubs** (`git lfs ls-files` lists them and their on-disk sizes are not ~130 B), and which builds:
-  `dotnet build src/OutSystems.AI.Cli/OutSystems.AI.Cli.csproj -c Release`.
+- An `OutSystems.Cli` checkout. **Resolve its location; never assume one.** Nothing guarantees the
+  operator has it, or has it where a previous run did, so take the first hit of:
 
-**Exit**: every check reports a version or an explicit OK. Nothing is deferred to "later in the run".
+  1. `$OUTSYSTEMS_CLI` or `$OUTSYSTEMS_CLI_HOME`, if either is already set in the environment;
+  2. a directory named `OutSystems.Cli` **beside this repository's own checkout** — resolve the
+     parent from `git rev-parse --show-toplevel` rather than writing an absolute path;
+  3. otherwise **ask the operator for the path** and stop until they answer. If they have no
+     checkout, it is cloned from `https://github.com/OutSystems/OutSystems.Cli` — a full clone with
+     LFS objects, which is a several-minute step and their call to make, not this run's.
 
-**Log**: the tool versions and the CLI build result.
+  Verify the resolved directory is a real checkout (`$OUTSYSTEMS_CLI/src/OutSystems.AI.Cli` exists)
+  before accepting it, then **export it as `OUTSYSTEMS_CLI` for the rest of the run**. Every `oml`
+  command in this skill and its reference files is written against that variable; a literal path
+  pasted into a command is a defect, because it silently binds the procedure to one machine.
+
+  Then check the checkout is **non-shallow** (`git rev-parse --is-shallow-repository` → `false`;
+  `git fetch --unshallow` first, because Nerdbank.GitVersioning rejects shallow clones), that its LFS
+  objects are **real rather than pointer stubs** (`git lfs ls-files` lists them and their on-disk
+  sizes are not ~130 B), and that it builds:
+  `dotnet build "$OUTSYSTEMS_CLI/src/OutSystems.AI.Cli/OutSystems.AI.Cli.csproj" -c Release`.
+
+**Exit**: every check reports a version or an explicit OK. `OUTSYSTEMS_CLI` points at a verified
+checkout. Nothing is deferred to "later in the run".
+
+**Log**: the tool versions, the resolved `OUTSYSTEMS_CLI` path **and which of the three rules resolved
+it**, and the CLI build result.
 
 ## Phase 2 — Asset-source gate
 

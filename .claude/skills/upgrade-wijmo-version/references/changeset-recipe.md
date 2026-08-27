@@ -9,12 +9,19 @@ A reader should be able to construct a valid changeset from this file alone.
 ## The three verbs
 
 ```bash
-CLI="dotnet run --project C:/Repos/OutSystems.Cli/src/OutSystems.AI.Cli -c Release --"
+# $OUTSYSTEMS_CLI is the checkout path resolved in Phase 1 — an environment variable, never a
+# literal. No machine is guaranteed to hold the clone at any particular path.
+# A function, not a string: the resolved path can contain spaces, and quotes inside an expanded
+# variable reach dotnet as literal characters instead of grouping the argument.
+cli() { dotnet run --project "$OUTSYSTEMS_CLI/src/OutSystems.AI.Cli" -c Release -- "$@"; }
 
-printf 'Root { Scripts { Name Description } }' | $CLI oml query "<in.oml>" -
-$CLI oml apply-changeset "<in.oml>" "<out.oml>" "<changeset.json>"
-$CLI oml validate "<out.oml>"
+printf 'Root { Scripts { Name Description } }' | cli oml query "<in.oml>" -
+cli oml apply-changeset "<in.oml>" "<out.oml>" "<changeset.json>"
+cli oml validate "<out.oml>"
 ```
+
+If `$OUTSYSTEMS_CLI` is empty, Phase 1 was skipped: go back and resolve it there rather than guessing
+a path here.
 
 `apply-changeset` takes a **separate output path**, so it is inherently non-destructive to its input.
 That is what makes "run against a copy" cheap: keep the module owner's export untouched, apply onto a
@@ -176,7 +183,7 @@ one iteration and every iteration must be re-checked in full.
 ### `oml diff` first — it is the only assertion that sees what you forgot
 
 ```bash
-<cli> oml diff <input.oml> <output.oml>
+cli oml diff <input.oml> <output.oml>          # the `cli` function from "The three verbs"
 ```
 
 It prints a structural tree of everything that moved, property by property and child object by child
