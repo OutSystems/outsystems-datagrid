@@ -19,6 +19,10 @@ namespace OSFramework.DataGrid.Helper.Logger {
 
 	let _currentLevel: Enum.LogLevel;
 
+	function _format(message: string, context?: string): string {
+		return context ? `[DataGrid][${context}] ${message}` : `[DataGrid] ${message}`;
+	}
+
 	function _getCurrentLevel(): Enum.LogLevel {
 		if (_currentLevel === undefined) {
 			_currentLevel = _getInitialLevel();
@@ -68,10 +72,12 @@ namespace OSFramework.DataGrid.Helper.Logger {
 	 *
 	 * @export
 	 * @param {string} message Message to log.
+	 * @param {string} [context] Identity of the object doing the log — use the
+	 * `Grid:<uniqueId>`, `Column:<binding>`, `<FeatureName>@Grid:<uniqueId>` convention.
 	 */
-	export function LogError(message: string): void {
+	export function LogError(message: string, context?: string): void {
 		if (_getCurrentLevel() >= Enum.LogLevel.Error) {
-			console.error(message);
+			console.error(_format(message, context));
 		}
 	}
 
@@ -80,10 +86,12 @@ namespace OSFramework.DataGrid.Helper.Logger {
 	 *
 	 * @export
 	 * @param {string} message Message to log.
+	 * @param {string} [context] Identity of the object doing the log — use the
+	 * `Grid:<uniqueId>`, `Column:<binding>`, `<FeatureName>@Grid:<uniqueId>` convention.
 	 */
-	export function LogInfo(message: string): void {
+	export function LogInfo(message: string, context?: string): void {
 		if (_getCurrentLevel() >= Enum.LogLevel.Info) {
-			console.log(message);
+			console.log(_format(message, context));
 		}
 	}
 
@@ -92,10 +100,12 @@ namespace OSFramework.DataGrid.Helper.Logger {
 	 *
 	 * @export
 	 * @param {string} message Message to log.
+	 * @param {string} [context] Identity of the object doing the log — use the
+	 * `Grid:<uniqueId>`, `Column:<binding>`, `<FeatureName>@Grid:<uniqueId>` convention.
 	 */
-	export function LogWarning(message: string): void {
+	export function LogWarning(message: string, context?: string): void {
 		if (_getCurrentLevel() >= Enum.LogLevel.Warning) {
-			console.warn(message);
+			console.warn(_format(message, context));
 		}
 	}
 
@@ -108,7 +118,8 @@ namespace OSFramework.DataGrid.Helper.Logger {
 	export function SetLevel(level: Enum.LogLevel): void {
 		if (Enum.LogLevel[level] === undefined) {
 			LogWarning(
-				`Logger.SetLevel - Invalid log level '${level}'. Use 0 (None), 1 (Error), 2 (Warning) or 3 (Info).`
+				`SetLevel - Invalid log level '${level}'. Use 0 (None), 1 (Error), 2 (Warning) or 3 (Info).`,
+				'Logger'
 			);
 			return;
 		}

@@ -347,7 +347,8 @@ namespace OSFramework.DataGrid.Grid {
 			const clean = rows.filter((r: unknown) => r !== null && typeof r === 'object');
 			if (clean.length !== rows.length) {
 				Helper.Logger.LogWarning(
-					`[DataGrid] Dropped ${rows.length - clean.length} non-object row(s) from data source.`
+					`Dropped ${rows.length - clean.length} non-object row(s) from data source.`,
+					`Grid:${this._parentGrid?.uniqueId}`
 				);
 			}
 			this._ds = clean;

@@ -142,7 +142,8 @@ namespace Providers.DataGrid.Wijmo.Column {
 				case OSFramework.DataGrid.OSStructure.ColumnProperties.MinValue:
 					if (propertyValue > this.editorConfig.maxValue) {
 						OSFramework.DataGrid.Helper.Logger.LogWarning(
-							`The Number Column ${this.config.binding}'s  MinValue parameter must have a smaller value than the MaxValue parameter to ensure their correct behaviour. Please review those parameters values.`
+							`The Number Column ${this.config.binding}'s  MinValue parameter must have a smaller value than the MaxValue parameter to ensure their correct behaviour. Please review those parameters values.`,
+							`Column:${this.config.binding}`
 						);
 					}
 					this._setMinValue(propertyValue);
@@ -151,7 +152,8 @@ namespace Providers.DataGrid.Wijmo.Column {
 				case OSFramework.DataGrid.OSStructure.ColumnProperties.MaxValue:
 					if (this.editorConfig.minValue > propertyValue) {
 						OSFramework.DataGrid.Helper.Logger.LogWarning(
-							`The Number Column ${this.config.binding}'s  MinValue parameter must have a smaller value than the MaxValue parameter to ensure their correct behaviour. Please review those parameters values.`
+							`The Number Column ${this.config.binding}'s  MinValue parameter must have a smaller value than the MaxValue parameter to ensure their correct behaviour. Please review those parameters values.`,
+							`Column:${this.config.binding}`
 						);
 					}
 					this._setMaxValue(propertyValue);

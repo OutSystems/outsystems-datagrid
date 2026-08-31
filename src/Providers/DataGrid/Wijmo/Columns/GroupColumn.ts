@@ -66,7 +66,8 @@ namespace Providers.DataGrid.Wijmo.Column {
 			//To avoid breaking the page, just send an alert-message through console
 			if (hasError) {
 				OSFramework.DataGrid.Helper.Logger.LogError(
-					`The column "${columnBinding}" specified on the CollapseTo field is not part of the group ${this.config.header}. ${'\n'}  Please drag-and-drop the column inside the group placeholder or pick one of the columns inside it.`
+					`The column "${columnBinding}" specified on the CollapseTo field is not part of the group ${this.config.header}. ${'\n'}  Please drag-and-drop the column inside the group placeholder or pick one of the columns inside it.`,
+					`GroupColumn:${this.config.header}`
 				);
 				//No collapseTo
 				return '';

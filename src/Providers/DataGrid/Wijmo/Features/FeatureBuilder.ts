@@ -41,6 +41,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 		public build(): void {
 			this._featureList.forEach((p) => p.build());
+			OSFramework.DataGrid.Helper.Logger.LogInfo(
+				`Built ${this._featureList.length} features`,
+				`FeatureBuilder@Grid:${this._grid.uniqueId}`
+			);
 		}
 
 		public dispose(): void {
@@ -48,6 +52,10 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				this._instanceOfIDisposable(p) && (p as OSFramework.DataGrid.Interface.IDisposable).dispose();
 				p = undefined;
 			});
+			OSFramework.DataGrid.Helper.Logger.LogInfo(
+				`Disposed ${this._featureList.length} features`,
+				`FeatureBuilder@Grid:${this._grid.uniqueId}`
+			);
 		}
 	}
 

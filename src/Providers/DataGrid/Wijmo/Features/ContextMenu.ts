@@ -362,11 +362,15 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					}
 				} else {
 					OSFramework.DataGrid.Helper.Logger.LogError(
-						`MenuItem "${menuItem.label}" has no property "${propertyName}" defined.`
+						`MenuItem "${menuItem.label}" has no property "${propertyName}" defined.`,
+						`ContextMenu@Grid:${this._grid.uniqueId}`
 					);
 				}
 			} else {
-				OSFramework.DataGrid.Helper.Logger.LogError(`MenuItem "${menuItemId}" not registered.`);
+				OSFramework.DataGrid.Helper.Logger.LogError(
+					`MenuItem "${menuItemId}" not registered.`,
+					`ContextMenu@Grid:${this._grid.uniqueId}`
+				);
 			}
 
 			this._provider.itemsSource.refresh();
@@ -382,7 +386,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		public removeMenuItem(menuItemId: string): void {
 			if (!this._menuItems.has(menuItemId)) {
 				OSFramework.DataGrid.Helper.Logger.LogWarning(
-					`removeMenuItem - Menu item "${menuItemId}" not available on grid "${this._grid.uniqueId}"`
+					`removeMenuItem - Menu item "${menuItemId}" not available`,
+					`ContextMenu@Grid:${this._grid.uniqueId}`
 				);
 			}
 

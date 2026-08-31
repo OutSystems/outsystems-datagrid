@@ -52,6 +52,8 @@ namespace OutSystems.GridAPI.GridManager {
 			gridMap.set(gridID, _grid);
 			activeGrid = _grid;
 
+			OSFramework.DataGrid.Helper.Logger.LogInfo('Grid created and registered', `Grid:${gridID}`);
+
 			Events.CheckPendingEvents(gridID);
 
 			return _grid;

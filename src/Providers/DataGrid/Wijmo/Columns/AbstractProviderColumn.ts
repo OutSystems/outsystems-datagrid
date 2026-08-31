@@ -57,7 +57,10 @@ namespace Providers.DataGrid.Wijmo.Column {
 
 				wijmo.copy(this.provider, providerConfig);
 			} else {
-				OSFramework.DataGrid.Helper.Logger.LogInfo('applyConfigs - Column needs to be build');
+				OSFramework.DataGrid.Helper.Logger.LogInfo(
+					'applyConfigs - Column needs to be build',
+					`Column:${this.config.binding}`
+				);
 			}
 		}
 
@@ -85,7 +88,8 @@ namespace Providers.DataGrid.Wijmo.Column {
 					this.provider = new wijmo.grid.ColumnGroup(this.getProviderConfig(), parent.provider);
 				} else {
 					OSFramework.DataGrid.Helper.Logger.LogError(
-						`build - GroupColumn "${parent.config.header}" needs to be build before its childs ("${this.config.header}")`
+						`build - GroupColumn "${parent.config.header}" needs to be build before its childs ("${this.config.header}")`,
+						`Column:${this.config.binding}`
 					);
 				}
 			} else {

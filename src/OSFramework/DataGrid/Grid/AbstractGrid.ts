@@ -39,7 +39,7 @@ namespace OSFramework.DataGrid.Grid {
 			//The purpose here is to set the datasource parent grid.
 			this._dataSource.parentGrid = this;
 
-			Helper.Logger.LogInfo(`Constructor grid '${this.uniqueId}'`);
+			Helper.Logger.LogInfo('Constructor called', `Grid:${this.uniqueId}`);
 		}
 
 		public get validatingAction(): Event.Grid.ValidatingAction {
@@ -211,6 +211,10 @@ namespace OSFramework.DataGrid.Grid {
 		}
 
 		public addColumn(col: Column.IColumn): void {
+			Helper.Logger.LogInfo(
+				`Add column '${col.config.binding}' (id:${col.uniqueId})`,
+				`Grid:${this.uniqueId}`
+			);
 			this._columns.set(col.config.binding, col);
 			this._columns.set(col.uniqueId, col);
 			this._columnsSet.add(col);
@@ -218,6 +222,7 @@ namespace OSFramework.DataGrid.Grid {
 		}
 
 		public build(): void {
+			Helper.Logger.LogInfo('Build started', `Grid:${this.uniqueId}`);
 			//RGRIDT-372 - let's get the ID of the parent element, which will be used by the developer
 			this._widgetId = Helper.GetElementByUniqueId(this.uniqueId).closest(Helper.Constants.gridTag).id;
 
@@ -225,6 +230,7 @@ namespace OSFramework.DataGrid.Grid {
 		}
 
 		public dispose(): void {
+			Helper.Logger.LogInfo('Disposing grid', `Grid:${this.uniqueId}`);
 			this._isReady = false;
 			this._columns.forEach((col: Column.IColumn, columnID: string) => {
 				this.removeColumn(columnID);
@@ -304,13 +310,14 @@ namespace OSFramework.DataGrid.Grid {
 				this._columns.delete(col.config.binding);
 				this._columnsSet.delete(col);
 
-				Helper.Logger.LogInfo(`Remove column '${columnID}': '${col.config.header}'`);
+				Helper.Logger.LogInfo(`Remove column '${columnID}': '${col.config.header}'`, `Grid:${this.uniqueId}`);
 			} else {
-				Helper.Logger.LogError(`removeColumn - Column id:${columnID} doesn't exist`);
+				Helper.Logger.LogError(`removeColumn - Column id:${columnID} doesn't exist`, `Grid:${this.uniqueId}`);
 			}
 		}
 
 		public setData(data: string): boolean {
+			Helper.Logger.LogInfo('Setting data source', `Grid:${this.uniqueId}`);
 			this.dataSource.setData(data);
 			this.features.undoStack.clear();
 
