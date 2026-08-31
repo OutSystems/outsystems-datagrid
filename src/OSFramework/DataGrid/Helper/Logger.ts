@@ -68,6 +68,22 @@ namespace OSFramework.DataGrid.Helper.Logger {
 	}
 
 	/**
+	 * Logs a debug message to the console (visible at level Debug only — shown
+	 * under the browser devtools "Verbose" filter). Used to trace API calls and
+	 * how/when components are being set.
+	 *
+	 * @export
+	 * @param {string} message Message to log.
+	 * @param {string} [context] Identity of the object doing the log — use the
+	 * `Grid:<uniqueId>`, `Column:<binding>`, `<FeatureName>@Grid:<uniqueId>` convention.
+	 */
+	export function LogDebug(message: string, context?: string): void {
+		if (_getCurrentLevel() >= Enum.LogLevel.Debug) {
+			console.debug(_format(message, context));
+		}
+	}
+
+	/**
 	 * Logs an error message to the console (visible at level Error and above).
 	 *
 	 * @export
@@ -118,7 +134,7 @@ namespace OSFramework.DataGrid.Helper.Logger {
 	export function SetLevel(level: Enum.LogLevel): void {
 		if (Enum.LogLevel[level] === undefined) {
 			LogWarning(
-				`SetLevel - Invalid log level '${level}'. Use 0 (None), 1 (Error), 2 (Warning) or 3 (Info).`,
+				`SetLevel - Invalid log level '${level}'. Use 0 (None), 1 (Error), 2 (Warning), 3 (Info) or 4 (Debug).`,
 				'Logger'
 			);
 			return;

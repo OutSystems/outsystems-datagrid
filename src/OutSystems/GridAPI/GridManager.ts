@@ -39,6 +39,7 @@ namespace OutSystems.GridAPI.GridManager {
 	export const CreateGrid = OutSystems.GridAPI.Auxiliary.MeasurePerformance(
 		'GridManager.CreateGrid',
 		(gridID: string, configs: string): OSFramework.DataGrid.Grid.IGrid => {
+			OSFramework.DataGrid.Helper.Logger.LogDebug(`CreateGrid - configs: ${configs}`, `Grid:${gridID}`);
 			const _grid = Providers.DataGrid.Wijmo.Grid.GridFactory.MakeGrid(
 				OSFramework.DataGrid.Enum.GridType.FlexGrid,
 				gridID,
@@ -147,6 +148,10 @@ namespace OutSystems.GridAPI.GridManager {
 	export const InitializeGrid = OutSystems.GridAPI.Auxiliary.MeasurePerformance(
 		'GridManager.InitializeGrid',
 		(gridID: string, data = '{}'): boolean => {
+			OSFramework.DataGrid.Helper.Logger.LogDebug(
+				`InitializeGrid - building grid and setting data (${data.length} chars)`,
+				`Grid:${gridID}`
+			);
 			let output = false;
 			const grid = GetGridById(gridID);
 			grid.build();
@@ -212,6 +217,10 @@ namespace OutSystems.GridAPI.GridManager {
 	export const SetGridData = OutSystems.GridAPI.Auxiliary.MeasurePerformance(
 		'GridManager.SetGridData',
 		(gridID: string, data: string): boolean => {
+			OSFramework.DataGrid.Helper.Logger.LogDebug(
+				`SetGridData - setting data (${data.length} chars)`,
+				`Grid:${gridID}`
+			);
 			const grid = GetGridById(gridID);
 			const output = setDataInGrid(grid, data);
 
@@ -257,6 +266,10 @@ namespace OutSystems.GridAPI.GridManager {
 			// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 			propertyValue: any
 		): void => {
+			OSFramework.DataGrid.Helper.Logger.LogDebug(
+				`ChangeProperty - '${propertyName}' = ${JSON.stringify(propertyValue)}`,
+				`Grid:${gridID}`
+			);
 			const grid = GetGridById(gridID);
 			grid.changeProperty(propertyName, propertyValue);
 		}

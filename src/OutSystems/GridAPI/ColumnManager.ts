@@ -49,6 +49,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 		editorConfig = '{}'
 	): boolean {
 		Performance.SetMark('ColumnManager.createColumn');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`CreateColumn - type: ${type}, configs: ${configs}, editorConfig: ${editorConfig}`,
+			`Column:${columnID}`
+		);
 
 		editorConfig = editorConfig === '' ? '{}' : editorConfig;
 		let output = false;
@@ -146,6 +150,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 		propertyValue: any
 	): void {
 		Performance.SetMark('ColumnManager.changeProperty');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ChangeProperty - '${propertyName}' = ${JSON.stringify(propertyValue)}`,
+			`Column:${columnID}`
+		);
 
 		const column = GetColumnById(columnID);
 		if (column === undefined) {

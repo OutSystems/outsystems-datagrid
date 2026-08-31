@@ -1,6 +1,6 @@
 /**
  * Available levels for the Grid's console logging.
- * Each level also includes the levels below it (Info ⊃ Warning ⊃ Error).
+ * Each level also includes the levels below it (Debug ⊃ Info ⊃ Warning ⊃ Error).
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.DataGrid.Enum {
@@ -9,5 +9,6 @@ namespace OSFramework.DataGrid.Enum {
 		Error = 1,
 		Warning = 2,
 		Info = 3,
+		Debug = 4,
 	}
 }

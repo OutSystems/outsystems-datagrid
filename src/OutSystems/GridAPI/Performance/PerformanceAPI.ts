@@ -87,11 +87,16 @@ namespace OutSystems.GridAPI.Performance {
 
 	/**
 	 * Function that allows to set a mark on the code.
+	 * Entry marks (every mark except the `-end` ones) double as the debug-level
+	 * API trace, since all public GridAPI functions set one on entry.
 	 *
 	 * @export
 	 * @param {string} key name of the mark.
 	 */
 	export function SetMark(key: string): void {
+		if (!key.endsWith('-end')) {
+			OSFramework.DataGrid.Helper.Logger.LogDebug(`${key} called`, 'GridAPI');
+		}
 		performanceObj.mark(key);
 	}
 }

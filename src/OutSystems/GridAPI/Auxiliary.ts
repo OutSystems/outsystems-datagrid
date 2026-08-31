@@ -102,7 +102,7 @@ namespace OutSystems.GridAPI.Auxiliary {
 	 *
 	 * @export
 	 * @param {OSFramework.DataGrid.Enum.LogLevel} level Level to apply:
-	 * 0 = None, 1 = Error, 2 = Warning (default), 3 = Info.
+	 * 0 = None, 1 = Error, 2 = Warning (default), 3 = Info, 4 = Debug.
 	 * @returns {*}  {void}
 	 */
 	export function SetLogLevel(level: OSFramework.DataGrid.Enum.LogLevel): void {
