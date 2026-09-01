@@ -20,7 +20,8 @@ namespace OSFramework.DataGrid.Helper.Logger {
 	let _currentLevel: Enum.LogLevel;
 
 	function _format(message: string, context?: string): string {
-		return context ? `[DataGrid][${context}] ${message}` : `[DataGrid] ${message}`;
+		// Date.now() timestamp so every log records the moment it occurred.
+		return context ? `[DataGrid][${Date.now()}][${context}] ${message}` : `[DataGrid][${Date.now()}] ${message}`;
 	}
 
 	function _getCurrentLevel(): Enum.LogLevel {
