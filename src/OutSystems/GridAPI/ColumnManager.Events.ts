@@ -13,6 +13,10 @@ namespace OutSystems.GridAPI.ColumnManager.Events {
 		// eslint-disable-next-line
 		callback: OSFramework.DataGrid.Callbacks.OSColumn.ClickEvent
 	): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Subscribe inputs: columnID=${columnID}, eventName=${OSFramework.DataGrid.Helper.Logger.SafeStringify(eventName)}, callback=${OSFramework.DataGrid.Helper.Logger.SafeStringify(callback)}`,
+			`Column:${columnID}`
+		);
 		const column = GetColumnById(columnID);
 		column.columnEvents.addHandler(eventName, callback);
 		//TODO: [RGRIDT-636] in case the column is not found we should trigger an error.

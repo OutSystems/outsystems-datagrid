@@ -12,6 +12,10 @@ namespace OutSystems.GridAPI.ContextMenu {
 	 */
 	export function GetGridByMenuId(menuItemId: string, lookUpDOM = true): string {
 		Performance.SetMark('ContextMenu.getGridByMenuId');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetGridByMenuId inputs: menuItemId=${menuItemId}, lookUpDOM=${OSFramework.DataGrid.Helper.Logger.SafeStringify(lookUpDOM)}`,
+			'GridAPI'
+		);
 
 		//Try to find in DOM only if not present on Map
 		if (lookUpDOM && !_menuItemsToGridId.has(menuItemId)) {
@@ -29,7 +33,12 @@ namespace OutSystems.GridAPI.ContextMenu {
 			'ContextMenu.getGridByMenuId',
 			'ContextMenu.getGridByMenuId-end'
 		);
-		return _menuItemsToGridId.get(menuItemId);
+		const result = _menuItemsToGridId.get(menuItemId);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetGridByMenuId output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			'GridAPI'
+		);
+		return result;
 	}
 
 	/**
@@ -47,6 +56,10 @@ namespace OutSystems.GridAPI.ContextMenu {
 		clickEvent: OSFramework.DataGrid.Callbacks.ContextMenu.OSClickEvent
 	): void {
 		Performance.SetMark('ContextMenu.addItem');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`AddItem inputs: menuItemId=${menuItemId}, label=${label}, enabled=${OSFramework.DataGrid.Helper.Logger.SafeStringify(enabled)}, clickEvent=${OSFramework.DataGrid.Helper.Logger.SafeStringify(clickEvent)}`,
+			'GridAPI'
+		);
 
 		const gridID = GetGridByMenuId(menuItemId);
 
@@ -80,6 +93,7 @@ namespace OutSystems.GridAPI.ContextMenu {
 
 	export function AddSeparator(menuItemId: string): void {
 		Performance.SetMark('ContextMenu.addSeparator');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`AddSeparator inputs: menuItemId=${menuItemId}`, 'GridAPI');
 
 		const gridID = GetGridByMenuId(menuItemId);
 
@@ -117,6 +131,10 @@ namespace OutSystems.GridAPI.ContextMenu {
 		propertyValue: any
 	): void {
 		Performance.SetMark('ContextMenu.ChangeProperty');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ChangeProperty inputs: menuItemId=${menuItemId}, propertyName=${propertyName}, propertyValue=${OSFramework.DataGrid.Helper.Logger.SafeStringify(propertyValue)}`,
+			'GridAPI'
+		);
 
 		const gridID = GetGridByMenuId(menuItemId, false);
 
@@ -136,6 +154,7 @@ namespace OutSystems.GridAPI.ContextMenu {
 
 	export function RemoveItem(menuItemId: string): void {
 		Performance.SetMark('ContextMenu.removeItem');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`RemoveItem inputs: menuItemId=${menuItemId}`, 'GridAPI');
 
 		const gridID = GetGridByMenuId(menuItemId, false);
 

@@ -7,9 +7,22 @@ namespace OutSystems.GridAPI.Filter {
 	 * @returns {*}  {boolean} true if there are visible results.
 	 */
 	export function HasResults(gridID: string): boolean {
-		if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return false;
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`HasResults inputs: gridID=${gridID}`, `Grid:${gridID}`);
+		if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
+			const result = false;
+			OSFramework.DataGrid.Helper.Logger.LogDebug(
+				`HasResults output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+				`Grid:${gridID}`
+			);
+			return result;
+		}
 		const grid = GridManager.GetGridById(gridID);
-		return grid.hasResults();
+		const result = grid.hasResults();
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`HasResults output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
+		return result;
 	}
 
 	/**
@@ -22,6 +35,10 @@ namespace OutSystems.GridAPI.Filter {
 	 */
 	export function Search(gridID: string, searchedValue: string): string {
 		Performance.SetMark('Filter.search');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Search inputs: gridID=${gridID}, searchedValue=${searchedValue}`,
+			`Grid:${gridID}`
+		);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -45,6 +62,10 @@ namespace OutSystems.GridAPI.Filter {
 		Performance.SetMark('Filter.search-end');
 		Performance.GetMeasure('@datagrid-Filter.search', 'Filter.search', 'Filter.search-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Search output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -58,6 +79,10 @@ namespace OutSystems.GridAPI.Filter {
 	 */
 	export function Activate(gridID: string, columnID: string): string {
 		Performance.SetMark('Filter.activate');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Activate inputs: gridID=${gridID}, columnID=${columnID}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterActivate,
@@ -69,6 +94,10 @@ namespace OutSystems.GridAPI.Filter {
 		Performance.SetMark('Filter.activate-end');
 		Performance.GetMeasure('@datagrid-Filter.activate', 'Filter.activate', 'Filter.activate-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Activate output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -84,6 +113,10 @@ namespace OutSystems.GridAPI.Filter {
 	 */
 	export function Clear(gridID: string, columnID: string, triggerOnFiltersChange = true, focusOnGrid = true): string {
 		Performance.SetMark('Filter.clear');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Clear inputs: gridID=${gridID}, columnID=${columnID}, triggerOnFiltersChange=${OSFramework.DataGrid.Helper.Logger.SafeStringify(triggerOnFiltersChange)}, focusOnGrid=${OSFramework.DataGrid.Helper.Logger.SafeStringify(focusOnGrid)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterClear,
@@ -95,6 +128,10 @@ namespace OutSystems.GridAPI.Filter {
 		Performance.SetMark('Filter.clear-end');
 		Performance.GetMeasure('@datagrid-Filter.clear', 'Filter.clear', 'Filter.clear-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Clear output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 	/**
@@ -107,6 +144,10 @@ namespace OutSystems.GridAPI.Filter {
 	 */
 	export function Deactivate(gridID: string, columnID: string): string {
 		Performance.SetMark('Filter.deactivate');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Deactivate inputs: gridID=${gridID}, columnID=${columnID}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterDeactivate,
@@ -118,6 +159,10 @@ namespace OutSystems.GridAPI.Filter {
 		Performance.SetMark('Filter.deactivate-end');
 		Performance.GetMeasure('@datagrid-Filter.deactivate', 'Filter.deactivate', 'Filter.deactivate-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Deactivate output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -133,6 +178,10 @@ namespace OutSystems.GridAPI.Filter {
 	 */
 	export function ByCondition(gridID: string, columnID: string, values: string, focusOnGrid = true): string {
 		Performance.SetMark('Filter.ByCondition');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ByCondition inputs: gridID=${gridID}, columnID=${columnID}, values=${values}, focusOnGrid=${OSFramework.DataGrid.Helper.Logger.SafeStringify(focusOnGrid)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterByCondition,
@@ -144,6 +193,10 @@ namespace OutSystems.GridAPI.Filter {
 		Performance.SetMark('Filter.ByCondition-end');
 		Performance.GetMeasure('@datagrid-Filter.ByCondition', 'Filter.ByCondition', 'Filter.ByCondition-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ByCondition output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -159,6 +212,10 @@ namespace OutSystems.GridAPI.Filter {
 	 */
 	export function ByValue(gridID: string, columnID: string, values: string, focusOnGrid = true): string {
 		Performance.SetMark('Filter.ByValue');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ByValue inputs: gridID=${gridID}, columnID=${columnID}, values=${values}, focusOnGrid=${OSFramework.DataGrid.Helper.Logger.SafeStringify(focusOnGrid)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterByValue,
@@ -170,6 +227,10 @@ namespace OutSystems.GridAPI.Filter {
 		Performance.SetMark('Filter.ByValue-end');
 		Performance.GetMeasure('@datagrid-Filter.ByValue', 'Filter.ByValue', 'Filter.ByValue-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ByValue output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -190,6 +251,10 @@ namespace OutSystems.GridAPI.Filter {
 		maxVisibleOptions?: number
 	): string {
 		Performance.SetMark('Filter.SetColumnFilterOptions');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnFilterOptions inputs: gridID=${gridID}, columnID=${columnID}, options=${options}, maxVisibleOptions=${OSFramework.DataGrid.Helper.Logger.SafeStringify(maxVisibleOptions)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFilterSetColumnFilterOptions,
@@ -209,6 +274,10 @@ namespace OutSystems.GridAPI.Filter {
 			'Filter.SetColumnFilterOptions-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnFilterOptions output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 }

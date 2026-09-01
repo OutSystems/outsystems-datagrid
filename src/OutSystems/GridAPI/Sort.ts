@@ -8,6 +8,7 @@ namespace OutSystems.GridAPI.Sort {
 	 */
 	export function Clear(gridID: string): string {
 		Performance.SetMark('Sort.Clear');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`Clear inputs: gridID=${gridID}`, `Grid:${gridID}`);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedClearSort,
@@ -19,6 +20,10 @@ namespace OutSystems.GridAPI.Sort {
 		Performance.SetMark('Sort.Clear-end');
 		Performance.GetMeasure('@datagrid-Sort.Clear', 'Sort.Clear', 'Sort.Clear-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Clear output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -37,6 +42,10 @@ namespace OutSystems.GridAPI.Sort {
 		sorting: OSFramework.DataGrid.OSStructure.Sorting
 	): string {
 		Performance.SetMark('Sort.ColumnSort');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ColumnSort inputs: gridID=${gridID}, columnID=${columnID}, sorting=${OSFramework.DataGrid.Helper.Logger.SafeStringify(sorting)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedColumnSort,
@@ -48,6 +57,10 @@ namespace OutSystems.GridAPI.Sort {
 		Performance.SetMark('Sort.ColumnSort-end');
 		Performance.GetMeasure('@datagrid-Sort.ColumnSort', 'Sort.ColumnSort', 'Sort.ColumnSort-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ColumnSort output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 	/**
@@ -60,6 +73,10 @@ namespace OutSystems.GridAPI.Sort {
 	 */
 	export function SetUnsortState(gridID: string, hasUnsortState: boolean): string {
 		Performance.SetMark('Sort.SetUnsortState');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetUnsortState inputs: gridID=${gridID}, hasUnsortState=${OSFramework.DataGrid.Helper.Logger.SafeStringify(hasUnsortState)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetUnsortState,
@@ -71,6 +88,10 @@ namespace OutSystems.GridAPI.Sort {
 		Performance.SetMark('Sort.SetUnsortState-end');
 		Performance.GetMeasure('@datagrid-Sort.SetUnsortState', 'Sort.SetUnsortState', 'Sort.SetUnsortState-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetUnsortState output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 }

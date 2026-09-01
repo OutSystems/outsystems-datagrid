@@ -23,6 +23,10 @@ namespace OutSystems.GridAPI.GridManager.Events {
 		eventName: OSFramework.DataGrid.Event.Grid.GridEventType,
 		callback: OSFramework.DataGrid.Callbacks.OSGrid.Event
 	): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Subscribe inputs: gridID=${gridID}, eventName=${OSFramework.DataGrid.Helper.Logger.SafeStringify(eventName)}`,
+			`Grid:${gridID}`
+		);
 		const grid = GetGridById(gridID, false);
 		if (grid === undefined) {
 			if (_pendingEvents.has(gridID)) {
@@ -50,6 +54,7 @@ namespace OutSystems.GridAPI.GridManager.Events {
 	 * @param {string} gridID grid that is ready for events to be attached to.
 	 */
 	export function CheckPendingEvents(gridID: string): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`CheckPendingEvents inputs: gridID=${gridID}`, `Grid:${gridID}`);
 		if (_pendingEvents.has(gridID)) {
 			const grid = GetGridById(gridID);
 			_pendingEvents.get(gridID).forEach((obj) => {
@@ -65,6 +70,10 @@ namespace OutSystems.GridAPI.GridManager.Events {
 		// eslint-disable-next-line
 		callback: OSFramework.DataGrid.Callbacks.OSGrid.Event
 	): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Unsubscribe inputs: gridID=${gridID}, eventName=${OSFramework.DataGrid.Helper.Logger.SafeStringify(eventName)}`,
+			`Grid:${gridID}`
+		);
 		const grid = GetGridById(gridID, false);
 		if (grid !== undefined) {
 			grid.gridEvents.removeHandler(eventName, callback);

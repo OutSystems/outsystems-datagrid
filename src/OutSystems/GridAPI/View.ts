@@ -7,6 +7,7 @@ namespace OutSystems.GridAPI.View {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	export function GetViewLayout(gridID: string): string {
 		Performance.SetMark('View.GetViewLayout');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetViewLayout inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -20,6 +21,10 @@ namespace OutSystems.GridAPI.View {
 		Performance.SetMark('View.GetViewLayout-end');
 		Performance.GetMeasure('@datagrid-View.GetViewLayout', 'View.GetViewLayout', 'View.GetViewLayout-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetViewLayout output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -31,6 +36,10 @@ namespace OutSystems.GridAPI.View {
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 	export function SetViewLayout(gridID: string, config: any): any {
 		Performance.SetMark('View.SetViewLayout');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetViewLayout inputs: gridID=${gridID}, config=${OSFramework.DataGrid.Helper.Logger.SafeStringify(config)}`,
+			`Grid:${gridID}`
+		);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -43,6 +52,10 @@ namespace OutSystems.GridAPI.View {
 		Performance.SetMark('View.SetViewLayout-end');
 		Performance.GetMeasure('@datagrid-View.SetViewLayout', 'View.SetViewLayout', 'View.SetViewLayout-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetViewLayout output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -53,6 +66,7 @@ namespace OutSystems.GridAPI.View {
 	 */
 	export function GetColumnsOrder(gridID: string): string {
 		Performance.SetMark('View.GetColumnsOrder');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetColumnsOrder inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -66,6 +80,10 @@ namespace OutSystems.GridAPI.View {
 		Performance.SetMark('View.GetColumnsOrder-end');
 		Performance.GetMeasure('@datagrid-View.GetColumnsOrder', 'View.GetColumnsOrder', 'View.GetColumnsOrder-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetColumnsOrder output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 }

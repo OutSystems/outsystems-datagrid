@@ -12,6 +12,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 	 */
 	export function AddColumnsToGroupPanel(gridID: string, ListOfColumnIDs: string, focusOnGrid = true): string {
 		Performance.SetMark('ColumnManager.AddColumnToGroupPanel');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`AddColumnsToGroupPanel inputs: gridID=${gridID}, ListOfColumnIDs=${ListOfColumnIDs}, focusOnGrid=${OSFramework.DataGrid.Helper.Logger.SafeStringify(focusOnGrid)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedAddColumnToGroupPanel,
@@ -30,6 +34,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 			'ColumnManager.AddColumnToGroupPanel-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`AddColumnsToGroupPanel output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -50,7 +58,7 @@ namespace OutSystems.GridAPI.ColumnManager {
 	): boolean {
 		Performance.SetMark('ColumnManager.createColumn');
 		OSFramework.DataGrid.Helper.Logger.LogDebug(
-			`CreateColumn - type: ${type}, configs: ${configs}, editorConfig: ${editorConfig}`,
+			`CreateColumn inputs: columnID=${columnID}, type=${OSFramework.DataGrid.Helper.Logger.SafeStringify(type)}, configs=${configs}, editorConfig=${editorConfig}`,
 			`Column:${columnID}`
 		);
 
@@ -82,6 +90,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 			'@datagrid-ColumnManager.createColumn',
 			'ColumnManager.createColumn',
 			'ColumnManager.createColumn-end'
+		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`CreateColumn output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(output)}`,
+			`Column:${columnID}`
 		);
 		return output;
 	}
@@ -131,8 +143,17 @@ namespace OutSystems.GridAPI.ColumnManager {
 	 * @param columnID Column Id
 	 */
 	export function GetColumnById(columnID: string): OSFramework.DataGrid.Column.IColumn {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetColumnById inputs: columnID=${columnID}`,
+			`Column:${columnID}`
+		);
 		// we want to return the last column in our array that matches our predicate
-		return columnArr.slice().reverse().find((p) => p && p.equalsToID(columnID));
+		const result = columnArr.slice().reverse().find((p) => p && p.equalsToID(columnID));
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetColumnById output: Column:${result?.uniqueId}`,
+			`Column:${columnID}`
+		);
+		return result;
 	}
 
 	/**
@@ -151,7 +172,7 @@ namespace OutSystems.GridAPI.ColumnManager {
 	): void {
 		Performance.SetMark('ColumnManager.changeProperty');
 		OSFramework.DataGrid.Helper.Logger.LogDebug(
-			`ChangeProperty - '${propertyName}' = ${JSON.stringify(propertyValue)}`,
+			`ChangeProperty inputs: columnID=${columnID}, propertyName=${propertyName}, propertyValue=${OSFramework.DataGrid.Helper.Logger.SafeStringify(propertyValue)}`,
 			`Column:${columnID}`
 		);
 
@@ -181,6 +202,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 	 */
 	export function DestroyColumn(columnID: string): void {
 		Performance.SetMark('ColumnManager.destroyColumn');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`DestroyColumn inputs: columnID=${columnID}`,
+			`Column:${columnID}`
+		);
 
 		const grid = GetGridByColumnId(columnID);
 
@@ -210,6 +235,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 	 */
 	export function RemoveColumnsFromGroupPanel(gridID: string, ListOfColumnIDs: string, focusOnGrid = true): string {
 		Performance.SetMark('ColumnManager.RemoveColumnsFromGroupPanel');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveColumnsFromGroupPanel inputs: gridID=${gridID}, ListOfColumnIDs=${ListOfColumnIDs}, focusOnGrid=${OSFramework.DataGrid.Helper.Logger.SafeStringify(focusOnGrid)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveColumnsFromGroupPanel,
@@ -228,6 +257,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 			'ColumnManager.RemoveColumnsFromGroupPanel-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveColumnsFromGroupPanel output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -241,6 +274,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 	 */
 	export function SetColumnAggregate(gridID: string, columnID: string, aggregate: number): string {
 		Performance.SetMark('ColumnManager.SetColumnAggregate');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnAggregate inputs: gridID=${gridID}, columnID=${columnID}, aggregate=${OSFramework.DataGrid.Helper.Logger.SafeStringify(aggregate)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetColumnAggregate,
@@ -256,6 +293,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 			'ColumnManager.SetColumnAggregate-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnAggregate output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -270,6 +311,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 	 */
 	export function MergeColumnCells(gridID: string, columnID: string, allowMerge: boolean): string {
 		Performance.SetMark('ColumnManager.AllowCellMerging');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`MergeColumnCells inputs: gridID=${gridID}, columnID=${columnID}, allowMerge=${OSFramework.DataGrid.Helper.Logger.SafeStringify(allowMerge)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedAllowCellMerging,
@@ -285,6 +330,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 			'ColumnManager.AllowCellMerging-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`MergeColumnCells output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -299,6 +348,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 	 */
 	export function SetColumnHeader(gridID: string, columnID: string, header: string): string {
 		Performance.SetMark('ColumnManager.SetColumnHeader');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnHeader inputs: gridID=${gridID}, columnID=${columnID}, header=${header}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetColumnHeader,
@@ -314,6 +367,10 @@ namespace OutSystems.GridAPI.ColumnManager {
 			'ColumnManager.SetColumnHeader-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnHeader output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 }

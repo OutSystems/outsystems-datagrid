@@ -9,6 +9,10 @@ namespace OutSystems.GridAPI.Pagination {
 	 */
 	export function ChangePageSize(gridID: string, n: number): void {
 		Performance.SetMark('Pagination.ChangePageSize');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ChangePageSize inputs: gridID=${gridID}, n=${OSFramework.DataGrid.Helper.Logger.SafeStringify(n)}`,
+			`Grid:${gridID}`
+		);
 
 		if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
 		const grid = GridManager.GetGridById(gridID);
@@ -32,6 +36,10 @@ namespace OutSystems.GridAPI.Pagination {
 	 * @param {number} buttonQuantity
 	 */
 	export function CreatePageButtons(gridID: string, phID: string, buttonQuantity: number): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`CreatePageButtons inputs: gridID=${gridID}, phID=${phID}, buttonQuantity=${OSFramework.DataGrid.Helper.Logger.SafeStringify(buttonQuantity)}`,
+			`Grid:${gridID}`
+		);
 		GridManager.Events.Subscribe(
 			gridID,
 			OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
@@ -58,6 +66,7 @@ namespace OutSystems.GridAPI.Pagination {
 	 */
 	export function GetCurrentPage(gridID: string): string {
 		Performance.SetMark('Pagination.GetCurrentPage');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetCurrentPage inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -84,6 +93,10 @@ namespace OutSystems.GridAPI.Pagination {
 			'Pagination.GetCurrentPage-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetCurrentPage output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -96,6 +109,7 @@ namespace OutSystems.GridAPI.Pagination {
 	 */
 	export function MoveToFirstPage(gridID: string): void {
 		Performance.SetMark('Pagination.MoveToFirstPage');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`MoveToFirstPage inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
 		const grid = GridManager.GetGridById(gridID);
@@ -119,6 +133,7 @@ namespace OutSystems.GridAPI.Pagination {
 	 */
 	export function MoveToLastPage(gridID: string): void {
 		Performance.SetMark('Pagination.MoveToLastPage');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`MoveToLastPage inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
 		const grid = GridManager.GetGridById(gridID);
@@ -142,6 +157,7 @@ namespace OutSystems.GridAPI.Pagination {
 	 */
 	export function MoveToNextPage(gridID: string): void {
 		Performance.SetMark('Pagination.MoveToNextPage');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`MoveToNextPage inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
 		const grid = GridManager.GetGridById(gridID);
@@ -166,6 +182,10 @@ namespace OutSystems.GridAPI.Pagination {
 	 */
 	export function MoveToPage(gridID: string, n: number): string {
 		Performance.SetMark('Pagination.MoveToPage');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`MoveToPage inputs: gridID=${gridID}, n=${OSFramework.DataGrid.Helper.Logger.SafeStringify(n)}`,
+			`Grid:${gridID}`
+		);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -187,6 +207,10 @@ namespace OutSystems.GridAPI.Pagination {
 		Performance.SetMark('Pagination.MoveToPage-end');
 		Performance.GetMeasure('@datagrid-Pagination.MoveToPage', 'Pagination.MoveToPage', 'Pagination.MoveToPage-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`MoveToPage output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -199,6 +223,7 @@ namespace OutSystems.GridAPI.Pagination {
 	 */
 	export function MoveToPreviousPage(gridID: string): void {
 		Performance.SetMark('Pagination.MoveToPreviousPage');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`MoveToPreviousPage inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		if (!OSFramework.DataGrid.Helper.IsGridReady(gridID)) return;
 		const grid = GridManager.GetGridById(gridID);
@@ -221,6 +246,10 @@ namespace OutSystems.GridAPI.Pagination {
 	 * @param {string} phID
 	 */
 	export function RegisterCurrentPageLabel(gridID: string, phID: string): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RegisterCurrentPageLabel inputs: gridID=${gridID}, phID=${phID}`,
+			`Grid:${gridID}`
+		);
 		GridManager.Events.Subscribe(
 			gridID,
 			OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
@@ -246,6 +275,10 @@ namespace OutSystems.GridAPI.Pagination {
 	 * @param {string} phID
 	 */
 	export function RegisterPageCountLabel(gridID: string, phID: string): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RegisterPageCountLabel inputs: gridID=${gridID}, phID=${phID}`,
+			`Grid:${gridID}`
+		);
 		GridManager.Events.Subscribe(
 			gridID,
 			OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
@@ -271,6 +304,10 @@ namespace OutSystems.GridAPI.Pagination {
 	 * @param {string} phID
 	 */
 	export function RegisterPageSizeLabel(gridID: string, phID: string): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RegisterPageSizeLabel inputs: gridID=${gridID}, phID=${phID}`,
+			`Grid:${gridID}`
+		);
 		GridManager.Events.Subscribe(
 			gridID,
 			OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
@@ -296,6 +333,10 @@ namespace OutSystems.GridAPI.Pagination {
 	 * @param {string} phID
 	 */
 	export function RegisterRowEndLabel(gridID: string, phID: string): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RegisterRowEndLabel inputs: gridID=${gridID}, phID=${phID}`,
+			`Grid:${gridID}`
+		);
 		GridManager.Events.Subscribe(
 			gridID,
 			OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
@@ -321,6 +362,10 @@ namespace OutSystems.GridAPI.Pagination {
 	 * @param {string} phID
 	 */
 	export function RegisterRowStartLabel(gridID: string, phID: string): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RegisterRowStartLabel inputs: gridID=${gridID}, phID=${phID}`,
+			`Grid:${gridID}`
+		);
 		GridManager.Events.Subscribe(
 			gridID,
 			OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
@@ -346,6 +391,10 @@ namespace OutSystems.GridAPI.Pagination {
 	 * @param {string} phID
 	 */
 	export function RegisterRowTotalLabel(gridID: string, phID: string): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RegisterRowTotalLabel inputs: gridID=${gridID}, phID=${phID}`,
+			`Grid:${gridID}`
+		);
 		GridManager.Events.Subscribe(
 			gridID,
 			OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,

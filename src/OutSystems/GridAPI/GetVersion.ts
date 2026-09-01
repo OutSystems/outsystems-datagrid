@@ -10,7 +10,13 @@ namespace OutSystems.GridAPI {
 	 * @return {*}  {string}
 	 */
 	export function GetVersion(): string {
-		return OSFramework.DataGrid.Constants.OSDataGridVersion;
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetVersion called`, 'GridAPI');
+		const result = OSFramework.DataGrid.Constants.OSDataGridVersion;
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetVersion output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			'GridAPI'
+		);
+		return result;
 	}
 
 	/**
@@ -19,6 +25,12 @@ namespace OutSystems.GridAPI {
 	 * @return {*}  {string}
 	 */
 	export function GetWijmoFlexGridVersion(): string {
-		return OSFramework.DataGrid.Constants.WijmoFlexGridVersion;
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetWijmoFlexGridVersion called`, 'GridAPI');
+		const result = OSFramework.DataGrid.Constants.WijmoFlexGridVersion;
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetWijmoFlexGridVersion output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			'GridAPI'
+		);
+		return result;
 	}
 }

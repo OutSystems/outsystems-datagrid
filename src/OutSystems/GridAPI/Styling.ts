@@ -10,6 +10,10 @@ namespace OutSystems.GridAPI.Styling {
 	 */
 	export function SetCellCssClass(gridID: string, columnID: string, rowIndex: number, className: string): string {
 		Performance.SetMark('Styling.SetCellCssClass');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetCellCssClass inputs: gridID=${gridID}, columnID=${columnID}, rowIndex=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rowIndex)}, className=${className}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetCellCssClass,
@@ -33,6 +37,10 @@ namespace OutSystems.GridAPI.Styling {
 			'Styling.SetCellCssClass-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetCellCssClass output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 	/**
@@ -52,6 +60,10 @@ namespace OutSystems.GridAPI.Styling {
 		applyToHeader: boolean
 	): string {
 		Performance.SetMark('Styling.SetColumnCssClass');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnCssClass inputs: gridID=${gridID}, columnID=${columnID}, cssClass=${cssClass}, applyToHeader=${OSFramework.DataGrid.Helper.Logger.SafeStringify(applyToHeader)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetColumnCssClass,
@@ -67,6 +79,10 @@ namespace OutSystems.GridAPI.Styling {
 			'Styling.SetColumnCssClass-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnCssClass output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 	/**
@@ -79,6 +95,10 @@ namespace OutSystems.GridAPI.Styling {
 	 */
 	export function RemoveAllCssClassesFromCell(gridID: string, columnID: string, rowIndex: number): string {
 		Performance.SetMark('Styling.RemoveAllCssClassesFromCell');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveAllCssClassesFromCell inputs: gridID=${gridID}, columnID=${columnID}, rowIndex=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rowIndex)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveAllCssClassesFromCell,
@@ -102,6 +122,10 @@ namespace OutSystems.GridAPI.Styling {
 			'Styling.RemoveAllCssClassesFromCell-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveAllCssClassesFromCell output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 	/**
@@ -114,6 +138,10 @@ namespace OutSystems.GridAPI.Styling {
 	 */
 	export function RemoveColumnCssClass(gridID: string, columnID: string, cssClass: string): string {
 		Performance.SetMark('Styling.RemoveColumnCssClass');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveColumnCssClass inputs: gridID=${gridID}, columnID=${columnID}, cssClass=${cssClass}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveColumnCssClass,
@@ -129,6 +157,10 @@ namespace OutSystems.GridAPI.Styling {
 			'Styling.RemoveColumnCssClass-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveColumnCssClass output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -148,6 +180,10 @@ namespace OutSystems.GridAPI.Styling {
 		dynamicHeight: boolean
 	): string {
 		Performance.SetMark('ColumnManager.SetColumnWordWrap');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnWordWrap inputs: gridID=${gridID}, columnID=${columnID}, wordWrapValue=${OSFramework.DataGrid.Helper.Logger.SafeStringify(wordWrapValue)}, dynamicHeight=${OSFramework.DataGrid.Helper.Logger.SafeStringify(dynamicHeight)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetColumnWordWrap,
@@ -167,6 +203,10 @@ namespace OutSystems.GridAPI.Styling {
 			'ColumnManager.SetColumnWordWrap-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnWordWrap output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 }

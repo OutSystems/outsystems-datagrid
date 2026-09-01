@@ -10,6 +10,10 @@ namespace OutSystems.GridAPI.ColumnFreeze {
 	 */
 	export function Freeze(gridID: string, n?: number): string {
 		Performance.SetMark('ColumnFreeze.freeze');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Freeze inputs: gridID=${gridID}, n=${OSFramework.DataGrid.Helper.Logger.SafeStringify(n)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedFreezeColumns,
@@ -21,6 +25,10 @@ namespace OutSystems.GridAPI.ColumnFreeze {
 		Performance.SetMark('ColumnFreeze.freeze-end');
 		Performance.GetMeasure('@datagrid-ColumnFreeze.freeze', 'ColumnFreeze.freeze', 'ColumnFreeze.freeze-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Freeze output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -30,6 +38,7 @@ namespace OutSystems.GridAPI.ColumnFreeze {
 	 */
 	export function IsFrozen(gridID: string): string {
 		Performance.SetMark('ColumnFreeze.isFrozen');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`IsFrozen inputs: gridID=${gridID}`, `Grid:${gridID}`);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedHasFrozenColumns,
@@ -41,6 +50,10 @@ namespace OutSystems.GridAPI.ColumnFreeze {
 
 		Performance.SetMark('ColumnFreeze.isFrozen-end');
 		Performance.GetMeasure('@datagrid-ColumnFreeze.isFrozen', 'ColumnFreeze.isFrozen', 'ColumnFreeze.isFrozen-end');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`IsFrozen output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -50,6 +63,7 @@ namespace OutSystems.GridAPI.ColumnFreeze {
 	 */
 	export function Unfreeze(gridID: string): string {
 		Performance.SetMark('ColumnFreeze.unfreeze');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`Unfreeze inputs: gridID=${gridID}`, `Grid:${gridID}`);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedUnfreezeColumns,
@@ -61,6 +75,10 @@ namespace OutSystems.GridAPI.ColumnFreeze {
 		Performance.SetMark('ColumnFreeze.unfreeze-end');
 		Performance.GetMeasure('@datagrid-ColumnFreeze.unfreeze', 'ColumnFreeze.unfreeze', 'ColumnFreeze.unfreeze-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Unfreeze output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 }

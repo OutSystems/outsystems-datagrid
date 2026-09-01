@@ -9,6 +9,10 @@ namespace OutSystems.GridAPI.Export {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	export function CustomizeExportingMessage(gridID: string, exportingMessage: string, showMessage: boolean): string {
 		Performance.SetMark('Export.CustomizeExportingMessage');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`CustomizeExportingMessage inputs: gridID=${gridID}, exportingMessage=${exportingMessage}, showMessage=${OSFramework.DataGrid.Helper.Logger.SafeStringify(showMessage)}`,
+			`Grid:${gridID}`
+		);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -28,6 +32,10 @@ namespace OutSystems.GridAPI.Export {
 			'Export.CustomizeExportingMessage-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`CustomizeExportingMessage output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 }

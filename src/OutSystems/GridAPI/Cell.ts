@@ -17,6 +17,10 @@ namespace OutSystems.GridAPI.Cells {
 		errorMessage: string
 	): string {
 		Performance.SetMark('Cells.setValidationStatus');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetValidationStatus inputs: gridID=${gridID}, rowIndex=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rowIndex)}, columnID=${columnID}, isValid=${OSFramework.DataGrid.Helper.Logger.SafeStringify(isValid)}, errorMessage=${errorMessage}`,
+			`Grid:${gridID}`
+		);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -38,6 +42,10 @@ namespace OutSystems.GridAPI.Cells {
 			'Cells.setValidationStatus-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetValidationStatus output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -56,6 +64,10 @@ namespace OutSystems.GridAPI.Cells {
 		triggerOnCellValueChange = true
 	): void {
 		Performance.SetMark('Cells.validateCell');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ValidateCell inputs: gridID=${gridID}, rowIndex=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rowIndex)}, columnID=${columnID}, triggerOnCellValueChange=${OSFramework.DataGrid.Helper.Logger.SafeStringify(triggerOnCellValueChange)}`,
+			`Grid:${gridID}`
+		);
 
 		const grid = GridManager.GetGridById(gridID);
 		const column = grid.getColumn(columnID);
@@ -74,6 +86,10 @@ namespace OutSystems.GridAPI.Cells {
 	 */
 	export function ValidateRow(gridID: string, rowIndex: number): string {
 		Performance.SetMark('Cells.validateRow');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ValidateRow inputs: gridID=${gridID}, rowIndex=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rowIndex)}`,
+			`Grid:${gridID}`
+		);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -86,6 +102,10 @@ namespace OutSystems.GridAPI.Cells {
 		Performance.SetMark('Cells.validateRow-end');
 		Performance.GetMeasure('@datagrid-Cells.validateRow', 'Cells.validateRow', 'Cells.validateRow-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ValidateRow output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 	/**
@@ -111,6 +131,10 @@ namespace OutSystems.GridAPI.Cells {
 		valueIsKey = false
 	): string {
 		Performance.SetMark('Cells.setCellData');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetCellData inputs: gridID=${gridID}, rowIndex=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rowIndex)}, columnID=${columnID}, value=${OSFramework.DataGrid.Helper.Logger.SafeStringify(value)}, showDirtyMark=${OSFramework.DataGrid.Helper.Logger.SafeStringify(showDirtyMark)}, triggerOnCellValueChange=${OSFramework.DataGrid.Helper.Logger.SafeStringify(triggerOnCellValueChange)}, valueIsKey=${OSFramework.DataGrid.Helper.Logger.SafeStringify(valueIsKey)}`,
+			`Grid:${gridID}`
+		);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -133,6 +157,10 @@ namespace OutSystems.GridAPI.Cells {
 
 		Performance.SetMark('Cells.setCellData-end');
 		Performance.GetMeasure('@datagrid-Cells.setCellData', 'Cells.setCellData', 'Cells.setCellData-end');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetCellData output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 }

@@ -9,6 +9,10 @@ namespace OutSystems.GridAPI.Rows {
 	 */
 	export function AddClass(gridID: string, rowNumber: number, className: string): string {
 		Performance.SetMark('Rows.AddClass');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`AddClass inputs: gridID=${gridID}, rowNumber=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rowNumber)}, className=${className}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedAddClass,
@@ -20,6 +24,10 @@ namespace OutSystems.GridAPI.Rows {
 		Performance.SetMark('Rows.AddClass-end');
 		Performance.GetMeasure('@datagrid-Rows.AddClass', 'Rows.AddClass', 'Rows.AddClass-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`AddClass output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -32,6 +40,10 @@ namespace OutSystems.GridAPI.Rows {
 	 */
 	export function AddRows(gridID: string, numberOfRows = 1): string {
 		Performance.SetMark('Rows.AddRows');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`AddRows inputs: gridID=${gridID}, numberOfRows=${OSFramework.DataGrid.Helper.Logger.SafeStringify(numberOfRows)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedAddRow,
@@ -43,6 +55,10 @@ namespace OutSystems.GridAPI.Rows {
 
 		Performance.SetMark('Rows.AddRows-end');
 		Performance.GetMeasure('@datagrid-Rows.AddRows', 'Rows.AddRows', 'Rows.AddRows-end');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`AddRows output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -56,6 +72,10 @@ namespace OutSystems.GridAPI.Rows {
 	 */
 	export function GetRowData(gridID: string, rowNumber: number): string {
 		Performance.SetMark('Rows.GetRowData');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetRowData inputs: gridID=${gridID}, rowNumber=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rowNumber)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetRowData,
@@ -68,6 +88,10 @@ namespace OutSystems.GridAPI.Rows {
 		Performance.SetMark('Rows.GetRowData-end');
 		Performance.GetMeasure('@datagrid-Rows.GetRowData', 'Rows.GetRowData', 'Rows.GetRowData-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetRowData output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -81,6 +105,10 @@ namespace OutSystems.GridAPI.Rows {
 	 */
 	export function GetRowNumberByKey(gridID: string, key: string): string {
 		Performance.SetMark('Rows.GetRowNumberByKey');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetRowNumberByKey inputs: gridID=${gridID}, key=${key}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedGetRowNumberByKey,
@@ -98,6 +126,10 @@ namespace OutSystems.GridAPI.Rows {
 			'Rows.GetRowNumberByKey-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetRowNumberByKey output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -109,6 +141,10 @@ namespace OutSystems.GridAPI.Rows {
 	 */
 	export function RemoveAllClasses(gridID: string, rowNumber: number): string {
 		Performance.SetMark('Rows.RemoveAllClasses');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveAllClasses inputs: gridID=${gridID}, rowNumber=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rowNumber)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveAllClasses,
@@ -120,6 +156,10 @@ namespace OutSystems.GridAPI.Rows {
 		Performance.SetMark('Rows.RemoveAllClasses-end');
 		Performance.GetMeasure('@datagrid-Rows.RemoveAllClasses', 'Rows.RemoveAllClasses', 'Rows.RemoveAllClasses-end');
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveAllClasses output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -133,6 +173,10 @@ namespace OutSystems.GridAPI.Rows {
 	 */
 	export function RemoveClass(gridID: string, rowNumber: number, className: string): string {
 		Performance.SetMark('Rows.RemoveClass');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveClass inputs: gridID=${gridID}, rowNumber=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rowNumber)}, className=${className}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveClass,
@@ -143,6 +187,10 @@ namespace OutSystems.GridAPI.Rows {
 
 		Performance.SetMark('Rows.RemoveClass-end');
 		Performance.GetMeasure('@datagrid-Rows.RemoveClass', 'Rows.RemoveClass', 'Rows.RemoveClass-end');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveClass output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -157,6 +205,10 @@ namespace OutSystems.GridAPI.Rows {
 	 */
 	export function RemoveRowsByNumberOrKey(gridID: string, rowNumbers: string, rowKeys: string): string {
 		Performance.SetMark('Rows.RemoveRowsByNumberOrKey');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveRowsByNumberOrKey inputs: gridID=${gridID}, rowNumbers=${rowNumbers}, rowKeys=${rowKeys}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedRemoveRowList,
@@ -173,6 +225,10 @@ namespace OutSystems.GridAPI.Rows {
 			'Rows.RemoveRowsByNumberOrKey',
 			'Rows.RemoveRowsByNumberOrKey-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveRowsByNumberOrKey output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -185,6 +241,7 @@ namespace OutSystems.GridAPI.Rows {
 	 */
 	export function RemoveRows(gridID: string): string {
 		Performance.SetMark('Rows.RemoveRows');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`RemoveRows inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -196,6 +253,10 @@ namespace OutSystems.GridAPI.Rows {
 
 		Performance.SetMark('Rows.RemoveRows-end');
 		Performance.GetMeasure('@datagrid-Rows.RemoveRows', 'Rows.RemoveRows', 'Rows.RemoveRows-end');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveRows output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -208,6 +269,10 @@ namespace OutSystems.GridAPI.Rows {
 	 */
 	export function UpdateAddedRowKey(gridID: string, currentRowId: string, newKey: string): string {
 		Performance.SetMark('Rows.UpdateAddedRowKey');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`UpdateAddedRowKey inputs: gridID=${gridID}, currentRowId=${currentRowId}, newKey=${newKey}`,
+			`Grid:${gridID}`
+		);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -226,6 +291,10 @@ namespace OutSystems.GridAPI.Rows {
 			'Rows.UpdateAddedRowKey-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`UpdateAddedRowKey output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -238,6 +307,10 @@ namespace OutSystems.GridAPI.Rows {
 	 */
 	export function UpdateStartingRowHeader(gridID: string, startIndex: number): string {
 		Performance.SetMark('Rows.UpdateStartingRowHeader');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`UpdateStartingRowHeader inputs: gridID=${gridID}, startIndex=${OSFramework.DataGrid.Helper.Logger.SafeStringify(startIndex)}`,
+			`Grid:${gridID}`
+		);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -254,6 +327,10 @@ namespace OutSystems.GridAPI.Rows {
 			'Rows.UpdateStartingRowHeader-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`UpdateStartingRowHeader output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -276,6 +353,10 @@ namespace OutSystems.GridAPI.Rows {
 		errorMessage: string
 	): string {
 		Performance.SetMark('Rows.SetValidationStatusByKey');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetValidationStatusByKey inputs: gridID=${gridID}, rowKey=${rowKey}, columnID=${columnID}, isValid=${OSFramework.DataGrid.Helper.Logger.SafeStringify(isValid)}, errorMessage=${errorMessage}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetValidationStatusByKey,
@@ -295,6 +376,10 @@ namespace OutSystems.GridAPI.Rows {
 			'Rows.SetValidationStatusByKey',
 			'Rows.SetValidationStatusByKey-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetValidationStatusByKey output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -307,6 +392,10 @@ namespace OutSystems.GridAPI.Rows {
 	 */
 	export function ToggleRowDragging(gridID: string, allowRowDragging: boolean): string {
 		Performance.SetMark('Rows.ToggleRowDragging');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ToggleRowDragging inputs: gridID=${gridID}, allowRowDragging=${OSFramework.DataGrid.Helper.Logger.SafeStringify(allowRowDragging)}`,
+			`Grid:${gridID}`
+		);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -323,6 +412,10 @@ namespace OutSystems.GridAPI.Rows {
 			'Rows.ToggleRowDragging-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`ToggleRowDragging output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 }

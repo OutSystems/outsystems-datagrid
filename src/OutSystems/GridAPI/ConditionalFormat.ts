@@ -12,6 +12,10 @@ namespace OutSystems.GridAPI.ConditionalFormat {
 		binding: string,
 		rules: Array<OSFramework.DataGrid.OSStructure.ConditionalFormat>
 	): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`AddConditionalFormat inputs: gridID=${gridID}, binding=${binding}, rules=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rules)}`,
+			`Grid:${gridID}`
+		);
 		GridManager.Events.Subscribe(
 			gridID,
 			OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
@@ -43,6 +47,10 @@ namespace OutSystems.GridAPI.ConditionalFormat {
 		conditionalFormat: string
 	): string {
 		Performance.SetMark('ColumnManager.SetNumberAggregateConditionalFormatting');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetNumberAggregateConditionalFormatting inputs: gridID=${gridID}, columnID=${columnID}, conditionalFormat=${conditionalFormat}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetNumberAggregateConditionalFormatting,
@@ -60,6 +68,10 @@ namespace OutSystems.GridAPI.ConditionalFormat {
 			'ColumnManager.SetNumberAggregateConditionalFormatting-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetNumberAggregateConditionalFormatting output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
@@ -71,6 +83,10 @@ namespace OutSystems.GridAPI.ConditionalFormat {
 	 * @param {string} binding Column binding
 	 */
 	export function RemoveConditionalFormat(gridID: string, binding: string): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`RemoveConditionalFormat inputs: gridID=${gridID}, binding=${binding}`,
+			`Grid:${gridID}`
+		);
 		GridManager.Events.Subscribe(
 			gridID,
 			OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,

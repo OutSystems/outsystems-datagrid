@@ -2,6 +2,10 @@
 namespace OutSystems.GridAPI.Security {
 	export function DisableCellDataSanitizer(gridID: string): void {
 		Performance.SetMark('Security.DisableCellDataSanitizer');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`DisableCellDataSanitizer inputs: gridID=${gridID}`,
+			`Grid:${gridID}`
+		);
 		try {
 			GridManager.GetGridById(gridID).features.cellDataSanitizer.disableCellDataSanitizer();
 		} finally {
@@ -23,6 +27,10 @@ namespace OutSystems.GridAPI.Security {
 	 */
 	export function EnableCellDataSanitizer(gridID: string): void {
 		Performance.SetMark('Security.EnableCellDataSanitizer');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`EnableCellDataSanitizer inputs: gridID=${gridID}`,
+			`Grid:${gridID}`
+		);
 		try {
 			GridManager.GetGridById(gridID).features.cellDataSanitizer.enableCellDataSanitizer();
 		} finally {

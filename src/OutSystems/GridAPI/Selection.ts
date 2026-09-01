@@ -1,6 +1,7 @@
 namespace OutSystems.GridAPI.Selection {
 	export function GetAllSelections(gridID: string): string {
 		Performance.SetMark('Selection.GetAllSelections');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetAllSelections inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -19,11 +20,16 @@ namespace OutSystems.GridAPI.Selection {
 			'Selection.GetAllSelections',
 			'Selection.GetAllSelections-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetAllSelections output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
 	export function GetAllSelectionsData(gridID: string): string {
 		Performance.SetMark('Selection.GetAllSelectionsData');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetAllSelectionsData inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -43,11 +49,16 @@ namespace OutSystems.GridAPI.Selection {
 			'Selection.GetAllSelectionsData-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetAllSelectionsData output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
 	export function GetCheckedRowsData(gridID: string): string {
 		Performance.SetMark('Selection.GetCheckedRowsData');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetCheckedRowsData inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -66,11 +77,16 @@ namespace OutSystems.GridAPI.Selection {
 			'Selection.GetCheckedRowsData',
 			'Selection.GetCheckedRowsData-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetCheckedRowsData output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
 	export function GetSelectedRowsCount(gridID: string): string {
 		Performance.SetMark('Selection.GetSelectedRowsCount');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetSelectedRowsCount inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -90,11 +106,16 @@ namespace OutSystems.GridAPI.Selection {
 			'Selection.GetSelectedRowsCount',
 			'Selection.GetSelectedRowsCount-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetSelectedRowsCount output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
 	export function GetSelectedRowsData(gridID: string): string {
 		Performance.SetMark('Selection.GetSelectedRowsData');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetSelectedRowsData inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -113,11 +134,16 @@ namespace OutSystems.GridAPI.Selection {
 			'Selection.GetSelectedRowsData',
 			'Selection.GetSelectedRowsData-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetSelectedRowsData output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
 	export function GetSelectionAverage(gridID: string): string {
 		Performance.SetMark('Selection.GetSelectionAverage');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetSelectionAverage inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -137,11 +163,16 @@ namespace OutSystems.GridAPI.Selection {
 			'Selection.GetSelectionAverage',
 			'Selection.GetSelectionAverage-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetSelectionAverage output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
 	export function GetSelectionCount(gridID: string): string {
 		Performance.SetMark('Selection.GetSelectionCount');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetSelectionCount inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -161,11 +192,16 @@ namespace OutSystems.GridAPI.Selection {
 			'Selection.GetSelectionCount',
 			'Selection.GetSelectionCount-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetSelectionCount output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
 	export function GetSelectionMax(gridID: string): string {
 		Performance.SetMark('Selection.GetSelectionMax');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetSelectionMax inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -185,11 +221,16 @@ namespace OutSystems.GridAPI.Selection {
 			'Selection.GetSelectionMax',
 			'Selection.GetSelectionMax-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetSelectionMax output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
 	export function GetSelectionMin(gridID: string): string {
 		Performance.SetMark('Selection.GetSelectionMin');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetSelectionMin inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -209,11 +250,16 @@ namespace OutSystems.GridAPI.Selection {
 			'Selection.GetSelectionMin',
 			'Selection.GetSelectionMin-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetSelectionMin output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
 	export function GetSelectionSum(gridID: string): string {
 		Performance.SetMark('Selection.GetSelectionSum');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetSelectionSum inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -233,11 +279,16 @@ namespace OutSystems.GridAPI.Selection {
 			'Selection.GetSelectionSum',
 			'Selection.GetSelectionSum-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetSelectionSum output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
 	export function HasSelectedRows(gridID: string): string {
 		Performance.SetMark('Selection.HasSelectedRows');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`HasSelectedRows inputs: gridID=${gridID}`, `Grid:${gridID}`);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -256,11 +307,19 @@ namespace OutSystems.GridAPI.Selection {
 			'Selection.HasSelectedRows',
 			'Selection.HasSelectedRows-end'
 		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`HasSelectedRows output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 
 	export function SetRowAsSelected(gridID: string, rowsIndex: number[], isSelected = true): string {
 		Performance.SetMark('Selection.SelectRows');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetRowAsSelected inputs: gridID=${gridID}, rowsIndex=${OSFramework.DataGrid.Helper.Logger.SafeStringify(rowsIndex)}, isSelected=${OSFramework.DataGrid.Helper.Logger.SafeStringify(isSelected)}`,
+			`Grid:${gridID}`
+		);
 
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
@@ -274,6 +333,10 @@ namespace OutSystems.GridAPI.Selection {
 
 		Performance.SetMark('Selection.SelectRows-end');
 		Performance.GetMeasure('@datagrid-Selection.SelectRows', 'Selection.SelectRows', 'Selection.SelectRows-end');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetRowAsSelected output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 }

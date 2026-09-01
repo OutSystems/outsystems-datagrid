@@ -15,6 +15,10 @@ namespace OutSystems.GridAPI.Search {
 		highlightResults: boolean
 	): void {
 		Performance.SetMark('Search.search-data');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SearchData inputs: gridID=${gridID}, searchID=${searchID}, promptMessage=${promptMessage}, highlightResults=${OSFramework.DataGrid.Helper.Logger.SafeStringify(highlightResults)}`,
+			`Grid:${gridID}`
+		);
 
 		GridManager.Events.Subscribe(
 			gridID,

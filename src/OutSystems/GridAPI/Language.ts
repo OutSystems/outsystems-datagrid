@@ -8,6 +8,10 @@ namespace OutSystems.GridAPI.Language {
 	 */
 	export function AddSupportedLanguage(language: string, filePath: string): void {
 		Performance.SetMark('Language.AddSupportedLanguage');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`AddSupportedLanguage inputs: language=${language}, filePath=${filePath}`,
+			'GridAPI'
+		);
 
 		if (language !== '') {
 			Providers.DataGrid.Wijmo.Language.AddLanguage(language, filePath);
@@ -23,6 +27,7 @@ namespace OutSystems.GridAPI.Language {
 
 	export function HaveLanguagesBeenSet(): boolean {
 		Performance.SetMark('Language.HaveLanguagesBeenSet');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`HaveLanguagesBeenSet called`, 'GridAPI');
 
 		const result = Providers.DataGrid.Wijmo.Language.HaveLanguagesBeenSet();
 
@@ -31,6 +36,10 @@ namespace OutSystems.GridAPI.Language {
 			'@datagrid-Language.HaveLanguagesBeenSet',
 			'Language.HaveLanguagesBeenSet',
 			'Language.HaveLanguagesBeenSet-end'
+		);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`HaveLanguagesBeenSet output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			'GridAPI'
 		);
 		return result;
 	}
@@ -44,6 +53,7 @@ namespace OutSystems.GridAPI.Language {
 	 */
 	export function SetLanguage(language: string): void {
 		Performance.SetMark('Language.SetLanguage');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`SetLanguage inputs: language=${language}`, 'GridAPI');
 
 		if (language !== '') {
 			Providers.DataGrid.Wijmo.Helper.Translation.SetLanguage(language);

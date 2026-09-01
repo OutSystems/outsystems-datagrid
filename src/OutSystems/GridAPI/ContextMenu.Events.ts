@@ -13,6 +13,10 @@ namespace OutSystems.GridAPI.ContextMenu.Events {
 		// eslint-disable-next-line
 		callback: OSFramework.DataGrid.Callbacks.ContextMenu.Toggle
 	): void {
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`Subscribe inputs: menuItemID=${menuItemID}, eventName=${OSFramework.DataGrid.Helper.Logger.SafeStringify(eventName)}, callback=${OSFramework.DataGrid.Helper.Logger.SafeStringify(callback)}`,
+			'GridAPI'
+		);
 		const gridId = GetGridByMenuId(menuItemID);
 		// We need to make sure the grid already exists and it is intialized before subscribing to any context menu event.
 		GridManager.Events.Subscribe(

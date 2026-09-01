@@ -63,7 +63,13 @@ namespace OutSystems.GridAPI.Auxiliary {
 	 * @returns hashcode to the str
 	 */
 	export function GetHashCode(str: string): number {
-		return OSFramework.DataGrid.Helper.GenerateHashCode(str);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetHashCode inputs: str=${str}`, 'GridAPI');
+		const result = OSFramework.DataGrid.Helper.GenerateHashCode(str);
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetHashCode output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			'GridAPI'
+		);
+		return result;
 	}
 
 	/**
@@ -73,7 +79,13 @@ namespace OutSystems.GridAPI.Auxiliary {
 	 * @returns {*}  {OSFramework.DataGrid.Enum.LogLevel} Level currently applied.
 	 */
 	export function GetLogLevel(): OSFramework.DataGrid.Enum.LogLevel {
-		return OSFramework.DataGrid.Helper.Logger.GetLevel();
+		OSFramework.DataGrid.Helper.Logger.LogDebug(`GetLogLevel called`, 'GridAPI');
+		const result = OSFramework.DataGrid.Helper.Logger.GetLevel();
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`GetLogLevel output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			'GridAPI'
+		);
+		return result;
 	}
 
 	/**
@@ -107,6 +119,10 @@ namespace OutSystems.GridAPI.Auxiliary {
 	 */
 	export function SetLogLevel(level: OSFramework.DataGrid.Enum.LogLevel): void {
 		Performance.SetMark('Auxiliary.SetLogLevel');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetLogLevel inputs: level=${OSFramework.DataGrid.Helper.Logger.SafeStringify(level)}`,
+			'GridAPI'
+		);
 		try {
 			OSFramework.DataGrid.Helper.Logger.SetLevel(level);
 		} finally {

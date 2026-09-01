@@ -11,6 +11,10 @@ namespace OutSystems.GridAPI.ColumnPicker {
 		// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 	): string {
 		Performance.SetMark('ColumnPicker.SetColumnVisibility');
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnVisibility inputs: gridID=${gridID}, showHiddenColumns=${OSFramework.DataGrid.Helper.Logger.SafeStringify(showHiddenColumns)}`,
+			`Grid:${gridID}`
+		);
 		const result = Auxiliary.CreateApiResponse({
 			gridID,
 			errorCode: OSFramework.DataGrid.Enum.ErrorCodes.API_FailedSetColumnVisibility,
@@ -26,6 +30,10 @@ namespace OutSystems.GridAPI.ColumnPicker {
 			'ColumnPicker.SetColumnVisibility-end'
 		);
 
+		OSFramework.DataGrid.Helper.Logger.LogDebug(
+			`SetColumnVisibility output: ${OSFramework.DataGrid.Helper.Logger.SafeStringify(result)}`,
+			`Grid:${gridID}`
+		);
 		return result;
 	}
 }
