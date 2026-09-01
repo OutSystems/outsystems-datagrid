@@ -127,6 +127,26 @@ namespace OSFramework.DataGrid.Helper.Logger {
 	}
 
 	/**
+	 * Safely stringifies a value for logging — never throws (circular refs fall
+	 * back to String(value)) and truncates long output so a log line can't dump
+	 * an entire dataset into the console.
+	 *
+	 * @export
+	 * @param {unknown} value Value to stringify.
+	 * @returns {*}  {string} Printable representation of the value.
+	 */
+	export function SafeStringify(value: unknown): string {
+		let text: string;
+		try {
+			// JSON.stringify returns undefined for undefined/function/symbol values
+			text = JSON.stringify(value) ?? String(value);
+		} catch {
+			text = String(value);
+		}
+		return text.length > 500 ? `${text.substring(0, 500)}… (truncated, ${text.length} chars)` : text;
+	}
+
+	/**
 	 * Sets the log level for all Grids on the page.
 	 *
 	 * @export
