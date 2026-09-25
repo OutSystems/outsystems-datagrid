@@ -143,7 +143,6 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 			const config = JSON.parse(state);
 			this._grid.provider.deferUpdate(() => {
-				this._grid.features.filter.setViewLayout(config);
 				this._grid.features.groupPanel.setViewLayout(config);
 				this._grid.features.sort.setViewLayout(config);
 				this._grid.features.columnFreeze.setViewLayout(config);
