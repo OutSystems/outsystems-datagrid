@@ -90,7 +90,9 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		}
 
 		/**
-		 * Sets the groups layout
+		 * Sets the groups layout.
+		 * Reorders columnGroups via remove/insert so Wijmo rebuilds its ColumnGroup
+		 * drag map; without this, the first header DnD after SetViewLayout uses a stale map
 		 */
 		private _setGroups(columns, config) {
 			for (let i = 0; i < config.length; i++) {
@@ -99,6 +101,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					const colToUpdate = colDef[0];
 					if (config[i].children && config[i].children.length > 0) {
 						this._setGroups(colToUpdate.columns, config[i].children[0]);
+					}
+					const currentIndex = columns.indexOf(colToUpdate);
+					if (currentIndex !== i) {
+						columns.remove(colToUpdate);
+						columns.insert(i, colToUpdate);
 					}
 					// due to Wijmo's breaking change, in case it is not defined, we need to assign an empty string to collapseTo property
 					colToUpdate.collapseTo = config[i].collapseTo ?? '';
@@ -136,12 +143,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 			const config = JSON.parse(state);
 			this._grid.provider.deferUpdate(() => {
-				this._grid.features.filter.setViewLayout(config);
 				this._grid.features.groupPanel.setViewLayout(config);
 				this._grid.features.sort.setViewLayout(config);
 				this._grid.features.columnFreeze.setViewLayout(config);
 				this._setGroups(this._grid.provider.columnGroups, config.groupColumns);
 				this._reloadColumns(config);
+				// Re-apply filters last: columnGroups remove/insert clears filter header UI
+				// (e.g. condition "Contains" / value), so this must follow _setGroups.
+				this._grid.features.filter.setViewLayout(config);
 			});
 		}
 	}
