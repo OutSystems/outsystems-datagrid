@@ -207,20 +207,29 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 		/**
 		 * Handler for the RedoingAction.
+		 * Only cancels redo when search is active; OnCellValueChange is raised on redoneAction
+		 * so GetRowData already reflects the applied value.
 		 */
-		private _redoingActionHandler(s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const action: any = e.action;
+		private _redoingActionHandler(_s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
 			// if search is set, we want to cancel redo
 			if (this._grid.features.search.hasText) {
 				e.cancel = true;
-				return;
 			}
+		}
+
+		/**
+		 * Handler for the RedoneAction.
+		 * Fires after Wijmo applies the redo so the dataItem (and GetRowData) match NewValue.
+		 */
+		private _redoneActionHandler(_s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const action: any = e.action;
 
 			this._redoActionHandler(action);
 
 			if (action?._actions?.length > 0) {
-				action._actions.forEach((element) => {
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				action._actions.forEach((element: any) => {
 					this._redoActionHandler(element);
 				});
 			}
@@ -343,20 +352,29 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 		/**
 		 * Handler for the UndoingAction.
+		 * Only cancels undo when search is active; OnCellValueChange is raised on undoneAction
+		 * so GetRowData already reflects the applied value.
 		 */
-		private _undoingActionHandler(s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const action: any = e.action;
+		private _undoingActionHandler(_s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
 			// if search is set, we want to cancel undo
 			if (this._grid.features.search.hasText) {
 				e.cancel = true;
-				return;
 			}
+		}
+
+		/**
+		 * Handler for the UndoneAction.
+		 * Fires after Wijmo applies the undo so the dataItem (and GetRowData) match NewValue.
+		 */
+		private _undoneActionHandler(_s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const action: any = e.action;
 
 			this._undoActionHandler(action);
 
 			if (action?._actions?.length > 0) {
-				action._actions.forEach((element) => {
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				action._actions.forEach((element: any) => {
 					this._undoActionHandler(element);
 				});
 			}
@@ -388,6 +406,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._grid.provider.pastedCell.addHandler(this._pastedCellHandler.bind(this));
 			this._grid.features.undoStack.stack.undoingAction.addHandler(this._undoingActionHandler.bind(this));
 			this._grid.features.undoStack.stack.redoingAction.addHandler(this._redoingActionHandler.bind(this));
+			this._grid.features.undoStack.stack.undoneAction.addHandler(this._undoneActionHandler.bind(this));
+			this._grid.features.undoStack.stack.redoneAction.addHandler(this._redoneActionHandler.bind(this));
 			// Future Implementation -> adding new rows will trigger this event
 			// this._grid.addedRows.addHandler(
 			//     this._addNewRowEndingHandler.bind(this)
