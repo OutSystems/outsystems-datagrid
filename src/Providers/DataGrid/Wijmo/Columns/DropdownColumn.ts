@@ -118,6 +118,12 @@ namespace Providers.DataGrid.Wijmo.Column {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			newValue: any
 		): void {
+			// After undo/redo apply, parent OnCellValueChange must not clear children that
+			// were already restored by child undo actions on the same stack entry.
+			if (this.grid.features.undoStack.isApplyingUndoRedo) {
+				return;
+			}
+
 			if (oldValue !== newValue && oldValue.toString() !== newValue.toString()) {
 				this.grid.features.dirtyMark.saveOriginalValue(rowNumber, this.provider.name || this.provider.binding);
 			}

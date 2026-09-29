@@ -225,13 +225,18 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const action: any = e.action;
 
-			this._redoActionHandler(action);
+			this._grid.features.undoStack.isApplyingUndoRedo = true;
+			try {
+				this._redoActionHandler(action);
 
-			if (action?._actions?.length > 0) {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				action._actions.forEach((element: any) => {
-					this._redoActionHandler(element);
-				});
+				if (action?._actions?.length > 0) {
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					action._actions.forEach((element: any) => {
+						this._redoActionHandler(element);
+					});
+				}
+			} finally {
+				this._grid.features.undoStack.isApplyingUndoRedo = false;
 			}
 		}
 
@@ -370,13 +375,18 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const action: any = e.action;
 
-			this._undoActionHandler(action);
+			this._grid.features.undoStack.isApplyingUndoRedo = true;
+			try {
+				this._undoActionHandler(action);
 
-			if (action?._actions?.length > 0) {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				action._actions.forEach((element: any) => {
-					this._undoActionHandler(element);
-				});
+				if (action?._actions?.length > 0) {
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					action._actions.forEach((element: any) => {
+						this._undoActionHandler(element);
+					});
+				}
+			} finally {
+				this._grid.features.undoStack.isApplyingUndoRedo = false;
 			}
 		}
 
