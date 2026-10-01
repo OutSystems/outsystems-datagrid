@@ -4,6 +4,11 @@ namespace OSFramework.DataGrid.Feature {
 	 * Exposed methods for UndoStack feature
 	 */
 	export interface IUndoStack {
+		/**
+		 * True while OnCellValueChange is raised after undo/redo has been applied.
+		 * Dependent dropdowns use this to avoid clearing children restored by child undo actions.
+		 */
+		isApplyingUndoRedo: boolean;
 		stack: wijmo.undo.UndoStack;
 		/**
 		 * Clear the UndoStack

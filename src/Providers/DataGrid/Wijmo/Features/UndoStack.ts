@@ -8,6 +8,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 	export class UndoStack implements IProviderUndoStack, OSFramework.DataGrid.Interface.IBuilder {
 		private _grid: Grid.IGridWijmo;
+		private _isApplyingUndoRedo = false;
 		private _undoStack: wijmo.undo.UndoStack;
 
 		constructor(grid: Grid.IGridWijmo) {
@@ -27,6 +28,14 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				const column = this._grid.provider.getColumn(gridAction.col);
 				this._grid.features.dirtyMark.saveOriginalValue(row, column.name || column.binding);
 			}
+		}
+
+		public get isApplyingUndoRedo(): boolean {
+			return this._isApplyingUndoRedo;
+		}
+
+		public set isApplyingUndoRedo(value: boolean) {
+			this._isApplyingUndoRedo = value;
 		}
 
 		public get stack(): wijmo.undo.UndoStack {
