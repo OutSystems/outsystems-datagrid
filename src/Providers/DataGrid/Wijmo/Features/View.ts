@@ -95,11 +95,31 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 * drag map; without this, the first header DnD after SetViewLayout uses a stale map
 		 */
 		private _setGroups(columns, config) {
+			const usedColumnsIndexMap = new Map<string, number>();
 			for (let i = 0; i < config.length; i++) {
-				const colDef = columns.filter((x) => x.header === config[i].header);
+				const configHasChildren = config[i].children && config[i].children.length > 0;
+				// Match by header AND by type (group vs plain column), so a group
+				// doesn't get mixed up with a regular column that has the same header
+				const colDef = columns.filter(
+					(x) =>
+						x.header === config[i].header &&
+						(x.columns !== undefined && x.columns.length > 0) === configHasChildren
+				);
 				if (colDef.length > 0) {
-					const colToUpdate = colDef[0];
-					if (config[i].children && config[i].children.length > 0) {
+					// Key the map by header + type, so groups and plain columns
+					// with the same header are counted separately
+					const mapKey = `${config[i].header}|${configHasChildren}`;
+					if (!usedColumnsIndexMap.has(mapKey)) {
+						usedColumnsIndexMap.set(mapKey, 0);
+					}
+					const usedIndex = usedColumnsIndexMap.get(mapKey);
+					const colToUpdate = colDef[usedIndex];
+					// Saved config may have more duplicates than the current grid
+					if (colToUpdate === undefined) {
+						continue;
+					}
+					usedColumnsIndexMap.set(mapKey, usedIndex + 1);
+					if (configHasChildren) {
 						this._setGroups(colToUpdate.columns, config[i].children[0]);
 					}
 					const currentIndex = columns.indexOf(colToUpdate);
