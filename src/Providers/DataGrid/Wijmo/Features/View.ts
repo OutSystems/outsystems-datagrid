@@ -95,10 +95,16 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 * drag map; without this, the first header DnD after SetViewLayout uses a stale map
 		 */
 		private _setGroups(columns, config) {
+			const usedColumnsIndexMap = new Map<string, number>();
 			for (let i = 0; i < config.length; i++) {
 				const colDef = columns.filter((x) => x.header === config[i].header);
 				if (colDef.length > 0) {
-					const colToUpdate = colDef[0];
+					if (!usedColumnsIndexMap.has(config[i].header)) {
+						usedColumnsIndexMap.set(config[i].header, 0);
+					}
+					const usedIndex = usedColumnsIndexMap.get(config[i].header)!;
+					const colToUpdate = colDef[0 + usedIndex];
+					usedColumnsIndexMap.set(config[i].header, usedIndex + 1);
 					if (config[i].children && config[i].children.length > 0) {
 						this._setGroups(colToUpdate.columns, config[i].children[0]);
 					}
