@@ -119,6 +119,17 @@ therefore stays on the old one for the length of the upgrade:
 https://outsystemsui.outsystems.com/OutSystemsDataGridSample/
 ```
 
+For a screen-for-screen comparison, use the **base automation app** on the same dev environment. It
+has the same screens as the per-branch app, still runs the previous build, and was the baseline on
+ROU-13118:
+
+```
+https://outsystemsui-dev.outsystemsenterprise.com/OSDataGridAutomation/Grid_Configs
+```
+
+Both baselines run whatever was last published to them. Confirm the build from the published
+`WijmoJS` (`getVersion()`) before using either one as the "before".
+
 The precedent page used exactly that for its before/after comparison, and ROU-12860 chose it over
 snapshots. A live "before" beats a folder of screenshots, and it survives the republish that destroys
 a snapshot-based baseline. Confirm it is still on the old build before relying on it — its version is

@@ -122,6 +122,10 @@ descriptions.
 Both must be **byte-identical** in the changeset output, and the generator asserts that no change
 targets either — explicitly, not merely by omitting them.
 
+`GridAuxFeature` changes only through SKILL.md Phase 8a (license update). The operator does that by
+hand in Service Studio, never through a changeset. Compare it by hash only and never read or print
+its `JavaScript`.
+
 **The risk in leaving `JsZIP` alone, stated so it is not rediscovered.** `wijmo.xlsx.min.js` uses
 JSZip. An upgrade replaces the former while pinning the latter, so if a new Wijmo build expects a
 newer JSZip API, spreadsheet export breaks at runtime — not at build time, and not in `oml validate`.
