@@ -114,8 +114,7 @@ In force for the whole run, not only where a phase repeats them.
 - No credentials at any point. The publish is manual, so never request, echo, log or persist a
   credential or token, and never place one in a command-line argument.
 - **No license material at any point.** The same rule applies to the Wijmo product license and
-  everything derived from it, including the obfuscation procedure. Phase 8a sets out the details;
-  the procedure lives only on Confluence page `1622183023`.
+  everything derived from it. Phase 8a sets out the details in the internal runbook.
 - Address Confluence by **page ID** only. The space keys quoted in tickets are unreliable; the page
   IDs are not.
 
@@ -535,19 +534,17 @@ measured baseline, and the two untouched objects confirmed identical.
 Wijmo product license — a new major release, a renewal, or an expiry. Otherwise log it `SKIPPED` with
 the reason (for example "release notes state no licensing change") and continue to Phase 8b.
 
-**The procedure is not in this skill, and must never be.** It lives on the Confluence page
-**License Obfuscation, page ID `1622183023`**. Read it there, by ID, when the run needs it:
-`koda tool confluence get 1622183023`. Do not copy, summarise or paraphrase its steps into this file,
-its reference files, the repository, a commit, the PR, the ADR, Jira, the run log or a session note.
-What this skill records is only *where* the procedure lives and *what it touches*: the
-`GridAuxFeature` script, which every other phase treats as never touched.
+**The procedure is not in this skill, and must never be.** It lives in the internal runbook.
+Do not copy, summarise or paraphrase its steps into this file, its reference files, the repository,
+a commit, the PR, the ADR, Jira, the run log or a session note. What this skill records is only
+*what* it touches: the `GridAuxFeature` script, which every other phase treats as never touched.
 
 **This phase is performed by the operator, not by the agent.** The agent's role is limited to:
 
 1. **Hard gate.** Ask the operator to confirm that this upgrade needs a license update. No
    confirmation means `SKIPPED`.
-2. **Point the operator** to page `1622183023` and to the `GridAuxFeature` script in the module. The
-   operator applies the change by hand in Service Studio on the protected module, as part of the
+2. **Point the operator** to the internal runbook and to the `GridAuxFeature` script in the module.
+   The operator applies the change by hand in Service Studio on the protected module, as part of the
    Phase 8b merge, so it lands in the same publish.
 3. **Verify without seeing the license** (below).
 

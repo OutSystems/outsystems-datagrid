@@ -116,7 +116,7 @@ descriptions.
 
 | Script          | What it is                                                                                 |
 | --------------- | ------------------------------------------------------------------------------------------ |
-| `GridAuxFeature` | Obfuscated. `Description`: "OutSystems Data Grid license script."                          |
+| `GridAuxFeature` | Protected. `Description`: "OutSystems Data Grid auxiliary script."                        |
 | `JsZIP`          | `File: jszip.js version 3.10.1` — a dependency of `wijmo.xlsx`, carrying its own version.   |
 
 Both must be **byte-identical** in the changeset output, and the generator asserts that no change

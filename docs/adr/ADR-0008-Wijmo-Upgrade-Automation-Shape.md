@@ -154,17 +154,17 @@ the record: this shape is only as good as the first real run is honest.
 
 ## Links
 
--   [ROU-12860](https://outsystemsrd.atlassian.net/browse/ROU-12860) — the ticket requesting the
-    automation; predecessor [ROU-12689](https://outsystemsrd.atlassian.net/browse/ROU-12689)
+-   [ROU-12860](<internal-jira-link>) — the ticket requesting the
+    automation; predecessor [ROU-12689](<internal-jira-link>)
 -   [ADR-0002](./ADR-0002-Wijmo-Upgrade-2026v1.md) — the previous Wijmo upgrade, performed manually
 -   [ADR-0006](./ADR-0006-Roll-Back-Incompatible-TypeDoc-Dependency-Bump.md) — the absent-lockfile
     consequence behind the exact-pin step
 -   [CONTEXT.md](../../CONTEXT.md) — vocabulary this skill is written in
 -   Reference implementation: `outsystems-charts` — `.claude/commands/upgrade-highcharts-version.md`
     and `.claude/skills/update-highcharts-version/SKILL.md`
--   Confluence: [Wijmo Updates](https://outsystemsrd.atlassian.net/wiki/spaces/RDMBLVS/pages/3058631508/Wijmo+Updates)
+-   Confluence: [Wijmo Updates](<internal-confluence-link>)
     (upgrade runbook and per-upgrade index),
-    [External Libraries in UI Components](https://outsystemsrd.atlassian.net/wiki/spaces/RDMBLVS/pages/2745598610/External+Libraries+in+UI+Components)
+    [External Libraries in UI Components](<internal-confluence-link>)
     (SBOM)
 
 ## Date

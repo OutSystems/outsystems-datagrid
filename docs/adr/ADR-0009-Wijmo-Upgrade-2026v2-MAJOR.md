@@ -197,10 +197,9 @@ and is **unverified**.
 ### License update — added to the skill, skipped in this run
 
 The skill gains an optional, hard-gated Phase 8a for upgrades that need a new Wijmo product license.
-It points to the License Obfuscation page by Confluence page ID `1622183023` and nowhere else
-describes the procedure. The operator performs it by hand in Service Studio. Verification never
-looks at the license: it compares `GridAuxFeature` by hash only and confirms that no Wijmo license
-banner or console message appears.
+It points to the internal runbook and nowhere else describes the procedure. The operator performs
+it by hand in Service Studio. Verification never looks at the license: it compares `GridAuxFeature`
+by hash only and confirms that no Wijmo license banner or console message appears.
 
 This run did not need it, since the release notes state no licensing change. The published
 `GridAuxFeature` is hash-identical to the pre-upgrade export.
@@ -295,9 +294,9 @@ Phase 14  Final checklist       PENDING    As above.
 
 ### What the run changed in the procedure
 
--   **Phase 8a, license update.** Optional and hard-gated. It points to Confluence page `1622183023`
-    by ID and contains no procedure. The phase also adds a guardrail against recording license
-    material anywhere, a license-banner check in Phase 9, and a Phase 14 follow-up.
+-   **Phase 8a, license update.** Optional and hard-gated. It points to the internal runbook and
+    contains no procedure. The phase also adds a guardrail against recording license material
+    anywhere, a license-banner check in Phase 9, and a Phase 14 follow-up.
 -   **Phase 1 probes the module.** A protected export is now caught before any repository edit, not
     at Phase 8.
 -   **Phase 6 counts from the archive's changelog**, because the ticket's copy can be a subset that

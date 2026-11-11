@@ -4,15 +4,14 @@
 
 | Page ID      | Title                                    | Role                                                     |
 | ------------ | ---------------------------------------- | -------------------------------------------------------- |
-| `3058631508` | Wijmo Updates                            | The upgrade runbook **and** the index of per-upgrade pages |
-| `2745598610` | External Libraries in UI Components      | The SBOM                                                  |
-| `3353313306` | Issues reported to the provider libs     | Issues raised with the vendor, with a status per issue     |
+| `<page-id-1>` | Wijmo Updates                            | The upgrade runbook **and** the index of per-upgrade pages |
+| `<page-id-2>` | External Libraries in UI Components      | The SBOM                                                  |
+| `<page-id-3>` | Issues reported to the provider libs     | Issues raised with the vendor, with a status per issue     |
 
-All three live in space **`RDMBLVS`** ("R&D - Web & Mobile Apps - Value Stream").
+All three live in the same internal Confluence space.
 
-**The space keys quoted in tickets are wrong.** ROU-12860 places the SBOM in `RDOO` and the
-reported-issues page in both `RDOO` and `RDMBVS`. Those links resolve only because Confluence
-tolerates a stale space key in the path. Look pages up by ID; never construct a URL from a
+**The space keys quoted in tickets are wrong.** The links in the source tickets resolve only because
+Confluence tolerates a stale space key in the path. Look pages up by ID; never construct a URL from a
 ticket-quoted space key, and never search by title expecting one space.
 
 ---
@@ -108,8 +107,8 @@ page so the gap is explicit rather than discovered during validation.
 With `<TASK>` = the task id with its hyphen removed (`ROU-12860` → `ROU12860`):
 
 ```
-https://outsystemsui-dev.outsystemsenterprise.com/OSDataGridAutomation_<TASK>
-https://outsystemsui-dev.outsystemsenterprise.com/OutSystemsDataGridSample_<TASK>/Overview
+<dev-automation-app-url>
+<dev-sample-app-url>
 ```
 
 And the **pre-upgrade baseline** for Phase 8b — the public sample, which runs the released build and
@@ -124,7 +123,7 @@ has the same screens as the per-branch app, still runs the previous build, and w
 ROU-13118:
 
 ```
-https://outsystemsui-dev.outsystemsenterprise.com/OSDataGridAutomation/Grid_Configs
+<dev-automation-app-url>
 ```
 
 Both baselines run whatever was last published to them. Confirm the build from the published
