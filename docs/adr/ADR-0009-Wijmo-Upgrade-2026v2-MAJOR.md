@@ -101,10 +101,41 @@ Absorbed, with no code change: `getCellData` during `cellEditEnding` with `getEr
 (WJM-38185), the filter search status message (WJM-38186), and caret selection after a synchronous
 `select`/`focus`/`startEditing` (WJM-38215).
 
-WJM-37697, the one issue the ticket planned for this version (stale `index`/`visibleIndex` on
-non-leaf `ColumnGroup`s), maps to **no** workaround in this repository. The nearest code, the
-column-group lookup fixed in ADR-0004 and later reworked by ROU-12831, resolves columns by name,
-not index, so there is nothing to remove.
+### WJM-37697 — fixed, and verified
+
+WJM-37697 is the one issue the ticket planned for this version: non-leaf `ColumnGroup`s kept a stale
+`index`/`visibleIndex`. **It is fixed in `5.20262.60`.** The fix was verified three ways, not taken
+from the changelog:
+
+-   **Vendor code.** `5.20262.60` adds `ColumnGroup.prototype._setList`. It resets `_idx` and
+    `_idxVis` to `-1` when a group is detached from the columns list. `5.20261.52` has no such
+    override.
+-   **Published runtimes.** The override is present in the per-branch module's published
+    `WijmoGridJS` and absent from the baseline's.
+-   **Reproduction.** The test follows the order `AbstractProviderColumn.build()` uses: insert an
+    empty group into `columnGroups`, so it is briefly a leaf column; attach two children with
+    `new ColumnGroup(config, parent)`; then add another top-level column.
+
+| After the group gains children     | `5.20261.52`                          | `5.20262.60` |
+| ---------------------------------- | ------------------------------------- | ------------ |
+| group `index` / `visibleIndex`     | `0` / `0` (stale)                     | `-1` / `-1`  |
+| collides with a leaf column        | yes, the first child (`index` `0`)    | no           |
+
+The old result is the collision behind ADR-0004. There, the column lookup sometimes resolved the
+edited cell to a group, and `OnCellValueChange` threw "The column Group does not support events".
+
+**No workaround to remove.** ADR-0004 filtered groups out before the index lookup. ROU-12831 then
+moved every Wijmo-to-OutSystems column lookup to name matching, so the component no longer depends
+on a group's index. Both stay, as defensive code. The remaining `ColumnType.Group` check
+(`ValidationMark.ts`, row validation) skips groups because a group cannot be validated, not because
+of this defect.
+
+The automation app's `Column_Group` screen does **not** reproduce the stale index on either build.
+Its group reports `-1` on load and after collapse and expand, because the component's load order on
+that screen never leaves a group briefly as a leaf. The defect only shows in the build order above.
+The screen is still the user-level regression check: on `5.20262.60`, editing a cell inside its
+group fires `OnCellValueChange` with no error. Test Case 3 in the ticket combines both, the screen
+steps and the console reproduction.
 
 ### Observed behaviour change — typed decimal rounding
 
@@ -285,11 +316,16 @@ Phase 9   Manual validation     PARTIAL    Publish fidelity 66/66 by hash; runti
                                           rounding change. Owner: task owner, by hand in a real browser.
 Phase 10  ADR + run log         EXECUTED   ADR-0009, the lowest free number (0000-0008 taken; 0005 used
                                           twice, pre-existing). Readme row added and aligned.
-Phase 11  Commit + PR           PENDING    Not reached when this record was written; this line is updated
+Phase 11  Commit + PR           EXECUTED   Signed commit 366b94e, paths staged by name (97 type-file renames
+                                          + 12 files); draft PR #537 against dev, labels dependencies +
+                                          chore, title matching the required regex.
+Phase 12  Confluence            PENDING    Not reached when this record was written; this line is updated
                                           when the phase closes.
-Phase 12  Confluence            PENDING    As above.
-Phase 13  Jira enrichment       PENDING    As above.
-Phase 14  Final checklist       PENDING    As above.
+Phase 13  Jira enrichment       EXECUTED   "What I Did" filled in place via /enrich-jira-task after the
+                                          operator confirmed the preview; other panels unchanged. Test Case 3
+                                          (WJM-37697) added later; the operator's own Test Case 2 kept. Left
+                                          as a placeholder: the Automated Tests PR (external suite not run).
+Phase 14  Final checklist       PENDING    As Phase 12.
 ```
 
 ### What the run changed in the procedure
