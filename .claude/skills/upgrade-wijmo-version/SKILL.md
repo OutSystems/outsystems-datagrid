@@ -10,8 +10,8 @@ description: >-
 
 # Upgrade Wijmo Version
 
-The upgrade runbook for the **Reactive Data Grid**. Sixteen steps, numbered 0 to 14 with a gate at
-8b, from the distribution archive through the draft PR to the documentation trail. Terms used here are fixed in
+The upgrade runbook for the **Reactive Data Grid**. Seventeen steps, numbered 0 to 14 plus an
+optional, hard-gated license update at 8a and a publish gate at 8b, from the distribution archive through the draft PR to the documentation trail. Terms used here are fixed in
 [`CONTEXT.md`](../../../CONTEXT.md) — *build string*, *version description*, *distribution archive*,
 *vendored types*, *per-branch module*, *changeset*, *SBOM row*.
 
@@ -113,6 +113,8 @@ In force for the whole run, not only where a phase repeats them.
   runbook rewrite (Phase 12), any push, PR creation, and undraft.
 - No credentials at any point. The publish is manual, so never request, echo, log or persist a
   credential or token, and never place one in a command-line argument.
+- **No license material at any point.** The same rule applies to the Wijmo product license and
+  everything derived from it. Phase 8a sets out the details in the internal runbook.
 - Address Confluence by **page ID** only. The space keys quoted in tickets are unreliable; the page
   IDs are not.
 
@@ -211,12 +213,22 @@ Report anything missing rather than working around it:
   objects are **real rather than pointer stubs** (`git lfs ls-files` lists them and their on-disk
   sizes are not ~130 B), and that it builds:
   `dotnet build "$OUTSYSTEMS_CLI/src/OutSystems.AI.Cli/OutSystems.AI.Cli.csproj" -c Release`.
+- **The per-branch module loads.** If the operator has already supplied it, copy it into the
+  scratchpad now and run one `oml query` (for example `Root { Scripts { Name } }`) on the copy. A
+  `Load is not allowed for this module` failure means the export is protected: stop and ask the
+  module owner for an unprotected export **before Phase 3 edits anything**. If the module is not yet
+  available, log the probe as deferred to Phase 8, by name.
+
+  *Why here and not only in Phase 8:* on ROU-13118 the supplied clone was protected, and that was only
+  discovered at Phase 8, after Phases 3-7 had already changed the working tree. The check costs one
+  query, and the export is usually in hand from the start.
 
 **Exit**: every check reports a version or an explicit OK. `OUTSYSTEMS_CLI` points at a verified
-checkout. Nothing is deferred to "later in the run".
+checkout. The module load probe passed or is explicitly deferred. Nothing else is deferred to "later
+in the run".
 
 **Log**: the tool versions, the resolved `OUTSYSTEMS_CLI` path **and which of the three rules resolved
-it**, and the CLI build result.
+it**, the CLI build result, and the module load probe result.
 
 ## Phase 2 — Asset-source gate
 
@@ -277,7 +289,9 @@ done
 echo "names checked: $(echo $NAMES | wc -w)"        # must be 13
 
 # the release's new properties are declared in the ARCHIVE's own types, not only in npm's
-grep -n "<each new property from the ticket's API Updates>" "$A/Dist/controls/wijmo.grid.d.ts"
+# in the .d.ts of the control that owns it (not always wijmo.grid.d.ts:
+# 5.20262.60's only candidate was MultiLineComboBox.inputType, in wijmo.input.d.ts)
+grep -n "<each new property from the ticket's API Updates>" "$A/Dist/controls/<owning bundle>.d.ts"
 
 # culture-language parity, both directions — must print nothing
 comm -3 <(ls -1 "$V"/cultures/*.d.ts | xargs -n1 basename \
@@ -300,7 +314,9 @@ confirmed, plus the JSZip answer.
 
 **Entry**: Phase 2 green.
 
-`git fetch origin`, then create `<TASK_ID>` from `origin/dev`. Never commit on `dev`.
+`git fetch origin`, then create `<TASK_ID>` from `origin/dev`. Never commit on `dev`. If `<TASK_ID>`
+already exists and is checked out, reuse it only when its working tree is clean and it has no commits
+that `origin/dev` lacks. That was the case on ROU-13118. Otherwise stop and ask.
 
 **Exit**: `git rev-parse --abbrev-ref HEAD` is `<TASK_ID>`, and its merge-base is the current
 `origin/dev`.
@@ -333,7 +349,8 @@ confirmed, plus the JSZip answer.
 
 **Exit**: installed manifest reports the build string; a **two-way name diff** of the new vendored
 directory against its predecessor is empty, root files and `cultures/` alike — a count would pass on a
-set that swapped one file for another; every root `.d.ts` header names the new build string; all but
+set that swapped one file for another; every root `.d.ts` header names the new build string (the
+50 `cultures/*.d.ts` carry no banner at all, before or after, so do not assert one there); all but
 `wijmo.interop.grid.d.ts` are global flavor; the old directory is gone; `styles/wijmo.css` header
 names the new build string; `tsc --noEmit` is clean. A flood of `Cannot find namespace 'wijmo'` here
 means step 2 copied the wrong flavor — fix the source, never the call sites.
@@ -368,6 +385,14 @@ finds it in each; `docs/adr/` and prior `specs/` are unchanged.
 gives a verdict on nothing and the exit passes. Write both counts down before deciding anything: the
 number of entries in the ticket's *API Updates* and *Breaking Changes* sections, and the number of
 workaround sites the grep returns.
+
+**Count from the archive's own `ChangeLog.txt`, not from the ticket's copy.** Extract it with
+`unzip -q -o "$Z" "wijmo-<build>/ChangeLog.txt"` and read only that build's block, between its
+`Build Number` header and the next one. Then reconcile it with the ticket. On ROU-13118 the ticket's
+changelog was a curated subset. It had no *API Updates* or *Bug fixes* heading and said "There are
+no breaking changes in FlexGrid, CSS, or licensing". The archive listed 4 *API Updates*, 15 bug fixes
+and 1 breaking change (WJM-38021, the Angular peer-dependency floor). Counting from the ticket gives
+zero verdicts, and the exit passes vacuously.
 
 1. **New-release opt-in / opt-out.** For every property the release's *API Updates* section adds to
    a control this component uses, record an explicit adopt-or-decline decision with its reason. A
@@ -474,6 +499,9 @@ dependency-less `GridFramework` on its first real run.
 
 - **`oml diff` between input and output reports only the intended change** — 64 `(Object Script)`
   entries, `JavaScript` ×64, `Description` ×63, and no block, no `Required Script`, no other property.
+  The one expected extra is `HasSyntaxErrors` on `GridFramework`, a non-visible flag that flips when the
+  fresh bundle parses. `oml diff` prints JSON (`{ Diff, NumDifferences }`): parse the `Diff` string
+  rather than grepping the raw file. The diff also prints script *content*, so never echo it whole.
   Run this first: it is the only assertion that reports what you did not think to look for.
 - `GridFramework.RequiredScripts` still holds its 15 entries, resolving to the same names as the input,
   and the module's total `RequiredScripts` count is unchanged.
@@ -492,16 +520,71 @@ dependency-less `GridFramework` on its first real run.
 - **Every block keeps its `Public`, its widget count and its `Description`** — `Structures/Grid` still
   `Public=true` with 4 widgets. Nothing in the changeset targets a block, which is exactly why this is
   asserted rather than assumed.
-- `GridFramework` in the output carries both new version strings from Phase 5.
+- `GridFramework` in the output carries both new version strings from Phase 5, and equals
+  `dist/GridFramework.js` once CRLF is normalised to LF (see `changeset-recipe.md`).
 - The delivered file sits outside the scratchpad, hashes equal to the validated output, and passes
   `oml validate` in place. The owner's original is byte-unchanged.
 
 **Log**: the `changes` count and the 63-description count as measured, the validate result against its
 measured baseline, and the two untouched objects confirmed identical.
 
+## Phase 8a — License update (optional, hard-gated)
+
+**Entry**: Phase 8 green. Runs **only** when the ticket or the operator says this upgrade needs a new
+Wijmo product license — a new major release, a renewal, or an expiry. Otherwise log it `SKIPPED` with
+the reason (for example "release notes state no licensing change") and continue to Phase 8b.
+
+**The procedure is not in this skill, and must never be.** It lives in the internal runbook.
+Do not copy, summarise or paraphrase its steps into this file, its reference files, the repository,
+a commit, the PR, the ADR, Jira, the run log or a session note. What this skill records is only
+*what* it touches: the `GridAuxFeature` script, which every other phase treats as never touched.
+
+**This phase is performed by the operator, not by the agent.** The agent's role is limited to:
+
+1. **Hard gate.** Ask the operator to confirm that this upgrade needs a license update. No
+   confirmation means `SKIPPED`.
+2. **Point the operator** to the internal runbook and to the `GridAuxFeature` script in the module.
+   The operator applies the change by hand in Service Studio on the protected module, as part of the
+   Phase 8b merge, so it lands in the same publish.
+3. **Verify without seeing the license** (below).
+
+Hard rules, in force for the whole run and not only this phase:
+
+- Never request, echo, log, store, diff or paste a license key, an encoded license, an obfuscation
+  setting or the obfuscated output, and never describe the transformation. That covers the
+  conversation, a file, a command-line argument and an `oml diff` printout alike.
+- Never read `GridAuxFeature`'s `JavaScript` property, in either the input or the output. Compare it
+  **by hash only**.
+- If license material appears in any output anyway (a Confluence fetch, a script dump, a terminal
+  paste), stop. Do not quote it; delete any local copy, and tell the operator that it was exposed.
+- A license update is never scripted through a changeset. `GridAuxFeature` stays excluded from the
+  Phase 8 changeset in every run.
+
+**Verification, with nothing revealed:**
+
+- `GridAuxFeature`'s content hash **differs** from the pre-upgrade export when this phase ran, and is
+  **identical** when it was `SKIPPED`. Report the hash comparison as `changed` or `unchanged`, never
+  the hash value itself. The update lands on the *protected* module, which `oml` cannot load, so
+  this check needs a fresh unprotected export of the merged module from the module owner. If that
+  export is not available, report the hash check as `UNVERIFIED` and rely on the Phase 9 banner check.
+- `GridAuxFeature` keeps its `Name`, `Folder`, `Description` and its one `RequiredScripts` entry
+  (`WijmoJS`). `GridFramework` still lists `GridAuxFeature` among its 15 `RequiredScripts`.
+- **The behavioural proof goes in Phase 9:** on the republished sample screen, no Wijmo license
+  banner or watermark appears, and the browser console has no Wijmo license message. The runtime's
+  messages start with `Wijmo Evaluation Version` or `The Wijmo license in this application`, so the
+  check is that neither string occurs. That proves the license is accepted without anyone looking
+  at it.
+
+**Exit**: either `SKIPPED` with a reason, or the operator confirmed the update, the hash verdict
+matches, and the Phase 9 banner check is queued.
+
+**Log**: `SKIPPED` and the reason, or `EXECUTED` with the hash verdict (`changed` / `unchanged`)
+and the Confluence page ID. Never anything else about the license.
+
 ## Phase 8b — Baseline capture and publish handoff
 
-**Entry**: Phase 8 green. **Nothing is published before step 1.**
+**Entry**: Phase 8 green, and Phase 8a either `SKIPPED` or closed. **Nothing is published before
+step 1.**
 
 1. **Capture the pre-upgrade baseline.** It is unrecoverable once the module is republished, and the
    comparative checks in Phase 9 are void without it. Record, into a named evidence folder: the
@@ -544,6 +627,26 @@ The second line is the only reliable proof the **Wijmo runtime itself** is on th
 `5.20261.52` the property is `preventCut`. On `false`, stop: the module is partially refreshed and
 every result below would be meaningless in an unknown direction.
 
+**When the release adds no FlexGrid property, probe the bundles directly.** `5.20262.60` added none
+(its *API Updates* touch FlexChart, OLAP, FlexScheduler and `MultiLineComboBox` only), so there is no
+property for the second line. Use the version each runtime reports, plus one new class from a bundle
+the module ships:
+
+```js
+wijmo.getVersion();                                   // must equal the build string
+typeof wijmo.input.MultiLineComboBox === 'function';  // 5.20262.60: proves WijmoInputJS is the new bundle
+```
+
+`wijmo.getVersion()` only proves `WijmoJS`. A second probe in another bundle catches a module where
+only some runtime scripts were refreshed.
+
+**License check, in the same console session.** No Wijmo license banner or watermark is visible, and
+the console holds no message containing `Wijmo Evaluation Version` or
+`The Wijmo license in this application`. This check runs on every upgrade, not only when Phase 8a
+ran: a new major build can reject a license that the previous build accepted. Report it as
+pass or fail. Never print or inspect the license to diagnose it; a failure goes to the operator, who
+follows Phase 8a.
+
 **Do the offline half first — much of this phase does not need a browser.** Two classes of check are
 provable by comparing the old and new runtime scripts, which are both in hand (the pre-upgrade export
 and the refreshed module):
@@ -569,6 +672,55 @@ one exists** — a checklist that says "check tooltips" cannot be executed or di
 | AC16 | Hover a cell with a tooltip; then hover a cell failing validation        | Tooltip appears with the standard class; the invalid one carries the error-validation styling |
 
 Add one row per intent-specific change this upgrade made on purpose, phrased the same way.
+
+**Prove that the publish carried the refresh, before any browser work.** The published module's
+scripts are public static files. Fetch `<app>/moduleservices/moduleinfo`, take the URL of each
+`scripts/<module>.<Script>.js` from `manifest.urlVersions`, and fetch them. Normalise CRLF and the BOM,
+then hash each one against the Phase 8 output snapshot. On ROU-13118 all 66 matched the refreshed
+module and none matched the pre-upgrade export. That one check proves the merge introduced no drift
+and that `GridAuxFeature` came through intact, without reading it. Fetch the two block stylesheets
+the same way (`css/<module>.Styles.WijmoCSS.css`, `css/<module>.Structures.Grid.css`). Compare them
+with the repository copies, ignoring whitespace, comments and `-servicestudio-*` properties, which
+Service Studio adds. That confirms the manual `WijmoCSS` step was done.
+
+**Driving the browser.** The `os-preview` browser tools attach to Chrome's DevTools port 9222. If
+nothing is listening, start a **separate** headless Chrome with a scratchpad profile, not the
+operator's:
+`chrome.exe --headless=new --remote-debugging-port=9222 --user-data-dir=<scratchpad>/chrome-profile`.
+Stop it afterwards by matching that profile path in its command line. Screenshots can only be saved
+under `<repo>/.playwright-mcp`, so move them to the evidence folder at the end, and never stage that
+directory. Two things measured on ROU-13118:
+
+- **Group-panel drag-and-drop cannot be automated.** Neither Playwright's `dragTo` nor synthetic
+  `DragEvent`s reach Wijmo's group panel. Group through
+  `features.groupPanel.addColumnsToGroupPanel(JSON.stringify([binding]))` instead. Record the drag
+  *gesture* as `UNVERIFIED` and leave it to the operator or the regression suite.
+- **AC14 needs the payload shape that OutSystems sends.** `SetGridData(id, JSON.stringify(rows))`
+  takes a plain array of `{ <Entity>: { ...scalars } }`. If you copy rows back out of the live
+  `collectionView`, you also copy the grid's internal row-metadata `Map`. That `Map` becomes `{}`
+  after `JSON.stringify` and then throws `_getRowMetadataByRowNumber(...).has is not a function`.
+  That error comes from the test, not from the component. Copy only scalar fields.
+- **A live "before" needs its build confirmed first.** On ROU-13118 the base sample
+  `OSDataGridAutomation/Grid_Configs` served as the baseline, next to the per-branch
+  `OSDataGridAutomation_<TASK>/Grid_Configs`. Read `getVersion()` from its published `WijmoJS` before
+  trusting it, then run **one probe, unchanged, on both**, so the two sides are measured identically.
+- **Enter every value with real keystrokes, and repeat any value that differs.** Assigning
+  `activeEditor.value` does not go through `InputNumber`, so it measures nothing. The grid's typed path
+  also depends on how the edit starts. On `5.20261.52` a typed `12.3456789` in an `n2` column was
+  stored as `12.34`, but `12.35` on `5.20262.60`, and the old build did not always repeat it. Paste
+  (`setClipString`, which fires `pastingCell`) and a standalone `InputNumber` round to `12.35` on both
+  builds. Record a typed-precision difference with its repeat count and the entry method, and flag it
+  for the release notes rather than calling it a regression.
+- **XLSX export metadata:** build the workbook with `FlexGridXlsxConverter.save(grid)`, then call
+  `saveAsync(null, resolve, reject)`. With JSZip 3 the synchronous `save()` asserts
+  `Please use JSZip 2.5`. Read `docProps/app.xml` and `docProps/core.xml` from the result with the
+  page's `JSZip`.
+- **Settle site #6 from the vendor's template, offline, before you look.** Extract the filter editor's
+  button-row markup (`wj-part="btn-apply"`) from `wijmo.grid.filter` for both builds. The npm
+  tarball `npm pack wijmo@<old>` is enough, since both builds come in the same flavor. If the markup
+  is identical, the override's selector still matches. The browser then confirms only the computed
+  result: each button matches the selector, keeps `min-width: 61px`, and Apply carries the primary
+  colour.
 
 Write each result into the evidence folder as it happens; re-running browser checks is expensive and
 Phase 10 consumes them.
@@ -604,7 +756,7 @@ copy and the affected checks were re-run against it.
 - Append the complete run log under an execution-record heading.
 
 **Exit**: the ADR exists and is `Accepted`; the log row is present and aligned; the run log has one
-line per phase 0-14 with no unexplained non-`EXECUTED` state.
+line per phase 0-14, plus 8a and 8b, with no unexplained non-`EXECUTED` state.
 
 **Log**: the ADR number and the run-log line count.
 
@@ -640,8 +792,9 @@ signature; `gh pr view --json isDraft,title,labels` matches the rules above.
 - **SBOM row**: the Data Grid **Reactive** row of the two; **replace** the value with the version
   description. The Web Data Grid row is untouched.
 - **Child page**: create `Wijmo update v<old build> to v<new build>` under the runbook, following the
-  precedent template. Fill the derivable sections; leave the operator's sections as visible
-  placeholders rather than guesses.
+  precedent template and the step list in `confluence-and-jira.md` (*Creating the page, step by
+  step*). Fill the derivable sections; leave the operator's sections as visible `To do:`
+  placeholders rather than guesses. The page carries internal links; this repository never does.
   The PR link comes from Phase 11, which is why that phase now runs first: an earlier ordering had
   this page written before the PR existed, leaving a placeholder someone had to remember to fill.
 - **Reported issues**: derive the candidate list — rows whose status names this release, intersected
@@ -703,6 +856,8 @@ lost if they are not said out loud:
 - **Release notes** draft, calling out any breaking change.
 - **The child page's operator sections** — fixed issues, new issues found, RPMs, automated-test runs.
 - **The module release publish**, as distinct from the per-branch publish in Phase 8b.
+- **The license update**, if Phase 8a ran: confirm that the release publish also carries the updated
+  `GridAuxFeature`. Record only the result, never the license.
 
 Then restate the run log in full, and for each non-`EXECUTED` line give its reason and its owner.
 
