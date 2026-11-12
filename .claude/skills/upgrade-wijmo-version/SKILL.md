@@ -792,8 +792,9 @@ signature; `gh pr view --json isDraft,title,labels` matches the rules above.
 - **SBOM row**: the Data Grid **Reactive** row of the two; **replace** the value with the version
   description. The Web Data Grid row is untouched.
 - **Child page**: create `Wijmo update v<old build> to v<new build>` under the runbook, following the
-  precedent template. Fill the derivable sections; leave the operator's sections as visible
-  placeholders rather than guesses.
+  precedent template and the step list in `confluence-and-jira.md` (*Creating the page, step by
+  step*). Fill the derivable sections; leave the operator's sections as visible `To do:`
+  placeholders rather than guesses. The page carries internal links; this repository never does.
   The PR link comes from Phase 11, which is why that phase now runs first: an earlier ordering had
   this page written before the PR existed, leaving a placeholder someone had to remember to fill.
 - **Reported issues**: derive the candidate list — rows whose status names this release, intersected
