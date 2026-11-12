@@ -130,12 +130,17 @@ on a group's index. Both stay, as defensive code. The remaining `ColumnType.Grou
 (`ValidationMark.ts`, row validation) skips groups because a group cannot be validated, not because
 of this defect.
 
-The automation app's `Column_Group` screen does **not** reproduce the stale index on either build.
-Its group reports `-1` on load and after collapse and expand, because the component's load order on
-that screen never leaves a group briefly as a leaf. The defect only shows in the build order above.
-The screen is still the user-level regression check: on `5.20262.60`, editing a cell inside its
-group fires `OnCellValueChange` with no error. Test Case 3 in the ticket combines both, the screen
-steps and the console reproduction.
+No automation-app screen reproduces the stale index through its own actions. Ten group-related
+screens were measured on `5.20261.52`. Every group reported `-1` on load, after collapse and expand
+on `Column_Group`, and after Save and Apply layout on `API_SetViewLayout`. The component's load order
+never leaves a group briefly as a leaf.
+
+`Column_Group` is still the best screen for the check. It is the only one with collapse and expand,
+an editable cell inside the group, and an existing grid to run the reproduction on. On that grid's
+own instance, pushing an empty `ColumnGroup` and then attaching two children leaves the group at
+`index` `10` on `5.20261.52`, colliding with its first child. On `5.20262.60` the group resets to
+`-1`. Editing a cell inside the screen's group fires `OnCellValueChange` with no error on
+`5.20262.60`. Test Case 3 in the ticket uses this screen for all of it.
 
 ### Observed behaviour change — typed decimal rounding
 
