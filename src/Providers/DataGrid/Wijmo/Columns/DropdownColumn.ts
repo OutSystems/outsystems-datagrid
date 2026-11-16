@@ -23,6 +23,8 @@ namespace Providers.DataGrid.Wijmo.Column {
 				this._dataItems.push(this._grid.provider.rows[a].dataItem);
 
 			this._oldState = this._grid.provider.getCellData(e.row, e.col, false);
+			// addChildAction never calls close(), so redo would apply undefined. The clear is stored as null.
+			this._newState = null;
 
 			this._page =
 				this._grid.provider.collectionView instanceof wijmo.collections.CollectionView
@@ -118,8 +120,14 @@ namespace Providers.DataGrid.Wijmo.Column {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			newValue: any
 		): void {
+			// After undo/redo apply, parent OnCellValueChange must not clear children that
+			// were already restored by child undo actions on the same stack entry.
+			if (this.grid.features.undoStack.isApplyingUndoRedo) {
+				return;
+			}
+
 			if (oldValue !== newValue && oldValue.toString() !== newValue.toString()) {
-				this.grid.features.dirtyMark.saveOriginalValue(rowNumber, this.provider.index);
+				this.grid.features.dirtyMark.saveOriginalValue(rowNumber, this.provider.name || this.provider.binding);
 			}
 
 			const column = this.grid.getColumn(columnID);
@@ -162,7 +170,8 @@ namespace Providers.DataGrid.Wijmo.Column {
 						// add new child action into existing parent action in order
 						existingUndoAction.addChildAction(
 							new GridEditAction(
-								this.grid,
+								// In the Wijmo provider layer the grid is always an IGridWijmo (FlexGrid).
+								this.grid as Grid.IGridWijmo,
 								new wijmo.grid.CellRangeEventArgs(this.grid.provider.cells, cellRange)
 							)
 						);

@@ -177,7 +177,7 @@ namespace OSFramework.DataGrid.Column {
 			const gridElement = Helper.GetElementByWidgetId(this._grid.widgetId);
 			const thisColumn = Helper.GetElementByWidgetId(this._widgetId);
 
-			return _.toArray(gridElement.querySelectorAll(Helper.Constants.columnCss))
+			return Array.from(gridElement.querySelectorAll(Helper.Constants.columnCss))
 				.map((p) => p.parentNode)
 				.indexOf(thisColumn);
 		}

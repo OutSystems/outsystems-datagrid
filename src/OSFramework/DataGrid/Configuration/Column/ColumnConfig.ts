@@ -60,12 +60,18 @@ namespace OSFramework.DataGrid.Configuration.Column {
 				wordWrap: this.wordWrap,
 				multiLine: this.multiLine,
 				dataType: this.dataType,
-				describedById: this.uniqueId,
+				// Store the column's uniqueId in Wijmo's `name` property so features (ClickEvent,
+				// DirtyMark) can map a Wijmo column back to its OutSystems column. `name` is a
+				// documented Wijmo identifier that is NOT rendered to the DOM. We must not reuse
+				// Wijmo's `describedById` for this: Wijmo renders it as an `aria-describedby`
+				// attribute pointing to a non-existent element, causing "Broken ARIA reference"
+				// accessibility errors.
+				name: this.uniqueId,
 				editor: this.editor,
 				width: this.width > 0 ? this.width : null, // when the column's width is not set, the default value should be managed by wijmo
 			};
 
-			//Cleanning undefined properties
+			//Cleaning undefined properties
 			Object.keys(provider).forEach((key) => provider[key] === undefined && delete provider[key]);
 
 			return provider;

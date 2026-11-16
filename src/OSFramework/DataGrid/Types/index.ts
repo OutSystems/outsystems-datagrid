@@ -58,6 +58,7 @@ namespace OSFramework.DataGrid.Types {
 		autoGenerateColumns: boolean;
 		headersFocusability: wijmo.grid.HeadersFocusability;
 		isReadOnly: boolean;
+		preventCut: boolean;
 		showSelectedHeaders: string;
 		validateEdits: boolean;
 	}
@@ -80,10 +81,12 @@ namespace OSFramework.DataGrid.Types {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		dataMap?: any;
 		dataMapEditor?: wijmo.grid.DataMapEditor;
-		describedById: string;
 		isCollapsed?: boolean;
 		isReadOnly: boolean;
 		isRequired: boolean;
+		// Wijmo column `name` — a DOM-inert identifier used to map a Wijmo column back to its
+		// OutSystems column (set to the column uniqueId). See ColumnConfig.getProviderConfig.
+		name: string;
 	}
 	/**
 	 * Specific structure for group column provider configuration

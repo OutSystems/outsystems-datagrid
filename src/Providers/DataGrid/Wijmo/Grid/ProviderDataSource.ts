@@ -12,7 +12,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
 			});
 		}
 
-		public addRow(position?: number, data?: JSON[]): void {
+		public addRow(position?: number, data?: object[]): void {
 			super.addRow(position, data);
 			this._provider.refresh();
 		}

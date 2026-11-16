@@ -17,7 +17,11 @@ const watchTsFiles = 'src/**/*.ts';
 // Clean Dist Folder
 function cleanOldFiles(cb) {
 	if (fs.existsSync(distFolder)) {
-		gulp.src(distFolder + '/*', { read: false }).pipe(clean());
+		// Return the stream so gulp waits for the delete to finish. Without this, cb() completes the
+		// task immediately and the synchronous TypeScript compile that follows blocks the event loop,
+		// starving the glob's readdir. It then lists dist/ *after* the compile wrote the bundle and
+		// deletes it -- leaving a build that exits 0 with an empty dist/.
+		return gulp.src(distFolder + '/*', { read: false }).pipe(clean());
 	}
 	cb();
 }

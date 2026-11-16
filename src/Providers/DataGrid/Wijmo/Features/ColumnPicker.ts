@@ -193,7 +193,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				displayMemberPath: 'header',
 				formatItem: (sender: wijmo.input.ListBox, e: wijmo.input.FormatItemEventArgs) => {
 					if (e && e.data && e.data.binding) {
-						const col = this._grid.getColumn(e.data.binding);
+						// `e.data` is the Wijmo column; resolve by the stable `name` identifier.
+						const col = this._grid.getColumnByProvider(e.data);
 						if (col !== undefined) {
 							this._addGroupToColumnPicker(col, e.item);
 							this._configureCheckbox(col, e.item);

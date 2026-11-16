@@ -1,6 +1,6 @@
 {
   "name": "outsystems-datagrid",
-  "version": "2.23.0",
+  "version": "2.25.0",
   "description": "OutSystems Data Grid for Reactive Web",
   "author": "UI Components Team",
   "license": "BSD-3-Clause",
@@ -21,7 +21,7 @@
     "url": "git+https://github.com/OutSystems/outsystems-datagrid"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=24"
   },
   "keywords": [
     "OutSystems",
@@ -30,20 +30,17 @@
     "UI Components"
   ],
   "devDependencies": {
-    "@types/lodash": "^4.17.24",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
+    "@typescript-eslint/eslint-plugin": "8.64.0",
+    "@typescript-eslint/parser": "8.64.0",
     "browser-sync": "^3.0.4",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-remove-empty-lines": "^0.1.0",
     "gulp-sourcemaps": "^3.0.0",
-    "gulp-typescript": "^6.0.0-alpha.1",
-    "lodash": "4.18.1",
     "postcss": "^8.5.6",
     "postcss-discard-comments": "^5.1.2",
     "postcss-discard-duplicates": "^5.1.0",
@@ -53,10 +50,14 @@
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-order": "^6.0.4",
-    "typedoc": "^0.23.28",
-    "typedoc-plugin-merge-modules": "^4.1.0",
-    "typedoc-umlclass": "^0.7.1",
-    "typescript": "^4.9.5",
-    "wijmo": "^5.20261.50"
+    "typedoc": "^0.28.19",
+    "typedoc-plugin-merge-modules": "^7.0.0",
+    "typedoc-umlclass": "^0.10.2",
+    "typescript": "~5.9.3",
+    "wijmo": "5.20262.60"
+  },
+  "volta": {
+    "node": "24.13.1",
+    "npm": "11.18.0"
   }
 }

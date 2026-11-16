@@ -221,11 +221,17 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			const columns = this._grid.getColumns();
 			const htColumn = ht.getColumn();
 
+			// Reset the column context; it is only repopulated when a data column is resolved below.
+			// This prevents reporting a stale column from a previous right-click when the click is
+			// over a group column, the column-picker column, a row header, or an empty area.
+			this._columnBinding = undefined;
+			this._columnUniqueId = undefined;
+			this._columnWidgetId = undefined;
+
 			// Will need to have an extra validation looking at the binding because of the column picker column
 			if (columns.length && htColumn && htColumn.binding !== null) {
-				const columnHit = this._grid.getColumns().find((x) => {
-					return x.config.binding === htColumn.binding;
-				});
+				// Resolve the OSFramework column by the stable `name` identifier.
+				const columnHit = this._grid.getColumnByProvider(htColumn);
 				if (columnHit) {
 					this._columnBinding = columnHit.config.binding;
 					this._columnUniqueId = columnHit.uniqueId;

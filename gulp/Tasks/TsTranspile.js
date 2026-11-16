@@ -1,8 +1,7 @@
-const gulp = require('gulp');
 const { series } = require('gulp');
 const fs = require('fs');
-const sourcemaps = require('gulp-sourcemaps');
-const ts = require('gulp-typescript');
+const path = require('node:path');
+const ts = require('typescript');
 
 const distFolder = './dist';
 const project = require('../DefaultSpecs');
@@ -88,33 +87,53 @@ function tsTranspile(cb, envMode, platformType) {
 
 // Method that will trigger the transpile of Ts according if it's development or production mode and platform type (O11 or ODC)
 async function tsTranspileBasedOnPlatform(cb, envMode, platformType, shouldCreateAll) {
-	let tsProject = ts.createProject('tsconfig.json', {
+	const compilerOptions = {
 		outDir: distFolder,
 		declaration: envMode === project.globalConsts.envType.production ? true : false,
-		outFile: `${envMode === project.globalConsts.envType.production ? '' : envMode + '.'}${
-			platformType !== '' ? platformType + '.' : ''
-		}${project.globalConsts.fileName}.js`,
-	});
+		outFile: path.join(
+			distFolder,
+			`${envMode === project.globalConsts.envType.production ? '' : envMode + '.'}${
+				platformType !== '' ? platformType + '.' : ''
+			}${project.globalConsts.fileName}.js`
+		),
+	};
 
 	if (envMode === project.globalConsts.envType.development) {
-		tsProject
-			.src()
-			.pipe(sourcemaps.init())
-			.pipe(tsProject())
-			.js.pipe(sourcemaps.write('.'))
-			.pipe(gulp.dest(distFolder))
-			.on('finish', () => {
-				onTsCompileFinish(platformType, cb, shouldCreateAll);
-			});
-	} else {
-		tsProject
-			.src()
-			.pipe(tsProject())
-			.pipe(gulp.dest(distFolder))
-			.on('finish', () => {
-				onTsCompileFinish(platformType, cb, shouldCreateAll);
-			});
+		compilerOptions.sourceMap = true;
 	}
+
+	const configFile = ts.readConfigFile('tsconfig.json', ts.sys.readFile);
+	const parsedConfig = ts.parseJsonConfigFileContent(
+		configFile.config,
+		ts.sys,
+		path.dirname(path.resolve('tsconfig.json')),
+		compilerOptions,
+		path.resolve('tsconfig.json')
+	);
+
+	const program = ts.createProgram({
+		rootNames: parsedConfig.fileNames,
+		options: parsedConfig.options,
+	});
+
+	const emitResult = program.emit();
+	const diagnostics = ts.getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
+
+	if (diagnostics.length > 0) {
+		console.error(
+			ts.formatDiagnosticsWithColorAndContext(diagnostics, {
+				getCurrentDirectory: () => ts.sys.getCurrentDirectory(),
+				getCanonicalFileName: (fileName) => fileName,
+				getNewLine: () => ts.sys.newLine,
+			})
+		);
+	}
+
+	if (emitResult.emitSkipped) {
+		throw new Error('TypeScript compilation failed');
+	}
+
+	onTsCompileFinish(platformType, cb, shouldCreateAll);
 
 	// Rollback tsconfig file to the default state
 	if (defaultTsConfigText !== '') {

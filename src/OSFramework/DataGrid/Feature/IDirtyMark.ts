@@ -13,8 +13,8 @@ namespace OSFramework.DataGrid.Feature {
 		/**
 		 * Saves cell original value
 		 * @param rowNumber Cell's row number
-		 * @param columnNumber Cell's column number
+		 * @param columnId Cell's column identifier (uniqueId or binding)
 		 */
-		saveOriginalValue(rowNumber: number, columnNumber: number): void;
+		saveOriginalValue(rowNumber: number, columnId: string): void;
 	}
 }

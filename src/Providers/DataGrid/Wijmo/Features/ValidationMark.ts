@@ -33,20 +33,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 * Handler for the CellEditEnded.
 		 */
 		private _cellEditEndedHandler(s: wijmo.grid.FlexGrid, e: wijmo.grid.CellEditEndingEventArgs): void {
-			// get the new value
-			const newValue = s.getCellData(e.row, e.col, false);
-			const previousValue = e.previousData;
-
-			const isNewValue = previousValue !== newValue && previousValue?.toString() !== newValue?.toString();
-
-			if (isNewValue) {
-				const column = s.getColumn(e.col);
-				const OSColumn = this._grid.getColumns().find((item) => item.provider.index === column.index);
-
-				// The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
-				const oldValue = this._grid.features.dirtyMark.getOldValue(e.row, column.binding);
-				this._triggerEventsFromColumn(e.row, OSColumn.uniqueId, oldValue, newValue);
-			}
+			// For manual edits the original value (before the edit) is provided on `previousData`.
+			this._evaluateCellChange(s, e.row, e.col, e.previousData);
 		}
 
 		/** Helper to convert the formats of Date and DateTime columns to the format of OS */
@@ -68,6 +56,42 @@ namespace Providers.DataGrid.Wijmo.Feature {
 					return value ?? false;
 				default:
 					return value ?? '';
+			}
+		}
+
+		/**
+		 * Shared change-gate + trigger logic used by both the edit and paste handlers.
+		 * Evaluates whether the cell value actually changed and, if so, triggers the column events.
+		 * @param s The Wijmo FlexGrid instance.
+		 * @param row Number of the row where the value may have changed.
+		 * @param col Number of the column where the value may have changed.
+		 * @param previousValue The cell's original value before the change. Sourced from
+		 * `previousData` for manual edits and from `data` for paste.
+		 */
+		private _evaluateCellChange(
+			s: wijmo.grid.FlexGrid,
+			row: number,
+			col: number,
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			previousValue: any
+		): void {
+			// get the new value
+			const newValue = s.getCellData(row, col, false);
+
+			const isNewValue = previousValue !== newValue && previousValue?.toString() !== newValue?.toString();
+
+			if (isNewValue) {
+				const column = s.getColumn(col);
+
+				// Match the OSFramework column by the stable `name` identifier instead of the column
+				// index. Group columns are excluded by the helper.
+				const OSColumn = this._grid.getColumnByProvider(column);
+
+				if (OSColumn !== undefined) {
+					// The old value can be captured on the dirtyMark feature as it is the one responsible for saving the original values
+					const oldValue = this._grid.features.dirtyMark.getOldValue(row, column.binding);
+					this._triggerEventsFromColumn(row, OSColumn.uniqueId, oldValue, newValue);
+				}
 			}
 		}
 
@@ -147,42 +171,72 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			return false;
 		}
 
+		/**
+		 * Handler for the pastedCell event.
+		 */
+		private _pastedCellHandler(s: wijmo.grid.FlexGrid, e: wijmo.grid.CellRangeEventArgs): void {
+			// On paste, `previousData` is undefined; the cell's original value (before the paste) is
+			// exposed on `data`.
+			this._evaluateCellChange(s, e.row, e.col, e.data);
+		}
+
 		// eslint-disable-next-line
 		private _redoActionHandler(action: any) {
 			// we only want to redo on GridEditAction
 			// we don't want to redo on GridRemoveRowAction
 			if (
 				action.dataItem !== undefined &&
-				!_.isObject(action._oldState) &&
+				(typeof action._oldState !== 'object' ||
+					action._oldState === null ||
+					action._oldState instanceof Date) &&
 				!(action instanceof GridInsertRowAction) &&
 				!(action instanceof GridRemoveRowAction)
 			) {
-				const binding = this._grid.provider.getColumn(action.col).binding;
+				const providerColumn = this._grid.provider.getColumn(action.col);
+				const binding = providerColumn.binding;
 
-				const OSColumn = this._grid.getColumns().find((item) => item.provider.index === action.col);
-				const oldValue = this._grid.features.dirtyMark.getOldValue(action.row, binding);
-				this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._newState);
+				// Match the OSFramework column by the stable `name` identifier instead of the index.
+				const OSColumn = this._grid.getColumnByProvider(providerColumn);
+
+				if (OSColumn !== undefined) {
+					const oldValue = this._grid.features.dirtyMark.getOldValue(action.row, binding);
+					this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._newState);
+				}
 			}
 		}
 
 		/**
 		 * Handler for the RedoingAction.
+		 * Only cancels redo when search is active; OnCellValueChange is raised on redoneAction
+		 * so GetRowData already reflects the applied value.
 		 */
-		private _redoingActionHandler(s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const action: any = e.action;
+		private _redoingActionHandler(_s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
 			// if search is set, we want to cancel redo
 			if (this._grid.features.search.hasText) {
 				e.cancel = true;
-				return;
 			}
+		}
 
-			this._redoActionHandler(action);
+		/**
+		 * Handler for the RedoneAction.
+		 * Fires after Wijmo applies the redo so the dataItem (and GetRowData) match NewValue.
+		 */
+		private _redoneActionHandler(_s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const action: any = e.action;
 
-			if (action?._actions?.length > 0) {
-				action._actions.forEach((element) => {
-					this._redoActionHandler(element);
-				});
+			this._grid.features.undoStack.isApplyingUndoRedo = true;
+			try {
+				this._redoActionHandler(action);
+
+				if (action?._actions?.length > 0) {
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					action._actions.forEach((element: any) => {
+						this._redoActionHandler(element);
+					});
+				}
+			} finally {
+				this._grid.features.undoStack.isApplyingUndoRedo = false;
 			}
 		}
 
@@ -284,35 +338,55 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			// we don't want to undo on GridRemoveRowAction
 			if (
 				action.dataItem !== undefined &&
-				!_.isObject(action._oldState) &&
-				(!(action instanceof GridInsertRowAction) || !(action instanceof GridRemoveRowAction))
+				(typeof action._oldState !== 'object' ||
+					action._oldState === null ||
+					action._oldState instanceof Date) &&
+				!(action instanceof GridInsertRowAction) &&
+				!(action instanceof GridRemoveRowAction)
 			) {
-				const binding = this._grid.provider.getColumn(action.col).binding;
+				const providerColumn = this._grid.provider.getColumn(action.col);
+				const binding = providerColumn.binding;
 				const oldValue = this._grid.features.dirtyMark.getOldValue(action.row, binding);
-				const OSColumn = this._grid.getColumns().find((item) => item.provider.index === action.col);
-
-				this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._oldState);
+				// Match the OSFramework column by the stable `name` identifier instead of the index.
+				const OSColumn = this._grid.getColumnByProvider(providerColumn);
+				if (OSColumn !== undefined) {
+					this._triggerEventsFromColumn(action.row, OSColumn.uniqueId, oldValue, action._oldState);
+				}
 			}
 		}
 
 		/**
 		 * Handler for the UndoingAction.
+		 * Only cancels undo when search is active; OnCellValueChange is raised on undoneAction
+		 * so GetRowData already reflects the applied value.
 		 */
-		private _undoingActionHandler(s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const action: any = e.action;
+		private _undoingActionHandler(_s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
 			// if search is set, we want to cancel undo
 			if (this._grid.features.search.hasText) {
 				e.cancel = true;
-				return;
 			}
+		}
 
-			this._undoActionHandler(action);
+		/**
+		 * Handler for the UndoneAction.
+		 * Fires after Wijmo applies the undo so the dataItem (and GetRowData) match NewValue.
+		 */
+		private _undoneActionHandler(_s: wijmo.undo.UndoStack, e: wijmo.undo.UndoActionEventArgs): void {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const action: any = e.action;
 
-			if (action?._actions?.length > 0) {
-				action._actions.forEach((element) => {
-					this._undoActionHandler(element);
-				});
+			this._grid.features.undoStack.isApplyingUndoRedo = true;
+			try {
+				this._undoActionHandler(action);
+
+				if (action?._actions?.length > 0) {
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					action._actions.forEach((element: any) => {
+						this._undoActionHandler(element);
+					});
+				}
+			} finally {
+				this._grid.features.undoStack.isApplyingUndoRedo = false;
 			}
 		}
 
@@ -339,9 +413,11 @@ namespace Providers.DataGrid.Wijmo.Feature {
 
 		public build(): void {
 			this._grid.provider.cellEditEnded.addHandler(this._cellEditEndedHandler.bind(this));
-			this._grid.provider.pastedCell.addHandler(this._cellEditEndedHandler.bind(this));
+			this._grid.provider.pastedCell.addHandler(this._pastedCellHandler.bind(this));
 			this._grid.features.undoStack.stack.undoingAction.addHandler(this._undoingActionHandler.bind(this));
 			this._grid.features.undoStack.stack.redoingAction.addHandler(this._redoingActionHandler.bind(this));
+			this._grid.features.undoStack.stack.undoneAction.addHandler(this._undoneActionHandler.bind(this));
+			this._grid.features.undoStack.stack.redoneAction.addHandler(this._redoneActionHandler.bind(this));
 			// Future Implementation -> adding new rows will trigger this event
 			// this._grid.addedRows.addHandler(
 			//     this._addNewRowEndingHandler.bind(this)
@@ -534,7 +610,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				column.binding,
 				// If the error message is empty we want to return the message -> Invalid [Column Name]
 				// Make sure all the end of lines from the error that comes from OS are replaced with <br>
-				errorMessage !== '' ? errorMessage.replace(/\n/g, '<br>') : 'Invalid ' + column.header
+				errorMessage !== '' ? errorMessage.replaceAll('\n', '<br>') : 'Invalid ' + column.header
 			);
 
 			// set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata
@@ -569,7 +645,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				column.binding,
 				// If the error message is empty we want to return the message -> Invalid [Column Name]
 				// Make sure all the end of lines from the error that comes from OS are replaced with <br>
-				errorMessage !== '' ? errorMessage.replace(/\n/g, '<br>') : 'Invalid ' + column.header
+				errorMessage !== '' ? errorMessage.replaceAll('\n', '<br>') : 'Invalid ' + column.header
 			);
 
 			// set invalidRows with row number and flag that checks if status isValid and if there are invalid values on metadata

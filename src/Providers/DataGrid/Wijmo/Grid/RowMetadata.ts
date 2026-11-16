@@ -137,7 +137,7 @@ namespace Providers.DataGrid.Wijmo.Grid {
 
 		public getRowIndexByKey(rowKey: string): number {
 			const rowIndex = this._itemsSource.sourceCollection.findIndex(
-				(item) => _.get(item, this._configs.keyBinding).toString() === rowKey
+				(item) => String(OSFramework.DataGrid.Helper.GetByPath(item, this._configs.keyBinding)) === rowKey
 			);
 			return rowIndex;
 		}

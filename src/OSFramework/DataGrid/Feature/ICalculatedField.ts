@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace OSFramework.DataGrid.Feature {
 	export interface ICalculatedField {
-		// eslint-disable-next-line @typescript-eslint/ban-types
+		// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 		calculatedFields: {};
 		/**
 		 * Adds new calculated field formula the desired binding.
