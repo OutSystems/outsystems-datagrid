@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
     *
-    * Wijmo Library 5.20261.52
+    * Wijmo Library 5.20262.60
     * https://developer.mescius.com/wijmo
     *
     * Copyright(c) MESCIUS inc. All rights reserved.
@@ -380,11 +380,11 @@
   white-space: nowrap;
 }
 .wj-control .wj-btn:focus, .wj-control .wj-btn:hover {
-  background: rgb(225.25, 225.25, 225.25);
+  background: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
   transition-duration: 0.4s;
 }
 .wj-control .wj-btn.wj-state-active {
-  background: rgb(212.5, 212.5, 212.5);
+  background: rgb(83.3333333333%, 83.3333333333%, 83.3333333333%);
 }
 .wj-control .wj-btn[disabled] {
   cursor: default;
@@ -589,7 +589,7 @@
 .wj-control .wj-btn-group > .wj-btn:focus, .wj-control .wj-btn-group > .wj-btn:hover,
 .wj-control .wj-input-group-btn > .wj-btn:focus,
 .wj-control .wj-input-group-btn > .wj-btn:hover {
-  background: rgb(225.25, 225.25, 225.25);
+  background: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
   transition-duration: 0.4s;
 }
 .wj-control .wj-btn-group > .wj-btn.wj-btn-default,
@@ -603,7 +603,7 @@
 .wj-control .wj-btn-group > .wj-btn.wj-btn-default:focus, .wj-control .wj-btn-group > .wj-btn.wj-btn-default:hover,
 .wj-control .wj-input-group-btn > .wj-btn.wj-btn-default:focus,
 .wj-control .wj-input-group-btn > .wj-btn.wj-btn-default:hover {
-  background: rgb(225.25, 225.25, 225.25);
+  background: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
   transition-duration: 0.4s;
 }
 .wj-control.wj-rtl .wj-input-group-btn:last-child:not(:first-child) > .wj-btn {
@@ -859,7 +859,7 @@
   width: 14.29%;
 }
 .wj-calendar .wj-calendar-month td:not(.wj-state-selected):hover {
-  background-color: rgb(225.25, 225.25, 225.25);
+  background-color: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
 }
 .wj-calendar .wj-calendar-month td:not(.wj-state-selected):hover.wj-state-multi-selected {
   color: black;
@@ -880,7 +880,7 @@
   all: unset;
 }
 .wj-calendar .wj-calendar-year td:not(.wj-state-selected):hover {
-  background-color: rgb(225.25, 225.25, 225.25);
+  background-color: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
 }
 .wj-calendar .wj-calendar-year tr:not(.wj-header) td {
   height: 3em;
@@ -1062,11 +1062,11 @@
   white-space: nowrap;
 }
 .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn:focus, .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn:hover {
-  background: rgb(225.25, 225.25, 225.25);
+  background: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
   transition-duration: 0.4s;
 }
 .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn.wj-state-active {
-  background: rgb(212.5, 212.5, 212.5);
+  background: rgb(83.3333333333%, 83.3333333333%, 83.3333333333%);
 }
 .wj-inputdate-dropdown .wj-calendar-confirmation-button-container .wj-btn[disabled] {
   cursor: default;
@@ -1086,7 +1086,7 @@
 }
 
 .wj-inputdatetime .wj-input-group-btn > .wj-btn.wj-btn-default.wj-show-dropdown-button {
-  background: rgb(225.25, 225.25, 225.25);
+  background: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
 }
 @media (forced-colors: active) {
   .wj-inputdatetime .wj-input-group-btn > .wj-btn.wj-btn-default.wj-show-dropdown-button {
@@ -1171,6 +1171,41 @@
   font-weight: bold;
 }
 
+.wj-control.wj-multiline-combobox .wj-template,
+.wj-control.wj-multiline-combobox .wj-input,
+.wj-control.wj-multiline-combobox .wj-input-group {
+  height: 100%;
+}
+.wj-control.wj-multiline-combobox .wj-input-group {
+  align-items: stretch;
+}
+.wj-control.wj-multiline-combobox textarea.wj-form-control {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  height: auto;
+  align-content: center;
+  min-width: 0;
+  line-height: 1.4;
+  resize: none;
+  white-space: pre-wrap;
+}
+.wj-control.wj-multiline-combobox .wj-input-group-btn {
+  display: flex;
+  align-self: stretch;
+  align-items: stretch;
+}
+.wj-control.wj-multiline-combobox .wj-input-group-btn > .wj-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  min-height: 0;
+}
+
+.wj-multiline-combobox-dropdown.wj-listbox .wj-listbox-item {
+  white-space: pre-wrap;
+}
+
 .wj-multi-autocomplete {
   width: 100%;
   padding: 5px;
@@ -1193,7 +1228,7 @@
   cursor: default;
 }
 .wj-multi-autocomplete .wj-token:focus, .wj-multi-autocomplete .wj-token:hover, .wj-multi-autocomplete .wj-token.wj-token-active {
-  background: rgb(225.25, 225.25, 225.25);
+  background: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
   transition-duration: 0.4s;
 }
 .wj-multi-autocomplete .wj-token .wj-token-label {
@@ -2000,11 +2035,11 @@
   border-left: none;
 }
 .wj-flexgrid.wj-rtl .wj-frozen-col {
-  border-left: 1px solid rgb(161.5, 161.5, 161.5);
+  border-left: 1px solid rgb(63.3333333333%, 63.3333333333%, 63.3333333333%);
   border-right: none;
 }
 .wj-flexgrid.wj-rtl .wj-frozen-col-right-edge {
-  border-right: 1px solid rgb(161.5, 161.5, 161.5);
+  border-right: 1px solid rgb(63.3333333333%, 63.3333333333%, 63.3333333333%);
 }
 .wj-flexgrid.wj-rtl .wj-colheaders .wj-header.wj-filter-on, .wj-flexgrid.wj-rtl .wj-colheaders .wj-header.wj-filter-off {
   white-space: normal;
@@ -2052,7 +2087,7 @@
   text-overflow: ellipsis;
 }
 .wj-cell.wj-alt {
-  background: rgb(247.35, 247.35, 247.35);
+  background: rgb(97%, 97%, 97%);
 }
 .wj-cell.wj-header {
   background: #eee;
@@ -2060,7 +2095,7 @@
   font-weight: bold;
 }
 .wj-cell.wj-header.wj-state-multi-selected {
-  background: rgb(225.25, 225.25, 225.25);
+  background: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
   color: #000000;
   font-weight: bold;
 }
@@ -2074,19 +2109,19 @@
   opacity: 1;
 }
 .wj-cell.wj-last-frozen-row {
-  border-bottom: 1px solid rgb(161.5, 161.5, 161.5);
+  border-bottom: 1px solid rgb(63.3333333333%, 63.3333333333%, 63.3333333333%);
 }
 .wj-cell.wj-last-frozen-row-bottom {
-  border-top: 1px solid rgb(161.5, 161.5, 161.5);
+  border-top: 1px solid rgb(63.3333333333%, 63.3333333333%, 63.3333333333%);
 }
 .wj-cell.wj-frozen-col {
-  border-right: 1px solid rgb(161.5, 161.5, 161.5);
+  border-right: 1px solid rgb(63.3333333333%, 63.3333333333%, 63.3333333333%);
 }
 .wj-cell.wj-frozen-col-right-edge {
-  border-left: 1px solid rgb(161.5, 161.5, 161.5);
+  border-left: 1px solid rgb(63.3333333333%, 63.3333333333%, 63.3333333333%);
 }
 .wj-cell.wj-group {
-  background: rgb(225.25, 225.25, 225.25);
+  background: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
   color: #000000;
 }
 .wj-cell.wj-group .wj-elem-collapse-space::before {
@@ -2334,7 +2369,7 @@ div[wj-part=div-exceeds] {
 }
 .wj-grouppanel {
   display: block;
-  background: rgb(225.25, 225.25, 225.25);
+  background: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
   padding: 15px;
   min-height: 1em;
 }
@@ -2348,7 +2383,7 @@ div[wj-part=div-exceeds] {
   cursor: pointer;
 }
 .wj-grouppanel .wj-groupmarker:hover {
-  background: rgb(225.25, 225.25, 225.25);
+  background: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
 }
 .wj-grouppanel .wj-groupmarker:focus {
   outline: 1px dotted #000000;
@@ -2568,6 +2603,21 @@ div[wj-part=div-exceeds] {
   stroke-dasharray: 6;
   stroke-linecap: square;
 }
+.wj-flexchart .wj-flexchart-focus {
+  fill: transparent;
+  stroke: Highlight;
+  stroke-width: 2px;
+  stroke-dasharray: 4 2;
+  vector-effect: non-scaling-stroke;
+}
+.wj-flexchart .wj-flexchart-focus-layer {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none;
+}
+.wj-flexchart.wj-flexchart-focus-layer-host {
+  position: relative;
+}
 .wj-flexchart.wj-flexchart-touch-disabled {
   touch-action: none;
   -ms-touch-action: none;
@@ -2647,6 +2697,11 @@ div[wj-part=div-exceeds] {
   display: block;
   position: absolute;
   border-radius: 4px;
+}
+.wj-flexchart .wj-chart-rangeslider .wj-rangeslider-minhandle:focus,
+.wj-flexchart .wj-chart-rangeslider .wj-rangeslider-maxhandle:focus {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
 }
 .wj-flexchart .wj-chart-rangeslider .wj-rangeslider-handle-active {
   z-index: 2;
@@ -2731,8 +2786,8 @@ div[wj-part=div-exceeds] {
 }
 .wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-minhandle,
 .wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-maxhandle {
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   border-radius: 50%;
   top: 0;
   bottom: 0;
@@ -2757,8 +2812,8 @@ div[wj-part=div-exceeds] {
 }
 .wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-minhandle,
 .wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-maxhandle {
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   left: 50%;
   border-radius: 50%;
   border: 1px solid hsla(0, 0%, 50.2%, 0.75);
@@ -2814,6 +2869,10 @@ div[wj-part=div-exceeds] {
   opacity: 0.9;
   padding: 10px 10px 6px 10px !important;
   border: solid 0.5px gray;
+}
+.wj-flexmap .wj-btn:focus {
+  background: #888888;
+  color: #000;
 }
 
 .wj-gauge {
@@ -2938,6 +2997,982 @@ div[wj-part=div-exceeds] {
   height: 40px;
 }
 
+.wj-scheduler {
+  display: block;
+  height: 100%;
+  min-height: 520px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #dde3ea;
+  border-radius: 0;
+  color: #111827;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  --wj-scheduler-timed-frozen-frame-z-index: 7;
+  --wj-scheduler-timed-corner-frame-z-index: 8;
+  --wj-scheduler-timed-header-pane-z-index: 6;
+  --wj-scheduler-cell-nonworking-background-color: rgba(0, 0, 0, 0.07);
+  --wj-scheduler-cell-working-background-color: #fff;
+}
+.wj-scheduler .wj-scheduler-root {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: #fff;
+}
+.wj-scheduler .wj-scheduler-header {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 7fr);
+  align-items: center;
+  min-height: 48px;
+  gap: 16px;
+  padding: 0 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  user-select: none;
+}
+.wj-scheduler .wj-scheduler-header-left,
+.wj-scheduler .wj-scheduler-header-right,
+.wj-scheduler .wj-scheduler-view-menu-container,
+.wj-scheduler .wj-scheduler-view-menu {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.wj-scheduler .wj-scheduler-header-left {
+  gap: 10px;
+  overflow: hidden;
+}
+.wj-scheduler .wj-scheduler-header-right {
+  gap: 14px;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.wj-scheduler .wj-scheduler-date-range {
+  flex: 0 1 auto;
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 16px 0 8px;
+  overflow: hidden;
+  color: #0f172a;
+  cursor: pointer;
+  font-weight: 600;
+  line-height: 48px;
+  text-overflow: ellipsis;
+  user-select: none;
+  white-space: nowrap;
+}
+.wj-scheduler .wj-scheduler-date-range::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid #64748b;
+  border-bottom: 1px solid #64748b;
+  transform: translateY(-65%) rotate(45deg);
+}
+.wj-scheduler .wj-scheduler-date-range.wj-scheduler-date-range-hidden {
+  display: none;
+}
+.wj-scheduler .wj-scheduler-date-range:focus-within {
+  outline: 2px solid #000;
+  outline-offset: -2px;
+}
+.wj-scheduler .wj-scheduler-date-range-label {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wj-scheduler .wj-scheduler-date-range-picker-host {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  min-width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0;
+}
+.wj-scheduler .wj-scheduler-date-range-picker-host .wj-input-group {
+  width: 100%;
+  height: 100%;
+}
+.wj-scheduler .wj-scheduler-date-range-picker-host input {
+  cursor: pointer;
+}
+.wj-scheduler .wj-scheduler-nav-button,
+.wj-scheduler .wj-scheduler-view-scroll-button,
+.wj-scheduler .wj-scheduler-view-button {
+  height: 30px;
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #020617;
+  flex: 0 0 auto;
+  font: inherit;
+  font-weight: 600;
+  line-height: 30px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  transition-property: background, color, border-color, border-width, opacity, box-shadow;
+}
+.wj-scheduler .wj-scheduler-nav-button:hover,
+.wj-scheduler .wj-scheduler-view-scroll-button:hover,
+.wj-scheduler .wj-scheduler-view-button:hover {
+  background: #f8fafc;
+}
+.wj-scheduler .wj-scheduler-nav-button:focus,
+.wj-scheduler .wj-scheduler-view-scroll-button:focus,
+.wj-scheduler .wj-scheduler-view-button:focus {
+  outline: 2px solid #000;
+  outline-offset: -2px;
+}
+.wj-scheduler .wj-scheduler-nav-button,
+.wj-scheduler .wj-scheduler-view-scroll-button {
+  font-size: 20px;
+}
+.wj-scheduler .wj-scheduler-nav-button > span,
+.wj-scheduler .wj-scheduler-view-scroll-button > span {
+  position: relative;
+  top: -2px;
+}
+.wj-scheduler .wj-scheduler-view-button {
+  border-bottom: 2px solid transparent;
+}
+.wj-scheduler .wj-scheduler-view-menu-divider {
+  height: 34px;
+  width: 1px;
+  background: #e5e7eb;
+  margin-left: 12px;
+}
+.wj-scheduler .wj-scheduler-view-menu-container {
+  flex: 0 1 auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+.wj-scheduler .wj-scheduler-view-menu {
+  flex: 1 1 auto;
+  gap: 4px;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+.wj-scheduler .wj-scheduler-view-menu::-webkit-scrollbar {
+  display: none;
+}
+.wj-scheduler .wj-scheduler-view-button-active {
+  color: #007cbe;
+  border-bottom-color: #007cbe;
+}
+.wj-scheduler .wj-scheduler-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  background: #fff;
+}
+.wj-scheduler .wj-scheduler-surface {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: auto;
+  background: #fff;
+}
+.wj-scheduler .wj-scheduler-surface-matrix {
+  display: grid;
+}
+.wj-scheduler .wj-scheduler-surface-timed-vertical,
+.wj-scheduler .wj-scheduler-surface-timed-horizontal {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.wj-scheduler .wj-scheduler-timed-header-pane {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: var(--wj-scheduler-timed-header-pane-z-index);
+  min-width: 0;
+  overflow: hidden;
+  background: #fff;
+}
+.wj-scheduler .wj-scheduler-timed-scroll-viewport {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  background: #fff;
+}
+.wj-scheduler .wj-scheduler-timed-column-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  min-width: max-content;
+  background: #fff;
+}
+.wj-scheduler .wj-scheduler-timed-column-header-grid,
+.wj-scheduler .wj-scheduler-timed-row-group,
+.wj-scheduler .wj-scheduler-timed-horizontal-header-row,
+.wj-scheduler .wj-scheduler-timed-horizontal-row-grid,
+.wj-scheduler .wj-scheduler-timed-vertical-frame,
+.wj-scheduler .wj-scheduler-timed-horizontal-header-frame,
+.wj-scheduler .wj-scheduler-timed-horizontal-row-header-frame,
+.wj-scheduler .wj-scheduler-timed-corner-frame {
+  display: grid;
+  min-width: max-content;
+}
+.wj-scheduler .wj-scheduler-timed-vertical-frame,
+.wj-scheduler .wj-scheduler-timed-horizontal-row-header-frame,
+.wj-scheduler .wj-scheduler-timed-corner-frame {
+  position: sticky;
+  left: 0;
+  z-index: var(--wj-scheduler-timed-frozen-frame-z-index);
+  background: #fff;
+}
+.wj-scheduler .wj-scheduler-timed-corner-frame {
+  z-index: var(--wj-scheduler-timed-corner-frame-z-index);
+}
+.wj-scheduler .wj-scheduler-timed-horizontal-header-frame {
+  background: #fff;
+}
+.wj-scheduler .wj-scheduler-timed-section-header,
+.wj-scheduler .wj-scheduler-matrix-band {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 48px;
+  overflow: hidden;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  color: #172554;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 4px;
+}
+.wj-scheduler .wj-scheduler-timed-corner,
+.wj-scheduler .wj-scheduler-matrix-band-corner {
+  background: #fff;
+}
+.wj-scheduler .wj-scheduler-timed-axis {
+  background: #f8fafc;
+  border-right: 1px solid #e5e7eb;
+}
+.wj-scheduler .wj-scheduler-timed-axis > .wj-scheduler-timed-axis-row {
+  align-items: flex-start;
+  padding-top: 5px;
+}
+.wj-scheduler .wj-scheduler-timed-axis > .wj-scheduler-timed-axis-row-dst {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.wj-scheduler .wj-scheduler-timed-axis-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  padding: 0;
+  border-bottom: 1px solid #e5e7eb;
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1;
+}
+.wj-scheduler .wj-scheduler-timed-axis-row-dst {
+  color: #c62828;
+}
+.wj-scheduler .wj-scheduler-timed-axis-dst-indicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  margin: 3px 0 0;
+  padding: 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+  color: #c62828;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  cursor: help;
+}
+.wj-scheduler .wj-scheduler-timed-axis-dst-indicator::after {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 50%;
+  display: none;
+  width: max-content;
+  max-width: 280px;
+  padding: 7px 9px;
+  border: 1px solid #d1d5db;
+  background: #111827;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  color: #fff;
+  content: attr(data-dst-tooltip);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: left;
+  white-space: normal;
+  transform: translateX(-12px);
+}
+.wj-scheduler .wj-scheduler-timed-axis-dst-indicator:hover::after,
+.wj-scheduler .wj-scheduler-timed-axis-dst-indicator:focus-visible::after {
+  display: block;
+}
+.wj-scheduler .wj-scheduler-timed-vertical-row-headers,
+.wj-scheduler .wj-scheduler-timed-horizontal-row-headers {
+  display: grid;
+}
+.wj-scheduler .wj-scheduler-timed-section {
+  min-width: 180px;
+  background: #fff;
+}
+.wj-scheduler .wj-scheduler-timed-section-body {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+}
+.wj-scheduler .wj-scheduler-timed-section-body-vertical {
+  display: grid;
+}
+.wj-scheduler .wj-scheduler-timed-section-body-horizontal {
+  display: grid;
+}
+.wj-scheduler .wj-scheduler-cell {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+.wj-scheduler .wj-scheduler-cell.wj-scheduler-active-target {
+  background: #007cbe;
+  outline: none;
+}
+.wj-scheduler .wj-scheduler-cell.wj-scheduler-active-target .wj-scheduler-cell-label {
+  color: #fff;
+}
+.wj-scheduler .wj-scheduler-cell-nonworking {
+  background: var(--wj-scheduler-cell-nonworking-background, var(--wj-scheduler-cell-nonworking-background-color));
+  border-right-color: #d1d5db;
+  border-bottom-color: #d1d5db;
+  color: #64748b;
+}
+.wj-scheduler .wj-scheduler-cell-nonworking .wj-scheduler-cell-label {
+  color: #475569;
+  font-weight: 600;
+}
+.wj-scheduler .wj-scheduler-timed-cell-vertical.wj-scheduler-timed-cell-sub-slot {
+  border-bottom: 1px dotted #e5e7eb;
+}
+.wj-scheduler .wj-scheduler-timed-cell-horizontal.wj-scheduler-timed-cell-sub-slot {
+  border-right: 1px dotted #e5e7eb;
+}
+.wj-scheduler .wj-scheduler-timed-cell-sub-slot.wj-scheduler-cell-nonworking {
+  border-right-color: #d1d5db;
+  border-bottom-color: #d1d5db;
+}
+.wj-scheduler .wj-scheduler-cell-label {
+  padding: 8px;
+  color: #64748b;
+  font-size: 13px;
+}
+.wj-scheduler .wj-scheduler-timed-cell-vertical .wj-scheduler-cell-label {
+  display: none;
+}
+.wj-scheduler .wj-scheduler-timed-items-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.wj-scheduler .wj-scheduler-item {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 4px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  background: #bfdcff;
+  color: #000;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: normal;
+  transition-duration: 0.3s;
+  transition-property: background, color, border-color, border-width, opacity, box-shadow;
+}
+.wj-scheduler .wj-scheduler-item [data-part=scheduler-item-subject],
+.wj-scheduler .wj-scheduler-item [data-part=scheduler-item-resources],
+.wj-scheduler .wj-scheduler-item [data-part=scheduler-item-time] {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  margin-bottom: 2px;
+}
+.wj-scheduler .wj-scheduler-item [data-part=scheduler-item-subject] {
+  -webkit-line-clamp: 4;
+  min-height: 18px;
+}
+.wj-scheduler .wj-scheduler-item [data-part=scheduler-item-resources],
+.wj-scheduler .wj-scheduler-item [data-part=scheduler-item-time] {
+  font-size: 12px;
+  font-weight: 400;
+  -webkit-line-clamp: 2;
+}
+.wj-scheduler .wj-scheduler-item [data-part=scheduler-item-time] {
+  font-size: 12px;
+  font-weight: 400;
+  -webkit-line-clamp: 2;
+  margin-bottom: 0;
+}
+.wj-scheduler .wj-scheduler-item:hover:not(.wj-scheduler-item-moving):not(.wj-scheduler-item-resizing):not(.wj-scheduler-item-preview) {
+  opacity: 0.8;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+.wj-scheduler .wj-scheduler-item.wj-scheduler-active-target {
+  z-index: 4;
+  border-color: #000;
+}
+.wj-scheduler .wj-scheduler-item.wj-scheduler-summary-item {
+  padding-block: 0;
+  line-height: 24px;
+}
+.wj-scheduler .wj-scheduler-item.wj-scheduler-summary-item [data-part=scheduler-item-subject] {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wj-scheduler .wj-scheduler-item-moving {
+  z-index: 5;
+  opacity: 0.35;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28);
+  cursor: grabbing;
+}
+.wj-scheduler .wj-scheduler-item-resizing {
+  opacity: 0.35;
+}
+.wj-scheduler .wj-scheduler-item.wj-scheduler-item-preview {
+  position: absolute;
+  z-index: 6;
+  border: 2px dashed #111827;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  transition: none;
+}
+.wj-scheduler .wj-scheduler-surface-moving,
+.wj-scheduler .wj-scheduler-surface-moving * {
+  cursor: grabbing;
+}
+.wj-scheduler .wj-scheduler-surface-resizing-vertical,
+.wj-scheduler .wj-scheduler-surface-resizing-vertical * {
+  cursor: ns-resize;
+}
+.wj-scheduler .wj-scheduler-surface-resizing-horizontal,
+.wj-scheduler .wj-scheduler-surface-resizing-horizontal * {
+  cursor: ew-resize;
+}
+.wj-scheduler .wj-scheduler-timed-item-vertical,
+.wj-scheduler .wj-scheduler-timed-item-horizontal {
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  box-shadow: none;
+  pointer-events: auto;
+}
+.wj-scheduler .wj-scheduler-timed-item-vertical .wj-scheduler-item-resize-handle,
+.wj-scheduler .wj-scheduler-timed-item-horizontal .wj-scheduler-item-resize-handle {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  box-sizing: border-box;
+  opacity: 0;
+}
+.wj-scheduler .wj-scheduler-timed-item-vertical .wj-scheduler-item-resize-bar,
+.wj-scheduler .wj-scheduler-timed-item-horizontal .wj-scheduler-item-resize-bar {
+  display: block;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.wj-scheduler .wj-scheduler-timed-item-vertical:hover .wj-scheduler-item-resize-handle,
+.wj-scheduler .wj-scheduler-timed-item-horizontal:hover .wj-scheduler-item-resize-handle {
+  opacity: 0.9;
+}
+.wj-scheduler .wj-scheduler-timed-item-vertical .wj-scheduler-item-resize-handle {
+  right: 0;
+  left: 0;
+  height: 6px;
+  justify-content: center;
+  cursor: ns-resize;
+}
+.wj-scheduler .wj-scheduler-timed-item-vertical .wj-scheduler-item-resize-start {
+  top: 0;
+}
+.wj-scheduler .wj-scheduler-timed-item-vertical .wj-scheduler-item-resize-end {
+  bottom: 0;
+}
+.wj-scheduler .wj-scheduler-timed-item-vertical .wj-scheduler-item-resize-bar {
+  width: 60%;
+  height: 100%;
+}
+.wj-scheduler .wj-scheduler-timed-item-vertical .wj-scheduler-item-resize-start .wj-scheduler-item-resize-bar {
+  border-top: 2px solid #fff;
+}
+.wj-scheduler .wj-scheduler-timed-item-vertical .wj-scheduler-item-resize-end .wj-scheduler-item-resize-bar {
+  border-bottom: 2px solid #fff;
+}
+.wj-scheduler .wj-scheduler-timed-item-horizontal {
+  padding: 2px 4px;
+}
+.wj-scheduler .wj-scheduler-timed-item-horizontal .wj-scheduler-item-resize-handle {
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  align-items: center;
+  cursor: ew-resize;
+}
+.wj-scheduler .wj-scheduler-timed-item-horizontal .wj-scheduler-item-resize-start {
+  left: 0;
+}
+.wj-scheduler .wj-scheduler-timed-item-horizontal .wj-scheduler-item-resize-end {
+  right: 0;
+}
+.wj-scheduler .wj-scheduler-timed-item-horizontal .wj-scheduler-item-resize-bar {
+  width: 100%;
+  height: 60%;
+}
+.wj-scheduler .wj-scheduler-timed-item-horizontal .wj-scheduler-item-resize-start .wj-scheduler-item-resize-bar {
+  border-left: 2px solid #fff;
+}
+.wj-scheduler .wj-scheduler-timed-item-horizontal .wj-scheduler-item-resize-end .wj-scheduler-item-resize-bar {
+  border-right: 2px solid #fff;
+}
+.wj-scheduler .wj-scheduler-surface-resizing-vertical .wj-scheduler-item-preview .wj-scheduler-item-resize-handle,
+.wj-scheduler .wj-scheduler-surface-resizing-horizontal .wj-scheduler-item-preview .wj-scheduler-item-resize-handle {
+  opacity: 0.9;
+}
+.wj-scheduler .wj-scheduler-surface-moving .wj-scheduler-item-resize-handle {
+  display: none;
+}
+.wj-scheduler .wj-scheduler-timed-horizontal-hour-header {
+  display: grid;
+  background: #fff;
+  padding: 0;
+}
+.wj-scheduler .wj-scheduler-timed-horizontal-hour-header-label {
+  align-self: stretch;
+  justify-content: flex-start;
+  height: auto;
+  min-height: 0;
+  background: #f8fafc;
+  padding-left: 5px;
+}
+
+.wj-scheduler-header {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 7fr);
+  align-items: center;
+  min-height: 48px;
+  gap: 16px;
+  padding: 0 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  user-select: none;
+}
+
+.wj-scheduler-header-left,
+.wj-scheduler-header-right,
+.wj-scheduler-view-menu-container,
+.wj-scheduler-view-menu {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.wj-scheduler-header-left {
+  gap: 10px;
+  overflow: hidden;
+}
+
+.wj-scheduler-header-right {
+  gap: 14px;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.wj-scheduler-date-range {
+  flex: 0 1 auto;
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 16px 0 8px;
+  overflow: hidden;
+  color: #0f172a;
+  cursor: pointer;
+  font-weight: 600;
+  line-height: 48px;
+  text-overflow: ellipsis;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.wj-scheduler-date-range-label {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wj-scheduler-date-range::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid #64748b;
+  border-bottom: 1px solid #64748b;
+  transform: translateY(-65%) rotate(45deg);
+}
+
+.wj-scheduler-date-range-hidden {
+  display: none;
+}
+
+.wj-scheduler-date-range:focus-within {
+  outline: 2px solid #000;
+  outline-offset: -2px;
+}
+
+.wj-scheduler-date-range-picker-host {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  min-width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.wj-scheduler-date-range-picker-host .wj-input-group {
+  width: 100%;
+  height: 100%;
+}
+
+.wj-scheduler-date-range-picker-host input {
+  cursor: pointer;
+}
+
+.wj-scheduler-date-range-dropdown {
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.wj-scheduler-date-range-dropdown .wj-inputdate-dropdown-container {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.wj-scheduler-date-range-dropdown .wj-inputdate-dropdown-container .wj-calendar-outer {
+  border: none;
+  border-radius: 0;
+}
+.wj-scheduler-date-range-dropdown .wj-inputdate-dropdown-container .wj-calendar-outer .wj-calendar-header .wj-btn-group .wj-btn {
+  padding: 0;
+}
+.wj-scheduler-date-range-dropdown .wj-inputdate-dropdown-container .wj-calendar-outer .wj-calendar-header .wj-btn-group .wj-btn[wj-part=btn-today] > span {
+  top: 0px;
+}
+
+.wj-scheduler-view-menu-container {
+  flex: 0 1 auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.wj-scheduler-view-menu {
+  flex: 1 1 auto;
+  gap: 4px;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.wj-scheduler-view-menu::-webkit-scrollbar {
+  display: none;
+}
+
+.wj-scheduler-event-editor {
+  width: min(500px, 100vw - 32px);
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  border: 1px solid #d7dce3;
+  border-radius: 6px;
+  background: #fff;
+  color: #172033;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 0 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+  color: #667085;
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  transition-property: background, color, border-color, border-width, opacity, box-shadow;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-close > span {
+  display: block;
+  line-height: 1;
+  text-align: center;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-close:focus {
+  border-color: #000;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-close:hover {
+  background: #f2f4f7;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-body {
+  padding: 16px;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 16px;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 6px;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-field-full,
+.wj-scheduler-event-editor .wj-scheduler-event-editor-options {
+  grid-column: 1/-1;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-label {
+  color: #344054;
+  font-size: 13px;
+  font-weight: 500;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 36px;
+  padding: 7px 10px;
+  border: 1px solid #cfd6df;
+  border-radius: 4px;
+  background: #fff;
+  color: #101828;
+  font: inherit;
+  letter-spacing: 0;
+  transition-duration: 0.3s;
+  transition-property: background, color, border-color, border-width, opacity, box-shadow;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-input:focus-within {
+  border-color: #000;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-date-input {
+  width: 100%;
+  min-width: 0;
+  transition-duration: 0.3s;
+  transition-property: background, color, border-color, border-width, opacity, box-shadow;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-date-input:focus-within {
+  border-color: #000;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-input.wj-state-invalid,
+.wj-scheduler-event-editor .wj-scheduler-event-editor-date-input.wj-state-invalid {
+  border-color: #d92d20;
+  outline: 1px solid rgba(217, 45, 32, 0.2);
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-error {
+  min-height: 18px;
+  color: #d92d20;
+  font-size: 12px;
+  line-height: 18px;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-description {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+.wj-scheduler-event-editor textarea.wj-scheduler-event-editor-input {
+  min-height: 76px;
+  resize: none;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-options {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 28px;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-option input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 12px 16px;
+  border-top: 1px solid #e5e7eb;
+  background: #f8fafc;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 8px;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-button {
+  min-width: 68px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #cfd6df;
+  border-radius: 4px;
+  background: transparent;
+  color: #243047;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: 0;
+  transition-duration: 0.3s;
+  transition-property: background, color, border-color, border-width, opacity, box-shadow;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-button:hover {
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.2);
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-button:focus {
+  outline: 2px solid #000;
+  outline-offset: -2px;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-button-primary {
+  border-color: #40d351;
+  background: transparent;
+  color: #40d351;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-button-primary:hover {
+  background: #40d351;
+  color: #fff;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-button-danger {
+  border-color: #d92d20;
+  background: transparent;
+  color: #d92d20;
+  margin-right: auto;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-button-danger:hover {
+  background: #d92d20;
+  color: #fff;
+}
+.wj-scheduler-event-editor .wj-scheduler-event-editor-button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+.wj-scheduler-event-editor .wj-multi-autocomplete .wj-token {
+  margin: 2px;
+  background: transparent;
+}
+.wj-scheduler-event-editor .wj-multi-autocomplete .wj-token.wj-token-active {
+  background: #eee;
+}
+.wj-scheduler-event-editor .wj-multi-autocomplete .wj-input-group .wj-form-control {
+  margin-top: 2px;
+  padding: 4px;
+}
+
+.wj-scheduler-context-menu {
+  min-width: 150px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: none;
+}
+.wj-scheduler-context-menu .wj-listbox-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+}
+.wj-scheduler-context-menu .wj-listbox-item .wj-scheduler-context-menu-icon {
+  width: 20px;
+  text-align: center;
+}
+.wj-scheduler-context-menu .wj-listbox-item .wj-scheduler-context-menu-icon img {
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+}
+.wj-scheduler-context-menu .wj-listbox-item .wj-glyph-plus,
+.wj-scheduler-context-menu .wj-listbox-item .wj-glyph-minus {
+  margin-top: 10px;
+}
+.wj-scheduler-context-menu .wj-listbox-item .wj-glyph-calendar {
+  margin-top: -2px;
+}
+
+@media (max-width: 560px) {
+  .wj-scheduler-event-editor .wj-scheduler-event-editor-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .wj-scheduler-event-editor .wj-scheduler-event-editor-field-full,
+  .wj-scheduler-event-editor .wj-scheduler-event-editor-options {
+    grid-column: auto;
+  }
+}
 .wj-flexsheet {
   background: #a9a9a9;
   width: 100%;
@@ -3193,6 +4228,9 @@ div[wj-part=div-exceeds] {
 .wj-pivotpanel div {
   width: 100%;
 }
+.wj-pivotpanel .wj-sr-only {
+  width: 1px;
+}
 .wj-pivotpanel tr,
 .wj-pivotpanel td {
   border: 1px none #e0e0e0;
@@ -3202,6 +4240,20 @@ div[wj-part=div-exceeds] {
   display: block;
   font-weight: bold;
   margin: 0;
+}
+.wj-pivotpanel input[wj-part=chk-defer]:focus-visible,
+.wj-pivotpanel button[wj-part=btn-update]:focus-visible {
+  outline: 2px solid #007cbe;
+  outline-offset: 2px;
+}
+.wj-pivotpanel button[wj-part=btn-update]:focus-visible {
+  transition-property: background;
+}
+@media (forced-colors: active) {
+  .wj-pivotpanel input[wj-part=chk-defer]:focus-visible,
+  .wj-pivotpanel button[wj-part=btn-update]:focus-visible {
+    outline: 2px solid Highlight;
+  }
 }
 .wj-pivotpanel .wj-marker {
   position: absolute;
@@ -3237,6 +4289,18 @@ div[wj-part=div-exceeds] {
 .wj-pivotpanel .wj-flexgrid .wj-cell label input[type=checkbox] {
   margin: 0;
 }
+.wj-pivotpanel .wj-flexgrid.wj-state-focused .wj-cells .wj-cell.wj-state-selected {
+  outline: 2px solid #007cbe;
+  outline-offset: -2px;
+  box-shadow: inset 0 0 0 1px #007cbe;
+}
+@media (forced-colors: active) {
+  .wj-pivotpanel .wj-flexgrid.wj-state-focused .wj-cells .wj-cell.wj-state-selected {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+    box-shadow: none;
+  }
+}
 .wj-pivotpanel .wj-flexgrid .wj-glyph-filter {
   cursor: default;
   opacity: 0.5;
@@ -3247,7 +4311,7 @@ div[wj-part=div-exceeds] {
 }
 .wj-pivotpanel .wj-flexgrid .wj-aggregate {
   font-size: 80%;
-  opacity: 0.5;
+  opacity: 0.6;
 }
 .wj-pivotpanel table .wj-flexgrid {
   min-height: 5em;
@@ -3358,6 +4422,13 @@ div[wj-part=div-exceeds] {
 }
 .wj-pivotgrid .wj-cell.wj-aggregate:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
   background: #d9edf7;
+  color: #000;
+}
+@media (forced-colors: active) {
+  .wj-pivotgrid .wj-cell.wj-aggregate:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
 }
 .wj-pivotgrid .wj-cell.wj-align-vcenter {
   display: flex;
@@ -3430,6 +4501,29 @@ div[wj-part=div-exceeds] {
 .wj-slicer .wj-header .wj-btn.wj-state-active {
   background: rgba(0, 0, 0, 0.2);
 }
+.wj-slicer .wj-header .wj-btn:focus {
+  outline: 2px solid #007cbe;
+  outline-offset: -2px;
+  transition: none;
+}
+@media (forced-colors: active) {
+  .wj-slicer .wj-header .wj-btn:focus {
+    outline-color: Highlight;
+  }
+}
+.wj-slicer .wj-listbox-item:focus {
+  outline: none;
+  transition: none;
+}
+.wj-slicer .wj-listbox-item:focus.wj-state-checked {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+@media (forced-colors: active) {
+  .wj-slicer .wj-listbox-item.wj-state-checked:focus {
+    outline-color: Highlight;
+  }
+}
 .wj-slicer .wj-listbox {
   border: none;
   border-radius: 0;
@@ -3454,7 +4548,8 @@ div[wj-part=div-exceeds] {
   background-color: transparent;
   color: black;
 }
-.wj-slicer.wj-nocheck .wj-listbox .wj-listbox-item input {
+.wj-slicer.wj-nocheck .wj-listbox .wj-listbox-item input,
+.wj-slicer.wj-nocheck .wj-listbox .wj-listbox-item .wj-checklist-base {
   display: none;
 }
 
@@ -4163,7 +5258,7 @@ div[wj-part=div-exceeds] {
   background: transparent;
 }
 .wj-viewer .wj-btn-group > li > a.wj-btn:focus, .wj-viewer .wj-control .wj-btn-group > li > a.wj-applybutton:focus, .wj-viewer .wj-btn-group > li > a.wj-btn:hover, .wj-viewer .wj-control .wj-btn-group > li > a.wj-applybutton:hover {
-  background: rgb(225.25, 225.25, 225.25);
+  background: rgb(88.3333333333%, 88.3333333333%, 88.3333333333%);
 }
 .wj-viewer .wj-viewer-loading {
   background: rgba(204, 204, 204, 0.8);

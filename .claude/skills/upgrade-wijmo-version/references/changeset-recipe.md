@@ -131,6 +131,14 @@ Note the consequence for assertions: comparing module content against the archiv
 happily with the BOM on both sides. Compare against the archive **with its BOM stripped**, and assert
 separately that no stored script begins with `U+FEFF`.
 
+**The platform stores scripts with CRLF normalised to LF.** If you compare the stored `GridFramework`
+against `dist/GridFramework.js` by hash, the check fails on a Windows checkout and passes on a CI
+(Linux) build. A multi-line template literal in a source file that has CRLF in the working tree
+(`git ls-files --eol` shows `i/lf w/crlf`) carries a raw `\r` into the bundle. On ROU-13118 that was
+one `\r`, in `CalculatedField.ts`. The minified Wijmo files have none, so their hashes match exactly.
+Compare `GridFramework` after `replace(/\r\n/g, '\n')`, and report the number of CRs you found.
+Neither file is defective, so do not edit either one.
+
 - **13 runtime scripts** — `JavaScript` = the matching `*.min.js` from the archive; `Description` =
   `File: <file> - Version: <build string>`.
 - **50 culture scripts** — `JavaScript` = the matching `cultures/*.min.js`; `Description` =
@@ -179,6 +187,14 @@ The reference baseline, for orientation only: `{Error: 0, Warning: 10}` = 7 `Unu
 
 Write these as a re-runnable script, not a checklist walked by hand. The generator will need more than
 one iteration and every iteration must be re-checked in full.
+
+Write every helper to a `.js` file and run it with `node <file> <args>`. Do not use `node -e '…'`. On
+Git Bash for Windows, an inline script that contains quotes or `!` can exit 0 and print nothing. That
+happened twice on ROU-13118, and it looks exactly like an assertion that found nothing to report.
+
+The snapshot should **hash** every script's `JavaScript` in memory and persist only the hash and the
+length. That keeps the license script's content out of every file, and the snapshot stays small enough
+to diff.
 
 ### `oml diff` first — it is the only assertion that sees what you forgot
 

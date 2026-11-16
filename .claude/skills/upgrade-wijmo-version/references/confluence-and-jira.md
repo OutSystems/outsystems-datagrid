@@ -4,20 +4,19 @@
 
 | Page ID      | Title                                    | Role                                                     |
 | ------------ | ---------------------------------------- | -------------------------------------------------------- |
-| `3058631508` | Wijmo Updates                            | The upgrade runbook **and** the index of per-upgrade pages |
-| `2745598610` | External Libraries in UI Components      | The SBOM                                                  |
-| `3353313306` | Issues reported to the provider libs     | Issues raised with the vendor, with a status per issue     |
+| `<page-id-1>` | Wijmo Updates                            | The upgrade runbook **and** the index of per-upgrade pages |
+| `<page-id-2>` | External Libraries in UI Components      | The SBOM                                                  |
+| `<page-id-3>` | Issues reported to the provider libs     | Issues raised with the vendor, with a status per issue     |
 
-All three live in space **`RDMBLVS`** ("R&D - Web & Mobile Apps - Value Stream").
+All three live in the same internal Confluence space.
 
-**The space keys quoted in tickets are wrong.** ROU-12860 places the SBOM in `RDOO` and the
-reported-issues page in both `RDOO` and `RDMBVS`. Those links resolve only because Confluence
-tolerates a stale space key in the path. Look pages up by ID; never construct a URL from a
+**The space keys quoted in tickets are wrong.** The links in the source tickets resolve only because
+Confluence tolerates a stale space key in the path. Look pages up by ID; never construct a URL from a
 ticket-quoted space key, and never search by title expecting one space.
 
 ---
 
-## SBOM row (`2745598610`)
+## SBOM row (`<page-id-2>`)
 
 The page's main table has columns **Asset | Library | Version | Licence | Components**. Two rows name
 Wijmo:
@@ -47,7 +46,7 @@ Rules:
   information at `engineering.outsystems.net/ThirdPartyTools/`") is a **separate, manual** follow-up.
   It is reported in Phase 14, not performed.
 
-## Reported issues (`3353313306`)
+## Reported issues (`<page-id-3>`)
 
 Section **"Wijmo Flexgrid - Reported Issues/Requests"**, a table of
 **Issue ID | Title | Description | Status**, where Status names the release a fix landed in
@@ -62,11 +61,43 @@ One row is worth knowing about in advance: **WJM-37650** ("Compilation issue wit
 SonarQube duplicated-CSS finding on `wijmo.css`) is marked fixed in `2026v1-HF`. Phase 7 records
 whether the finding actually disappeared; that answer belongs in this row.
 
-## Child page (under `3058631508`)
+## Child page (under `<page-id-1>`)
 
-Ten predecessors, back to 2023, titled `Wijmo update v<old build> to v<new build>` — most recently
-`Wijmo update v5.20252.44 to v5.20261.50` (page `6242140231`, ROU-12689), which is the template
-source. Nothing needs inventing.
+Twelve predecessors, back to 2023, titled `Wijmo update v<old build> to v<new build>` — most recently
+`Wijmo update v5.20261.52 to v5.20262.60` (ROU-13118), which is the template source. Find a
+predecessor by title under the runbook; never copy its page ID or URL into this skill. Nothing needs
+inventing.
+
+### Creating the page, step by step
+
+1. **Check it does not exist.** Search the runbook's children for the new title first. A re-run must
+   update the existing page (`koda tool confluence update <page ID> <file>`), never create a second
+   one.
+2. **Read the latest predecessor** (`koda tool confluence get <page ID>`) and keep its section order.
+   The skeleton is: Jira Task line, rule, **What I Did** (the two page-update bullets, Code, Points of
+   Impact, Samples, Automated Tests, Test Cases), `### Runtime gate`, `### ✅ Fixed Issues`,
+   `### ⚠️ New issues found`, and a closing breaking-changes paragraph.
+3. **Draft it as a markdown file in the scratchpad**, not in the repository. Its links are internal
+   (tenant sample apps, pipeline runs, the ticket) and belong on the page only.
+4. **Fill each section from evidence produced on this run**, per the split below:
+   - *Code* → the PR link, the ADR path, and the module change counts from the Phase 8 log, plus the
+     Phase 9 publish-by-hash result.
+   - *Samples* and *Automated Tests* → the same values the ticket's **What I Did** block carries after
+     Phase 13. Read them back from the ticket so the two never disagree.
+   - *Test Cases* → the four kinds in the template below.
+   - *Runtime gate* → the exact console lines Phase 9 ran, each with its expected value as a comment.
+   - *Fixed Issues* → the planned issue(s) the ADR records as verified, with the workaround verdict.
+   - *New issues found* → every Phase 9 `UNVERIFIED` item and observed behaviour change, plus the
+     Phase 7 SonarQube answer.
+5. **Mark anything not done as `To do:`** in bold, in place: the SBOM row and reported-issues bullets
+   until Phase 12 performs them, a per-branch sample app nobody created, a pipeline run that has not
+   happened. Never drop the bullet.
+6. **Create it as a child of the runbook**:
+   `koda tool confluence create <file> --title "Wijmo update v<old build> to v<new build>" --space <space key> --parent-id <runbook page ID>`.
+7. **Read it back** with `koda tool confluence get <new page ID>`. Expect no conversion warnings, and
+   confirm every heading from step 2 and the PR link are present.
+8. **Log** the new page ID in the run log, and add the page link to the ticket's **What I Did** block
+   if it is not there. Never add the page's ID or URL to this repository.
 
 ### Section-by-section split
 
@@ -75,8 +106,8 @@ Every section of the precedent page, and who fills it:
 | Section                                        | Source                                                                                              |
 | ---------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | `Jira Task → <link>`                           | **Auto** — from `TASK_ID`.                                                                          |
-| *Updated the page 3353313306…*                 | **Operator** — the candidate list above is provided; the verdicts are theirs.                        |
-| *Updated the page 2745598610*                  | **Auto** — the SBOM row, done in Phase 12.                                                          |
+| *Updated the page <page-id-3>…*                | **Operator** — the candidate list above is provided; the verdicts are theirs.                        |
+| *Updated the page <page-id-2>*                 | **Auto** — the SBOM row, done in Phase 12.                                                          |
 | *Updated the RPMs*                             | **Operator** — the RPM board is outside this skill. `N/A` is a legitimate answer and the precedent's. |
 | **Code** → PR                                  | **Auto** — the draft PR from Phase 11.                                                                |
 | **Code** → OutSystems → Module                 | **Auto** — the module refreshed, and what changed in it, from the Phase 8 log.                       |
@@ -92,12 +123,25 @@ report"; a placeholder reads as "not yet done".
 
 ### Test-case template
 
-The precedent's single test case, which generalises:
+Four kinds of test case, in this order. Include the last two only when the run has one to report.
 
-> **Test Case 1 — Regression**
+> **Test Case 1 — Runtime on the new build, no license banner**
+> - Open a sample screen and run the runtime gate in the browser console.
+> - Confirm no Wijmo license banner is shown and the console has no Wijmo license message.
+>
+> **Test Case 2 — Regression**
 > - Open the automation sample app, exercise its screens, confirm everything is as expected.
 > - Open the `Overview` screen of the sample app, exercise its screens, confirm everything is as
 >   expected.
+>
+> **Test Case 3 — The planned issue** (one per vendor id the ticket planned for this version)
+> - The screen that exercises it, the action, and the observable on the old and the new build.
+>
+> **Test Case 4 — The release's intended or observed change** (e.g. `preventCut` on `5.20261.52`,
+> typed decimal rounding on `5.20262.60`)
+> - The exact input, and the exact old and new values.
+
+The pass/fail outcome of every test case is the operator's.
 
 ## Sample-app URL conventions
 
@@ -108,8 +152,8 @@ page so the gap is explicit rather than discovered during validation.
 With `<TASK>` = the task id with its hyphen removed (`ROU-12860` → `ROU12860`):
 
 ```
-https://outsystemsui-dev.outsystemsenterprise.com/OSDataGridAutomation_<TASK>
-https://outsystemsui-dev.outsystemsenterprise.com/OutSystemsDataGridSample_<TASK>/Overview
+<dev-automation-app-url>
+<dev-sample-app-url>
 ```
 
 And the **pre-upgrade baseline** for Phase 8b — the public sample, which runs the released build and
@@ -119,13 +163,24 @@ therefore stays on the old one for the length of the upgrade:
 https://outsystemsui.outsystems.com/OutSystemsDataGridSample/
 ```
 
+For a screen-for-screen comparison, use the **base automation app** on the same dev environment. It
+has the same screens as the per-branch app, still runs the previous build, and was the baseline on
+ROU-13118:
+
+```
+<dev-automation-app-url>
+```
+
+Both baselines run whatever was last published to them. Confirm the build from the published
+`WijmoJS` (`getVersion()`) before using either one as the "before".
+
 The precedent page used exactly that for its before/after comparison, and ROU-12860 chose it over
 snapshots. A live "before" beats a folder of screenshots, and it survives the republish that destroys
 a snapshot-based baseline. Confirm it is still on the old build before relying on it — its version is
 readable from `OSFramework.DataGrid.Constants.WijmoFlexGridVersion` in the browser console, which is
 the same one-liner Phase 9 uses on the refreshed side.
 
-## Runbook rewrite (`3058631508`) — first run only
+## Runbook rewrite (`<page-id-1>`) — first run only
 
 The parent page is both a runbook and the child index. Its body is a seven-step manual procedure last
 touched in October 2024: its author has left, its download link points at a retired domain, and its

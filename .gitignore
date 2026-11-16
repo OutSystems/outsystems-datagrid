@@ -26,3 +26,9 @@ docs/*
 
 # Ignoring DataGridUtils backups
 /extension/DataGridUtils/Backups/**
+
+# Local Claude workspace state
+.claude/settings.local.json
+
+# Visual Studio workspace metadata
+**/.vs/

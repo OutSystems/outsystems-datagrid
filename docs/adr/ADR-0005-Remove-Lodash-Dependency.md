@@ -70,7 +70,7 @@ Negative consequences:
 
 ## Links
 
--   Jira: [ROU-10907](https://outsystemsrd.atlassian.net/browse/ROU-10907)
+-   Jira: [ROU-10907](<internal-jira-link>)
 -   `src/OSFramework/DataGrid/Helper/Utils.ts` — new utility functions `GetByPath`, `SetByPath`, `DeepClone`, `Omit`; `BatchArray` signature corrected.
 -   `src/OSFramework/DataGrid/Interface/IDataSource.ts` — `addRow` signature corrected from `JSON[]` to `object[]`.
 -   `src/OSFramework/DataGrid/Grid/AbstractDataSource.ts` — 8 Lodash call sites replaced.

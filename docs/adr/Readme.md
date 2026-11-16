@@ -35,3 +35,4 @@ Each ADR should follow the template in `ADR-0000-Title-of-ADR.md`.
 | ADR-0006   | Roll Back Incompatible TypeDoc Dependency Bump                       | Accepted | 2026-06-06 |
 | ADR-0007   | Wijmo Upgrade to 2026v1-Hotfix (Build 5.20261.52)                    | Accepted | 2026-08-26 |
 | ADR-0008   | Shape of the Wijmo Upgrade Automation                                | Accepted | 2026-08-25 |
+| ADR-0009   | Wijmo Upgrade to 2026v2-MAJOR (Build 5.20262.60)                     | Accepted | 2026-11-10 |
