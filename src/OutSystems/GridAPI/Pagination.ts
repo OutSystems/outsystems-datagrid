@@ -379,18 +379,13 @@ namespace OutSystems.GridAPI.Pagination {
 			goToPage: goToPageLabel,
 		};
 
-		if (OSFramework.DataGrid.Helper.IsGridReady(gridID)) {
-			GridManager.GetGridById(gridID).features.pagination.setPageButtonLabels(labels);
-		} else {
-			// Subscribing to Initialized only while the Grid is not ready, so repeated renders don't pile up handlers
-			GridManager.Events.Subscribe(
-				gridID,
-				OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
-				(_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
-					gridObj.features.pagination.setPageButtonLabels(labels);
-				}
-			);
-		}
+		GridManager.Events.Subscribe(
+			gridID,
+			OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+			(_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
+				gridObj.features.pagination.setPageButtonLabels(labels);
+			}
+		);
 	}
 }
 /**
