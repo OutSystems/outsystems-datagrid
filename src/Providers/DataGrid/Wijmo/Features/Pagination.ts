@@ -61,7 +61,7 @@ namespace Providers.DataGrid.Wijmo.Feature {
 		 * @memberof Pagination
 		 */
 		private _formatLabel(template: string, fallback: string, page: number): string {
-			const validTemplate = template && template.includes('{0}') ? template : fallback;
+			const validTemplate = template?.includes('{0}') ? template : fallback;
 			return validTemplate.split('{0}').join(page.toString());
 		}
 
