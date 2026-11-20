@@ -47,7 +47,7 @@ Constraints found while implementing it:
     -   Pros: the label templates are literals in a JavaScript-node argument, so they are
         exported for translation; `OnRender` runs after every render, including after a locale
         change; `{0}` supports any word order; `CreatePageButtons` keeps its signature.
-    -   Cons: one more public API; the block calls it on every render (cheap: the buttons are
+    -   Cons: one more API; the block calls it on every render (cheap: the buttons are
         only re-created when the labels change).
 -   **Option 2: Extra optional label arguments on `CreatePageButtons`, sent from `OnInitialize`**
     -   Pros: smallest API change.
@@ -93,8 +93,7 @@ Positive consequences:
 Negative consequences:
 
 -   The block inputs must stay without default values: a default would bypass the translated
-    fallback.
--   Apps with only the library updated (old `ButtonList` block) keep the English labels.
+    fallback. Mitigated since the block is private.
 
 ## Links
 
