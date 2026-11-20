@@ -29,7 +29,13 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			OSFramework.DataGrid.Interface.IBuilder,
 			OSFramework.DataGrid.Interface.IDisposable
 	{
+		// English defaults, used when no label (or a label without the "{0}" page placeholder) is given
+		private static readonly _defaultLabels: OSFramework.DataGrid.Feature.PageButtonLabels = {
+			currentPage: 'page {0}',
+			goToPage: 'go to page {0}',
+		};
 		private _grid: Grid.IGridWijmo;
+		private _labels: OSFramework.DataGrid.Feature.PageButtonLabels = { ...Pagination._defaultLabels };
 		private _pageSize: number;
 		private _phId: string;
 		private _qtdeButtons: number;
@@ -42,6 +48,23 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._pageSize = pageSize;
 			this._updateCaller = this._update.bind(this);
 		}
+
+		/**
+		 * Replaces the "{0}" placeholder of a label template with the page number.
+		 * Falls back to the English default when the template is empty or has no placeholder.
+		 *
+		 * @private
+		 * @param {string} template Label template, possibly translated (e.g. "go to page {0}")
+		 * @param {string} fallback Default template to use when the given one is not valid
+		 * @param {number} page Page number to show in the label
+		 * @return {*}  {string}
+		 * @memberof Pagination
+		 */
+		private _formatLabel(template: string, fallback: string, page: number): string {
+			const validTemplate = template && template.includes('{0}') ? template : fallback;
+			return validTemplate.split('{0}').join(page.toString());
+		}
+
 		/**
 		 * This method is used to setup the value of the pagination
 		 * in the placeholder.
@@ -164,7 +187,12 @@ namespace Providers.DataGrid.Wijmo.Feature {
 						: 'datagrid-pagination-button'
 				);
 				btn.onclick = () => this._grid.features.pagination.moveToPage(i);
-				btn.setAttribute('aria-label', i === currPage ? `page ${innerText}` : `go to page ${innerText}`);
+				btn.setAttribute(
+					'aria-label',
+					i === currPage
+						? this._formatLabel(this._labels.currentPage, Pagination._defaultLabels.currentPage, innerText)
+						: this._formatLabel(this._labels.goToPage, Pagination._defaultLabels.goToPage, innerText)
+				);
 
 				parent.appendChild(btn);
 			};
@@ -173,6 +201,8 @@ namespace Providers.DataGrid.Wijmo.Feature {
 				const span = document.createElement('span');
 				span.innerText = innerText;
 				span.setAttribute('class', 'datagrid-pagination-ellipsis');
+				// Decorative only: screen readers should not read the ellipsis
+				span.setAttribute('aria-hidden', 'true');
 				parent.appendChild(span);
 			};
 
@@ -273,6 +303,27 @@ namespace Providers.DataGrid.Wijmo.Feature {
 			this._view.collectionChanged.addHandler(() => {
 				this._setValueInPh(label, phId);
 			});
+		}
+
+		/**
+		 * Sets the accessible labels of the page buttons, falling back to the English defaults for empty labels.
+		 * The buttons are re-created only when the labels change and were already created.
+		 *
+		 * @param {OSFramework.DataGrid.Feature.PageButtonLabels} labels Label templates, "{0}" is the page number
+		 * @memberof Pagination
+		 */
+		public setPageButtonLabels(labels: OSFramework.DataGrid.Feature.PageButtonLabels): void {
+			const newLabels: OSFramework.DataGrid.Feature.PageButtonLabels = {
+				currentPage: labels.currentPage || Pagination._defaultLabels.currentPage,
+				goToPage: labels.goToPage || Pagination._defaultLabels.goToPage,
+			};
+
+			if (newLabels.currentPage === this._labels.currentPage && newLabels.goToPage === this._labels.goToPage) {
+				return;
+			}
+
+			this._labels = newLabels;
+			this._update();
 		}
 	}
 }
