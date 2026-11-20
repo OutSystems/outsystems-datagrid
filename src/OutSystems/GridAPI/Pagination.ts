@@ -362,6 +362,31 @@ namespace OutSystems.GridAPI.Pagination {
 			}
 		);
 	}
+
+	/**
+	 * Sets the accessible labels (aria-label) of the page buttons. Each label is a template where "{0}" is replaced
+	 * by the page number. Meant to be called on every render, with translated texts: the buttons are only re-created
+	 * when the labels change. When the Grid is not ready yet, the labels are applied once it is initialized.
+	 *
+	 * @export
+	 * @param {string} gridID
+	 * @param {string} currentPageLabel Label of the current page button (default: "page {0}")
+	 * @param {string} goToPageLabel Label of the other page buttons (default: "go to page {0}")
+	 */
+	export function SetPageButtonLabels(gridID: string, currentPageLabel: string, goToPageLabel: string): void {
+		const labels: OSFramework.DataGrid.Feature.PageButtonLabels = {
+			currentPage: currentPageLabel,
+			goToPage: goToPageLabel,
+		};
+
+		GridManager.Events.Subscribe(
+			gridID,
+			OSFramework.DataGrid.Event.Grid.GridEventType.Initialized,
+			(_gridId: string, gridObj: OSFramework.DataGrid.Grid.IGrid) => {
+				gridObj.features.pagination.setPageButtonLabels(labels);
+			}
+		);
+	}
 }
 /**
  *
